@@ -383,6 +383,14 @@ add_filter('flying_press_cacheable', function($cacheable) {
 // Include classes with error handling
 function knittnet_include_classes() {
     $class_files = array(
+        'includes/ai/interface-knittnet-ai-provider.php',
+        'includes/ai/class-knittnet-token-counter.php',
+        'includes/ai/class-knittnet-ai-error-handler.php',
+        'includes/ai/class-knittnet-prompt-builder.php',
+        'includes/ai/class-knittnet-conversation-manager.php',
+        'includes/ai/class-knittnet-streaming-manager.php',
+        'includes/ai/class-knittnet-openrouter-provider.php',
+        'includes/ai/class-knittnet-ai-manager.php',
         'includes/class-knittnet-model-catalog.php',
         'includes/class-knittnet-tool-registry.php',
         'includes/class-knittnet-integrator.php',
