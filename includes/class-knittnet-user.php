@@ -3,10 +3,10 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
-class MxChat_User {
+class KnittNet_User {
 
     // Function to get user identifier (username, email, or session ID)
-    public static function mxchat_get_user_identifier() {
+    public static function knittnet_get_user_identifier() {
         if (is_user_logged_in()) {
             $current_user = wp_get_current_user();
             //error_log('Current User: ' . print_r($current_user, true));
@@ -18,7 +18,7 @@ class MxChat_User {
     }
 
     // Function to get user email
-    public static function mxchat_get_user_email() {
+    public static function knittnet_get_user_email() {
         if (is_user_logged_in()) {
             $current_user = wp_get_current_user();
             return $current_user->user_email;

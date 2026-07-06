@@ -1,14 +1,14 @@
 <?php
 /**
- * Plugin Name: MxChat
- * Plugin URI: https://mxchat.ai/
- * Description: AI chatbot for WordPress with OpenAI, Claude, xAI, DeepSeek, live agent, PDF uploads, WooCommerce, and training on website data.
- * Version: 3.2.12
- * Author: MxChat
- * Author URI: https://mxchat.ai
+ * Plugin Name: KnittNet AI Assistant
+ * Plugin URI: https://knittnet.ai/
+ * Description: AI chatbot and content generation assistant for WordPress, powered by OpenRouter. Live agent handoff, PDF uploads, WooCommerce, and RAG training on your website data.
+ * Version: 1.0.0
+ * Author: KnittNet
+ * Author URI: https://knittnet.ai
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: mxchat
+ * Text Domain: knittnet
  * Domain Path: /languages
  */
 
@@ -17,21 +17,21 @@ if (!defined('ABSPATH')) {
 }
 
 
-if (!defined('MXCHAT_DEV_MODE')) {
-    define('MXCHAT_DEV_MODE', false);
+if (!defined('KNITTNET_DEV_MODE')) {
+    define('KNITTNET_DEV_MODE', false);
 }
 
-if (!defined('MXCHAT_VERSION')) {
+if (!defined('KNITTNET_VERSION')) {
     $plugin_data = get_file_data(__FILE__, array('Version' => 'Version'), 'plugin');
     $version = $plugin_data['Version'];
-    if (MXCHAT_DEV_MODE) {
+    if (KNITTNET_DEV_MODE) {
         $version .= '.' . time();
     }
-    define('MXCHAT_VERSION', $version);
+    define('KNITTNET_VERSION', $version);
 }
 
-function mxchat_load_textdomain() {
-    $domain = 'mxchat';
+function knittnet_load_textdomain() {
+    $domain = 'knittnet';
     $locale = determine_locale();
 
     // First, try to load from /wp-content/languages/plugins/ (preserved during updates)
@@ -44,7 +44,7 @@ function mxchat_load_textdomain() {
     // Fallback to plugin's /languages directory
     load_plugin_textdomain($domain, false, dirname(plugin_basename(__FILE__)) . '/languages');
 }
-add_action('init', 'mxchat_load_textdomain');
+add_action('init', 'knittnet_load_textdomain');
 
 /**
  * One-time migration: gemini-3-pro-preview was shut down by Google on March 9, 2026.
@@ -52,19 +52,19 @@ add_action('init', 'mxchat_load_textdomain');
  * (Google's official migration target) the first time admin_init fires after update.
  */
 add_action('admin_init', function () {
-    if (get_option('mxchat_gemini_3_remap_done')) {
+    if (get_option('knittnet_gemini_3_remap_done')) {
         return;
     }
-    $opts = get_option('mxchat_options');
+    $opts = get_option('knittnet_options');
     if (is_array($opts) && isset($opts['model']) && $opts['model'] === 'gemini-3-pro-preview') {
         $opts['model'] = 'gemini-3.1-pro-preview';
-        update_option('mxchat_options', $opts);
+        update_option('knittnet_options', $opts);
     }
     if (is_array($opts) && isset($opts['content_model']) && $opts['content_model'] === 'gemini-3-pro-preview') {
         $opts['content_model'] = 'gemini-3.1-pro-preview';
-        update_option('mxchat_options', $opts);
+        update_option('knittnet_options', $opts);
     }
-    update_option('mxchat_gemini_3_remap_done', 1);
+    update_option('knittnet_gemini_3_remap_done', 1);
 });
 
 /**
@@ -74,19 +74,19 @@ add_action('admin_init', function () {
  * (modern, fast, broadly available) the first time admin_init fires after update.
  */
 add_action('admin_init', function () {
-    if (get_option('mxchat_grok_2_remap_done')) {
+    if (get_option('knittnet_grok_2_remap_done')) {
         return;
     }
-    $opts = get_option('mxchat_options');
+    $opts = get_option('knittnet_options');
     if (is_array($opts) && isset($opts['model']) && $opts['model'] === 'grok-2') {
         $opts['model'] = 'grok-4-1-fast-non-reasoning';
-        update_option('mxchat_options', $opts);
+        update_option('knittnet_options', $opts);
     }
     if (is_array($opts) && isset($opts['content_model']) && $opts['content_model'] === 'grok-2') {
         $opts['content_model'] = 'grok-4-1-fast-non-reasoning';
-        update_option('mxchat_options', $opts);
+        update_option('knittnet_options', $opts);
     }
-    update_option('mxchat_grok_2_remap_done', 1);
+    update_option('knittnet_grok_2_remap_done', 1);
 });
 
 /**
@@ -97,14 +97,14 @@ add_action('admin_init', function () {
  * fires after update. Mirrors the gemini-3-pro-preview / grok-2 rescues above.
  */
 add_action('admin_init', function () {
-    if (get_option('mxchat_claude_4_retire_remap_done')) {
+    if (get_option('knittnet_claude_4_retire_remap_done')) {
         return;
     }
     $map = array(
         'claude-opus-4-20250514'   => 'claude-opus-4-8',
         'claude-sonnet-4-20250514' => 'claude-sonnet-4-6',
     );
-    $opts = get_option('mxchat_options');
+    $opts = get_option('knittnet_options');
     if (is_array($opts)) {
         $changed = false;
         if (isset($opts['model']) && isset($map[$opts['model']])) {
@@ -116,14 +116,14 @@ add_action('admin_init', function () {
             $changed = true;
         }
         if ($changed) {
-            update_option('mxchat_options', $opts);
+            update_option('knittnet_options', $opts);
         }
     }
-    update_option('mxchat_claude_4_retire_remap_done', 1);
+    update_option('knittnet_claude_4_retire_remap_done', 1);
 });
 
 /**
- * Exclude MxChat assets from caching plugin optimizations
+ * Exclude KnittNet assets from caching plugin optimizations
  *
  * This prevents issues with WP Rocket, LiteSpeed Cache, Autoptimize, WP Super Cache,
  * W3 Total Cache, SG Optimizer, and similar plugins that may break the chatbot by
@@ -138,22 +138,22 @@ add_action('admin_init', function () {
 // Exclude from Remove Unused CSS (RUCSS)
 add_filter('rocket_rucss_inline_atts_exclusions', function($exclusions) {
     if (!is_array($exclusions)) $exclusions = array();
-    $exclusions[] = 'mxchat';
+    $exclusions[] = 'knittnet';
     return $exclusions;
 });
 
 // Exclude CSS from minification/combination
 add_filter('rocket_exclude_css', function($excluded) {
     if (!is_array($excluded)) $excluded = array();
-    $excluded[] = '/plugins/mxchat-basic/css/chat-style.css';
+    $excluded[] = '/plugins/knittnet-basic/css/chat-style.css';
     return $excluded;
 });
 
 // Exclude JS from minification/combination
 add_filter('rocket_exclude_js', function($excluded) {
     if (!is_array($excluded)) $excluded = array();
-    $excluded[] = '/plugins/mxchat-basic/js/chat-script.js';
-    $excluded[] = '/plugins/mxchat-basic/js/floating-script.js';
+    $excluded[] = '/plugins/knittnet-basic/js/chat-script.js';
+    $excluded[] = '/plugins/knittnet-basic/js/floating-script.js';
     $excluded[] = '/jquery-core';
     $excluded[] = '/jquery.min.js';
     $excluded[] = '/jquery.js';
@@ -164,8 +164,8 @@ add_filter('rocket_exclude_js', function($excluded) {
 // Exclude JS from defer
 add_filter('rocket_exclude_defer_js', function($excluded) {
     if (!is_array($excluded)) $excluded = array();
-    $excluded[] = '/plugins/mxchat-basic/js/chat-script.js';
-    $excluded[] = '/plugins/mxchat-basic/js/floating-script.js';
+    $excluded[] = '/plugins/knittnet-basic/js/chat-script.js';
+    $excluded[] = '/plugins/knittnet-basic/js/floating-script.js';
     $excluded[] = '/jquery-core';
     $excluded[] = '/jquery.min.js';
     $excluded[] = '/jquery.js';
@@ -176,7 +176,7 @@ add_filter('rocket_exclude_defer_js', function($excluded) {
 // Exclude from delay JS execution
 add_filter('rocket_delay_js_exclusions', function($excluded) {
     if (!is_array($excluded)) $excluded = array();
-    $excluded[] = 'mxchat';
+    $excluded[] = 'knittnet';
     $excluded[] = 'chat-script';
     $excluded[] = 'floating-script';
     $excluded[] = '/jquery-core';
@@ -192,18 +192,18 @@ add_filter('rocket_delay_js_exclusions', function($excluded) {
 add_filter('litespeed_optimize_css_excludes', function($excluded) {
     if (!is_array($excluded)) $excluded = array();
     $excluded[] = 'chat-style.css';
-    $excluded[] = 'mxchat';
+    $excluded[] = 'knittnet';
     return $excluded;
 });
 
-// Exclude from UCSS (Unique CSS) - prevents LiteSpeed from stripping "unused" MxChat CSS
+// Exclude from UCSS (Unique CSS) - prevents LiteSpeed from stripping "unused" KnittNet CSS
 add_filter('litespeed_ucss_whitelist', function($whitelist) {
     if (!is_array($whitelist)) $whitelist = array();
-    $whitelist[] = '.mxchat-chatbot-wrapper';
+    $whitelist[] = '.knittnet-chatbot-wrapper';
     $whitelist[] = '.floating-chatbot';
     $whitelist[] = '.floating-chatbot-button';
     $whitelist[] = '.chatbot-top-bar';
-    $whitelist[] = '.mxchat-chatbot';
+    $whitelist[] = '.knittnet-chatbot';
     $whitelist[] = '.chat-container';
     $whitelist[] = '.chat-box';
     $whitelist[] = '.bot-message';
@@ -211,7 +211,7 @@ add_filter('litespeed_ucss_whitelist', function($whitelist) {
     $whitelist[] = '.chat-input';
     $whitelist[] = '.send-button';
     $whitelist[] = '.pre-chat-message';
-    $whitelist[] = '.mxchat-popular-questions';
+    $whitelist[] = '.knittnet-popular-questions';
     $whitelist[] = '.chat-toolbar';
     $whitelist[] = '.exit-chat';
     $whitelist[] = '.email-blocker';
@@ -222,7 +222,7 @@ add_filter('litespeed_ucss_whitelist', function($whitelist) {
 add_filter('litespeed_optm_ccss_exc', function($excluded) {
     if (!is_array($excluded)) $excluded = array();
     $excluded[] = 'chat-style.css';
-    $excluded[] = 'mxchat';
+    $excluded[] = 'knittnet';
     return $excluded;
 });
 
@@ -231,7 +231,7 @@ add_filter('litespeed_optm_js_defer_exc', function($excluded) {
     if (!is_array($excluded)) $excluded = array();
     $excluded[] = 'chat-script.js';
     $excluded[] = 'floating-script.js';
-    $excluded[] = 'mxchat';
+    $excluded[] = 'knittnet';
     $excluded[] = 'jquery.min.js';
     $excluded[] = 'jquery.js';
     return $excluded;
@@ -242,7 +242,7 @@ add_filter('litespeed_optm_js_exc', function($excluded) {
     if (!is_array($excluded)) $excluded = array();
     $excluded[] = 'chat-script.js';
     $excluded[] = 'floating-script.js';
-    $excluded[] = 'mxchat';
+    $excluded[] = 'knittnet';
     $excluded[] = 'jquery.min.js';
     $excluded[] = 'jquery.js';
     return $excluded;
@@ -253,14 +253,14 @@ add_filter('litespeed_optm_js_delay_exc', function($excluded) {
     if (!is_array($excluded)) $excluded = array();
     $excluded[] = 'chat-script.js';
     $excluded[] = 'floating-script.js';
-    $excluded[] = 'mxchat';
+    $excluded[] = 'knittnet';
     return $excluded;
 });
 
 // Exclude from Guest Mode optimization
 add_filter('litespeed_guest_optm_exc', function($excluded) {
     if (!is_array($excluded)) $excluded = array();
-    $excluded[] = 'mxchat';
+    $excluded[] = 'knittnet';
     $excluded[] = 'chat-style';
     $excluded[] = 'chat-script';
     $excluded[] = 'floating-script';
@@ -272,13 +272,13 @@ add_filter('litespeed_guest_optm_exc', function($excluded) {
 // Exclude CSS from optimization (comma-separated strings)
 add_filter('autoptimize_filter_css_exclude', function($excluded) {
     if (!is_string($excluded)) $excluded = '';
-    return $excluded . ', mxchat, chat-style.css';
+    return $excluded . ', knittnet, chat-style.css';
 });
 
 // Exclude JS from optimization (comma-separated strings)
 add_filter('autoptimize_filter_js_exclude', function($excluded) {
     if (!is_string($excluded)) $excluded = '';
-    return $excluded . ', mxchat, chat-script.js, floating-script.js, jquery.min.js, jquery.js';
+    return $excluded . ', knittnet, chat-script.js, floating-script.js, jquery.min.js, jquery.js';
 });
 
 // ── SG Optimizer (SiteGround) ────────────────────────────────────────────────
@@ -331,13 +331,13 @@ add_filter('wpsc_rejected_uri', function($rejected) {
 // Each cache plugin gets its own filter export so that visitors hitting an
 // edge-cached page never receive cached chat-AJAX responses. The chat send /
 // stream send / file upload all POST to /wp-admin/admin-ajax.php with
-// `action=mxchat_*`. Without these exports, a cache plugin can stale a response
+// `action=knittnet_*`. Without these exports, a cache plugin can stale a response
 // and break the per-session nonce flow on the first message.
 
 // WP Rocket — `rocket_cache_reject_uri` takes a flat array of regex strings.
 add_filter('rocket_cache_reject_uri', function($uris) {
     if (!is_array($uris)) $uris = array();
-    $uris[] = '/wp-admin/admin-ajax\.php\?action=mxchat_.*';
+    $uris[] = '/wp-admin/admin-ajax\.php\?action=knittnet_.*';
     return $uris;
 });
 
@@ -348,7 +348,7 @@ add_filter('litespeed_cache_no_cache_for_request', function($no_cache) {
     if (!empty($_SERVER['REQUEST_URI']) &&
         strpos($_SERVER['REQUEST_URI'], '/wp-admin/admin-ajax.php') !== false &&
         !empty($_REQUEST['action']) &&
-        strpos((string) $_REQUEST['action'], 'mxchat_') === 0) {
+        strpos((string) $_REQUEST['action'], 'knittnet_') === 0) {
         return true;
     }
     return $no_cache;
@@ -361,7 +361,7 @@ add_filter('w3tc_pgcache_request_skip_uri', function($skip) {
     if (!empty($_SERVER['REQUEST_URI']) &&
         strpos($_SERVER['REQUEST_URI'], '/wp-admin/admin-ajax.php') !== false &&
         !empty($_REQUEST['action']) &&
-        strpos((string) $_REQUEST['action'], 'mxchat_') === 0) {
+        strpos((string) $_REQUEST['action'], 'knittnet_') === 0) {
         return true;
     }
     return $skip;
@@ -374,27 +374,27 @@ add_filter('flying_press_cacheable', function($cacheable) {
     if (!empty($_SERVER['REQUEST_URI']) &&
         strpos($_SERVER['REQUEST_URI'], '/wp-admin/admin-ajax.php') !== false &&
         !empty($_REQUEST['action']) &&
-        strpos((string) $_REQUEST['action'], 'mxchat_') === 0) {
+        strpos((string) $_REQUEST['action'], 'knittnet_') === 0) {
         return false;
     }
     return $cacheable;
 });
 
 // Include classes with error handling
-function mxchat_include_classes() {
+function knittnet_include_classes() {
     $class_files = array(
-        'includes/class-mxchat-model-catalog.php',
-        'includes/class-mxchat-tool-registry.php',
-        'includes/class-mxchat-integrator.php',
-        'includes/class-mxchat-admin.php',
-        'includes/class-mxchat-public.php',
-        'includes/class-mxchat-utils.php',
-        'includes/class-mxchat-user.php',
-        'includes/class-mxchat-meta-box.php',
-        'includes/class-mxchat-chunker.php',
-        'includes/class-mxchat-word-handler.php',
-        'includes/class-mxchat-content-generator.php',
-        'includes/class-mxchat-cache-purge.php',
+        'includes/class-knittnet-model-catalog.php',
+        'includes/class-knittnet-tool-registry.php',
+        'includes/class-knittnet-integrator.php',
+        'includes/class-knittnet-admin.php',
+        'includes/class-knittnet-public.php',
+        'includes/class-knittnet-utils.php',
+        'includes/class-knittnet-user.php',
+        'includes/class-knittnet-meta-box.php',
+        'includes/class-knittnet-chunker.php',
+        'includes/class-knittnet-word-handler.php',
+        'includes/class-knittnet-content-generator.php',
+        'includes/class-knittnet-cache-purge.php',
         'includes/class-rest-api.php',
         'admin/class-ajax-handler.php',
         'admin/class-pinecone-manager.php',
@@ -406,13 +406,13 @@ function mxchat_include_classes() {
         if (file_exists($file_path)) {
             require_once $file_path;
         } else {
-            //error_log('MxChat: Missing class file - ' . $file);
+            //error_log('KnittNet: Missing class file - ' . $file);
         }
     }
 
     // Register the native function-calling admin-post save handler (a41dee).
-    if (class_exists('MxChat_Tool_Registry')) {
-        MxChat_Tool_Registry::init();
+    if (class_exists('KnittNet_Tool_Registry')) {
+        KnittNet_Tool_Registry::init();
     }
 
     // Admin pages that aren't classes (procedural include).
@@ -423,9 +423,9 @@ function mxchat_include_classes() {
         }
         // f7c7d4 renamed this file admin-dashboard-page.php → admin-onboarding-page.php.
         // The require MUST live here (admin bootstrap) and not just inside
-        // mxchat_add_plugin_page() on the admin_menu hook — admin_menu does NOT
+        // knittnet_add_plugin_page() on the admin_menu hook — admin_menu does NOT
         // fire on admin-ajax.php requests, so the wizard's AJAX handlers
-        // (plan-905439: mxchat_onboarding_kb_status / save_step / mark_step /
+        // (plan-905439: knittnet_onboarding_kb_status / save_step / mark_step /
         // auto_graduate + the f7c7d4 dismiss handler) would never register.
         $admin_onboarding_page = plugin_dir_path(__FILE__) . 'includes/admin-onboarding-page.php';
         if (file_exists($admin_onboarding_page)) {
@@ -438,7 +438,7 @@ function mxchat_include_classes() {
  * Lazy-load the PDF parser library only when needed.
  * Avoids loading 44 files on every page request.
  */
-function mxchat_load_pdf_parser() {
+function knittnet_load_pdf_parser() {
     if (class_exists('\Smalot\PdfParser\Parser')) {
         return true;
     }
@@ -453,10 +453,10 @@ function mxchat_load_pdf_parser() {
 /**
  * Create URL click tracking table
  */
-function mxchat_create_url_clicks_table() {
+function knittnet_create_url_clicks_table() {
     global $wpdb;
     
-    $table_name = $wpdb->prefix . 'mxchat_url_clicks';
+    $table_name = $wpdb->prefix . 'knittnet_url_clicks';
     
     $charset_collate = $wpdb->get_charset_collate();
     
@@ -480,10 +480,10 @@ function mxchat_create_url_clicks_table() {
 /**
  * FIXED: Robust table creation and column management
  */
-function mxchat_create_chat_transcripts_table() {
+function knittnet_create_chat_transcripts_table() {
     global $wpdb;
     
-    $table_name = $wpdb->prefix . 'mxchat_chat_transcripts';
+    $table_name = $wpdb->prefix . 'knittnet_chat_transcripts';
     $charset_collate = $wpdb->get_charset_collate();
     
     // Create table with ALL columns including user_name from the start
@@ -510,25 +510,25 @@ function mxchat_create_chat_transcripts_table() {
     
     // Log the result for debugging
     if (empty($result)) {
-        //error_log("MxChat: dbDelta returned empty result for chat transcripts table");
+        //error_log("KnittNet: dbDelta returned empty result for chat transcripts table");
     } else {
-        //error_log("MxChat: dbDelta result: " . print_r($result, true));
+        //error_log("KnittNet: dbDelta result: " . print_r($result, true));
     }
     
     // IMPORTANT: Ensure all columns exist for existing installations
-    mxchat_ensure_all_columns($table_name);
+    knittnet_ensure_all_columns($table_name);
 }
 
 /**
  * Ensure all required columns exist (for upgrades)
  */
-function mxchat_ensure_all_columns($table_name) {
+function knittnet_ensure_all_columns($table_name) {
     global $wpdb;
     
     // First check if table exists
     $table_exists = $wpdb->get_var("SHOW TABLES LIKE '$table_name'") === $table_name;
     if (!$table_exists) {
-        //error_log("MxChat: Table $table_name does not exist, cannot add columns");
+        //error_log("KnittNet: Table $table_name does not exist, cannot add columns");
         return;
     }
     
@@ -545,7 +545,7 @@ function mxchat_ensure_all_columns($table_name) {
     // Get existing columns
     $existing_columns = $wpdb->get_results("SHOW COLUMNS FROM $table_name");
     if (empty($existing_columns)) {
-        //error_log("MxChat: Could not get columns for table $table_name");
+        //error_log("KnittNet: Could not get columns for table $table_name");
         return;
     }
     
@@ -558,9 +558,9 @@ function mxchat_ensure_all_columns($table_name) {
             $result = $wpdb->query($alter_sql);
             
             if ($result === false) {
-                //error_log("MxChat: Failed to add column $column_name to $table_name. Error: " . $wpdb->last_error);
+                //error_log("KnittNet: Failed to add column $column_name to $table_name. Error: " . $wpdb->last_error);
             } else {
-                //error_log("MxChat: Successfully added column $column_name to $table_name");
+                //error_log("KnittNet: Successfully added column $column_name to $table_name");
             }
         }
     }
@@ -569,14 +569,14 @@ function mxchat_ensure_all_columns($table_name) {
 /**
  * Add role restriction column to knowledge base table
  */
-function mxchat_add_role_restriction_column() {
+function knittnet_add_role_restriction_column() {
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_system_prompt_content';
+    $table_name = $wpdb->prefix . 'knittnet_system_prompt_content';
     
     // Check if table exists first
     $table_exists = $wpdb->get_var("SHOW TABLES LIKE '$table_name'") === $table_name;
     if (!$table_exists) {
-        //error_log("MxChat: System prompt content table does not exist, cannot add role_restriction column");
+        //error_log("KnittNet: System prompt content table does not exist, cannot add role_restriction column");
         return;
     }
     
@@ -593,9 +593,9 @@ function mxchat_add_role_restriction_column() {
         $result = $wpdb->query($alter_sql);
         
         if ($result === false) {
-            //error_log("MxChat: Failed to add role_restriction column. Error: " . $wpdb->last_error);
+            //error_log("KnittNet: Failed to add role_restriction column. Error: " . $wpdb->last_error);
         } else {
-            //error_log("MxChat: Successfully added role_restriction column");
+            //error_log("KnittNet: Successfully added role_restriction column");
             
             // Set all existing records to 'public' (everyone can access)
             $update_result = $wpdb->query(
@@ -605,7 +605,7 @@ function mxchat_add_role_restriction_column() {
             );
             
             if ($update_result !== false) {
-                //error_log("MxChat: Updated {$update_result} existing records to public access");
+                //error_log("KnittNet: Updated {$update_result} existing records to public access");
             }
         }
     }
@@ -614,14 +614,14 @@ function mxchat_add_role_restriction_column() {
 /**
  *   Add enabled_bots column to intents table for multi-bot action filtering
  */
-function mxchat_add_enabled_bots_column() {
+function knittnet_add_enabled_bots_column() {
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_intents';
+    $table_name = $wpdb->prefix . 'knittnet_intents';
     
     // Check if table exists first
     $table_exists = $wpdb->get_var("SHOW TABLES LIKE '$table_name'") === $table_name;
     if (!$table_exists) {
-        //error_log("MxChat: Intents table does not exist, cannot add enabled_bots column");
+        //error_log("KnittNet: Intents table does not exist, cannot add enabled_bots column");
         return;
     }
     
@@ -638,9 +638,9 @@ function mxchat_add_enabled_bots_column() {
         $result = $wpdb->query($alter_sql);
         
         if ($result === false) {
-            //error_log("MxChat: Failed to add enabled_bots column. Error: " . $wpdb->last_error);
+            //error_log("KnittNet: Failed to add enabled_bots column. Error: " . $wpdb->last_error);
         } else {
-            //error_log("MxChat: Successfully added enabled_bots column");
+            //error_log("KnittNet: Successfully added enabled_bots column");
             
             // Set all existing actions to work with 'default' bot for backward compatibility
             $default_bots = json_encode(['default']);
@@ -654,7 +654,7 @@ function mxchat_add_enabled_bots_column() {
             );
             
             if ($update_result !== false) {
-                //error_log("MxChat: Updated {$update_result} existing actions to work with default bot");
+                //error_log("KnittNet: Updated {$update_result} existing actions to work with default bot");
             }
         }
     }
@@ -663,10 +663,10 @@ function mxchat_add_enabled_bots_column() {
 /**
  * Create Pinecone role restrictions table with multi-bot support
  */
-function mxchat_create_pinecone_roles_table() {
+function knittnet_create_pinecone_roles_table() {
     global $wpdb;
 
-    $table_name = $wpdb->prefix . 'mxchat_pinecone_roles';
+    $table_name = $wpdb->prefix . 'knittnet_pinecone_roles';
     $charset_collate = $wpdb->get_charset_collate();
 
     $sql = "CREATE TABLE $table_name (
@@ -687,19 +687,19 @@ function mxchat_create_pinecone_roles_table() {
 }
 
 /**
- * Add bot_id column to mxchat_pinecone_roles table for multi-bot support
+ * Add bot_id column to knittnet_pinecone_roles table for multi-bot support
  * This migration runs once to update existing installations
  */
-function mxchat_migrate_pinecone_roles_add_bot_id() {
+function knittnet_migrate_pinecone_roles_add_bot_id() {
     global $wpdb;
 
     // Check if migration already ran
-    $migration_version = get_option('mxchat_pinecone_roles_migration_version', '0');
+    $migration_version = get_option('knittnet_pinecone_roles_migration_version', '0');
     if (version_compare($migration_version, '2.5.2', '>=')) {
         return; // Already migrated
     }
 
-    $table_name = $wpdb->prefix . 'mxchat_pinecone_roles';
+    $table_name = $wpdb->prefix . 'knittnet_pinecone_roles';
 
     // Check if table exists
     if ($wpdb->get_var("SHOW TABLES LIKE '{$table_name}'") != $table_name) {
@@ -720,27 +720,27 @@ function mxchat_migrate_pinecone_roles_add_bot_id() {
         // Add index for bot_id
         $wpdb->query("ALTER TABLE {$table_name} ADD KEY bot_id (bot_id)");
 
-        //error_log('MxChat: Successfully added bot_id column to mxchat_pinecone_roles table');
+        //error_log('KnittNet: Successfully added bot_id column to knittnet_pinecone_roles table');
     }
 
     // Mark migration as complete
-    update_option('mxchat_pinecone_roles_migration_version', '2.5.2');
+    update_option('knittnet_pinecone_roles_migration_version', '2.5.2');
 }
 
 /**
- * 2.5.6: Add content_type column to mxchat_system_prompt_content table
+ * 2.5.6: Add content_type column to knittnet_system_prompt_content table
  * Enables filtering knowledge base by content type (posts, pages, PDFs, etc.)
  */
-function mxchat_migrate_add_content_type_column() {
+function knittnet_migrate_add_content_type_column() {
     global $wpdb;
 
     // Check if migration already ran
-    $migration_version = get_option('mxchat_content_type_migration_version', '0');
+    $migration_version = get_option('knittnet_content_type_migration_version', '0');
     if (version_compare($migration_version, '2.5.6', '>=')) {
         return;
     }
 
-    $table_name = $wpdb->prefix . 'mxchat_system_prompt_content';
+    $table_name = $wpdb->prefix . 'knittnet_system_prompt_content';
 
     // Check if table exists
     if ($wpdb->get_var("SHOW TABLES LIKE '{$table_name}'") != $table_name) {
@@ -757,11 +757,11 @@ function mxchat_migrate_add_content_type_column() {
         // Add index for better query performance
         $wpdb->query("ALTER TABLE {$table_name} ADD KEY content_type (content_type)");
 
-        //error_log('MxChat: Successfully added content_type column to mxchat_system_prompt_content table');
+        //error_log('KnittNet: Successfully added content_type column to knittnet_system_prompt_content table');
     }
 
     // Mark migration as complete
-    update_option('mxchat_content_type_migration_version', '2.5.6');
+    update_option('knittnet_content_type_migration_version', '2.5.6');
 }
 
 /**
@@ -769,35 +769,35 @@ function mxchat_migrate_add_content_type_column() {
  * have KB content but no stamped model. The mismatch warning compares this
  * against the user's currently selected model — no per-row column needed.
  */
-function mxchat_backfill_active_embedding_model() {
+function knittnet_backfill_active_embedding_model() {
     global $wpdb;
 
-    if (get_option('mxchat_active_embedding_model', '') !== '') {
+    if (get_option('knittnet_active_embedding_model', '') !== '') {
         return;
     }
 
-    $kb_table = $wpdb->prefix . 'mxchat_system_prompt_content';
+    $kb_table = $wpdb->prefix . 'knittnet_system_prompt_content';
     if ($wpdb->get_var("SHOW TABLES LIKE '{$kb_table}'") !== $kb_table) {
         return;
     }
 
     $kb_count = (int) $wpdb->get_var("SELECT COUNT(*) FROM {$kb_table}");
     if ($kb_count > 0) {
-        $options = get_option('mxchat_options', array());
+        $options = get_option('knittnet_options', array());
         $current_model = $options['embedding_model'] ?? 'text-embedding-ada-002';
-        update_option('mxchat_active_embedding_model', $current_model, false);
+        update_option('knittnet_active_embedding_model', $current_model, false);
     }
 }
 
 /**
  * 2.5.2: Create queue processing tables for reliable background processing
  */
-function mxchat_create_queue_tables() {
+function knittnet_create_queue_tables() {
     global $wpdb;
     $charset_collate = $wpdb->get_charset_collate();
     
     // Main queue table
-    $queue_table = $wpdb->prefix . 'mxchat_processing_queue';
+    $queue_table = $wpdb->prefix . 'knittnet_processing_queue';
     $sql_queue = "CREATE TABLE $queue_table (
         id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
         queue_id varchar(64) NOT NULL,
@@ -820,7 +820,7 @@ function mxchat_create_queue_tables() {
     ) $charset_collate;";
     
     // Queue metadata table
-    $meta_table = $wpdb->prefix . 'mxchat_queue_meta';
+    $meta_table = $wpdb->prefix . 'knittnet_queue_meta';
     $sql_meta = "CREATE TABLE $meta_table (
         id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
         queue_id varchar(64) NOT NULL,
@@ -835,17 +835,17 @@ function mxchat_create_queue_tables() {
     dbDelta($sql_queue);
     dbDelta($sql_meta);
     
-    //error_log("MxChat: Queue tables created/updated successfully");
+    //error_log("KnittNet: Queue tables created/updated successfully");
 }
 
 /**
  * Create transcript translations table for persisting translations
  */
-function mxchat_create_translations_table() {
+function knittnet_create_translations_table() {
     global $wpdb;
     $charset_collate = $wpdb->get_charset_collate();
 
-    $table_name = $wpdb->prefix . 'mxchat_transcript_translations';
+    $table_name = $wpdb->prefix . 'knittnet_transcript_translations';
     $sql = "CREATE TABLE $table_name (
         id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
         session_id varchar(255) NOT NULL,
@@ -866,11 +866,11 @@ function mxchat_create_translations_table() {
  * Create per-session satisfaction ratings table (v3.2.6)
  * Stores one 👍/👎 rating + optional feedback per chat session.
  */
-function mxchat_create_session_ratings_table() {
+function knittnet_create_session_ratings_table() {
     global $wpdb;
     $charset_collate = $wpdb->get_charset_collate();
 
-    $table_name = $wpdb->prefix . 'mxchat_session_ratings';
+    $table_name = $wpdb->prefix . 'knittnet_session_ratings';
     $sql = "CREATE TABLE $table_name (
         id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
         session_id varchar(255) NOT NULL,
@@ -892,9 +892,9 @@ function mxchat_create_session_ratings_table() {
  * 2.5.2: Fix URL column size to support long URLs (especially with UTF-8 encoding)
  * This fixes "url, source_url. The supplied values may be too long" errors
  */
-function mxchat_fix_url_column_size() {
+function knittnet_fix_url_column_size() {
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_system_prompt_content';
+    $table_name = $wpdb->prefix . 'knittnet_system_prompt_content';
     
     // Check if table exists
     $table_exists = $wpdb->get_var("SHOW TABLES LIKE '$table_name'") === $table_name;
@@ -907,7 +907,7 @@ function mxchat_fix_url_column_size() {
     $wpdb->query("ALTER TABLE {$table_name} MODIFY COLUMN url TEXT");
     $wpdb->query("ALTER TABLE {$table_name} MODIFY COLUMN source_url TEXT");
     
-    //error_log("MxChat: Successfully updated url and source_url columns to TEXT type for long URL support");
+    //error_log("KnittNet: Successfully updated url and source_url columns to TEXT type for long URL support");
 }
 
 /**
@@ -916,17 +916,17 @@ function mxchat_fix_url_column_size() {
  * Version 3.1.2: Convert chat transcripts table to utf8mb4 for emoji support
  * Without utf8mb4, any bot response containing emojis silently fails to insert.
  */
-function mxchat_migrate_transcripts_charset() {
+function knittnet_migrate_transcripts_charset() {
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_chat_transcripts';
+    $table_name = $wpdb->prefix . 'knittnet_chat_transcripts';
     $wpdb->query("ALTER TABLE $table_name CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
 }
 
 /**
  * Version 3.0.55: Migrate GPT-4 series models (deprecated 2026-02-17) to GPT-5 series
  */
-function mxchat_migrate_deprecated_models() {
-    $options = get_option('mxchat_options', array());
+function knittnet_migrate_deprecated_models() {
+    $options = get_option('knittnet_options', array());
     $migrated = false;
     $migration_message = '';
 
@@ -982,42 +982,42 @@ function mxchat_migrate_deprecated_models() {
     }
 
     if ($migrated) {
-        update_option('mxchat_options', $options);
-        update_option('mxchat_model_migrated_notice', true);
-        update_option('mxchat_model_migration_message', $migration_message);
+        update_option('knittnet_options', $options);
+        update_option('knittnet_model_migrated_notice', true);
+        update_option('knittnet_model_migration_message', $migration_message);
     }
 }
 
 /**
  * Show admin notice after model migration
  */
-function mxchat_show_migration_notice() {
-    if (get_option('mxchat_model_migrated_notice')) {
-        $migration_message = get_option('mxchat_model_migration_message', __('Your chatbot model has been automatically updated due to a model deprecation.', 'mxchat'));
+function knittnet_show_migration_notice() {
+    if (get_option('knittnet_model_migrated_notice')) {
+        $migration_message = get_option('knittnet_model_migration_message', __('Your chatbot model has been automatically updated due to a model deprecation.', 'knittnet'));
         ?>
         <div class="notice notice-info is-dismissible">
             <p>
-                <strong><?php esc_html_e('MxChat Model Updated', 'mxchat'); ?></strong><br>
+                <strong><?php esc_html_e('KnittNet Model Updated', 'knittnet'); ?></strong><br>
                 <?php echo esc_html($migration_message); ?>
             </p>
         </div>
         <?php
-        delete_option('mxchat_model_migrated_notice');
-        delete_option('mxchat_model_migration_message');
+        delete_option('knittnet_model_migrated_notice');
+        delete_option('knittnet_model_migration_message');
     }
 }
 
-function mxchat_activate() {
+function knittnet_activate() {
     global $wpdb;
     $charset_collate = $wpdb->get_charset_collate();
 
-    //error_log("MxChat: Running activation function");
+    //error_log("KnittNet: Running activation function");
 
     // Create chat transcripts table with improved function
-    mxchat_create_chat_transcripts_table();
+    knittnet_create_chat_transcripts_table();
 
     // System Prompt Content Table - UPDATED: Use TEXT for url and source_url columns
-    $system_prompt_table = $wpdb->prefix . 'mxchat_system_prompt_content';
+    $system_prompt_table = $wpdb->prefix . 'knittnet_system_prompt_content';
     $sql_system_prompt = "CREATE TABLE $system_prompt_table (
         id MEDIUMINT(9) NOT NULL AUTO_INCREMENT,
         url TEXT NOT NULL,
@@ -1032,7 +1032,7 @@ function mxchat_activate() {
     ) $charset_collate;";
 
     // Intents Table - NOW INCLUDES enabled_bots column from the start
-    $intents_table = $wpdb->prefix . 'mxchat_intents';
+    $intents_table = $wpdb->prefix . 'knittnet_intents';
     $sql_intents_table = "CREATE TABLE $intents_table (
         id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
         intent_label VARCHAR(255) NOT NULL,
@@ -1046,7 +1046,7 @@ function mxchat_activate() {
     ) $charset_collate;";
 
     // Individual Intent Phrases Table - each phrase gets its own embedding vector
-    $intent_phrases_table = $wpdb->prefix . 'mxchat_intent_phrases';
+    $intent_phrases_table = $wpdb->prefix . 'knittnet_intent_phrases';
     $sql_intent_phrases_table = "CREATE TABLE $intent_phrases_table (
         id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
         intent_id BIGINT(20) UNSIGNED NOT NULL,
@@ -1065,19 +1065,19 @@ function mxchat_activate() {
     dbDelta($sql_intent_phrases_table);
 
     // Create URL click tracking table
-    mxchat_create_url_clicks_table();
+    knittnet_create_url_clicks_table();
     
     // Create Pinecone roles table
-    mxchat_create_pinecone_roles_table();
+    knittnet_create_pinecone_roles_table();
     
     // NEW 2.5.2: Create queue processing tables
-    mxchat_create_queue_tables();
+    knittnet_create_queue_tables();
 
     // Create transcript translations table
-    mxchat_create_translations_table();
+    knittnet_create_translations_table();
 
     // Create per-session satisfaction ratings table (v3.2.6)
-    mxchat_create_session_ratings_table();
+    knittnet_create_session_ratings_table();
 
     // Ensure additional columns in system prompt table
     $existing_system_columns = $wpdb->get_results("SHOW COLUMNS FROM $system_prompt_table");
@@ -1121,58 +1121,58 @@ function mxchat_activate() {
     }
 
     // Run migration for existing installations
-    mxchat_migrate_pinecone_roles_add_bot_id();
+    knittnet_migrate_pinecone_roles_add_bot_id();
 
     // 3.2.4: Backfill active embedding model option (replaces 3.2.3 column-based tracking)
-    mxchat_backfill_active_embedding_model();
+    knittnet_backfill_active_embedding_model();
 
     // Setup cron jobs
-    mxchat_setup_cron_jobs();
+    knittnet_setup_cron_jobs();
 
     // Update version
-    update_option('mxchat_plugin_version', MXCHAT_VERSION);
+    update_option('knittnet_plugin_version', KNITTNET_VERSION);
 
-    //error_log("MxChat: Activation function completed");
+    //error_log("KnittNet: Activation function completed");
 }
 
 /**
  * Setup cron jobs on plugin activation
  */
-function mxchat_setup_cron_jobs() {
+function knittnet_setup_cron_jobs() {
     // Clear any existing cron jobs first
-    wp_clear_scheduled_hook('mxchat_reset_rate_limits');
+    wp_clear_scheduled_hook('knittnet_reset_rate_limits');
     
     // Check if WordPress cron is disabled
     if (defined('DISABLE_WP_CRON') && DISABLE_WP_CRON) {
         // Set flag to use fallback system
-        update_option('mxchat_use_fallback_rate_limits', true);
-        update_option('mxchat_next_rate_limit_check', time() + 3600);
+        update_option('knittnet_use_fallback_rate_limits', true);
+        update_option('knittnet_next_rate_limit_check', time() + 3600);
         return;
     }
     
     // Schedule the rate limit reset cron job
-    $result = wp_schedule_event(time() + 300, 'hourly', 'mxchat_reset_rate_limits');
+    $result = wp_schedule_event(time() + 300, 'hourly', 'knittnet_reset_rate_limits');
     
     if ($result === false) {
         // Fallback if scheduling fails
-        update_option('mxchat_use_fallback_rate_limits', true);
-        update_option('mxchat_next_rate_limit_check', time() + 3600);
+        update_option('knittnet_use_fallback_rate_limits', true);
+        update_option('knittnet_next_rate_limit_check', time() + 3600);
     } else {
         // Clear fallback flags if cron scheduling succeeded
-        delete_option('mxchat_use_fallback_rate_limits');
+        delete_option('knittnet_use_fallback_rate_limits');
     }
     
     // Schedule transcript cleanup if configured (bucket dropdown OR custom retention-days > 0)
-    $transcript_options = get_option('mxchat_transcripts_options', array());
-    $cleanup_interval = isset($transcript_options['mxchat_auto_delete_transcripts']) ? $transcript_options['mxchat_auto_delete_transcripts'] : 'never';
-    $custom_retention = isset($transcript_options['mxchat_retention_days']) ? (int) $transcript_options['mxchat_retention_days'] : 0;
+    $transcript_options = get_option('knittnet_transcripts_options', array());
+    $cleanup_interval = isset($transcript_options['knittnet_auto_delete_transcripts']) ? $transcript_options['knittnet_auto_delete_transcripts'] : 'never';
+    $custom_retention = isset($transcript_options['knittnet_retention_days']) ? (int) $transcript_options['knittnet_retention_days'] : 0;
 
     if ($cleanup_interval !== 'never' || $custom_retention > 0) {
         // Check if not already scheduled
-        if (!wp_next_scheduled('mxchat_cleanup_old_transcripts')) {
+        if (!wp_next_scheduled('knittnet_cleanup_old_transcripts')) {
             // Schedule to run daily at 3 AM
             $next_run = strtotime('tomorrow 3:00 AM');
-            wp_schedule_event($next_run, 'daily', 'mxchat_cleanup_old_transcripts');
+            wp_schedule_event($next_run, 'daily', 'knittnet_cleanup_old_transcripts');
         }
     }
 }
@@ -1180,16 +1180,16 @@ function mxchat_setup_cron_jobs() {
 /**
  * Clean up on plugin deactivation
  */
-function mxchat_deactivate() {
+function knittnet_deactivate() {
     // Clear scheduled cron jobs
-    wp_clear_scheduled_hook('mxchat_reset_rate_limits');
-    wp_clear_scheduled_hook('mxchat_cleanup_old_transcripts');
-    wp_clear_scheduled_hook('mxchat_send_delayed_transcript');
+    wp_clear_scheduled_hook('knittnet_reset_rate_limits');
+    wp_clear_scheduled_hook('knittnet_cleanup_old_transcripts');
+    wp_clear_scheduled_hook('knittnet_send_delayed_transcript');
     
     // Clear fallback options
-    delete_option('mxchat_use_fallback_rate_limits');
-    delete_option('mxchat_next_rate_limit_check');
-    delete_option('mxchat_fallback_check_interval');
+    delete_option('knittnet_use_fallback_rate_limits');
+    delete_option('knittnet_next_rate_limit_check');
+    delete_option('knittnet_fallback_check_interval');
     
     // NOTE: We do NOT delete queue tables on deactivation
     // This preserves data if user accidentally deactivates the plugin
@@ -1198,22 +1198,22 @@ function mxchat_deactivate() {
 /**
  * Check if fallback rate limit cleanup is needed
  */
-function mxchat_check_fallback_rate_limits() {
-    $use_fallback = get_option('mxchat_use_fallback_rate_limits', false);
+function knittnet_check_fallback_rate_limits() {
+    $use_fallback = get_option('knittnet_use_fallback_rate_limits', false);
     
     if (!$use_fallback) {
         return;
     }
     
-    $next_check = get_option('mxchat_next_rate_limit_check', 0);
+    $next_check = get_option('knittnet_next_rate_limit_check', 0);
     
     if (time() >= $next_check) {
-        // Only run reset if the MxChat_Integrator class exists
-        if (class_exists('MxChat_Integrator')) {
-            $integrator = new MxChat_Integrator();
-            if (method_exists($integrator, 'mxchat_reset_rate_limits')) {
-                $integrator->mxchat_reset_rate_limits();
-                update_option('mxchat_next_rate_limit_check', time() + 3600);
+        // Only run reset if the KnittNet_Integrator class exists
+        if (class_exists('KnittNet_Integrator')) {
+            $integrator = new KnittNet_Integrator();
+            if (method_exists($integrator, 'knittnet_reset_rate_limits')) {
+                $integrator->knittnet_reset_rate_limits();
+                update_option('knittnet_next_rate_limit_check', time() + 3600);
             }
         }
     }
@@ -1223,111 +1223,111 @@ function mxchat_check_fallback_rate_limits() {
  * Robust update checking with role restriction migration, model deprecation, and queue tables
  * CRITICAL: This runs on EVERY page load to ensure tables exist
  */
-function mxchat_check_for_update() {
+function knittnet_check_for_update() {
     global $wpdb;
     
     try {
-        $current_version = get_option('mxchat_plugin_version', '0.0.0');
-        $plugin_version = MXCHAT_VERSION;
+        $current_version = get_option('knittnet_plugin_version', '0.0.0');
+        $plugin_version = KNITTNET_VERSION;
 
         // Always ensure critical tables exist (even if version matches)
         // This handles manual table deletion or fresh installs
-        $chat_table = $wpdb->prefix . 'mxchat_chat_transcripts';
-        $queue_table = $wpdb->prefix . 'mxchat_processing_queue';
+        $chat_table = $wpdb->prefix . 'knittnet_chat_transcripts';
+        $queue_table = $wpdb->prefix . 'knittnet_processing_queue';
         
         $chat_exists = $wpdb->get_var("SHOW TABLES LIKE '$chat_table'") === $chat_table;
         $queue_exists = $wpdb->get_var("SHOW TABLES LIKE '$queue_table'") === $queue_table;
         
         if (!$chat_exists || !$queue_exists) {
-            //error_log("MxChat: Critical tables missing, running activation");
-            mxchat_activate();
+            //error_log("KnittNet: Critical tables missing, running activation");
+            knittnet_activate();
         }
 
         // Version-specific migrations
         if ($current_version !== $plugin_version) {
-            //error_log("MxChat: Version change detected: $current_version -> $plugin_version");
+            //error_log("KnittNet: Version change detected: $current_version -> $plugin_version");
 
             // Run live agent update BEFORE updating the stored version
-            mxchat_handle_live_agent_update();
+            knittnet_handle_live_agent_update();
 
             // Run theme migration notice for 3.0.1 (AI theme CSS structure changes)
-            mxchat_handle_theme_migration_notice();
+            knittnet_handle_theme_migration_notice();
             
             // Run role restriction migration for 2.4.1
             if (version_compare($current_version, '2.4.1', '<')) {
-                mxchat_add_role_restriction_column();
+                knittnet_add_role_restriction_column();
             }
             
             // Run enabled_bots column migration for 2.4.4
             if (version_compare($current_version, '2.4.4', '<')) {
-                mxchat_add_enabled_bots_column();
+                knittnet_add_enabled_bots_column();
             }
             
             // Run model migration for 2.5.1 (Claude deprecation)
             if (version_compare($current_version, '2.5.1', '<')) {
-                mxchat_migrate_deprecated_models();
+                knittnet_migrate_deprecated_models();
             }
             
             // 2.5.2: Ensure queue tables exist and fix URL column sizes for all users upgrading to 2.5.2
             if (version_compare($current_version, '2.5.2', '<')) {
-                mxchat_create_queue_tables();
-                mxchat_fix_url_column_size(); // NEW: Fix URL column size for long URLs
-                //error_log("MxChat: Queue tables created and URL columns updated for upgrade to 2.5.2");
+                knittnet_create_queue_tables();
+                knittnet_fix_url_column_size(); // NEW: Fix URL column size for long URLs
+                //error_log("KnittNet: Queue tables created and URL columns updated for upgrade to 2.5.2");
             }
 
             // 2.6.0: Ensure rag_context column exists for retrieved documents feature
             if (version_compare($current_version, '2.6.0', '<')) {
-                $chat_table = $wpdb->prefix . 'mxchat_chat_transcripts';
-                mxchat_ensure_all_columns($chat_table);
-                //error_log("MxChat: rag_context column migration for 2.6.0");
+                $chat_table = $wpdb->prefix . 'knittnet_chat_transcripts';
+                knittnet_ensure_all_columns($chat_table);
+                //error_log("KnittNet: rag_context column migration for 2.6.0");
             }
 
             // 3.0.5: Migrate deprecated Gemini embedding model
             if (version_compare($current_version, '3.0.5', '<')) {
-                mxchat_migrate_gemini_embedding_model();
+                knittnet_migrate_gemini_embedding_model();
             }
 
             // 3.0.6: Migrate deprecated OpenAI and Claude models
             if (version_compare($current_version, '3.0.6', '<')) {
-                mxchat_migrate_deprecated_models();
+                knittnet_migrate_deprecated_models();
             }
 
             // 3.1.2: Convert chat transcripts table to utf8mb4 for emoji support
             if (version_compare($current_version, '3.1.2', '<')) {
-                mxchat_migrate_transcripts_charset();
+                knittnet_migrate_transcripts_charset();
             }
 
             // 3.1.7: Clean up stale shared session email/name entries
             if (version_compare($current_version, '3.1.7', '<')) {
-                delete_option('mxchat_email_null');
-                delete_option('mxchat_name_null');
+                delete_option('knittnet_email_null');
+                delete_option('knittnet_name_null');
             }
 
             // 3.2.4: Backfill active embedding model option for the warning UI
             // (replaces the per-row column tracking from 3.2.3, which was reverted)
             if (version_compare($current_version, '3.2.4', '<')) {
-                mxchat_backfill_active_embedding_model();
+                knittnet_backfill_active_embedding_model();
             }
 
             // Run full activation to ensure everything is up to date
-            mxchat_activate();
+            knittnet_activate();
             
             // Run migration functions
-            mxchat_migrate_live_agent_status();
+            knittnet_migrate_live_agent_status();
 
             // Add the cleanup function for version 2.1.8
             if (version_compare($current_version, '2.1.8', '<')) {
-                $deleted = mxchat_cleanup_orphaned_chat_history();
+                $deleted = knittnet_cleanup_orphaned_chat_history();
             }
 
             // Update version LAST
-            update_option('mxchat_plugin_version', $plugin_version);
+            update_option('knittnet_plugin_version', $plugin_version);
             
-            //error_log("MxChat: Updated from version $current_version to $plugin_version");
+            //error_log("KnittNet: Updated from version $current_version to $plugin_version");
         }
         
     } catch (Exception $e) {
-        //error_log('MxChat update error: ' . $e->getMessage());
+        //error_log('KnittNet update error: ' . $e->getMessage());
         // Don't update version if there was an error
     }
 }
@@ -1336,7 +1336,7 @@ function mxchat_check_for_update() {
  * Ensure tables exist on every admin load for fresh installations
  * This is a safety net for cases where activation hook doesn't fire
  */
-function mxchat_ensure_tables_exist() {
+function knittnet_ensure_tables_exist() {
     global $wpdb;
     
     // Only run for admin users to avoid performance impact
@@ -1351,15 +1351,15 @@ function mxchat_ensure_tables_exist() {
     }
     $tables_checked = true;
     
-    $table_name = $wpdb->prefix . 'mxchat_chat_transcripts';
-    $queue_table = $wpdb->prefix . 'mxchat_processing_queue';
+    $table_name = $wpdb->prefix . 'knittnet_chat_transcripts';
+    $queue_table = $wpdb->prefix . 'knittnet_processing_queue';
     
     $chat_exists = $wpdb->get_var("SHOW TABLES LIKE '$table_name'") === $table_name;
     $queue_exists = $wpdb->get_var("SHOW TABLES LIKE '$queue_table'") === $queue_table;
     
     if (!$chat_exists || !$queue_exists) {
-        //error_log("MxChat: Tables missing on admin load, running activation");
-        mxchat_activate();
+        //error_log("KnittNet: Tables missing on admin load, running activation");
+        knittnet_activate();
     }
 }
 
@@ -1367,23 +1367,23 @@ function mxchat_ensure_tables_exist() {
  * Clean up orphaned chat history options from the wp_options table
  * @return int Number of options deleted
  */
-function mxchat_cleanup_orphaned_chat_history() {
+function knittnet_cleanup_orphaned_chat_history() {
     global $wpdb;
     $count = 0;
 
     // Get all option keys that match our pattern
     $history_options = $wpdb->get_results(
         "SELECT option_name FROM {$wpdb->options}
-         WHERE option_name LIKE 'mxchat_history_%'"
+         WHERE option_name LIKE 'knittnet_history_%'"
     );
 
     if (!empty($history_options)) {
         foreach ($history_options as $option) {
             // Extract the session ID from the option name
-            $session_id = str_replace('mxchat_history_', '', $option->option_name);
+            $session_id = str_replace('knittnet_history_', '', $option->option_name);
 
             // Check if this session still exists in the custom table
-            $table_name = $wpdb->prefix . 'mxchat_chat_transcripts';
+            $table_name = $wpdb->prefix . 'knittnet_chat_transcripts';
             $exists = $wpdb->get_var(
                 $wpdb->prepare(
                     "SELECT COUNT(*) FROM {$table_name} WHERE session_id = %s",
@@ -1395,9 +1395,9 @@ function mxchat_cleanup_orphaned_chat_history() {
             if ($exists == 0) {
                 delete_option($option->option_name);
                 // Also delete related metadata
-                delete_option("mxchat_email_{$session_id}");
-                delete_option("mxchat_name_{$session_id}");
-                delete_option("mxchat_agent_name_{$session_id}");
+                delete_option("knittnet_email_{$session_id}");
+                delete_option("knittnet_name_{$session_id}");
+                delete_option("knittnet_agent_name_{$session_id}");
                 $count++;
             }
         }
@@ -1406,8 +1406,8 @@ function mxchat_cleanup_orphaned_chat_history() {
     return $count;
 }
 
-function mxchat_migrate_live_agent_status() {
-    $options = get_option('mxchat_options', []);
+function knittnet_migrate_live_agent_status() {
+    $options = get_option('knittnet_options', []);
 
     // Check if live_agent_status exists
     if (isset($options['live_agent_status'])) {
@@ -1429,39 +1429,39 @@ function mxchat_migrate_live_agent_status() {
 
         // Only update if needed
         if ($needs_update) {
-            update_option('mxchat_options', $options);
+            update_option('knittnet_options', $options);
         }
     } else {
         // If status doesn't exist, set default to off
         $options['live_agent_status'] = 'off';
-        update_option('mxchat_options', $options);
+        update_option('knittnet_options', $options);
     }
 }
 
-function mxchat_handle_live_agent_update() {
+function knittnet_handle_live_agent_update() {
     // Get the CURRENT stored version (before it gets updated)
-    $current_version = get_option('mxchat_plugin_version', '0.0.0');
+    $current_version = get_option('knittnet_plugin_version', '0.0.0');
     $new_version = '2.2.2';
 
     // Only run this once for the update to 2.2.2
-    $update_handled = get_option('mxchat_live_agent_update_2_2_2_handled', false);
+    $update_handled = get_option('knittnet_live_agent_update_2_2_2_handled', false);
 
     // Check if we're upgrading TO 2.2.2 and haven't handled this yet
     if (version_compare($current_version, $new_version, '<') && !$update_handled) {
-        $options = get_option('mxchat_options', array());
+        $options = get_option('knittnet_options', array());
 
         // Check if live agent was previously enabled
         if (isset($options['live_agent_status']) && $options['live_agent_status'] === 'on') {
             // Disable live agent
             $options['live_agent_status'] = 'off';
-            update_option('mxchat_options', $options);
+            update_option('knittnet_options', $options);
 
             // Set flag to show the notification banner
-            update_option('mxchat_show_live_agent_disabled_notice', true);
+            update_option('knittnet_show_live_agent_disabled_notice', true);
         }
 
         // Mark this update as handled
-        update_option('mxchat_live_agent_update_2_2_2_handled', true);
+        update_option('knittnet_live_agent_update_2_2_2_handled', true);
     }
 }
 
@@ -1469,105 +1469,105 @@ function mxchat_handle_live_agent_update() {
  * Handle theme migration notice for version 3.0.1
  * Shows a dismissible notice to Pro users about migrating AI-generated themes
  */
-function mxchat_handle_theme_migration_notice() {
+function knittnet_handle_theme_migration_notice() {
     // Get the CURRENT stored version (before it gets updated)
-    $current_version = get_option('mxchat_plugin_version', '0.0.0');
+    $current_version = get_option('knittnet_plugin_version', '0.0.0');
     $target_version = '3.0.1';
 
     // Only run this once for the update to 3.0.1
-    $update_handled = get_option('mxchat_theme_migration_update_3_0_1_handled', false);
+    $update_handled = get_option('knittnet_theme_migration_update_3_0_1_handled', false);
 
     // Check if we're upgrading TO 3.0.1 and haven't handled this yet
     if (version_compare($current_version, $target_version, '<') && !$update_handled) {
         // Check if Pro is activated - only show to Pro users
-        $license_status = get_option('mxchat_license_status', 'inactive');
+        $license_status = get_option('knittnet_license_status', 'inactive');
         $is_pro = ($license_status === 'active');
 
         if ($is_pro) {
             // Set flag to show the theme migration notification banner
-            update_option('mxchat_show_theme_migration_notice', true);
+            update_option('knittnet_show_theme_migration_notice', true);
         }
 
         // Mark this update as handled (whether Pro or not)
-        update_option('mxchat_theme_migration_update_3_0_1_handled', true);
+        update_option('knittnet_theme_migration_update_3_0_1_handled', true);
     }
 }
 
 // Initialize plugin safely
-function mxchat_init() {
+function knittnet_init() {
     // Include all class files first
-    mxchat_include_classes();
+    knittnet_include_classes();
     
     // Run update check (this also ensures tables exist)
-    mxchat_check_for_update();
+    knittnet_check_for_update();
     
     // CRITICAL: Ensure tables exist on admin pages (safety net)
-    add_action('admin_init', 'mxchat_ensure_tables_exist', 1);
+    add_action('admin_init', 'knittnet_ensure_tables_exist', 1);
     
     // Add fallback rate limit check
-    add_action('init', 'mxchat_check_fallback_rate_limits', 5);
+    add_action('init', 'knittnet_check_fallback_rate_limits', 5);
     
     // Add migration notice hook
-    add_action('admin_notices', 'mxchat_show_migration_notice');
+    add_action('admin_notices', 'knittnet_show_migration_notice');
     
     // Initialize classes with error handling
     try {
         // Initialize admin classes
         if (is_admin()) {
-            if (class_exists('MxChat_Knowledge_Manager')) {
-                $mxchat_knowledge_manager = new MxChat_Knowledge_Manager();
+            if (class_exists('KnittNet_Knowledge_Manager')) {
+                $knittnet_knowledge_manager = new KnittNet_Knowledge_Manager();
                 
-                if (class_exists('MxChat_Admin')) {
-                    $mxchat_admin = new MxChat_Admin($mxchat_knowledge_manager);
+                if (class_exists('KnittNet_Admin')) {
+                    $knittnet_admin = new KnittNet_Admin($knittnet_knowledge_manager);
                 }
             }
             
             // Initialize meta box class
-            if (class_exists('MxChat_Meta_Box')) {
-                new MxChat_Meta_Box();
+            if (class_exists('KnittNet_Meta_Box')) {
+                new KnittNet_Meta_Box();
             }
 
         }
 
         // Initialize content generator globally — it registers wp_head hook
         // for frontend CSS injection, plus wp_ajax_ hooks for admin.
-        if (class_exists('MxChat_Content_Generator')) {
-            new MxChat_Content_Generator();
+        if (class_exists('KnittNet_Content_Generator')) {
+            new KnittNet_Content_Generator();
         }
 
         // Initialize cache purge globally — settings writes can happen on any
         // request type (admin screens, admin-ajax autosave, wp-cli), and the
         // deferred-purge cron event fires on front-end requests.
-        if (class_exists('MxChat_Cache_Purge')) {
-            MxChat_Cache_Purge::init();
+        if (class_exists('KnittNet_Cache_Purge')) {
+            KnittNet_Cache_Purge::init();
         }
 
         // Initialize REST API globally — endpoints must be registered on
         // every request (admin and frontend) so they're reachable via /wp-json/.
         // Endpoints are auth-gated and locked until the site owner generates
-        // a token in MxChat → API Access.
-        if (class_exists('MxChat_Rest_Api')) {
-            new MxChat_Rest_Api();
+        // a token in KnittNet → API Access.
+        if (class_exists('KnittNet_Rest_Api')) {
+            new KnittNet_Rest_Api();
         }
 
         // Initialize public classes
-        if (class_exists('MxChat_Public')) {
-            $mxchat_public = new MxChat_Public();
+        if (class_exists('KnittNet_Public')) {
+            $knittnet_public = new KnittNet_Public();
         }
         
-        if (class_exists('MxChat_Integrator')) {
-            global $mxchat_integrator;
-            $mxchat_integrator = new MxChat_Integrator();
+        if (class_exists('KnittNet_Integrator')) {
+            global $knittnet_integrator;
+            $knittnet_integrator = new KnittNet_Integrator();
         }
         
     } catch (Exception $e) {
-        //error_log('MxChat initialization error: ' . $e->getMessage());
+        //error_log('KnittNet initialization error: ' . $e->getMessage());
         
         // Show admin notice if there's an error
         if (is_admin()) {
             add_action('admin_notices', function() use ($e) {
                 echo '<div class="notice notice-error"><p>';
-                echo '<strong>MxChat Error:</strong> Plugin initialization failed. ';
+                echo '<strong>KnittNet Error:</strong> Plugin initialization failed. ';
                 echo 'Please check error logs or contact support. Error: ' . esc_html($e->getMessage());
                 echo '</p></div>';
             });
@@ -1576,16 +1576,16 @@ function mxchat_init() {
 }
 
 // Run initialization on plugins_loaded
-add_action('plugins_loaded', 'mxchat_init');
+add_action('plugins_loaded', 'knittnet_init');
 
 // Run migration check on admin init (for auto-updates without reactivation)
-add_action('admin_init', 'mxchat_check_and_run_migrations');
+add_action('admin_init', 'knittnet_check_and_run_migrations');
 
 /**
  * Check and run migrations on admin init
  * This ensures migrations run even when plugin is auto-updated
  */
-function mxchat_check_and_run_migrations() {
+function knittnet_check_and_run_migrations() {
     // Only run in admin and not on every request
     static $checked = false;
     if ($checked) {
@@ -1593,22 +1593,22 @@ function mxchat_check_and_run_migrations() {
     }
     $checked = true;
 
-    mxchat_migrate_pinecone_roles_add_bot_id();
-    mxchat_migrate_add_content_type_column();
-    mxchat_migrate_add_translations_table();
-    mxchat_migrate_add_session_ratings_table();
+    knittnet_migrate_pinecone_roles_add_bot_id();
+    knittnet_migrate_add_content_type_column();
+    knittnet_migrate_add_translations_table();
+    knittnet_migrate_add_session_ratings_table();
 }
 
 /**
  * Migration: Create per-session satisfaction ratings table (v3.2.6)
  * For users upgrading from versions before 3.2.6
  */
-function mxchat_migrate_add_session_ratings_table() {
-    $migration_key = 'mxchat_session_ratings_table_created';
+function knittnet_migrate_add_session_ratings_table() {
+    $migration_key = 'knittnet_session_ratings_table_created';
     if (get_option($migration_key)) {
         return;
     }
-    mxchat_create_session_ratings_table();
+    knittnet_create_session_ratings_table();
     update_option($migration_key, '3.2.6');
 }
 
@@ -1616,8 +1616,8 @@ function mxchat_migrate_add_session_ratings_table() {
  * Migration: Create transcript translations table (v3.0.4)
  * For users upgrading from versions before 3.0.4
  */
-function mxchat_migrate_add_translations_table() {
-    $migration_key = 'mxchat_translations_table_created';
+function knittnet_migrate_add_translations_table() {
+    $migration_key = 'knittnet_translations_table_created';
 
     // Check if migration already ran
     if (get_option($migration_key)) {
@@ -1625,7 +1625,7 @@ function mxchat_migrate_add_translations_table() {
     }
 
     // Create the translations table
-    mxchat_create_translations_table();
+    knittnet_create_translations_table();
 
     // Mark migration as complete
     update_option($migration_key, '3.0.4');
@@ -1635,17 +1635,17 @@ function mxchat_migrate_add_translations_table() {
  * Migration: Update deprecated Gemini embedding model (v3.0.5)
  * Updates gemini-embedding-exp-03-07 to gemini-embedding-001 for users who had it selected
  */
-function mxchat_migrate_gemini_embedding_model() {
-    $options = get_option('mxchat_options', array());
+function knittnet_migrate_gemini_embedding_model() {
+    $options = get_option('knittnet_options', array());
 
     if (isset($options['embedding_model']) && $options['embedding_model'] === 'gemini-embedding-exp-03-07') {
         $options['embedding_model'] = 'gemini-embedding-001';
-        update_option('mxchat_options', $options);
+        update_option('knittnet_options', $options);
     }
 }
 
 // Register activation hook
-register_activation_hook(__FILE__, 'mxchat_activate');
+register_activation_hook(__FILE__, 'knittnet_activate');
 
 // Add cron schedule
 add_filter('cron_schedules', function($schedules) {
@@ -1657,7 +1657,7 @@ add_filter('cron_schedules', function($schedules) {
 });
 
 // Register deactivation hook
-register_deactivation_hook(__FILE__, 'mxchat_deactivate');
+register_deactivation_hook(__FILE__, 'knittnet_deactivate');
 
 /**
  * Per-session satisfaction rating: AJAX save handler (v3.2.6).
@@ -1665,7 +1665,7 @@ register_deactivation_hook(__FILE__, 'mxchat_deactivate');
  * session_id makes this naturally idempotent — only the first rating per
  * session is stored; duplicate POSTs are silent no-ops.
  */
-function mxchat_save_session_rating() {
+function knittnet_save_session_rating() {
     global $wpdb;
 
     $session_id = isset($_POST['session_id']) ? sanitize_text_field(wp_unslash($_POST['session_id'])) : '';
@@ -1681,7 +1681,7 @@ function mxchat_save_session_rating() {
         $feedback = substr($feedback, 0, 1000);
     }
 
-    $table_name = $wpdb->prefix . 'mxchat_session_ratings';
+    $table_name = $wpdb->prefix . 'knittnet_session_ratings';
     $existing = $wpdb->get_var($wpdb->prepare(
         "SELECT id FROM $table_name WHERE session_id = %s LIMIT 1",
         $session_id
@@ -1718,5 +1718,5 @@ function mxchat_save_session_rating() {
 
     wp_send_json_success(array('saved' => true));
 }
-add_action('wp_ajax_mxchat_save_rating', 'mxchat_save_session_rating');
-add_action('wp_ajax_nopriv_mxchat_save_rating', 'mxchat_save_session_rating');
+add_action('wp_ajax_knittnet_save_rating', 'knittnet_save_session_rating');
+add_action('wp_ajax_nopriv_knittnet_save_rating', 'knittnet_save_session_rating');

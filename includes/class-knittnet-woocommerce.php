@@ -4,21 +4,21 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class MxChat_WooCommerce {
+class KnittNet_WooCommerce {
 
     public static function init() {
-        add_action('wp_ajax_mxchat_fetch_user_orders', array(__CLASS__, 'mxchat_fetch_user_orders'));
-        add_action('wp_ajax_nopriv_mxchat_fetch_user_orders', array(__CLASS__, 'mxchat_fetch_user_orders'));
+        add_action('wp_ajax_knittnet_fetch_user_orders', array(__CLASS__, 'knittnet_fetch_user_orders'));
+        add_action('wp_ajax_nopriv_knittnet_fetch_user_orders', array(__CLASS__, 'knittnet_fetch_user_orders'));
         
-        add_action('wp_ajax_mxchat_add_to_cart', array(__CLASS__, 'mxchat_add_to_cart'));
-add_action('wp_ajax_nopriv_mxchat_add_to_cart', array(__CLASS__, 'mxchat_add_to_cart'));
+        add_action('wp_ajax_knittnet_add_to_cart', array(__CLASS__, 'knittnet_add_to_cart'));
+add_action('wp_ajax_nopriv_knittnet_add_to_cart', array(__CLASS__, 'knittnet_add_to_cart'));
 
     }
     
     // New function to handle add to cart requests
-public static function mxchat_add_to_cart() {
+public static function knittnet_add_to_cart() {
     // Validate nonce
-    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'mxchat_nonce')) {
+    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'knittnet_nonce')) {
         wp_send_json_error('Invalid nonce.');
         wp_die();
     }
@@ -41,7 +41,7 @@ public static function mxchat_add_to_cart() {
 }
 
 
-public static function mxchat_fetch_user_orders_details($type = 'all') {
+public static function knittnet_fetch_user_orders_details($type = 'all') {
     $user_id = get_current_user_id();
     if (!$user_id && isset(WC()->session)) {
         $user_id = WC()->session->get_customer_id();
@@ -105,7 +105,7 @@ public static function mxchat_fetch_user_orders_details($type = 'all') {
  * @param string $message The search message
  * @return int|null Product ID if found, null if no match
  */
-public static function mxchat_extract_product_id_from_message($message) {
+public static function knittnet_extract_product_id_from_message($message) {
     if (!function_exists('wc_get_products')) {
         //error_log("WooCommerce is not active or not available.");
         return null;
@@ -217,14 +217,14 @@ public static function mxchat_extract_product_id_from_message($message) {
 
     // Store the product ID in session when discussed
     public static function store_last_discussed_product($product_id) {
-        set_transient('mxchat_last_product', $product_id, 12 * HOUR_IN_SECONDS);
+        set_transient('knittnet_last_product', $product_id, 12 * HOUR_IN_SECONDS);
     }
 
     // Retrieve the last discussed product ID
     public static function get_last_discussed_product() {
-        return get_transient('mxchat_last_product');
+        return get_transient('knittnet_last_product');
     }
 
 }
 
-MxChat_WooCommerce::init();
+KnittNet_WooCommerce::init();

@@ -1,27 +1,27 @@
 /**
- * Enhanced MxChat License Activation JS
+ * Enhanced KnittNet License Activation JS
  * This handles BOTH local activation AND domain tracking
  * Plus deactivation functionality
  * VERSION: Increased timeouts for better user experience
  */
 jQuery(document).ready(function($) {
     // Get configuration from hidden fields
-    const AJAX_URL = $('#mxchat-ajax-url').val() || ajaxurl;
-    const NONCE = $('#mxchat-nonce').val();
-    const API_URL = $('#mxchat-api-url').val() || 'https://mxchat.ai';
+    const AJAX_URL = $('#knittnet-ajax-url').val() || ajaxurl;
+    const NONCE = $('#knittnet-nonce').val();
+    const API_URL = $('#knittnet-api-url').val() || 'https://knittnet.ai';
     
     // Elements
-    const form = $('#mxchat-activation-form');
-    const spinner = $('#mxchat-activation-spinner');
+    const form = $('#knittnet-activation-form');
+    const spinner = $('#knittnet-activation-spinner');
     const submitButton = $('#activate_license_button');
-    const licenseStatus = $('#mxchat-license-status');
+    const licenseStatus = $('#knittnet-license-status');
     
     // Create or get status message element
-    var $statusMessage = $('<div id="mxchat-activation-status" style="margin-top: 12px; padding: 12px 16px; border-radius: 8px; font-size: 14px; display: none;"></div>');
-    if ($('#mxchat-activation-status').length === 0) {
+    var $statusMessage = $('<div id="knittnet-activation-status" style="margin-top: 12px; padding: 12px 16px; border-radius: 8px; font-size: 14px; display: none;"></div>');
+    if ($('#knittnet-activation-status').length === 0) {
         spinner.after($statusMessage);
     } else {
-        $statusMessage = $('#mxchat-activation-status');
+        $statusMessage = $('#knittnet-activation-status');
     }
 
     function showStatus(message, type) {
@@ -86,14 +86,14 @@ jQuery(document).ready(function($) {
         }
 
         function checkActivationStatus() {
-            const email = $('#mxchat_pro_email').val();
-            const key = $('#mxchat_activation_key').val();
+            const email = $('#knittnet_pro_email').val();
+            const key = $('#knittnet_activation_key').val();
             
             $.ajax({
                 type: 'POST',
                 url: AJAX_URL,
                 data: {
-                    action: 'mxchat_check_license_status',
+                    action: 'knittnet_check_license_status',
                     email: email,
                     key: key,
                     security: NONCE
@@ -134,15 +134,15 @@ jQuery(document).ready(function($) {
         }
 
         function trackDomainActivation() {
-            const email = $('#mxchat_pro_email').val();
-            const key = $('#mxchat_activation_key').val();
-            const domain = $('#mxchat_domain').val();
+            const email = $('#knittnet_pro_email').val();
+            const key = $('#knittnet_activation_key').val();
+            const domain = $('#knittnet_domain').val();
             
             console.log('Attempting to track domain:', domain);
             
             return $.ajax({
                 type: 'POST',
-                url: API_URL + '/mxchat-api/link-domain', // Changed to use same endpoint as manual linking
+                url: API_URL + '/knittnet-api/link-domain', // Changed to use same endpoint as manual linking
                 data: {
                     email: email, // Changed parameter name to match manual linking
                     license_key: key, // Changed parameter name to match manual linking
@@ -163,9 +163,9 @@ jQuery(document).ready(function($) {
             showStatus('Validating license key...', 'loading');
 
             var formData = {
-                action: 'mxchat_handle_activate_license',
-                mxchat_pro_email: $('#mxchat_pro_email').val(),
-                mxchat_activation_key: $('#mxchat_activation_key').val(),
+                action: 'knittnet_handle_activate_license',
+                knittnet_pro_email: $('#knittnet_pro_email').val(),
+                knittnet_activation_key: $('#knittnet_activation_key').val(),
                 security: NONCE
             };
 
@@ -195,13 +195,13 @@ jQuery(document).ready(function($) {
         const originalText = button.text();
         
         // Get stored values from the page
-        const email = $('input#mxchat_pro_email').val() || 
+        const email = $('input#knittnet_pro_email').val() || 
                      $('p:contains("Email:")').text().split(':')[1]?.trim() ||
                      '';
-        const license_key = $('input#mxchat_activation_key').val() || 
+        const license_key = $('input#knittnet_activation_key').val() || 
                            $('code:contains("-")').text().trim() ||
                            '';
-        const domain = $('#mxchat_domain').val();
+        const domain = $('#knittnet_domain').val();
         
         if (!email || !license_key) {
             status.html('<span style="color: red;">✗ Missing email or license key</span>');
@@ -213,7 +213,7 @@ jQuery(document).ready(function($) {
         
         $.ajax({
             type: 'POST',
-            url: API_URL + '/mxchat-api/link-domain',
+            url: API_URL + '/knittnet-api/link-domain',
             data: {
                 email: email,
                 license_key: license_key,
@@ -266,7 +266,7 @@ jQuery(document).ready(function($) {
             type: 'POST',
             url: AJAX_URL,
             data: {
-                action: 'mxchat_deactivate_license',
+                action: 'knittnet_deactivate_license',
                 security: NONCE
             },
             timeout: 45000, // Increased from 15 seconds to 45 seconds

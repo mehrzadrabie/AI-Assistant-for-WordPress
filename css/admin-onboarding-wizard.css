@@ -1,13 +1,13 @@
 /*
- * MxChat Onboarding Wizard styling.
+ * KnittNet Onboarding Wizard styling.
  *
- * Plan: plan-mxchat-20260527-905439. Layers on top of admin-sidebar.css.
+ * Plan: plan-knittnet-20260527-905439. Layers on top of admin-sidebar.css.
  *
  * Two distinct concerns in this file:
  *   1. Wizard card layout (step container, progress bar, fields, buttons,
  *      KB status row, congrats screen) — scoped to .mxch-onboarding-wizard-wrapper
  *      so it never bleeds into other admin pages.
- *   2. ADMIN-CHROME SURGERY scoped to body.mxchat-onboarding-focused so the
+ *   2. ADMIN-CHROME SURGERY scoped to body.knittnet-onboarding-focused so the
  *      WP admin sidebar collapses and the bottom dashboard cards (License /
  *      Recent Activity / Provider) are hidden on the Onboarding page ONLY.
  *      Every other admin page is untouched.
@@ -30,7 +30,7 @@
 /* =============================================================== */
 /*
  * The earlier version of this file hid #adminmenuwrap / #adminmenuback /
- * #collapse-menu on body.mxchat-onboarding-focused to give the wizard a
+ * #collapse-menu on body.knittnet-onboarding-focused to give the wizard a
  * focused look. That inadvertently broke WordPress's responsive top-left
  * hamburger toggle (#wp-admin-bar-menu-toggle) — that button toggles the
  * very element we were hiding, so on mobile the user could tap the toggle
@@ -38,7 +38,7 @@
  *
  * Fix: do not interfere with native WP admin chrome on the Onboarding page.
  * The wizard card already provides the focus. The body class
- * `mxchat-onboarding-focused` is still added (kept for any future
+ * `knittnet-onboarding-focused` is still added (kept for any future
  * page-only style scoping) but no longer hides the admin menu.
  */
 
@@ -428,7 +428,7 @@
     margin: -6px 0 18px;
 }
 
-.mxch-onboarding-wizard-wrapper .mxch-wiz-behavior-actions-row .mxchat-instructions-btn {
+.mxch-onboarding-wizard-wrapper .mxch-wiz-behavior-actions-row .knittnet-instructions-btn {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -444,7 +444,7 @@
     font-family: inherit;
 }
 
-.mxch-onboarding-wizard-wrapper .mxch-wiz-behavior-actions-row .mxchat-instructions-btn:hover {
+.mxch-onboarding-wizard-wrapper .mxch-wiz-behavior-actions-row .knittnet-instructions-btn:hover {
     background: var(--mxch-content-bg, #f0f2f5);
     border-color: var(--mxch-primary);
     color: var(--mxch-primary);

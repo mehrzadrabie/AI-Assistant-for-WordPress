@@ -4,8 +4,8 @@ jQuery(document).ready(function($) {
     // ========================================
 
     // Show/hide generate button based on checkbox
-    $('#mxchat-unique-url-toggle').on('change', function() {
-        const $button = $('#mxchat-generate-unique-url');
+    $('#knittnet-unique-url-toggle').on('change', function() {
+        const $button = $('#knittnet-generate-unique-url');
         const $urlInput = $('#article_url');
 
         if ($(this).is(':checked')) {
@@ -20,7 +20,7 @@ jQuery(document).ready(function($) {
     });
 
     // Generate unique URL when button is clicked
-    $('#mxchat-generate-unique-url').on('click', function() {
+    $('#knittnet-generate-unique-url').on('click', function() {
         generateUniqueUrl();
     });
 
@@ -84,29 +84,29 @@ jQuery(document).ready(function($) {
     checkForActiveQueues();
     
     // Form submission handler - triggers queue processing
-    $('#mxchat-url-form').on('submit', function(e) {
-        //console.log('MxChat: Form submitted, queue will be created');
+    $('#knittnet-url-form').on('submit', function(e) {
+        //console.log('KnittNet: Form submitted, queue will be created');
 
         // Don't prevent default - let form submit normally
         // But schedule a check after redirect
-        localStorage.setItem('mxchat_check_queue_after_submit', Date.now().toString());
+        localStorage.setItem('knittnet_check_queue_after_submit', Date.now().toString());
     });
 
     // Check if we just submitted a form and need to start processing
-    const justSubmitted = localStorage.getItem('mxchat_check_queue_after_submit');
+    const justSubmitted = localStorage.getItem('knittnet_check_queue_after_submit');
     if (justSubmitted) {
         const submitTime = parseInt(justSubmitted);
         const now = Date.now();
         
         // If submitted within last 10 seconds, wait for queue to be created
         if (now - submitTime < 10000) {
-            //console.log('MxChat: Form was just submitted, waiting for queue creation...');
-            localStorage.removeItem('mxchat_check_queue_after_submit');
+            //console.log('KnittNet: Form was just submitted, waiting for queue creation...');
+            localStorage.removeItem('knittnet_check_queue_after_submit');
             
             // Show processing message
-            if ($('.mxchat-processing-message').length === 0) {
-                const message = $('<div class="mxchat-processing-message" style="text-align: center; padding: 15px; background: #f0f7ff; border-radius: 8px; margin-top: 15px;">⏳ Queue created! Processing will start in a moment...</div>');
-                $('.mxchat-import-section').after(message);
+            if ($('.knittnet-processing-message').length === 0) {
+                const message = $('<div class="knittnet-processing-message" style="text-align: center; padding: 15px; background: #f0f7ff; border-radius: 8px; margin-top: 15px;">⏳ Queue created! Processing will start in a moment...</div>');
+                $('.knittnet-import-section').after(message);
             }
             
             // Check for queue multiple times with increasing delays
@@ -122,20 +122,20 @@ function checkForActiveQueues() {
         url: ajaxurl,
         type: 'POST',
         data: {
-            action: 'mxchat_get_status_updates',
-            nonce: mxchatAdmin.status_nonce
+            action: 'knittnet_get_status_updates',
+            nonce: knittnetAdmin.status_nonce
         },
         success: function(response) {
-            //console.log('MxChat: Checking for active queues...', response);
+            //console.log('KnittNet: Checking for active queues...', response);
             
             if (response.sitemap_queue_id && response.sitemap_status) {
                 if (response.sitemap_status.status === 'processing') {
-                    //console.log('MxChat: Found active sitemap queue:', response.sitemap_queue_id);
+                    //console.log('KnittNet: Found active sitemap queue:', response.sitemap_queue_id);
                     startQueueProcessing(response.sitemap_queue_id, 'sitemap');
                 } else if (response.sitemap_status.status === 'complete') {
-                    //console.log('MxChat: Sitemap queue already complete');
+                    //console.log('KnittNet: Sitemap queue already complete');
                     // ADD THIS LINE:
-                    $('.mxchat-processing-message').remove();
+                    $('.knittnet-processing-message').remove();
                     // Show completed status card (no auto-refresh)
                     updateSitemapStatus(response.sitemap_status);
                 }
@@ -143,12 +143,12 @@ function checkForActiveQueues() {
             
             if (response.pdf_queue_id && response.pdf_status) {
                 if (response.pdf_status.status === 'processing') {
-                    //console.log('MxChat: Found active PDF queue:', response.pdf_queue_id);
+                    //console.log('KnittNet: Found active PDF queue:', response.pdf_queue_id);
                     startQueueProcessing(response.pdf_queue_id, 'pdf');
                 } else if (response.pdf_status.status === 'complete') {
-                    //console.log('MxChat: PDF queue already complete');
+                    //console.log('KnittNet: PDF queue already complete');
                     // ADD THIS LINE:
-                    $('.mxchat-processing-message').remove();
+                    $('.knittnet-processing-message').remove();
                     // Show completed status card (no auto-refresh)
                     updatePdfStatus(response.pdf_status);
                 }
@@ -156,13 +156,13 @@ function checkForActiveQueues() {
             
             // ADD THIS: If no queues found at all, remove the message
             if (!response.sitemap_queue_id && !response.pdf_queue_id) {
-                $('.mxchat-processing-message').remove();
+                $('.knittnet-processing-message').remove();
             }
         },
         error: function(xhr, status, error) {
-            console.error('MxChat: Error checking for active queues:', error);
+            console.error('KnittNet: Error checking for active queues:', error);
             // ADD THIS: Remove message on error too
-            $('.mxchat-processing-message').remove();
+            $('.knittnet-processing-message').remove();
         }
     });
 }
@@ -172,7 +172,7 @@ function checkForActiveQueues() {
      */
     function startQueueProcessing(queueId, queueType) {
         if (isProcessingQueue) {
-            //console.log('MxChat: Already processing a queue, skipping');
+            //console.log('KnittNet: Already processing a queue, skipping');
             return;
         }
 
@@ -180,10 +180,10 @@ function checkForActiveQueues() {
         currentQueueId = queueId;
         currentQueueType = queueType;
 
-        //console.log('MxChat: Starting queue processing:', queueId, queueType);
+        //console.log('KnittNet: Starting queue processing:', queueId, queueType);
 
         // Remove any "waiting" messages
-        $('.mxchat-processing-message').remove();
+        $('.knittnet-processing-message').remove();
 
         // Create or update status card
         createOrUpdateStatusCard(queueType);
@@ -202,7 +202,7 @@ function checkForActiveQueues() {
      */
     function processNextBatch() {
         if (!isProcessingQueue) {
-            //console.log('MxChat: Processing stopped');
+            //console.log('KnittNet: Processing stopped');
             return;
         }
 
@@ -214,8 +214,8 @@ function checkForActiveQueues() {
                 url: ajaxurl,
                 type: 'POST',
                 data: {
-                    action: 'mxchat_get_next_queue_item',
-                    nonce: mxchatAdmin.queue_nonce,
+                    action: 'knittnet_get_next_queue_item',
+                    nonce: knittnetAdmin.queue_nonce,
                     queue_id: currentQueueId
                 }
             });
@@ -262,7 +262,7 @@ function checkForActiveQueues() {
                     processNextBatch();
                 }
             }).catch(function(error) {
-                console.error('MxChat: Error processing batch:', error);
+                console.error('KnittNet: Error processing batch:', error);
                 // Continue anyway
                 updateQueueProgress();
                 setTimeout(function() {
@@ -271,7 +271,7 @@ function checkForActiveQueues() {
             });
 
         }).catch(function(error) {
-            console.error('MxChat: Error fetching batch:', error);
+            console.error('KnittNet: Error fetching batch:', error);
             // Verify queue status before retrying
             setTimeout(function() {
                 verifyQueueCompletion();
@@ -284,14 +284,14 @@ function checkForActiveQueues() {
      * Prevents infinite loops when last item fails
      */
     function verifyQueueCompletion() {
-        //console.log('MxChat: Verifying queue completion status...');
+        //console.log('KnittNet: Verifying queue completion status...');
         
         $.ajax({
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_get_queue_status',
-                nonce: mxchatAdmin.queue_nonce,
+                action: 'knittnet_get_queue_status',
+                nonce: knittnetAdmin.queue_nonce,
                 queue_id: currentQueueId
             },
             success: function(response) {
@@ -300,22 +300,22 @@ function checkForActiveQueues() {
                     
                     // If no pending or processing items, queue is done
                     if (status.pending === 0 && status.processing === 0) {
-                        //console.log('MxChat: Queue verified as complete');
+                        //console.log('KnittNet: Queue verified as complete');
                         handleQueueComplete();
                     } else {
                         // Still has items, try to continue
-                        //console.log('MxChat: Queue still has pending items, continuing...');
+                        //console.log('KnittNet: Queue still has pending items, continuing...');
                         processNextBatch();
                     }
                 } else {
                     // Can't verify, assume complete to prevent infinite loop
-                    //console.log('MxChat: Could not verify queue status, assuming complete');
+                    //console.log('KnittNet: Could not verify queue status, assuming complete');
                     handleQueueComplete();
                 }
             },
             error: function() {
                 // Can't verify, assume complete to prevent infinite loop
-                //console.log('MxChat: Network error verifying queue, assuming complete');
+                //console.log('KnittNet: Network error verifying queue, assuming complete');
                 handleQueueComplete();
             }
         });
@@ -330,8 +330,8 @@ function checkForActiveQueues() {
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_process_queue_item',
-                nonce: mxchatAdmin.queue_nonce,
+                action: 'knittnet_process_queue_item',
+                nonce: knittnetAdmin.queue_nonce,
                 item_id: item.id,
                 item_type: item.type,
                 item_data: item.data,
@@ -340,17 +340,17 @@ function checkForActiveQueues() {
         }).then(function(response) {
             if (response.success) {
                 // Item processed successfully
-                //console.log('MxChat: Item processed successfully:', item.id);
+                //console.log('KnittNet: Item processed successfully:', item.id);
                 return true;
             } else {
                 // Item failed but we KEEP GOING
-                console.warn('MxChat: Item processing failed (will continue):', item.type, item.id);
-                console.warn('MxChat: Error details:', response.data);
+                console.warn('KnittNet: Item processing failed (will continue):', item.type, item.id);
+                console.warn('KnittNet: Error details:', response.data);
                 return false;
             }
         }).catch(function(xhr, status, error) {
             // Network error - log it but KEEP GOING
-            console.error('MxChat: AJAX/Network error processing item:', item.id, error);
+            console.error('KnittNet: AJAX/Network error processing item:', item.id, error);
             return false;
         });
     }
@@ -363,8 +363,8 @@ function checkForActiveQueues() {
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_get_queue_status',
-                nonce: mxchatAdmin.queue_nonce,
+                action: 'knittnet_get_queue_status',
+                nonce: knittnetAdmin.queue_nonce,
                 queue_id: currentQueueId
             },
             success: function(response) {
@@ -402,8 +402,8 @@ function checkForActiveQueues() {
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_get_queue_status',
-                nonce: mxchatAdmin.queue_nonce,
+                action: 'knittnet_get_queue_status',
+                nonce: knittnetAdmin.queue_nonce,
                 queue_id: currentQueueId
             },
             success: function(response) {
@@ -450,26 +450,26 @@ function checkForActiveQueues() {
      *   Show completed PDF card with full error details (NO RETRY BUTTON)
      */
     function showCompletedPdfCard(status) {
-        let $card = $('.mxchat-status-card:contains("PDF Processing")');
+        let $card = $('.knittnet-status-card:contains("PDF Processing")');
         
         if ($card.length === 0) {
             return;
         }
         
         // Remove processing UI elements
-        $card.find('.mxchat-stop-form').remove();
-        $card.find('.mxchat-status-warning').remove();
+        $card.find('.knittnet-stop-form').remove();
+        $card.find('.knittnet-status-warning').remove();
         
         // Update header with completion badge
-        $card.find('.mxchat-status-badge').remove();
+        $card.find('.knittnet-status-badge').remove();
         if (status.failed > 0) {
-            $card.find('.mxchat-status-header h4').after(
-                '<span class="mxchat-status-badge mxchat-status-warning" style="margin-left: 10px; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: normal;">⚠️ Completed with ' + 
+            $card.find('.knittnet-status-header h4').after(
+                '<span class="knittnet-status-badge knittnet-status-warning" style="margin-left: 10px; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: normal;">⚠️ Completed with ' + 
                 status.failed + ' failures - Refresh to view entries</span>'
             );
         } else {
-            $card.find('.mxchat-status-header h4').after(
-                '<span class="mxchat-status-badge mxchat-status-success" style="margin-left: 10px; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: normal;">✓ Complete - Refresh to view entries</span>'
+            $card.find('.knittnet-status-header h4').after(
+                '<span class="knittnet-status-badge knittnet-status-success" style="margin-left: 10px; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: normal;">✓ Complete - Refresh to view entries</span>'
             );
         }
                 
@@ -477,7 +477,7 @@ function checkForActiveQueues() {
         addDismissButton($card);
         
         // Update progress bar to 100%
-        $card.find('.mxchat-progress-fill').css('width', '100%');
+        $card.find('.knittnet-progress-fill').css('width', '100%');
         
         // Update details with final stats
         let detailsHtml = '<div style="background: #f0f7ff; padding: 15px; border-radius: 4px; margin-bottom: 15px;">';
@@ -493,7 +493,7 @@ function checkForActiveQueues() {
         
         // Add error details if there are failures (NO RETRY BUTTON)
         if (status.failed > 0 && status.failed_items && status.failed_items.length > 0) {
-            detailsHtml += '<div class="mxchat-error-summary" style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin-top: 15px;">';
+            detailsHtml += '<div class="knittnet-error-summary" style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin-top: 15px;">';
             detailsHtml += '<h4 style="margin: 0 0 10px 0; color: #856404;">⚠️ Failed Pages</h4>';
             
             detailsHtml += '<div style="margin-top: 10px; max-height: 400px; overflow-y: auto;">';
@@ -519,33 +519,33 @@ function checkForActiveQueues() {
             detailsHtml += '</div>';
         }
         
-        $card.find('.mxchat-status-details').html(detailsHtml);
+        $card.find('.knittnet-status-details').html(detailsHtml);
     }
     
     /**
      *   Show completed sitemap card with full error details (NO RETRY BUTTON)
      */
     function showCompletedSitemapCard(status) {
-        let $card = $('.mxchat-status-card:contains("Sitemap Processing")');
+        let $card = $('.knittnet-status-card:contains("Sitemap Processing")');
         
         if ($card.length === 0) {
             return;
         }
         
         // Remove processing UI elements
-        $card.find('.mxchat-stop-form').remove();
-        $card.find('.mxchat-status-warning').remove();
+        $card.find('.knittnet-stop-form').remove();
+        $card.find('.knittnet-status-warning').remove();
         
         // Update header with completion badge
-        $card.find('.mxchat-status-badge').remove();
+        $card.find('.knittnet-status-badge').remove();
         if (status.failed > 0) {
-            $card.find('.mxchat-status-header h4').after(
-                '<span class="mxchat-status-badge mxchat-status-warning" style="margin-left: 10px; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: normal;">⚠️ Completed with ' + 
+            $card.find('.knittnet-status-header h4').after(
+                '<span class="knittnet-status-badge knittnet-status-warning" style="margin-left: 10px; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: normal;">⚠️ Completed with ' + 
                 status.failed + ' failures - Refresh to view entries</span>'
             );
         } else {
-            $card.find('.mxchat-status-header h4').after(
-                '<span class="mxchat-status-badge mxchat-status-success" style="margin-left: 10px; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: normal;">✓ Complete - Refresh to view entries</span>'
+            $card.find('.knittnet-status-header h4').after(
+                '<span class="knittnet-status-badge knittnet-status-success" style="margin-left: 10px; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: normal;">✓ Complete - Refresh to view entries</span>'
             );
         }
         
@@ -553,7 +553,7 @@ function checkForActiveQueues() {
         addDismissButton($card);
         
         // Update progress bar to 100%
-        $card.find('.mxchat-progress-fill').css('width', '100%');
+        $card.find('.knittnet-progress-fill').css('width', '100%');
         
         // Update details with final stats
         let detailsHtml = '<div style="background: #f0f7ff; padding: 15px; border-radius: 4px; margin-bottom: 15px;">';
@@ -569,7 +569,7 @@ function checkForActiveQueues() {
         
         // Add error details if there are failures (NO RETRY BUTTON)
         if (status.failed > 0 && status.failed_items && status.failed_items.length > 0) {
-            detailsHtml += '<div class="mxchat-error-summary" style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin-top: 15px;">';
+            detailsHtml += '<div class="knittnet-error-summary" style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin-top: 15px;">';
             detailsHtml += '<h4 style="margin: 0 0 10px 0; color: #856404;">⚠️ Failed URLs</h4>';
             
             detailsHtml += '<div style="margin-top: 10px; max-height: 400px; overflow-y: auto;">';
@@ -597,7 +597,7 @@ function checkForActiveQueues() {
             detailsHtml += '</div>';
         }
 
-        $card.find('.mxchat-status-details').html(detailsHtml);
+        $card.find('.knittnet-status-details').html(detailsHtml);
     }
     
     /**
@@ -610,15 +610,15 @@ function checkForActiveQueues() {
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_mark_queue_complete',
-                nonce: mxchatAdmin.queue_nonce,
+                action: 'knittnet_mark_queue_complete',
+                nonce: knittnetAdmin.queue_nonce,
                 queue_id: queueId
             },
             success: function(response) {
-                //console.log('MxChat: Queue marked as complete on server');
+                //console.log('KnittNet: Queue marked as complete on server');
             },
             error: function() {
-                //console.log('MxChat: Could not mark queue as complete, but continuing');
+                //console.log('KnittNet: Could not mark queue as complete, but continuing');
             }
         });
     }
@@ -626,8 +626,8 @@ function checkForActiveQueues() {
     /**
      * Stop processing button handler
      */
-    $(document).on('submit', '.mxchat-stop-form', function() {
-        //console.log('MxChat: Stop processing requested');
+    $(document).on('submit', '.knittnet-stop-form', function() {
+        //console.log('KnittNet: Stop processing requested');
         isProcessingQueue = false;
         currentQueueId = null;
         currentQueueType = null;
@@ -638,33 +638,33 @@ function checkForActiveQueues() {
      */
     function createOrUpdateStatusCard(queueType) {
         const cardTitle = queueType === 'pdf' ? 'PDF Processing Status' : 'Sitemap Processing Status';
-        let $card = $('.mxchat-status-card:contains("' + cardTitle + '")');
+        let $card = $('.knittnet-status-card:contains("' + cardTitle + '")');
         
         if ($card.length === 0) {
             // Create new card
-            let html = '<div class="mxchat-status-card">';
-            html += '<div class="mxchat-status-header">';
+            let html = '<div class="knittnet-status-card">';
+            html += '<div class="knittnet-status-header">';
             html += '<h4>' + cardTitle + '</h4>';
-            html += '<div class="mxchat-status-warning" style="background: #fff3cd; color: #856404; padding: 8px 12px; border-radius: 4px; font-size: 13px; margin: 10px 0;">';
+            html += '<div class="knittnet-status-warning" style="background: #fff3cd; color: #856404; padding: 8px 12px; border-radius: 4px; font-size: 13px; margin: 10px 0;">';
             html += '⚠️ <strong>Keep this tab open</strong> - Processing runs in your browser';
             html += '</div>';
-            html += '<form method="post" class="mxchat-stop-form" action="' + 
-                   mxchatAdmin.admin_url + 'admin-post.php?action=mxchat_stop_processing">';
-            html += '<input type="hidden" name="mxchat_stop_processing_nonce" value="' + 
-                   mxchatAdmin.stop_nonce + '">';
-            html += '<button type="submit" name="stop_processing" class="mxchat-button-secondary">';
+            html += '<form method="post" class="knittnet-stop-form" action="' + 
+                   knittnetAdmin.admin_url + 'admin-post.php?action=knittnet_stop_processing">';
+            html += '<input type="hidden" name="knittnet_stop_processing_nonce" value="' + 
+                   knittnetAdmin.stop_nonce + '">';
+            html += '<button type="submit" name="stop_processing" class="knittnet-button-secondary">';
             html += 'Stop Processing</button></form>';
             html += '</div>';
-            html += '<div class="mxchat-progress-bar">';
-            html += '<div class="mxchat-progress-fill" style="width: 0%"></div>';
+            html += '<div class="knittnet-progress-bar">';
+            html += '<div class="knittnet-progress-fill" style="width: 0%"></div>';
             html += '</div>';
-            html += '<div class="mxchat-status-details">';
+            html += '<div class="knittnet-status-details">';
             html += '<p>Initializing...</p>';
             html += '</div>';
             html += '</div>';
             
             // Insert card
-            let $importSection = $('.mxchat-import-section');
+            let $importSection = $('.knittnet-import-section');
             if ($importSection.length > 0) {
                 $importSection.after($(html));
             }
@@ -675,14 +675,14 @@ function checkForActiveQueues() {
      * Update PDF status from queue data (DURING PROCESSING)
      */
     function updatePdfStatusFromQueue(status) {
-        let $card = $('.mxchat-status-card:contains("PDF Processing")');
+        let $card = $('.knittnet-status-card:contains("PDF Processing")');
         
         if ($card.length === 0) {
             return;
         }
         
         // Update progress bar
-        $card.find('.mxchat-progress-fill').css('width', status.percentage + '%');
+        $card.find('.knittnet-progress-fill').css('width', status.percentage + '%');
         
         // Update details
         let detailsHtml = '<p>Progress: ' + (status.completed + status.failed) + ' of ' + 
@@ -698,21 +698,21 @@ function checkForActiveQueues() {
         
         detailsHtml += '<p><strong>Status:</strong> Processing</p>';
         
-        $card.find('.mxchat-status-details').html(detailsHtml);
+        $card.find('.knittnet-status-details').html(detailsHtml);
     }
     
     /**
      * Update sitemap status from queue data (DURING PROCESSING)
      */
     function updateSitemapStatusFromQueue(status) {
-        let $card = $('.mxchat-status-card:contains("Sitemap Processing")');
+        let $card = $('.knittnet-status-card:contains("Sitemap Processing")');
         
         if ($card.length === 0) {
             return;
         }
         
         // Update progress bar
-        $card.find('.mxchat-progress-fill').css('width', status.percentage + '%');
+        $card.find('.knittnet-progress-fill').css('width', status.percentage + '%');
         
         // Update details
         let detailsHtml = '<p>Progress: ' + (status.completed + status.failed) + ' of ' + 
@@ -728,7 +728,7 @@ function checkForActiveQueues() {
         
         detailsHtml += '<p><strong>Status:</strong> Processing</p>';
         
-        $card.find('.mxchat-status-details').html(detailsHtml);
+        $card.find('.knittnet-status-details').html(detailsHtml);
     }
     
     // ========================================
@@ -738,9 +738,9 @@ function checkForActiveQueues() {
     /**
      * Dismiss completed status button handler
      */
-    $(document).on('click', '.mxchat-dismiss-button', function() {
+    $(document).on('click', '.knittnet-dismiss-button', function() {
         const $button = $(this);
-        const $card = $button.closest('.mxchat-status-card');
+        const $card = $button.closest('.knittnet-status-card');
         
         let cardType = $card.data('card-type');
         if (!cardType) {
@@ -755,12 +755,12 @@ function checkForActiveQueues() {
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_clear_queue',
-                nonce: mxchatAdmin.queue_nonce,
+                action: 'knittnet_clear_queue',
+                nonce: knittnetAdmin.queue_nonce,
                 queue_id: $card.data('queue-id') || ''
             },
             success: function(response) {
-                //console.log('MxChat: Queue cleared');
+                //console.log('KnittNet: Queue cleared');
             }
         });
     });
@@ -769,11 +769,11 @@ function checkForActiveQueues() {
      * Update PDF status card (for already completed queues on page load)
      */
     function updatePdfStatus(status) {
-        let $pdfCard = $('.mxchat-status-card:contains("PDF Processing")');
+        let $pdfCard = $('.knittnet-status-card:contains("PDF Processing")');
         
         if ($pdfCard.length === 0 && status) {
             createPdfStatusCard(status);
-            $pdfCard = $('.mxchat-status-card:contains("PDF Processing")');
+            $pdfCard = $('.knittnet-status-card:contains("PDF Processing")');
         }
         
         if ($pdfCard.length > 0 && status.status === 'complete') {
@@ -786,11 +786,11 @@ function checkForActiveQueues() {
      * Update sitemap status card (for already completed queues on page load)
      */
     function updateSitemapStatus(status) {
-        let $sitemapCard = $('.mxchat-status-card:contains("Sitemap Processing")');
+        let $sitemapCard = $('.knittnet-status-card:contains("Sitemap Processing")');
         
         if ($sitemapCard.length === 0 && status) {
             createSitemapStatusCard(status);
-            $sitemapCard = $('.mxchat-status-card:contains("Sitemap Processing")');
+            $sitemapCard = $('.knittnet-status-card:contains("Sitemap Processing")');
         }
         
         if ($sitemapCard.length > 0 && status.status === 'complete') {
@@ -803,47 +803,47 @@ function checkForActiveQueues() {
      * Create PDF status card
      */
     function createPdfStatusCard(status) {
-        let html = '<div class="mxchat-status-card" data-queue-id="' + (status.queue_id || '') + '">';
-        html += '<div class="mxchat-status-header">';
+        let html = '<div class="knittnet-status-card" data-queue-id="' + (status.queue_id || '') + '">';
+        html += '<div class="knittnet-status-header">';
         html += '<h4>PDF Processing Status</h4>';
         html += '</div>';
-        html += '<div class="mxchat-progress-bar">';
-        html += '<div class="mxchat-progress-fill" style="width: ' + status.percentage + '%"></div>';
+        html += '<div class="knittnet-progress-bar">';
+        html += '<div class="knittnet-progress-fill" style="width: ' + status.percentage + '%"></div>';
         html += '</div>';
-        html += '<div class="mxchat-status-details">';
+        html += '<div class="knittnet-status-details">';
         html += '<p>Progress: ' + status.processed_pages + ' of ' + status.total_pages + ' pages</p>';
         html += '</div>';
         html += '</div>';
         
-        $('.mxchat-import-section').after($(html));
+        $('.knittnet-import-section').after($(html));
     }
     
     /**
      * Create sitemap status card
      */
     function createSitemapStatusCard(status) {
-        let html = '<div class="mxchat-status-card" data-queue-id="' + (status.queue_id || '') + '">';
-        html += '<div class="mxchat-status-header">';
+        let html = '<div class="knittnet-status-card" data-queue-id="' + (status.queue_id || '') + '">';
+        html += '<div class="knittnet-status-header">';
         html += '<h4>Sitemap Processing Status</h4>';
         html += '</div>';
-        html += '<div class="mxchat-progress-bar">';
-        html += '<div class="mxchat-progress-fill" style="width: ' + status.percentage + '%"></div>';
+        html += '<div class="knittnet-progress-bar">';
+        html += '<div class="knittnet-progress-fill" style="width: ' + status.percentage + '%"></div>';
         html += '</div>';
-        html += '<div class="mxchat-status-details">';
+        html += '<div class="knittnet-status-details">';
         html += '<p>Progress: ' + status.processed_urls + ' of ' + status.total_urls + ' URLs</p>';
         html += '</div>';
         html += '</div>';
         
-        $('.mxchat-import-section').after($(html));
+        $('.knittnet-import-section').after($(html));
     }
     
     /**
      * Add dismiss button to completed cards
      */
     function addDismissButton($card) {
-        if ($card.find('.mxchat-dismiss-button').length === 0) {
-            const dismissButton = $('<button type="button" class="mxchat-dismiss-button" style="padding: 6px 12px; background: #666; color: white; border: none; border-radius: 3px; cursor: pointer; margin-left: 10px;">Dismiss</button>');
-            $card.find('.mxchat-status-header').append(dismissButton);
+        if ($card.find('.knittnet-dismiss-button').length === 0) {
+            const dismissButton = $('<button type="button" class="knittnet-dismiss-button" style="padding: 6px 12px; background: #666; color: white; border: none; border-radius: 3px; cursor: pointer; margin-left: 10px;">Dismiss</button>');
+            $card.find('.knittnet-status-header').append(dismissButton);
         }
     }
     
@@ -851,8 +851,8 @@ function checkForActiveQueues() {
      * Show notification helper
      */
     function showNotification(type, message) {
-        const $notification = $('<div class="mxchat-kb-notification ' + type + '">' + message + '</div>');
-        $('.mxchat-content, body').first().prepend($notification);
+        const $notification = $('<div class="knittnet-kb-notification ' + type + '">' + message + '</div>');
+        $('.knittnet-content, body').first().prepend($notification);
         
         setTimeout(function() {
             $notification.fadeOut(300, function() {
@@ -865,13 +865,13 @@ function checkForActiveQueues() {
     // ROLE-BASED CONTENT RESTRICTIONS (Keep existing code)
     // ========================================
     
-    if ($('#mxchat-mappings-container').length > 0) {
+    if ($('#knittnet-mappings-container').length > 0) {
         loadTagRoleMappings();
     }
     
-    $('#mxchat-add-tag-role').on('click', function() {
-        const tagSlug = $('#mxchat-tag-input').val().trim();
-        const roleRestriction = $('#mxchat-role-select').val();
+    $('#knittnet-add-tag-role').on('click', function() {
+        const tagSlug = $('#knittnet-tag-input').val().trim();
+        const roleRestriction = $('#knittnet-role-select').val();
         
         if (!tagSlug) {
             alert('Please enter a tag name');
@@ -885,15 +885,15 @@ function checkForActiveQueues() {
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_add_tag_role_mapping',
-                nonce: mxchatAdmin.settings_nonce,
+                action: 'knittnet_add_tag_role_mapping',
+                nonce: knittnetAdmin.settings_nonce,
                 tag_slug: tagSlug,
                 role_restriction: roleRestriction
             },
             success: function(response) {
                 if (response.success) {
-                    $('#mxchat-tag-input').val('');
-                    $('#mxchat-role-select').val('public');
+                    $('#knittnet-tag-input').val('');
+                    $('#knittnet-role-select').val('public');
                     loadTagRoleMappings();
                     showNotification('success', 'Tag-role mapping added successfully!');
                 } else {
@@ -908,7 +908,7 @@ function checkForActiveQueues() {
         });
     });
     
-    $(document).on('click', '.mxchat-delete-mapping', function() {
+    $(document).on('click', '.knittnet-delete-mapping', function() {
         if (!confirm('Are you sure you want to delete this mapping?')) {
             return;
         }
@@ -918,62 +918,62 @@ function checkForActiveQueues() {
         const tagSlug = $btn.data('tag-slug');
         
         $btn.html('<span class="dashicons dashicons-update-alt"></span> Deleting...');
-        $row.addClass('mxchat-row-deleting');
+        $row.addClass('knittnet-row-deleting');
         
         $.ajax({
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_delete_tag_role_mapping',
-                nonce: mxchatAdmin.settings_nonce,
+                action: 'knittnet_delete_tag_role_mapping',
+                nonce: knittnetAdmin.settings_nonce,
                 tag_slug: tagSlug
             },
             success: function(response) {
                 if (response.success) {
                     $row.fadeOut(300, function() {
                         $(this).remove();
-                        if ($('.mxchat-mappings-table tbody tr').length === 0) {
-                            $('.mxchat-mappings-table').hide();
-                            $('#mxchat-no-mappings').show();
+                        if ($('.knittnet-mappings-table tbody tr').length === 0) {
+                            $('.knittnet-mappings-table').hide();
+                            $('#knittnet-no-mappings').show();
                         }
                     });
                     showNotification('success', 'Mapping deleted successfully!');
                 } else {
                     alert('Error: ' + response.data);
                     $btn.html('<span class="dashicons dashicons-trash"></span> Delete');
-                    $row.removeClass('mxchat-row-deleting');
+                    $row.removeClass('knittnet-row-deleting');
                 }
             },
             error: function() {
                 alert('Network error occurred');
                 $btn.html('<span class="dashicons dashicons-trash"></span> Delete');
-                $row.removeClass('mxchat-row-deleting');
+                $row.removeClass('knittnet-row-deleting');
             }
         });
     });
     
-    $('#mxchat-bulk-update-roles').on('click', function() {
+    $('#knittnet-bulk-update-roles').on('click', function() {
         if (!confirm('This will update role restrictions for all existing content with mapped tags. Continue?')) {
             return;
         }
         
         const $btn = $(this);
-        const $progress = $('#mxchat-bulk-update-progress');
-        const $result = $('#mxchat-bulk-update-result');
+        const $progress = $('#knittnet-bulk-update-progress');
+        const $result = $('#knittnet-bulk-update-result');
         
         $progress.show();
         $result.hide();
         $btn.prop('disabled', true);
         
-        $progress.find('.mxchat-progress-text').text('Starting bulk update...');
-        $progress.find('.mxchat-progress-fill').css('width', '0%');
+        $progress.find('.knittnet-progress-text').text('Starting bulk update...');
+        $progress.find('.knittnet-progress-fill').css('width', '0%');
         
         $.ajax({
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_bulk_update_tag_roles',
-                nonce: mxchatAdmin.settings_nonce
+                action: 'knittnet_bulk_update_tag_roles',
+                nonce: knittnetAdmin.settings_nonce
             },
             success: function(response) {
                 $progress.hide();
@@ -1011,29 +1011,29 @@ function checkForActiveQueues() {
     });
     
     function loadTagRoleMappings() {
-        const $container = $('#mxchat-mappings-container');
-        $container.html('<div class="mxchat-loading-mappings"><span class="mxchat-role-spinner is-active"></span> Loading mappings...</div>');
+        const $container = $('#knittnet-mappings-container');
+        $container.html('<div class="knittnet-loading-mappings"><span class="knittnet-role-spinner is-active"></span> Loading mappings...</div>');
         
         $.ajax({
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_get_tag_role_mappings',
-                nonce: mxchatAdmin.settings_nonce
+                action: 'knittnet_get_tag_role_mappings',
+                nonce: knittnetAdmin.settings_nonce
             },
             success: function(response) {
                 if (response.success && response.data.mappings.length > 0) {
-                    $('#mxchat-no-mappings').hide();
+                    $('#knittnet-no-mappings').hide();
                     
-                    let html = '<table class="mxchat-mappings-table">';
+                    let html = '<table class="knittnet-mappings-table">';
                     html += '<thead><tr><th>Tag</th><th>Role Restriction</th><th>Posts with Tag</th><th>Actions</th></tr></thead><tbody>';
                     
                     response.data.mappings.forEach(function(mapping) {
                         html += '<tr>';
-                        html += '<td><span class="mxchat-tag-badge"><span class="dashicons dashicons-tag"></span>' + mapping.tag_slug + '</span></td>';
-                        html += '<td><span class="mxchat-role-badge ' + mapping.role_restriction + '">' + mapping.role_label + '</span></td>';
-                        html += '<td><span class="mxchat-post-count"><span class="dashicons dashicons-admin-post"></span>' + mapping.post_count + '</span></td>';
-                        html += '<td><div class="mxchat-mapping-actions"><button class="mxchat-delete-mapping" data-tag-slug="' + mapping.tag_slug + '"><span class="dashicons dashicons-trash"></span> Delete</button></div></td>';
+                        html += '<td><span class="knittnet-tag-badge"><span class="dashicons dashicons-tag"></span>' + mapping.tag_slug + '</span></td>';
+                        html += '<td><span class="knittnet-role-badge ' + mapping.role_restriction + '">' + mapping.role_label + '</span></td>';
+                        html += '<td><span class="knittnet-post-count"><span class="dashicons dashicons-admin-post"></span>' + mapping.post_count + '</span></td>';
+                        html += '<td><div class="knittnet-mapping-actions"><button class="knittnet-delete-mapping" data-tag-slug="' + mapping.tag_slug + '"><span class="dashicons dashicons-trash"></span> Delete</button></div></td>';
                         html += '</tr>';
                     });
                     
@@ -1041,11 +1041,11 @@ function checkForActiveQueues() {
                     $container.html(html);
                 } else {
                     $container.html('');
-                    $('#mxchat-no-mappings').show();
+                    $('#knittnet-no-mappings').show();
                 }
             },
             error: function() {
-                $container.html('<div class="mxchat-error">Failed to load mappings. Please refresh the page.</div>');
+                $container.html('<div class="knittnet-error">Failed to load mappings. Please refresh the page.</div>');
             }
         });
     }
@@ -1069,13 +1069,13 @@ function checkForActiveQueues() {
         
         $button.prop('disabled', true);
         $button.find('.dashicons').removeClass('dashicons-trash').addClass('dashicons-update-alt');
-        $row.addClass('mxchat-row-deleting');
+        $row.addClass('knittnet-row-deleting');
         
         $.ajax({
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_delete_pinecone_prompt',
+                action: 'knittnet_delete_pinecone_prompt',
                 nonce: nonce,
                 vector_id: vectorId,
                 bot_id: botId
@@ -1085,7 +1085,7 @@ function checkForActiveQueues() {
                     $row.fadeOut(500, function() {
                         $(this).remove();
                         // Update entry count displays (header and sidebar)
-                        var $countSpan = $('#mxchat-entry-count');
+                        var $countSpan = $('#knittnet-entry-count');
                         if ($countSpan.length) {
                             var currentText = $countSpan.text();
                             var match = currentText.match(/\((\d+)\)/);
@@ -1097,20 +1097,20 @@ function checkForActiveQueues() {
                     });
 
                     $('<div class="notice notice-success is-dismissible"><p>Entry deleted successfully from Pinecone.</p></div>')
-                        .insertAfter('.mxchat-hero')
+                        .insertAfter('.knittnet-hero')
                         .delay(3000)
                         .fadeOut();
                 } else {
                     $button.prop('disabled', false);
                     $button.find('.dashicons').removeClass('dashicons-update-alt').addClass('dashicons-trash');
-                    $row.removeClass('mxchat-row-deleting');
+                    $row.removeClass('knittnet-row-deleting');
                     alert('Error: ' + response.data);
                 }
             },
             error: function() {
                 $button.prop('disabled', false);
                 $button.find('.dashicons').removeClass('dashicons-update-alt').addClass('dashicons-trash');
-                $row.removeClass('mxchat-row-deleting');
+                $row.removeClass('knittnet-row-deleting');
                 alert('Network error occurred');
             }
         });
@@ -1134,13 +1134,13 @@ function checkForActiveQueues() {
 
         $button.prop('disabled', true);
         $button.find('.dashicons').removeClass('dashicons-trash').addClass('dashicons-update-alt spin');
-        $row.addClass('mxchat-row-deleting');
+        $row.addClass('knittnet-row-deleting');
 
         $.ajax({
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_delete_wordpress_prompt',
+                action: 'knittnet_delete_wordpress_prompt',
                 nonce: nonce,
                 entry_id: entryId
             },
@@ -1149,7 +1149,7 @@ function checkForActiveQueues() {
                     $row.fadeOut(500, function() {
                         $(this).remove();
                         // Update entry count displays (header and sidebar)
-                        var $countSpan = $('#mxchat-entry-count');
+                        var $countSpan = $('#knittnet-entry-count');
                         if ($countSpan.length) {
                             var currentText = $countSpan.text();
                             var match = currentText.match(/\((\d+)\)/);
@@ -1161,20 +1161,20 @@ function checkForActiveQueues() {
                     });
 
                     $('<div class="notice notice-success is-dismissible"><p>Entry deleted successfully.</p></div>')
-                        .insertAfter('.mxchat-hero')
+                        .insertAfter('.knittnet-hero')
                         .delay(3000)
                         .fadeOut();
                 } else {
                     $button.prop('disabled', false);
                     $button.find('.dashicons').removeClass('dashicons-update-alt spin').addClass('dashicons-trash');
-                    $row.removeClass('mxchat-row-deleting');
+                    $row.removeClass('knittnet-row-deleting');
                     alert('Error: ' + response.data);
                 }
             },
             error: function() {
                 $button.prop('disabled', false);
                 $button.find('.dashicons').removeClass('dashicons-update-alt spin').addClass('dashicons-trash');
-                $row.removeClass('mxchat-row-deleting');
+                $row.removeClass('knittnet-row-deleting');
                 alert('Network error occurred');
             }
         });
@@ -1189,9 +1189,9 @@ function checkForActiveQueues() {
     // Update selection UI
     function updateKnowledgeSelectionUI() {
         var count = selectedKnowledgeEntries.size;
-        var $countEl = $('#mxchat-selected-entry-count');
-        var $deleteBtn = $('#mxchat-delete-selected-entries');
-        var $deleteAllForm = $('#mxchat-delete-all-form');
+        var $countEl = $('#knittnet-selected-entry-count');
+        var $deleteBtn = $('#knittnet-delete-selected-entries');
+        var $deleteAllForm = $('#knittnet-delete-all-form');
 
         if (count > 0) {
             // Show Delete Selected button, hide Delete All form
@@ -1206,23 +1206,23 @@ function checkForActiveQueues() {
         }
 
         // Update select all checkbox state
-        var totalItems = $('.mxchat-entry-checkbox').length;
-        var checkedItems = $('.mxchat-entry-checkbox:checked').length;
-        $('.mxchat-entry-checkbox-all').prop('checked', totalItems > 0 && checkedItems === totalItems);
-        $('.mxchat-entry-checkbox-all').prop('indeterminate', checkedItems > 0 && checkedItems < totalItems);
+        var totalItems = $('.knittnet-entry-checkbox').length;
+        var checkedItems = $('.knittnet-entry-checkbox:checked').length;
+        $('.knittnet-entry-checkbox-all').prop('checked', totalItems > 0 && checkedItems === totalItems);
+        $('.knittnet-entry-checkbox-all').prop('indeterminate', checkedItems > 0 && checkedItems < totalItems);
     }
 
     // Select all checkbox handler
-    $(document).on('change', '.mxchat-entry-checkbox-all', function() {
+    $(document).on('change', '.knittnet-entry-checkbox-all', function() {
         var isChecked = $(this).is(':checked');
 
         // Sync all select-all checkboxes
-        $('.mxchat-entry-checkbox-all').prop('checked', isChecked);
+        $('.knittnet-entry-checkbox-all').prop('checked', isChecked);
 
-        $('.mxchat-entry-checkbox').prop('checked', isChecked);
+        $('.knittnet-entry-checkbox').prop('checked', isChecked);
 
         if (isChecked) {
-            $('.mxchat-entry-checkbox').each(function() {
+            $('.knittnet-entry-checkbox').each(function() {
                 var entryData = {
                     id: $(this).data('entry-id'),
                     source: $(this).data('source'),
@@ -1242,7 +1242,7 @@ function checkForActiveQueues() {
     });
 
     // Individual checkbox handler
-    $(document).on('change', '.mxchat-entry-checkbox', function() {
+    $(document).on('change', '.knittnet-entry-checkbox', function() {
         var $checkbox = $(this);
         var $row = $checkbox.closest('tr');
         var entryData = {
@@ -1266,7 +1266,7 @@ function checkForActiveQueues() {
     });
 
     // Bulk delete button handler
-    $(document).on('click', '#mxchat-delete-selected-entries', function() {
+    $(document).on('click', '#knittnet-delete-selected-entries', function() {
         var count = selectedKnowledgeEntries.size;
         if (count === 0) return;
 
@@ -1285,12 +1285,12 @@ function checkForActiveQueues() {
 
         // Show loading state
         $button.prop('disabled', true);
-        $button.find('.mxchat-bulk-delete-text').text('Deleting...');
+        $button.find('.knittnet-bulk-delete-text').text('Deleting...');
         $button.find('.dashicons').removeClass('dashicons-trash').addClass('dashicons-update spin');
 
         // Mark rows as deleting
         entries.forEach(function(entry) {
-            $('#prompt-' + entry.id).addClass('mxchat-row-deleting');
+            $('#prompt-' + entry.id).addClass('knittnet-row-deleting');
         });
 
         $.ajax({
@@ -1298,7 +1298,7 @@ function checkForActiveQueues() {
             type: 'POST',
             timeout: 120000, // 120 seconds — matches server-side set_time_limit
             data: {
-                action: 'mxchat_bulk_delete_knowledge',
+                action: 'knittnet_bulk_delete_knowledge',
                 entries: entries,
                 bot_id: botId,
                 nonce: nonce
@@ -1314,7 +1314,7 @@ function checkForActiveQueues() {
                             // Also remove child chunk rows if it's a group
                             var groupId = $row.data('group-id');
                             if (groupId) {
-                                $('.mxchat-chunk-row.' + groupId).fadeOut(300, function() {
+                                $('.knittnet-chunk-row.' + groupId).fadeOut(300, function() {
                                     $(this).remove();
                                 });
                             }
@@ -1327,7 +1327,7 @@ function checkForActiveQueues() {
                     // Handle failed entries
                     if (data.failed_ids && data.failed_ids.length > 0) {
                         data.failed_ids.forEach(function(id) {
-                            $('#prompt-' + id).removeClass('mxchat-row-deleting').addClass('mxchat-row-error');
+                            $('#prompt-' + id).removeClass('knittnet-row-deleting').addClass('knittnet-row-error');
                         });
                     }
 
@@ -1340,7 +1340,7 @@ function checkForActiveQueues() {
                     }
 
                     $('<div class="notice notice-success is-dismissible"><p>' + message + '</p></div>')
-                        .insertAfter('.mxchat-hero')
+                        .insertAfter('.knittnet-hero')
                         .delay(5000)
                         .fadeOut();
 
@@ -1350,7 +1350,7 @@ function checkForActiveQueues() {
 
                     // Update entry count displays (header and sidebar)
                     if (successCount > 0) {
-                        var $countSpan = $('#mxchat-entry-count');
+                        var $countSpan = $('#knittnet-entry-count');
                         if ($countSpan.length) {
                             var currentText = $countSpan.text();
                             var match = currentText.match(/\((\d+)\)/);
@@ -1363,7 +1363,7 @@ function checkForActiveQueues() {
 
                 } else {
                     alert('Error: ' + (response.data || 'Unknown error'));
-                    $('tr.mxchat-row-deleting').removeClass('mxchat-row-deleting');
+                    $('tr.knittnet-row-deleting').removeClass('knittnet-row-deleting');
                 }
             },
             error: function(jqXHR, textStatus) {
@@ -1376,18 +1376,18 @@ function checkForActiveQueues() {
                     message = 'Error: ' + jqXHR.responseJSON.data;
                 }
                 alert(message);
-                $('tr.mxchat-row-deleting').removeClass('mxchat-row-deleting');
+                $('tr.knittnet-row-deleting').removeClass('knittnet-row-deleting');
             },
             complete: function() {
                 $button.prop('disabled', selectedKnowledgeEntries.size === 0);
-                $button.find('.mxchat-bulk-delete-text').text('Delete Selected');
+                $button.find('.knittnet-bulk-delete-text').text('Delete Selected');
                 $button.find('.dashicons').removeClass('dashicons-update spin').addClass('dashicons-trash');
             }
         });
     });
 
     // Clear selection when page changes
-    $(document).on('click', '.mxchat-page-link', function() {
+    $(document).on('click', '.knittnet-page-link', function() {
         selectedKnowledgeEntries.clear();
         updateKnowledgeSelectionUI();
     });
@@ -1397,13 +1397,13 @@ function checkForActiveQueues() {
     // ========================================
 
     // Handle pagination link clicks
-    $(document).on('click', '.mxchat-page-link', function(e) {
+    $(document).on('click', '.knittnet-page-link', function(e) {
         e.preventDefault();
 
         var $link = $(this);
         var page = $link.data('page');
-        var $paginationWrapper = $('#mxchat-kb-pagination');
-        var $tbody = $('#mxchat-entries-tbody');
+        var $paginationWrapper = $('#knittnet-kb-pagination');
+        var $tbody = $('#knittnet-entries-tbody');
 
         if (!page || $link.hasClass('loading')) {
             return;
@@ -1414,8 +1414,8 @@ function checkForActiveQueues() {
         $tbody.css('opacity', '0.5');
 
         // Add loading indicator to pagination
-        var $loadingIndicator = $('<span class="mxchat-pagination-loading"><span class="dashicons dashicons-update spin"></span></span>');
-        $paginationWrapper.find('.mxchat-ajax-pagination').append($loadingIndicator);
+        var $loadingIndicator = $('<span class="knittnet-pagination-loading"><span class="dashicons dashicons-update spin"></span></span>');
+        $paginationWrapper.find('.knittnet-ajax-pagination').append($loadingIndicator);
 
         // Get search and filter values from pagination wrapper
         var searchQuery = $paginationWrapper.data('search') || '';
@@ -1425,9 +1425,9 @@ function checkForActiveQueues() {
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_paginate_entries',
-                nonce: mxchatAdmin.entries_nonce,
-                bot_id: mxchatAdmin.bot_id || 'default',
+                action: 'knittnet_paginate_entries',
+                nonce: knittnetAdmin.entries_nonce,
+                bot_id: knittnetAdmin.bot_id || 'default',
                 page: page,
                 search: searchQuery,
                 content_type: contentType
@@ -1453,7 +1453,7 @@ function checkForActiveQueues() {
                         $paginationWrapper.attr('data-total-pages', response.data.total_pages);
                     }
                     // Preserve search and content_type on the wrapper from the inner pagination div
-                    var $innerPagination = $paginationWrapper.find('.mxchat-ajax-pagination');
+                    var $innerPagination = $paginationWrapper.find('.knittnet-ajax-pagination');
                     if ($innerPagination.length) {
                         $paginationWrapper.attr('data-search', $innerPagination.data('search') || '');
                         $paginationWrapper.attr('data-content-type', $innerPagination.data('content-type') || '');
@@ -1488,11 +1488,11 @@ function checkForActiveQueues() {
     // PINECONE REFRESH ENTRIES BUTTON
     // ========================================
 
-    $('#mxchat-refresh-pinecone-entries').on('click', function() {
+    $('#knittnet-refresh-pinecone-entries').on('click', function() {
         var $button = $(this);
         var $icon = $button.find('.dashicons');
-        var $tbody = $('#mxchat-entries-tbody');
-        var $paginationWrapper = $('#mxchat-kb-pagination');
+        var $tbody = $('#knittnet-entries-tbody');
+        var $paginationWrapper = $('#knittnet-kb-pagination');
 
         // Show loading state
         $button.prop('disabled', true);
@@ -1503,9 +1503,9 @@ function checkForActiveQueues() {
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_refresh_pinecone_entries',
-                nonce: mxchatAdmin.entries_nonce,
-                bot_id: mxchatAdmin.bot_id || 'default',
+                action: 'knittnet_refresh_pinecone_entries',
+                nonce: knittnetAdmin.entries_nonce,
+                bot_id: knittnetAdmin.bot_id || 'default',
                 page: 1
             },
             success: function(response) {
@@ -1553,14 +1553,14 @@ function checkForActiveQueues() {
     // ========================================
 
     // Handle expand/collapse toggle
-    $(document).on('click', '.mxchat-expand-toggle', function(e) {
+    $(document).on('click', '.knittnet-expand-toggle', function(e) {
         e.preventDefault();
         e.stopPropagation();
 
         const $button = $(this);
-        const $wrapper = $button.closest('.mxchat-accordion-wrapper');
-        const $preview = $wrapper.find('.mxchat-content-preview');
-        const $fullContent = $wrapper.find('.mxchat-content-full');
+        const $wrapper = $button.closest('.knittnet-accordion-wrapper');
+        const $preview = $wrapper.find('.knittnet-content-preview');
+        const $fullContent = $wrapper.find('.knittnet-content-full');
 
         // Toggle expanded state
         if ($fullContent.is(':visible')) {
@@ -1575,12 +1575,12 @@ function checkForActiveQueues() {
     });
 
     // Click anywhere on preview to toggle (expand or collapse)
-    $(document).on('click', '.mxchat-content-preview', function(e) {
+    $(document).on('click', '.knittnet-content-preview', function(e) {
         // Only trigger if not clicking the button directly
-        if (!$(e.target).closest('.mxchat-expand-toggle').length) {
+        if (!$(e.target).closest('.knittnet-expand-toggle').length) {
             const $preview = $(this);
-            const $wrapper = $preview.closest('.mxchat-accordion-wrapper');
-            const $button = $preview.find('.mxchat-expand-toggle');
+            const $wrapper = $preview.closest('.knittnet-accordion-wrapper');
+            const $button = $preview.find('.knittnet-expand-toggle');
 
             // Only trigger if there's a button (meaning content is long enough to expand)
             if ($button.length) {
@@ -1594,13 +1594,13 @@ function checkForActiveQueues() {
     // ========================================
 
     // Handle chunk group expand/collapse toggle
-    $(document).on('click', '.mxchat-chunk-toggle', function(e) {
+    $(document).on('click', '.knittnet-chunk-toggle', function(e) {
         e.preventDefault();
         e.stopPropagation();
 
         const $button = $(this);
         const groupId = $button.data('group-id');
-        const $chunkRows = $('.mxchat-chunk-row.' + groupId);
+        const $chunkRows = $('.knittnet-chunk-row.' + groupId);
 
         // Toggle expanded state
         if ($button.hasClass('expanded')) {
@@ -1640,7 +1640,7 @@ function checkForActiveQueues() {
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_delete_chunks_by_url',
+                action: 'knittnet_delete_chunks_by_url',
                 source_url: sourceUrl,
                 data_source: dataSource,
                 bot_id: botId,
@@ -1651,7 +1651,7 @@ function checkForActiveQueues() {
                     // Remove the group header row and all chunk rows
                     const $headerRow = $button.closest('tr');
                     const groupId = $headerRow.data('group-id');
-                    $('.mxchat-chunk-row.' + groupId).fadeOut(300, function() {
+                    $('.knittnet-chunk-row.' + groupId).fadeOut(300, function() {
                         $(this).remove();
                     });
                     $headerRow.fadeOut(300, function() {
@@ -1686,7 +1686,7 @@ function checkForActiveQueues() {
 
     // Initialize: get the highest ID from the current table
     function initializeLastEntryId() {
-        const $tbody = $('#mxchat-entries-tbody');
+        const $tbody = $('#knittnet-entries-tbody');
         if ($tbody.length === 0) return;
 
         // Get the highest ID from the table
@@ -1727,7 +1727,7 @@ function checkForActiveQueues() {
 
     // Fetch new entries from server
     function fetchNewEntries() {
-        if (!mxchatAdmin.entries_nonce) {
+        if (!knittnetAdmin.entries_nonce) {
             return;
         }
 
@@ -1735,10 +1735,10 @@ function checkForActiveQueues() {
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_get_recent_entries',
-                nonce: mxchatAdmin.entries_nonce,
+                action: 'knittnet_get_recent_entries',
+                nonce: knittnetAdmin.entries_nonce,
                 last_id: lastEntryId,
-                bot_id: mxchatAdmin.bot_id || 'default',
+                bot_id: knittnetAdmin.bot_id || 'default',
                 limit: 20
             },
             success: function(response) {
@@ -1758,20 +1758,20 @@ function checkForActiveQueues() {
 
                             // Schedule a table refresh after processing completes
                             // Show a "refresh to see entries" message
-                            var $tbody = $('#mxchat-entries-tbody');
-                            var $refreshNotice = $tbody.find('.mxchat-pinecone-refresh-notice');
+                            var $tbody = $('#knittnet-entries-tbody');
+                            var $refreshNotice = $tbody.find('.knittnet-pinecone-refresh-notice');
 
                             if ($refreshNotice.length === 0 && newCount > 0) {
-                                var noticeHtml = '<tr class="mxchat-pinecone-refresh-notice">' +
+                                var noticeHtml = '<tr class="knittnet-pinecone-refresh-notice">' +
                                     '<td colspan="4" style="padding: 20px; text-align: center; background: #f0f7ff; border-bottom: 1px solid var(--mxch-card-border);">' +
                                     '<span class="dashicons dashicons-update" style="color: #7873f5; margin-right: 8px;"></span>' +
                                     '<strong>' + newCount + ' entries in Pinecone.</strong> ' +
-                                    '<a href="#" class="mxchat-refresh-table-link" style="color: #7873f5; text-decoration: underline;">Refresh to see new entries</a>' +
+                                    '<a href="#" class="knittnet-refresh-table-link" style="color: #7873f5; text-decoration: underline;">Refresh to see new entries</a>' +
                                     '</td></tr>';
                                 $tbody.prepend(noticeHtml);
 
                                 // Handle refresh link click
-                                $tbody.find('.mxchat-refresh-table-link').on('click', function(e) {
+                                $tbody.find('.knittnet-refresh-table-link').on('click', function(e) {
                                     e.preventDefault();
                                     location.reload();
                                 });
@@ -1790,20 +1790,20 @@ function checkForActiveQueues() {
                             }
 
                             // Show/update refresh notice (similar to Pinecone handling)
-                            var $tbody = $('#mxchat-entries-tbody');
-                            var $refreshNotice = $tbody.find('.mxchat-wordpress-refresh-notice');
+                            var $tbody = $('#knittnet-entries-tbody');
+                            var $refreshNotice = $tbody.find('.knittnet-wordpress-refresh-notice');
                             var newCount = response.data.total_count || 0;
 
                             if ($refreshNotice.length === 0 && newCount > 0) {
-                                var noticeHtml = '<tr class="mxchat-wordpress-refresh-notice mxchat-new-entry">' +
+                                var noticeHtml = '<tr class="knittnet-wordpress-refresh-notice knittnet-new-entry">' +
                                     '<td colspan="4" style="padding: 16px 20px; text-align: center; background: linear-gradient(135deg, rgba(120, 115, 245, 0.08) 0%, rgba(167, 139, 250, 0.05) 100%); border-bottom: 1px solid var(--mxch-card-border);">' +
                                     '<span class="dashicons dashicons-update spin" style="color: #7873f5; margin-right: 8px;"></span>' +
-                                    '<strong style="color: var(--mxch-text-primary);">Processing... <span class="mxchat-processing-count">' + newCount + '</span> entries</strong>' +
+                                    '<strong style="color: var(--mxch-text-primary);">Processing... <span class="knittnet-processing-count">' + newCount + '</span> entries</strong>' +
                                     '</td></tr>';
                                 $tbody.prepend(noticeHtml);
                             } else if ($refreshNotice.length > 0) {
                                 // Update the count in existing notice
-                                $refreshNotice.find('.mxchat-processing-count').text(newCount);
+                                $refreshNotice.find('.knittnet-processing-count').text(newCount);
                             }
                         } else {
                             // Update last ID even if no new entries
@@ -1815,7 +1815,7 @@ function checkForActiveQueues() {
                 }
             },
             error: function(xhr, status, error) {
-                console.error('MxChat: Error fetching new entries:', error, xhr.responseText);
+                console.error('KnittNet: Error fetching new entries:', error, xhr.responseText);
             }
         });
     }
@@ -1823,26 +1823,26 @@ function checkForActiveQueues() {
     // Update the entry count display
     function updateEntryCount(count) {
         // Update main table count
-        const $countSpan = $('#mxchat-entry-count');
+        const $countSpan = $('#knittnet-entry-count');
         if ($countSpan.length) {
             $countSpan.text('(' + count + ')');
 
             // Flash animation to indicate update
-            $countSpan.addClass('mxchat-count-updated');
+            $countSpan.addClass('knittnet-count-updated');
             setTimeout(function() {
-                $countSpan.removeClass('mxchat-count-updated');
+                $countSpan.removeClass('knittnet-count-updated');
             }, 1000);
         }
 
         // Update sidebar badge count
-        const $sidebarCount = $('#mxchat-sidebar-count');
+        const $sidebarCount = $('#knittnet-sidebar-count');
         if ($sidebarCount.length) {
             $sidebarCount.text(count);
 
             // Flash animation for sidebar too
-            $sidebarCount.addClass('mxchat-count-updated');
+            $sidebarCount.addClass('knittnet-count-updated');
             setTimeout(function() {
-                $sidebarCount.removeClass('mxchat-count-updated');
+                $sidebarCount.removeClass('knittnet-count-updated');
             }, 1000);
         }
     }
@@ -1850,15 +1850,15 @@ function checkForActiveQueues() {
     // Refresh the knowledge base table via AJAX pagination
     // This ensures entries are properly grouped by source_url
     function refreshKnowledgeBaseTable() {
-        var $paginationWrapper = $('#mxchat-kb-pagination');
-        var $tbody = $('#mxchat-entries-tbody');
+        var $paginationWrapper = $('#knittnet-kb-pagination');
+        var $tbody = $('#knittnet-entries-tbody');
 
         if ($tbody.length === 0) {
             return;
         }
 
         // Remove any processing notice
-        $tbody.find('.mxchat-wordpress-refresh-notice, .mxchat-pinecone-refresh-notice').remove();
+        $tbody.find('.knittnet-wordpress-refresh-notice, .knittnet-pinecone-refresh-notice').remove();
 
         // Show loading state
         $tbody.css('opacity', '0.5');
@@ -1867,9 +1867,9 @@ function checkForActiveQueues() {
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_paginate_entries',
-                nonce: mxchatAdmin.entries_nonce,
-                bot_id: mxchatAdmin.bot_id || 'default',
+                action: 'knittnet_paginate_entries',
+                nonce: knittnetAdmin.entries_nonce,
+                bot_id: knittnetAdmin.bot_id || 'default',
                 page: 1 // Always go to first page to see newest entries
             },
             success: function(response) {
@@ -1900,7 +1900,7 @@ function checkForActiveQueues() {
             },
             error: function(xhr, status, error) {
                 $tbody.css('opacity', '1');
-                console.error('MxChat: Error refreshing table:', error);
+                console.error('KnittNet: Error refreshing table:', error);
             }
         });
     }
@@ -1910,7 +1910,7 @@ function checkForActiveQueues() {
 
     // Add new entries to the table (kept for backwards compatibility but not used during processing)
     function addNewEntriesToTable(entries) {
-        const $tbody = $('#mxchat-entries-tbody');
+        const $tbody = $('#knittnet-entries-tbody');
         if ($tbody.length === 0) return;
 
         // Remove "no entries" message if present
@@ -1930,34 +1930,34 @@ function checkForActiveQueues() {
                 ? '<a href="' + entry.source_url + '" target="_blank" style="color: var(--mxch-primary); text-decoration: none;"><span class="dashicons dashicons-external" style="font-size: 14px;"></span> View</a>'
                 : '<span style="color: var(--mxch-text-muted);">Manual</span>';
 
-            const deleteUrl = mxchatAdmin.admin_url + 'admin-post.php?action=mxchat_delete_prompt&id=' + entry.id + '&_wpnonce=' + entry.delete_nonce;
+            const deleteUrl = knittnetAdmin.admin_url + 'admin-post.php?action=knittnet_delete_prompt&id=' + entry.id + '&_wpnonce=' + entry.delete_nonce;
 
             // Check if content needs expand button (content longer than preview)
             const needsExpand = entry.content_length > entry.preview_length;
 
             // Build accordion-style content cell (matching initial page load structure)
-            let contentHtml = '<div class="mxchat-accordion-wrapper">' +
-                '<div class="mxchat-content-preview">' +
+            let contentHtml = '<div class="knittnet-accordion-wrapper">' +
+                '<div class="knittnet-content-preview">' +
                     '<span class="preview-text">' + entry.preview + '</span>';
 
             if (needsExpand) {
-                contentHtml += '<button class="mxchat-expand-toggle" type="button">' +
+                contentHtml += '<button class="knittnet-expand-toggle" type="button">' +
                     '<span class="dashicons dashicons-arrow-down-alt2"></span>' +
                 '</button>';
             }
 
             contentHtml += '</div>' +
-                '<div class="mxchat-content-full" style="display: none;">' +
+                '<div class="knittnet-content-full" style="display: none;">' +
                     '<div class="content-view">' + entry.full_content + '</div>' +
                 '</div>' +
             '</div>';
 
             const $row = $('<tr id="prompt-' + entry.id + '" data-entry-id="' + entry.id + '" data-source="wordpress" style="border-bottom: 1px solid var(--mxch-card-border); display: none;">' +
                 '<td style="padding: 12px 16px; font-size: 13px;">' + entry.id + '</td>' +
-                '<td class="mxchat-content-cell" style="padding: 12px 16px; font-size: 13px;">' + contentHtml + '</td>' +
-                '<td class="mxchat-url-cell" style="padding: 12px 16px; font-size: 13px;">' + sourceHtml + '</td>' +
+                '<td class="knittnet-content-cell" style="padding: 12px 16px; font-size: 13px;">' + contentHtml + '</td>' +
+                '<td class="knittnet-url-cell" style="padding: 12px 16px; font-size: 13px;">' + sourceHtml + '</td>' +
                 '<td style="padding: 12px 16px; white-space: nowrap;">' +
-                    '<button type="button" class="mxch-btn mxch-btn-ghost mxch-btn-sm mxchat-edit-entry-btn"' +
+                    '<button type="button" class="mxch-btn mxch-btn-ghost mxch-btn-sm knittnet-edit-entry-btn"' +
                         ' data-source-url="' + (entry.source_url || '') + '"' +
                         ' data-entry-id="' + entry.id + '"' +
                         ' data-data-source="wordpress"' +
@@ -1973,13 +1973,13 @@ function checkForActiveQueues() {
             '</tr>');
 
             // Add highlight class and prepend to tbody
-            $row.addClass('mxchat-new-entry');
+            $row.addClass('knittnet-new-entry');
             $tbody.prepend($row);
             $row.slideDown(300);
 
             // Remove highlight after animation
             setTimeout(function() {
-                $row.removeClass('mxchat-new-entry');
+                $row.removeClass('knittnet-new-entry');
             }, 2000);
         });
     }
@@ -1988,14 +1988,14 @@ function checkForActiveQueues() {
     initializeLastEntryId();
 
     // Check on page load if there's already active processing (e.g., page was refreshed during processing)
-    if ($('.mxchat-status-card').length > 0) {
+    if ($('.knittnet-status-card').length > 0) {
         // Check if processing is active via AJAX
         $.ajax({
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_get_status_updates',
-                nonce: mxchatAdmin.status_nonce
+                action: 'knittnet_get_status_updates',
+                nonce: knittnetAdmin.status_nonce
             },
             success: function(response) {
                 if (response.is_processing) {
@@ -2006,7 +2006,7 @@ function checkForActiveQueues() {
     }
 
     // Expose functions for external access
-    window.mxchatEntriesPolling = {
+    window.knittnetEntriesPolling = {
         start: startEntriesPolling,
         stop: stopEntriesPolling,
         fetch: fetchNewEntries
@@ -2024,12 +2024,12 @@ function checkForActiveQueues() {
     function initSitemapDetection() {
         if (sitemapDetectionInitialized) return;
 
-        const loadingEl = document.getElementById('mxchat-sitemaps-loading');
-        const detectedEl = document.getElementById('mxchat-detected-sitemaps');
-        const noSitemapsEl = document.getElementById('mxchat-no-sitemaps');
-        const listEl = document.getElementById('mxchat-sitemaps-list');
-        const refreshBtn = document.getElementById('mxchat-refresh-sitemaps');
-        const nonceEl = document.getElementById('mxchat-detect-sitemaps-nonce');
+        const loadingEl = document.getElementById('knittnet-sitemaps-loading');
+        const detectedEl = document.getElementById('knittnet-detected-sitemaps');
+        const noSitemapsEl = document.getElementById('knittnet-no-sitemaps');
+        const listEl = document.getElementById('knittnet-sitemaps-list');
+        const refreshBtn = document.getElementById('knittnet-refresh-sitemaps');
+        const nonceEl = document.getElementById('knittnet-detect-sitemaps-nonce');
 
         if (!loadingEl || !nonceEl) return;
 
@@ -2052,7 +2052,7 @@ function checkForActiveQueues() {
                 url: ajaxurl,
                 type: 'POST',
                 data: {
-                    action: 'mxchat_detect_sitemaps',
+                    action: 'knittnet_detect_sitemaps',
                     nonce: nonceEl.value
                 },
                 timeout: 60000, // 60 second timeout for slow servers
@@ -2095,14 +2095,14 @@ function checkForActiveQueues() {
             if (!listEl) return;
 
             var html = '';
-            var botIdEl = document.getElementById('mxchat-sitemap-bot-id');
+            var botIdEl = document.getElementById('knittnet-sitemap-bot-id');
             var botId = botIdEl ? botIdEl.value : '';
 
             sitemaps.forEach(function(sitemap) {
                 if (sitemap.type === 'index' && sitemap.sub_sitemaps && sitemap.sub_sitemaps.length > 0) {
                     // Render sitemap index with sub-sitemaps
-                    html += '<div class="mxchat-sitemap-group">';
-                    html += '<div class="mxchat-sitemap-group-header">';
+                    html += '<div class="knittnet-sitemap-group">';
+                    html += '<div class="knittnet-sitemap-group-header">';
                     html += '<div style="display: flex; align-items: center; gap: 10px;">';
                     html += '<span class="dashicons dashicons-arrow-right-alt2" style="transition: transform 0.2s;"></span>';
                     html += '<span class="dashicons dashicons-list-view" style="color: #7873f5;"></span>';
@@ -2115,7 +2115,7 @@ function checkForActiveQueues() {
                     html += sitemap.sub_sitemaps.length + ' sitemaps';
                     html += '</span>';
                     html += '</div>';
-                    html += '<div class="mxchat-sitemap-sub-list">';
+                    html += '<div class="knittnet-sitemap-sub-list">';
                     sitemap.sub_sitemaps.forEach(function(sub) {
                         html += renderSitemapRow(sub, botId, true);
                     });
@@ -2130,9 +2130,9 @@ function checkForActiveQueues() {
             listEl.innerHTML = html;
 
             // Add click handlers for group toggles
-            $(listEl).find('.mxchat-sitemap-group-header').on('click', function() {
+            $(listEl).find('.knittnet-sitemap-group-header').on('click', function() {
                 var $group = $(this).parent();
-                var $subList = $group.find('.mxchat-sitemap-sub-list');
+                var $subList = $group.find('.knittnet-sitemap-sub-list');
                 var $arrow = $(this).find('.dashicons-arrow-right-alt2');
 
                 $group.toggleClass('expanded');
@@ -2147,7 +2147,7 @@ function checkForActiveQueues() {
             });
 
             // Add click handlers for process buttons
-            $(listEl).find('.mxchat-process-sitemap-btn').on('click', function() {
+            $(listEl).find('.knittnet-process-sitemap-btn').on('click', function() {
                 var url = $(this).data('url');
                 var type = $(this).data('sitemap-type');
                 processSitemap(url, type, this);
@@ -2165,7 +2165,7 @@ function checkForActiveQueues() {
             var urlCount = sitemap.url_count || 0;
             var paddingLeft = isSubItem ? '40px' : '16px';
 
-            var html = '<div class="mxchat-sitemap-row" style="padding-left: ' + paddingLeft + ';">';
+            var html = '<div class="knittnet-sitemap-row" style="padding-left: ' + paddingLeft + ';">';
             html += '<div style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0;">';
             html += '<span class="dashicons dashicons-media-text" style="color: #666; flex-shrink: 0;"></span>';
             html += '<div style="min-width: 0; flex: 1;">';
@@ -2180,7 +2180,7 @@ function checkForActiveQueues() {
             html += '</div>';
             html += '</div>';
             html += '</div>';
-            html += '<button type="button" class="mxchat-process-sitemap-btn mxch-btn mxch-btn-primary mxch-btn-sm" data-url="' + sitemap.url + '" data-sitemap-type="' + sitemap.type + '">';
+            html += '<button type="button" class="knittnet-process-sitemap-btn mxch-btn mxch-btn-primary mxch-btn-sm" data-url="' + sitemap.url + '" data-sitemap-type="' + sitemap.type + '">';
             html += '<span class="dashicons dashicons-download" style="font-size: 14px; margin-top: 3px;"></span> Process';
             html += '</button>';
             html += '</div>';
@@ -2197,7 +2197,7 @@ function checkForActiveQueues() {
             $button.html('<span class="dashicons dashicons-update spin" style="font-size: 14px; margin-top: 3px;"></span> Processing...');
 
             // Fill in the sitemap URL form and submit
-            var $form = $('#mxchat-url-form');
+            var $form = $('#knittnet-url-form');
             var $urlInput = $('#sitemap_url');
             var $importType = $('#import_type');
 
@@ -2229,7 +2229,7 @@ function checkForActiveQueues() {
     }
 
     // Expose initSitemapDetection globally so it can be called from the import options handler
-    window.mxchatInitSitemapDetection = initSitemapDetection;
+    window.knittnetInitSitemapDetection = initSitemapDetection;
 
     // ========================================
     // ADMIN NOTICE DISMISS FUNCTIONALITY

@@ -1,31 +1,31 @@
 <?php
 /**
- * MxChat Tool Registry — adapter from the callback registry to model-callable tools.
+ * KnittNet Tool Registry — adapter from the callback registry to model-callable tools.
  *
- * Plan: plan-mxchat-20260617-a41dee (native function-calling loop).
+ * Plan: plan-knittnet-20260617-a41dee (native function-calling loop).
  *
- * This is the SINGLE SOURCE that turns MxChat's registered callbacks into
+ * This is the SINGLE SOURCE that turns KnittNet's registered callbacks into
  * provider-agnostic tool schemas. BOTH surfaces read from it so they can never
  * drift apart (the "synced in several places, broken in one" trap from
  * CLAUDE.md's model-registry checklist):
- *   - the admin "AI Tools" per-tool checklist (class-mxchat-admin.php Actions page)
- *   - the chat-time function-calling loop (class-mxchat-integrator.php)
+ *   - the admin "AI Tools" per-tool checklist (class-knittnet-admin.php Actions page)
+ *   - the chat-time function-calling loop (class-knittnet-integrator.php)
  *
  * Tool sources (both used by available_tools()):
- *   - CORE: a curated, model-facing catalog of the core mxchat-basic callbacks
+ *   - CORE: a curated, model-facing catalog of the core knittnet-basic callbacks
  *     that make sensible model tools (core_tool_catalog()). Curated rather than
  *     reusing every intent callback because some core callbacks (e.g. the
  *     chatbot-mode toggle) are not meaningful as model tools.
  *   - ADD-ONS: whatever active+licensed add-ons register via the existing
- *     `mxchat_available_callbacks` filter (woo / perplexity / forms). Reading the
+ *     `knittnet_available_callbacks` filter (woo / perplexity / forms). Reading the
  *     live filter means the tool list tracks the active add-ons with zero
  *     duplication.
  *
- * The registry is intentionally self-contained (no dependency on MxChat_Admin,
+ * The registry is intentionally self-contained (no dependency on KnittNet_Admin,
  * which is admin-only) so the front-end integrator can build the same tool list
  * the admin checklist shows.
  *
- * @package MxChat
+ * @package KnittNet
  * @since   3.2.10
  */
 
@@ -33,19 +33,19 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class MxChat_Tool_Registry {
+class KnittNet_Tool_Registry {
 
-    /** Standalone options (bypass the mxchat_options sanitize traps). */
-    const OPT_ENABLED = 'mxchat_function_calling_enabled';
-    const OPT_TOOLS   = 'mxchat_function_calling_tools';
+    /** Standalone options (bypass the knittnet_options sanitize traps). */
+    const OPT_ENABLED = 'knittnet_function_calling_enabled';
+    const OPT_TOOLS   = 'knittnet_function_calling_tools';
 
     /**
      * Register the AJAX autosave handler for the AI Tools section.
      * Called once from the plugin bootstrap. The section saves on every toggle/
-     * checkbox change (matching MxChat's autosave UX) — no Save button.
+     * checkbox change (matching KnittNet's autosave UX) — no Save button.
      */
     public static function init() {
-        add_action('wp_ajax_mxchat_fc_autosave', array(__CLASS__, 'handle_ajax_save'));
+        add_action('wp_ajax_knittnet_fc_autosave', array(__CLASS__, 'handle_ajax_save'));
     }
 
     /* ------------------------------------------------------------------ *
@@ -124,13 +124,13 @@ class MxChat_Tool_Registry {
 
     /** Bounded multi-step depth (mirrors AI Engine's mwai_function_call_max_depth). */
     public static function max_depth() {
-        $depth = (int) apply_filters('mxchat_function_call_max_depth', 5);
+        $depth = (int) apply_filters('knittnet_function_call_max_depth', 5);
         return max(1, min(10, $depth));
     }
 
     /** Hard ceiling on tool executions in a single user turn (loop-safety). */
     public static function max_tool_calls_per_turn() {
-        $n = (int) apply_filters('mxchat_function_call_max_per_turn', 8);
+        $n = (int) apply_filters('knittnet_function_call_max_per_turn', 8);
         return max(1, min(20, $n));
     }
 
@@ -145,22 +145,22 @@ class MxChat_Tool_Registry {
      * still enable them deliberately on the AI Tools checklist.
      */
     public static function cautious_callbacks() {
-        return apply_filters('mxchat_function_calling_cautious_callbacks', array(
+        return apply_filters('knittnet_function_calling_cautious_callbacks', array(
             // money / cart mutation
-            'mxchat_handle_add_to_cart_intent', 'mxchat_add_to_cart',
-            'mxchat_handle_checkout_intent', 'mxchat_checkout_redirect',
+            'knittnet_handle_add_to_cart_intent', 'knittnet_add_to_cart',
+            'knittnet_handle_checkout_intent', 'knittnet_checkout_redirect',
             // customer PII
-            'mxchat_handle_order_history',
+            'knittnet_handle_order_history',
             // disruptive handoff / data-collection flows
-            'mxchat_live_agent_handover', 'mxchat_telegram_live_agent_handover',
-            'mxchat_handle_email_capture', 'mxchat_handle_form_collection',
+            'knittnet_live_agent_handover', 'knittnet_telegram_live_agent_handover',
+            'knittnet_handle_email_capture', 'knittnet_handle_form_collection',
         ));
     }
 
     /** Callbacks that are never offered as model tools (not meaningful as a tool). */
     public static function excluded_callbacks() {
-        return apply_filters('mxchat_function_calling_excluded_callbacks', array(
-            'mxchat_handle_switch_to_chatbot_intent', // chatbot/agent mode toggle
+        return apply_filters('knittnet_function_calling_excluded_callbacks', array(
+            'knittnet_handle_switch_to_chatbot_intent', // chatbot/agent mode toggle
         ));
     }
 
@@ -172,20 +172,20 @@ class MxChat_Tool_Registry {
      * Each value: [ 'label' => admin label, 'description' => model-facing ].
      */
     public static function core_tool_catalog() {
-        return apply_filters('mxchat_function_calling_core_tools', array(
-            'mxchat_handle_search_request' => array(
-                'label'       => __('Web Search', 'mxchat'),
-                'description' => __('Search the public web (via Brave Search) for current, real-time information to answer the user. Use when the answer may be recent or is not in the site content.', 'mxchat'),
+        return apply_filters('knittnet_function_calling_core_tools', array(
+            'knittnet_handle_search_request' => array(
+                'label'       => __('Web Search', 'knittnet'),
+                'description' => __('Search the public web (via Brave Search) for current, real-time information to answer the user. Use when the answer may be recent or is not in the site content.', 'knittnet'),
                 // Admin-facing setup requirement (plan 183856): this tool runs on the
                 // Brave Search API and silently no-ops without a key. requires_key
                 // drives the "Brave key not set" notice; setup_note is shown in the
                 // tool's detail panel so the admin knows where to add the key.
                 'requires_key' => 'brave_api_key',
-                'setup_note'   => __('Powered by Brave Search — requires a Brave Search API key. Add it under Settings → Brave Search.', 'mxchat'),
+                'setup_note'   => __('Powered by Brave Search — requires a Brave Search API key. Add it under Settings → Brave Search.', 'knittnet'),
             ),
-            'mxchat_handle_image_search_request' => array(
-                'label'       => __('Image Search', 'mxchat'),
-                'description' => __('Search the web (via Brave Search) for images relevant to the user request and show them in the chat.', 'mxchat'),
+            'knittnet_handle_image_search_request' => array(
+                'label'       => __('Image Search', 'knittnet'),
+                'description' => __('Search the web (via Brave Search) for images relevant to the user request and show them in the chat.', 'knittnet'),
                 // Output is a rendered image gallery (html), not text — the FC loop
                 // must SURFACE it to the frontend, not strip it (plan 48a57a). This
                 // callback self-saves its own bot messages (text + html).
@@ -193,40 +193,40 @@ class MxChat_Tool_Registry {
                 'ui_self_saves' => true,
                 // Brave-powered like Web Search (plan 183856).
                 'requires_key' => 'brave_api_key',
-                'setup_note'   => __('Powered by Brave Search — requires a Brave Search API key. Add it under Settings → Brave Search.', 'mxchat'),
+                'setup_note'   => __('Powered by Brave Search — requires a Brave Search API key. Add it under Settings → Brave Search.', 'knittnet'),
             ),
-            'mxchat_handle_pdf_discussion' => array(
-                'label'       => __('Ask the Uploaded PDF', 'mxchat'),
-                'description' => __('Answer a question using the PDF document the visitor uploaded earlier in this conversation.', 'mxchat'),
+            'knittnet_handle_pdf_discussion' => array(
+                'label'       => __('Ask the Uploaded PDF', 'knittnet'),
+                'description' => __('Answer a question using the PDF document the visitor uploaded earlier in this conversation.', 'knittnet'),
             ),
-            'mxchat_generate_image' => array(
-                'label'       => __('Generate Image (OpenAI)', 'mxchat'),
-                'description' => __('Create an image from a text description using OpenAI image generation. The query should describe the image to make.', 'mxchat'),
+            'knittnet_generate_image' => array(
+                'label'       => __('Generate Image (OpenAI)', 'knittnet'),
+                'description' => __('Create an image from a text description using OpenAI image generation. The query should describe the image to make.', 'knittnet'),
                 // Output is a rendered <img> (html) — surface it, don't strip it
                 // (plan 48a57a). Self-saves its own bot messages (text + html).
                 'emits_ui'      => true,
                 'ui_self_saves' => true,
             ),
-            'mxchat_generate_gemini_image' => array(
-                'label'       => __('Generate Image (Gemini)', 'mxchat'),
-                'description' => __('Create an image from a text description using Google Imagen. The query should describe the image to make.', 'mxchat'),
+            'knittnet_generate_gemini_image' => array(
+                'label'       => __('Generate Image (Gemini)', 'knittnet'),
+                'description' => __('Create an image from a text description using Google Imagen. The query should describe the image to make.', 'knittnet'),
                 // Output is a rendered <img> (html) — surface it, don't strip it
                 // (plan 48a57a). Self-saves its own bot messages (text + html).
                 'emits_ui'      => true,
                 'ui_self_saves' => true,
             ),
             // Cautious (default-off) core callbacks — selectable but opt-in:
-            'mxchat_handle_email_capture' => array(
-                'label'       => __('Collect Email', 'mxchat'),
-                'description' => __('Begin collecting the visitor\'s email address for the mailing list.', 'mxchat'),
+            'knittnet_handle_email_capture' => array(
+                'label'       => __('Collect Email', 'knittnet'),
+                'description' => __('Begin collecting the visitor\'s email address for the mailing list.', 'knittnet'),
             ),
-            'mxchat_live_agent_handover' => array(
-                'label'       => __('Hand Off to Live Agent (Slack)', 'mxchat'),
-                'description' => __('Transfer the conversation to a human support agent on Slack.', 'mxchat'),
+            'knittnet_live_agent_handover' => array(
+                'label'       => __('Hand Off to Live Agent (Slack)', 'knittnet'),
+                'description' => __('Transfer the conversation to a human support agent on Slack.', 'knittnet'),
             ),
-            'mxchat_telegram_live_agent_handover' => array(
-                'label'       => __('Hand Off to Live Agent (Telegram)', 'mxchat'),
-                'description' => __('Transfer the conversation to a human support agent on Telegram.', 'mxchat'),
+            'knittnet_telegram_live_agent_handover' => array(
+                'label'       => __('Hand Off to Live Agent (Telegram)', 'knittnet'),
+                'description' => __('Transfer the conversation to a human support agent on Telegram.', 'knittnet'),
             ),
         ));
     }
@@ -274,7 +274,7 @@ class MxChat_Tool_Registry {
                 'callback'      => $fn,
                 'label'         => isset($meta['label']) ? $meta['label'] : $fn,
                 'description'   => $core_desc,
-                'group'         => __('Core', 'mxchat'),
+                'group'         => __('Core', 'knittnet'),
                 'is_addon'      => false,
                 'addon'         => '',
                 'fc_parameters' => (isset($meta['fc_parameters']) && is_array($meta['fc_parameters'])) ? $meta['fc_parameters'] : null,
@@ -291,7 +291,7 @@ class MxChat_Tool_Registry {
         }
 
         // 2) Active add-on callbacks (canonical: the live filter).
-        $addon_callbacks = apply_filters('mxchat_available_callbacks', array());
+        $addon_callbacks = apply_filters('knittnet_available_callbacks', array());
         if (is_array($addon_callbacks)) {
             foreach ($addon_callbacks as $fn => $data) {
                 if (in_array($fn, $excluded, true)) {
@@ -308,12 +308,12 @@ class MxChat_Tool_Registry {
                     ? $data['fc_description']
                     : (isset($data['description']) && $data['description'] !== ''
                         ? $data['description']
-                        : sprintf(__('Use the %s capability.', 'mxchat'), $label));
+                        : sprintf(__('Use the %s capability.', 'knittnet'), $label));
                 $entries[$fn] = array(
                     'callback'      => $fn,
                     'label'         => $label,
                     'description'   => $desc,
-                    'group'         => isset($data['group']) ? $data['group'] : __('Add-ons', 'mxchat'),
+                    'group'         => isset($data['group']) ? $data['group'] : __('Add-ons', 'knittnet'),
                     'is_addon'      => true,
                     'addon'         => isset($data['addon']) ? $data['addon'] : '',
                     'fc_parameters' => (isset($data['fc_parameters']) && is_array($data['fc_parameters'])) ? $data['fc_parameters'] : null,
@@ -328,15 +328,15 @@ class MxChat_Tool_Registry {
         }
 
         // 2b) Per-INSTANCE tools injected directly by an add-on (plan 60bccc).
-        //     Kept SEPARATE from `mxchat_available_callbacks` on purpose: an add-on
-        //     that exposes one tool per stored record (e.g. mxchat-forms surfaces
+        //     Kept SEPARATE from `knittnet_available_callbacks` on purpose: an add-on
+        //     that exposes one tool per stored record (e.g. knittnet-forms surfaces
         //     each opted-in form as its own "Collect: <Form>" tool) must not push N
         //     entries into the intent/Actions admin registry, which also reads the
         //     callbacks filter. Each entry mirrors the add-on entry shape; is_addon
         //     is forced true so the chat loop invokes it via apply_filters($fn,...),
         //     exactly like a normal add-on callback. Additive: a no-op until an
         //     add-on hooks the filter, so existing installs see no change.
-        $extra_tools = apply_filters('mxchat_function_calling_extra_tools', array());
+        $extra_tools = apply_filters('knittnet_function_calling_extra_tools', array());
         if (is_array($extra_tools)) {
             foreach ($extra_tools as $fn => $data) {
                 if (in_array($fn, $excluded, true) || isset($entries[$fn]) || !is_array($data)) {
@@ -347,12 +347,12 @@ class MxChat_Tool_Registry {
                     ? $data['fc_description']
                     : (isset($data['description']) && $data['description'] !== ''
                         ? $data['description']
-                        : sprintf(__('Use the %s capability.', 'mxchat'), $label));
+                        : sprintf(__('Use the %s capability.', 'knittnet'), $label));
                 $entries[$fn] = array(
                     'callback'      => $fn,
                     'label'         => $label,
                     'description'   => $desc,
-                    'group'         => isset($data['group']) ? $data['group'] : __('Add-ons', 'mxchat'),
+                    'group'         => isset($data['group']) ? $data['group'] : __('Add-ons', 'knittnet'),
                     'is_addon'      => true,
                     'addon'         => isset($data['addon']) ? $data['addon'] : '',
                     'fc_parameters' => (isset($data['fc_parameters']) && is_array($data['fc_parameters'])) ? $data['fc_parameters'] : null,
@@ -428,13 +428,13 @@ class MxChat_Tool_Registry {
 
     /** Turn a function name into a readable label as a fallback. */
     private static function humanize($fn) {
-        $s = preg_replace('/^mxchat_(handle_)?/', '', (string) $fn);
+        $s = preg_replace('/^knittnet_(handle_)?/', '', (string) $fn);
         $s = str_replace('_', ' ', $s);
         return ucwords(trim($s));
     }
 
     /**
-     * JSON-Schema for a tool's arguments. MxChat callbacks are message-driven, so
+     * JSON-Schema for a tool's arguments. KnittNet callbacks are message-driven, so
      * the default is a single natural-language `query` string (handed to the
      * callback as the user message). A registry entry may declare richer params
      * via an additive `fc_parameters` key (used by the woo tools plan c2c9b5).
@@ -448,7 +448,7 @@ class MxChat_Tool_Registry {
             'properties' => array(
                 'query' => array(
                     'type'        => 'string',
-                    'description' => __('The natural-language request, question, or search query to act on.', 'mxchat'),
+                    'description' => __('The natural-language request, question, or search query to act on.', 'knittnet'),
                 ),
             ),
             'required'   => array('query'),
@@ -565,7 +565,7 @@ class MxChat_Tool_Registry {
         if (!current_user_can('manage_options')) {
             wp_send_json_error(array('message' => 'forbidden'), 403);
         }
-        check_ajax_referer('mxchat_fc_autosave', 'nonce');
+        check_ajax_referer('knittnet_fc_autosave', 'nonce');
 
         // Presence = active (plan d450a7): the global on/off toggle is gone, so
         // the gate is derived server-side from whether any tool is checked — not

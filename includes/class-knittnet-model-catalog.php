@@ -1,11 +1,11 @@
 <?php
 /**
- * MxChat Model Catalog — single source of truth for chat + embedding models.
+ * KnittNet Model Catalog — single source of truth for chat + embedding models.
  *
- * Plan: plan-mxchat-20260527-d14e89. Consolidates model definitions that
+ * Plan: plan-knittnet-20260527-d14e89. Consolidates model definitions that
  * previously lived in three places (Settings dropdown in
- * class-mxchat-admin.php, autosave allowlist in admin/class-ajax-handler.php,
- * modal picker catalog in js/mxchat-admin.js, plus a fourth in
+ * class-knittnet-admin.php, autosave allowlist in admin/class-ajax-handler.php,
+ * modal picker catalog in js/knittnet-admin.js, plus a fourth in
  * admin-onboarding-page.php). Adding a new chat/embedding model now means
  * editing THIS file only.
  *
@@ -13,7 +13,7 @@
  *   chat_models() / embedding_models() return:
  *     [ providerSlug => [
  *         'label'         => Display name shown in pickers,
- *         'key_option'    => sub-key under get_option('mxchat_options'),
+ *         'key_option'    => sub-key under get_option('knittnet_options'),
  *         'requires_key_to_load_models' => bool — OpenRouter is true (key needed
  *                            before model list can be fetched). Surfaces consult
  *                            this to disable / gate the provider in pickers that
@@ -22,7 +22,7 @@
  *       ]
  *     ]
  *
- * @package MxChat
+ * @package KnittNet
  * @since   3.2.7
  */
 
@@ -30,7 +30,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class MxChat_Model_Catalog {
+class KnittNet_Model_Catalog {
 
     /**
      * Chat models grouped by provider. Order within a provider matches the
@@ -40,97 +40,97 @@ class MxChat_Model_Catalog {
     public static function chat_models() {
         return array(
             'openrouter' => array(
-                'label'                       => __('OpenRouter', 'mxchat'),
+                'label'                       => __('OpenRouter', 'knittnet'),
                 'key_option'                  => 'openrouter_api_key',
                 'requires_key_to_load_models' => true,
                 'disable_in_onboarding'       => true,
                 'models' => array(
                     'openrouter' => array(
                         'label'       => 'OpenRouter',
-                        'description' => __('Access 100+ models from multiple providers (add API key to browse)', 'mxchat'),
+                        'description' => __('Access 100+ models from multiple providers (add API key to browse)', 'knittnet'),
                     ),
                 ),
             ),
             'gemini' => array(
-                'label'                       => __('Google Gemini', 'mxchat'),
+                'label'                       => __('Google Gemini', 'knittnet'),
                 'key_option'                  => 'gemini_api_key',
                 'requires_key_to_load_models' => false,
                 'models' => array(
-                    'gemini-3.5-flash'              => array('label' => 'Gemini 3.5 Flash',          'description' => __('Stable — newest Flash generation, recommended default', 'mxchat')),
-                    'gemini-3.1-pro-preview'        => array('label' => 'Gemini 3.1 Pro',            'description' => __('Preview — most intelligent, multimodal & agentic', 'mxchat')),
-                    'gemini-3-flash-preview'        => array('label' => 'Gemini 3 Flash',            'description' => __('Preview — balanced speed and scale', 'mxchat')),
-                    'gemini-3.1-flash-lite'         => array('label' => 'Gemini 3.1 Flash-Lite',     'description' => __('Stable — cost-efficient, high throughput', 'mxchat')),
-                    'gemini-3.1-flash-lite-preview' => array('label' => 'Gemini 3.1 Flash-Lite (Preview)', 'description' => __('Preview — latest cost-efficient model', 'mxchat')),
-                    'gemini-2.5-pro'                => array('label' => 'Gemini 2.5 Pro',            'description' => __('Stable — advanced thinking, code, math & long context', 'mxchat')),
-                    'gemini-2.5-flash'              => array('label' => 'Gemini 2.5 Flash',          'description' => __('Stable — strong price-performance with thinking', 'mxchat')),
-                    'gemini-2.5-flash-lite'         => array('label' => 'Gemini 2.5 Flash-Lite',     'description' => __('Stable — ultra fast and low cost', 'mxchat')),
+                    'gemini-3.5-flash'              => array('label' => 'Gemini 3.5 Flash',          'description' => __('Stable — newest Flash generation, recommended default', 'knittnet')),
+                    'gemini-3.1-pro-preview'        => array('label' => 'Gemini 3.1 Pro',            'description' => __('Preview — most intelligent, multimodal & agentic', 'knittnet')),
+                    'gemini-3-flash-preview'        => array('label' => 'Gemini 3 Flash',            'description' => __('Preview — balanced speed and scale', 'knittnet')),
+                    'gemini-3.1-flash-lite'         => array('label' => 'Gemini 3.1 Flash-Lite',     'description' => __('Stable — cost-efficient, high throughput', 'knittnet')),
+                    'gemini-3.1-flash-lite-preview' => array('label' => 'Gemini 3.1 Flash-Lite (Preview)', 'description' => __('Preview — latest cost-efficient model', 'knittnet')),
+                    'gemini-2.5-pro'                => array('label' => 'Gemini 2.5 Pro',            'description' => __('Stable — advanced thinking, code, math & long context', 'knittnet')),
+                    'gemini-2.5-flash'              => array('label' => 'Gemini 2.5 Flash',          'description' => __('Stable — strong price-performance with thinking', 'knittnet')),
+                    'gemini-2.5-flash-lite'         => array('label' => 'Gemini 2.5 Flash-Lite',     'description' => __('Stable — ultra fast and low cost', 'knittnet')),
                 ),
             ),
             'openai' => array(
-                'label'                       => __('OpenAI', 'mxchat'),
+                'label'                       => __('OpenAI', 'knittnet'),
                 'key_option'                  => 'api_key',
                 'requires_key_to_load_models' => false,
                 'models' => array(
-                    'gpt-5.5'              => array('label' => 'GPT-5.5',              'description' => __('Latest Flagship — newest OpenAI reasoning and coding model', 'mxchat')),
-                    'gpt-5.4'              => array('label' => 'GPT-5.4',              'description' => __('Flagship reasoning and coding model', 'mxchat')),
-                    'gpt-5.4-mini'         => array('label' => 'GPT-5.4 Mini',         'description' => __('Fast and affordable with 400K context', 'mxchat')),
-                    'gpt-5.4-nano'         => array('label' => 'GPT-5.4 Nano',         'description' => __('Fastest and cheapest for lightweight tasks', 'mxchat')),
-                    'gpt-5.3-chat-latest'  => array('label' => 'GPT-5.3 Chat',         'description' => __('Optimized for natural conversations with reduced hallucinations', 'mxchat')),
-                    'gpt-5.2'              => array('label' => 'GPT-5.2',              'description' => __('Best general-purpose & agentic model with fast responses', 'mxchat')),
-                    'gpt-5.1-chat-latest'  => array('label' => 'GPT-5.1 Chat Latest',  'description' => __('Recommended for most use cases', 'mxchat')),
-                    'gpt-5.1-2025-11-13'   => array('label' => 'GPT-5.1',              'description' => __('Flagship for coding & agentic tasks with low reasoning (400K context)', 'mxchat')),
-                    'gpt-5'                => array('label' => 'GPT-5',                'description' => __('Flagship for coding, reasoning, and agentic tasks across domains', 'mxchat')),
-                    'gpt-5-mini'           => array('label' => 'GPT-5 Mini',           'description' => __('Fast and lightweight', 'mxchat')),
-                    'gpt-5-nano'           => array('label' => 'GPT-5 Nano',           'description' => __('Fastest and cheapest; ideal for summarization and classification', 'mxchat')),
+                    'gpt-5.5'              => array('label' => 'GPT-5.5',              'description' => __('Latest Flagship — newest OpenAI reasoning and coding model', 'knittnet')),
+                    'gpt-5.4'              => array('label' => 'GPT-5.4',              'description' => __('Flagship reasoning and coding model', 'knittnet')),
+                    'gpt-5.4-mini'         => array('label' => 'GPT-5.4 Mini',         'description' => __('Fast and affordable with 400K context', 'knittnet')),
+                    'gpt-5.4-nano'         => array('label' => 'GPT-5.4 Nano',         'description' => __('Fastest and cheapest for lightweight tasks', 'knittnet')),
+                    'gpt-5.3-chat-latest'  => array('label' => 'GPT-5.3 Chat',         'description' => __('Optimized for natural conversations with reduced hallucinations', 'knittnet')),
+                    'gpt-5.2'              => array('label' => 'GPT-5.2',              'description' => __('Best general-purpose & agentic model with fast responses', 'knittnet')),
+                    'gpt-5.1-chat-latest'  => array('label' => 'GPT-5.1 Chat Latest',  'description' => __('Recommended for most use cases', 'knittnet')),
+                    'gpt-5.1-2025-11-13'   => array('label' => 'GPT-5.1',              'description' => __('Flagship for coding & agentic tasks with low reasoning (400K context)', 'knittnet')),
+                    'gpt-5'                => array('label' => 'GPT-5',                'description' => __('Flagship for coding, reasoning, and agentic tasks across domains', 'knittnet')),
+                    'gpt-5-mini'           => array('label' => 'GPT-5 Mini',           'description' => __('Fast and lightweight', 'knittnet')),
+                    'gpt-5-nano'           => array('label' => 'GPT-5 Nano',           'description' => __('Fastest and cheapest; ideal for summarization and classification', 'knittnet')),
                 ),
             ),
             'claude' => array(
-                'label'                       => __('Anthropic Claude', 'mxchat'),
+                'label'                       => __('Anthropic Claude', 'knittnet'),
                 'key_option'                  => 'claude_api_key',
                 'requires_key_to_load_models' => false,
                 'models' => array(
-                    'claude-fable-5'              => array('label' => 'Claude Fable 5',      'description' => __('Latest Flagship — newest and most capable Anthropic model', 'mxchat')),
-                    'claude-opus-4-8'             => array('label' => 'Claude Opus 4.8',     'description' => __('Previous flagship — most capable Opus-tier model', 'mxchat')),
-                    'claude-opus-4-7'             => array('label' => 'Claude Opus 4.7',     'description' => __('Previous Anthropic flagship model', 'mxchat')),
-                    'claude-opus-4-6'             => array('label' => 'Claude Opus 4.6',     'description' => __('Most capable Claude model - recommended', 'mxchat')),
-                    'claude-sonnet-4-6'           => array('label' => 'Claude Sonnet 4.6',   'description' => __('Latest Sonnet - excellent balance of speed and capability', 'mxchat')),
-                    'claude-opus-4-5'             => array('label' => 'Claude Opus 4.5',     'description' => __('Highly capable for complex tasks', 'mxchat')),
-                    'claude-sonnet-4-5-20250929'  => array('label' => 'Claude Sonnet 4.5',   'description' => __('Best for complex agents and coding', 'mxchat')),
-                    'claude-opus-4-1-20250805'    => array('label' => 'Claude Opus 4.1',     'description' => __('Exceptional for specialized complex tasks', 'mxchat')),
-                    'claude-haiku-4-5-20251001'   => array('label' => 'Claude Haiku 4.5',    'description' => __('Fastest and most intelligent Haiku', 'mxchat')),
+                    'claude-fable-5'              => array('label' => 'Claude Fable 5',      'description' => __('Latest Flagship — newest and most capable Anthropic model', 'knittnet')),
+                    'claude-opus-4-8'             => array('label' => 'Claude Opus 4.8',     'description' => __('Previous flagship — most capable Opus-tier model', 'knittnet')),
+                    'claude-opus-4-7'             => array('label' => 'Claude Opus 4.7',     'description' => __('Previous Anthropic flagship model', 'knittnet')),
+                    'claude-opus-4-6'             => array('label' => 'Claude Opus 4.6',     'description' => __('Most capable Claude model - recommended', 'knittnet')),
+                    'claude-sonnet-4-6'           => array('label' => 'Claude Sonnet 4.6',   'description' => __('Latest Sonnet - excellent balance of speed and capability', 'knittnet')),
+                    'claude-opus-4-5'             => array('label' => 'Claude Opus 4.5',     'description' => __('Highly capable for complex tasks', 'knittnet')),
+                    'claude-sonnet-4-5-20250929'  => array('label' => 'Claude Sonnet 4.5',   'description' => __('Best for complex agents and coding', 'knittnet')),
+                    'claude-opus-4-1-20250805'    => array('label' => 'Claude Opus 4.1',     'description' => __('Exceptional for specialized complex tasks', 'knittnet')),
+                    'claude-haiku-4-5-20251001'   => array('label' => 'Claude Haiku 4.5',    'description' => __('Fastest and most intelligent Haiku', 'knittnet')),
                 ),
             ),
             'xai' => array(
-                'label'                       => __('xAI Grok', 'mxchat'),
+                'label'                       => __('xAI Grok', 'knittnet'),
                 'key_option'                  => 'xai_api_key',
                 'requires_key_to_load_models' => false,
                 'models' => array(
-                    'grok-4-1-fast-reasoning'     => array('label' => 'Grok 4.1 Fast (Reasoning)',     'description' => __('2M context window and reasoning', 'mxchat')),
-                    'grok-4-1-fast-non-reasoning' => array('label' => 'Grok 4.1 Fast (Non-Reasoning)', 'description' => __('2M context window and faster responses', 'mxchat')),
-                    'grok-4-0709'                 => array('label' => 'Grok 4',                        'description' => __('Latest flagship model - unparalleled performance in natural language, math and reasoning', 'mxchat')),
-                    'grok-3-beta'                 => array('label' => 'Grok-3',                        'description' => __('Powerful model with 131K context', 'mxchat')),
-                    'grok-3-fast-beta'            => array('label' => 'Grok-3 Fast',                   'description' => __('High performance with faster responses', 'mxchat')),
-                    'grok-3-mini-beta'            => array('label' => 'Grok-3 Mini',                   'description' => __('Affordable model with good performance', 'mxchat')),
-                    'grok-3-mini-fast-beta'       => array('label' => 'Grok-3 Mini Fast',              'description' => __('Quick and cost-effective', 'mxchat')),
+                    'grok-4-1-fast-reasoning'     => array('label' => 'Grok 4.1 Fast (Reasoning)',     'description' => __('2M context window and reasoning', 'knittnet')),
+                    'grok-4-1-fast-non-reasoning' => array('label' => 'Grok 4.1 Fast (Non-Reasoning)', 'description' => __('2M context window and faster responses', 'knittnet')),
+                    'grok-4-0709'                 => array('label' => 'Grok 4',                        'description' => __('Latest flagship model - unparalleled performance in natural language, math and reasoning', 'knittnet')),
+                    'grok-3-beta'                 => array('label' => 'Grok-3',                        'description' => __('Powerful model with 131K context', 'knittnet')),
+                    'grok-3-fast-beta'            => array('label' => 'Grok-3 Fast',                   'description' => __('High performance with faster responses', 'knittnet')),
+                    'grok-3-mini-beta'            => array('label' => 'Grok-3 Mini',                   'description' => __('Affordable model with good performance', 'knittnet')),
+                    'grok-3-mini-fast-beta'       => array('label' => 'Grok-3 Mini Fast',              'description' => __('Quick and cost-effective', 'knittnet')),
                 ),
             ),
             'deepseek' => array(
-                'label'                       => __('DeepSeek', 'mxchat'),
+                'label'                       => __('DeepSeek', 'knittnet'),
                 'key_option'                  => 'deepseek_api_key',
                 'requires_key_to_load_models' => false,
                 'models' => array(
-                    'deepseek-chat' => array('label' => 'DeepSeek-V3', 'description' => __('Advanced AI assistant', 'mxchat')),
+                    'deepseek-chat' => array('label' => 'DeepSeek-V3', 'description' => __('Advanced AI assistant', 'knittnet')),
                 ),
             ),
             'custom' => array(
-                'label'                       => __('Custom (OpenAI-compatible)', 'mxchat'),
+                'label'                       => __('Custom (OpenAI-compatible)', 'knittnet'),
                 'key_option'                  => 'custom_provider_api_key',
                 'requires_key_to_load_models' => false,
                 'disable_in_onboarding'       => true,
                 'models' => array(
                     'custom-provider' => array(
                         'label'       => 'Custom Provider',
-                        'description' => __('OpenAI-compatible local LLM (Ollama, LM Studio, vLLM, llama.cpp, Azure OpenAI) — configure Base URL, key, and model in API Keys tab', 'mxchat'),
+                        'description' => __('OpenAI-compatible local LLM (Ollama, LM Studio, vLLM, llama.cpp, Azure OpenAI) — configure Base URL, key, and model in API Keys tab', 'knittnet'),
                     ),
                 ),
             ),
@@ -144,26 +144,26 @@ class MxChat_Model_Catalog {
     public static function embedding_models() {
         return array(
             'openai' => array(
-                'label'      => __('OpenAI', 'mxchat'),
+                'label'      => __('OpenAI', 'knittnet'),
                 'key_option' => 'api_key',
                 'models' => array(
-                    'text-embedding-ada-002' => array('label' => 'Ada 2',          'description' => __('1536 dim, recommended', 'mxchat')),
-                    'text-embedding-3-small' => array('label' => 'TE3 Small',      'description' => __('1536 dim, efficient', 'mxchat')),
-                    'text-embedding-3-large' => array('label' => 'TE3 Large',      'description' => __('3072 dim, powerful', 'mxchat')),
+                    'text-embedding-ada-002' => array('label' => 'Ada 2',          'description' => __('1536 dim, recommended', 'knittnet')),
+                    'text-embedding-3-small' => array('label' => 'TE3 Small',      'description' => __('1536 dim, efficient', 'knittnet')),
+                    'text-embedding-3-large' => array('label' => 'TE3 Large',      'description' => __('3072 dim, powerful', 'knittnet')),
                 ),
             ),
             'voyage' => array(
-                'label'      => __('Voyage AI', 'mxchat'),
+                'label'      => __('Voyage AI', 'knittnet'),
                 'key_option' => 'voyage_api_key',
                 'models' => array(
-                    'voyage-3-large' => array('label' => 'Voyage-3 Large', 'description' => __('2048 dim, most capable', 'mxchat')),
+                    'voyage-3-large' => array('label' => 'Voyage-3 Large', 'description' => __('2048 dim, most capable', 'knittnet')),
                 ),
             ),
             'gemini' => array(
-                'label'      => __('Google Gemini', 'mxchat'),
+                'label'      => __('Google Gemini', 'knittnet'),
                 'key_option' => 'gemini_api_key',
                 'models' => array(
-                    'gemini-embedding-001' => array('label' => 'Gemini Embedding', 'description' => __('1536 dim', 'mxchat')),
+                    'gemini-embedding-001' => array('label' => 'Gemini Embedding', 'description' => __('1536 dim', 'knittnet')),
                 ),
             ),
         );
@@ -182,7 +182,7 @@ class MxChat_Model_Catalog {
     }
 
     /**
-     * Returns the mxchat_options sub-key that holds the API key for the given
+     * Returns the knittnet_options sub-key that holds the API key for the given
      * provider slug. Chat providers checked first; embedding-only providers
      * (voyage) fall through.
      */
@@ -196,7 +196,7 @@ class MxChat_Model_Catalog {
 
     /**
      * Flat allowlist of every chat model id across all providers. Used by the
-     * sanitize() flow in class-mxchat-admin.php and the AJAX autosave validator
+     * sanitize() flow in class-knittnet-admin.php and the AJAX autosave validator
      * in admin/class-ajax-handler.php so a new model id only needs editing in
      * the catalog above.
      */
@@ -225,7 +225,7 @@ class MxChat_Model_Catalog {
 
     /**
      * Settings-dropdown-shaped chat model map keyed by group label, which is
-     * what mxchat_model_callback() in class-mxchat-admin.php renders as
+     * what knittnet_model_callback() in class-knittnet-admin.php renders as
      * <optgroup>. Each model maps to its label-with-description string.
      */
     public static function settings_dropdown_groups() {
@@ -240,9 +240,9 @@ class MxChat_Model_Catalog {
     }
 
     /**
-     * Shape used by js/mxchat-admin.js's modal picker grid: provider slug =>
+     * Shape used by js/knittnet-admin.js's modal picker grid: provider slug =>
      * array of { value, label, description }. Mirrors the original inline
-     * `models = {…}` literal in js/mxchat-admin.js so the modal can read from
+     * `models = {…}` literal in js/knittnet-admin.js so the modal can read from
      * a localized PHP source without changing its render path.
      */
     public static function js_picker_shape() {
@@ -263,7 +263,7 @@ class MxChat_Model_Catalog {
     /**
      * Shape used by the Onboarding wizard's JS catalog (per-provider
      * `{ label, chatModels, embeddingModels, hasKey, requiresKeyToLoadModels }`).
-     * `hasKey` is filled in by the caller after consulting mxchat_options.
+     * `hasKey` is filled in by the caller after consulting knittnet_options.
      */
     public static function onboarding_js_catalog() {
         $chat = self::chat_models();
@@ -303,7 +303,7 @@ class MxChat_Model_Catalog {
     /**
      * Whether the given chat model can do model-driven function calling (tool use).
      *
-     * Used by the native function-calling loop (plan-mxchat-20260617-a41dee) to
+     * Used by the native function-calling loop (plan-knittnet-20260617-a41dee) to
      * decide whether to offer tools to the model and to gate the admin toggle.
      *
      * Design: every modern flagship across the catalog's providers supports tool
@@ -312,7 +312,7 @@ class MxChat_Model_Catalog {
      * per-model allowlist that would go stale the moment the catalog gains a model
      * (the same drift trap documented in CLAUDE.md's model-registry checklist).
      * A model can be force-excluded via the $no_tools list, and the whole verdict
-     * is overridable through the `mxchat_model_supports_tools` filter.
+     * is overridable through the `knittnet_model_supports_tools` filter.
      *
      * @param string $model_id Chat model id (e.g. 'gpt-5.5', 'claude-opus-4-8') or
      *                         the 'openrouter' meta selector.
@@ -325,7 +325,7 @@ class MxChat_Model_Catalog {
         // most routable models support tools, so default it capable (the loop
         // no-ops gracefully if the chosen sub-model rejects a tools array).
         if ($model_id === 'openrouter') {
-            return (bool) apply_filters('mxchat_model_supports_tools', true, $model_id);
+            return (bool) apply_filters('knittnet_model_supports_tools', true, $model_id);
         }
 
         // Known tool-capable provider family prefixes across the catalog.
@@ -352,6 +352,6 @@ class MxChat_Model_Catalog {
             }
         }
 
-        return (bool) apply_filters('mxchat_model_supports_tools', $supported, $model_id);
+        return (bool) apply_filters('knittnet_model_supports_tools', $supported, $model_id);
     }
 }

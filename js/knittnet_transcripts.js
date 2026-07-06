@@ -1,5 +1,5 @@
 /**
- * MxChat Transcripts Page JavaScript - v3.0
+ * KnittNet Transcripts Page JavaScript - v3.0
  * Split-panel layout with chat list and conversation view
  */
 jQuery(document).ready(function($) {
@@ -317,10 +317,10 @@ jQuery(document).ready(function($) {
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_delete_chat_history',
+                action: 'knittnet_delete_chat_history',
                 delete_session_ids: sessionIds,
                 also_delete_lead: alsoDeleteLead ? '1' : '0',
-                security: $('#mxchat_delete_chat_nonce').val()
+                security: $('#knittnet_delete_chat_nonce').val()
             },
             success: function(response) {
                 try {
@@ -369,7 +369,7 @@ jQuery(document).ready(function($) {
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_fetch_chat_history',
+                action: 'knittnet_fetch_chat_history',
                 page: page,
                 per_page: perPage,
                 search: searchTerm,
@@ -525,7 +525,7 @@ jQuery(document).ready(function($) {
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_fetch_conversation',
+                action: 'knittnet_fetch_conversation',
                 session_id: sessionId
             },
             success: function(response) {
@@ -668,10 +668,10 @@ jQuery(document).ready(function($) {
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_delete_chat_history',
+                action: 'knittnet_delete_chat_history',
                 delete_session_ids: [sessionId],
                 also_delete_lead: alsoDeleteLead ? '1' : '0',
-                security: $('#mxchat_delete_chat_nonce').val()
+                security: $('#knittnet_delete_chat_nonce').val()
             },
             success: function(response) {
                 try {
@@ -715,13 +715,13 @@ jQuery(document).ready(function($) {
         $form.append($('<input>', {
             type: 'hidden',
             name: 'action',
-            value: 'mxchat_export_transcripts'
+            value: 'knittnet_export_transcripts'
         }));
 
         $form.append($('<input>', {
             type: 'hidden',
             name: 'security',
-            value: mxchatAdmin.export_nonce
+            value: knittnetAdmin.export_nonce
         }));
 
         $form.appendTo('body').submit();
@@ -780,7 +780,7 @@ jQuery(document).ready(function($) {
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_get_transcript_translation',
+                action: 'knittnet_get_transcript_translation',
                 session_id: sessionId
             },
             success: function(response) {
@@ -840,11 +840,11 @@ jQuery(document).ready(function($) {
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_translate_messages',
+                action: 'knittnet_translate_messages',
                 session_id: currentSessionId,
                 target_lang: targetLang,
                 messages: JSON.stringify(messages),
-                security: mxchatAdmin.translate_nonce || ''
+                security: knittnetAdmin.translate_nonce || ''
             },
             success: function(response) {
                 if (response.success && response.translations) {
@@ -923,7 +923,7 @@ jQuery(document).ready(function($) {
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_get_rag_context',
+                action: 'knittnet_get_rag_context',
                 message_id: messageId
             },
             success: function(response) {
@@ -1280,23 +1280,23 @@ jQuery(document).ready(function($) {
 
     // Initialize activity chart
     function initActivityChart() {
-        console.log('[MxChat Chart] initActivityChart called');
+        console.log('[KnittNet Chart] initActivityChart called');
 
-        const canvas = document.getElementById('mxchat-activity-chart');
-        console.log('[MxChat Chart] Canvas element:', canvas);
+        const canvas = document.getElementById('knittnet-activity-chart');
+        console.log('[KnittNet Chart] Canvas element:', canvas);
 
         if (!canvas) {
-            console.log('[MxChat Chart] Canvas not found, aborting');
+            console.log('[KnittNet Chart] Canvas not found, aborting');
             return;
         }
 
-        console.log('[MxChat Chart] mxchatChartData exists:', typeof mxchatChartData !== 'undefined');
-        if (typeof mxchatChartData === 'undefined') {
-            console.log('[MxChat Chart] mxchatChartData is undefined, aborting');
+        console.log('[KnittNet Chart] knittnetChartData exists:', typeof knittnetChartData !== 'undefined');
+        if (typeof knittnetChartData === 'undefined') {
+            console.log('[KnittNet Chart] knittnetChartData is undefined, aborting');
             return;
         }
 
-        console.log('[MxChat Chart] Raw mxchatChartData:', mxchatChartData);
+        console.log('[KnittNet Chart] Raw knittnetChartData:', knittnetChartData);
 
         // Check if chart already exists and destroy it
         if (canvas.chartInstance) {
@@ -1304,8 +1304,8 @@ jQuery(document).ready(function($) {
         }
 
         const ctx = canvas.getContext('2d');
-        console.log('[MxChat Chart] Canvas context:', ctx);
-        console.log('[MxChat Chart] Canvas dimensions:', canvas.getBoundingClientRect());
+        console.log('[KnittNet Chart] Canvas context:', ctx);
+        console.log('[KnittNet Chart] Canvas dimensions:', canvas.getBoundingClientRect());
 
         // Create gradient for chats line
         const chatsGradient = ctx.createLinearGradient(0, 0, 0, 300);
@@ -1318,13 +1318,13 @@ jQuery(document).ready(function($) {
         messagesGradient.addColorStop(1, 'rgba(118, 75, 162, 0.05)');
 
         // Convert wp_localize_script objects to arrays (WordPress converts indexed arrays to objects)
-        const labels = Object.values(mxchatChartData.labels);
-        const chatsData = Object.values(mxchatChartData.chats).map(Number);
-        const messagesData = Object.values(mxchatChartData.messages).map(Number);
+        const labels = Object.values(knittnetChartData.labels);
+        const chatsData = Object.values(knittnetChartData.chats).map(Number);
+        const messagesData = Object.values(knittnetChartData.messages).map(Number);
 
-        console.log('[MxChat Chart] Processed labels:', labels);
-        console.log('[MxChat Chart] Processed chatsData:', chatsData);
-        console.log('[MxChat Chart] Processed messagesData:', messagesData);
+        console.log('[KnittNet Chart] Processed labels:', labels);
+        console.log('[KnittNet Chart] Processed chatsData:', chatsData);
+        console.log('[KnittNet Chart] Processed messagesData:', messagesData);
 
         // Create chart
         try {
@@ -1347,9 +1347,9 @@ jQuery(document).ready(function($) {
                     }
                 ]
             });
-            console.log('[MxChat Chart] Chart created successfully');
+            console.log('[KnittNet Chart] Chart created successfully');
         } catch (error) {
-            console.error('[MxChat Chart] Error creating chart:', error);
+            console.error('[KnittNet Chart] Error creating chart:', error);
         }
     }
 
@@ -1447,7 +1447,7 @@ jQuery(document).ready(function($) {
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_fetch_leads',
+                action: 'knittnet_fetch_leads',
                 page: leadsState.page,
                 per_page: leadsState.perPage,
                 search: leadsState.filters.search,
@@ -1771,8 +1771,8 @@ jQuery(document).ready(function($) {
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_delete_leads',
-                security: $('#mxchat_leads_delete_nonce').val(),
+                action: 'knittnet_delete_leads',
+                security: $('#knittnet_leads_delete_nonce').val(),
                 emails: emails
             },
             success: function(response) {
@@ -1814,8 +1814,8 @@ jQuery(document).ready(function($) {
 
     function submitLeadsExport(scope, fields) {
         const $form = $('<form>', { method: 'POST', action: ajaxurl, style: 'display:none;' });
-        $form.append($('<input>', { type: 'hidden', name: 'action', value: 'mxchat_export_leads' }));
-        $form.append($('<input>', { type: 'hidden', name: 'security', value: $('#mxchat_leads_export_nonce').val() }));
+        $form.append($('<input>', { type: 'hidden', name: 'action', value: 'knittnet_export_leads' }));
+        $form.append($('<input>', { type: 'hidden', name: 'security', value: $('#knittnet_leads_export_nonce').val() }));
         $form.append($('<input>', { type: 'hidden', name: 'scope', value: scope }));
         $form.append($('<input>', { type: 'hidden', name: 'fields', value: fields }));
         if (scope === 'selected') {
@@ -1831,7 +1831,7 @@ jQuery(document).ready(function($) {
     $.ajax({
         url: ajaxurl,
         type: 'POST',
-        data: { action: 'mxchat_fetch_leads', page: 1, per_page: 1 },
+        data: { action: 'knittnet_fetch_leads', page: 1, per_page: 1 },
         success: function(response) {
             if (response && response.success && response.stats) {
                 const total = response.stats.total_leads || 0;

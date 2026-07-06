@@ -1,9 +1,9 @@
 /**
- * MxChat Test Panel JavaScript
+ * KnittNet Test Panel JavaScript
  * Handles the testing interface for admins - always active when panel is open
  */
 
-class MxChatTestPanel {
+class KnittNetTestPanel {
     constructor() {
         this.panel = null;
         this.tab = null;
@@ -31,86 +31,86 @@ class MxChatTestPanel {
     createElements() {
         // Create the test tab
         this.tab = document.createElement('div');
-        this.tab.className = 'mxchat-test-tab';
-        this.tab.innerHTML = 'MXCHAT DEBUGGING';
-        this.tab.title = 'Open MxChat Debug Panel';
+        this.tab.className = 'knittnet-test-tab';
+        this.tab.innerHTML = 'KNITTNET DEBUGGING';
+        this.tab.title = 'Open KnittNet Debug Panel';
         document.body.appendChild(this.tab);
 
         // Create the test panel
         this.panel = document.createElement('div');
-        this.panel.className = 'mxchat-test-panel';
+        this.panel.className = 'knittnet-test-panel';
         this.panel.innerHTML = this.getPanelHTML();
         document.body.appendChild(this.panel);
     }
 
     getPanelHTML() {
         return `
-            <div class="mxchat-test-header">
-                <h3>MxChat Debug Panel</h3>
+            <div class="knittnet-test-header">
+                <h3>KnittNet Debug Panel</h3>
                 <p>Always-on debugging for administrators</p>
-                <button class="mxchat-test-close" title="Close panel">&times;</button>
+                <button class="knittnet-test-close" title="Close panel">&times;</button>
             </div>
             
-            <div class="mxchat-test-content">
+            <div class="knittnet-test-content">
                 <!-- Session Management -->
-                <div class="mxchat-test-section">
+                <div class="knittnet-test-section">
                     <h4>Quick Actions</h4>
-                    <button class="mxchat-test-btn danger" id="clear-chat-session">
+                    <button class="knittnet-test-btn danger" id="clear-chat-session">
                         Clear Chat Session
                     </button>
                 </div>
     
                 <!-- Query Analysis -->
-                <div class="mxchat-test-section">
+                <div class="knittnet-test-section">
                     <h4>Last Query Analysis</h4>
-                    <div class="mxchat-test-info">
+                    <div class="knittnet-test-info">
                         <strong>Similarity Threshold:</strong>
                         <span id="similarity-threshold">Loading...</span>
                     </div>
-                    <div class="mxchat-test-info">
+                    <div class="knittnet-test-info">
                         <strong>User Query:</strong>
                         <div id="last-query" class="query-display">Waiting for next query...</div>
                     </div>
-                    <div class="mxchat-test-info">
+                    <div class="knittnet-test-info">
                         <strong>Approved URLs for Citations:</strong>
-                        <div class="mxchat-test-results approved-urls-container" id="approved-urls">
+                        <div class="knittnet-test-results approved-urls-container" id="approved-urls">
                             <div class="no-data-message">No URL data yet</div>
                         </div>
                     </div>
-                    <div class="mxchat-test-info">
+                    <div class="knittnet-test-info">
                         <strong>Document Matches:</strong>
-                        <div class="mxchat-test-results similarity-container" id="similarity-scores">
+                        <div class="knittnet-test-results similarity-container" id="similarity-scores">
                             <div class="no-data-message">No query data yet</div>
                         </div>
                     </div>
-                    <div class="mxchat-test-info">
+                    <div class="knittnet-test-info">
                         <strong>Actions Triggered:</strong>
-                        <div class="mxchat-test-results actions-container" id="action-scores">
+                        <div class="knittnet-test-results actions-container" id="action-scores">
                             <div class="no-data-message">No action data yet</div>
                         </div>
                     </div>
                 </div>
     
                 <!-- System Information -->
-                <div class="mxchat-test-section">
+                <div class="knittnet-test-section">
                     <h4>System Information</h4>
-                    <div class="mxchat-test-info">
+                    <div class="knittnet-test-info">
                         <strong>System Prompt:</strong>
-                        <div class="mxchat-test-results system-prompt-container" id="system-prompt">Loading...</div>
+                        <div class="knittnet-test-results system-prompt-container" id="system-prompt">Loading...</div>
                     </div>
-                    <div class="mxchat-test-info">
+                    <div class="knittnet-test-info">
                         <strong>Knowledge Base:</strong>
                         <span id="kb-status">Checking...</span>
                     </div>
                 </div>
     
                 <!-- Debug Console -->
-                <div class="mxchat-test-section">
+                <div class="knittnet-test-section">
                     <h4>Debug Log</h4>
-                    <div class="mxchat-test-results debug-console-container" id="debug-console">
+                    <div class="knittnet-test-results debug-console-container" id="debug-console">
                         <div class="debug-entry">Debug panel ready - monitoring chat activity...</div>
                     </div>
-                    <button class="mxchat-test-btn secondary" id="clear-debug">
+                    <button class="knittnet-test-btn secondary" id="clear-debug">
                         Clear Log
                     </button>
                 </div>
@@ -124,7 +124,7 @@ class MxChatTestPanel {
         this.tab.addEventListener('click', () => this.togglePanel());
 
         // Close button
-        const closeBtn = this.panel.querySelector('.mxchat-test-close');
+        const closeBtn = this.panel.querySelector('.knittnet-test-close');
         closeBtn.addEventListener('click', () => this.closePanel());
 
         // Action buttons
@@ -180,7 +180,7 @@ class MxChatTestPanel {
 
     interceptChatResponses() {
         // Store reference to the test panel instance
-        window.mxchatTestPanelInstance = this;
+        window.knittnetTestPanelInstance = this;
         
         // Intercept jQuery AJAX calls (for regular chat)
         if (window.jQuery) {
@@ -193,10 +193,10 @@ class MxChatTestPanel {
                     
                     // Check if this is a chat request
                     if (options.data && 
-                        (options.data.action === 'mxchat_handle_chat_request' || 
-                         options.data.action === 'mxchat_stream_chat')) {
+                        (options.data.action === 'knittnet_handle_chat_request' || 
+                         options.data.action === 'knittnet_stream_chat')) {
                         
-                        const testPanel = window.mxchatTestPanelInstance;
+                        const testPanel = window.knittnetTestPanelInstance;
                         
                         // Always try to handle testing data if it exists (no toggle check)
                         if (testPanel && data && data.testing_data) {
@@ -223,12 +223,12 @@ class MxChatTestPanel {
         window.fetch = (...args) => {
             return originalFetch(...args).then(response => {
                 // Check if this is a chat request
-                if (args[0].includes('admin-ajax.php') || args[0].includes('mxchat')) {
+                if (args[0].includes('admin-ajax.php') || args[0].includes('knittnet')) {
                     // For streaming responses that return JSON instead of streams
                     const contentType = response.headers.get('content-type');
                     if (contentType && contentType.includes('application/json')) {
                         response.clone().json().then(data => {
-                            const testPanel = window.mxchatTestPanelInstance;
+                            const testPanel = window.knittnetTestPanelInstance;
                             
                             // Always try to handle testing data if it exists (no toggle check)
                             if (testPanel && data && data.testing_data) {
@@ -540,18 +540,18 @@ updateActionMatches(actionMatches) {
     }
 
     clearChatSession() {
-        // Determine the active bot ID from MxChatInstances
+        // Determine the active bot ID from KnittNetInstances
         let botId = 'default';
-        if (typeof MxChatInstances !== 'undefined' && typeof MxChatInstances.getAllBotIds === 'function') {
-            const botIds = MxChatInstances.getAllBotIds();
+        if (typeof KnittNetInstances !== 'undefined' && typeof KnittNetInstances.getAllBotIds === 'function') {
+            const botIds = KnittNetInstances.getAllBotIds();
             if (botIds.length > 0) {
                 botId = botIds[0];
             }
         }
 
         // Get current session ID using the correct bot-suffixed cookie name
-        const cookieName = 'mxchat_session_id_' + botId;
-        const sessionId = this.getCookie(cookieName) || this.getCookie('mxchat_session_id') || this.getCurrentSessionId();
+        const cookieName = 'knittnet_session_id_' + botId;
+        const sessionId = this.getCookie(cookieName) || this.getCookie('knittnet_session_id') || this.getCurrentSessionId();
 
         if (!sessionId) {
             this.log('No active session found');
@@ -561,35 +561,35 @@ updateActionMatches(actionMatches) {
         this.log('Current session ID: ' + sessionId);
         this.log('Starting fresh session...');
 
-        // Use MxChatInstances.resetChatSession to properly reset in-memory state + cookie
-        if (typeof MxChatInstances !== 'undefined' && typeof MxChatInstances.resetChatSession === 'function') {
-            MxChatInstances.resetChatSession(botId);
+        // Use KnittNetInstances.resetChatSession to properly reset in-memory state + cookie
+        if (typeof KnittNetInstances !== 'undefined' && typeof KnittNetInstances.resetChatSession === 'function') {
+            KnittNetInstances.resetChatSession(botId);
         }
 
         // Get the new session ID that was just set by resetChatSession
         let newSessionId = '';
-        if (typeof MxChatInstances !== 'undefined' && typeof MxChatInstances.getChatSession === 'function') {
-            newSessionId = MxChatInstances.getChatSession(botId);
+        if (typeof KnittNetInstances !== 'undefined' && typeof KnittNetInstances.getChatSession === 'function') {
+            newSessionId = KnittNetInstances.getChatSession(botId);
         }
 
-        // Fallback if MxChatInstances wasn't available
+        // Fallback if KnittNetInstances wasn't available
         if (!newSessionId) {
-            newSessionId = 'mxchat_chat_' + Math.random().toString(36).substr(2, 9);
-            this.clearMxChatCookie(botId);
+            newSessionId = 'knittnet_chat_' + Math.random().toString(36).substr(2, 9);
+            this.clearKnittNetCookie(botId);
             this.setChatSession(newSessionId, botId);
         }
 
         this.log('New session ID: ' + newSessionId);
 
         // Call backend to clear old session data
-        fetch(mxchatTestData.ajaxUrl, {
+        fetch(knittnetTestData.ajaxUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: new URLSearchParams({
-                action: 'mxchat_start_fresh_session',
-                nonce: mxchatTestData.nonce,
+                action: 'knittnet_start_fresh_session',
+                nonce: knittnetTestData.nonce,
                 old_session_id: sessionId,
                 new_session_id: newSessionId
             })
@@ -606,7 +606,7 @@ updateActionMatches(actionMatches) {
                 this.clearChatUI();
 
                 // Show popular questions again
-                const popularQuestions = document.querySelector('#mxchat-popular-questions');
+                const popularQuestions = document.querySelector('#knittnet-popular-questions');
                 if (popularQuestions) {
                     popularQuestions.style.display = 'block';
                 }
@@ -638,22 +638,22 @@ updateActionMatches(actionMatches) {
     // Helper function to set session cookie (matches chat-script.js format)
     setChatSession(sessionId, botId) {
         botId = botId || 'default';
-        document.cookie = 'mxchat_session_id_' + botId + '=' + sessionId + '; path=/; max-age=86400; SameSite=Lax';
+        document.cookie = 'knittnet_session_id_' + botId + '=' + sessionId + '; path=/; max-age=86400; SameSite=Lax';
     }
 
-    // Helper function to clear the MxChat session cookie
-    clearMxChatCookie(botId) {
+    // Helper function to clear the KnittNet session cookie
+    clearKnittNetCookie(botId) {
         botId = botId || 'default';
         // Clear both bot-suffixed and legacy cookie formats
-        document.cookie = 'mxchat_session_id_' + botId + '=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax';
-        document.cookie = 'mxchat_session_id=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax';
+        document.cookie = 'knittnet_session_id_' + botId + '=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax';
+        document.cookie = 'knittnet_session_id=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax';
         this.log('Session cookie cleared');
     }
 
     updateSessionIdEverywhere(newSessionId) {
         // Update global session ID variable if it exists
-        if (window.mxchatSessionId) {
-            window.mxchatSessionId = newSessionId;
+        if (window.knittnetSessionId) {
+            window.knittnetSessionId = newSessionId;
         }
         
         // Update session ID in chat input data attribute
@@ -708,22 +708,22 @@ updateActionMatches(actionMatches) {
     }
 
     getCurrentSessionId() {
-        // Try MxChatInstances first (most reliable — matches chat-script.js)
-        if (typeof MxChatInstances !== 'undefined' && typeof MxChatInstances.getChatSession === 'function') {
-            const botIds = typeof MxChatInstances.getAllBotIds === 'function' ? MxChatInstances.getAllBotIds() : ['default'];
+        // Try KnittNetInstances first (most reliable — matches chat-script.js)
+        if (typeof KnittNetInstances !== 'undefined' && typeof KnittNetInstances.getChatSession === 'function') {
+            const botIds = typeof KnittNetInstances.getAllBotIds === 'function' ? KnittNetInstances.getAllBotIds() : ['default'];
             const botId = botIds.length > 0 ? botIds[0] : 'default';
-            const instanceSession = MxChatInstances.getChatSession(botId);
+            const instanceSession = KnittNetInstances.getChatSession(botId);
             if (instanceSession) {
                 return instanceSession;
             }
         }
 
         // Try bot-suffixed cookie, then legacy cookie
-        const botCookieId = this.getCookie('mxchat_session_id_default');
+        const botCookieId = this.getCookie('knittnet_session_id_default');
         if (botCookieId) {
             return botCookieId;
         }
-        const cookieSessionId = this.getCookie('mxchat_session_id');
+        const cookieSessionId = this.getCookie('knittnet_session_id');
         if (cookieSessionId) {
             return cookieSessionId;
         }
@@ -747,7 +747,7 @@ updateActionMatches(actionMatches) {
         }
         
         // Generate a temporary session ID if none found
-        return 'mxchat_chat_' + Math.random().toString(36).substr(2, 9);
+        return 'knittnet_chat_' + Math.random().toString(36).substr(2, 9);
     }
     
     loadSystemInfo() {
@@ -758,14 +758,14 @@ updateActionMatches(actionMatches) {
     }
 
     updateSimilarityThreshold() {
-        fetch(mxchatTestData.ajaxUrl, {
+        fetch(knittnetTestData.ajaxUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: new URLSearchParams({
-                action: 'mxchat_get_similarity_threshold',
-                nonce: mxchatTestData.nonce
+                action: 'knittnet_get_similarity_threshold',
+                nonce: knittnetTestData.nonce
             })
         })
         .then(response => response.json())
@@ -788,14 +788,14 @@ updateActionMatches(actionMatches) {
     const promptEl = this.panel.querySelector('#system-prompt');
     promptEl.textContent = 'Loading system prompt...';
     
-    fetch(mxchatTestData.ajaxUrl, {
+    fetch(knittnetTestData.ajaxUrl, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: new URLSearchParams({
-            action: 'mxchat_get_system_info',
-            nonce: mxchatTestData.nonce
+            action: 'knittnet_get_system_info',
+            nonce: knittnetTestData.nonce
         })
     })
     .then(response => response.json())
@@ -845,14 +845,14 @@ updateActionMatches(actionMatches) {
         const statusEl = this.panel.querySelector('#kb-status');
         statusEl.innerHTML = 'Checking...';
         
-        fetch(mxchatTestData.ajaxUrl, {
+        fetch(knittnetTestData.ajaxUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: new URLSearchParams({
-                action: 'mxchat_get_kb_status',
-                nonce: mxchatTestData.nonce
+                action: 'knittnet_get_kb_status',
+                nonce: knittnetTestData.nonce
             })
         })
         .then(response => response.json())
@@ -895,14 +895,14 @@ updateActionMatches(actionMatches) {
 // Initialize the test panel when the script loads
 document.addEventListener('DOMContentLoaded', function() {
     // Only initialize if user is admin and testing is enabled
-    if (window.mxchatTestingEnabled) {
-        window.mxchatTestPanel = new MxChatTestPanel();
+    if (window.knittnetTestingEnabled) {
+        window.knittnetTestPanel = new KnittNetTestPanel();
     }
 });
 
 // Global function to enable testing mode programmatically
-window.enableMxChatTesting = function() {
-    if (!window.mxchatTestPanel) {
-        window.mxchatTestPanel = new MxChatTestPanel();
+window.enableKnittNetTesting = function() {
+    if (!window.knittnetTestPanel) {
+        window.knittnetTestPanel = new KnittNetTestPanel();
     }
 };

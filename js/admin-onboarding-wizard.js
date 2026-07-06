@@ -1,12 +1,12 @@
 /**
- * MxChat Onboarding Wizard — client-side step machine.
+ * KnittNet Onboarding Wizard — client-side step machine.
  *
- * Plan: plan-mxchat-20260527-905439 (initial 5-step wizard).
- * Plan: plan-mxchat-20260528-a2e4d6 (v2 polish — 6-step machine,
+ * Plan: plan-knittnet-20260527-905439 (initial 5-step wizard).
+ * Plan: plan-knittnet-20260528-a2e4d6 (v2 polish — 6-step machine,
  *       clickable pill indicator, AI Behavior step, defensive
  *       confirmation-row fix on embedding step).
  *
- * Reads window.MxChatOnboardingWizard (populated by admin-onboarding-page.php)
+ * Reads window.KnittNetOnboardingWizard (populated by admin-onboarding-page.php)
  * for catalog/progress/nonce/urls/stepsMeta and drives the 6-step linear wizard.
  *
  * Step machine:
@@ -25,7 +25,7 @@
 (function () {
     'use strict';
 
-    var W = window.MxChatOnboardingWizard;
+    var W = window.KnittNetOnboardingWizard;
     if (!W || typeof W !== 'object') return;
 
     var root = document.getElementById('mxch-onboarding-wizard');
@@ -231,24 +231,24 @@
         });
     });
 
-    // --- Sample Instructions modal (mirrors mxchat-admin.js behavior) ---
+    // --- Sample Instructions modal (mirrors knittnet-admin.js behavior) ---
     (function wireSampleModal() {
-        var viewBtn = document.getElementById('mxchatViewSampleBtn');
-        var modal   = document.getElementById('mxchatSampleModal');
+        var viewBtn = document.getElementById('knittnetViewSampleBtn');
+        var modal   = document.getElementById('knittnetSampleModal');
         if (!viewBtn || !modal) return;
-        var modalClose = document.getElementById('mxchatModalClose');
-        var copyBtn    = document.getElementById('mxchatCopyBtn');
-        var modalContent = modal.querySelector('.mxchat-instructions-modal-content');
-        var instructionsContent = modal.querySelector('.mxchat-instructions-content');
+        var modalClose = document.getElementById('knittnetModalClose');
+        var copyBtn    = document.getElementById('knittnetCopyBtn');
+        var modalContent = modal.querySelector('.knittnet-instructions-modal-content');
+        var instructionsContent = modal.querySelector('.knittnet-instructions-content');
 
         viewBtn.addEventListener('click', function (e) {
             e.preventDefault();
             e.stopPropagation();
-            modal.classList.add('mxchat-instructions-show');
+            modal.classList.add('knittnet-instructions-show');
         });
         function closeModal(e) {
             if (e) { e.preventDefault(); e.stopPropagation(); }
-            modal.classList.remove('mxchat-instructions-show');
+            modal.classList.remove('knittnet-instructions-show');
         }
         if (modalClose) modalClose.addEventListener('click', closeModal);
         modal.addEventListener('click', function (e) {
@@ -258,7 +258,7 @@
             modalContent.addEventListener('click', function (e) { e.stopPropagation(); });
         }
         document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape' && modal.classList.contains('mxchat-instructions-show')) closeModal();
+            if (e.key === 'Escape' && modal.classList.contains('knittnet-instructions-show')) closeModal();
         });
         if (copyBtn && instructionsContent) {
             copyBtn.addEventListener('click', function (e) {
@@ -486,7 +486,7 @@
                 var slot  = state[which];
                 btn.disabled = true;
                 btn.textContent = W.strings.saving;
-                ajax('mxchat_onboarding_save_step', {
+                ajax('knittnet_onboarding_save_step', {
                     which:    which,
                     provider: slot.provider,
                     model:    slot.model,
@@ -511,7 +511,7 @@
                 // Behavior step — save the textarea value (or empty).
                 btn.disabled = true;
                 btn.textContent = W.strings.saving;
-                ajax('mxchat_onboarding_save_step', {
+                ajax('knittnet_onboarding_save_step', {
                     which: 'behavior',
                     system_prompt_instructions: state.behavior.value
                 }, function (err, j) {
@@ -529,12 +529,12 @@
                     showStep(3);
                 });
             } else if (n === 4) {
-                ajax('mxchat_onboarding_mark_step', { step: 'knowledge_base' }, function (err, j) {
+                ajax('knittnet_onboarding_mark_step', { step: 'knowledge_base' }, function (err, j) {
                     if (j && j.data && j.data.progress) state.progress = j.data.progress;
                     showStep(5);
                 });
             } else if (n === 5) {
-                ajax('mxchat_onboarding_mark_step', { step: 'actions' }, function (err, j) {
+                ajax('knittnet_onboarding_mark_step', { step: 'actions' }, function (err, j) {
                     if (j && j.data && j.data.progress) state.progress = j.data.progress;
                     showStep(6);
                 });
@@ -555,7 +555,7 @@
     function hydrateStep4_kb() {
         updateKbStatus(state.kbCount);
         state.kbPollTimer = setInterval(function () {
-            ajax('mxchat_onboarding_kb_status', {}, function (err, j) {
+            ajax('knittnet_onboarding_kb_status', {}, function (err, j) {
                 if (j && j.success && j.data && typeof j.data.count === 'number') {
                     state.kbCount = j.data.count;
                     updateKbStatus(state.kbCount);
@@ -598,7 +598,7 @@
     function hydrateStep6_congrats() {
         if (state.graduated) return;
         state.graduated = true;
-        ajax('mxchat_onboarding_auto_graduate', {}, function () {
+        ajax('knittnet_onboarding_auto_graduate', {}, function () {
             // Menu item disappears on next admin nav.
         });
     }
@@ -648,11 +648,11 @@
     if (dismissBtn) {
         dismissBtn.addEventListener('click', function (e) {
             e.preventDefault();
-            if (!window.confirm('Hide MxChat Onboarding from the menu? You can bring it back from Settings → Display.')) return;
+            if (!window.confirm('Hide KnittNet Onboarding from the menu? You can bring it back from Settings → Display.')) return;
             var nonce = dismissBtn.getAttribute('data-mxch-dismiss-nonce');
             if (!nonce) return;
             var body = new URLSearchParams();
-            body.append('action', 'mxchat_dismiss_onboarding');
+            body.append('action', 'knittnet_dismiss_onboarding');
             body.append('nonce', nonce);
             fetch(W.ajaxUrl, {
                 method: 'POST',

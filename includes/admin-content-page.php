@@ -1,10 +1,10 @@
 <?php
 /**
- * MxChat Content Generator Page
+ * KnittNet Content Generator Page
  *
  * Admin page template with sidebar navigation for content generation.
  *
- * @package MxChat
+ * @package KnittNet
  * @since 3.1.0
  */
 
@@ -12,30 +12,30 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-function mxchat_render_content_page($admin_instance) {
+function knittnet_render_content_page($admin_instance) {
     $is_activated = $admin_instance->is_activated();
-    $options = get_option('mxchat_options', array());
+    $options = get_option('knittnet_options', array());
     $plugin_url = plugin_dir_url(dirname(__FILE__));
 
     // Pro feature checks — add-on plugins hook into this filter to unlock
-    $pro_internal_linking  = apply_filters('mxchat_content_pro_feature', false, 'internal_linking');
-    $pro_tool_use          = apply_filters('mxchat_content_pro_feature', false, 'tool_use');
-    $pro_image_management  = apply_filters('mxchat_content_pro_feature', false, 'image_management');
-    $pro_meta_management   = apply_filters('mxchat_content_pro_feature', false, 'meta_management');
-    $pro_gsc_integration   = apply_filters('mxchat_content_pro_feature', false, 'gsc_integration');
-    $pro_content_calendar  = apply_filters('mxchat_content_pro_feature', false, 'content_calendar');
-    $pro_template_generator = apply_filters('mxchat_content_pro_feature', false, 'template_generator');
+    $pro_internal_linking  = apply_filters('knittnet_content_pro_feature', false, 'internal_linking');
+    $pro_tool_use          = apply_filters('knittnet_content_pro_feature', false, 'tool_use');
+    $pro_image_management  = apply_filters('knittnet_content_pro_feature', false, 'image_management');
+    $pro_meta_management   = apply_filters('knittnet_content_pro_feature', false, 'meta_management');
+    $pro_gsc_integration   = apply_filters('knittnet_content_pro_feature', false, 'gsc_integration');
+    $pro_content_calendar  = apply_filters('knittnet_content_pro_feature', false, 'content_calendar');
+    $pro_template_generator = apply_filters('knittnet_content_pro_feature', false, 'template_generator');
     ?>
     <div class="mxch-admin-wrapper">
         <!-- Mobile Header -->
         <header class="mxch-mobile-header">
             <a href="#" class="mxch-mobile-logo">
                 <div class="mxch-mobile-logo-icon">
-                    <img src="<?php echo esc_url($plugin_url . 'images/icon-128x128.png'); ?>" alt="MxChat">
+                    <img src="<?php echo esc_url($plugin_url . 'images/icon-128x128.png'); ?>" alt="KnittNet">
                 </div>
-                <span class="mxch-mobile-logo-text">MxChat</span>
+                <span class="mxch-mobile-logo-text">KnittNet</span>
             </a>
-            <button type="button" class="mxch-mobile-menu-btn" aria-label="<?php esc_attr_e('Open menu', 'mxchat'); ?>">
+            <button type="button" class="mxch-mobile-menu-btn" aria-label="<?php esc_attr_e('Open menu', 'knittnet'); ?>">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
             </button>
         </header>
@@ -46,37 +46,37 @@ function mxchat_render_content_page($admin_instance) {
         <!-- Mobile Menu Modal -->
         <div class="mxch-mobile-menu">
             <div class="mxch-mobile-menu-header">
-                <span class="mxch-mobile-menu-title"><?php esc_html_e('Content', 'mxchat'); ?></span>
-                <button type="button" class="mxch-mobile-menu-close" aria-label="<?php esc_attr_e('Close menu', 'mxchat'); ?>">
+                <span class="mxch-mobile-menu-title"><?php esc_html_e('Content', 'knittnet'); ?></span>
+                <button type="button" class="mxch-mobile-menu-close" aria-label="<?php esc_attr_e('Close menu', 'knittnet'); ?>">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </button>
             </div>
             <nav class="mxch-mobile-menu-nav">
                 <div class="mxch-mobile-nav-section">
-                    <div class="mxch-mobile-nav-section-title"><?php esc_html_e('Content', 'mxchat'); ?></div>
+                    <div class="mxch-mobile-nav-section-title"><?php esc_html_e('Content', 'knittnet'); ?></div>
                     <button class="mxch-mobile-nav-link active" data-target="content-generate">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg>
-                        <span><?php esc_html_e('Generate', 'mxchat'); ?></span>
+                        <span><?php esc_html_e('Generate', 'knittnet'); ?></span>
                     </button>
                     <button class="mxch-mobile-nav-link" data-target="content-history">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                        <span><?php esc_html_e('History', 'mxchat'); ?></span>
+                        <span><?php esc_html_e('History', 'knittnet'); ?></span>
                     </button>
                     <button class="mxch-mobile-nav-link" data-target="content-settings">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-                        <span><?php esc_html_e('Settings', 'mxchat'); ?></span>
+                        <span><?php esc_html_e('Settings', 'knittnet'); ?></span>
                     </button>
                     <button class="mxch-mobile-nav-link" data-target="content-seo">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
-                        <span><?php esc_html_e('SEO', 'mxchat'); ?></span>
+                        <span><?php esc_html_e('SEO', 'knittnet'); ?></span>
                     </button>
                     <button class="mxch-mobile-nav-link" data-target="content-calendar">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                        <span><?php esc_html_e('Calendar', 'mxchat'); ?></span>
+                        <span><?php esc_html_e('Calendar', 'knittnet'); ?></span>
                     </button>
                     <button class="mxch-mobile-nav-link" data-target="content-templates">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
-                        <span><?php esc_html_e('Templates', 'mxchat'); ?></span>
+                        <span><?php esc_html_e('Templates', 'knittnet'); ?></span>
                     </button>
                 </div>
             </nav>
@@ -87,23 +87,23 @@ function mxchat_render_content_page($admin_instance) {
             <div class="mxch-sidebar-header">
                 <a href="#" class="mxch-sidebar-logo">
                     <div class="mxch-sidebar-logo-icon">
-                        <img src="<?php echo esc_url($plugin_url . 'images/icon-128x128.png'); ?>" alt="MxChat">
+                        <img src="<?php echo esc_url($plugin_url . 'images/icon-128x128.png'); ?>" alt="KnittNet">
                     </div>
-                    <span class="mxch-sidebar-logo-text">MxChat</span>
-                    <span class="mxch-sidebar-version">v<?php echo esc_html(MXCHAT_VERSION ?? '3.1.0'); ?></span>
+                    <span class="mxch-sidebar-logo-text">KnittNet</span>
+                    <span class="mxch-sidebar-version">v<?php echo esc_html(KNITTNET_VERSION ?? '3.1.0'); ?></span>
                 </a>
             </div>
 
             <nav class="mxch-sidebar-nav">
                 <div class="mxch-nav-section">
-                    <div class="mxch-nav-section-title"><?php esc_html_e('Content', 'mxchat'); ?></div>
+                    <div class="mxch-nav-section-title"><?php esc_html_e('Content', 'knittnet'); ?></div>
 
                     <div class="mxch-nav-item" data-section="content-generate">
                         <button class="mxch-nav-link active" data-target="content-generate">
                             <span class="mxch-nav-link-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg>
                             </span>
-                            <span class="mxch-nav-link-text"><?php esc_html_e('Generate', 'mxchat'); ?></span>
+                            <span class="mxch-nav-link-text"><?php esc_html_e('Generate', 'knittnet'); ?></span>
                         </button>
                     </div>
 
@@ -112,7 +112,7 @@ function mxchat_render_content_page($admin_instance) {
                             <span class="mxch-nav-link-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                             </span>
-                            <span class="mxch-nav-link-text"><?php esc_html_e('History', 'mxchat'); ?></span>
+                            <span class="mxch-nav-link-text"><?php esc_html_e('History', 'knittnet'); ?></span>
                         </button>
                     </div>
 
@@ -121,7 +121,7 @@ function mxchat_render_content_page($admin_instance) {
                             <span class="mxch-nav-link-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
                             </span>
-                            <span class="mxch-nav-link-text"><?php esc_html_e('Settings', 'mxchat'); ?></span>
+                            <span class="mxch-nav-link-text"><?php esc_html_e('Settings', 'knittnet'); ?></span>
                         </button>
                     </div>
 
@@ -130,7 +130,7 @@ function mxchat_render_content_page($admin_instance) {
                             <span class="mxch-nav-link-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
                             </span>
-                            <span class="mxch-nav-link-text"><?php esc_html_e('SEO', 'mxchat'); ?></span>
+                            <span class="mxch-nav-link-text"><?php esc_html_e('SEO', 'knittnet'); ?></span>
                         </button>
                     </div>
 
@@ -139,7 +139,7 @@ function mxchat_render_content_page($admin_instance) {
                             <span class="mxch-nav-link-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                             </span>
-                            <span class="mxch-nav-link-text"><?php esc_html_e('Calendar', 'mxchat'); ?></span>
+                            <span class="mxch-nav-link-text"><?php esc_html_e('Calendar', 'knittnet'); ?></span>
                         </button>
                     </div>
 
@@ -148,7 +148,7 @@ function mxchat_render_content_page($admin_instance) {
                             <span class="mxch-nav-link-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
                             </span>
-                            <span class="mxch-nav-link-text"><?php esc_html_e('Templates', 'mxchat'); ?></span>
+                            <span class="mxch-nav-link-text"><?php esc_html_e('Templates', 'knittnet'); ?></span>
                         </button>
                     </div>
                 </div>
@@ -168,26 +168,26 @@ function mxchat_render_content_page($admin_instance) {
                     <div class="mxch-cg-toolbar-left">
                         <button type="button" id="mxch-cg-new-btn" class="mxch-cg-generate-btn">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                            <span><?php esc_html_e('Generate', 'mxchat'); ?></span>
+                            <span><?php esc_html_e('Generate', 'knittnet'); ?></span>
                         </button>
-                        <h2 id="mxch-cg-preview-title" class="mxch-cg-toolbar-title"><?php esc_html_e('Content Generator', 'mxchat'); ?></h2>
+                        <h2 id="mxch-cg-preview-title" class="mxch-cg-toolbar-title"><?php esc_html_e('Content Generator', 'knittnet'); ?></h2>
                         <div id="mxch-cg-status-dropdown" class="mxch-cg-status-dropdown" style="display:none;">
-                            <button type="button" id="mxch-cg-status-badge" class="mxch-cg-status-badge" title="<?php esc_attr_e('Change status', 'mxchat'); ?>">
+                            <button type="button" id="mxch-cg-status-badge" class="mxch-cg-status-badge" title="<?php esc_attr_e('Change status', 'knittnet'); ?>">
                                 <span class="mxch-cg-status-badge-text"></span>
                                 <svg class="mxch-cg-status-chevron" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
                             </button>
                             <div class="mxch-cg-status-menu" style="display:none;">
                                 <button type="button" class="mxch-cg-status-option" data-status="draft">
                                     <span class="mxch-cg-status-dot mxch-cg-dot-draft"></span>
-                                    <?php esc_html_e('Draft', 'mxchat'); ?>
+                                    <?php esc_html_e('Draft', 'knittnet'); ?>
                                 </button>
                                 <button type="button" class="mxch-cg-status-option" data-status="publish">
                                     <span class="mxch-cg-status-dot mxch-cg-dot-publish"></span>
-                                    <?php esc_html_e('Published', 'mxchat'); ?>
+                                    <?php esc_html_e('Published', 'knittnet'); ?>
                                 </button>
                                 <button type="button" class="mxch-cg-status-option" data-status="future">
                                     <span class="mxch-cg-status-dot mxch-cg-dot-future"></span>
-                                    <?php esc_html_e('Scheduled', 'mxchat'); ?>
+                                    <?php esc_html_e('Scheduled', 'knittnet'); ?>
                                 </button>
                                 <div class="mxch-cg-status-schedule-row" style="display:none;">
                                     <input type="datetime-local" id="mxch-cg-status-schedule-input" class="mxch-cg-input mxch-cg-status-schedule-input">
@@ -200,20 +200,20 @@ function mxchat_render_content_page($admin_instance) {
                     </div>
                     <div class="mxch-cg-toolbar-right" style="display:none;">
                         <div class="mxch-cg-viewport-toggle">
-                            <button type="button" class="mxch-cg-viewport-btn active" data-viewport="desktop" title="<?php esc_attr_e('Desktop', 'mxchat'); ?>">
+                            <button type="button" class="mxch-cg-viewport-btn active" data-viewport="desktop" title="<?php esc_attr_e('Desktop', 'knittnet'); ?>">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
                             </button>
-                            <button type="button" class="mxch-cg-viewport-btn" data-viewport="mobile" title="<?php esc_attr_e('Mobile', 'mxchat'); ?>">
+                            <button type="button" class="mxch-cg-viewport-btn" data-viewport="mobile" title="<?php esc_attr_e('Mobile', 'knittnet'); ?>">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
                             </button>
                         </div>
                         <a id="mxch-cg-view-post" href="#" target="_blank" class="mxch-cg-action-btn">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                            <?php esc_html_e('View', 'mxchat'); ?>
+                            <?php esc_html_e('View', 'knittnet'); ?>
                         </a>
-                        <button type="button" id="mxch-cg-chat-toggle" class="mxch-cg-action-btn" title="<?php esc_attr_e('Edit with AI', 'mxchat'); ?>">
+                        <button type="button" id="mxch-cg-chat-toggle" class="mxch-cg-action-btn" title="<?php esc_attr_e('Edit with AI', 'knittnet'); ?>">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                            <?php esc_html_e('AI Edit', 'mxchat'); ?>
+                            <?php esc_html_e('AI Edit', 'knittnet'); ?>
                         </button>
                     </div>
                 </div>
@@ -227,63 +227,63 @@ function mxchat_render_content_page($admin_instance) {
                                 <div class="mxch-cg-inline-form-header">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                                     <div>
-                                        <h3><?php esc_html_e('Generate Content', 'mxchat'); ?></h3>
-                                        <p><?php esc_html_e('Describe what you want and let AI create it for you.', 'mxchat'); ?></p>
+                                        <h3><?php esc_html_e('Generate Content', 'knittnet'); ?></h3>
+                                        <p><?php esc_html_e('Describe what you want and let AI create it for you.', 'knittnet'); ?></p>
                                     </div>
                                 </div>
                                 <div class="mxch-cg-form">
-                                    <textarea id="mxch-cg-prompt" class="mxch-cg-prompt" rows="3" placeholder="<?php esc_attr_e('Describe the content you want to generate...', 'mxchat'); ?>"></textarea>
+                                    <textarea id="mxch-cg-prompt" class="mxch-cg-prompt" rows="3" placeholder="<?php esc_attr_e('Describe the content you want to generate...', 'knittnet'); ?>"></textarea>
                                     <button type="button" id="mxch-cg-edit-prompt-btn" class="mxch-cg-edit-prompt-btn">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                                        <?php esc_html_e('Edit Default Prompt', 'mxchat'); ?>
+                                        <?php esc_html_e('Edit Default Prompt', 'knittnet'); ?>
                                     </button>
                                     <div class="mxch-cg-options">
                                         <div class="mxch-cg-option">
-                                            <label class="mxch-cg-option-label" for="mxch-cg-type"><?php esc_html_e('Type', 'mxchat'); ?></label>
+                                            <label class="mxch-cg-option-label" for="mxch-cg-type"><?php esc_html_e('Type', 'knittnet'); ?></label>
                                             <select id="mxch-cg-type" class="mxch-cg-select">
-                                                <option value="post"><?php esc_html_e('Blog Post', 'mxchat'); ?></option>
-                                                <option value="page"><?php esc_html_e('Landing Page', 'mxchat'); ?></option>
+                                                <option value="post"><?php esc_html_e('Blog Post', 'knittnet'); ?></option>
+                                                <option value="page"><?php esc_html_e('Landing Page', 'knittnet'); ?></option>
                                             </select>
                                         </div>
                                         <div class="mxch-cg-option">
-                                            <label class="mxch-cg-option-label" for="mxch-cg-status"><?php esc_html_e('Status', 'mxchat'); ?></label>
+                                            <label class="mxch-cg-option-label" for="mxch-cg-status"><?php esc_html_e('Status', 'knittnet'); ?></label>
                                             <select id="mxch-cg-status" class="mxch-cg-select">
-                                                <option value="draft"><?php esc_html_e('Draft', 'mxchat'); ?></option>
-                                                <option value="future"><?php esc_html_e('Scheduled', 'mxchat'); ?></option>
-                                                <option value="publish"><?php esc_html_e('Publish', 'mxchat'); ?></option>
+                                                <option value="draft"><?php esc_html_e('Draft', 'knittnet'); ?></option>
+                                                <option value="future"><?php esc_html_e('Scheduled', 'knittnet'); ?></option>
+                                                <option value="publish"><?php esc_html_e('Publish', 'knittnet'); ?></option>
                                             </select>
                                         </div>
                                         <div class="mxch-cg-option mxch-cg-schedule-wrap" style="display:none;">
-                                            <label class="mxch-cg-option-label" for="mxch-cg-schedule"><?php esc_html_e('Schedule', 'mxchat'); ?></label>
+                                            <label class="mxch-cg-option-label" for="mxch-cg-schedule"><?php esc_html_e('Schedule', 'knittnet'); ?></label>
                                             <input type="datetime-local" id="mxch-cg-schedule" class="mxch-cg-input">
                                         </div>
                                     </div>
                                     <div class="mxch-cg-options">
                                         <div class="mxch-cg-option">
-                                            <label class="mxch-cg-option-label" for="mxch-cg-layout"><?php esc_html_e('Layout', 'mxchat'); ?></label>
+                                            <label class="mxch-cg-option-label" for="mxch-cg-layout"><?php esc_html_e('Layout', 'knittnet'); ?></label>
                                             <select id="mxch-cg-layout" class="mxch-cg-select">
-                                                <option value="default"><?php esc_html_e('Theme Default', 'mxchat'); ?></option>
-                                                <option value="fullwidth" selected><?php esc_html_e('Fullwidth (No Padding)', 'mxchat'); ?></option>
+                                                <option value="default"><?php esc_html_e('Theme Default', 'knittnet'); ?></option>
+                                                <option value="fullwidth" selected><?php esc_html_e('Fullwidth (No Padding)', 'knittnet'); ?></option>
                                             </select>
                                         </div>
                                         <div class="mxch-cg-option">
-                                            <label class="mxch-cg-option-label" for="mxch-cg-title-display"><?php esc_html_e('Post Title', 'mxchat'); ?></label>
+                                            <label class="mxch-cg-option-label" for="mxch-cg-title-display"><?php esc_html_e('Post Title', 'knittnet'); ?></label>
                                             <select id="mxch-cg-title-display" class="mxch-cg-select">
-                                                <option value="show"><?php esc_html_e('Show', 'mxchat'); ?></option>
-                                                <option value="hide" selected><?php esc_html_e('Hide (title in content)', 'mxchat'); ?></option>
+                                                <option value="show"><?php esc_html_e('Show', 'knittnet'); ?></option>
+                                                <option value="hide" selected><?php esc_html_e('Hide (title in content)', 'knittnet'); ?></option>
                                             </select>
                                         </div>
                                         <div class="mxch-cg-option">
-                                            <label class="mxch-cg-option-label" for="mxch-cg-template-mode"><?php esc_html_e('Template Mode', 'mxchat'); ?></label>
+                                            <label class="mxch-cg-option-label" for="mxch-cg-template-mode"><?php esc_html_e('Template Mode', 'knittnet'); ?></label>
                                             <select id="mxch-cg-template-mode" class="mxch-cg-select">
-                                                <option value="off" selected><?php esc_html_e('Off', 'mxchat'); ?></option>
-                                                <option value="on"><?php esc_html_e('On (Spintax)', 'mxchat'); ?></option>
+                                                <option value="off" selected><?php esc_html_e('Off', 'knittnet'); ?></option>
+                                                <option value="on"><?php esc_html_e('On (Spintax)', 'knittnet'); ?></option>
                                             </select>
                                         </div>
                                     </div>
                                     <button type="button" id="mxch-cg-generate-btn" class="mxch-cg-generate-btn mxch-cg-generate-btn-full">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                                        <span><?php esc_html_e('Generate Content', 'mxchat'); ?></span>
+                                        <span><?php esc_html_e('Generate Content', 'knittnet'); ?></span>
                                     </button>
                                 </div>
                                 <!-- Progress (shown during generation) -->
@@ -291,7 +291,7 @@ function mxchat_render_content_page($admin_instance) {
                                     <div class="mxch-cg-progress-bar">
                                         <div class="mxch-cg-progress-fill" style="width:0%"></div>
                                     </div>
-                                    <p class="mxch-cg-progress-text"><?php esc_html_e('Starting...', 'mxchat'); ?></p>
+                                    <p class="mxch-cg-progress-text"><?php esc_html_e('Starting...', 'knittnet'); ?></p>
                                 </div>
                             </div>
                         </div>
@@ -300,18 +300,18 @@ function mxchat_render_content_page($admin_instance) {
                             <div class="mxch-cg-prompt-modal-overlay"></div>
                             <div class="mxch-cg-prompt-modal-content">
                                 <div class="mxch-cg-prompt-modal-header">
-                                    <h3><?php esc_html_e('Edit Default System Prompt', 'mxchat'); ?></h3>
+                                    <h3><?php esc_html_e('Edit Default System Prompt', 'knittnet'); ?></h3>
                                     <button type="button" id="mxch-cg-prompt-modal-close" class="mxch-cg-prompt-modal-close">&times;</button>
                                 </div>
                                 <div class="mxch-cg-prompt-modal-body">
-                                    <p class="mxch-cg-prompt-modal-desc"><?php esc_html_e('This is the system prompt sent to the AI when generating content. Edit it to customize how your content is generated.', 'mxchat'); ?></p>
+                                    <p class="mxch-cg-prompt-modal-desc"><?php esc_html_e('This is the system prompt sent to the AI when generating content. Edit it to customize how your content is generated.', 'knittnet'); ?></p>
                                     <textarea id="mxch-cg-system-prompt-editor" class="mxch-cg-system-prompt-editor" rows="20"></textarea>
                                 </div>
                                 <div class="mxch-cg-prompt-modal-footer">
-                                    <button type="button" id="mxch-cg-prompt-reset" class="button"><?php esc_html_e('Reset to Default', 'mxchat'); ?></button>
+                                    <button type="button" id="mxch-cg-prompt-reset" class="button"><?php esc_html_e('Reset to Default', 'knittnet'); ?></button>
                                     <div class="mxch-cg-prompt-modal-footer-right">
-                                        <button type="button" id="mxch-cg-prompt-cancel" class="button"><?php esc_html_e('Cancel', 'mxchat'); ?></button>
-                                        <button type="button" id="mxch-cg-prompt-save" class="button button-primary"><?php esc_html_e('Save Changes', 'mxchat'); ?></button>
+                                        <button type="button" id="mxch-cg-prompt-cancel" class="button"><?php esc_html_e('Cancel', 'knittnet'); ?></button>
+                                        <button type="button" id="mxch-cg-prompt-save" class="button button-primary"><?php esc_html_e('Save Changes', 'knittnet'); ?></button>
                                     </div>
                                 </div>
                             </div>
@@ -329,7 +329,7 @@ function mxchat_render_content_page($admin_instance) {
                                 <div class="mxch-cg-loading-progress-mini-bar">
                                     <div id="mxch-cg-loading-progress-fill" class="mxch-cg-loading-progress-mini-fill" style="width:0%"></div>
                                 </div>
-                                <p id="mxch-cg-loading-progress-text" class="mxch-cg-loading-progress-mini-text"><?php esc_html_e('Starting...', 'mxchat'); ?></p>
+                                <p id="mxch-cg-loading-progress-text" class="mxch-cg-loading-progress-mini-text"><?php esc_html_e('Starting...', 'knittnet'); ?></p>
                             </div>
                         </div>
                         <iframe id="mxch-cg-preview-iframe" class="mxch-cg-preview-iframe" style="display:none;" sandbox="allow-same-origin allow-scripts"></iframe>
@@ -345,21 +345,21 @@ function mxchat_render_content_page($admin_instance) {
                         <div class="mxch-cg-left-tabs">
                             <button type="button" class="mxch-cg-left-tab active" data-tab="images">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                                <?php esc_html_e('Images', 'mxchat'); ?>
+                                <?php esc_html_e('Images', 'knittnet'); ?>
                                 <?php if (!$pro_image_management): ?>
-                                    <span class="mxch-cg-pro-badge"><?php echo $is_activated ? esc_html__('ADD-ON', 'mxchat') : esc_html__('PRO', 'mxchat'); ?></span>
+                                    <span class="mxch-cg-pro-badge"><?php echo $is_activated ? esc_html__('ADD-ON', 'knittnet') : esc_html__('PRO', 'knittnet'); ?></span>
                                 <?php endif; ?>
                             </button>
                             <button type="button" class="mxch-cg-left-tab" data-tab="meta">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg>
-                                <?php esc_html_e('Meta', 'mxchat'); ?>
+                                <?php esc_html_e('Meta', 'knittnet'); ?>
                                 <?php if (!$pro_meta_management): ?>
-                                    <span class="mxch-cg-pro-badge"><?php echo $is_activated ? esc_html__('ADD-ON', 'mxchat') : esc_html__('PRO', 'mxchat'); ?></span>
+                                    <span class="mxch-cg-pro-badge"><?php echo $is_activated ? esc_html__('ADD-ON', 'knittnet') : esc_html__('PRO', 'knittnet'); ?></span>
                                 <?php endif; ?>
                             </button>
                             <button type="button" class="mxch-cg-left-tab" data-tab="seo">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                                <?php esc_html_e('SEO', 'mxchat'); ?>
+                                <?php esc_html_e('SEO', 'knittnet'); ?>
                             </button>
                         </div>
 
@@ -368,7 +368,7 @@ function mxchat_render_content_page($admin_instance) {
                             <div class="mxch-cg-images-grid" id="mxch-cg-images-grid">
                                 <div class="mxch-cg-images-empty" id="mxch-cg-images-empty">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                                    <span><?php esc_html_e('Images will appear here after generation', 'mxchat'); ?></span>
+                                    <span><?php esc_html_e('Images will appear here after generation', 'knittnet'); ?></span>
                                 </div>
                             </div>
                         </div>
@@ -377,27 +377,27 @@ function mxchat_render_content_page($admin_instance) {
                         <div class="mxch-cg-left-panel" id="mxch-cg-panel-meta" style="position:relative;">
                             <div class="mxch-cg-meta-form<?php echo $pro_meta_management ? '' : ' mxch-cg-meta-locked'; ?>">
                                 <div class="mxch-cg-meta-field">
-                                    <label for="mxch-cg-meta-title"><?php esc_html_e('Title', 'mxchat'); ?></label>
-                                    <input type="text" id="mxch-cg-meta-title" class="mxch-cg-meta-input" placeholder="<?php esc_attr_e('Post title...', 'mxchat'); ?>"<?php echo $pro_meta_management ? '' : ' disabled readonly'; ?>>
+                                    <label for="mxch-cg-meta-title"><?php esc_html_e('Title', 'knittnet'); ?></label>
+                                    <input type="text" id="mxch-cg-meta-title" class="mxch-cg-meta-input" placeholder="<?php esc_attr_e('Post title...', 'knittnet'); ?>"<?php echo $pro_meta_management ? '' : ' disabled readonly'; ?>>
                                 </div>
                                 <div class="mxch-cg-meta-field">
-                                    <label for="mxch-cg-meta-description"><?php esc_html_e('Meta Description', 'mxchat'); ?></label>
-                                    <textarea id="mxch-cg-meta-description" class="mxch-cg-meta-input" rows="3" placeholder="<?php esc_attr_e('Meta description...', 'mxchat'); ?>"<?php echo $pro_meta_management ? '' : ' disabled readonly'; ?>></textarea>
+                                    <label for="mxch-cg-meta-description"><?php esc_html_e('Meta Description', 'knittnet'); ?></label>
+                                    <textarea id="mxch-cg-meta-description" class="mxch-cg-meta-input" rows="3" placeholder="<?php esc_attr_e('Meta description...', 'knittnet'); ?>"<?php echo $pro_meta_management ? '' : ' disabled readonly'; ?>></textarea>
                                     <span class="mxch-cg-meta-charcount">0 / 160</span>
                                 </div>
                                 <div class="mxch-cg-meta-field">
-                                    <label for="mxch-cg-meta-keyword"><?php esc_html_e('Focus Keyword', 'mxchat'); ?></label>
-                                    <input type="text" id="mxch-cg-meta-keyword" class="mxch-cg-meta-input" placeholder="<?php esc_attr_e('Primary keyword...', 'mxchat'); ?>"<?php echo $pro_meta_management ? '' : ' disabled readonly'; ?>>
+                                    <label for="mxch-cg-meta-keyword"><?php esc_html_e('Focus Keyword', 'knittnet'); ?></label>
+                                    <input type="text" id="mxch-cg-meta-keyword" class="mxch-cg-meta-input" placeholder="<?php esc_attr_e('Primary keyword...', 'knittnet'); ?>"<?php echo $pro_meta_management ? '' : ' disabled readonly'; ?>>
                                 </div>
                                 <div class="mxch-cg-meta-field">
-                                    <label for="mxch-cg-meta-excerpt"><?php esc_html_e('Excerpt', 'mxchat'); ?></label>
-                                    <textarea id="mxch-cg-meta-excerpt" class="mxch-cg-meta-input" rows="3" placeholder="<?php esc_attr_e('Post excerpt...', 'mxchat'); ?>"<?php echo $pro_meta_management ? '' : ' disabled readonly'; ?>></textarea>
+                                    <label for="mxch-cg-meta-excerpt"><?php esc_html_e('Excerpt', 'knittnet'); ?></label>
+                                    <textarea id="mxch-cg-meta-excerpt" class="mxch-cg-meta-input" rows="3" placeholder="<?php esc_attr_e('Post excerpt...', 'knittnet'); ?>"<?php echo $pro_meta_management ? '' : ' disabled readonly'; ?>></textarea>
                                 </div>
                             </div>
                             <?php if (!$pro_meta_management): ?>
                             <div class="mxch-cg-meta-lock-overlay">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                                <span><?php echo $is_activated ? esc_html__('Install Add-on', 'mxchat') : esc_html__('Upgrade to Pro', 'mxchat'); ?></span>
+                                <span><?php echo $is_activated ? esc_html__('Install Add-on', 'knittnet') : esc_html__('Upgrade to Pro', 'knittnet'); ?></span>
                             </div>
                             <?php endif; ?>
                         </div>
@@ -415,10 +415,10 @@ function mxchat_render_content_page($admin_instance) {
                                         <span class="mxch-seo-score-num" id="mxch-seo-score">&mdash;</span>
                                     </div>
                                     <div class="mxch-seo-score-info">
-                                        <span class="mxch-seo-score-label" id="mxch-seo-score-label"><?php esc_html_e('SEO Score', 'mxchat'); ?></span>
-                                        <span class="mxch-seo-score-summary" id="mxch-seo-score-summary"><?php esc_html_e('Generate content to analyze', 'mxchat'); ?></span>
+                                        <span class="mxch-seo-score-label" id="mxch-seo-score-label"><?php esc_html_e('SEO Score', 'knittnet'); ?></span>
+                                        <span class="mxch-seo-score-summary" id="mxch-seo-score-summary"><?php esc_html_e('Generate content to analyze', 'knittnet'); ?></span>
                                     </div>
-                                    <button type="button" class="mxch-seo-analyze-btn" id="mxch-seo-analyze" title="<?php esc_attr_e('Analyze', 'mxchat'); ?>">
+                                    <button type="button" class="mxch-seo-analyze-btn" id="mxch-seo-analyze" title="<?php esc_attr_e('Analyze', 'knittnet'); ?>">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
                                     </button>
                                 </div>
@@ -426,14 +426,14 @@ function mxchat_render_content_page($admin_instance) {
                                 <div class="mxch-seo-checklist" id="mxch-seo-checklist">
                                     <div class="mxch-seo-empty" id="mxch-seo-empty">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                                        <span><?php esc_html_e('SEO analysis will appear here after content is generated', 'mxchat'); ?></span>
+                                        <span><?php esc_html_e('SEO analysis will appear here after content is generated', 'knittnet'); ?></span>
                                     </div>
                                 </div>
                                 <!-- AI Optimize -->
                                 <div class="mxch-seo-actions" id="mxch-seo-actions" style="display:none;">
-                                    <button type="button" class="mxch-seo-fix-btn" id="mxch-seo-ai-optimize" title="<?php esc_attr_e('AI optimizes all failing SEO checks', 'mxchat'); ?>">
+                                    <button type="button" class="mxch-seo-fix-btn" id="mxch-seo-ai-optimize" title="<?php esc_attr_e('AI optimizes all failing SEO checks', 'knittnet'); ?>">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.287 1.288L3 12l5.8 1.9a2 2 0 0 1 1.288 1.287L12 21l1.9-5.8a2 2 0 0 1 1.287-1.288L21 12l-5.8-1.9a2 2 0 0 1-1.288-1.287Z"/></svg>
-                                        <?php esc_html_e('Optimize All', 'mxchat'); ?>
+                                        <?php esc_html_e('Optimize All', 'knittnet'); ?>
                                     </button>
                                 </div>
                             </div>
@@ -443,14 +443,14 @@ function mxchat_render_content_page($admin_instance) {
                     <!-- Chat Column -->
                     <div class="mxch-cg-chat-col">
                         <div class="mxch-cg-chat-panel-header">
-                            <span class="mxch-cg-chat-panel-title"><?php esc_html_e('Edit with AI', 'mxchat'); ?></span>
-                            <button type="button" id="mxch-cg-chat-close" class="mxch-cg-chat-panel-close" title="<?php esc_attr_e('Close', 'mxchat'); ?>">
+                            <span class="mxch-cg-chat-panel-title"><?php esc_html_e('Edit with AI', 'knittnet'); ?></span>
+                            <button type="button" id="mxch-cg-chat-close" class="mxch-cg-chat-panel-close" title="<?php esc_attr_e('Close', 'knittnet'); ?>">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                             </button>
                         </div>
                         <div id="mxch-cg-chat-messages" class="mxch-cg-chat-messages"></div>
                         <div class="mxch-cg-chat-input-wrap">
-                            <textarea id="mxch-cg-chat-input" class="mxch-cg-chat-input" rows="2" placeholder="<?php esc_attr_e('e.g. Change the hero heading to...', 'mxchat'); ?>"></textarea>
+                            <textarea id="mxch-cg-chat-input" class="mxch-cg-chat-input" rows="2" placeholder="<?php esc_attr_e('e.g. Change the hero heading to...', 'knittnet'); ?>"></textarea>
                             <button type="button" id="mxch-cg-chat-send" class="mxch-cg-chat-send" disabled>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
                             </button>
@@ -464,8 +464,8 @@ function mxchat_render_content_page($admin_instance) {
                  ======================================== -->
             <div id="content-history" class="mxch-section">
                 <div class="mxch-content-header">
-                    <h1 class="mxch-content-title"><?php esc_html_e('Content History', 'mxchat'); ?></h1>
-                    <p class="mxch-content-subtitle"><?php esc_html_e('Browse and edit your AI-generated content.', 'mxchat'); ?></p>
+                    <h1 class="mxch-content-title"><?php esc_html_e('Content History', 'knittnet'); ?></h1>
+                    <p class="mxch-content-subtitle"><?php esc_html_e('Browse and edit your AI-generated content.', 'knittnet'); ?></p>
                 </div>
 
                 <div class="mxch-card">
@@ -473,13 +473,13 @@ function mxchat_render_content_page($admin_instance) {
                         <!-- Loading state -->
                         <div id="mxch-cg-history-loading" class="mxch-cg-history-loading">
                             <div class="mxch-cg-history-spinner"></div>
-                            <p><?php esc_html_e('Loading history...', 'mxchat'); ?></p>
+                            <p><?php esc_html_e('Loading history...', 'knittnet'); ?></p>
                         </div>
 
                         <!-- Empty state -->
                         <div id="mxch-cg-history-empty" class="mxch-cg-history-empty" style="display:none;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                            <p><?php esc_html_e('No AI-generated content yet. Use the Generate tab to create your first post.', 'mxchat'); ?></p>
+                            <p><?php esc_html_e('No AI-generated content yet. Use the Generate tab to create your first post.', 'knittnet'); ?></p>
                         </div>
 
                         <!-- History list (rendered by JS) -->
@@ -496,20 +496,20 @@ function mxchat_render_content_page($admin_instance) {
                  ======================================== -->
             <div id="content-settings" class="mxch-section">
                 <div class="mxch-content-header">
-                    <h1 class="mxch-content-title"><?php esc_html_e('Settings', 'mxchat'); ?></h1>
-                    <p class="mxch-content-subtitle"><?php esc_html_e('Configure content generation and SEO optimization.', 'mxchat'); ?></p>
+                    <h1 class="mxch-content-title"><?php esc_html_e('Settings', 'knittnet'); ?></h1>
+                    <p class="mxch-content-subtitle"><?php esc_html_e('Configure content generation and SEO optimization.', 'knittnet'); ?></p>
                 </div>
 
                 <!-- ── Content Settings ── -->
                 <div class="mxch-card">
                     <div class="mxch-card-header">
-                        <h3 class="mxch-card-title"><?php esc_html_e('Content', 'mxchat'); ?></h3>
+                        <h3 class="mxch-card-title"><?php esc_html_e('Content', 'knittnet'); ?></h3>
                     </div>
                     <div class="mxch-card-body">
 
                         <!-- Content Model -->
                         <div class="mxch-field">
-                            <label class="mxch-field-label" for="mxch-content-model"><?php esc_html_e('Content Model', 'mxchat'); ?></label>
+                            <label class="mxch-field-label" for="mxch-content-model"><?php esc_html_e('Content Model', 'knittnet'); ?></label>
                             <div class="mxch-field-control">
                                 <select id="mxch-content-model" data-field="content_model" class="mxch-cg-select">
                                     <?php
@@ -557,46 +557,46 @@ function mxchat_render_content_page($admin_instance) {
                                     ?>
                                 </select>
                             </div>
-                            <p class="mxch-field-description"><?php esc_html_e('Select the AI model used for generating content. Uses the API key configured in your main MxChat settings.', 'mxchat'); ?></p>
+                            <p class="mxch-field-description"><?php esc_html_e('Select the AI model used for generating content. Uses the API key configured in your main KnittNet settings.', 'knittnet'); ?></p>
                         </div>
 
                         <!-- Image Model -->
                         <div class="mxch-field">
-                            <label class="mxch-field-label" for="mxch-image-model"><?php esc_html_e('Image Model', 'mxchat'); ?></label>
+                            <label class="mxch-field-label" for="mxch-image-model"><?php esc_html_e('Image Model', 'knittnet'); ?></label>
                             <div class="mxch-field-control">
                                 <?php $image_model = $options['content_image_model'] ?? 'gpt-image-1.5'; ?>
                                 <select id="mxch-image-model" data-field="content_image_model" class="mxch-cg-select">
-                                    <optgroup label="<?php esc_attr_e('OpenAI', 'mxchat'); ?>">
-                                        <option value="gpt-image-2" <?php selected($image_model, 'gpt-image-2'); ?>><?php esc_html_e('GPT Image 2 (Latest)', 'mxchat'); ?></option>
-                                        <option value="gpt-image-1.5" <?php selected($image_model, 'gpt-image-1.5'); ?>><?php esc_html_e('GPT Image 1.5', 'mxchat'); ?></option>
+                                    <optgroup label="<?php esc_attr_e('OpenAI', 'knittnet'); ?>">
+                                        <option value="gpt-image-2" <?php selected($image_model, 'gpt-image-2'); ?>><?php esc_html_e('GPT Image 2 (Latest)', 'knittnet'); ?></option>
+                                        <option value="gpt-image-1.5" <?php selected($image_model, 'gpt-image-1.5'); ?>><?php esc_html_e('GPT Image 1.5', 'knittnet'); ?></option>
                                     </optgroup>
-                                    <optgroup label="<?php esc_attr_e('xAI', 'mxchat'); ?>">
-                                        <option value="grok-imagine-image-pro" <?php selected($image_model, 'grok-imagine-image-pro'); ?>><?php esc_html_e('Grok Imagine Pro', 'mxchat'); ?></option>
-                                        <option value="grok-imagine-image" <?php selected($image_model, 'grok-imagine-image'); ?>><?php esc_html_e('Grok Imagine', 'mxchat'); ?></option>
+                                    <optgroup label="<?php esc_attr_e('xAI', 'knittnet'); ?>">
+                                        <option value="grok-imagine-image-pro" <?php selected($image_model, 'grok-imagine-image-pro'); ?>><?php esc_html_e('Grok Imagine Pro', 'knittnet'); ?></option>
+                                        <option value="grok-imagine-image" <?php selected($image_model, 'grok-imagine-image'); ?>><?php esc_html_e('Grok Imagine', 'knittnet'); ?></option>
                                     </optgroup>
-                                    <optgroup label="<?php esc_attr_e('Google', 'mxchat'); ?>">
-                                        <option value="gemini-2.5-flash-image" <?php selected($image_model, 'gemini-2.5-flash-image'); ?>><?php esc_html_e('Nano Banana (Gemini 2.5 Flash)', 'mxchat'); ?></option>
-                                        <option value="gemini-3-pro-image-preview" <?php selected($image_model, 'gemini-3-pro-image-preview'); ?>><?php esc_html_e('Nano Banana Pro (Gemini 3 Pro)', 'mxchat'); ?></option>
+                                    <optgroup label="<?php esc_attr_e('Google', 'knittnet'); ?>">
+                                        <option value="gemini-2.5-flash-image" <?php selected($image_model, 'gemini-2.5-flash-image'); ?>><?php esc_html_e('Nano Banana (Gemini 2.5 Flash)', 'knittnet'); ?></option>
+                                        <option value="gemini-3-pro-image-preview" <?php selected($image_model, 'gemini-3-pro-image-preview'); ?>><?php esc_html_e('Nano Banana Pro (Gemini 3 Pro)', 'knittnet'); ?></option>
                                     </optgroup>
                                 </select>
                             </div>
-                            <p class="mxch-field-description"><?php esc_html_e('Select the AI model used for generating images within your content.', 'mxchat'); ?></p>
+                            <p class="mxch-field-description"><?php esc_html_e('Select the AI model used for generating images within your content.', 'knittnet'); ?></p>
                         </div>
 
                         <!-- Image Quality (GPT Image only) -->
                         <div class="mxch-field">
-                            <label class="mxch-field-label" for="mxch-image-quality"><?php esc_html_e('Image Quality', 'mxchat'); ?></label>
+                            <label class="mxch-field-label" for="mxch-image-quality"><?php esc_html_e('Image Quality', 'knittnet'); ?></label>
                             <div class="mxch-field-control">
                                 <?php $image_quality = $options['content_image_quality'] ?? 'auto'; ?>
                                 <?php $quality_supported = (strpos($image_model, 'gpt-image') === 0); ?>
                                 <select id="mxch-image-quality" data-field="content_image_quality" class="mxch-cg-select"<?php echo $quality_supported ? '' : ' disabled'; ?>>
-                                    <option value="auto" <?php selected($image_quality, 'auto'); ?>><?php esc_html_e('Auto (default)', 'mxchat'); ?></option>
-                                    <option value="low" <?php selected($image_quality, 'low'); ?>><?php esc_html_e('Low (fastest, cheapest)', 'mxchat'); ?></option>
-                                    <option value="medium" <?php selected($image_quality, 'medium'); ?>><?php esc_html_e('Medium', 'mxchat'); ?></option>
-                                    <option value="high" <?php selected($image_quality, 'high'); ?>><?php esc_html_e('High (best, slowest)', 'mxchat'); ?></option>
+                                    <option value="auto" <?php selected($image_quality, 'auto'); ?>><?php esc_html_e('Auto (default)', 'knittnet'); ?></option>
+                                    <option value="low" <?php selected($image_quality, 'low'); ?>><?php esc_html_e('Low (fastest, cheapest)', 'knittnet'); ?></option>
+                                    <option value="medium" <?php selected($image_quality, 'medium'); ?>><?php esc_html_e('Medium', 'knittnet'); ?></option>
+                                    <option value="high" <?php selected($image_quality, 'high'); ?>><?php esc_html_e('High (best, slowest)', 'knittnet'); ?></option>
                                 </select>
                             </div>
-                            <p class="mxch-field-description"><?php esc_html_e('Quality control for OpenAI GPT Image models only. Grok Imagine and Gemini image models ignore this setting (their APIs do not expose an equivalent parameter).', 'mxchat'); ?></p>
+                            <p class="mxch-field-description"><?php esc_html_e('Quality control for OpenAI GPT Image models only. Grok Imagine and Gemini image models ignore this setting (their APIs do not expose an equivalent parameter).', 'knittnet'); ?></p>
                         </div>
                         <script>(function(){
                             var m = document.getElementById('mxch-image-model');
@@ -613,14 +613,14 @@ function mxchat_render_content_page($admin_instance) {
                                 <?php $enable_images = $options['content_enable_images'] ?? 'on'; ?>
                                 <input type="checkbox" class="mxch-toggle-input" data-field="content_enable_images" value="on" <?php checked($enable_images, 'on'); ?>>
                                 <span class="mxch-toggle-switch"></span>
-                                <span class="mxch-toggle-label"><?php esc_html_e('Enable Image Generation', 'mxchat'); ?></span>
+                                <span class="mxch-toggle-label"><?php esc_html_e('Enable Image Generation', 'knittnet'); ?></span>
                             </label>
-                            <p class="mxch-field-description"><?php esc_html_e('When enabled, AI will generate and place images throughout your content. When disabled, pages are generated with text-only layouts.', 'mxchat'); ?></p>
+                            <p class="mxch-field-description"><?php esc_html_e('When enabled, AI will generate and place images throughout your content. When disabled, pages are generated with text-only layouts.', 'knittnet'); ?></p>
                         </div>
 
                         <!-- Images per Article -->
                         <div class="mxch-field">
-                            <label class="mxch-field-label" for="mxch-image-count"><?php esc_html_e('Images per Article', 'mxchat'); ?></label>
+                            <label class="mxch-field-label" for="mxch-image-count"><?php esc_html_e('Images per Article', 'knittnet'); ?></label>
                             <div class="mxch-field-control">
                                 <?php $image_count = max(1, min(5, (int) ($options['content_image_count'] ?? 3))); ?>
                                 <?php $images_on = ($options['content_enable_images'] ?? 'on') === 'on'; ?>
@@ -630,7 +630,7 @@ function mxchat_render_content_page($admin_instance) {
                                     <span id="mxch-image-count-val" class="mxch-cg-slider-value"><?php echo esc_html($image_count); ?></span>
                                 </div>
                             </div>
-                            <p class="mxch-field-description"><?php esc_html_e('How many images to generate and place in each article (1–5). Default 3. The AI may generate fewer if the article has few sections suited to imagery.', 'mxchat'); ?></p>
+                            <p class="mxch-field-description"><?php esc_html_e('How many images to generate and place in each article (1–5). Default 3. The AI may generate fewer if the article has few sections suited to imagery.', 'knittnet'); ?></p>
                         </div>
                         <script>(function(){
                             var s = document.getElementById('mxch-image-count');
@@ -652,18 +652,18 @@ function mxchat_render_content_page($admin_instance) {
                                 <input type="checkbox" class="mxch-toggle-input" data-field="content_internal_linking" value="on" <?php checked($internal_linking_val, 'on'); ?><?php echo $pro_internal_linking ? '' : ' disabled'; ?>>
                                 <span class="mxch-toggle-switch"></span>
                                 <span class="mxch-toggle-label">
-                                    <?php esc_html_e('Internal Linking', 'mxchat'); ?>
+                                    <?php esc_html_e('Internal Linking', 'knittnet'); ?>
                                     <?php if (!$pro_internal_linking): ?>
-                                        <span class="mxch-cg-pro-badge"><?php echo $is_activated ? esc_html__('ADD-ON', 'mxchat') : esc_html__('PRO', 'mxchat'); ?></span>
+                                        <span class="mxch-cg-pro-badge"><?php echo $is_activated ? esc_html__('ADD-ON', 'knittnet') : esc_html__('PRO', 'knittnet'); ?></span>
                                     <?php endif; ?>
                                 </span>
                             </label>
-                            <p class="mxch-field-description"><?php esc_html_e('Automatically find and link to existing blog posts on your site within generated content.', 'mxchat'); ?></p>
+                            <p class="mxch-field-description"><?php esc_html_e('Automatically find and link to existing blog posts on your site within generated content.', 'knittnet'); ?></p>
                             <?php if (!$pro_internal_linking): ?>
                                 <?php if ($is_activated): ?>
-                                    <a href="https://mxchat.ai/" target="_blank" class="mxch-cg-pro-upgrade-link"><?php esc_html_e('Install Add-on', 'mxchat'); ?></a>
+                                    <a href="https://knittnet.ai/" target="_blank" class="mxch-cg-pro-upgrade-link"><?php esc_html_e('Install Add-on', 'knittnet'); ?></a>
                                 <?php else: ?>
-                                    <a href="https://mxchat.ai/" target="_blank" class="mxch-cg-pro-upgrade-link"><?php esc_html_e('Upgrade to Pro', 'mxchat'); ?></a>
+                                    <a href="https://knittnet.ai/" target="_blank" class="mxch-cg-pro-upgrade-link"><?php esc_html_e('Upgrade to Pro', 'knittnet'); ?></a>
                                 <?php endif; ?>
                             <?php endif; ?>
                         </div>
@@ -675,18 +675,18 @@ function mxchat_render_content_page($admin_instance) {
                                 <input type="checkbox" class="mxch-toggle-input" data-field="content_tool_use" value="on" <?php checked($tool_use_val, 'on'); ?><?php echo $pro_tool_use ? '' : ' disabled'; ?>>
                                 <span class="mxch-toggle-switch"></span>
                                 <span class="mxch-toggle-label">
-                                    <?php esc_html_e('Tool Use for AI Editing', 'mxchat'); ?>
+                                    <?php esc_html_e('Tool Use for AI Editing', 'knittnet'); ?>
                                     <?php if (!$pro_tool_use): ?>
-                                        <span class="mxch-cg-pro-badge"><?php echo $is_activated ? esc_html__('ADD-ON', 'mxchat') : esc_html__('PRO', 'mxchat'); ?></span>
+                                        <span class="mxch-cg-pro-badge"><?php echo $is_activated ? esc_html__('ADD-ON', 'knittnet') : esc_html__('PRO', 'knittnet'); ?></span>
                                     <?php endif; ?>
                                 </span>
                             </label>
-                            <p class="mxch-field-description"><?php esc_html_e('Enable precise editing with tool calling — the AI makes targeted changes instead of rewriting the entire page, improving accuracy and token efficiency. Supports Claude, OpenAI, Gemini, and xAI models.', 'mxchat'); ?></p>
+                            <p class="mxch-field-description"><?php esc_html_e('Enable precise editing with tool calling — the AI makes targeted changes instead of rewriting the entire page, improving accuracy and token efficiency. Supports Claude, OpenAI, Gemini, and xAI models.', 'knittnet'); ?></p>
                             <?php if (!$pro_tool_use): ?>
                                 <?php if ($is_activated): ?>
-                                    <a href="https://mxchat.ai/" target="_blank" class="mxch-cg-pro-upgrade-link"><?php esc_html_e('Install Add-on', 'mxchat'); ?></a>
+                                    <a href="https://knittnet.ai/" target="_blank" class="mxch-cg-pro-upgrade-link"><?php esc_html_e('Install Add-on', 'knittnet'); ?></a>
                                 <?php else: ?>
-                                    <a href="https://mxchat.ai/" target="_blank" class="mxch-cg-pro-upgrade-link"><?php esc_html_e('Upgrade to Pro', 'mxchat'); ?></a>
+                                    <a href="https://knittnet.ai/" target="_blank" class="mxch-cg-pro-upgrade-link"><?php esc_html_e('Upgrade to Pro', 'knittnet'); ?></a>
                                 <?php endif; ?>
                             <?php endif; ?>
                         </div>
@@ -697,7 +697,7 @@ function mxchat_render_content_page($admin_instance) {
                 <!-- ── SEO Settings ── -->
                 <div class="mxch-card" style="margin-top: 16px;">
                     <div class="mxch-card-header">
-                        <h3 class="mxch-card-title"><?php esc_html_e('SEO', 'mxchat'); ?></h3>
+                        <h3 class="mxch-card-title"><?php esc_html_e('SEO', 'knittnet'); ?></h3>
                     </div>
                     <div class="mxch-card-body">
 
@@ -706,18 +706,18 @@ function mxchat_render_content_page($admin_instance) {
                         <div class="mxch-field mxch-gsc-settings-locked">
                             <div class="mxch-gsc-settings-locked-header">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
-                                <span><?php esc_html_e('Google Search Console', 'mxchat'); ?></span>
-                                <span class="mxch-cg-pro-badge"><?php echo $is_activated ? esc_html__('ADD-ON', 'mxchat') : esc_html__('PRO', 'mxchat'); ?></span>
+                                <span><?php esc_html_e('Google Search Console', 'knittnet'); ?></span>
+                                <span class="mxch-cg-pro-badge"><?php echo $is_activated ? esc_html__('ADD-ON', 'knittnet') : esc_html__('PRO', 'knittnet'); ?></span>
                             </div>
-                            <p class="mxch-field-description"><?php esc_html_e('Connect Google Search Console to see real search performance data — clicks, impressions, CTR, and keyword rankings — directly in your SEO dashboard. Chat with your GSC data using the AI Admin Assistant add-on.', 'mxchat'); ?></p>
+                            <p class="mxch-field-description"><?php esc_html_e('Connect Google Search Console to see real search performance data — clicks, impressions, CTR, and keyword rankings — directly in your SEO dashboard. Chat with your GSC data using the AI Admin Assistant add-on.', 'knittnet'); ?></p>
                             <button type="button" class="mxch-gsc-connect-btn" disabled>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                                <?php esc_html_e('Connect Google Search Console', 'mxchat'); ?>
+                                <?php esc_html_e('Connect Google Search Console', 'knittnet'); ?>
                             </button>
                             <?php if ($is_activated): ?>
-                                <a href="https://mxchat.ai/" target="_blank" class="mxch-cg-pro-upgrade-link"><?php esc_html_e('Install Add-on', 'mxchat'); ?></a>
+                                <a href="https://knittnet.ai/" target="_blank" class="mxch-cg-pro-upgrade-link"><?php esc_html_e('Install Add-on', 'knittnet'); ?></a>
                             <?php else: ?>
-                                <a href="https://mxchat.ai/" target="_blank" class="mxch-cg-pro-upgrade-link"><?php esc_html_e('Upgrade to Pro', 'mxchat'); ?></a>
+                                <a href="https://knittnet.ai/" target="_blank" class="mxch-cg-pro-upgrade-link"><?php esc_html_e('Upgrade to Pro', 'knittnet'); ?></a>
                             <?php endif; ?>
                         </div>
                         <?php endif; ?>
@@ -734,47 +734,47 @@ function mxchat_render_content_page($admin_instance) {
                         $has_addon = $pro_internal_linking; // any addon feature unlocked means addon is present
                         ?>
                         <div class="mxch-field">
-                            <label class="mxch-field-label"><?php esc_html_e('AI Optimize', 'mxchat'); ?></label>
-                            <p class="mxch-field-description" style="margin-bottom: 10px;"><?php esc_html_e('Choose which checks AI Optimize will fix when run.', 'mxchat'); ?></p>
+                            <label class="mxch-field-label"><?php esc_html_e('AI Optimize', 'knittnet'); ?></label>
+                            <p class="mxch-field-description" style="margin-bottom: 10px;"><?php esc_html_e('Choose which checks AI Optimize will fix when run.', 'knittnet'); ?></p>
                             <div class="mxch-seo-opt-grid">
                                 <label class="mxch-seo-opt-item">
                                     <input type="checkbox" class="mxch-seo-opt-check" data-field="seo_optimize_meta_desc" <?php checked($seo_opt_meta, 'on'); ?>>
-                                    <span><?php esc_html_e('Meta Description', 'mxchat'); ?></span>
+                                    <span><?php esc_html_e('Meta Description', 'knittnet'); ?></span>
                                 </label>
                                 <label class="mxch-seo-opt-item">
                                     <input type="checkbox" class="mxch-seo-opt-check" data-field="seo_optimize_seo_title" <?php checked($seo_opt_title, 'on'); ?>>
-                                    <span><?php esc_html_e('SEO Title', 'mxchat'); ?></span>
+                                    <span><?php esc_html_e('SEO Title', 'knittnet'); ?></span>
                                 </label>
                                 <label class="mxch-seo-opt-item">
                                     <input type="checkbox" class="mxch-seo-opt-check" data-field="seo_optimize_slug" <?php checked($seo_opt_slug, 'on'); ?>>
-                                    <span><?php esc_html_e('URL Slug', 'mxchat'); ?></span>
+                                    <span><?php esc_html_e('URL Slug', 'knittnet'); ?></span>
                                 </label>
                                 <label class="mxch-seo-opt-item<?php echo $has_addon ? '' : ' mxch-seo-opt-locked'; ?>">
                                     <input type="checkbox" class="mxch-seo-opt-check" data-field="seo_optimize_readability" <?php checked($seo_opt_read, 'on'); ?><?php echo $has_addon ? '' : ' disabled'; ?>>
-                                    <span><?php esc_html_e('Readability', 'mxchat'); ?></span>
+                                    <span><?php esc_html_e('Readability', 'knittnet'); ?></span>
                                     <?php if (!$has_addon): ?>
-                                        <span class="mxch-cg-pro-badge"><?php echo $is_activated ? esc_html__('ADD-ON', 'mxchat') : esc_html__('PRO', 'mxchat'); ?></span>
+                                        <span class="mxch-cg-pro-badge"><?php echo $is_activated ? esc_html__('ADD-ON', 'knittnet') : esc_html__('PRO', 'knittnet'); ?></span>
                                     <?php endif; ?>
                                 </label>
                                 <label class="mxch-seo-opt-item<?php echo $has_addon ? '' : ' mxch-seo-opt-locked'; ?>">
                                     <input type="checkbox" class="mxch-seo-opt-check" data-field="seo_optimize_internal_links" <?php checked($seo_opt_links, 'on'); ?><?php echo $has_addon ? '' : ' disabled'; ?>>
-                                    <span><?php esc_html_e('Internal Links', 'mxchat'); ?></span>
+                                    <span><?php esc_html_e('Internal Links', 'knittnet'); ?></span>
                                     <?php if (!$has_addon): ?>
-                                        <span class="mxch-cg-pro-badge"><?php echo $is_activated ? esc_html__('ADD-ON', 'mxchat') : esc_html__('PRO', 'mxchat'); ?></span>
+                                        <span class="mxch-cg-pro-badge"><?php echo $is_activated ? esc_html__('ADD-ON', 'knittnet') : esc_html__('PRO', 'knittnet'); ?></span>
                                     <?php endif; ?>
                                 </label>
                                 <label class="mxch-seo-opt-item<?php echo $has_addon ? '' : ' mxch-seo-opt-locked'; ?>">
                                     <input type="checkbox" class="mxch-seo-opt-check" data-field="seo_optimize_img_alt" <?php checked($seo_opt_imgalt, 'on'); ?><?php echo $has_addon ? '' : ' disabled'; ?>>
-                                    <span><?php esc_html_e('Image ALT Text', 'mxchat'); ?></span>
+                                    <span><?php esc_html_e('Image ALT Text', 'knittnet'); ?></span>
                                     <?php if (!$has_addon): ?>
-                                        <span class="mxch-cg-pro-badge"><?php echo $is_activated ? esc_html__('ADD-ON', 'mxchat') : esc_html__('PRO', 'mxchat'); ?></span>
+                                        <span class="mxch-cg-pro-badge"><?php echo $is_activated ? esc_html__('ADD-ON', 'knittnet') : esc_html__('PRO', 'knittnet'); ?></span>
                                     <?php endif; ?>
                                 </label>
                                 <label class="mxch-seo-opt-item<?php echo $has_addon ? '' : ' mxch-seo-opt-locked'; ?>">
                                     <input type="checkbox" class="mxch-seo-opt-check" data-field="seo_optimize_featured_img" <?php checked($seo_opt_feat, 'on'); ?><?php echo $has_addon ? '' : ' disabled'; ?>>
-                                    <span><?php esc_html_e('Featured Image', 'mxchat'); ?></span>
+                                    <span><?php esc_html_e('Featured Image', 'knittnet'); ?></span>
                                     <?php if (!$has_addon): ?>
-                                        <span class="mxch-cg-pro-badge"><?php echo $is_activated ? esc_html__('ADD-ON', 'mxchat') : esc_html__('PRO', 'mxchat'); ?></span>
+                                        <span class="mxch-cg-pro-badge"><?php echo $is_activated ? esc_html__('ADD-ON', 'knittnet') : esc_html__('PRO', 'knittnet'); ?></span>
                                     <?php endif; ?>
                                 </label>
                             </div>
@@ -789,8 +789,8 @@ function mxchat_render_content_page($admin_instance) {
                  ======================================== -->
             <div id="content-seo" class="mxch-section">
                 <div class="mxch-content-header">
-                    <h1 class="mxch-content-title"><?php esc_html_e('SEO Analysis', 'mxchat'); ?></h1>
-                    <p class="mxch-content-subtitle"><?php esc_html_e('Analyze and optimize SEO for all your content.', 'mxchat'); ?></p>
+                    <h1 class="mxch-content-title"><?php esc_html_e('SEO Analysis', 'knittnet'); ?></h1>
+                    <p class="mxch-content-subtitle"><?php esc_html_e('Analyze and optimize SEO for all your content.', 'knittnet'); ?></p>
                 </div>
 
                 <div class="mxch-card">
@@ -799,9 +799,9 @@ function mxchat_render_content_page($admin_instance) {
                         <div class="mxch-seod-filters">
                             <div class="mxch-seod-filters-left">
                                 <select id="mxch-seod-post-type" class="mxch-seod-select">
-                                    <option value="any"><?php esc_html_e('All Types', 'mxchat'); ?></option>
-                                    <option value="post"><?php esc_html_e('Posts', 'mxchat'); ?></option>
-                                    <option value="page"><?php esc_html_e('Pages', 'mxchat'); ?></option>
+                                    <option value="any"><?php esc_html_e('All Types', 'knittnet'); ?></option>
+                                    <option value="post"><?php esc_html_e('Posts', 'knittnet'); ?></option>
+                                    <option value="page"><?php esc_html_e('Pages', 'knittnet'); ?></option>
                                     <?php
                                     $extra_types = get_post_types(array('public' => true, '_builtin' => false), 'objects');
                                     foreach ($extra_types as $pt) {
@@ -811,30 +811,30 @@ function mxchat_render_content_page($admin_instance) {
                                     ?>
                                 </select>
                                 <div class="mxch-seod-filter-pills">
-                                    <button type="button" class="mxch-seod-pill active" data-filter="all"><?php esc_html_e('All', 'mxchat'); ?></button>
-                                    <button type="button" class="mxch-seod-pill" data-filter="issues"><?php esc_html_e('Issues', 'mxchat'); ?></button>
-                                    <button type="button" class="mxch-seod-pill" data-filter="good"><?php esc_html_e('Good', 'mxchat'); ?></button>
-                                    <button type="button" class="mxch-seod-pill" data-filter="unscored"><?php esc_html_e('Not Scanned', 'mxchat'); ?></button>
+                                    <button type="button" class="mxch-seod-pill active" data-filter="all"><?php esc_html_e('All', 'knittnet'); ?></button>
+                                    <button type="button" class="mxch-seod-pill" data-filter="issues"><?php esc_html_e('Issues', 'knittnet'); ?></button>
+                                    <button type="button" class="mxch-seod-pill" data-filter="good"><?php esc_html_e('Good', 'knittnet'); ?></button>
+                                    <button type="button" class="mxch-seod-pill" data-filter="unscored"><?php esc_html_e('Not Scanned', 'knittnet'); ?></button>
                                 </div>
                             </div>
                             <div class="mxch-seod-filters-right">
                                 <?php if (!$has_addon): ?>
-                                    <span class="mxch-seod-bulk-note" id="mxch-seod-bulk-note" style="display:none;"><?php echo $is_activated ? esc_html__('Bulk optimize requires the Advanced Content Editor add-on', 'mxchat') : esc_html__('Bulk optimize requires MxChat Pro', 'mxchat'); ?></span>
+                                    <span class="mxch-seod-bulk-note" id="mxch-seod-bulk-note" style="display:none;"><?php echo $is_activated ? esc_html__('Bulk optimize requires the Advanced Content Editor add-on', 'knittnet') : esc_html__('Bulk optimize requires KnittNet Pro', 'knittnet'); ?></span>
                                 <?php endif; ?>
-                                <button type="button" class="mxch-seod-scan-btn mxch-seod-optimize-selected-btn<?php echo $has_addon ? '' : ' mxch-seod-bulk-locked'; ?>" id="mxch-seod-optimize-selected" style="display:none;"<?php echo $has_addon ? '' : ' disabled title="' . esc_attr__('Pro required for bulk optimization', 'mxchat') . '"'; ?>>
+                                <button type="button" class="mxch-seod-scan-btn mxch-seod-optimize-selected-btn<?php echo $has_addon ? '' : ' mxch-seod-bulk-locked'; ?>" id="mxch-seod-optimize-selected" style="display:none;"<?php echo $has_addon ? '' : ' disabled title="' . esc_attr__('Pro required for bulk optimization', 'knittnet') . '"'; ?>>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.287 1.288L3 12l5.8 1.9a2 2 0 0 1 1.288 1.287L12 21l1.9-5.8a2 2 0 0 1 1.287-1.288L21 12l-5.8-1.9a2 2 0 0 1-1.288-1.287Z"/></svg>
-                                    <span><?php esc_html_e('Optimize Selected', 'mxchat'); ?></span>
+                                    <span><?php esc_html_e('Optimize Selected', 'knittnet'); ?></span>
                                     <?php if (!$has_addon): ?>
-                                        <span class="mxch-cg-pro-badge"><?php echo $is_activated ? esc_html__('ADD-ON', 'mxchat') : esc_html__('PRO', 'mxchat'); ?></span>
+                                        <span class="mxch-cg-pro-badge"><?php echo $is_activated ? esc_html__('ADD-ON', 'knittnet') : esc_html__('PRO', 'knittnet'); ?></span>
                                     <?php endif; ?>
                                 </button>
                                 <button type="button" class="mxch-seod-scan-btn mxch-seod-scan-stop-btn" id="mxch-seod-optimize-stop" style="display:none;">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
-                                    <span><?php esc_html_e('Stop', 'mxchat'); ?></span>
+                                    <span><?php esc_html_e('Stop', 'knittnet'); ?></span>
                                 </button>
                                 <div class="mxch-seod-search-wrap">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                                    <input type="text" id="mxch-seod-search" class="mxch-seod-search" placeholder="<?php esc_attr_e('Search posts...', 'mxchat'); ?>">
+                                    <input type="text" id="mxch-seod-search" class="mxch-seod-search" placeholder="<?php esc_attr_e('Search posts...', 'knittnet'); ?>">
                                 </div>
                             </div>
                         </div>
@@ -846,11 +846,11 @@ function mxchat_render_content_page($admin_instance) {
                             </div>
                             <div id="mxch-seod-loading" class="mxch-seod-loading">
                                 <div class="mxch-cg-history-spinner"></div>
-                                <p><?php esc_html_e('Loading posts...', 'mxchat'); ?></p>
+                                <p><?php esc_html_e('Loading posts...', 'knittnet'); ?></p>
                             </div>
                             <div id="mxch-seod-empty" class="mxch-seod-empty" style="display:none;">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
-                                <p><?php esc_html_e('No posts found matching your filters.', 'mxchat'); ?></p>
+                                <p><?php esc_html_e('No posts found matching your filters.', 'knittnet'); ?></p>
                             </div>
                         </div>
 
@@ -859,7 +859,7 @@ function mxchat_render_content_page($admin_instance) {
                             <div class="mxch-seod-footer-left">
                                 <button type="button" class="mxch-seod-scan-btn" id="mxch-seod-scan-all">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
-                                    <span><?php esc_html_e('Scan Unscored', 'mxchat'); ?></span>
+                                    <span><?php esc_html_e('Scan Unscored', 'knittnet'); ?></span>
                                 </button>
                                 <span class="mxch-seod-scan-status" id="mxch-seod-scan-status"></span>
                             </div>
@@ -951,7 +951,7 @@ function mxchat_render_content_page($admin_instance) {
                             <div class="mxcal-demo-header">
                                 <h3>Content Calendar</h3>
                                 <div style="display:flex;gap:8px;">
-                                    <span style="background:#EDF2F7;padding:4px 12px;border-radius:20px;font-size:12px;color:#4A5568;">mxchat.ai</span>
+                                    <span style="background:#EDF2F7;padding:4px 12px;border-radius:20px;font-size:12px;color:#4A5568;">knittnet.ai</span>
                                     <span style="background:linear-gradient(135deg,#fa73e6,#7873f5);padding:4px 12px;border-radius:20px;font-size:11px;color:#fff;font-weight:600;">AI Chatbot Plugin</span>
                                 </div>
                             </div>
@@ -1013,7 +1013,7 @@ function mxchat_render_content_page($admin_instance) {
                             <span class="mxcal-demo-badge">PRO ADD-ON</span>
                             <h2>AI Content Calendar</h2>
                             <p>Import SEO data and let AI generate a 30-day blog plan with targeted keywords, difficulty scores, and automated post scheduling.</p>
-                            <a href="https://mxchat.ai/advanced-content-editor/" target="_blank" class="mxcal-demo-btn">Get Advanced Content Editor</a>
+                            <a href="https://knittnet.ai/advanced-content-editor/" target="_blank" class="mxcal-demo-btn">Get Advanced Content Editor</a>
                         </div>
                     </div>
                 <?php endif; ?>
@@ -1079,7 +1079,7 @@ function mxchat_render_content_page($admin_instance) {
                             <span class="mxtpl-demo-badge">PRO ADD-ON</span>
                             <h2>Spintax & Template Generator</h2>
                             <p>Generate bulk pages from CSV data with spintax variations. Create hundreds of unique, AI-written city pages, service pages, and landing pages.</p>
-                            <a href="https://mxchat.ai/advanced-content-editor/" target="_blank" class="mxtpl-demo-btn">Get Advanced Content Editor</a>
+                            <a href="https://knittnet.ai/advanced-content-editor/" target="_blank" class="mxtpl-demo-btn">Get Advanced Content Editor</a>
                         </div>
                     </div>
                 <?php endif; ?>

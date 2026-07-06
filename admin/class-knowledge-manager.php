@@ -2,14 +2,14 @@
 /**
  * File: admin/class-knowledge-manager.php
  * 
- * Handles all knowledge base content processing for MxChat
+ * Handles all knowledge base content processing for KnittNet
  * Including PDF, sitemap, content processing, and WordPress post management
  */
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
-class MxChat_Knowledge_Manager {
+class KnittNet_Knowledge_Manager {
     
     private $options;
     
@@ -17,77 +17,77 @@ class MxChat_Knowledge_Manager {
      * Constructor - Register hooks for content processing
      */
 public function __construct() {
-    $this->options = get_option('mxchat_options', array());
-    $this->mxchat_init_hooks();
+    $this->options = get_option('knittnet_options', array());
+    $this->knittnet_init_hooks();
     
-    $this->mxchat_init_role_hooks();
+    $this->knittnet_init_role_hooks();
 }
     
 /**
  * Initialize WordPress hooks for content processing
  *
  */
-private function mxchat_init_hooks() {
+private function knittnet_init_hooks() {
     // Admin post handlers for form submissions
-    add_action('admin_post_mxchat_submit_content', array($this, 'mxchat_handle_content_submission'));
-    add_action('admin_post_mxchat_submit_sitemap', array($this, 'mxchat_handle_sitemap_submission'));
-    add_action('admin_post_mxchat_submit_pdf_file', array($this, 'mxchat_handle_pdf_file_submission'));
-    add_action('admin_post_mxchat_stop_processing', array($this, 'mxchat_stop_processing'));
+    add_action('admin_post_knittnet_submit_content', array($this, 'knittnet_handle_content_submission'));
+    add_action('admin_post_knittnet_submit_sitemap', array($this, 'knittnet_handle_sitemap_submission'));
+    add_action('admin_post_knittnet_submit_pdf_file', array($this, 'knittnet_handle_pdf_file_submission'));
+    add_action('admin_post_knittnet_stop_processing', array($this, 'knittnet_stop_processing'));
     
     // AJAX handlers for real-time processing and status updates
-    add_action('wp_ajax_mxchat_get_status_updates', array($this, 'mxchat_ajax_get_status_updates'));
-    add_action('wp_ajax_mxchat_dismiss_completed_status', array($this, 'mxchat_ajax_dismiss_completed_status'));
-    add_action('wp_ajax_mxchat_get_content_list', array($this, 'ajax_mxchat_get_content_list'));
-    add_action('wp_ajax_mxchat_process_selected_content', array($this, 'ajax_mxchat_process_selected_content'));
-    add_action('wp_ajax_mxchat_save_inline_prompt', array($this, 'mxchat_save_inline_prompt'));
-    add_action('admin_post_mxchat_delete_pinecone_prompt', array($this, 'mxchat_handle_pinecone_prompt_delete'));
-    add_action('wp_ajax_mxchat_delete_pinecone_prompt', array($this, 'ajax_mxchat_delete_pinecone_prompt'));
-    add_action('wp_ajax_mxchat_delete_chunks_by_url', array($this, 'ajax_mxchat_delete_chunks_by_url'));
-    add_action('wp_ajax_mxchat_delete_wordpress_prompt', array($this, 'ajax_mxchat_delete_wordpress_prompt'));
-    add_action('wp_ajax_mxchat_bulk_delete_knowledge', array($this, 'ajax_mxchat_bulk_delete_knowledge'));
-    add_action('wp_ajax_mxchat_update_role_restriction', array($this, 'ajax_mxchat_update_role_restriction'));
+    add_action('wp_ajax_knittnet_get_status_updates', array($this, 'knittnet_ajax_get_status_updates'));
+    add_action('wp_ajax_knittnet_dismiss_completed_status', array($this, 'knittnet_ajax_dismiss_completed_status'));
+    add_action('wp_ajax_knittnet_get_content_list', array($this, 'ajax_knittnet_get_content_list'));
+    add_action('wp_ajax_knittnet_process_selected_content', array($this, 'ajax_knittnet_process_selected_content'));
+    add_action('wp_ajax_knittnet_save_inline_prompt', array($this, 'knittnet_save_inline_prompt'));
+    add_action('admin_post_knittnet_delete_pinecone_prompt', array($this, 'knittnet_handle_pinecone_prompt_delete'));
+    add_action('wp_ajax_knittnet_delete_pinecone_prompt', array($this, 'ajax_knittnet_delete_pinecone_prompt'));
+    add_action('wp_ajax_knittnet_delete_chunks_by_url', array($this, 'ajax_knittnet_delete_chunks_by_url'));
+    add_action('wp_ajax_knittnet_delete_wordpress_prompt', array($this, 'ajax_knittnet_delete_wordpress_prompt'));
+    add_action('wp_ajax_knittnet_bulk_delete_knowledge', array($this, 'ajax_knittnet_bulk_delete_knowledge'));
+    add_action('wp_ajax_knittnet_update_role_restriction', array($this, 'ajax_knittnet_update_role_restriction'));
     
     //   Queue-based processing AJAX handlers
-    add_action('wp_ajax_mxchat_get_next_queue_item', array($this, 'ajax_mxchat_get_next_queue_item'));
-    add_action('wp_ajax_mxchat_process_queue_item', array($this, 'ajax_mxchat_process_queue_item'));
-    add_action('wp_ajax_mxchat_get_queue_status', array($this, 'ajax_mxchat_get_queue_status'));
-    add_action('wp_ajax_mxchat_clear_queue', array($this, 'ajax_mxchat_clear_queue'));
-    add_action('wp_ajax_mxchat_retry_failed', array($this, 'ajax_mxchat_retry_failed'));
-    add_action('wp_ajax_mxchat_get_recent_entries', array($this, 'ajax_mxchat_get_recent_entries'));
-    add_action('wp_ajax_mxchat_detect_sitemaps', array($this, 'ajax_mxchat_detect_sitemaps'));
-    add_action('wp_ajax_mxchat_refresh_pinecone_entries', array($this, 'ajax_mxchat_refresh_pinecone_entries'));
-    add_action('wp_ajax_mxchat_paginate_entries', array($this, 'ajax_mxchat_paginate_entries'));
-    add_action('wp_ajax_mxchat_get_entry_content', array($this, 'ajax_mxchat_get_entry_content'));
-    add_action('wp_ajax_mxchat_save_entry_content', array($this, 'ajax_mxchat_save_entry_content'));
-    add_action('wp_ajax_mxchat_inspect_entry', array($this, 'ajax_mxchat_inspect_entry'));
+    add_action('wp_ajax_knittnet_get_next_queue_item', array($this, 'ajax_knittnet_get_next_queue_item'));
+    add_action('wp_ajax_knittnet_process_queue_item', array($this, 'ajax_knittnet_process_queue_item'));
+    add_action('wp_ajax_knittnet_get_queue_status', array($this, 'ajax_knittnet_get_queue_status'));
+    add_action('wp_ajax_knittnet_clear_queue', array($this, 'ajax_knittnet_clear_queue'));
+    add_action('wp_ajax_knittnet_retry_failed', array($this, 'ajax_knittnet_retry_failed'));
+    add_action('wp_ajax_knittnet_get_recent_entries', array($this, 'ajax_knittnet_get_recent_entries'));
+    add_action('wp_ajax_knittnet_detect_sitemaps', array($this, 'ajax_knittnet_detect_sitemaps'));
+    add_action('wp_ajax_knittnet_refresh_pinecone_entries', array($this, 'ajax_knittnet_refresh_pinecone_entries'));
+    add_action('wp_ajax_knittnet_paginate_entries', array($this, 'ajax_knittnet_paginate_entries'));
+    add_action('wp_ajax_knittnet_get_entry_content', array($this, 'ajax_knittnet_get_entry_content'));
+    add_action('wp_ajax_knittnet_save_entry_content', array($this, 'ajax_knittnet_save_entry_content'));
+    add_action('wp_ajax_knittnet_inspect_entry', array($this, 'ajax_knittnet_inspect_entry'));
 
     // WordPress post management hooks
-    add_action('pre_post_update', array($this, 'mxchat_store_pre_update_status'), 10, 2);
-    add_action('post_updated', array($this, 'mxchat_handle_post_update'), 10, 3);
-    add_action('before_delete_post', array($this, 'mxchat_handle_post_delete'));
-    add_action('wp_trash_post', array($this, 'mxchat_handle_post_delete'));
+    add_action('pre_post_update', array($this, 'knittnet_store_pre_update_status'), 10, 2);
+    add_action('post_updated', array($this, 'knittnet_handle_post_update'), 10, 3);
+    add_action('before_delete_post', array($this, 'knittnet_handle_post_delete'));
+    add_action('wp_trash_post', array($this, 'knittnet_handle_post_delete'));
 
     // ACF hook - fires AFTER ACF fields are saved, ensuring ACF data is available
     // Priority 20 to run after ACF's own save (which runs at priority 10)
-    add_action('acf/save_post', array($this, 'mxchat_handle_acf_save'), 20);
+    add_action('acf/save_post', array($this, 'knittnet_handle_acf_save'), 20);
 
-    add_action('wp_ajax_mxchat_mark_queue_complete', array($this, 'ajax_mxchat_mark_queue_complete'));
+    add_action('wp_ajax_knittnet_mark_queue_complete', array($this, 'ajax_knittnet_mark_queue_complete'));
 
     // WooCommerce product hooks (if WooCommerce is active)
     if (class_exists('WooCommerce')) {
-        add_action('pre_post_update', array($this, 'mxchat_store_pre_update_status'), 10, 2);
-        add_action('save_post_product', array($this, 'mxchat_handle_product_change'), 10, 3);
-        add_action('wp_trash_post', array($this, 'mxchat_handle_product_delete'));
-        add_action('before_delete_post', array($this, 'mxchat_handle_product_delete'));
+        add_action('pre_post_update', array($this, 'knittnet_store_pre_update_status'), 10, 2);
+        add_action('save_post_product', array($this, 'knittnet_handle_product_change'), 10, 3);
+        add_action('wp_trash_post', array($this, 'knittnet_handle_product_delete'));
+        add_action('before_delete_post', array($this, 'knittnet_handle_product_delete'));
     }
 }
     
     /**
      * Get current options (refreshed)
      */
-    private function mxchat_get_options() {
+    private function knittnet_get_options() {
         if (empty($this->options)) {
-            $this->options = get_option('mxchat_options', array());
+            $this->options = get_option('knittnet_options', array());
         }
         return $this->options;
     }
@@ -97,16 +97,16 @@ private function mxchat_init_hooks() {
     // MAIN CONTENT SUBMISSION HANDLERS
     // ========================================
     
-public function mxchat_handle_content_submission() {
+public function knittnet_handle_content_submission() {
     // Check if the form was submitted and the user has permission.
     if (!isset($_POST['submit_content']) || !current_user_can('manage_options')) {
         return;
     }
     
     // Verify the nonce.
-    $nonce = isset($_POST['mxchat_submit_content_nonce']) ? sanitize_text_field(wp_unslash($_POST['mxchat_submit_content_nonce'])) : '';
-    if (!wp_verify_nonce($nonce, 'mxchat_submit_content_action')) {
-        wp_die(esc_html__('Nonce verification failed.', 'mxchat'));
+    $nonce = isset($_POST['knittnet_submit_content_nonce']) ? sanitize_text_field(wp_unslash($_POST['knittnet_submit_content_nonce'])) : '';
+    if (!wp_verify_nonce($nonce, 'knittnet_submit_content_action')) {
+        wp_die(esc_html__('Nonce verification failed.', 'knittnet'));
     }
     
     // Sanitize the inputs.
@@ -119,7 +119,7 @@ public function mxchat_handle_content_submission() {
     
     //  Get bot-specific options and API key
     $bot_options = $this->get_bot_options($bot_id);
-    $options = !empty($bot_options) ? $bot_options : get_option('mxchat_options');
+    $options = !empty($bot_options) ? $bot_options : get_option('knittnet_options');
     $selected_model = $options['embedding_model'] ?? 'text-embedding-ada-002';
     
     if (strpos($selected_model, 'voyage') === 0) {
@@ -131,34 +131,34 @@ public function mxchat_handle_content_submission() {
     }
     
     if (empty($api_key)) {
-        set_transient('mxchat_admin_notice_error',
-            esc_html__('API key is not configured. Please add your API key in the settings before submitting content.', 'mxchat'),
+        set_transient('knittnet_admin_notice_error',
+            esc_html__('API key is not configured. Please add your API key in the settings before submitting content.', 'knittnet'),
             30
         );
-        wp_safe_redirect(esc_url(admin_url('admin.php?page=mxchat-prompts')));
+        wp_safe_redirect(esc_url(admin_url('admin.php?page=knittnet-prompts')));
         exit;
     }
     
     //  Use centralized utility function with bot_id
-    $result = MxChat_Utils::submit_content_to_db($article_content, $article_url, $api_key, null, $bot_id);
+    $result = KnittNet_Utils::submit_content_to_db($article_content, $article_url, $api_key, null, $bot_id);
     
     if (is_wp_error($result)) {
-        set_transient('mxchat_admin_notice_error',
-            esc_html__('Error storing content: ', 'mxchat') . $result->get_error_message(),
+        set_transient('knittnet_admin_notice_error',
+            esc_html__('Error storing content: ', 'knittnet') . $result->get_error_message(),
             30
         );
     } else {
-        set_transient('mxchat_admin_notice_success',
-            esc_html__('Content successfully submitted!', 'mxchat'),
+        set_transient('knittnet_admin_notice_success',
+            esc_html__('Content successfully submitted!', 'knittnet'),
             30
         );
     }
     
-    wp_safe_redirect(esc_url(admin_url('admin.php?page=mxchat-prompts')));
+    wp_safe_redirect(esc_url(admin_url('admin.php?page=knittnet-prompts')));
     exit;
 }
 
-public function mxchat_is_pdf_url($url, $response) {
+public function knittnet_is_pdf_url($url, $response) {
     $content_type = wp_remote_retrieve_header($response, 'content-type');
     $file_extension = strtolower(pathinfo($url, PATHINFO_EXTENSION));
 
@@ -170,7 +170,7 @@ public function mxchat_is_pdf_url($url, $response) {
 }
 
 
-public function mxchat_handle_pdf_for_knowledge_base($pdf_url, $response, $bot_id = 'default') {
+public function knittnet_handle_pdf_for_knowledge_base($pdf_url, $response, $bot_id = 'default') {
     if (!current_user_can('manage_options')) {
         return false;
     }
@@ -182,7 +182,7 @@ public function mxchat_handle_pdf_for_knowledge_base($pdf_url, $response, $bot_i
         return false;
     }
 
-    $pdf_filename = sanitize_file_name('mxchat_kb_' . time() . '.pdf');
+    $pdf_filename = sanitize_file_name('knittnet_kb_' . time() . '.pdf');
     $pdf_path = trailingslashit($upload_dir['path']) . $pdf_filename;
 
     $response_body = wp_remote_retrieve_body($response);
@@ -198,13 +198,13 @@ public function mxchat_handle_pdf_for_knowledge_base($pdf_url, $response, $bot_i
         file_put_contents($pdf_path, $response_body);
 
         if (!file_exists($pdf_path)) {
-            throw new Exception(__('Failed to save PDF file', 'mxchat'));
+            throw new Exception(__('Failed to save PDF file', 'knittnet'));
         }
 
-        $total_pages = $this->mxchat_validate_and_count_pdf_pages($pdf_path);
+        $total_pages = $this->knittnet_validate_and_count_pdf_pages($pdf_path);
         
         if ($total_pages === false || $total_pages < 1) {
-            throw new Exception(__('Invalid PDF: Unable to parse or no pages found', 'mxchat'));
+            throw new Exception(__('Invalid PDF: Unable to parse or no pages found', 'knittnet'));
         }
 
         // Create unique queue ID
@@ -222,24 +222,24 @@ public function mxchat_handle_pdf_for_knowledge_base($pdf_url, $response, $bot_i
         }
 
         // Add pages to queue
-        $queued_count = $this->mxchat_add_to_queue($queue_id, 'pdf_page', $pages, $bot_id);
+        $queued_count = $this->knittnet_add_to_queue($queue_id, 'pdf_page', $pages, $bot_id);
 
         if ($queued_count === 0) {
             wp_delete_file($pdf_path);
-            throw new Exception(__('Failed to add PDF pages to processing queue', 'mxchat'));
+            throw new Exception(__('Failed to add PDF pages to processing queue', 'knittnet'));
         }
 
         // Store queue metadata
-        $this->mxchat_set_queue_meta($queue_id, 'source_url', $pdf_url);
-        $this->mxchat_set_queue_meta($queue_id, 'queue_type', 'pdf');
-        $this->mxchat_set_queue_meta($queue_id, 'total_items', $total_pages);
-        $this->mxchat_set_queue_meta($queue_id, 'bot_id', $bot_id);
-        $this->mxchat_set_queue_meta($queue_id, 'pdf_path', $pdf_path);
-        $this->mxchat_set_queue_meta($queue_id, 'created_at', current_time('mysql'));
+        $this->knittnet_set_queue_meta($queue_id, 'source_url', $pdf_url);
+        $this->knittnet_set_queue_meta($queue_id, 'queue_type', 'pdf');
+        $this->knittnet_set_queue_meta($queue_id, 'total_items', $total_pages);
+        $this->knittnet_set_queue_meta($queue_id, 'bot_id', $bot_id);
+        $this->knittnet_set_queue_meta($queue_id, 'pdf_path', $pdf_path);
+        $this->knittnet_set_queue_meta($queue_id, 'created_at', current_time('mysql'));
 
         // Store queue ID in transient for status tracking
-        set_transient('mxchat_active_queue_pdf', $queue_id, DAY_IN_SECONDS);
-        set_transient('mxchat_last_pdf_url', $pdf_url, DAY_IN_SECONDS);
+        set_transient('knittnet_active_queue_pdf', $queue_id, DAY_IN_SECONDS);
+        set_transient('knittnet_last_pdf_url', $pdf_url, DAY_IN_SECONDS);
 
         return 'queued';
 
@@ -254,28 +254,28 @@ public function mxchat_handle_pdf_for_knowledge_base($pdf_url, $response, $bot_i
 /**
  * Handle direct PDF file upload from the knowledge base page
  */
-public function mxchat_handle_pdf_file_submission() {
+public function knittnet_handle_pdf_file_submission() {
     if (!isset($_POST['submit_pdf_file']) || !current_user_can('manage_options')) {
-        wp_die(esc_html__('Unauthorized access', 'mxchat'));
+        wp_die(esc_html__('Unauthorized access', 'knittnet'));
     }
 
-    check_admin_referer('mxchat_submit_pdf_file_action', 'mxchat_submit_pdf_file_nonce');
+    check_admin_referer('knittnet_submit_pdf_file_action', 'knittnet_submit_pdf_file_nonce');
 
-    $redirect_url = admin_url('admin.php?page=mxchat-prompts');
+    $redirect_url = admin_url('admin.php?page=knittnet-prompts');
 
     // Validate file upload
     if (empty($_FILES['pdf_file']) || $_FILES['pdf_file']['error'] !== UPLOAD_ERR_OK) {
         $error_code = isset($_FILES['pdf_file']['error']) ? $_FILES['pdf_file']['error'] : UPLOAD_ERR_NO_FILE;
         $error_messages = array(
-            UPLOAD_ERR_INI_SIZE   => __('The uploaded file exceeds the server upload_max_filesize limit.', 'mxchat'),
-            UPLOAD_ERR_FORM_SIZE  => __('The uploaded file exceeds the form MAX_FILE_SIZE limit.', 'mxchat'),
-            UPLOAD_ERR_PARTIAL    => __('The file was only partially uploaded.', 'mxchat'),
-            UPLOAD_ERR_NO_FILE    => __('No file was uploaded. Please select a PDF file.', 'mxchat'),
-            UPLOAD_ERR_NO_TMP_DIR => __('Server missing temporary folder.', 'mxchat'),
-            UPLOAD_ERR_CANT_WRITE => __('Server failed to write file to disk.', 'mxchat'),
+            UPLOAD_ERR_INI_SIZE   => __('The uploaded file exceeds the server upload_max_filesize limit.', 'knittnet'),
+            UPLOAD_ERR_FORM_SIZE  => __('The uploaded file exceeds the form MAX_FILE_SIZE limit.', 'knittnet'),
+            UPLOAD_ERR_PARTIAL    => __('The file was only partially uploaded.', 'knittnet'),
+            UPLOAD_ERR_NO_FILE    => __('No file was uploaded. Please select a PDF file.', 'knittnet'),
+            UPLOAD_ERR_NO_TMP_DIR => __('Server missing temporary folder.', 'knittnet'),
+            UPLOAD_ERR_CANT_WRITE => __('Server failed to write file to disk.', 'knittnet'),
         );
-        $error_msg = isset($error_messages[$error_code]) ? $error_messages[$error_code] : __('Unknown upload error.', 'mxchat');
-        set_transient('mxchat_admin_notice_error', $error_msg, 30);
+        $error_msg = isset($error_messages[$error_code]) ? $error_messages[$error_code] : __('Unknown upload error.', 'knittnet');
+        set_transient('knittnet_admin_notice_error', $error_msg, 30);
         wp_safe_redirect(esc_url($redirect_url));
         exit;
     }
@@ -288,8 +288,8 @@ public function mxchat_handle_pdf_file_submission() {
     finfo_close($finfo);
 
     if ($mime_type !== 'application/pdf') {
-        set_transient('mxchat_admin_notice_error',
-            esc_html__('Invalid file type. Only PDF files are accepted.', 'mxchat'),
+        set_transient('knittnet_admin_notice_error',
+            esc_html__('Invalid file type. Only PDF files are accepted.', 'knittnet'),
             30
         );
         wp_safe_redirect(esc_url($redirect_url));
@@ -299,8 +299,8 @@ public function mxchat_handle_pdf_file_submission() {
     // Validate extension
     $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
     if ($ext !== 'pdf') {
-        set_transient('mxchat_admin_notice_error',
-            esc_html__('Invalid file extension. Only .pdf files are accepted.', 'mxchat'),
+        set_transient('knittnet_admin_notice_error',
+            esc_html__('Invalid file extension. Only .pdf files are accepted.', 'knittnet'),
             30
         );
         wp_safe_redirect(esc_url($redirect_url));
@@ -312,20 +312,20 @@ public function mxchat_handle_pdf_file_submission() {
 
     $upload_dir = wp_upload_dir();
     if (isset($upload_dir['error']) && $upload_dir['error'] !== false) {
-        set_transient('mxchat_admin_notice_error',
-            esc_html__('WordPress upload directory is not writable.', 'mxchat'),
+        set_transient('knittnet_admin_notice_error',
+            esc_html__('WordPress upload directory is not writable.', 'knittnet'),
             30
         );
         wp_safe_redirect(esc_url($redirect_url));
         exit;
     }
 
-    $pdf_filename = sanitize_file_name('mxchat_kb_' . time() . '.pdf');
+    $pdf_filename = sanitize_file_name('knittnet_kb_' . time() . '.pdf');
     $pdf_path = trailingslashit($upload_dir['path']) . $pdf_filename;
 
     if (!wp_mkdir_p(dirname($pdf_path))) {
-        set_transient('mxchat_admin_notice_error',
-            esc_html__('Failed to create upload directory.', 'mxchat'),
+        set_transient('knittnet_admin_notice_error',
+            esc_html__('Failed to create upload directory.', 'knittnet'),
             30
         );
         wp_safe_redirect(esc_url($redirect_url));
@@ -334,8 +334,8 @@ public function mxchat_handle_pdf_file_submission() {
 
     // Move uploaded file
     if (!move_uploaded_file($file['tmp_name'], $pdf_path)) {
-        set_transient('mxchat_admin_notice_error',
-            esc_html__('Failed to save uploaded PDF file.', 'mxchat'),
+        set_transient('knittnet_admin_notice_error',
+            esc_html__('Failed to save uploaded PDF file.', 'knittnet'),
             30
         );
         wp_safe_redirect(esc_url($redirect_url));
@@ -343,10 +343,10 @@ public function mxchat_handle_pdf_file_submission() {
     }
 
     try {
-        $total_pages = $this->mxchat_validate_and_count_pdf_pages($pdf_path);
+        $total_pages = $this->knittnet_validate_and_count_pdf_pages($pdf_path);
 
         if ($total_pages === false || $total_pages < 1) {
-            throw new Exception(__('Invalid PDF: Unable to parse or no pages found', 'mxchat'));
+            throw new Exception(__('Invalid PDF: Unable to parse or no pages found', 'knittnet'));
         }
 
         // Use original filename as the source identifier
@@ -364,26 +364,26 @@ public function mxchat_handle_pdf_file_submission() {
             );
         }
 
-        $queued_count = $this->mxchat_add_to_queue($queue_id, 'pdf_page', $pages, $bot_id);
+        $queued_count = $this->knittnet_add_to_queue($queue_id, 'pdf_page', $pages, $bot_id);
 
         if ($queued_count === 0) {
             wp_delete_file($pdf_path);
-            throw new Exception(__('Failed to add PDF pages to processing queue', 'mxchat'));
+            throw new Exception(__('Failed to add PDF pages to processing queue', 'knittnet'));
         }
 
-        $this->mxchat_set_queue_meta($queue_id, 'source_url', $source_label);
-        $this->mxchat_set_queue_meta($queue_id, 'queue_type', 'pdf');
-        $this->mxchat_set_queue_meta($queue_id, 'total_items', $total_pages);
-        $this->mxchat_set_queue_meta($queue_id, 'bot_id', $bot_id);
-        $this->mxchat_set_queue_meta($queue_id, 'pdf_path', $pdf_path);
-        $this->mxchat_set_queue_meta($queue_id, 'created_at', current_time('mysql'));
+        $this->knittnet_set_queue_meta($queue_id, 'source_url', $source_label);
+        $this->knittnet_set_queue_meta($queue_id, 'queue_type', 'pdf');
+        $this->knittnet_set_queue_meta($queue_id, 'total_items', $total_pages);
+        $this->knittnet_set_queue_meta($queue_id, 'bot_id', $bot_id);
+        $this->knittnet_set_queue_meta($queue_id, 'pdf_path', $pdf_path);
+        $this->knittnet_set_queue_meta($queue_id, 'created_at', current_time('mysql'));
 
-        set_transient('mxchat_active_queue_pdf', $queue_id, DAY_IN_SECONDS);
-        set_transient('mxchat_last_pdf_url', $source_label, DAY_IN_SECONDS);
+        set_transient('knittnet_active_queue_pdf', $queue_id, DAY_IN_SECONDS);
+        set_transient('knittnet_last_pdf_url', $source_label, DAY_IN_SECONDS);
 
-        set_transient('mxchat_admin_notice_success',
+        set_transient('knittnet_admin_notice_success',
             sprintf(
-                esc_html__('PDF "%s" (%d pages) queued for processing. Processing will start automatically.', 'mxchat'),
+                esc_html__('PDF "%s" (%d pages) queued for processing. Processing will start automatically.', 'knittnet'),
                 esc_html($original_filename),
                 $total_pages
             ),
@@ -394,8 +394,8 @@ public function mxchat_handle_pdf_file_submission() {
         if (file_exists($pdf_path)) {
             wp_delete_file($pdf_path);
         }
-        set_transient('mxchat_admin_notice_error',
-            esc_html__('Failed to process uploaded PDF: ', 'mxchat') . esc_html($e->getMessage()),
+        set_transient('knittnet_admin_notice_error',
+            esc_html__('Failed to process uploaded PDF: ', 'knittnet') . esc_html($e->getMessage()),
             30
         );
     }
@@ -407,10 +407,10 @@ public function mxchat_handle_pdf_file_submission() {
 /**
  *   Validate PDF and count pages with multiple parser attempts
  */
-private function mxchat_validate_and_count_pdf_pages($pdf_path) {
+private function knittnet_validate_and_count_pdf_pages($pdf_path) {
     // Method 1: Try with Smalot PDF Parser (your current method)
     try {
-        mxchat_load_pdf_parser();
+        knittnet_load_pdf_parser();
         $parser = new \Smalot\PdfParser\Parser();
         $pdf = $parser->parseFile($pdf_path);
         $pages = $pdf->getPages();
@@ -425,7 +425,7 @@ private function mxchat_validate_and_count_pdf_pages($pdf_path) {
     }
 
     // Method 2: Try with pdfinfo command (if available)
-    if (function_exists('shell_exec') && !$this->mxchat_is_shell_disabled()) {
+    if (function_exists('shell_exec') && !$this->knittnet_is_shell_disabled()) {
         try {
             $command = 'pdfinfo ' . escapeshellarg($pdf_path) . ' 2>&1';
             $output = shell_exec($command);
@@ -444,9 +444,9 @@ private function mxchat_validate_and_count_pdf_pages($pdf_path) {
 
     // Method 3: Try to repair PDF and parse again
     try {
-        $repaired_path = $this->mxchat_attempt_pdf_repair($pdf_path);
+        $repaired_path = $this->knittnet_attempt_pdf_repair($pdf_path);
         if ($repaired_path && $repaired_path !== $pdf_path) {
-            mxchat_load_pdf_parser();
+            knittnet_load_pdf_parser();
             $parser = new \Smalot\PdfParser\Parser();
             $pdf = $parser->parseFile($repaired_path);
             $pages = $pdf->getPages();
@@ -469,7 +469,7 @@ private function mxchat_validate_and_count_pdf_pages($pdf_path) {
 
     // Method 4: Manual PDF structure analysis (basic page count)
     try {
-        $page_count = $this->mxchat_manual_pdf_page_count($pdf_path);
+        $page_count = $this->knittnet_manual_pdf_page_count($pdf_path);
         if ($page_count > 0) {
             //error_log('PDF page count determined manually: ' . $page_count . ' pages');
             return $page_count;
@@ -485,7 +485,7 @@ private function mxchat_validate_and_count_pdf_pages($pdf_path) {
 /**
  *   Check if shell_exec is disabled
  */
-private function mxchat_is_shell_disabled() {
+private function knittnet_is_shell_disabled() {
     $disabled = explode(',', ini_get('disable_functions'));
     return in_array('shell_exec', $disabled);
 }
@@ -493,7 +493,7 @@ private function mxchat_is_shell_disabled() {
 /**
  *   Attempt to repair PDF using basic methods
  */
-private function mxchat_attempt_pdf_repair($pdf_path) {
+private function knittnet_attempt_pdf_repair($pdf_path) {
     try {
         $content = file_get_contents($pdf_path);
         if (!$content) {
@@ -533,7 +533,7 @@ private function mxchat_attempt_pdf_repair($pdf_path) {
 /**
  *   Manual PDF page counting by analyzing PDF structure
  */
-private function mxchat_manual_pdf_page_count($pdf_path) {
+private function knittnet_manual_pdf_page_count($pdf_path) {
     try {
         $content = file_get_contents($pdf_path);
         if (!$content) {
@@ -565,26 +565,26 @@ private function mxchat_manual_pdf_page_count($pdf_path) {
 }
 
 
-public function mxchat_save_inline_prompt() {
+public function knittnet_save_inline_prompt() {
     // DEBUG: Log what we're receiving
-    //error_log('=== MXCHAT DEBUG ===');
+    //error_log('=== KNITTNET DEBUG ===');
     //error_log('POST data: ' . print_r($_POST, true));
     //error_log('Nonce from POST: ' . ($_POST['_ajax_nonce'] ?? 'NOT FOUND'));
     
     // Check for nonce security
-    check_ajax_referer('mxchat_save_inline_nonce', '_ajax_nonce');
+    check_ajax_referer('knittnet_save_inline_nonce', '_ajax_nonce');
     
     // If we get here, nonce passed
     //error_log('Nonce verification PASSED');
     
     // Verify permissions
     if (!current_user_can('manage_options')) {
-        wp_send_json_error(esc_html__('Permission denied.', 'mxchat'));
+        wp_send_json_error(esc_html__('Permission denied.', 'knittnet'));
         return;
     }
     
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_system_prompt_content';
+    $table_name = $wpdb->prefix . 'knittnet_system_prompt_content';
     
     // Validate and sanitize input data
     $prompt_id = isset($_POST['id']) ? absint($_POST['id']) : 0;
@@ -593,7 +593,7 @@ public function mxchat_save_inline_prompt() {
     
     if ($prompt_id > 0 && !empty($article_content)) {
         // Re-generate the embedding vector for the updated content
-        $embedding_vector = $this->mxchat_generate_embedding($article_content);
+        $embedding_vector = $this->knittnet_generate_embedding($article_content);
         if (is_array($embedding_vector)) {
             // Serialize the embedding vector before storing it
             $embedding_vector_serialized = serialize($embedding_vector);
@@ -612,15 +612,15 @@ public function mxchat_save_inline_prompt() {
             if ($updated !== false) {
                 wp_send_json_success();
             } else {
-                MxChat_Admin::mxchat_log_debug('knowledge_error', 'Database update failed when saving knowledge entry');
-                wp_send_json_error(esc_html__('Database update failed.', 'mxchat'));
+                KnittNet_Admin::knittnet_log_debug('knowledge_error', 'Database update failed when saving knowledge entry');
+                wp_send_json_error(esc_html__('Database update failed.', 'knittnet'));
             }
         } else {
-            MxChat_Admin::mxchat_log_debug('embedding_error', 'Embedding generation failed for knowledge entry');
-            wp_send_json_error(esc_html__('Embedding generation failed.', 'mxchat'));
+            KnittNet_Admin::knittnet_log_debug('embedding_error', 'Embedding generation failed for knowledge entry');
+            wp_send_json_error(esc_html__('Embedding generation failed.', 'knittnet'));
         }
     } else {
-        wp_send_json_error(esc_html__('Invalid data.', 'mxchat'));
+        wp_send_json_error(esc_html__('Invalid data.', 'knittnet'));
     }
 }
 
@@ -629,8 +629,8 @@ public function mxchat_save_inline_prompt() {
  * AJAX: Get full content for editing — reassembles chunks if needed.
  * Works for both WordPress DB and Pinecone entries.
  */
-public function ajax_mxchat_get_entry_content() {
-    check_ajax_referer('mxchat_edit_entry_nonce', 'nonce');
+public function ajax_knittnet_get_entry_content() {
+    check_ajax_referer('knittnet_edit_entry_nonce', 'nonce');
 
     if ( ! current_user_can('manage_options') ) {
         wp_send_json_error( array( 'message' => 'Permission denied.' ) );
@@ -661,10 +661,10 @@ public function ajax_mxchat_get_entry_content() {
  */
 private function get_wordpress_entry_content( $source_url, $entry_id ) {
     global $wpdb;
-    $table = $wpdb->prefix . 'mxchat_system_prompt_content';
+    $table = $wpdb->prefix . 'knittnet_system_prompt_content';
 
     // If we have a source_url, check for chunks
-    if ( ! empty( $source_url ) && strpos( $source_url, 'mxchat://' ) !== 0 ) {
+    if ( ! empty( $source_url ) && strpos( $source_url, 'knittnet://' ) !== 0 ) {
         $rows = $wpdb->get_results( $wpdb->prepare(
             "SELECT id, article_content, source_url, content_type FROM {$table} WHERE source_url = %s ORDER BY id ASC",
             $source_url
@@ -674,7 +674,7 @@ private function get_wordpress_entry_content( $source_url, $entry_id ) {
             // Multiple rows = chunked. Reassemble.
             $chunks = array();
             foreach ( $rows as $row ) {
-                $parsed = MxChat_Chunker::parse_stored_chunk( $row->article_content );
+                $parsed = KnittNet_Chunker::parse_stored_chunk( $row->article_content );
                 $index  = isset( $parsed['metadata']['chunk_index'] ) ? intval( $parsed['metadata']['chunk_index'] ) : count( $chunks );
                 $chunks[ $index ] = $parsed['text'];
             }
@@ -687,7 +687,7 @@ private function get_wordpress_entry_content( $source_url, $entry_id ) {
                 'content_type' => $rows[0]->content_type,
             );
         } elseif ( $rows && count( $rows ) === 1 ) {
-            $parsed = MxChat_Chunker::parse_stored_chunk( $rows[0]->article_content );
+            $parsed = KnittNet_Chunker::parse_stored_chunk( $rows[0]->article_content );
             return array(
                 'content'      => $parsed['text'],
                 'source_url'   => $source_url,
@@ -705,7 +705,7 @@ private function get_wordpress_entry_content( $source_url, $entry_id ) {
             $entry_id
         ) );
         if ( $row ) {
-            $parsed = MxChat_Chunker::parse_stored_chunk( $row->article_content );
+            $parsed = KnittNet_Chunker::parse_stored_chunk( $row->article_content );
             return array(
                 'content'      => $parsed['text'],
                 'source_url'   => $row->source_url,
@@ -723,18 +723,18 @@ private function get_wordpress_entry_content( $source_url, $entry_id ) {
  * Get content from Pinecone — fetches vectors by source_url, reassembles chunks.
  */
 private function get_pinecone_entry_content( $source_url, $entry_id, $bot_id ) {
-    if ( ! class_exists('MxChat_Pinecone_Manager') ) {
+    if ( ! class_exists('KnittNet_Pinecone_Manager') ) {
         return new WP_Error( 'pinecone_unavailable', 'Pinecone manager not available.' );
     }
 
     // Get Pinecone config
-    if ( $bot_id === 'default' || ! class_exists('MxChat_Multi_Bot_Manager') ) {
-        $pinecone_options = get_option('mxchat_pinecone_addon_options');
-        $api_key   = $pinecone_options['mxchat_pinecone_api_key'] ?? '';
-        $host      = $pinecone_options['mxchat_pinecone_host'] ?? '';
-        $namespace = $pinecone_options['mxchat_pinecone_namespace'] ?? '';
+    if ( $bot_id === 'default' || ! class_exists('KnittNet_Multi_Bot_Manager') ) {
+        $pinecone_options = get_option('knittnet_pinecone_addon_options');
+        $api_key   = $pinecone_options['knittnet_pinecone_api_key'] ?? '';
+        $host      = $pinecone_options['knittnet_pinecone_host'] ?? '';
+        $namespace = $pinecone_options['knittnet_pinecone_namespace'] ?? '';
     } else {
-        $bot_config = apply_filters('mxchat_get_bot_pinecone_config', array(), $bot_id);
+        $bot_config = apply_filters('knittnet_get_bot_pinecone_config', array(), $bot_id);
         $api_key   = $bot_config['api_key'] ?? '';
         $host      = $bot_config['host'] ?? '';
         $namespace = $bot_config['namespace'] ?? '';
@@ -818,13 +818,13 @@ private function get_pinecone_entry_content( $source_url, $entry_id, $bot_id ) {
 /**
  * AJAX: Inspect a knowledge entry — returns the per-chunk stored text + metadata
  * WITHOUT collapsing it, so a site owner can see exactly what was indexed for an
- * entry (plan-mxchat-20260628-d8cb4b). READ-ONLY: never re-embeds or mutates.
+ * entry (plan-knittnet-20260628-d8cb4b). READ-ONLY: never re-embeds or mutates.
  */
-public function ajax_mxchat_inspect_entry() {
-    check_ajax_referer('mxchat_inspect_entry_nonce', 'nonce');
+public function ajax_knittnet_inspect_entry() {
+    check_ajax_referer('knittnet_inspect_entry_nonce', 'nonce');
 
     if ( ! current_user_can('manage_options') ) {
-        wp_send_json_error( array( 'message' => esc_html__('Permission denied.', 'mxchat') ) );
+        wp_send_json_error( array( 'message' => esc_html__('Permission denied.', 'knittnet') ) );
     }
 
     $source_url  = isset($_POST['source_url']) ? sanitize_text_field( wp_unslash($_POST['source_url']) ) : '';
@@ -852,11 +852,11 @@ public function ajax_mxchat_inspect_entry() {
  */
 private function inspect_wordpress_entry( $source_url, $entry_id ) {
     global $wpdb;
-    $table = $wpdb->prefix . 'mxchat_system_prompt_content';
+    $table = $wpdb->prefix . 'knittnet_system_prompt_content';
 
     $rows = array();
 
-    // Group by the real stored source_url — this INCLUDES "mxchat://" manual
+    // Group by the real stored source_url — this INCLUDES "knittnet://" manual
     // Direct Content entries (the spec's manual-entry case), which share one
     // source_url across their chunk rows. Only the synthetic "_ungrouped_<id>"
     // display key (invented by the table view for rows with no source_url) is
@@ -880,13 +880,13 @@ private function inspect_wordpress_entry( $source_url, $entry_id ) {
     }
 
     if ( empty( $rows ) ) {
-        return new WP_Error( 'not_found', esc_html__('Entry not found in the local knowledge database.', 'mxchat') );
+        return new WP_Error( 'not_found', esc_html__('Entry not found in the local knowledge database.', 'knittnet') );
     }
 
     $chunks       = array();
     $content_type = '';
     foreach ( $rows as $row ) {
-        $parsed = MxChat_Chunker::parse_stored_chunk( $row->article_content );
+        $parsed = KnittNet_Chunker::parse_stored_chunk( $row->article_content );
         $text   = isset( $parsed['text'] ) ? $parsed['text'] : '';
         $index  = isset( $parsed['metadata']['chunk_index'] ) ? intval( $parsed['metadata']['chunk_index'] ) : count( $chunks );
         $content_type = $row->content_type;
@@ -914,7 +914,7 @@ private function inspect_wordpress_entry( $source_url, $entry_id ) {
         // WP-DB storage carries no separate vector metadata; surface that fact
         // rather than letting the owner guess (the spec's taxonomy question).
         'metadata'         => array(),
-        'metadata_note'    => esc_html__('Stored in the local WordPress database. Only the assembled text shown here is embedded — there are no separate vector metadata fields (e.g. taxonomy terms are not stored unless they were injected into the text itself).', 'mxchat'),
+        'metadata_note'    => esc_html__('Stored in the local WordPress database. Only the assembled text shown here is embedded — there are no separate vector metadata fields (e.g. taxonomy terms are not stored unless they were injected into the text itself).', 'knittnet'),
     );
 }
 
@@ -925,24 +925,24 @@ private function inspect_wordpress_entry( $source_url, $entry_id ) {
  * are present per chunk. READ-ONLY.
  */
 private function inspect_pinecone_entry( $source_url, $entry_id, $bot_id ) {
-    if ( ! class_exists('MxChat_Pinecone_Manager') ) {
-        return new WP_Error( 'pinecone_unavailable', esc_html__('Pinecone manager not available.', 'mxchat') );
+    if ( ! class_exists('KnittNet_Pinecone_Manager') ) {
+        return new WP_Error( 'pinecone_unavailable', esc_html__('Pinecone manager not available.', 'knittnet') );
     }
 
-    if ( $bot_id === 'default' || ! class_exists('MxChat_Multi_Bot_Manager') ) {
-        $pinecone_options = get_option('mxchat_pinecone_addon_options');
-        $api_key   = $pinecone_options['mxchat_pinecone_api_key'] ?? '';
-        $host      = $pinecone_options['mxchat_pinecone_host'] ?? '';
-        $namespace = $pinecone_options['mxchat_pinecone_namespace'] ?? '';
+    if ( $bot_id === 'default' || ! class_exists('KnittNet_Multi_Bot_Manager') ) {
+        $pinecone_options = get_option('knittnet_pinecone_addon_options');
+        $api_key   = $pinecone_options['knittnet_pinecone_api_key'] ?? '';
+        $host      = $pinecone_options['knittnet_pinecone_host'] ?? '';
+        $namespace = $pinecone_options['knittnet_pinecone_namespace'] ?? '';
     } else {
-        $bot_config = apply_filters('mxchat_get_bot_pinecone_config', array(), $bot_id);
+        $bot_config = apply_filters('knittnet_get_bot_pinecone_config', array(), $bot_id);
         $api_key   = $bot_config['api_key'] ?? '';
         $host      = $bot_config['host'] ?? '';
         $namespace = $bot_config['namespace'] ?? '';
     }
 
     if ( empty($host) || empty($api_key) ) {
-        return new WP_Error( 'pinecone_config', esc_html__('Pinecone not configured.', 'mxchat') );
+        return new WP_Error( 'pinecone_config', esc_html__('Pinecone not configured.', 'knittnet') );
     }
 
     $base_id    = md5( $source_url );
@@ -982,14 +982,14 @@ private function inspect_pinecone_entry( $source_url, $entry_id, $bot_id ) {
     ) );
 
     if ( is_wp_error($fetch_resp) ) {
-        return new WP_Error( 'pinecone_fetch', esc_html__('Failed to fetch from Pinecone.', 'mxchat') );
+        return new WP_Error( 'pinecone_fetch', esc_html__('Failed to fetch from Pinecone.', 'knittnet') );
     }
 
     $fetch_data = json_decode( wp_remote_retrieve_body($fetch_resp), true );
     $vectors    = $fetch_data['vectors'] ?? array();
 
     if ( empty($vectors) ) {
-        return new WP_Error( 'not_found', esc_html__('Entry not found in Pinecone.', 'mxchat') );
+        return new WP_Error( 'not_found', esc_html__('Entry not found in Pinecone.', 'knittnet') );
     }
 
     // Whitelisted metadata fields the spec calls out — shown so devs can confirm
@@ -1033,7 +1033,7 @@ private function inspect_pinecone_entry( $source_url, $entry_id, $bot_id ) {
         'assembled_length' => function_exists('mb_strlen') ? mb_strlen( $assembled ) : strlen( $assembled ),
         'chunks'           => array_values( $chunks ),
         'metadata'         => array(),
-        'metadata_note'    => esc_html__('Stored in Pinecone. Each chunk above lists the vector metadata fields actually present — if a field you expect (such as taxonomy terms) is missing here, it was not stored as metadata and is only searchable if it appears in the embedded text.', 'mxchat'),
+        'metadata_note'    => esc_html__('Stored in Pinecone. Each chunk above lists the vector metadata fields actually present — if a field you expect (such as taxonomy terms) is missing here, it was not stored as metadata and is only searchable if it appears in the embedded text.', 'knittnet'),
     );
 }
 
@@ -1041,8 +1041,8 @@ private function inspect_pinecone_entry( $source_url, $entry_id, $bot_id ) {
  * AJAX: Save edited content — re-chunks and re-embeds as needed.
  * Works for both WordPress DB and Pinecone entries.
  */
-public function ajax_mxchat_save_entry_content() {
-    check_ajax_referer('mxchat_edit_entry_nonce', 'nonce');
+public function ajax_knittnet_save_entry_content() {
+    check_ajax_referer('knittnet_edit_entry_nonce', 'nonce');
 
     if ( ! current_user_can('manage_options') ) {
         wp_send_json_error( array( 'message' => 'Permission denied.' ) );
@@ -1060,11 +1060,11 @@ public function ajax_mxchat_save_entry_content() {
     }
 
     // Get the embedding API key
-    $options = get_option('mxchat_options', array());
+    $options = get_option('knittnet_options', array());
     $api_key = '';
 
-    if ( $bot_id !== 'default' && class_exists('MxChat_Multi_Bot_Manager') ) {
-        $bot_options = apply_filters('mxchat_get_bot_options', array(), $bot_id);
+    if ( $bot_id !== 'default' && class_exists('KnittNet_Multi_Bot_Manager') ) {
+        $bot_options = apply_filters('knittnet_get_bot_options', array(), $bot_id);
         $api_key = $bot_options['api_key'] ?? '';
     }
     if ( empty($api_key) ) {
@@ -1072,7 +1072,7 @@ public function ajax_mxchat_save_entry_content() {
     }
 
     global $wpdb;
-    $table = $wpdb->prefix . 'mxchat_system_prompt_content';
+    $table = $wpdb->prefix . 'knittnet_system_prompt_content';
 
     // If source_url is empty but we have an entry_id, look it up
     if ( empty($source_url) && $entry_id > 0 && $data_source === 'wordpress' ) {
@@ -1082,13 +1082,13 @@ public function ajax_mxchat_save_entry_content() {
         }
     }
 
-    // For manual entries (no source_url or mxchat:// prefix), delete the old entry by ID first
+    // For manual entries (no source_url or knittnet:// prefix), delete the old entry by ID first
     // so submit_content_to_db creates a replacement instead of a duplicate
-    // Also treat legacy mxchat.ai source URLs as manual — old bug assigned the site URL to manual entries
-    $is_legacy_manual = !empty($source_url) && strpos($source_url, 'mxchat.ai') !== false && strpos($source_url, 'mxchat://') !== 0;
-    if ( $entry_id > 0 && (empty($source_url) || strpos($source_url, 'mxchat://') === 0 || $is_legacy_manual) ) {
+    // Also treat legacy knittnet.ai source URLs as manual — old bug assigned the site URL to manual entries
+    $is_legacy_manual = !empty($source_url) && strpos($source_url, 'knittnet.ai') !== false && strpos($source_url, 'knittnet://') !== 0;
+    if ( $entry_id > 0 && (empty($source_url) || strpos($source_url, 'knittnet://') === 0 || $is_legacy_manual) ) {
         $wpdb->delete( $table, array( 'id' => $entry_id ), array( '%d' ) );
-        // Clear legacy URL so submit_content_to_db generates a unique mxchat:// identifier
+        // Clear legacy URL so submit_content_to_db generates a unique knittnet:// identifier
         // instead of reusing the shared URL (which would mass-delete other entries with the same URL)
         if ( $is_legacy_manual ) {
             $source_url = '';
@@ -1096,10 +1096,10 @@ public function ajax_mxchat_save_entry_content() {
     }
 
     // Use the existing submit_content_to_db which handles chunking, Pinecone, and WP DB
-    $vector_id = ! empty($source_url) ? md5($source_url) : md5('mxchat_manual_' . $entry_id);
+    $vector_id = ! empty($source_url) ? md5($source_url) : md5('knittnet_manual_' . $entry_id);
 
     // submit_content_to_db already handles: delete old chunks → re-chunk → re-embed → store
-    $result = MxChat_Utils::submit_content_to_db( $content, $source_url, $api_key, $vector_id, $bot_id, $content_type );
+    $result = KnittNet_Utils::submit_content_to_db( $content, $source_url, $api_key, $vector_id, $bot_id, $content_type );
 
     if ( is_wp_error($result) ) {
         wp_send_json_error( array( 'message' => $result->get_error_message() ) );
@@ -1108,9 +1108,9 @@ public function ajax_mxchat_save_entry_content() {
     wp_send_json_success( array( 'message' => 'Content saved and re-embedded successfully.' ) );
 }
 
-public function mxchat_get_pdf_processing_status($pdf_url) {
+public function knittnet_get_pdf_processing_status($pdf_url) {
     $pdf_url = esc_url_raw($pdf_url);
-    $status = get_transient(sanitize_key('mxchat_pdf_status_' . md5($pdf_url)));
+    $status = get_transient(sanitize_key('knittnet_pdf_status_' . md5($pdf_url)));
 
     if (!$status || !is_array($status)) {
         return false;
@@ -1119,11 +1119,11 @@ public function mxchat_get_pdf_processing_status($pdf_url) {
     // Check for stalled processing (no updates for 5 minutes)
     if ($status['status'] === 'processing' && (time() - absint($status['last_update'])) > 300) {
         $status['status'] = 'error';
-        $status['error'] = __('PDF processing appears to be stalled. No updates for over 5 minutes.', 'mxchat');
+        $status['error'] = __('PDF processing appears to be stalled. No updates for over 5 minutes.', 'knittnet');
         
         // Save the updated status
         set_transient(
-            sanitize_key('mxchat_pdf_status_' . md5($pdf_url)),
+            sanitize_key('knittnet_pdf_status_' . md5($pdf_url)),
             array_map('sanitize_text_field', $status),
             DAY_IN_SECONDS
         );
@@ -1137,7 +1137,7 @@ public function mxchat_get_pdf_processing_status($pdf_url) {
             ? round((absint($status['processed_pages']) / absint($status['total_pages'])) * 100)
             : 0,
         'status' => sanitize_text_field($status['status']),
-        'last_update' => human_time_diff(absint($status['last_update']), time()) . ' ' . esc_html__('ago', 'mxchat'),
+        'last_update' => human_time_diff(absint($status['last_update']), time()) . ' ' . esc_html__('ago', 'knittnet'),
         'failed_pages_list' => isset($status['failed_pages_list']) ? $status['failed_pages_list'] : array(),
         'completion_summary' => isset($status['completion_summary']) ? $status['completion_summary'] : null
     );
@@ -1151,22 +1151,22 @@ public function mxchat_get_pdf_processing_status($pdf_url) {
 }
 
     
-public function mxchat_handle_sitemap_submission() {
+public function knittnet_handle_sitemap_submission() {
     // Check if the form was submitted and verify permissions
     if (!isset($_POST['submit_sitemap']) || !current_user_can('manage_options')) {
-        wp_die(esc_html__('Unauthorized access', 'mxchat'));
+        wp_die(esc_html__('Unauthorized access', 'knittnet'));
     }
 
     // Verify nonce
-    check_admin_referer('mxchat_submit_sitemap_action', 'mxchat_submit_sitemap_nonce');
+    check_admin_referer('knittnet_submit_sitemap_action', 'knittnet_submit_sitemap_nonce');
 
     // Validate URL
     if (!isset($_POST['sitemap_url']) || empty($_POST['sitemap_url'])) {
-        set_transient('mxchat_admin_notice_error',
-            esc_html__('Please provide a valid URL.', 'mxchat'),
+        set_transient('knittnet_admin_notice_error',
+            esc_html__('Please provide a valid URL.', 'knittnet'),
             30
         );
-        wp_safe_redirect(esc_url(admin_url('admin.php?page=mxchat-prompts')));
+        wp_safe_redirect(esc_url(admin_url('admin.php?page=knittnet-prompts')));
         exit;
     }
 
@@ -1190,7 +1190,7 @@ public function mxchat_handle_sitemap_submission() {
 
     // Get bot-specific options and validate API key
     $bot_options = $this->get_bot_options($bot_id);
-    $options = !empty($bot_options) ? $bot_options : get_option('mxchat_options');
+    $options = !empty($bot_options) ? $bot_options : get_option('knittnet_options');
     $selected_model = $options['embedding_model'] ?? 'text-embedding-ada-002';
     
     if (strpos($selected_model, 'voyage') === 0) {
@@ -1206,11 +1206,11 @@ public function mxchat_handle_sitemap_submission() {
     
     if (empty($api_key)) {
         $error_message = sprintf(
-            esc_html__('%s API key is not configured. Please add your API key in the settings before submitting content.', 'mxchat'),
+            esc_html__('%s API key is not configured. Please add your API key in the settings before submitting content.', 'knittnet'),
             $provider_name
         );
-        set_transient('mxchat_admin_notice_error', $error_message, 30);
-        wp_safe_redirect(esc_url(admin_url('admin.php?page=mxchat-prompts')));
+        set_transient('knittnet_admin_notice_error', $error_message, 30);
+        wp_safe_redirect(esc_url(admin_url('admin.php?page=knittnet-prompts')));
         exit;
     }
 
@@ -1227,14 +1227,14 @@ public function mxchat_handle_sitemap_submission() {
 
     if (is_wp_error($response) || wp_remote_retrieve_response_code($response) !== 200) {
         $error_message = is_wp_error($response) ? $response->get_error_message() : 'HTTP Status: ' . wp_remote_retrieve_response_code($response);
-        set_transient('mxchat_admin_notice_error',
+        set_transient('knittnet_admin_notice_error',
             sprintf(
-                esc_html__('Failed to fetch the URL: %s', 'mxchat'),
+                esc_html__('Failed to fetch the URL: %s', 'knittnet'),
                 esc_html($error_message)
             ),
             30
         );
-        wp_safe_redirect(esc_url(admin_url('admin.php?page=mxchat-prompts')));
+        wp_safe_redirect(esc_url(admin_url('admin.php?page=knittnet-prompts')));
         exit;
     }
 
@@ -1242,31 +1242,31 @@ public function mxchat_handle_sitemap_submission() {
     $body_content = wp_remote_retrieve_body($response);
 
     if (empty($body_content)) {
-        set_transient('mxchat_admin_notice_error',
-            esc_html__('Empty response received from URL.', 'mxchat'),
+        set_transient('knittnet_admin_notice_error',
+            esc_html__('Empty response received from URL.', 'knittnet'),
             30
         );
-        wp_safe_redirect(esc_url(admin_url('admin.php?page=mxchat-prompts')));
+        wp_safe_redirect(esc_url(admin_url('admin.php?page=knittnet-prompts')));
         exit;
     }
 
     // Handle PDF URL
-    if ($this->mxchat_is_pdf_url($submitted_url, $response)) {
-        $result = $this->mxchat_handle_pdf_for_knowledge_base($submitted_url, $response, $bot_id);
+    if ($this->knittnet_is_pdf_url($submitted_url, $response)) {
+        $result = $this->knittnet_handle_pdf_for_knowledge_base($submitted_url, $response, $bot_id);
 
         if ($result === 'queued') {
-            set_transient('mxchat_admin_notice_success',
-                esc_html__('PDF queued for processing. Processing will start automatically.', 'mxchat'),
+            set_transient('knittnet_admin_notice_success',
+                esc_html__('PDF queued for processing. Processing will start automatically.', 'knittnet'),
                 30
             );
         } else {
-            set_transient('mxchat_admin_notice_error',
-                esc_html__('Failed to queue PDF processing: ', 'mxchat') . esc_html($result),
+            set_transient('knittnet_admin_notice_error',
+                esc_html__('Failed to queue PDF processing: ', 'knittnet') . esc_html($result),
                 30
             );
         }
 
-        wp_safe_redirect(esc_url(admin_url('admin.php?page=mxchat-prompts')));
+        wp_safe_redirect(esc_url(admin_url('admin.php?page=knittnet-prompts')));
         exit;
     }
 
@@ -1278,53 +1278,53 @@ public function mxchat_handle_sitemap_submission() {
         libxml_clear_errors();
 
         if ($xml === false || !empty($xml_errors)) {
-            set_transient('mxchat_admin_notice_error',
-                esc_html__('Invalid sitemap XML. Please provide a valid sitemap.', 'mxchat'),
+            set_transient('knittnet_admin_notice_error',
+                esc_html__('Invalid sitemap XML. Please provide a valid sitemap.', 'knittnet'),
                 30
             );
-            wp_safe_redirect(esc_url(admin_url('admin.php?page=mxchat-prompts')));
+            wp_safe_redirect(esc_url(admin_url('admin.php?page=knittnet-prompts')));
             exit;
         }
 
-        $result = $this->mxchat_handle_sitemap_for_knowledge_base($xml, $submitted_url, $bot_id);
+        $result = $this->knittnet_handle_sitemap_for_knowledge_base($xml, $submitted_url, $bot_id);
 
         if ($result === 'queued') {
-            set_transient('mxchat_admin_notice_success',
-                esc_html__('Sitemap queued for processing. Processing will start automatically.', 'mxchat'),
+            set_transient('knittnet_admin_notice_success',
+                esc_html__('Sitemap queued for processing. Processing will start automatically.', 'knittnet'),
                 30
             );
         } else {
-            set_transient('mxchat_admin_notice_error',
-                esc_html__('Failed to queue sitemap processing. Please check the status below for details.', 'mxchat'),
+            set_transient('knittnet_admin_notice_error',
+                esc_html__('Failed to queue sitemap processing. Please check the status below for details.', 'knittnet'),
                 30
             );
         }
 
-        wp_safe_redirect(esc_url(admin_url('admin.php?page=mxchat-prompts')));
+        wp_safe_redirect(esc_url(admin_url('admin.php?page=knittnet-prompts')));
         exit;
     }
 
     // Handle Regular URL (single page)
-    $page_content = $this->mxchat_extract_main_content($body_content);
-    $sanitized_content = $this->mxchat_sanitize_content_for_api($page_content);
+    $page_content = $this->knittnet_extract_main_content($body_content);
+    $sanitized_content = $this->knittnet_sanitize_content_for_api($page_content);
 
-    //error_log('[MXCHAT-URL-DEBUG] URL: ' . $submitted_url);
-    //error_log('[MXCHAT-URL-DEBUG] Extracted page_content length: ' . strlen($page_content));
-    //error_log('[MXCHAT-URL-DEBUG] Sanitized content length: ' . strlen($sanitized_content));
-    //error_log('[MXCHAT-URL-DEBUG] Content preview: ' . substr($sanitized_content, 0, 500));
+    //error_log('[KNITTNET-URL-DEBUG] URL: ' . $submitted_url);
+    //error_log('[KNITTNET-URL-DEBUG] Extracted page_content length: ' . strlen($page_content));
+    //error_log('[KNITTNET-URL-DEBUG] Sanitized content length: ' . strlen($sanitized_content));
+    //error_log('[KNITTNET-URL-DEBUG] Content preview: ' . substr($sanitized_content, 0, 500));
 
     if (empty($sanitized_content)) {
-        set_transient('mxchat_admin_notice_error',
-            esc_html__('No valid content found on the provided URL.', 'mxchat'),
+        set_transient('knittnet_admin_notice_error',
+            esc_html__('No valid content found on the provided URL.', 'knittnet'),
             30
         );
-        wp_safe_redirect(esc_url(admin_url('admin.php?page=mxchat-prompts')));
+        wp_safe_redirect(esc_url(admin_url('admin.php?page=knittnet-prompts')));
         exit;
     }
 
     // For single URLs, process immediately using submit_content_to_db
     // This handles chunking automatically for large content
-    $db_result = MxChat_Utils::submit_content_to_db(
+    $db_result = KnittNet_Utils::submit_content_to_db(
         $sanitized_content,
         $submitted_url,
         $api_key,
@@ -1334,33 +1334,33 @@ public function mxchat_handle_sitemap_submission() {
     );
 
     if (is_wp_error($db_result)) {
-        $error_message = esc_html__('Failed to store content in database: ', 'mxchat') . esc_html($db_result->get_error_message());
-        set_transient('mxchat_admin_notice_error', $error_message, 30);
+        $error_message = esc_html__('Failed to store content in database: ', 'knittnet') . esc_html($db_result->get_error_message());
+        set_transient('knittnet_admin_notice_error', $error_message, 30);
     } else {
-        $success_message = esc_html__('URL content successfully submitted!', 'mxchat');
-        set_transient('mxchat_admin_notice_success', $success_message, 30);
+        $success_message = esc_html__('URL content successfully submitted!', 'knittnet');
+        set_transient('knittnet_admin_notice_success', $success_message, 30);
     }
 
-    wp_safe_redirect(esc_url(admin_url('admin.php?page=mxchat-prompts')));
+    wp_safe_redirect(esc_url(admin_url('admin.php?page=knittnet-prompts')));
     exit;
 }
 
 
-public function mxchat_get_single_url_status() {
-    $status = get_transient('mxchat_single_url_status');
+public function knittnet_get_single_url_status() {
+    $status = get_transient('knittnet_single_url_status');
     if (!$status) {
         return null;
     }
     
     // Add human-readable time
     if (isset($status['timestamp'])) {
-        $status['human_time'] = human_time_diff(strtotime($status['timestamp']), current_time('timestamp')) . ' ' . __('ago', 'mxchat');
+        $status['human_time'] = human_time_diff(strtotime($status['timestamp']), current_time('timestamp')) . ' ' . __('ago', 'knittnet');
     }
     
     return $status;
 }
 
-public function mxchat_handle_sitemap_for_knowledge_base($xml, $sitemap_url, $bot_id = 'default') {
+public function knittnet_handle_sitemap_for_knowledge_base($xml, $sitemap_url, $bot_id = 'default') {
     if (!current_user_can('manage_options')) {
         return false;
     }
@@ -1369,23 +1369,23 @@ public function mxchat_handle_sitemap_for_knowledge_base($xml, $sitemap_url, $bo
         $sitemap_url = esc_url_raw($sitemap_url);
 
         if (!$xml || !is_object($xml)) {
-            throw new Exception(__('Invalid XML object provided', 'mxchat'));
+            throw new Exception(__('Invalid XML object provided', 'knittnet'));
         }
 
         // Get bot-specific embedding API for validation
         $bot_options = $this->get_bot_options($bot_id);
-        $options = !empty($bot_options) ? $bot_options : get_option('mxchat_options');
+        $options = !empty($bot_options) ? $bot_options : get_option('knittnet_options');
         
         // Test the embedding API before processing
-        $test_phrase = "Test embedding generation for MxChat";
-        $test_result = $this->mxchat_generate_embedding($test_phrase, $bot_id);
+        $test_phrase = "Test embedding generation for KnittNet";
+        $test_result = $this->knittnet_generate_embedding($test_phrase, $bot_id);
         
         if (is_string($test_result)) {
-            throw new Exception(__('Embedding API validation failed: ', 'mxchat') . $test_result);
+            throw new Exception(__('Embedding API validation failed: ', 'knittnet') . $test_result);
         }
         
         if (!is_array($test_result)) {
-            throw new Exception(__('Embedding API returned unexpected result type. Please check your configuration.', 'mxchat'));
+            throw new Exception(__('Embedding API returned unexpected result type. Please check your configuration.', 'knittnet'));
         }
 
         // Extract URLs from sitemap
@@ -1400,35 +1400,35 @@ public function mxchat_handle_sitemap_for_knowledge_base($xml, $sitemap_url, $bo
         $total_urls = count($urls);
 
         if ($total_urls < 1) {
-            throw new Exception(__('No valid URLs found in sitemap', 'mxchat'));
+            throw new Exception(__('No valid URLs found in sitemap', 'knittnet'));
         }
 
         // Create unique queue ID
         $queue_id = 'sitemap_' . md5($sitemap_url . time());
 
         // Add URLs to queue
-        $queued_count = $this->mxchat_add_to_queue($queue_id, 'url', $urls, $bot_id);
+        $queued_count = $this->knittnet_add_to_queue($queue_id, 'url', $urls, $bot_id);
 
         if ($queued_count === 0) {
-            throw new Exception(__('Failed to add URLs to processing queue', 'mxchat'));
+            throw new Exception(__('Failed to add URLs to processing queue', 'knittnet'));
         }
 
         // Store queue metadata
-        $this->mxchat_set_queue_meta($queue_id, 'source_url', $sitemap_url);
-        $this->mxchat_set_queue_meta($queue_id, 'queue_type', 'sitemap');
-        $this->mxchat_set_queue_meta($queue_id, 'total_items', $total_urls);
-        $this->mxchat_set_queue_meta($queue_id, 'bot_id', $bot_id);
-        $this->mxchat_set_queue_meta($queue_id, 'created_at', current_time('mysql'));
+        $this->knittnet_set_queue_meta($queue_id, 'source_url', $sitemap_url);
+        $this->knittnet_set_queue_meta($queue_id, 'queue_type', 'sitemap');
+        $this->knittnet_set_queue_meta($queue_id, 'total_items', $total_urls);
+        $this->knittnet_set_queue_meta($queue_id, 'bot_id', $bot_id);
+        $this->knittnet_set_queue_meta($queue_id, 'created_at', current_time('mysql'));
 
         // Store queue ID in transient for status tracking
-        set_transient('mxchat_active_queue_sitemap', $queue_id, DAY_IN_SECONDS);
-        set_transient('mxchat_last_sitemap_url', $sitemap_url, DAY_IN_SECONDS);
+        set_transient('knittnet_active_queue_sitemap', $queue_id, DAY_IN_SECONDS);
+        set_transient('knittnet_last_sitemap_url', $sitemap_url, DAY_IN_SECONDS);
 
         return 'queued';
 
     } catch (Exception $e) {
         $error_message = $e->getMessage();
-        //error_log(sprintf(esc_html__('Error preparing sitemap for processing: %s', 'mxchat'), esc_html($error_message)));
+        //error_log(sprintf(esc_html__('Error preparing sitemap for processing: %s', 'knittnet'), esc_html($error_message)));
         
         return $error_message;
     }
@@ -1449,8 +1449,8 @@ private function strip_shortcode_tags_preserve_content($content) {
     return ($result !== null) ? $result : $content;
 }
 
-public function mxchat_sanitize_content_for_api($content) {
-    //error_log('[MXCHAT-SANITIZE] Original content preview: ' . substr($content, 0, 500) . '...');
+public function knittnet_sanitize_content_for_api($content) {
+    //error_log('[KNITTNET-SANITIZE] Original content preview: ' . substr($content, 0, 500) . '...');
 
     // Remove shortcode tags but PRESERVE content inside them
     $content = $this->strip_shortcode_tags_preserve_content($content);
@@ -1505,10 +1505,10 @@ public function mxchat_sanitize_content_for_api($content) {
         $content = substr($content, 0, $max_length);
     }
     
-    //error_log('[MXCHAT-SANITIZE] Sanitized content preview: ' . substr($content, 0, 500) . '...');
+    //error_log('[KNITTNET-SANITIZE] Sanitized content preview: ' . substr($content, 0, 500) . '...');
     return $content;
 }
-public function mxchat_extract_main_content($html) {
+public function knittnet_extract_main_content($html) {
     if (empty($html)) {
         return '';
     }
@@ -1522,7 +1522,7 @@ public function mxchat_extract_main_content($html) {
         $debugEnabled = true; // Set to true to enable debugging output
         $debug = function($message) use ($debugEnabled) {
             if ($debugEnabled) {
-                //error_log('[MXCHAT-EXTRACT-DEBUG] ' . $message);
+                //error_log('[KNITTNET-EXTRACT-DEBUG] ' . $message);
             }
         };
         
@@ -1786,15 +1786,15 @@ public function mxchat_extract_main_content($html) {
         $debug("Returning original HTML");
         return $html;
     } catch (Exception $e) {
-        //error_log('[MXCHAT-ERROR] Content extraction failed: ' . $e->getMessage());
+        //error_log('[KNITTNET-ERROR] Content extraction failed: ' . $e->getMessage());
         return $html; // Return original HTML if parsing fails
     } finally {
         libxml_clear_errors();
     }
 }
-public function mxchat_get_sitemap_processing_status($sitemap_url) {
+public function knittnet_get_sitemap_processing_status($sitemap_url) {
     $sitemap_url = esc_url_raw($sitemap_url);
-    $status_key = sanitize_key('mxchat_sitemap_status_' . md5($sitemap_url));
+    $status_key = sanitize_key('knittnet_sitemap_status_' . md5($sitemap_url));
     $status = get_transient($status_key);
     
     if (!$status || !is_array($status)) {
@@ -1823,33 +1823,33 @@ public function mxchat_get_sitemap_processing_status($sitemap_url) {
             ? round((absint($status['processed_urls']) / absint($status['total_urls'])) * 100)
             : 0,
         'status' => sanitize_text_field($status['status']),
-        'last_update' => human_time_diff(absint($status['last_update']), time()) . ' ' . esc_html__('ago', 'mxchat'),
+        'last_update' => human_time_diff(absint($status['last_update']), time()) . ' ' . esc_html__('ago', 'knittnet'),
         'error' => isset($status['error']) ? sanitize_text_field($status['error']) : '',
         'last_error' => isset($status['last_error']) ? sanitize_text_field($status['last_error']) : '',
         'failed_urls_list' => isset($status['failed_urls_list']) ? $status['failed_urls_list'] : array()
     );
 }
 
-public function mxchat_ajax_get_status_updates() {
+public function knittnet_ajax_get_status_updates() {
     try {
         // Verify the request
-        check_ajax_referer('mxchat_status_nonce', 'nonce');
+        check_ajax_referer('knittnet_status_nonce', 'nonce');
         
         // Get active queue IDs
-        $sitemap_queue_id = get_transient('mxchat_active_queue_sitemap');
-        $pdf_queue_id = get_transient('mxchat_active_queue_pdf');
+        $sitemap_queue_id = get_transient('knittnet_active_queue_sitemap');
+        $pdf_queue_id = get_transient('knittnet_active_queue_pdf');
         
         $sitemap_status = false;
         $pdf_status = false;
         
         // Get sitemap queue status
         if ($sitemap_queue_id) {
-            $sitemap_status = $this->mxchat_get_queue_status_data($sitemap_queue_id, 'sitemap');
+            $sitemap_status = $this->knittnet_get_queue_status_data($sitemap_queue_id, 'sitemap');
         }
         
         // Get PDF queue status
         if ($pdf_queue_id) {
-            $pdf_status = $this->mxchat_get_queue_status_data($pdf_queue_id, 'pdf');
+            $pdf_status = $this->knittnet_get_queue_status_data($pdf_queue_id, 'pdf');
         }
         
         $is_active_processing = 
@@ -1866,7 +1866,7 @@ public function mxchat_ajax_get_status_updates() {
         ));
         
     } catch (Exception $e) {
-        //error_log('MxChat Status Update Error: ' . $e->getMessage());
+        //error_log('KnittNet Status Update Error: ' . $e->getMessage());
         
         wp_send_json_error(array(
             'message' => 'Error getting status updates: ' . $e->getMessage(),
@@ -1878,9 +1878,9 @@ public function mxchat_ajax_get_status_updates() {
 /**
  * Helper function to get queue status data
  */
-private function mxchat_get_queue_status_data($queue_id, $type = 'sitemap') {
+private function knittnet_get_queue_status_data($queue_id, $type = 'sitemap') {
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_processing_queue';
+    $table_name = $wpdb->prefix . 'knittnet_processing_queue';
     
     // Get counts by status
     $counts = $wpdb->get_results($wpdb->prepare(
@@ -1953,7 +1953,7 @@ private function mxchat_get_queue_status_data($queue_id, $type = 'sitemap') {
     }
     
     // Get queue metadata
-    $source_url = $this->mxchat_get_queue_meta($queue_id, 'source_url');
+    $source_url = $this->knittnet_get_queue_meta($queue_id, 'source_url');
     
     // Determine if queue is complete
     $is_complete = ($pending === 0 && $processing === 0);
@@ -1966,7 +1966,7 @@ private function mxchat_get_queue_status_data($queue_id, $type = 'sitemap') {
         $queue_id
     ));
     
-    $last_update_text = $last_update ? human_time_diff($last_update, time()) . ' ' . __('ago', 'mxchat') : __('Just now', 'mxchat');
+    $last_update_text = $last_update ? human_time_diff($last_update, time()) . ' ' . __('ago', 'knittnet') : __('Just now', 'knittnet');
     
     // Format based on type
     if ($type === 'pdf') {
@@ -2002,19 +2002,19 @@ private function mxchat_get_queue_status_data($queue_id, $type = 'sitemap') {
  *
  * @return array Array with 'sitemap_status', 'pdf_status', and 'is_processing' keys
  */
-public function mxchat_get_processing_statuses() {
-    $sitemap_queue_id = get_transient('mxchat_active_queue_sitemap');
-    $pdf_queue_id = get_transient('mxchat_active_queue_pdf');
+public function knittnet_get_processing_statuses() {
+    $sitemap_queue_id = get_transient('knittnet_active_queue_sitemap');
+    $pdf_queue_id = get_transient('knittnet_active_queue_pdf');
 
     $sitemap_status = false;
     $pdf_status = false;
 
     if ($sitemap_queue_id) {
-        $sitemap_status = $this->mxchat_get_queue_status_data($sitemap_queue_id, 'sitemap');
+        $sitemap_status = $this->knittnet_get_queue_status_data($sitemap_queue_id, 'sitemap');
     }
 
     if ($pdf_queue_id) {
-        $pdf_status = $this->mxchat_get_queue_status_data($pdf_queue_id, 'pdf');
+        $pdf_status = $this->knittnet_get_queue_status_data($pdf_queue_id, 'pdf');
     }
 
     $is_processing =
@@ -2032,8 +2032,8 @@ public function mxchat_get_processing_statuses() {
  * AJAX handler to get recent knowledge entries for real-time table updates
  * UPDATED: Now supports both WordPress DB and Pinecone data sources
  */
-public function ajax_mxchat_get_recent_entries() {
-    check_ajax_referer('mxchat_entries_nonce', 'nonce');
+public function ajax_knittnet_get_recent_entries() {
+    check_ajax_referer('knittnet_entries_nonce', 'nonce');
 
     if (!current_user_can('manage_options')) {
         wp_send_json_error(array('message' => 'Unauthorized'));
@@ -2041,7 +2041,7 @@ public function ajax_mxchat_get_recent_entries() {
     }
 
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_system_prompt_content';
+    $table_name = $wpdb->prefix . 'knittnet_system_prompt_content';
 
     // Get parameters
     $last_id = isset($_POST['last_id']) ? absint($_POST['last_id']) : 0;
@@ -2049,19 +2049,19 @@ public function ajax_mxchat_get_recent_entries() {
     $bot_id = isset($_POST['bot_id']) ? sanitize_text_field($_POST['bot_id']) : 'default';
 
     // Check if Pinecone is enabled for this bot
-    $pinecone_manager = $this->mxchat_get_pinecone_manager();
-    $pinecone_options = $pinecone_manager ? $pinecone_manager->mxchat_get_bot_pinecone_options($bot_id) : array();
-    $use_pinecone = ($pinecone_options['mxchat_use_pinecone'] ?? '0') === '1';
-    $has_pinecone_api = !empty($pinecone_options['mxchat_pinecone_api_key']);
+    $pinecone_manager = $this->knittnet_get_pinecone_manager();
+    $pinecone_options = $pinecone_manager ? $pinecone_manager->knittnet_get_bot_pinecone_options($bot_id) : array();
+    $use_pinecone = ($pinecone_options['knittnet_use_pinecone'] ?? '0') === '1';
+    $has_pinecone_api = !empty($pinecone_options['knittnet_pinecone_api_key']);
 
     if ($use_pinecone && $has_pinecone_api) {
         // PINECONE DATA SOURCE - Get grouped entry count (not raw vector count)
-        // Use mxchat_fetch_pinecone_records which returns total_unique_entries
-        $records = $pinecone_manager->mxchat_fetch_pinecone_records($pinecone_options, '', 1, 10, $bot_id, '');
+        // Use knittnet_fetch_pinecone_records which returns total_unique_entries
+        $records = $pinecone_manager->knittnet_fetch_pinecone_records($pinecone_options, '', 1, 10, $bot_id, '');
         $total_count = $records['total'] ?? 0;
 
         // For Pinecone, we don't return individual entries during polling
-        // (entries are already displayed on page load via mxchat_fetch_pinecone_records)
+        // (entries are already displayed on page load via knittnet_fetch_pinecone_records)
         // We just return the updated count
         wp_send_json_success(array(
             'entries' => array(),
@@ -2099,10 +2099,10 @@ public function ajax_mxchat_get_recent_entries() {
     $entries = $wpdb->get_results($wpdb->prepare($query, $where_values));
 
     // Get total count of GROUPED entries (by source_url) - matches pagination display
-    // Count unique source_urls (excluding mxchat:// internal refs) + count of ungrouped rows
+    // Count unique source_urls (excluding knittnet:// internal refs) + count of ungrouped rows
     $total_count = $wpdb->get_var(
-        "SELECT (SELECT COUNT(DISTINCT source_url) FROM {$table_name} WHERE source_url != '' AND source_url NOT LIKE 'mxchat://%') +
-                (SELECT COUNT(*) FROM {$table_name} WHERE source_url = '' OR source_url IS NULL OR source_url LIKE 'mxchat://%')"
+        "SELECT (SELECT COUNT(DISTINCT source_url) FROM {$table_name} WHERE source_url != '' AND source_url NOT LIKE 'knittnet://%') +
+                (SELECT COUNT(*) FROM {$table_name} WHERE source_url = '' OR source_url IS NULL OR source_url LIKE 'knittnet://%')"
     );
 
     // Format entries for response
@@ -2110,8 +2110,8 @@ public function ajax_mxchat_get_recent_entries() {
     $preview_length = 150;
     foreach ($entries as $entry) {
         // Parse chunk metadata using the proper chunker method (same as initial page load)
-        if (class_exists('MxChat_Chunker')) {
-            $chunk_meta = MxChat_Chunker::parse_stored_chunk($entry->article_content);
+        if (class_exists('KnittNet_Chunker')) {
+            $chunk_meta = KnittNet_Chunker::parse_stored_chunk($entry->article_content);
             $display_content = $chunk_meta['text'];
             $chunk_metadata = $chunk_meta['metadata'];
         } else {
@@ -2130,11 +2130,11 @@ public function ajax_mxchat_get_recent_entries() {
             'content_length' => mb_strlen($display_content),
             'preview_length' => $preview_length,
             'source_url' => $entry->source_url,
-            'has_link' => !empty($entry->source_url) && strpos($entry->source_url, 'mxchat://') !== 0,
+            'has_link' => !empty($entry->source_url) && strpos($entry->source_url, 'knittnet://') !== 0,
             'chunk_metadata' => $chunk_metadata,
             'bot_id' => $entry->bot_id ?? 'default',
-            'edit_nonce' => wp_create_nonce('mxchat_edit_entry_nonce'),
-            'delete_nonce' => wp_create_nonce('mxchat_delete_prompt_nonce')
+            'edit_nonce' => wp_create_nonce('knittnet_edit_entry_nonce'),
+            'delete_nonce' => wp_create_nonce('knittnet_delete_prompt_nonce')
         );
     }
 
@@ -2148,12 +2148,12 @@ public function ajax_mxchat_get_recent_entries() {
 
 /**
  * Get Pinecone total count from stats API
- * Helper function for ajax_mxchat_get_recent_entries
+ * Helper function for ajax_knittnet_get_recent_entries
  */
-private function mxchat_get_pinecone_count_from_stats($pinecone_options) {
-    $api_key = $pinecone_options['mxchat_pinecone_api_key'] ?? '';
-    $host = $pinecone_options['mxchat_pinecone_host'] ?? '';
-    $namespace = $pinecone_options['mxchat_pinecone_namespace'] ?? '';
+private function knittnet_get_pinecone_count_from_stats($pinecone_options) {
+    $api_key = $pinecone_options['knittnet_pinecone_api_key'] ?? '';
+    $host = $pinecone_options['knittnet_pinecone_host'] ?? '';
+    $namespace = $pinecone_options['knittnet_pinecone_namespace'] ?? '';
 
     if (empty($api_key) || empty($host)) {
         return 0;
@@ -2195,8 +2195,8 @@ private function mxchat_get_pinecone_count_from_stats($pinecone_options) {
  * AJAX handler to refresh Pinecone entries table via AJAX
  * Returns the table HTML for updating the UI without a full page reload
  */
-public function ajax_mxchat_refresh_pinecone_entries() {
-    check_ajax_referer('mxchat_entries_nonce', 'nonce');
+public function ajax_knittnet_refresh_pinecone_entries() {
+    check_ajax_referer('knittnet_entries_nonce', 'nonce');
 
     if (!current_user_can('manage_options')) {
         wp_send_json_error(array('message' => 'Unauthorized'));
@@ -2210,15 +2210,15 @@ public function ajax_mxchat_refresh_pinecone_entries() {
     $content_type_filter = isset($_POST['content_type']) ? sanitize_key($_POST['content_type']) : '';
 
     // Get Pinecone manager and options
-    $pinecone_manager = $this->mxchat_get_pinecone_manager();
+    $pinecone_manager = $this->knittnet_get_pinecone_manager();
     if (!$pinecone_manager) {
         wp_send_json_error(array('message' => 'Pinecone manager not available'));
         return;
     }
 
-    $pinecone_options = $pinecone_manager->mxchat_get_bot_pinecone_options($bot_id);
-    $use_pinecone = ($pinecone_options['mxchat_use_pinecone'] ?? '0') === '1';
-    $pinecone_api_key = $pinecone_options['mxchat_pinecone_api_key'] ?? '';
+    $pinecone_options = $pinecone_manager->knittnet_get_bot_pinecone_options($bot_id);
+    $use_pinecone = ($pinecone_options['knittnet_use_pinecone'] ?? '0') === '1';
+    $pinecone_api_key = $pinecone_options['knittnet_pinecone_api_key'] ?? '';
 
     if (!$use_pinecone || empty($pinecone_api_key)) {
         wp_send_json_error(array('message' => 'Pinecone not configured'));
@@ -2226,7 +2226,7 @@ public function ajax_mxchat_refresh_pinecone_entries() {
     }
 
     // Fetch records from Pinecone
-    $records = $pinecone_manager->mxchat_fetch_pinecone_records($pinecone_options, $search_query, $page, $per_page, $bot_id, $content_type_filter);
+    $records = $pinecone_manager->knittnet_fetch_pinecone_records($pinecone_options, $search_query, $page, $per_page, $bot_id, $content_type_filter);
     $prompts = $records['data'] ?? array();
     $total_records = $records['total'] ?? 0;
 
@@ -2287,7 +2287,7 @@ public function ajax_mxchat_refresh_pinecone_entries() {
 
     if (empty($grouped_prompts)) {
         echo '<tr><td colspan="4" style="padding: 40px; text-align: center; color: var(--mxch-text-muted);">';
-        esc_html_e('No knowledge entries found in Pinecone.', 'mxchat');
+        esc_html_e('No knowledge entries found in Pinecone.', 'knittnet');
         echo '</td></tr>';
     } else {
         foreach ($grouped_prompts as $source_url => $group) {
@@ -2300,13 +2300,13 @@ public function ajax_mxchat_refresh_pinecone_entries() {
                 $group_id = 'group-' . md5($source_url);
                 ?>
                 <tr id="prompt-<?php echo esc_attr($first_prompt->id); ?>"
-                    class="mxchat-chunk-group-header"
+                    class="knittnet-chunk-group-header"
                     data-source="<?php echo esc_attr($data_source); ?>"
                     data-group-id="<?php echo esc_attr($group_id); ?>"
                     style="border-bottom: 1px solid var(--mxch-card-border); background: rgba(33, 150, 243, 0.02);">
                     <td style="padding: 12px 16px; text-align: center;">
                         <input type="checkbox"
-                               class="mxchat-entry-checkbox"
+                               class="knittnet-entry-checkbox"
                                data-entry-id="<?php echo esc_attr($first_prompt->id); ?>"
                                data-source="<?php echo esc_attr($data_source); ?>"
                                data-source-url="<?php echo esc_attr($source_url); ?>"
@@ -2316,13 +2316,13 @@ public function ajax_mxchat_refresh_pinecone_entries() {
                     <td style="padding: 12px 16px; font-size: 13px;">
                         <?php echo esc_html($display_index + (($current_page - 1) * $per_page)); ?>
                     </td>
-                    <td class="mxchat-content-cell" style="padding: 12px 16px; font-size: 13px;">
-                        <div class="mxchat-chunk-group-info">
-                            <button type="button" class="mxchat-chunk-toggle" data-group-id="<?php echo esc_attr($group_id); ?>">
+                    <td class="knittnet-content-cell" style="padding: 12px 16px; font-size: 13px;">
+                        <div class="knittnet-chunk-group-info">
+                            <button type="button" class="knittnet-chunk-toggle" data-group-id="<?php echo esc_attr($group_id); ?>">
                                 <span class="dashicons dashicons-arrow-right-alt2"></span>
                             </button>
-                            <span class="mxchat-chunk-badge"><?php echo esc_html($chunk_count); ?> <?php esc_html_e('chunks', 'mxchat'); ?></span>
-                            <span class="mxchat-chunk-preview">
+                            <span class="knittnet-chunk-badge"><?php echo esc_html($chunk_count); ?> <?php esc_html_e('chunks', 'knittnet'); ?></span>
+                            <span class="knittnet-chunk-preview">
                                 <?php
                                 $parent_content = isset($first_prompt->display_content) ? $first_prompt->display_content : (isset($first_prompt->article_content) ? $first_prompt->article_content : '');
                                 $content_preview = mb_substr($parent_content, 0, 100);
@@ -2331,26 +2331,26 @@ public function ajax_mxchat_refresh_pinecone_entries() {
                             </span>
                         </div>
                     </td>
-                    <td class="mxchat-url-cell" style="padding: 12px 16px; font-size: 13px;">
-                        <?php if (!empty($source_url) && strpos($source_url, 'mxchat://') !== 0 && strpos($source_url, '_ungrouped_') !== 0) : ?>
+                    <td class="knittnet-url-cell" style="padding: 12px 16px; font-size: 13px;">
+                        <?php if (!empty($source_url) && strpos($source_url, 'knittnet://') !== 0 && strpos($source_url, '_ungrouped_') !== 0) : ?>
                             <a href="<?php echo esc_url($source_url); ?>" target="_blank" style="color: var(--mxch-primary); text-decoration: none;">
                                 <span class="dashicons dashicons-external" style="font-size: 14px;"></span>
-                                <?php esc_html_e('View Source', 'mxchat'); ?>
+                                <?php esc_html_e('View Source', 'knittnet'); ?>
                             </a>
                         <?php else : ?>
-                            <span style="color: var(--mxch-text-muted);"><?php esc_html_e('Manual Content', 'mxchat'); ?></span>
+                            <span style="color: var(--mxch-text-muted);"><?php esc_html_e('Manual Content', 'knittnet'); ?></span>
                         <?php endif; ?>
                     </td>
-                    <td class="mxchat-actions-cell" style="padding: 12px 16px; white-space: nowrap;">
+                    <td class="knittnet-actions-cell" style="padding: 12px 16px; white-space: nowrap;">
                         <?php if ($data_source !== 'pinecone') : ?>
                         <button type="button"
-                                class="mxch-btn mxch-btn-ghost mxch-btn-sm mxchat-edit-entry-btn"
+                                class="mxch-btn mxch-btn-ghost mxch-btn-sm knittnet-edit-entry-btn"
                                 data-source-url="<?php echo esc_attr($source_url); ?>"
                                 data-entry-id="<?php echo esc_attr($first_prompt->id); ?>"
                                 data-data-source="<?php echo esc_attr($data_source); ?>"
                                 data-bot-id="<?php echo esc_attr($current_bot_id); ?>"
-                                data-nonce="<?php echo wp_create_nonce('mxchat_edit_entry_nonce'); ?>"
-                                title="<?php esc_attr_e('Edit content', 'mxchat'); ?>">
+                                data-nonce="<?php echo wp_create_nonce('knittnet_edit_entry_nonce'); ?>"
+                                title="<?php esc_attr_e('Edit content', 'knittnet'); ?>">
                             <span class="dashicons dashicons-edit" style="font-size: 14px;"></span>
                         </button>
                         <?php endif; ?>
@@ -2360,9 +2360,9 @@ public function ajax_mxchat_refresh_pinecone_entries() {
                                 data-chunk-count="<?php echo esc_attr($chunk_count); ?>"
                                 data-data-source="<?php echo esc_attr($data_source); ?>"
                                 data-bot-id="<?php echo esc_attr($current_bot_id); ?>"
-                                data-nonce="<?php echo wp_create_nonce('mxchat_delete_chunks_nonce'); ?>"
+                                data-nonce="<?php echo wp_create_nonce('knittnet_delete_chunks_nonce'); ?>"
                                 style="color: var(--mxch-error);"
-                                title="<?php esc_attr_e('Delete all chunks', 'mxchat'); ?>">
+                                title="<?php esc_attr_e('Delete all chunks', 'knittnet'); ?>">
                             <span class="dashicons dashicons-trash" style="font-size: 14px;"></span>
                         </button>
                     </td>
@@ -2378,7 +2378,7 @@ public function ajax_mxchat_refresh_pinecone_entries() {
                         : $content;
                     ?>
                     <tr id="prompt-<?php echo esc_attr($chunk->id); ?>"
-                        class="mxchat-chunk-row <?php echo esc_attr($group_id); ?>"
+                        class="knittnet-chunk-row <?php echo esc_attr($group_id); ?>"
                         data-source="<?php echo esc_attr($data_source); ?>"
                         style="display: none; background: #f8f9fa; border-bottom: 1px solid var(--mxch-card-border);">
                         <td style="padding: 12px 16px; text-align: center;">
@@ -2387,20 +2387,20 @@ public function ajax_mxchat_refresh_pinecone_entries() {
                         <td style="padding: 12px 16px 12px 30px; font-size: 13px;">
                             <!-- Hidden ID column for chunks -->
                         </td>
-                        <td class="mxchat-content-cell" style="padding: 12px 16px; font-size: 13px;">
-                            <div class="mxchat-accordion-wrapper">
-                                <div class="mxchat-content-preview">
-                                    <span class="mxchat-chunk-indicator" style="margin-right: 10px; color: var(--mxch-text-secondary); font-size: 12px;">
-                                        <?php printf(esc_html__('Chunk %d of %d', 'mxchat'), $meta_chunk_index + 1, $meta_total_chunks); ?>
+                        <td class="knittnet-content-cell" style="padding: 12px 16px; font-size: 13px;">
+                            <div class="knittnet-accordion-wrapper">
+                                <div class="knittnet-content-preview">
+                                    <span class="knittnet-chunk-indicator" style="margin-right: 10px; color: var(--mxch-text-secondary); font-size: 12px;">
+                                        <?php printf(esc_html__('Chunk %d of %d', 'knittnet'), $meta_chunk_index + 1, $meta_total_chunks); ?>
                                     </span>
                                     <span class="preview-text"><?php echo esc_html($content_preview); ?></span>
                                     <?php if (mb_strlen($content) > $preview_length) : ?>
-                                        <button class="mxchat-expand-toggle" type="button">
+                                        <button class="knittnet-expand-toggle" type="button">
                                             <span class="dashicons dashicons-arrow-down-alt2"></span>
                                         </button>
                                     <?php endif; ?>
                                 </div>
-                                <div class="mxchat-content-full" style="display: none;">
+                                <div class="knittnet-content-full" style="display: none;">
                                     <div class="content-view">
                                         <?php
                                         if (preg_match('/[\x{0590}-\x{05FF}]/u', $content)) {
@@ -2415,11 +2415,11 @@ public function ajax_mxchat_refresh_pinecone_entries() {
                                 </div>
                             </div>
                         </td>
-                        <td class="mxchat-url-cell" style="padding: 12px 16px; font-size: 13px;">
-                            <span class="mxchat-chunk-label" style="color: var(--mxch-text-muted);"><?php esc_html_e('Same as parent', 'mxchat'); ?></span>
+                        <td class="knittnet-url-cell" style="padding: 12px 16px; font-size: 13px;">
+                            <span class="knittnet-chunk-label" style="color: var(--mxch-text-muted);"><?php esc_html_e('Same as parent', 'knittnet'); ?></span>
                         </td>
-                        <td class="mxchat-actions-cell" style="padding: 12px 16px;">
-                            <span class="mxchat-chunk-label" style="color: var(--mxch-text-muted);"><?php esc_html_e('Managed by group', 'mxchat'); ?></span>
+                        <td class="knittnet-actions-cell" style="padding: 12px 16px;">
+                            <span class="knittnet-chunk-label" style="color: var(--mxch-text-muted);"><?php esc_html_e('Managed by group', 'knittnet'); ?></span>
                         </td>
                     </tr>
                     <?php
@@ -2437,7 +2437,7 @@ public function ajax_mxchat_refresh_pinecone_entries() {
                     style="border-bottom: 1px solid var(--mxch-card-border); background: rgba(33, 150, 243, 0.02);">
                     <td style="padding: 12px 16px; text-align: center;">
                         <input type="checkbox"
-                               class="mxchat-entry-checkbox"
+                               class="knittnet-entry-checkbox"
                                data-entry-id="<?php echo esc_attr($prompt->id); ?>"
                                data-source="<?php echo esc_attr($data_source); ?>"
                                data-source-url="<?php echo esc_attr($prompt->source_url ?? ''); ?>"
@@ -2447,17 +2447,17 @@ public function ajax_mxchat_refresh_pinecone_entries() {
                     <td style="padding: 12px 16px; font-size: 13px;">
                         <?php echo esc_html($display_index + (($current_page - 1) * $per_page)); ?>
                     </td>
-                    <td class="mxchat-content-cell" style="padding: 12px 16px; font-size: 13px;">
-                        <div class="mxchat-accordion-wrapper">
-                            <div class="mxchat-content-preview">
+                    <td class="knittnet-content-cell" style="padding: 12px 16px; font-size: 13px;">
+                        <div class="knittnet-accordion-wrapper">
+                            <div class="knittnet-content-preview">
                                 <span class="preview-text"><?php echo esc_html($content_preview); ?></span>
                                 <?php if (mb_strlen($content) > $preview_length) : ?>
-                                    <button class="mxchat-expand-toggle" type="button">
+                                    <button class="knittnet-expand-toggle" type="button">
                                         <span class="dashicons dashicons-arrow-down-alt2"></span>
                                     </button>
                                 <?php endif; ?>
                             </div>
-                            <div class="mxchat-content-full" style="display: none;">
+                            <div class="knittnet-content-full" style="display: none;">
                                 <div class="content-view">
                                     <?php
                                     if (preg_match('/[\x{0590}-\x{05FF}]/u', $content)) {
@@ -2472,23 +2472,23 @@ public function ajax_mxchat_refresh_pinecone_entries() {
                             </div>
                         </div>
                     </td>
-                    <td class="mxchat-url-cell" style="padding: 12px 16px; font-size: 13px;">
+                    <td class="knittnet-url-cell" style="padding: 12px 16px; font-size: 13px;">
                         <?php
                         $actual_source = $source_url;
                         if (strpos($source_url, '_ungrouped_') === 0) {
                             $actual_source = $prompt->source_url ?? '';
                         }
-                        if (!empty($actual_source) && strpos($actual_source, 'mxchat://') !== 0) : ?>
+                        if (!empty($actual_source) && strpos($actual_source, 'knittnet://') !== 0) : ?>
                             <a href="<?php echo esc_url($actual_source); ?>" target="_blank" style="color: var(--mxch-primary); text-decoration: none;">
                                 <span class="dashicons dashicons-external" style="font-size: 14px;"></span>
-                                <?php esc_html_e('View', 'mxchat'); ?>
+                                <?php esc_html_e('View', 'knittnet'); ?>
                             </a>
                         <?php else : ?>
-                            <span style="color: var(--mxch-text-muted);"><?php esc_html_e('Manual', 'mxchat'); ?></span>
+                            <span style="color: var(--mxch-text-muted);"><?php esc_html_e('Manual', 'knittnet'); ?></span>
                         <?php endif; ?>
                     </td>
                     <td style="padding: 12px 16px;">
-                        <button type="button" class="mxch-btn mxch-btn-ghost mxch-btn-sm delete-button-ajax" data-vector-id="<?php echo esc_attr($prompt->id); ?>" data-bot-id="<?php echo esc_attr($current_bot_id); ?>" data-nonce="<?php echo wp_create_nonce('mxchat_delete_pinecone_prompt_nonce'); ?>" style="color: var(--mxch-error);">
+                        <button type="button" class="mxch-btn mxch-btn-ghost mxch-btn-sm delete-button-ajax" data-vector-id="<?php echo esc_attr($prompt->id); ?>" data-bot-id="<?php echo esc_attr($current_bot_id); ?>" data-nonce="<?php echo wp_create_nonce('knittnet_delete_pinecone_prompt_nonce'); ?>" style="color: var(--mxch-error);">
                             <span class="dashicons dashicons-trash" style="font-size: 14px;"></span>
                         </button>
                     </td>
@@ -2503,11 +2503,11 @@ public function ajax_mxchat_refresh_pinecone_entries() {
     $total_pages = ceil($total_records / $per_page);
     $pagination_html = '';
     if ($total_pages > 1) {
-        $pagination_html = '<div class="mxchat-ajax-pagination" data-current-page="' . esc_attr($page) . '" data-total-pages="' . esc_attr($total_pages) . '" data-search="' . esc_attr($search_query) . '" data-content-type="' . esc_attr($content_type_filter) . '">';
+        $pagination_html = '<div class="knittnet-ajax-pagination" data-current-page="' . esc_attr($page) . '" data-total-pages="' . esc_attr($total_pages) . '" data-search="' . esc_attr($search_query) . '" data-content-type="' . esc_attr($content_type_filter) . '">';
 
         // Previous button
         if ($page > 1) {
-            $pagination_html .= '<a href="#" class="mxchat-page-link" data-page="' . ($page - 1) . '">' . esc_html__('&laquo; Previous', 'mxchat') . '</a> ';
+            $pagination_html .= '<a href="#" class="knittnet-page-link" data-page="' . ($page - 1) . '">' . esc_html__('&laquo; Previous', 'knittnet') . '</a> ';
         }
 
         // Page numbers
@@ -2515,30 +2515,30 @@ public function ajax_mxchat_refresh_pinecone_entries() {
         $end_page = min($total_pages, $page + 2);
 
         if ($start_page > 1) {
-            $pagination_html .= '<a href="#" class="mxchat-page-link" data-page="1">1</a> ';
+            $pagination_html .= '<a href="#" class="knittnet-page-link" data-page="1">1</a> ';
             if ($start_page > 2) {
-                $pagination_html .= '<span class="mxchat-page-dots">...</span> ';
+                $pagination_html .= '<span class="knittnet-page-dots">...</span> ';
             }
         }
 
         for ($i = $start_page; $i <= $end_page; $i++) {
             if ($i == $page) {
-                $pagination_html .= '<span class="mxchat-page-current">' . $i . '</span> ';
+                $pagination_html .= '<span class="knittnet-page-current">' . $i . '</span> ';
             } else {
-                $pagination_html .= '<a href="#" class="mxchat-page-link" data-page="' . $i . '">' . $i . '</a> ';
+                $pagination_html .= '<a href="#" class="knittnet-page-link" data-page="' . $i . '">' . $i . '</a> ';
             }
         }
 
         if ($end_page < $total_pages) {
             if ($end_page < $total_pages - 1) {
-                $pagination_html .= '<span class="mxchat-page-dots">...</span> ';
+                $pagination_html .= '<span class="knittnet-page-dots">...</span> ';
             }
-            $pagination_html .= '<a href="#" class="mxchat-page-link" data-page="' . $total_pages . '">' . $total_pages . '</a> ';
+            $pagination_html .= '<a href="#" class="knittnet-page-link" data-page="' . $total_pages . '">' . $total_pages . '</a> ';
         }
 
         // Next button
         if ($page < $total_pages) {
-            $pagination_html .= '<a href="#" class="mxchat-page-link" data-page="' . ($page + 1) . '">' . esc_html__('Next &raquo;', 'mxchat') . '</a>';
+            $pagination_html .= '<a href="#" class="knittnet-page-link" data-page="' . ($page + 1) . '">' . esc_html__('Next &raquo;', 'knittnet') . '</a>';
         }
 
         $pagination_html .= '</div>';
@@ -2559,8 +2559,8 @@ public function ajax_mxchat_refresh_pinecone_entries() {
  * AJAX handler for pagination - handles both WordPress DB and Pinecone data sources
  * Returns paginated entries without requiring a full page reload
  */
-public function ajax_mxchat_paginate_entries() {
-    check_ajax_referer('mxchat_entries_nonce', 'nonce');
+public function ajax_knittnet_paginate_entries() {
+    check_ajax_referer('knittnet_entries_nonce', 'nonce');
 
     if (!current_user_can('manage_options')) {
         wp_send_json_error(array('message' => 'Unauthorized'));
@@ -2574,23 +2574,23 @@ public function ajax_mxchat_paginate_entries() {
     $per_page = 25;
 
     // Check if Pinecone is enabled for this bot
-    $pinecone_manager = $this->mxchat_get_pinecone_manager();
-    $pinecone_options = $pinecone_manager ? $pinecone_manager->mxchat_get_bot_pinecone_options($bot_id) : array();
-    $use_pinecone = ($pinecone_options['mxchat_use_pinecone'] ?? '0') === '1';
-    $has_pinecone_api = !empty($pinecone_options['mxchat_pinecone_api_key']);
+    $pinecone_manager = $this->knittnet_get_pinecone_manager();
+    $pinecone_options = $pinecone_manager ? $pinecone_manager->knittnet_get_bot_pinecone_options($bot_id) : array();
+    $use_pinecone = ($pinecone_options['knittnet_use_pinecone'] ?? '0') === '1';
+    $has_pinecone_api = !empty($pinecone_options['knittnet_pinecone_api_key']);
 
     if ($use_pinecone && $has_pinecone_api) {
         // Delegate to Pinecone pagination handler (pass search params)
         $_POST['page'] = $page;
         $_POST['search'] = $search_query;
         $_POST['content_type'] = $content_type_filter;
-        $this->ajax_mxchat_refresh_pinecone_entries();
+        $this->ajax_knittnet_refresh_pinecone_entries();
         return;
     }
 
     // WordPress DB pagination - MUST match initial page load logic exactly
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_system_prompt_content';
+    $table_name = $wpdb->prefix . 'knittnet_system_prompt_content';
     $offset = ($page - 1) * $per_page;
 
     // Build WHERE clause for search and content type filtering
@@ -2605,13 +2605,13 @@ public function ajax_mxchat_paginate_entries() {
     if ($content_type_filter) {
         switch ($content_type_filter) {
             case 'manual':
-                $where_clauses[] = "(source_url = '' OR source_url IS NULL OR source_url LIKE 'mxchat://%')";
+                $where_clauses[] = "(source_url = '' OR source_url IS NULL OR source_url LIKE 'knittnet://%')";
                 break;
             case 'pdf':
                 $where_clauses[] = "source_url LIKE '%.pdf'";
                 break;
             case 'url':
-                $where_clauses[] = "source_url != '' AND source_url IS NOT NULL AND source_url NOT LIKE 'mxchat://%' AND source_url NOT LIKE '%.pdf'";
+                $where_clauses[] = "source_url != '' AND source_url IS NOT NULL AND source_url NOT LIKE 'knittnet://%' AND source_url NOT LIKE '%.pdf'";
                 break;
         }
     }
@@ -2622,22 +2622,22 @@ public function ajax_mxchat_paginate_entries() {
     if (!empty($where_values)) {
         $count_args = array_merge($where_values, $where_values);
         $count_query = $wpdb->prepare(
-            "SELECT (SELECT COUNT(DISTINCT source_url) FROM {$table_name} {$where_sql} AND source_url != '' AND source_url NOT LIKE 'mxchat://%') +
-                    (SELECT COUNT(*) FROM {$table_name} {$where_sql} AND (source_url = '' OR source_url IS NULL OR source_url LIKE 'mxchat://%'))",
+            "SELECT (SELECT COUNT(DISTINCT source_url) FROM {$table_name} {$where_sql} AND source_url != '' AND source_url NOT LIKE 'knittnet://%') +
+                    (SELECT COUNT(*) FROM {$table_name} {$where_sql} AND (source_url = '' OR source_url IS NULL OR source_url LIKE 'knittnet://%'))",
             ...$count_args
         );
         $total_records = $wpdb->get_var($count_query);
     } else if (!empty($where_sql)) {
         // Content type filter only (no search), no prepared values needed
         $total_records = $wpdb->get_var(
-            "SELECT (SELECT COUNT(DISTINCT source_url) FROM {$table_name} {$where_sql} AND source_url != '' AND source_url NOT LIKE 'mxchat://%') +
-                    (SELECT COUNT(*) FROM {$table_name} {$where_sql} AND (source_url = '' OR source_url IS NULL OR source_url LIKE 'mxchat://%'))"
+            "SELECT (SELECT COUNT(DISTINCT source_url) FROM {$table_name} {$where_sql} AND source_url != '' AND source_url NOT LIKE 'knittnet://%') +
+                    (SELECT COUNT(*) FROM {$table_name} {$where_sql} AND (source_url = '' OR source_url IS NULL OR source_url LIKE 'knittnet://%'))"
         );
     } else {
         // No filters
         $total_records = $wpdb->get_var(
-            "SELECT (SELECT COUNT(DISTINCT source_url) FROM {$table_name} WHERE source_url != '' AND source_url NOT LIKE 'mxchat://%') +
-                    (SELECT COUNT(*) FROM {$table_name} WHERE source_url = '' OR source_url IS NULL OR source_url LIKE 'mxchat://%')"
+            "SELECT (SELECT COUNT(DISTINCT source_url) FROM {$table_name} WHERE source_url != '' AND source_url NOT LIKE 'knittnet://%') +
+                    (SELECT COUNT(*) FROM {$table_name} WHERE source_url = '' OR source_url IS NULL OR source_url LIKE 'knittnet://%')"
         );
     }
     $total_pages = ceil($total_records / $per_page);
@@ -2708,8 +2708,8 @@ public function ajax_mxchat_paginate_entries() {
         $source_url = $prompt->source_url ?? '';
 
         // Parse chunk metadata using the proper chunker method (same as initial page load)
-        if (class_exists('MxChat_Chunker')) {
-            $chunk_meta = MxChat_Chunker::parse_stored_chunk($prompt->article_content);
+        if (class_exists('KnittNet_Chunker')) {
+            $chunk_meta = KnittNet_Chunker::parse_stored_chunk($prompt->article_content);
             $prompt->chunk_metadata = $chunk_meta['metadata'];
             $prompt->display_content = $chunk_meta['text'];
         } else {
@@ -2717,7 +2717,7 @@ public function ajax_mxchat_paginate_entries() {
             $prompt->display_content = $prompt->article_content;
         }
 
-        if (!empty($source_url) && strpos($source_url, 'mxchat://') !== 0) {
+        if (!empty($source_url) && strpos($source_url, 'knittnet://') !== 0) {
             if (!isset($grouped_prompts[$source_url])) {
                 $grouped_prompts[$source_url] = array();
             }
@@ -2755,7 +2755,7 @@ public function ajax_mxchat_paginate_entries() {
 
     if (empty($grouped_prompts)) {
         echo '<tr><td colspan="5" style="padding: 40px; text-align: center; color: var(--mxch-text-muted);">';
-        esc_html_e('No knowledge entries found. Use the Import Options to add content.', 'mxchat');
+        esc_html_e('No knowledge entries found. Use the Import Options to add content.', 'knittnet');
         echo '</td></tr>';
     } else {
         foreach ($grouped_prompts as $source_url => $group) {
@@ -2768,13 +2768,13 @@ public function ajax_mxchat_paginate_entries() {
                 $group_id = 'group-' . md5($source_url);
                 ?>
                 <tr id="prompt-<?php echo esc_attr($first_prompt->id); ?>"
-                    class="mxchat-chunk-group-header"
+                    class="knittnet-chunk-group-header"
                     data-source="<?php echo esc_attr($data_source); ?>"
                     data-group-id="<?php echo esc_attr($group_id); ?>"
                     style="border-bottom: 1px solid var(--mxch-card-border);">
                     <td style="padding: 12px 16px; text-align: center;">
                         <input type="checkbox"
-                               class="mxchat-entry-checkbox"
+                               class="knittnet-entry-checkbox"
                                data-entry-id="<?php echo esc_attr($first_prompt->id); ?>"
                                data-source="<?php echo esc_attr($data_source); ?>"
                                data-source-url="<?php echo esc_attr($source_url); ?>"
@@ -2784,13 +2784,13 @@ public function ajax_mxchat_paginate_entries() {
                     <td style="padding: 12px 16px; font-size: 13px;">
                         <?php echo esc_html($first_prompt->id); ?>
                     </td>
-                    <td class="mxchat-content-cell" style="padding: 12px 16px; font-size: 13px;">
-                        <div class="mxchat-chunk-group-info">
-                            <button type="button" class="mxchat-chunk-toggle" data-group-id="<?php echo esc_attr($group_id); ?>">
+                    <td class="knittnet-content-cell" style="padding: 12px 16px; font-size: 13px;">
+                        <div class="knittnet-chunk-group-info">
+                            <button type="button" class="knittnet-chunk-toggle" data-group-id="<?php echo esc_attr($group_id); ?>">
                                 <span class="dashicons dashicons-arrow-right-alt2"></span>
                             </button>
-                            <span class="mxchat-chunk-badge"><?php echo esc_html($chunk_count); ?> <?php esc_html_e('chunks', 'mxchat'); ?></span>
-                            <span class="mxchat-chunk-preview">
+                            <span class="knittnet-chunk-badge"><?php echo esc_html($chunk_count); ?> <?php esc_html_e('chunks', 'knittnet'); ?></span>
+                            <span class="knittnet-chunk-preview">
                                 <?php
                                 $parent_content = isset($first_prompt->display_content) ? $first_prompt->display_content : $first_prompt->article_content;
                                 $content_preview = mb_substr($parent_content, 0, 100);
@@ -2799,26 +2799,26 @@ public function ajax_mxchat_paginate_entries() {
                             </span>
                         </div>
                     </td>
-                    <td class="mxchat-url-cell" style="padding: 12px 16px; font-size: 13px;">
-                        <?php if (!empty($source_url) && strpos($source_url, 'mxchat://') !== 0 && strpos($source_url, '_ungrouped_') !== 0) : ?>
+                    <td class="knittnet-url-cell" style="padding: 12px 16px; font-size: 13px;">
+                        <?php if (!empty($source_url) && strpos($source_url, 'knittnet://') !== 0 && strpos($source_url, '_ungrouped_') !== 0) : ?>
                             <a href="<?php echo esc_url($source_url); ?>" target="_blank" style="color: var(--mxch-primary); text-decoration: none;">
                                 <span class="dashicons dashicons-external" style="font-size: 14px;"></span>
-                                <?php esc_html_e('View Source', 'mxchat'); ?>
+                                <?php esc_html_e('View Source', 'knittnet'); ?>
                             </a>
                         <?php else : ?>
-                            <span style="color: var(--mxch-text-muted);"><?php esc_html_e('Manual Content', 'mxchat'); ?></span>
+                            <span style="color: var(--mxch-text-muted);"><?php esc_html_e('Manual Content', 'knittnet'); ?></span>
                         <?php endif; ?>
                     </td>
-                    <td class="mxchat-actions-cell" style="padding: 12px 16px; white-space: nowrap;">
+                    <td class="knittnet-actions-cell" style="padding: 12px 16px; white-space: nowrap;">
                         <?php if ($data_source !== 'pinecone') : ?>
                         <button type="button"
-                                class="mxch-btn mxch-btn-ghost mxch-btn-sm mxchat-edit-entry-btn"
+                                class="mxch-btn mxch-btn-ghost mxch-btn-sm knittnet-edit-entry-btn"
                                 data-source-url="<?php echo esc_attr($source_url); ?>"
                                 data-entry-id="<?php echo esc_attr($first_prompt->id); ?>"
                                 data-data-source="<?php echo esc_attr($data_source); ?>"
                                 data-bot-id="<?php echo esc_attr($current_bot_id); ?>"
-                                data-nonce="<?php echo wp_create_nonce('mxchat_edit_entry_nonce'); ?>"
-                                title="<?php esc_attr_e('Edit content', 'mxchat'); ?>">
+                                data-nonce="<?php echo wp_create_nonce('knittnet_edit_entry_nonce'); ?>"
+                                title="<?php esc_attr_e('Edit content', 'knittnet'); ?>">
                             <span class="dashicons dashicons-edit" style="font-size: 14px;"></span>
                         </button>
                         <?php endif; ?>
@@ -2828,9 +2828,9 @@ public function ajax_mxchat_paginate_entries() {
                                 data-chunk-count="<?php echo esc_attr($chunk_count); ?>"
                                 data-data-source="<?php echo esc_attr($data_source); ?>"
                                 data-bot-id="<?php echo esc_attr($current_bot_id); ?>"
-                                data-nonce="<?php echo wp_create_nonce('mxchat_delete_chunks_nonce'); ?>"
+                                data-nonce="<?php echo wp_create_nonce('knittnet_delete_chunks_nonce'); ?>"
                                 style="color: var(--mxch-error);"
-                                title="<?php esc_attr_e('Delete all chunks', 'mxchat'); ?>">
+                                title="<?php esc_attr_e('Delete all chunks', 'knittnet'); ?>">
                             <span class="dashicons dashicons-trash" style="font-size: 14px;"></span>
                         </button>
                     </td>
@@ -2846,7 +2846,7 @@ public function ajax_mxchat_paginate_entries() {
                         : $content;
                     ?>
                     <tr id="prompt-<?php echo esc_attr($chunk->id); ?>"
-                        class="mxchat-chunk-row <?php echo esc_attr($group_id); ?>"
+                        class="knittnet-chunk-row <?php echo esc_attr($group_id); ?>"
                         data-source="<?php echo esc_attr($data_source); ?>"
                         style="display: none; background: #f8f9fa; border-bottom: 1px solid var(--mxch-card-border);">
                         <td style="padding: 12px 16px; text-align: center;">
@@ -2855,20 +2855,20 @@ public function ajax_mxchat_paginate_entries() {
                         <td style="padding: 12px 16px 12px 30px; font-size: 13px;">
                             <!-- Hidden ID column for chunks -->
                         </td>
-                        <td class="mxchat-content-cell" style="padding: 12px 16px; font-size: 13px;">
-                            <div class="mxchat-accordion-wrapper">
-                                <div class="mxchat-content-preview">
-                                    <span class="mxchat-chunk-indicator" style="margin-right: 10px; color: var(--mxch-text-secondary); font-size: 12px;">
-                                        <?php printf(esc_html__('Chunk %d of %d', 'mxchat'), $meta_chunk_index + 1, $meta_total_chunks); ?>
+                        <td class="knittnet-content-cell" style="padding: 12px 16px; font-size: 13px;">
+                            <div class="knittnet-accordion-wrapper">
+                                <div class="knittnet-content-preview">
+                                    <span class="knittnet-chunk-indicator" style="margin-right: 10px; color: var(--mxch-text-secondary); font-size: 12px;">
+                                        <?php printf(esc_html__('Chunk %d of %d', 'knittnet'), $meta_chunk_index + 1, $meta_total_chunks); ?>
                                     </span>
                                     <span class="preview-text"><?php echo esc_html($content_preview); ?></span>
                                     <?php if (mb_strlen($content) > $preview_length) : ?>
-                                        <button class="mxchat-expand-toggle" type="button">
+                                        <button class="knittnet-expand-toggle" type="button">
                                             <span class="dashicons dashicons-arrow-down-alt2"></span>
                                         </button>
                                     <?php endif; ?>
                                 </div>
-                                <div class="mxchat-content-full" style="display: none;">
+                                <div class="knittnet-content-full" style="display: none;">
                                     <div class="content-view">
                                         <?php
                                         if (preg_match('/[\x{0590}-\x{05FF}]/u', $content)) {
@@ -2883,11 +2883,11 @@ public function ajax_mxchat_paginate_entries() {
                                 </div>
                             </div>
                         </td>
-                        <td class="mxchat-url-cell" style="padding: 12px 16px; font-size: 13px;">
-                            <span class="mxchat-chunk-label" style="color: var(--mxch-text-muted);"><?php esc_html_e('Same as parent', 'mxchat'); ?></span>
+                        <td class="knittnet-url-cell" style="padding: 12px 16px; font-size: 13px;">
+                            <span class="knittnet-chunk-label" style="color: var(--mxch-text-muted);"><?php esc_html_e('Same as parent', 'knittnet'); ?></span>
                         </td>
-                        <td class="mxchat-actions-cell" style="padding: 12px 16px;">
-                            <span class="mxchat-chunk-label" style="color: var(--mxch-text-muted);"><?php esc_html_e('Managed by group', 'mxchat'); ?></span>
+                        <td class="knittnet-actions-cell" style="padding: 12px 16px;">
+                            <span class="knittnet-chunk-label" style="color: var(--mxch-text-muted);"><?php esc_html_e('Managed by group', 'knittnet'); ?></span>
                         </td>
                     </tr>
                     <?php
@@ -2905,7 +2905,7 @@ public function ajax_mxchat_paginate_entries() {
                     style="border-bottom: 1px solid var(--mxch-card-border);">
                     <td style="padding: 12px 16px; text-align: center;">
                         <input type="checkbox"
-                               class="mxchat-entry-checkbox"
+                               class="knittnet-entry-checkbox"
                                data-entry-id="<?php echo esc_attr($prompt->id); ?>"
                                data-source="<?php echo esc_attr($data_source); ?>"
                                data-source-url="<?php echo esc_attr($source_url); ?>"
@@ -2914,17 +2914,17 @@ public function ajax_mxchat_paginate_entries() {
                     <td style="padding: 12px 16px; font-size: 13px;">
                         <?php echo esc_html($prompt->id); ?>
                     </td>
-                    <td class="mxchat-content-cell" style="padding: 12px 16px; font-size: 13px;">
-                        <div class="mxchat-accordion-wrapper">
-                            <div class="mxchat-content-preview">
+                    <td class="knittnet-content-cell" style="padding: 12px 16px; font-size: 13px;">
+                        <div class="knittnet-accordion-wrapper">
+                            <div class="knittnet-content-preview">
                                 <span class="preview-text"><?php echo esc_html($content_preview); ?></span>
                                 <?php if (mb_strlen($content) > $preview_length) : ?>
-                                    <button class="mxchat-expand-toggle" type="button">
+                                    <button class="knittnet-expand-toggle" type="button">
                                         <span class="dashicons dashicons-arrow-down-alt2"></span>
                                     </button>
                                 <?php endif; ?>
                             </div>
-                            <div class="mxchat-content-full" style="display: none;">
+                            <div class="knittnet-content-full" style="display: none;">
                                 <div class="content-view">
                                     <?php
                                     if (preg_match('/[\x{0590}-\x{05FF}]/u', $content)) {
@@ -2939,33 +2939,33 @@ public function ajax_mxchat_paginate_entries() {
                             </div>
                         </div>
                     </td>
-                    <td class="mxchat-url-cell" style="padding: 12px 16px; font-size: 13px;">
+                    <td class="knittnet-url-cell" style="padding: 12px 16px; font-size: 13px;">
                         <?php
                         $actual_source = $source_url;
                         if (strpos($source_url, '_ungrouped_') === 0) {
                             $actual_source = $prompt->source_url ?? '';
                         }
-                        if (!empty($actual_source) && strpos($actual_source, 'mxchat://') !== 0) : ?>
+                        if (!empty($actual_source) && strpos($actual_source, 'knittnet://') !== 0) : ?>
                             <a href="<?php echo esc_url($actual_source); ?>" target="_blank" style="color: var(--mxch-primary); text-decoration: none;">
                                 <span class="dashicons dashicons-external" style="font-size: 14px;"></span>
-                                <?php esc_html_e('View', 'mxchat'); ?>
+                                <?php esc_html_e('View', 'knittnet'); ?>
                             </a>
                         <?php else : ?>
-                            <span style="color: var(--mxch-text-muted);"><?php esc_html_e('Manual', 'mxchat'); ?></span>
+                            <span style="color: var(--mxch-text-muted);"><?php esc_html_e('Manual', 'knittnet'); ?></span>
                         <?php endif; ?>
                     </td>
                     <td style="padding: 12px 16px; white-space: nowrap;">
                         <button type="button"
-                                class="mxch-btn mxch-btn-ghost mxch-btn-sm mxchat-edit-entry-btn"
+                                class="mxch-btn mxch-btn-ghost mxch-btn-sm knittnet-edit-entry-btn"
                                 data-source-url="<?php echo esc_attr($prompt->source_url ?? ''); ?>"
                                 data-entry-id="<?php echo esc_attr($prompt->id); ?>"
                                 data-data-source="<?php echo esc_attr($data_source); ?>"
                                 data-bot-id="<?php echo esc_attr($current_bot_id); ?>"
-                                data-nonce="<?php echo wp_create_nonce('mxchat_edit_entry_nonce'); ?>"
-                                title="<?php esc_attr_e('Edit content', 'mxchat'); ?>">
+                                data-nonce="<?php echo wp_create_nonce('knittnet_edit_entry_nonce'); ?>"
+                                title="<?php esc_attr_e('Edit content', 'knittnet'); ?>">
                             <span class="dashicons dashicons-edit" style="font-size: 14px;"></span>
                         </button>
-                        <button type="button" class="mxch-btn mxch-btn-ghost mxch-btn-sm delete-button-wordpress" data-entry-id="<?php echo esc_attr($prompt->id); ?>" data-bot-id="<?php echo esc_attr($current_bot_id); ?>" data-nonce="<?php echo wp_create_nonce('mxchat_delete_wordpress_prompt_nonce'); ?>" style="color: var(--mxch-error);">
+                        <button type="button" class="mxch-btn mxch-btn-ghost mxch-btn-sm delete-button-wordpress" data-entry-id="<?php echo esc_attr($prompt->id); ?>" data-bot-id="<?php echo esc_attr($current_bot_id); ?>" data-nonce="<?php echo wp_create_nonce('knittnet_delete_wordpress_prompt_nonce'); ?>" style="color: var(--mxch-error);">
                             <span class="dashicons dashicons-trash" style="font-size: 14px;"></span>
                         </button>
                     </td>
@@ -2979,11 +2979,11 @@ public function ajax_mxchat_paginate_entries() {
     // Generate pagination HTML (include search/filter data for subsequent pages)
     $pagination_html = '';
     if ($total_pages > 1) {
-        $pagination_html = '<div class="mxchat-ajax-pagination" data-current-page="' . esc_attr($page) . '" data-total-pages="' . esc_attr($total_pages) . '" data-search="' . esc_attr($search_query) . '" data-content-type="' . esc_attr($content_type_filter) . '">';
+        $pagination_html = '<div class="knittnet-ajax-pagination" data-current-page="' . esc_attr($page) . '" data-total-pages="' . esc_attr($total_pages) . '" data-search="' . esc_attr($search_query) . '" data-content-type="' . esc_attr($content_type_filter) . '">';
 
         // Previous button
         if ($page > 1) {
-            $pagination_html .= '<a href="#" class="mxchat-page-link" data-page="' . ($page - 1) . '">' . esc_html__('&laquo; Previous', 'mxchat') . '</a> ';
+            $pagination_html .= '<a href="#" class="knittnet-page-link" data-page="' . ($page - 1) . '">' . esc_html__('&laquo; Previous', 'knittnet') . '</a> ';
         }
 
         // Page numbers
@@ -2991,30 +2991,30 @@ public function ajax_mxchat_paginate_entries() {
         $end_page = min($total_pages, $page + 2);
 
         if ($start_page > 1) {
-            $pagination_html .= '<a href="#" class="mxchat-page-link" data-page="1">1</a> ';
+            $pagination_html .= '<a href="#" class="knittnet-page-link" data-page="1">1</a> ';
             if ($start_page > 2) {
-                $pagination_html .= '<span class="mxchat-page-dots">...</span> ';
+                $pagination_html .= '<span class="knittnet-page-dots">...</span> ';
             }
         }
 
         for ($i = $start_page; $i <= $end_page; $i++) {
             if ($i == $page) {
-                $pagination_html .= '<span class="mxchat-page-current">' . $i . '</span> ';
+                $pagination_html .= '<span class="knittnet-page-current">' . $i . '</span> ';
             } else {
-                $pagination_html .= '<a href="#" class="mxchat-page-link" data-page="' . $i . '">' . $i . '</a> ';
+                $pagination_html .= '<a href="#" class="knittnet-page-link" data-page="' . $i . '">' . $i . '</a> ';
             }
         }
 
         if ($end_page < $total_pages) {
             if ($end_page < $total_pages - 1) {
-                $pagination_html .= '<span class="mxchat-page-dots">...</span> ';
+                $pagination_html .= '<span class="knittnet-page-dots">...</span> ';
             }
-            $pagination_html .= '<a href="#" class="mxchat-page-link" data-page="' . $total_pages . '">' . $total_pages . '</a> ';
+            $pagination_html .= '<a href="#" class="knittnet-page-link" data-page="' . $total_pages . '">' . $total_pages . '</a> ';
         }
 
         // Next button
         if ($page < $total_pages) {
-            $pagination_html .= '<a href="#" class="mxchat-page-link" data-page="' . ($page + 1) . '">' . esc_html__('Next &raquo;', 'mxchat') . '</a>';
+            $pagination_html .= '<a href="#" class="knittnet-page-link" data-page="' . ($page + 1) . '">' . esc_html__('Next &raquo;', 'knittnet') . '</a>';
         }
 
         $pagination_html .= '</div>';
@@ -3035,8 +3035,8 @@ public function ajax_mxchat_paginate_entries() {
  * AJAX handler to detect available sitemaps on the site
  * Optimized for speed - only checks primary sitemap indexes first
  */
-public function ajax_mxchat_detect_sitemaps() {
-    check_ajax_referer('mxchat_detect_sitemaps_nonce', 'nonce');
+public function ajax_knittnet_detect_sitemaps() {
+    check_ajax_referer('knittnet_detect_sitemaps_nonce', 'nonce');
 
     if (!current_user_can('manage_options')) {
         wp_send_json_error(array('message' => 'Unauthorized'));
@@ -3239,21 +3239,21 @@ private function get_sitemaps_from_robots($site_url) {
     return $sitemaps;
 }
 
-public function mxchat_stop_processing() {
+public function knittnet_stop_processing() {
     // Verify permissions
     if (!current_user_can('manage_options')) {
-        wp_die(esc_html__('Unauthorized access', 'mxchat'));
+        wp_die(esc_html__('Unauthorized access', 'knittnet'));
     }
 
     // Verify nonce
-    check_admin_referer('mxchat_stop_processing_action', 'mxchat_stop_processing_nonce');
+    check_admin_referer('knittnet_stop_processing_action', 'knittnet_stop_processing_nonce');
 
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_processing_queue';
+    $table_name = $wpdb->prefix . 'knittnet_processing_queue';
     
     // Get active queue IDs
-    $sitemap_queue_id = get_transient('mxchat_active_queue_sitemap');
-    $pdf_queue_id = get_transient('mxchat_active_queue_pdf');
+    $sitemap_queue_id = get_transient('knittnet_active_queue_sitemap');
+    $pdf_queue_id = get_transient('knittnet_active_queue_pdf');
     
     // Delete all pending items from active queues
     if ($sitemap_queue_id) {
@@ -3266,13 +3266,13 @@ public function mxchat_stop_processing() {
             array('%s', '%s')
         );
         
-        delete_transient('mxchat_active_queue_sitemap');
-        delete_transient('mxchat_last_sitemap_url');
+        delete_transient('knittnet_active_queue_sitemap');
+        delete_transient('knittnet_last_sitemap_url');
     }
     
     if ($pdf_queue_id) {
         // Get PDF path before deleting
-        $pdf_path = $this->mxchat_get_queue_meta($pdf_queue_id, 'pdf_path');
+        $pdf_path = $this->knittnet_get_queue_meta($pdf_queue_id, 'pdf_path');
         
         $wpdb->delete(
             $table_name,
@@ -3288,28 +3288,28 @@ public function mxchat_stop_processing() {
             wp_delete_file($pdf_path);
         }
         
-        delete_transient('mxchat_active_queue_pdf');
-        delete_transient('mxchat_last_pdf_url');
+        delete_transient('knittnet_active_queue_pdf');
+        delete_transient('knittnet_last_pdf_url');
     }
 
     // Redirect back with a success message
-    set_transient('mxchat_admin_notice_success',
-        esc_html__('Processing has been stopped successfully.', 'mxchat'),
+    set_transient('knittnet_admin_notice_success',
+        esc_html__('Processing has been stopped successfully.', 'knittnet'),
         30
     );
-    wp_safe_redirect(admin_url('admin.php?page=mxchat-prompts'));
+    wp_safe_redirect(admin_url('admin.php?page=knittnet-prompts'));
     exit;
 }
 
 /**
  * Get content list for processing
  */
-public function ajax_mxchat_get_content_list() {
+public function ajax_knittnet_get_content_list() {
     // Verify the nonce
-    check_ajax_referer('mxchat_content_selector_nonce', 'nonce');
+    check_ajax_referer('knittnet_content_selector_nonce', 'nonce');
     
     if (!current_user_can('manage_options')) {
-        wp_send_json_error(__('Unauthorized access', 'mxchat'));
+        wp_send_json_error(__('Unauthorized access', 'knittnet'));
     }
     
     $page = isset($_GET['page']) ? absint($_GET['page']) : 1;
@@ -3366,7 +3366,7 @@ public function ajax_mxchat_get_content_list() {
         $args['post_type'] = $all_post_types;
         
         // Debug logging to see what post types are being queried
-        //error_log('MxChat Debug: Querying post types: ' . implode(', ', $all_post_types));
+        //error_log('KnittNet Debug: Querying post types: ' . implode(', ', $all_post_types));
     }
     
     if (!empty($search)) {
@@ -3376,16 +3376,16 @@ public function ajax_mxchat_get_content_list() {
     // Get processed data from storage
     $processed_data = array();
     
-    $pinecone_options = get_option('mxchat_pinecone_addon_options', array());
-    $use_pinecone = ($pinecone_options['mxchat_use_pinecone'] ?? '0') === '1';
+    $pinecone_options = get_option('knittnet_pinecone_addon_options', array());
+    $use_pinecone = ($pinecone_options['knittnet_use_pinecone'] ?? '0') === '1';
 
-    if ($use_pinecone && !empty($pinecone_options['mxchat_pinecone_api_key'])) {
+    if ($use_pinecone && !empty($pinecone_options['knittnet_pinecone_api_key'])) {
         // Get fresh data from Pinecone - no caching
-        $processed_data = $this->mxchat_get_pinecone_processed_content($pinecone_options);
+        $processed_data = $this->knittnet_get_pinecone_processed_content($pinecone_options);
     } else {
         // WordPress DB checking with better URL matching for all post types
         global $wpdb;
-        $table_name = $wpdb->prefix . 'mxchat_system_prompt_content';
+        $table_name = $wpdb->prefix . 'knittnet_system_prompt_content';
         $processed_items = $wpdb->get_results("SELECT id, source_url, article_content, timestamp FROM {$table_name}");
 
         // Group items by source_url to count chunks
@@ -3414,7 +3414,7 @@ public function ajax_mxchat_get_content_list() {
 
             // Now build processed_data with chunk counts
             foreach ($url_chunk_counts as $url => $chunk_count) {
-                $post_id = $this->mxchat_url_to_post_id_improved($url);
+                $post_id = $this->knittnet_url_to_post_id_improved($url);
 
                 if ($post_id) {
                     $processed_data[$post_id] = array(
@@ -3513,7 +3513,7 @@ public function ajax_mxchat_get_content_list() {
 /**
  * This function handles various WooCommerce URL formats and permalink structures
  */
-private function mxchat_url_to_post_id_improved($url) {
+private function knittnet_url_to_post_id_improved($url) {
     // First try the standard WordPress function
     $post_id = url_to_postid($url);
     
@@ -3643,7 +3643,7 @@ private function mxchat_url_to_post_id_improved($url) {
     
     // ADDITIONAL: Try direct database lookup by URL variations
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_system_prompt_content';
+    $table_name = $wpdb->prefix . 'knittnet_system_prompt_content';
     
     // Try variations of the URL (with/without trailing slash, http/https)
     $url_variations = array(
@@ -3679,9 +3679,9 @@ private function mxchat_url_to_post_id_improved($url) {
 /**
  * Process selected content via AJAX
  */
-public function ajax_mxchat_process_selected_content() {
+public function ajax_knittnet_process_selected_content() {
     // Basic request validation
-    if (!check_ajax_referer('mxchat_content_selector_nonce', 'nonce', false)) {
+    if (!check_ajax_referer('knittnet_content_selector_nonce', 'nonce', false)) {
         wp_send_json_error('Invalid nonce');
         exit;
     }
@@ -3710,14 +3710,14 @@ public function ajax_mxchat_process_selected_content() {
     // ACF→PDF extraction is opt-in per import batch. Persist the last-used value so users
     // don't re-check on every batch; the default is OFF for installs that haven't set it.
     $extract_acf_pdfs = !empty($_POST['extract_acf_pdfs']) && $_POST['extract_acf_pdfs'] !== 'false';
-    $mxchat_options = get_option('mxchat_options', array());
-    if (!is_array($mxchat_options)) {
-        $mxchat_options = array();
+    $knittnet_options = get_option('knittnet_options', array());
+    if (!is_array($knittnet_options)) {
+        $knittnet_options = array();
     }
-    $prior_default = !empty($mxchat_options['acf_pdf_extract_default']);
+    $prior_default = !empty($knittnet_options['acf_pdf_extract_default']);
     if ($prior_default !== $extract_acf_pdfs) {
-        $mxchat_options['acf_pdf_extract_default'] = $extract_acf_pdfs ? 1 : 0;
-        update_option('mxchat_options', $mxchat_options);
+        $knittnet_options['acf_pdf_extract_default'] = $extract_acf_pdfs ? 1 : 0;
+        update_option('knittnet_options', $knittnet_options);
     }
 
     // Process only ONE post at a time to avoid request size issues
@@ -3730,7 +3730,7 @@ public function ajax_mxchat_process_selected_content() {
     }
 
     // Allow developers to modify post data before processing into knowledge base
-    $post = apply_filters('mxchat_before_process_post', $post, $bot_id);
+    $post = apply_filters('knittnet_before_process_post', $post, $bot_id);
 
     // Get content including title, short description (for WooCommerce), and main content
     $content = $post->post_title . "\n\n";
@@ -3826,14 +3826,14 @@ public function ajax_mxchat_process_selected_content() {
     }
 
     // ADD ACF FIELDS SUPPORT
-    $acf_fields = $this->mxchat_get_acf_fields_for_post($post_id);
+    $acf_fields = $this->knittnet_get_acf_fields_for_post($post_id);
     $pdf_extracted_count = 0;
     if (!empty($acf_fields)) {
         $acf_content_parts = array();
         $pdf_attachment_ids = array();
 
         foreach ($acf_fields as $field_name => $field_value) {
-            $formatted_value = $this->mxchat_format_acf_field_value($field_value, $field_name, $post_id);
+            $formatted_value = $this->knittnet_format_acf_field_value($field_value, $field_name, $post_id);
 
             if (!empty($formatted_value)) {
                 $field_label = ucwords(str_replace('_', ' ', $field_name));
@@ -3844,7 +3844,7 @@ public function ajax_mxchat_process_selected_content() {
             // Only when the user opted into ACF→PDF extraction for this batch; otherwise the ACF text
             // still lands in the KB but the heavier PDF parsing is skipped.
             if ($extract_acf_pdfs) {
-                $this->mxchat_collect_pdf_attachment_ids_from_acf_value($field_value, $pdf_attachment_ids);
+                $this->knittnet_collect_pdf_attachment_ids_from_acf_value($field_value, $pdf_attachment_ids);
             }
         }
 
@@ -3857,7 +3857,7 @@ public function ajax_mxchat_process_selected_content() {
             $pdf_attachment_ids = array_unique(array_filter(array_map('intval', $pdf_attachment_ids)));
             $pdf_sections = array();
             foreach ($pdf_attachment_ids as $att_id) {
-                $pdf_text = $this->mxchat_extract_pdf_text_by_attachment_id($att_id);
+                $pdf_text = $this->knittnet_extract_pdf_text_by_attachment_id($att_id);
                 if (!empty($pdf_text)) {
                     $pdf_title = get_the_title($att_id);
                     $pdf_url = wp_get_attachment_url($att_id);
@@ -3879,7 +3879,7 @@ public function ajax_mxchat_process_selected_content() {
     }
 
     // ADD CUSTOM POST META SUPPORT (whitelisted non-ACF meta fields)
-    $custom_meta = $this->mxchat_get_whitelisted_post_meta($post_id);
+    $custom_meta = $this->knittnet_get_whitelisted_post_meta($post_id);
     if (!empty($custom_meta)) {
         $meta_content_parts = array();
 
@@ -3895,16 +3895,16 @@ public function ajax_mxchat_process_selected_content() {
     }
 
     // Debug logging for WordPress Import content
-    //error_log('[MXCHAT-WP-IMPORT-DEBUG] Post ID: ' . $post_id . ' Title: ' . $post->post_title);
-    //error_log('[MXCHAT-WP-IMPORT-DEBUG] Raw post_content length: ' . strlen($post->post_content));
-    //error_log('[MXCHAT-WP-IMPORT-DEBUG] Final content length: ' . strlen($content));
-    //error_log('[MXCHAT-WP-IMPORT-DEBUG] Content preview: ' . substr($content, 0, 300));
+    //error_log('[KNITTNET-WP-IMPORT-DEBUG] Post ID: ' . $post_id . ' Title: ' . $post->post_title);
+    //error_log('[KNITTNET-WP-IMPORT-DEBUG] Raw post_content length: ' . strlen($post->post_content));
+    //error_log('[KNITTNET-WP-IMPORT-DEBUG] Final content length: ' . strlen($content));
+    //error_log('[KNITTNET-WP-IMPORT-DEBUG] Content preview: ' . substr($content, 0, 300));
 
     // Note: Removed 10,000 char limit - chunking now handles large content properly
 
     //  Get bot-specific API key
     $bot_options = $this->get_bot_options($bot_id);
-    $options = !empty($bot_options) ? $bot_options : get_option('mxchat_options');
+    $options = !empty($bot_options) ? $bot_options : get_option('knittnet_options');
     $selected_model = $options['embedding_model'] ?? 'text-embedding-ada-002';
     
     if (strpos($selected_model, 'voyage') === 0) {
@@ -3919,7 +3919,7 @@ public function ajax_mxchat_process_selected_content() {
     }
     
     if (empty($api_key)) {
-        MxChat_Admin::mxchat_log_debug('api_error', $provider_name . ' API key not configured for knowledge processing');
+        KnittNet_Admin::knittnet_log_debug('api_error', $provider_name . ' API key not configured for knowledge processing');
         wp_send_json_error($provider_name . ' API key not configured');
         exit;
     }
@@ -3936,14 +3936,14 @@ public function ajax_mxchat_process_selected_content() {
     
     if ($use_pinecone && !empty($bot_pinecone_config['api_key'])) {
         // Check Pinecone for this bot
-        $pinecone_data = $this->mxchat_get_pinecone_processed_content($bot_pinecone_config);
+        $pinecone_data = $this->knittnet_get_pinecone_processed_content($bot_pinecone_config);
         if (isset($pinecone_data[$post_id])) {
             $is_update = true;
         }
     } else {
         // Check WordPress DB (same as before since it's shared)
         global $wpdb;
-        $table_name = $wpdb->prefix . 'mxchat_system_prompt_content';
+        $table_name = $wpdb->prefix . 'knittnet_system_prompt_content';
         $existing_record = $wpdb->get_row($wpdb->prepare(
             "SELECT id FROM $table_name WHERE source_url = %s",
             $source_url
@@ -3976,7 +3976,7 @@ public function ajax_mxchat_process_selected_content() {
     }
 
     //  Use the centralized utility function with bot_id and content_type
-    $result = MxChat_Utils::submit_content_to_db(
+    $result = KnittNet_Utils::submit_content_to_db(
         $content,
         $source_url,
         $api_key,
@@ -3986,7 +3986,7 @@ public function ajax_mxchat_process_selected_content() {
     );
 
     if (is_wp_error($result)) {
-        MxChat_Admin::mxchat_log_debug('storage_error', 'Knowledge storage failed: ' . $result->get_error_message(), array('source_url' => $source_url));
+        KnittNet_Admin::knittnet_log_debug('storage_error', 'Knowledge storage failed: ' . $result->get_error_message(), array('source_url' => $source_url));
         wp_send_json_error('Storage failed: ' . $result->get_error_message());
         exit;
     }
@@ -4016,7 +4016,7 @@ public function ajax_mxchat_process_selected_content() {
 
 private function apply_role_restriction_to_post($post_id, $source_url) {
     // Get tag-role mappings
-    $mappings = get_option('mxchat_tag_role_mappings', array());
+    $mappings = get_option('knittnet_tag_role_mappings', array());
     
     if (empty($mappings)) {
         return; // No mappings, leave as public
@@ -4059,12 +4059,12 @@ private function apply_role_restriction_to_post($post_id, $source_url) {
     global $wpdb;
     
     // Check if using Pinecone
-    $pinecone_options = get_option('mxchat_pinecone_addon_options', array());
-    $use_pinecone = ($pinecone_options['mxchat_use_pinecone'] ?? '0') === '1';
+    $pinecone_options = get_option('knittnet_pinecone_addon_options', array());
+    $use_pinecone = ($pinecone_options['knittnet_use_pinecone'] ?? '0') === '1';
     
-    if ($use_pinecone && !empty($pinecone_options['mxchat_pinecone_api_key'])) {
+    if ($use_pinecone && !empty($pinecone_options['knittnet_pinecone_api_key'])) {
         // Update Pinecone role restriction
-        $roles_table = $wpdb->prefix . 'mxchat_pinecone_roles';
+        $roles_table = $wpdb->prefix . 'knittnet_pinecone_roles';
         $vector_id = md5($source_url);
         
         $wpdb->replace(
@@ -4078,7 +4078,7 @@ private function apply_role_restriction_to_post($post_id, $source_url) {
         );
     } else {
         // Update WordPress DB
-        $table_name = $wpdb->prefix . 'mxchat_system_prompt_content';
+        $table_name = $wpdb->prefix . 'knittnet_system_prompt_content';
         
         $wpdb->update(
             $table_name,
@@ -4090,7 +4090,7 @@ private function apply_role_restriction_to_post($post_id, $source_url) {
     }
 }
 
-public function mxchat_get_public_post_types() {
+public function knittnet_get_public_post_types() {
     // Get all public post types
     $post_types = get_post_types(array('public' => true), 'objects');
     $post_type_options = array();
@@ -4120,9 +4120,9 @@ public function mxchat_get_public_post_types() {
 /**
  * Retrieves processed content from Pinecone API
  */
-public function mxchat_get_pinecone_processed_content($pinecone_options) {
-    $api_key = $pinecone_options['mxchat_pinecone_api_key'] ?? '';
-    $host = $pinecone_options['mxchat_pinecone_host'] ?? '';
+public function knittnet_get_pinecone_processed_content($pinecone_options) {
+    $api_key = $pinecone_options['knittnet_pinecone_api_key'] ?? '';
+    $host = $pinecone_options['knittnet_pinecone_host'] ?? '';
 
     if (empty($api_key) || empty($host)) {
         return array();
@@ -4132,7 +4132,7 @@ public function mxchat_get_pinecone_processed_content($pinecone_options) {
 
     try {
         // Always get fresh data from Pinecone
-        $pinecone_data = $this->mxchat_scan_pinecone_for_processed_content($pinecone_options);
+        $pinecone_data = $this->knittnet_scan_pinecone_for_processed_content($pinecone_options);
 
         // Method 2: Final fallback - try stats endpoint (if available)
         if (empty($pinecone_data)) {
@@ -4159,11 +4159,11 @@ public function mxchat_get_pinecone_processed_content($pinecone_options) {
 
     return $pinecone_data;
 }
-public function mxchat_fetch_pinecone_vectors_by_ids($pinecone_options, $vector_ids) {
-    //error_log('=== DEBUG: Starting mxchat_fetch_pinecone_vectors_by_ids ===');
+public function knittnet_fetch_pinecone_vectors_by_ids($pinecone_options, $vector_ids) {
+    //error_log('=== DEBUG: Starting knittnet_fetch_pinecone_vectors_by_ids ===');
     
-    $api_key = $pinecone_options['mxchat_pinecone_api_key'] ?? '';
-    $host = $pinecone_options['mxchat_pinecone_host'] ?? '';
+    $api_key = $pinecone_options['knittnet_pinecone_api_key'] ?? '';
+    $host = $pinecone_options['knittnet_pinecone_host'] ?? '';
 
     if (empty($api_key) || empty($host) || empty($vector_ids)) {
         //error_log('DEBUG: Missing parameters for fetch by IDs');
@@ -4255,8 +4255,8 @@ public function mxchat_fetch_pinecone_vectors_by_ids($pinecone_options, $vector_
 /**
  * Get embedding dimensions based on the selected model.
  */
-private function mxchat_get_embedding_dimensions() {
-    $options = get_option('mxchat_options', array());
+private function knittnet_get_embedding_dimensions() {
+    $options = get_option('knittnet_options', array());
     $selected_model = $options['embedding_model'] ?? 'text-embedding-ada-002';
 
     $model_dimensions = array(
@@ -4285,9 +4285,9 @@ private function mxchat_get_embedding_dimensions() {
 /**
  * Scan Pinecone for processed content
  */
-public function mxchat_scan_pinecone_for_processed_content($pinecone_options) {
-    $api_key = $pinecone_options['mxchat_pinecone_api_key'] ?? '';
-    $host = $pinecone_options['mxchat_pinecone_host'] ?? '';
+public function knittnet_scan_pinecone_for_processed_content($pinecone_options) {
+    $api_key = $pinecone_options['knittnet_pinecone_api_key'] ?? '';
+    $host = $pinecone_options['knittnet_pinecone_host'] ?? '';
 
     if (empty($api_key) || empty($host)) {
         return array();
@@ -4299,7 +4299,7 @@ public function mxchat_scan_pinecone_for_processed_content($pinecone_options) {
         $seen_ids = array();
 
         // Get correct dimensions for the configured embedding model
-        $dimensions = $this->mxchat_get_embedding_dimensions();
+        $dimensions = $this->knittnet_get_embedding_dimensions();
 
         // Try 3 different random vectors to get better coverage
         for ($i = 0; $i < 3; $i++) {
@@ -4414,63 +4414,63 @@ public function mxchat_scan_pinecone_for_processed_content($pinecone_options) {
     }
 }
 /**
- *  Generate embeddings from input text for MXChat with bot support
+ *  Generate embeddings from input text for KnittNet with bot support
  */
-private function mxchat_generate_embedding($text, $bot_id = 'default') {
+private function knittnet_generate_embedding($text, $bot_id = 'default') {
     // Enable detailed logging for debugging
-    //error_log('[MXCHAT-EMBED] Starting embedding generation for bot: ' . $bot_id . '. Text length: ' . strlen($text) . ' bytes');
-    //error_log('[MXCHAT-EMBED] Text preview: ' . substr($text, 0, 100) . '...');
+    //error_log('[KNITTNET-EMBED] Starting embedding generation for bot: ' . $bot_id . '. Text length: ' . strlen($text) . ' bytes');
+    //error_log('[KNITTNET-EMBED] Text preview: ' . substr($text, 0, 100) . '...');
 
     //  Get bot-specific options
     $bot_options = $this->get_bot_options($bot_id);
-    $options = !empty($bot_options) ? $bot_options : get_option('mxchat_options');
+    $options = !empty($bot_options) ? $bot_options : get_option('knittnet_options');
 
     // Opt-in: when the custom provider is selected for embeddings, index through
     // the same custom endpoint the query path uses so stored vectors and query
     // vectors share a model. Returns the vector array on success, or an error
     // string on failure (this function's existing failure contract).
     if (isset($options['custom_provider_for_embeddings']) && $options['custom_provider_for_embeddings'] === 'on') {
-        if (!class_exists('MxChat_Utils')) {
-            require_once dirname(__FILE__) . '/../includes/class-mxchat-utils.php';
+        if (!class_exists('KnittNet_Utils')) {
+            require_once dirname(__FILE__) . '/../includes/class-knittnet-utils.php';
         }
-        return MxChat_Utils::generate_embedding_custom($text, $options);
+        return KnittNet_Utils::generate_embedding_custom($text, $options);
     }
 
     $selected_model = $options['embedding_model'] ?? 'text-embedding-ada-002';
-    //error_log('[MXCHAT-EMBED] Selected embedding model for bot ' . $bot_id . ': ' . $selected_model);
+    //error_log('[KNITTNET-EMBED] Selected embedding model for bot ' . $bot_id . ': ' . $selected_model);
 
     // Determine provider and endpoint
     if (strpos($selected_model, 'voyage') === 0) {
         $api_key = $options['voyage_api_key'] ?? '';
         $endpoint = 'https://api.voyageai.com/v1/embeddings';
         $provider_name = 'Voyage AI';
-        //error_log('[MXCHAT-EMBED] Using Voyage AI API for bot ' . $bot_id);
+        //error_log('[KNITTNET-EMBED] Using Voyage AI API for bot ' . $bot_id);
     } elseif (strpos($selected_model, 'gemini-embedding') === 0) {
         $api_key = $options['gemini_api_key'] ?? '';
         $endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/' . $selected_model . ':embedContent';
         $provider_name = 'Google Gemini';
-        //error_log('[MXCHAT-EMBED] Using Google Gemini API for bot ' . $bot_id);
+        //error_log('[KNITTNET-EMBED] Using Google Gemini API for bot ' . $bot_id);
     } else {
         $api_key = $options['api_key'] ?? '';
         $endpoint = 'https://api.openai.com/v1/embeddings';
         $provider_name = 'OpenAI';
-        //error_log('[MXCHAT-EMBED] Using OpenAI API for bot ' . $bot_id);
+        //error_log('[KNITTNET-EMBED] Using OpenAI API for bot ' . $bot_id);
     }
 
-    //error_log('[MXCHAT-EMBED] Using endpoint: ' . $endpoint);
+    //error_log('[KNITTNET-EMBED] Using endpoint: ' . $endpoint);
 
     if (empty($api_key)) {
         $error_message = sprintf('Missing %s API key for bot %s. Please configure your API key in the bot settings.', $provider_name, $bot_id);
-        //error_log('[MXCHAT-EMBED] Error: ' . $error_message);
+        //error_log('[KNITTNET-EMBED] Error: ' . $error_message);
         return $error_message;
     }
 
     // Check if text is too long (for OpenAI, roughly estimate tokens as words/0.75)
     $estimated_tokens = ceil(str_word_count($text) / 0.75);
-    //error_log('[MXCHAT-EMBED] Estimated token count: ~' . $estimated_tokens);
+    //error_log('[KNITTNET-EMBED] Estimated token count: ~' . $estimated_tokens);
 
     if ($estimated_tokens > 8000 && strpos($selected_model, 'voyage') === false && strpos($selected_model, 'gemini-embedding') === false) {
-        //error_log('[MXCHAT-EMBED] Warning: Text may exceed OpenAI token limits (8K for most models)');
+        //error_log('[KNITTNET-EMBED] Warning: Text may exceed OpenAI token limits (8K for most models)');
         // Consider truncating text here
     }
 
@@ -4501,7 +4501,7 @@ private function mxchat_generate_embedding($text, $bot_id = 'default') {
         }
     }
 
-    //error_log('[MXCHAT-EMBED] Request prepared with model: ' . $selected_model);
+    //error_log('[KNITTNET-EMBED] Request prepared with model: ' . $selected_model);
 
     // Prepare headers based on provider
     if (strpos($selected_model, 'gemini-embedding') === 0) {
@@ -4519,7 +4519,7 @@ private function mxchat_generate_embedding($text, $bot_id = 'default') {
     }
 
     // Make API request
-    //error_log('[MXCHAT-EMBED] Sending API request to: ' . $endpoint);
+    //error_log('[KNITTNET-EMBED] Sending API request to: ' . $endpoint);
     $response = wp_remote_post($endpoint, array(
         'body' => wp_json_encode($request_body),
         'headers' => $headers,
@@ -4529,25 +4529,25 @@ private function mxchat_generate_embedding($text, $bot_id = 'default') {
     // Handle wp_remote_post errors
     if (is_wp_error($response)) {
         $error_message = $response->get_error_message();
-        //error_log('[MXCHAT-EMBED] WP Remote Post Error: ' . $error_message);
+        //error_log('[KNITTNET-EMBED] WP Remote Post Error: ' . $error_message);
         return 'Connection error: ' . $error_message;
     }
 
     // Get and check HTTP response code
     $http_code = wp_remote_retrieve_response_code($response);
-    //error_log('[MXCHAT-EMBED] API Response Code: ' . $http_code);
+    //error_log('[KNITTNET-EMBED] API Response Code: ' . $http_code);
 
     if ($http_code !== 200) {
         $error_body = wp_remote_retrieve_body($response);
-        //error_log('[MXCHAT-EMBED] API Error Response Body: ' . $error_body);
+        //error_log('[KNITTNET-EMBED] API Error Response Body: ' . $error_body);
 
         // Try to parse error for more details
         $error_json = json_decode($error_body, true);
         if (json_last_error() === JSON_ERROR_NONE && isset($error_json['error'])) {
             $error_type = $error_json['error']['type'] ?? 'unknown';
             $error_message = $error_json['error']['message'] ?? 'No message';
-            //error_log('[MXCHAT-EMBED] API Error Type: ' . $error_type);
-            //error_log('[MXCHAT-EMBED] API Error Message: ' . $error_message);
+            //error_log('[KNITTNET-EMBED] API Error Type: ' . $error_type);
+            //error_log('[KNITTNET-EMBED] API Error Message: ' . $error_message);
 
             // Customize error message for common API errors
             if ($error_type === 'invalid_request_error' && strpos($error_message, 'API key') !== false) {
@@ -4556,25 +4556,25 @@ private function mxchat_generate_embedding($text, $bot_id = 'default') {
                 $error_message = sprintf('%s authentication failed for bot %s. Please verify your API key in the bot settings.', $provider_name, $bot_id);
             }
 
-            //error_log('[MXCHAT-EMBED] Returning error: ' . $error_message);
+            //error_log('[KNITTNET-EMBED] Returning error: ' . $error_message);
             return $error_message;
         }
 
         $error_message = sprintf("API Error (HTTP %d): Unable to generate embedding for bot %s", $http_code, $bot_id);
-        //error_log('[MXCHAT-EMBED] Returning error: ' . $error_message);
+        //error_log('[KNITTNET-EMBED] Returning error: ' . $error_message);
         return $error_message;
     }
 
     // Parse response body
     $response_body = wp_remote_retrieve_body($response);
-    //error_log('[MXCHAT-EMBED] Received response length: ' . strlen($response_body) . ' bytes');
+    //error_log('[KNITTNET-EMBED] Received response length: ' . strlen($response_body) . ' bytes');
 
     $response_data = json_decode($response_body, true);
 
     if (json_last_error() !== JSON_ERROR_NONE) {
         $error = json_last_error_msg();
-        //error_log('[MXCHAT-EMBED] JSON Parse Error: ' . $error);
-        //error_log('[MXCHAT-EMBED] Response preview: ' . substr($response_body, 0, 200));
+        //error_log('[KNITTNET-EMBED] JSON Parse Error: ' . $error);
+        //error_log('[KNITTNET-EMBED] Response preview: ' . substr($response_body, 0, 200));
         return "Failed to parse API response: $error";
     }
 
@@ -4583,53 +4583,53 @@ private function mxchat_generate_embedding($text, $bot_id = 'default') {
         // Gemini API response format
         if (isset($response_data['embedding']['values'])) {
             $embedding_dimensions = count($response_data['embedding']['values']);
-            //error_log('[MXCHAT-EMBED] Successfully extracted Gemini embedding with ' . $embedding_dimensions . ' dimensions');
+            //error_log('[KNITTNET-EMBED] Successfully extracted Gemini embedding with ' . $embedding_dimensions . ' dimensions');
 
             // Check if embedding dimensions are as expected (should be 1536)
             if ($embedding_dimensions !== 1536) {
-                //error_log('[MXCHAT-EMBED] Warning: Unexpected Gemini embedding dimensions: ' . $embedding_dimensions);
+                //error_log('[KNITTNET-EMBED] Warning: Unexpected Gemini embedding dimensions: ' . $embedding_dimensions);
             }
 
             return $response_data['embedding']['values'];
         } else {
-            //error_log('[MXCHAT-EMBED] Error: No embedding found in Gemini response');
-            //error_log('[MXCHAT-EMBED] Response structure: ' . wp_json_encode(array_keys($response_data)));
+            //error_log('[KNITTNET-EMBED] Error: No embedding found in Gemini response');
+            //error_log('[KNITTNET-EMBED] Response structure: ' . wp_json_encode(array_keys($response_data)));
 
             if (isset($response_data['error'])) {
                 $error_message = "Gemini API Error in response: " . wp_json_encode($response_data['error']);
-                //error_log('[MXCHAT-EMBED] ' . $error_message);
+                //error_log('[KNITTNET-EMBED] ' . $error_message);
                 return $error_message;
             }
 
             $error_message = "Invalid Gemini API response format: No embedding found";
-            //error_log('[MXCHAT-EMBED] ' . $error_message);
+            //error_log('[KNITTNET-EMBED] ' . $error_message);
             return $error_message;
         }
     } else {
         // OpenAI/Voyage API response format
         if (isset($response_data['data'][0]['embedding'])) {
             $embedding_dimensions = count($response_data['data'][0]['embedding']);
-            //error_log('[MXCHAT-EMBED] Successfully extracted embedding with ' . $embedding_dimensions . ' dimensions');
+            //error_log('[KNITTNET-EMBED] Successfully extracted embedding with ' . $embedding_dimensions . ' dimensions');
 
             // Check if embedding dimensions are as expected
             if (($selected_model === 'text-embedding-ada-002' && $embedding_dimensions !== 1536) ||
                 ($selected_model === 'voyage-3-large' && $embedding_dimensions !== 2048)) {
-                //error_log('[MXCHAT-EMBED] Warning: Unexpected embedding dimensions');
+                //error_log('[KNITTNET-EMBED] Warning: Unexpected embedding dimensions');
             }
 
             return $response_data['data'][0]['embedding'];
         } else {
-            //error_log('[MXCHAT-EMBED] Error: No embedding found in response');
-            //error_log('[MXCHAT-EMBED] Response structure: ' . wp_json_encode(array_keys($response_data)));
+            //error_log('[KNITTNET-EMBED] Error: No embedding found in response');
+            //error_log('[KNITTNET-EMBED] Response structure: ' . wp_json_encode(array_keys($response_data)));
 
             if (isset($response_data['error'])) {
                 $error_message = "API Error in response: " . wp_json_encode($response_data['error']);
-                //error_log('[MXCHAT-EMBED] ' . $error_message);
+                //error_log('[KNITTNET-EMBED] ' . $error_message);
                 return $error_message;
             }
 
             $error_message = "Invalid API response format: No embedding found";
-            //error_log('[MXCHAT-EMBED] ' . $error_message);
+            //error_log('[KNITTNET-EMBED] ' . $error_message);
             return $error_message;
         }
     }
@@ -4640,17 +4640,17 @@ private function mxchat_generate_embedding($text, $bot_id = 'default') {
  * Falls back to default options if bot_id is 'default' or multi-bot add-on is not active
  */
 private function get_bot_options($bot_id = 'default') {
-    //error_log("MXCHAT DEBUG: get_bot_options called for bot: " . $bot_id);
+    //error_log("KNITTNET DEBUG: get_bot_options called for bot: " . $bot_id);
     
-    if ($bot_id === 'default' || !class_exists('MxChat_Multi_Bot_Manager')) {
-        //error_log("MXCHAT DEBUG: Using default options (no multi-bot or bot is 'default')");
+    if ($bot_id === 'default' || !class_exists('KnittNet_Multi_Bot_Manager')) {
+        //error_log("KNITTNET DEBUG: Using default options (no multi-bot or bot is 'default')");
         return array();
     }
     
-    $bot_options = apply_filters('mxchat_get_bot_options', array(), $bot_id);
+    $bot_options = apply_filters('knittnet_get_bot_options', array(), $bot_id);
     
     if (!empty($bot_options)) {
-        //error_log("MXCHAT DEBUG: Got bot-specific options from filter");
+        //error_log("KNITTNET DEBUG: Got bot-specific options from filter");
         if (isset($bot_options['similarity_threshold'])) {
             //error_log("  - similarity_threshold: " . $bot_options['similarity_threshold']);
         }
@@ -4665,44 +4665,44 @@ private function get_bot_options($bot_id = 'default') {
  */
 // Also add debugging to your get_bot_pinecone_config function
 private function get_bot_pinecone_config($bot_id = 'default') {
-    //error_log("MXCHAT DEBUG: get_bot_pinecone_config called for bot: " . $bot_id);
+    //error_log("KNITTNET DEBUG: get_bot_pinecone_config called for bot: " . $bot_id);
     
     // If default bot or multi-bot add-on not active, use default Pinecone config
-    if ($bot_id === 'default' || !class_exists('MxChat_Multi_Bot_Manager')) {
-        //error_log("MXCHAT DEBUG: Using default Pinecone config (no multi-bot or bot is 'default')");
-        $addon_options = get_option('mxchat_pinecone_addon_options', array());
+    if ($bot_id === 'default' || !class_exists('KnittNet_Multi_Bot_Manager')) {
+        //error_log("KNITTNET DEBUG: Using default Pinecone config (no multi-bot or bot is 'default')");
+        $addon_options = get_option('knittnet_pinecone_addon_options', array());
         $config = array(
-            'use_pinecone' => (isset($addon_options['mxchat_use_pinecone']) && $addon_options['mxchat_use_pinecone'] === '1'),
-            'api_key' => $addon_options['mxchat_pinecone_api_key'] ?? '',
-            'host' => $addon_options['mxchat_pinecone_host'] ?? '',
-            'namespace' => $addon_options['mxchat_pinecone_namespace'] ?? ''
+            'use_pinecone' => (isset($addon_options['knittnet_use_pinecone']) && $addon_options['knittnet_use_pinecone'] === '1'),
+            'api_key' => $addon_options['knittnet_pinecone_api_key'] ?? '',
+            'host' => $addon_options['knittnet_pinecone_host'] ?? '',
+            'namespace' => $addon_options['knittnet_pinecone_namespace'] ?? ''
         );
-        //error_log("MXCHAT DEBUG: Default config - use_pinecone: " . ($config['use_pinecone'] ? 'true' : 'false'));
+        //error_log("KNITTNET DEBUG: Default config - use_pinecone: " . ($config['use_pinecone'] ? 'true' : 'false'));
         return $config;
     }
     
-    //error_log("MXCHAT DEBUG: Calling filter 'mxchat_get_bot_pinecone_config' for bot: " . $bot_id);
+    //error_log("KNITTNET DEBUG: Calling filter 'knittnet_get_bot_pinecone_config' for bot: " . $bot_id);
     
     // Hook for multi-bot add-on to provide bot-specific Pinecone config
-    $bot_pinecone_config = apply_filters('mxchat_get_bot_pinecone_config', array(), $bot_id);
+    $bot_pinecone_config = apply_filters('knittnet_get_bot_pinecone_config', array(), $bot_id);
     
     if (!empty($bot_pinecone_config)) {
-        //error_log("MXCHAT DEBUG: Got bot-specific config from filter");
+        //error_log("KNITTNET DEBUG: Got bot-specific config from filter");
         //error_log("  - use_pinecone: " . (isset($bot_pinecone_config['use_pinecone']) ? ($bot_pinecone_config['use_pinecone'] ? 'true' : 'false') : 'not set'));
         //error_log("  - host: " . ($bot_pinecone_config['host'] ?? 'not set'));
         //error_log("  - namespace: " . ($bot_pinecone_config['namespace'] ?? 'not set'));
     } else {
-        //error_log("MXCHAT DEBUG: Filter returned empty config!");
+        //error_log("KNITTNET DEBUG: Filter returned empty config!");
     }
     
     return is_array($bot_pinecone_config) ? $bot_pinecone_config : array();
 }
 
 
-public function mxchat_ajax_dismiss_completed_status() {
+public function knittnet_ajax_dismiss_completed_status() {
     try {
         // Verify the request
-        check_ajax_referer('mxchat_status_nonce', 'nonce');
+        check_ajax_referer('knittnet_status_nonce', 'nonce');
         
         if (!current_user_can('manage_options')) {
             wp_send_json_error('Unauthorized access');
@@ -4713,17 +4713,17 @@ public function mxchat_ajax_dismiss_completed_status() {
         
         if ($card_type === 'pdf') {
             // Clear PDF status
-            $pdf_url = get_transient('mxchat_last_pdf_url');
+            $pdf_url = get_transient('knittnet_last_pdf_url');
             if ($pdf_url) {
-                delete_transient('mxchat_pdf_status_' . md5($pdf_url));
-                delete_transient('mxchat_last_pdf_url');
+                delete_transient('knittnet_pdf_status_' . md5($pdf_url));
+                delete_transient('knittnet_last_pdf_url');
             }
         } elseif ($card_type === 'sitemap') {
             // Clear sitemap status
-            $sitemap_url = get_transient('mxchat_last_sitemap_url');
+            $sitemap_url = get_transient('knittnet_last_sitemap_url');
             if ($sitemap_url) {
-                delete_transient('mxchat_sitemap_status_' . md5($sitemap_url));
-                delete_transient('mxchat_last_sitemap_url');
+                delete_transient('knittnet_sitemap_status_' . md5($sitemap_url));
+                delete_transient('knittnet_last_sitemap_url');
             }
         }
         
@@ -4738,24 +4738,24 @@ public function mxchat_ajax_dismiss_completed_status() {
  * Render completed status cards on page load
  * This ensures completed processing status persists through page refreshes
  */
-public function mxchat_render_completed_status_cards() {
+public function knittnet_render_completed_status_cards() {
     $output = '';
     
     // Check for completed PDF status
-    $pdf_url = get_transient('mxchat_last_pdf_url');
+    $pdf_url = get_transient('knittnet_last_pdf_url');
     if ($pdf_url) {
-        $pdf_status = $this->mxchat_get_pdf_processing_status($pdf_url);
+        $pdf_status = $this->knittnet_get_pdf_processing_status($pdf_url);
         if ($pdf_status && ($pdf_status['status'] === 'complete' || $pdf_status['status'] === 'error')) {
-            $output .= $this->mxchat_render_pdf_status_card($pdf_status, $pdf_url);
+            $output .= $this->knittnet_render_pdf_status_card($pdf_status, $pdf_url);
         }
     }
     
     // Check for completed sitemap status
-    $sitemap_url = get_transient('mxchat_last_sitemap_url');
+    $sitemap_url = get_transient('knittnet_last_sitemap_url');
     if ($sitemap_url) {
-        $sitemap_status = $this->mxchat_get_sitemap_processing_status($sitemap_url);
+        $sitemap_status = $this->knittnet_get_sitemap_processing_status($sitemap_url);
         if ($sitemap_status && ($sitemap_status['status'] === 'complete' || $sitemap_status['status'] === 'error')) {
-            $output .= $this->mxchat_render_sitemap_status_card($sitemap_status, $sitemap_url);
+            $output .= $this->knittnet_render_sitemap_status_card($sitemap_status, $sitemap_url);
         }
     }
     
@@ -4765,47 +4765,47 @@ public function mxchat_render_completed_status_cards() {
 /**
  * Render PDF status card HTML
  */
-private function mxchat_render_pdf_status_card($status, $pdf_url) {
-    $html = '<div class="mxchat-status-card" data-card-type="pdf">';
-    $html .= '<div class="mxchat-status-header">';
-    $html .= '<h4>' . esc_html__('PDF Processing Status', 'mxchat') . '</h4>';
+private function knittnet_render_pdf_status_card($status, $pdf_url) {
+    $html = '<div class="knittnet-status-card" data-card-type="pdf">';
+    $html .= '<div class="knittnet-status-header">';
+    $html .= '<h4>' . esc_html__('PDF Processing Status', 'knittnet') . '</h4>';
     
     // Add dismiss button for completed status
     if ($status['status'] === 'complete' || $status['status'] === 'error') {
-        $html .= '<button type="button" class="mxchat-dismiss-button">' . esc_html__('Dismiss', 'mxchat') . '</button>';
+        $html .= '<button type="button" class="knittnet-dismiss-button">' . esc_html__('Dismiss', 'knittnet') . '</button>';
     }
     
     // Process Batch button for processing status
     if ($status['status'] === 'processing') {
-        $html .= '<button type="button" class="mxchat-manual-batch-btn" 
+        $html .= '<button type="button" class="knittnet-manual-batch-btn" 
                   data-process-type="pdf"
                   data-url="' . esc_attr($pdf_url) . '">
-                  ' . esc_html__('Process Batch', 'mxchat') . '</button>';
+                  ' . esc_html__('Process Batch', 'knittnet') . '</button>';
     }
     
     // Add status badges
     if ($status['status'] === 'error') {
-        $html .= '<span class="mxchat-status-badge mxchat-status-failed">' . esc_html__('Error', 'mxchat') . '</span>';
+        $html .= '<span class="knittnet-status-badge knittnet-status-failed">' . esc_html__('Error', 'knittnet') . '</span>';
     } elseif ($status['status'] === 'complete') {
         if ($status['failed_pages'] > 0) {
-            $html .= '<span class="mxchat-status-badge mxchat-status-warning">' . 
-                     sprintf(esc_html__('Completed with %d failures', 'mxchat'), $status['failed_pages']) . '</span>';
+            $html .= '<span class="knittnet-status-badge knittnet-status-warning">' . 
+                     sprintf(esc_html__('Completed with %d failures', 'knittnet'), $status['failed_pages']) . '</span>';
         } else {
-            $html .= '<span class="mxchat-status-badge mxchat-status-success">' . esc_html__('Complete', 'mxchat') . '</span>';
+            $html .= '<span class="knittnet-status-badge knittnet-status-success">' . esc_html__('Complete', 'knittnet') . '</span>';
         }
     }
     
     $html .= '</div>'; // End header
     
     // Progress bar
-    $html .= '<div class="mxchat-progress-bar">';
-    $html .= '<div class="mxchat-progress-fill" style="width: ' . esc_attr($status['percentage']) . '%"></div>';
+    $html .= '<div class="knittnet-progress-bar">';
+    $html .= '<div class="knittnet-progress-fill" style="width: ' . esc_attr($status['percentage']) . '%"></div>';
     $html .= '</div>';
     
     // Status details
-    $html .= '<div class="mxchat-status-details">';
+    $html .= '<div class="knittnet-status-details">';
     $html .= '<p>' . sprintf(
-        esc_html__('Progress: %d of %d pages (%d%%)', 'mxchat'),
+        esc_html__('Progress: %d of %d pages (%d%%)', 'knittnet'),
         $status['processed_pages'],
         $status['total_pages'],
         $status['percentage']
@@ -4813,32 +4813,32 @@ private function mxchat_render_pdf_status_card($status, $pdf_url) {
     
     // Show failed pages count if any
     if ($status['failed_pages'] > 0) {
-        $html .= '<p><strong>' . esc_html__('Failed pages:', 'mxchat') . '</strong> ' . esc_html($status['failed_pages']) . '</p>';
+        $html .= '<p><strong>' . esc_html__('Failed pages:', 'knittnet') . '</strong> ' . esc_html($status['failed_pages']) . '</p>';
     }
     
-    $html .= '<p><strong>' . esc_html__('Status:', 'mxchat') . '</strong> ' . esc_html(ucfirst($status['status'])) . '</p>';
-    $html .= '<p><strong>' . esc_html__('Last update:', 'mxchat') . '</strong> ' . esc_html($status['last_update']) . '</p>';
+    $html .= '<p><strong>' . esc_html__('Status:', 'knittnet') . '</strong> ' . esc_html(ucfirst($status['status'])) . '</p>';
+    $html .= '<p><strong>' . esc_html__('Last update:', 'knittnet') . '</strong> ' . esc_html($status['last_update']) . '</p>';
     
     // Add completion summary if available AND it's an array
     if (isset($status['completion_summary']) && is_array($status['completion_summary']) && !empty($status['completion_summary'])) {
         $summary = $status['completion_summary'];
-        $html .= '<div class="mxchat-completion-summary">';
-        $html .= '<h5>' . esc_html__('Processing Summary', 'mxchat') . '</h5>';
-        $html .= '<p><strong>' . esc_html__('Total Pages:', 'mxchat') . '</strong> ' . esc_html($summary['total_pages']) . '</p>';
-        $html .= '<p><strong>' . esc_html__('Successful:', 'mxchat') . '</strong> ' . esc_html($summary['successful_pages']) . '</p>';
-        $html .= '<p><strong>' . esc_html__('Failed:', 'mxchat') . '</strong> ' . esc_html($summary['failed_pages']) . '</p>';
-        $html .= '<p><strong>' . esc_html__('Completed:', 'mxchat') . '</strong> ' . esc_html($summary['completion_time']) . '</p>';
+        $html .= '<div class="knittnet-completion-summary">';
+        $html .= '<h5>' . esc_html__('Processing Summary', 'knittnet') . '</h5>';
+        $html .= '<p><strong>' . esc_html__('Total Pages:', 'knittnet') . '</strong> ' . esc_html($summary['total_pages']) . '</p>';
+        $html .= '<p><strong>' . esc_html__('Successful:', 'knittnet') . '</strong> ' . esc_html($summary['successful_pages']) . '</p>';
+        $html .= '<p><strong>' . esc_html__('Failed:', 'knittnet') . '</strong> ' . esc_html($summary['failed_pages']) . '</p>';
+        $html .= '<p><strong>' . esc_html__('Completed:', 'knittnet') . '</strong> ' . esc_html($summary['completion_time']) . '</p>';
         $html .= '</div>';
     }
     
     // Add failed pages list if any AND it's an array
     if (isset($status['failed_pages_list']) && is_array($status['failed_pages_list']) && !empty($status['failed_pages_list'])) {
-        $html .= $this->mxchat_render_failed_pages_list($status['failed_pages_list']);
+        $html .= $this->knittnet_render_failed_pages_list($status['failed_pages_list']);
     }
     
     // Add error message if any
     if (isset($status['error']) && !empty($status['error'])) {
-        $html .= '<div class="mxchat-error-notice">';
+        $html .= '<div class="knittnet-error-notice">';
         $html .= '<p class="error">' . esc_html($status['error']) . '</p>';
         $html .= '</div>';
     }
@@ -4851,47 +4851,47 @@ private function mxchat_render_pdf_status_card($status, $pdf_url) {
 /**
  * Render sitemap status card HTML
  */
-private function mxchat_render_sitemap_status_card($status, $sitemap_url) {
-    $html = '<div class="mxchat-status-card" data-card-type="sitemap">';
-    $html .= '<div class="mxchat-status-header">';
-    $html .= '<h4>' . esc_html__('Sitemap Processing Status', 'mxchat') . '</h4>';
+private function knittnet_render_sitemap_status_card($status, $sitemap_url) {
+    $html = '<div class="knittnet-status-card" data-card-type="sitemap">';
+    $html .= '<div class="knittnet-status-header">';
+    $html .= '<h4>' . esc_html__('Sitemap Processing Status', 'knittnet') . '</h4>';
     
     // Add dismiss button for completed status  
     if ($status['status'] === 'complete' || $status['status'] === 'error') {
-        $html .= '<button type="button" class="mxchat-dismiss-button">' . esc_html__('Dismiss', 'mxchat') . '</button>';
+        $html .= '<button type="button" class="knittnet-dismiss-button">' . esc_html__('Dismiss', 'knittnet') . '</button>';
     }
     
     // Process Batch button for processing status
     if ($status['status'] === 'processing') {
-        $html .= '<button type="button" class="mxchat-manual-batch-btn" 
+        $html .= '<button type="button" class="knittnet-manual-batch-btn" 
                   data-process-type="sitemap"
                   data-url="' . esc_attr($sitemap_url) . '">
-                  ' . esc_html__('Process Batch', 'mxchat') . '</button>';
+                  ' . esc_html__('Process Batch', 'knittnet') . '</button>';
     }
 
     // Add status badges
     if ($status['status'] === 'error') {
-        $html .= '<span class="mxchat-status-badge mxchat-status-failed">' . esc_html__('Error', 'mxchat') . '</span>';
+        $html .= '<span class="knittnet-status-badge knittnet-status-failed">' . esc_html__('Error', 'knittnet') . '</span>';
     } elseif ($status['status'] === 'complete') {
         if ($status['failed_urls'] > 0) {
-            $html .= '<span class="mxchat-status-badge mxchat-status-warning">' . 
-                     sprintf(esc_html__('Completed with %d failures', 'mxchat'), $status['failed_urls']) . '</span>';
+            $html .= '<span class="knittnet-status-badge knittnet-status-warning">' . 
+                     sprintf(esc_html__('Completed with %d failures', 'knittnet'), $status['failed_urls']) . '</span>';
         } else {
-            $html .= '<span class="mxchat-status-badge mxchat-status-success">' . esc_html__('Complete', 'mxchat') . '</span>';
+            $html .= '<span class="knittnet-status-badge knittnet-status-success">' . esc_html__('Complete', 'knittnet') . '</span>';
         }
     }
     
     $html .= '</div>'; // End header
     
     // Progress bar
-    $html .= '<div class="mxchat-progress-bar">';
-    $html .= '<div class="mxchat-progress-fill" style="width: ' . esc_attr($status['percentage']) . '%"></div>';
+    $html .= '<div class="knittnet-progress-bar">';
+    $html .= '<div class="knittnet-progress-fill" style="width: ' . esc_attr($status['percentage']) . '%"></div>';
     $html .= '</div>';
     
     // Status details
-    $html .= '<div class="mxchat-status-details">';
+    $html .= '<div class="knittnet-status-details">';
     $html .= '<p>' . sprintf(
-        esc_html__('Progress: %d of %d URLs (%d%%)', 'mxchat'),
+        esc_html__('Progress: %d of %d URLs (%d%%)', 'knittnet'),
         $status['processed_urls'],
         $status['total_urls'],
         $status['percentage']
@@ -4899,34 +4899,34 @@ private function mxchat_render_sitemap_status_card($status, $sitemap_url) {
     
     // Show failed URLs count if any
     if ($status['failed_urls'] > 0) {
-        $html .= '<p><strong>' . esc_html__('Failed URLs:', 'mxchat') . '</strong> ' . esc_html($status['failed_urls']) . '</p>';
+        $html .= '<p><strong>' . esc_html__('Failed URLs:', 'knittnet') . '</strong> ' . esc_html($status['failed_urls']) . '</p>';
     }
     
-    $html .= '<p><strong>' . esc_html__('Status:', 'mxchat') . '</strong> ' . esc_html(ucfirst($status['status'])) . '</p>';
-    $html .= '<p><strong>' . esc_html__('Last update:', 'mxchat') . '</strong> ' . esc_html($status['last_update']) . '</p>';
+    $html .= '<p><strong>' . esc_html__('Status:', 'knittnet') . '</strong> ' . esc_html(ucfirst($status['status'])) . '</p>';
+    $html .= '<p><strong>' . esc_html__('Last update:', 'knittnet') . '</strong> ' . esc_html($status['last_update']) . '</p>';
     
     // Add completion summary if available AND it's an array
     if (isset($status['completion_summary']) && is_array($status['completion_summary']) && !empty($status['completion_summary'])) {
         $summary = $status['completion_summary'];
-        $html .= '<div class="mxchat-completion-summary">';
-        $html .= '<h5>' . esc_html__('Processing Summary', 'mxchat') . '</h5>';
-        $html .= '<p><strong>' . esc_html__('Total URLs:', 'mxchat') . '</strong> ' . esc_html($summary['total_urls']) . '</p>';
-        $html .= '<p><strong>' . esc_html__('Successful:', 'mxchat') . '</strong> ' . esc_html($summary['successful_urls']) . '</p>';
-        $html .= '<p><strong>' . esc_html__('Failed:', 'mxchat') . '</strong> ' . esc_html($summary['failed_urls']) . '</p>';
-        $html .= '<p><strong>' . esc_html__('Completed:', 'mxchat') . '</strong> ' . esc_html($summary['completion_time']) . '</p>';
+        $html .= '<div class="knittnet-completion-summary">';
+        $html .= '<h5>' . esc_html__('Processing Summary', 'knittnet') . '</h5>';
+        $html .= '<p><strong>' . esc_html__('Total URLs:', 'knittnet') . '</strong> ' . esc_html($summary['total_urls']) . '</p>';
+        $html .= '<p><strong>' . esc_html__('Successful:', 'knittnet') . '</strong> ' . esc_html($summary['successful_urls']) . '</p>';
+        $html .= '<p><strong>' . esc_html__('Failed:', 'knittnet') . '</strong> ' . esc_html($summary['failed_urls']) . '</p>';
+        $html .= '<p><strong>' . esc_html__('Completed:', 'knittnet') . '</strong> ' . esc_html($summary['completion_time']) . '</p>';
         $html .= '</div>';
     }
     
     // Add error messages if any (but not the failed URLs list)
     if (!empty($status['error']) || !empty($status['last_error'])) {
-        $html .= '<div class="mxchat-error-notice">';
+        $html .= '<div class="knittnet-error-notice">';
         
         if (!empty($status['error'])) {
             $html .= '<p class="error">' . esc_html($status['error']) . '</p>';
         }
         
         if (!empty($status['last_error'])) {
-            $html .= '<p class="last-error">' . esc_html__('Last error:', 'mxchat') . ' ' . esc_html($status['last_error']) . '</p>';
+            $html .= '<p class="last-error">' . esc_html__('Last error:', 'knittnet') . ' ' . esc_html($status['last_error']) . '</p>';
         }
         
         $html .= '</div>';
@@ -4942,26 +4942,26 @@ private function mxchat_render_sitemap_status_card($status, $sitemap_url) {
 /**
  * Render failed pages list
  */
-private function mxchat_render_failed_pages_list($failed_pages_list) {
+private function knittnet_render_failed_pages_list($failed_pages_list) {
     // Validate that $failed_pages_list is an array and not empty
     if (!is_array($failed_pages_list) || empty($failed_pages_list)) {
         return '';
     }
     
-    $html = '<div class="mxchat-error-notice">';
-    $html .= '<div class="mxchat-failed-pages-container">';
-    $html .= '<h5>' . sprintf(esc_html__('Failed Pages (%d)', 'mxchat'), count($failed_pages_list)) . '</h5>';
+    $html = '<div class="knittnet-error-notice">';
+    $html .= '<div class="knittnet-failed-pages-container">';
+    $html .= '<h5>' . sprintf(esc_html__('Failed Pages (%d)', 'knittnet'), count($failed_pages_list)) . '</h5>';
     $html .= '<details>';
-    $html .= '<summary>' . esc_html__('Show Failed Pages', 'mxchat') . '</summary>';
-    $html .= '<div class="mxchat-failed-pages-list">';
+    $html .= '<summary>' . esc_html__('Show Failed Pages', 'knittnet') . '</summary>';
+    $html .= '<div class="knittnet-failed-pages-list">';
     
     // Create table for failed pages
     $html .= '<table class="widefat striped">';
     $html .= '<thead><tr>';
-    $html .= '<th>' . esc_html__('Page', 'mxchat') . '</th>';
-    $html .= '<th>' . esc_html__('Error', 'mxchat') . '</th>';
-    $html .= '<th>' . esc_html__('Retries', 'mxchat') . '</th>';
-    $html .= '<th>' . esc_html__('Time', 'mxchat') . '</th>';
+    $html .= '<th>' . esc_html__('Page', 'knittnet') . '</th>';
+    $html .= '<th>' . esc_html__('Error', 'knittnet') . '</th>';
+    $html .= '<th>' . esc_html__('Retries', 'knittnet') . '</th>';
+    $html .= '<th>' . esc_html__('Time', 'knittnet') . '</th>';
     $html .= '</tr></thead><tbody>';
     
     // Sort failed pages by most recent
@@ -4976,9 +4976,9 @@ private function mxchat_render_failed_pages_list($failed_pages_list) {
             continue;
         }
         
-        $time_ago = isset($item['time']) ? human_time_diff($item['time'], current_time('timestamp')) . ' ' . esc_html__('ago', 'mxchat') : 'Unknown';
+        $time_ago = isset($item['time']) ? human_time_diff($item['time'], current_time('timestamp')) . ' ' . esc_html__('ago', 'knittnet') : 'Unknown';
         $html .= '<tr>';
-        $html .= '<td>' . esc_html__('Page', 'mxchat') . ' ' . esc_html($item['page'] ?? 'Unknown') . '</td>';
+        $html .= '<td>' . esc_html__('Page', 'knittnet') . ' ' . esc_html($item['page'] ?? 'Unknown') . '</td>';
         $html .= '<td style="word-break: break-word;">' . esc_html($item['error'] ?? 'Unknown error') . '</td>';
         $html .= '<td>' . esc_html($item['retries'] ?? 'N/A') . '</td>';
         $html .= '<td>' . esc_html($time_ago) . '</td>';
@@ -4994,25 +4994,25 @@ private function mxchat_render_failed_pages_list($failed_pages_list) {
 /**
  * Render failed URLs list
  */
-private function mxchat_render_failed_urls_list($failed_urls_list) {
+private function knittnet_render_failed_urls_list($failed_urls_list) {
     // Validate that $failed_urls_list is an array and not empty
     if (!is_array($failed_urls_list) || empty($failed_urls_list)) {
         return '';
     }
     
-    $html = '<div class="mxchat-failed-urls-container">';
-    $html .= '<h5>' . sprintf(esc_html__('Failed URLs (%d)', 'mxchat'), count($failed_urls_list)) . '</h5>';
+    $html = '<div class="knittnet-failed-urls-container">';
+    $html .= '<h5>' . sprintf(esc_html__('Failed URLs (%d)', 'knittnet'), count($failed_urls_list)) . '</h5>';
     $html .= '<details>';
-    $html .= '<summary>' . esc_html__('Show Failed URLs', 'mxchat') . '</summary>';
-    $html .= '<div class="mxchat-failed-urls-list">';
+    $html .= '<summary>' . esc_html__('Show Failed URLs', 'knittnet') . '</summary>';
+    $html .= '<div class="knittnet-failed-urls-list">';
     
     // Create table for failed URLs
     $html .= '<table class="widefat striped">';
     $html .= '<thead><tr>';
-    $html .= '<th>' . esc_html__('URL', 'mxchat') . '</th>';
-    $html .= '<th>' . esc_html__('Error', 'mxchat') . '</th>';
-    $html .= '<th>' . esc_html__('Retries', 'mxchat') . '</th>';
-    $html .= '<th>' . esc_html__('Time', 'mxchat') . '</th>';
+    $html .= '<th>' . esc_html__('URL', 'knittnet') . '</th>';
+    $html .= '<th>' . esc_html__('Error', 'knittnet') . '</th>';
+    $html .= '<th>' . esc_html__('Retries', 'knittnet') . '</th>';
+    $html .= '<th>' . esc_html__('Time', 'knittnet') . '</th>';
     $html .= '</tr></thead><tbody>';
     
     // Sort failed URLs by most recent
@@ -5031,7 +5031,7 @@ private function mxchat_render_failed_urls_list($failed_urls_list) {
         }
         
         $url = $item['url'] ?? '';
-        $time_ago = isset($item['time']) ? human_time_diff($item['time'], current_time('timestamp')) . ' ' . esc_html__('ago', 'mxchat') : 'Unknown';
+        $time_ago = isset($item['time']) ? human_time_diff($item['time'], current_time('timestamp')) . ' ' . esc_html__('ago', 'knittnet') : 'Unknown';
         
         // Truncate URL for display
         $display_url = strlen($url) > 50 ? substr($url, 0, 47) . '...' : $url;
@@ -5041,7 +5041,7 @@ private function mxchat_render_failed_urls_list($failed_urls_list) {
         if (!empty($url)) {
             $html .= '<a href="' . esc_url($url) . '" target="_blank" rel="noopener noreferrer">' . esc_html($display_url) . '</a>';
         } else {
-            $html .= esc_html__('Unknown URL', 'mxchat');
+            $html .= esc_html__('Unknown URL', 'knittnet');
         }
         $html .= '</td>';
         $html .= '<td style="word-break: break-word;">' . esc_html($item['error'] ?? 'Unknown error') . '</td>';
@@ -5053,9 +5053,9 @@ private function mxchat_render_failed_urls_list($failed_urls_list) {
     $html .= '</tbody></table>';
     
     if (count($failed_urls_list) > 50) {
-        $html .= '<div class="mxchat-failed-urls-more">+ ' . 
+        $html .= '<div class="knittnet-failed-urls-more">+ ' . 
                  (count($failed_urls_list) - 50) . 
-                 ' ' . esc_html__('more failed URLs not shown', 'mxchat') . '</div>';
+                 ' ' . esc_html__('more failed URLs not shown', 'knittnet') . '</div>';
     }
     
     $html .= '</div></details></div>';
@@ -5066,7 +5066,7 @@ private function mxchat_render_failed_urls_list($failed_urls_list) {
 /**
  * Get all ACF fields for a specific post, excluding any fields the user has disabled
  */
-public function mxchat_get_acf_fields_for_post($post_id) {
+public function knittnet_get_acf_fields_for_post($post_id) {
     if (!function_exists('get_fields')) {
         return array();
     }
@@ -5077,7 +5077,7 @@ public function mxchat_get_acf_fields_for_post($post_id) {
     }
 
     // Get excluded fields from settings
-    $excluded_fields = get_option('mxchat_acf_excluded_fields', array());
+    $excluded_fields = get_option('knittnet_acf_excluded_fields', array());
     if (!empty($excluded_fields) && is_array($excluded_fields)) {
         foreach ($excluded_fields as $excluded_field) {
             if (isset($fields[$excluded_field])) {
@@ -5092,7 +5092,7 @@ public function mxchat_get_acf_fields_for_post($post_id) {
 /**
  * Get all registered ACF field groups and their fields for the settings UI
  */
-public function mxchat_get_all_acf_fields() {
+public function knittnet_get_all_acf_fields() {
     if (!function_exists('acf_get_field_groups') || !function_exists('acf_get_fields')) {
         return array();
     }
@@ -5123,8 +5123,8 @@ public function mxchat_get_all_acf_fields() {
  * Get whitelisted custom post meta for a given post
  * This allows non-ACF meta fields (like OptionTree, theme meta boxes) to be included in embeddings
  */
-public function mxchat_get_whitelisted_post_meta($post_id) {
-    $whitelist = get_option('mxchat_custom_meta_whitelist', '');
+public function knittnet_get_whitelisted_post_meta($post_id) {
+    $whitelist = get_option('knittnet_custom_meta_whitelist', '');
 
     if (empty($whitelist)) {
         return array();
@@ -5152,7 +5152,7 @@ public function mxchat_get_whitelisted_post_meta($post_id) {
             $result[$key] = $value;
         } elseif (!empty($value) && is_array($value)) {
             // Handle array values by joining them
-            $flat_value = $this->mxchat_flatten_meta_array($value);
+            $flat_value = $this->knittnet_flatten_meta_array($value);
             if (!empty($flat_value)) {
                 $result[$key] = $flat_value;
             }
@@ -5165,7 +5165,7 @@ public function mxchat_get_whitelisted_post_meta($post_id) {
 /**
  * Flatten array meta values into a readable string
  */
-private function mxchat_flatten_meta_array($array, $depth = 0) {
+private function knittnet_flatten_meta_array($array, $depth = 0) {
     if ($depth > 3) {
         return ''; // Prevent infinite recursion
     }
@@ -5176,7 +5176,7 @@ private function mxchat_flatten_meta_array($array, $depth = 0) {
         if (is_string($value) && !empty($value)) {
             $parts[] = $value;
         } elseif (is_array($value)) {
-            $nested = $this->mxchat_flatten_meta_array($value, $depth + 1);
+            $nested = $this->knittnet_flatten_meta_array($value, $depth + 1);
             if (!empty($nested)) {
                 $parts[] = $nested;
             }
@@ -5189,7 +5189,7 @@ private function mxchat_flatten_meta_array($array, $depth = 0) {
 /**
  * Format ACF field values for content extraction
  */
-public function mxchat_format_acf_field_value($value, $field_name = '', $post_id = 0) {
+public function knittnet_format_acf_field_value($value, $field_name = '', $post_id = 0) {
     if (empty($value)) {
         return '';
     }
@@ -5260,7 +5260,7 @@ public function mxchat_format_acf_field_value($value, $field_name = '', $post_id
             foreach ($value as $sub_item) {
                 if (is_array($sub_item)) {
                     // For repeater/flexible content, extract text values
-                    $sub_text = $this->mxchat_extract_text_from_acf_array($sub_item);
+                    $sub_text = $this->knittnet_extract_text_from_acf_array($sub_item);
                     if (!empty($sub_text)) {
                         $sub_values[] = $sub_text;
                     }
@@ -5315,7 +5315,7 @@ public function mxchat_format_acf_field_value($value, $field_name = '', $post_id
 /**
  * Extract text from complex ACF array structures
  */
-private function mxchat_extract_text_from_acf_array($array) {
+private function knittnet_extract_text_from_acf_array($array) {
     if (!is_array($array)) {
         return '';
     }
@@ -5364,7 +5364,7 @@ private function mxchat_extract_text_from_acf_array($array) {
  * @param array $out        Accumulator (passed by reference) for attachment IDs
  * @param int   $depth      Recursion guard
  */
-private function mxchat_collect_pdf_attachment_ids_from_acf_value($value, &$out, $depth = 0) {
+private function knittnet_collect_pdf_attachment_ids_from_acf_value($value, &$out, $depth = 0) {
     if ($depth > 6) {
         return; // prevent runaway recursion on circular/very-deep structures
     }
@@ -5392,7 +5392,7 @@ private function mxchat_collect_pdf_attachment_ids_from_acf_value($value, &$out,
                 $is_pdf = true;
             } elseif (!empty($value['subtype']) && strtolower((string) $value['subtype']) === 'pdf') {
                 $is_pdf = true;
-            } elseif (!empty($value['url']) && is_string($value['url']) && $this->mxchat_url_looks_like_pdf($value['url'])) {
+            } elseif (!empty($value['url']) && is_string($value['url']) && $this->knittnet_url_looks_like_pdf($value['url'])) {
                 $is_pdf = true;
             } elseif ($att_id && get_post_mime_type($att_id) === 'application/pdf') {
                 $is_pdf = true;
@@ -5408,7 +5408,7 @@ private function mxchat_collect_pdf_attachment_ids_from_acf_value($value, &$out,
 
         // Recurse: repeater rows, flexible-content layouts, groups, etc.
         foreach ($value as $sub) {
-            $this->mxchat_collect_pdf_attachment_ids_from_acf_value($sub, $out, $depth + 1);
+            $this->knittnet_collect_pdf_attachment_ids_from_acf_value($sub, $out, $depth + 1);
         }
         return;
     }
@@ -5425,7 +5425,7 @@ private function mxchat_collect_pdf_attachment_ids_from_acf_value($value, &$out,
     // Plain string — URL pointing at a PDF (ACF File field set to "Return: URL", or a custom URL/text field)
     if (is_string($value)) {
         $trimmed = trim($value);
-        if ($trimmed !== '' && $this->mxchat_url_looks_like_pdf($trimmed)) {
+        if ($trimmed !== '' && $this->knittnet_url_looks_like_pdf($trimmed)) {
             $att_id = (int) attachment_url_to_postid($trimmed);
             if ($att_id > 0 && get_post_mime_type($att_id) === 'application/pdf') {
                 $out[] = $att_id;
@@ -5439,7 +5439,7 @@ private function mxchat_collect_pdf_attachment_ids_from_acf_value($value, &$out,
  * Heuristic: does this URL/string look like a PDF reference?
  * Tolerates query strings and fragments (#page=2).
  */
-private function mxchat_url_looks_like_pdf($url) {
+private function knittnet_url_looks_like_pdf($url) {
     if (!is_string($url) || $url === '') {
         return false;
     }
@@ -5457,7 +5457,7 @@ private function mxchat_url_looks_like_pdf($url) {
  * @param int $attachment_id
  * @return string Extracted plain text, or '' on failure.
  */
-private function mxchat_extract_pdf_text_by_attachment_id($attachment_id) {
+private function knittnet_extract_pdf_text_by_attachment_id($attachment_id) {
     $attachment_id = (int) $attachment_id;
     if ($attachment_id <= 0) {
         return '';
@@ -5474,12 +5474,12 @@ private function mxchat_extract_pdf_text_by_attachment_id($attachment_id) {
     // Raw-file size cap. Parsing very large PDFs can OOM the request; skip with a log entry
     // and let the rest of the ACF content land in the KB. Filterable for users who need it bigger.
     $default_max_bytes = 25 * 1024 * 1024;
-    $max_bytes = (int) apply_filters('mxchat_acf_pdf_max_bytes', $default_max_bytes, $attachment_id, $pdf_path);
+    $max_bytes = (int) apply_filters('knittnet_acf_pdf_max_bytes', $default_max_bytes, $attachment_id, $pdf_path);
     if ($max_bytes > 0) {
         $file_size = @filesize($pdf_path);
         if ($file_size !== false && $file_size > $max_bytes) {
             error_log(sprintf(
-                '[mxchat] ACF PDF skipped (over size cap): attachment %d "%s" %d bytes > cap %d',
+                '[knittnet] ACF PDF skipped (over size cap): attachment %d "%s" %d bytes > cap %d',
                 $attachment_id,
                 basename($pdf_path),
                 $file_size,
@@ -5490,7 +5490,7 @@ private function mxchat_extract_pdf_text_by_attachment_id($attachment_id) {
     }
 
     $mtime = @filemtime($pdf_path);
-    $cache_meta_key = '_mxchat_acf_pdf_text_v1';
+    $cache_meta_key = '_knittnet_acf_pdf_text_v1';
     $cached = get_post_meta($attachment_id, $cache_meta_key, true);
     if (is_array($cached) && isset($cached['mtime'], $cached['text']) && (int) $cached['mtime'] === (int) $mtime) {
         return (string) $cached['text'];
@@ -5498,8 +5498,8 @@ private function mxchat_extract_pdf_text_by_attachment_id($attachment_id) {
 
     $text = '';
     try {
-        if (function_exists('mxchat_load_pdf_parser')) {
-            mxchat_load_pdf_parser();
+        if (function_exists('knittnet_load_pdf_parser')) {
+            knittnet_load_pdf_parser();
         }
         if (!class_exists('\\Smalot\\PdfParser\\Parser')) {
             return '';
@@ -5521,16 +5521,16 @@ private function mxchat_extract_pdf_text_by_attachment_id($attachment_id) {
         }
         $text = trim(implode("\n\n", $page_texts));
     } catch (\Exception $e) {
-        error_log('[mxchat] ACF PDF extraction failed for attachment ' . $attachment_id . ': ' . $e->getMessage());
+        error_log('[knittnet] ACF PDF extraction failed for attachment ' . $attachment_id . ': ' . $e->getMessage());
         return '';
     } catch (\Throwable $e) {
-        error_log('[mxchat] ACF PDF extraction error for attachment ' . $attachment_id . ': ' . $e->getMessage());
+        error_log('[knittnet] ACF PDF extraction error for attachment ' . $attachment_id . ': ' . $e->getMessage());
         return '';
     }
 
     // Cap per-PDF text to avoid blowing up the embedding payload on enormous PDFs.
     // The chunker downstream will still split this into multiple vectors.
-    $max_len = (int) apply_filters('mxchat_acf_pdf_text_max_length', 50000);
+    $max_len = (int) apply_filters('knittnet_acf_pdf_text_max_length', 50000);
     if ($max_len > 0 && strlen($text) > $max_len) {
         $text = substr($text, 0, $max_len);
     }
@@ -5547,7 +5547,7 @@ private function mxchat_extract_pdf_text_by_attachment_id($attachment_id) {
  * Handle ACF save - fires after ACF fields are saved
  * This ensures ACF field data is available when syncing to knowledge base
  */
-public function mxchat_handle_acf_save($post_id) {
+public function knittnet_handle_acf_save($post_id) {
     // Skip if not a valid post
     if (!$post_id || $post_id === 'options') {
         return;
@@ -5568,20 +5568,20 @@ public function mxchat_handle_acf_save($post_id) {
     // Check if sync is enabled for this post type
     $should_sync = false;
 
-    if ($post_type === 'post' && get_option('mxchat_auto_sync_posts') === '1') {
+    if ($post_type === 'post' && get_option('knittnet_auto_sync_posts') === '1') {
         $should_sync = true;
-    } else if ($post_type === 'page' && get_option('mxchat_auto_sync_pages') === '1') {
+    } else if ($post_type === 'page' && get_option('knittnet_auto_sync_pages') === '1') {
         $should_sync = true;
     } else if ($post_type === 'product' && class_exists('WooCommerce')) {
         // WooCommerce products - check if WooCommerce integration is enabled
-        $options = get_option('mxchat_options', array());
+        $options = get_option('knittnet_options', array());
         if (isset($options['enable_woocommerce_integration']) &&
             ($options['enable_woocommerce_integration'] === '1' || $options['enable_woocommerce_integration'] === 'on')) {
             $should_sync = true;
         }
     } else {
         // Check custom post types
-        $option_name = 'mxchat_auto_sync_' . $post_type;
+        $option_name = 'knittnet_auto_sync_' . $post_type;
         if (get_option($option_name) === '1') {
             $should_sync = true;
         }
@@ -5597,13 +5597,13 @@ public function mxchat_handle_acf_save($post_id) {
     }
 
     // Check if this post has any ACF fields - if not, no need to re-sync
-    $acf_fields = $this->mxchat_get_acf_fields_for_post($post_id);
+    $acf_fields = $this->knittnet_get_acf_fields_for_post($post_id);
     if (empty($acf_fields)) {
         return;
     }
 
     // Use a transient to prevent duplicate processing (post_updated may have already run)
-    $transient_key = 'mxchat_acf_synced_' . $post_id;
+    $transient_key = 'knittnet_acf_synced_' . $post_id;
     if (get_transient($transient_key)) {
         return;
     }
@@ -5611,10 +5611,10 @@ public function mxchat_handle_acf_save($post_id) {
 
     // Re-run the sync with ACF data now available
     // We pass $update=true since this is effectively an update with ACF data
-    $this->mxchat_handle_post_update($post_id, $post, true);
+    $this->knittnet_handle_post_update($post_id, $post, true);
 }
 
-public function mxchat_handle_post_update($post_id, $post, $update) {
+public function knittnet_handle_post_update($post_id, $post, $update) {
     // Basic validation checks
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE || wp_is_post_revision($post_id)) {
         return;
@@ -5626,13 +5626,13 @@ public function mxchat_handle_post_update($post_id, $post, $update) {
     $should_sync = false;
     
     // Check built-in post types first
-    if ($post_type === 'post' && get_option('mxchat_auto_sync_posts') === '1') {
+    if ($post_type === 'post' && get_option('knittnet_auto_sync_posts') === '1') {
         $should_sync = true;
-    } else if ($post_type === 'page' && get_option('mxchat_auto_sync_pages') === '1') {
+    } else if ($post_type === 'page' && get_option('knittnet_auto_sync_pages') === '1') {
         $should_sync = true;
     } else {
         // Check custom post types
-        $option_name = 'mxchat_auto_sync_' . $post_type;
+        $option_name = 'knittnet_auto_sync_' . $post_type;
         if (get_option($option_name) === '1') {
             $should_sync = true;
         }
@@ -5643,10 +5643,10 @@ public function mxchat_handle_post_update($post_id, $post, $update) {
     }
     
     // Check if we have stored the previous status and URL in our transients
-    $previous_status_key = 'mxchat_prev_status_' . $post_id;
+    $previous_status_key = 'knittnet_prev_status_' . $post_id;
     $previous_status = get_transient($previous_status_key);
     
-    $previous_url_key = 'mxchat_prev_url_' . $post_id;
+    $previous_url_key = 'knittnet_prev_url_' . $post_id;
     $previous_url = get_transient($previous_url_key);
     
     // If the post was previously published but is now not published, remove from knowledge base
@@ -5656,7 +5656,7 @@ public function mxchat_handle_post_update($post_id, $post, $update) {
 
         if ($source_url) {
             // Chunk-aware deletion (routes to Pinecone or WP DB and removes base + all chunks)
-            MxChat_Utils::delete_chunks_for_url($source_url, 'default');
+            KnittNet_Utils::delete_chunks_for_url($source_url, 'default');
         }
 
         // Clean up the transients and exit early
@@ -5670,7 +5670,7 @@ public function mxchat_handle_post_update($post_id, $post, $update) {
     if ($post->post_status === 'publish' && !empty($previous_url)) {
         $current_url = get_permalink($post_id);
         if ($current_url && $current_url !== $previous_url) {
-            MxChat_Utils::delete_chunks_for_url($previous_url, 'default');
+            KnittNet_Utils::delete_chunks_for_url($previous_url, 'default');
         }
     }
 
@@ -5690,7 +5690,7 @@ public function mxchat_handle_post_update($post_id, $post, $update) {
         // Get the source URL
         $source_url = get_permalink($post_id);
         
-        // Get content with proper formatting (matching ajax_mxchat_process_selected_content)
+        // Get content with proper formatting (matching ajax_knittnet_process_selected_content)
         $title = get_the_title($post_id);
         $content = get_post_field('post_content', $post_id);
         $excerpt = get_post_field('post_excerpt', $post_id);
@@ -5784,21 +5784,21 @@ public function mxchat_handle_post_update($post_id, $post, $update) {
             }
         }
 
-        // ADD ACF FIELDS SUPPORT (matches ajax_mxchat_process_selected_content behavior)
-        $acf_fields = $this->mxchat_get_acf_fields_for_post($post_id);
+        // ADD ACF FIELDS SUPPORT (matches ajax_knittnet_process_selected_content behavior)
+        $acf_fields = $this->knittnet_get_acf_fields_for_post($post_id);
         if (!empty($acf_fields)) {
             $acf_content_parts = array();
             $pdf_attachment_ids = array();
 
             foreach ($acf_fields as $field_name => $field_value) {
-                $formatted_value = $this->mxchat_format_acf_field_value($field_value, $field_name, $post_id);
+                $formatted_value = $this->knittnet_format_acf_field_value($field_value, $field_name, $post_id);
                 if (!empty($formatted_value)) {
                     // Convert field name to readable label
                     $field_label = ucwords(str_replace(['_', '-'], ' ', $field_name));
                     $acf_content_parts[] = $field_label . ": " . $formatted_value;
                 }
 
-                $this->mxchat_collect_pdf_attachment_ids_from_acf_value($field_value, $pdf_attachment_ids);
+                $this->knittnet_collect_pdf_attachment_ids_from_acf_value($field_value, $pdf_attachment_ids);
             }
 
             if (!empty($acf_content_parts)) {
@@ -5810,12 +5810,12 @@ public function mxchat_handle_post_update($post_id, $post, $update) {
             // 25 MB size cap lives in the shared extractor so it applies in both
             // paths regardless. Default OFF — re-parsing every ACF PDF on every
             // editor save is expensive and most sites don't want it.
-            $autosync_extract_acf_pdfs = get_option('mxchat_auto_sync_acf_pdfs', '0') === '1';
+            $autosync_extract_acf_pdfs = get_option('knittnet_auto_sync_acf_pdfs', '0') === '1';
             if ($autosync_extract_acf_pdfs && !empty($pdf_attachment_ids)) {
                 $pdf_attachment_ids = array_unique(array_filter(array_map('intval', $pdf_attachment_ids)));
                 $pdf_sections = array();
                 foreach ($pdf_attachment_ids as $att_id) {
-                    $pdf_text = $this->mxchat_extract_pdf_text_by_attachment_id($att_id);
+                    $pdf_text = $this->knittnet_extract_pdf_text_by_attachment_id($att_id);
                     if (!empty($pdf_text)) {
                         $pdf_title = get_the_title($att_id);
                         $pdf_url = wp_get_attachment_url($att_id);
@@ -5836,7 +5836,7 @@ public function mxchat_handle_post_update($post_id, $post, $update) {
         }
 
         // ADD CUSTOM POST META SUPPORT (whitelisted non-ACF meta fields)
-        $custom_meta = $this->mxchat_get_whitelisted_post_meta($post_id);
+        $custom_meta = $this->knittnet_get_whitelisted_post_meta($post_id);
         if (!empty($custom_meta)) {
             $meta_content_parts = array();
 
@@ -5852,7 +5852,7 @@ public function mxchat_handle_post_update($post_id, $post, $update) {
         }
 
         // Get API key with proper model detection
-        $options = get_option('mxchat_options');
+        $options = get_option('knittnet_options');
         $selected_model = $options['embedding_model'] ?? 'text-embedding-ada-002';
         
         if (strpos($selected_model, 'voyage') === 0) {
@@ -5868,7 +5868,7 @@ public function mxchat_handle_post_update($post_id, $post, $update) {
         }
         
         // Use the centralized utility function for storage
-        $result = MxChat_Utils::submit_content_to_db(
+        $result = KnittNet_Utils::submit_content_to_db(
             $final_content, 
             $source_url, 
             $api_key,
@@ -5892,25 +5892,25 @@ public function mxchat_handle_post_update($post_id, $post, $update) {
  * Store the post status and URL before update to detect status transitions
  * This runs before the post is actually updated in the database
  */
-public function mxchat_store_pre_update_status($post_id, $data) {
+public function knittnet_store_pre_update_status($post_id, $data) {
     // Get the current post from database (before update)
     $current_post = get_post($post_id);
     
     if ($current_post) {
         // Store the current status temporarily
-        $status_key = 'mxchat_prev_status_' . $post_id;
+        $status_key = 'knittnet_prev_status_' . $post_id;
         set_transient($status_key, $current_post->post_status, HOUR_IN_SECONDS);
         
         // If the post is currently published, also store its URL
         if ($current_post->post_status === 'publish') {
-            $url_key = 'mxchat_prev_url_' . $post_id;
+            $url_key = 'knittnet_prev_url_' . $post_id;
             $current_url = get_permalink($post_id);
             set_transient($url_key, $current_url, HOUR_IN_SECONDS);
         }
     }
 }
 
-public function mxchat_handle_post_delete($post_id) {
+public function knittnet_handle_post_delete($post_id) {
     // Get post data before it's deleted
     $post = get_post($post_id);
 
@@ -5925,13 +5925,13 @@ public function mxchat_handle_post_delete($post_id) {
     $should_sync = false;
     
     // Check built-in post types first
-    if ($post_type === 'post' && get_option('mxchat_auto_sync_posts') === '1') {
+    if ($post_type === 'post' && get_option('knittnet_auto_sync_posts') === '1') {
         $should_sync = true;
-    } else if ($post_type === 'page' && get_option('mxchat_auto_sync_pages') === '1') {
+    } else if ($post_type === 'page' && get_option('knittnet_auto_sync_pages') === '1') {
         $should_sync = true;
     } else {
         // Check custom post types
-        $option_name = 'mxchat_auto_sync_' . $post_type;
+        $option_name = 'knittnet_auto_sync_' . $post_type;
         if (get_option($option_name) === '1') {
             $should_sync = true;
         }
@@ -5944,21 +5944,21 @@ public function mxchat_handle_post_delete($post_id) {
     // Resolve the pre-trash URL. wp_trash_post renames the slug with "__trashed" before firing
     // this hook, so get_permalink() here would return the trashed URL and md5() would miss the
     // real vector IDs stored under the original URL.
-    $source_url = $this->mxchat_resolve_pre_trash_url($post_id);
+    $source_url = $this->knittnet_resolve_pre_trash_url($post_id);
     if (!$source_url) {
-        //error_log('MXChat: Failed to resolve source URL for post ' . $post_id);
+        //error_log('KnittNet: Failed to resolve source URL for post ' . $post_id);
         return;
     }
 
     // Use chunk-aware deletion (handles both chunked and non-chunked content)
-    $delete_result = MxChat_Utils::delete_chunks_for_url($source_url, 'default');
+    $delete_result = KnittNet_Utils::delete_chunks_for_url($source_url, 'default');
 
     if (is_wp_error($delete_result)) {
-        //error_log('MXChat: Chunk-aware deletion failed for URL: ' . $source_url . ' - ' . $delete_result->get_error_message());
+        //error_log('KnittNet: Chunk-aware deletion failed for URL: ' . $source_url . ' - ' . $delete_result->get_error_message());
     }
 
-    delete_transient('mxchat_prev_url_' . $post_id);
-    delete_transient('mxchat_prev_status_' . $post_id);
+    delete_transient('knittnet_prev_url_' . $post_id);
+    delete_transient('knittnet_prev_status_' . $post_id);
 }
 
 /**
@@ -5966,11 +5966,11 @@ public function mxchat_handle_post_delete($post_id) {
  *
  * Why: wp_trash_post appends "__trashed" to the slug before the wp_trash_post action fires, so
  * get_permalink() returns a URL whose md5() won't match the vector IDs stored in Pinecone or
- * the source_url rows in the WP DB. Prefer the URL captured by mxchat_store_pre_update_status
+ * the source_url rows in the WP DB. Prefer the URL captured by knittnet_store_pre_update_status
  * (runs on pre_post_update, before the rename); fall back to stripping the __trashed suffix.
  */
-private function mxchat_resolve_pre_trash_url($post_id) {
-    $previous_url = get_transient('mxchat_prev_url_' . $post_id);
+private function knittnet_resolve_pre_trash_url($post_id) {
+    $previous_url = get_transient('knittnet_prev_url_' . $post_id);
     if (!empty($previous_url)) {
         return $previous_url;
     }
@@ -5984,7 +5984,7 @@ private function mxchat_resolve_pre_trash_url($post_id) {
 
 
 
-public function mxchat_handle_product_change($post_id, $post, $update) {
+public function knittnet_handle_product_change($post_id, $post, $update) {
     if ($post->post_type !== 'product') {
         return;
     }
@@ -5993,7 +5993,7 @@ public function mxchat_handle_product_change($post_id, $post, $update) {
         add_action('shutdown', function() use ($post_id) {
             $product = wc_get_product($post_id);
             if ($product) {
-                $this->mxchat_store_product_embedding($product);
+                $this->knittnet_store_product_embedding($product);
             }
         });
     }
@@ -6002,7 +6002,7 @@ public function mxchat_handle_product_change($post_id, $post, $update) {
 /**
  * Store WooCommerce product embeddings
  */
-private function mxchat_store_product_embedding($product) {
+private function knittnet_store_product_embedding($product) {
     if (!isset($this->options['enable_woocommerce_integration']) ||
         !in_array($this->options['enable_woocommerce_integration'], ['1', 'on'])) {
         return;
@@ -6098,7 +6098,7 @@ private function mxchat_store_product_embedding($product) {
     }
 
     // Get API key with proper model detection
-    $options = get_option('mxchat_options');
+    $options = get_option('knittnet_options');
     $selected_model = $options['embedding_model'] ?? 'text-embedding-ada-002';
 
     if (strpos($selected_model, 'voyage') === 0) {
@@ -6110,12 +6110,12 @@ private function mxchat_store_product_embedding($product) {
     }
 
     if (empty($api_key)) {
-        //error_log('MxChat Auto-sync: No API key configured for embedding model');
+        //error_log('KnittNet Auto-sync: No API key configured for embedding model');
         return;
     }
 
     // Use the centralized utility function for storage
-    $result = MxChat_Utils::submit_content_to_db(
+    $result = KnittNet_Utils::submit_content_to_db(
         $content,
         $source_url,
         $api_key,
@@ -6128,95 +6128,95 @@ private function mxchat_store_product_embedding($product) {
     }
 
     if (is_wp_error($result)) {
-        //error_log('MxChat WooCommerce sync failed for product ' . $product_id . ': ' . $result->get_error_message());
+        //error_log('KnittNet WooCommerce sync failed for product ' . $product_id . ': ' . $result->get_error_message());
     }
 }
 
-public function mxchat_handle_product_delete($post_id) {
+public function knittnet_handle_product_delete($post_id) {
     if (get_post_type($post_id) !== 'product') {
         return;
     }
 
-    $source_url = $this->mxchat_resolve_pre_trash_url($post_id);
+    $source_url = $this->knittnet_resolve_pre_trash_url($post_id);
     if (!$source_url) {
         return;
     }
 
     // Chunk-aware deletion (routes to Pinecone or WP DB and removes base + all chunks)
-    MxChat_Utils::delete_chunks_for_url($source_url, 'default');
+    KnittNet_Utils::delete_chunks_for_url($source_url, 'default');
 
-    delete_transient('mxchat_prev_url_' . $post_id);
-    delete_transient('mxchat_prev_status_' . $post_id);
+    delete_transient('knittnet_prev_url_' . $post_id);
+    delete_transient('knittnet_prev_status_' . $post_id);
 }
 
 /**
  * Handle individual Pinecone content deletion
  */
-public function mxchat_handle_pinecone_prompt_delete() {
+public function knittnet_handle_pinecone_prompt_delete() {
     // Check permissions
     if (!current_user_can('manage_options')) {
-        wp_die(esc_html__('You do not have sufficient permissions.', 'mxchat'));
+        wp_die(esc_html__('You do not have sufficient permissions.', 'knittnet'));
     }
     
     // Verify nonce
-    if (!isset($_GET['_wpnonce']) || !wp_verify_nonce($_GET['_wpnonce'], 'mxchat_delete_pinecone_prompt_nonce')) {
-        wp_die(esc_html__('Security check failed.', 'mxchat'));
+    if (!isset($_GET['_wpnonce']) || !wp_verify_nonce($_GET['_wpnonce'], 'knittnet_delete_pinecone_prompt_nonce')) {
+        wp_die(esc_html__('Security check failed.', 'knittnet'));
     }
     
     $vector_id = isset($_GET['vector_id']) ? sanitize_text_field($_GET['vector_id']) : '';
     
     if (empty($vector_id)) {
-        set_transient('mxchat_admin_notice_error', 
-            esc_html__('Invalid vector ID.', 'mxchat'), 
+        set_transient('knittnet_admin_notice_error', 
+            esc_html__('Invalid vector ID.', 'knittnet'), 
             30
         );
-        wp_safe_redirect(admin_url('admin.php?page=mxchat-prompts'));
+        wp_safe_redirect(admin_url('admin.php?page=knittnet-prompts'));
         exit;
     }
     
     // Get Pinecone settings
-    $pinecone_options = get_option('mxchat_pinecone_addon_options', array());
-    $use_pinecone = ($pinecone_options['mxchat_use_pinecone'] ?? '0') === '1';
+    $pinecone_options = get_option('knittnet_pinecone_addon_options', array());
+    $use_pinecone = ($pinecone_options['knittnet_use_pinecone'] ?? '0') === '1';
     
-    if (!$use_pinecone || empty($pinecone_options['mxchat_pinecone_api_key'])) {
-        set_transient('mxchat_admin_notice_error', 
-            esc_html__('Pinecone is not properly configured.', 'mxchat'), 
+    if (!$use_pinecone || empty($pinecone_options['knittnet_pinecone_api_key'])) {
+        set_transient('knittnet_admin_notice_error', 
+            esc_html__('Pinecone is not properly configured.', 'knittnet'), 
             30
         );
-        wp_safe_redirect(admin_url('admin.php?page=mxchat-prompts'));
+        wp_safe_redirect(admin_url('admin.php?page=knittnet-prompts'));
         exit;
     }
     
     // Delete from Pinecone
-    $pinecone_manager = MxChat_Pinecone_Manager::get_instance();
-    $result = $pinecone_manager->mxchat_delete_from_pinecone_by_vector_id(
+    $pinecone_manager = KnittNet_Pinecone_Manager::get_instance();
+    $result = $pinecone_manager->knittnet_delete_from_pinecone_by_vector_id(
         $vector_id, 
-        $pinecone_options['mxchat_pinecone_api_key'], 
-        $pinecone_options['mxchat_pinecone_host']
+        $pinecone_options['knittnet_pinecone_api_key'], 
+        $pinecone_options['knittnet_pinecone_host']
     );
     
     if ($result['success']) {
         // No cache clearing needed since we removed caching
-        set_transient('mxchat_admin_notice_success', 
-            esc_html__('Entry deleted successfully from Pinecone.', 'mxchat'), 
+        set_transient('knittnet_admin_notice_success', 
+            esc_html__('Entry deleted successfully from Pinecone.', 'knittnet'), 
             30
         );
     } else {
-        set_transient('mxchat_admin_notice_error', 
-            esc_html__('Failed to delete entry: ', 'mxchat') . $result['message'], 
+        set_transient('knittnet_admin_notice_error', 
+            esc_html__('Failed to delete entry: ', 'knittnet') . $result['message'], 
             30
         );
     }
     
-    wp_safe_redirect(admin_url('admin.php?page=mxchat-prompts'));
+    wp_safe_redirect(admin_url('admin.php?page=knittnet-prompts'));
     exit;
 }
 /**
  * Handle individual Pinecone content deletion via AJAX
  */
-public function ajax_mxchat_delete_pinecone_prompt() {
+public function ajax_knittnet_delete_pinecone_prompt() {
     // Verify nonce and permissions
-    if (!check_ajax_referer('mxchat_delete_pinecone_prompt_nonce', 'nonce', false)) {
+    if (!check_ajax_referer('knittnet_delete_pinecone_prompt_nonce', 'nonce', false)) {
         wp_send_json_error('Invalid nonce');
         exit;
     }
@@ -6235,21 +6235,21 @@ public function ajax_mxchat_delete_pinecone_prompt() {
     }
     
     // Get bot-specific Pinecone settings
-    $pinecone_manager = MxChat_Pinecone_Manager::get_instance();
-    $pinecone_options = $pinecone_manager->mxchat_get_bot_pinecone_options($bot_id);
+    $pinecone_manager = KnittNet_Pinecone_Manager::get_instance();
+    $pinecone_options = $pinecone_manager->knittnet_get_bot_pinecone_options($bot_id);
     
-    $use_pinecone = ($pinecone_options['mxchat_use_pinecone'] ?? '0') === '1';
+    $use_pinecone = ($pinecone_options['knittnet_use_pinecone'] ?? '0') === '1';
     
-    if (!$use_pinecone || empty($pinecone_options['mxchat_pinecone_api_key'])) {
+    if (!$use_pinecone || empty($pinecone_options['knittnet_pinecone_api_key'])) {
         wp_send_json_error('Pinecone is not properly configured for bot: ' . $bot_id);
         exit;
     }
     
     // Delete from the correct Pinecone index
-    $result = $pinecone_manager->mxchat_delete_from_pinecone_by_vector_id(
+    $result = $pinecone_manager->knittnet_delete_from_pinecone_by_vector_id(
         $vector_id, 
-        $pinecone_options['mxchat_pinecone_api_key'], 
-        $pinecone_options['mxchat_pinecone_host']
+        $pinecone_options['knittnet_pinecone_api_key'], 
+        $pinecone_options['knittnet_pinecone_host']
     );
     
     if ($result['success']) {
@@ -6260,7 +6260,7 @@ public function ajax_mxchat_delete_pinecone_prompt() {
             'bot_id' => $bot_id
         ));
     } else {
-        MxChat_Admin::mxchat_log_debug('pinecone_error', 'Failed to delete from Pinecone: ' . $result['message'], array('vector_id' => $vector_id, 'bot_id' => $bot_id));
+        KnittNet_Admin::knittnet_log_debug('pinecone_error', 'Failed to delete from Pinecone: ' . $result['message'], array('vector_id' => $vector_id, 'bot_id' => $bot_id));
         wp_send_json_error('Failed to delete from Pinecone: ' . $result['message']);
     }
     
@@ -6269,11 +6269,11 @@ public function ajax_mxchat_delete_pinecone_prompt() {
 
 /**
  * Handle deletion of all chunks for a given source URL via AJAX
- * Follows the same pattern as ajax_mxchat_delete_pinecone_prompt
+ * Follows the same pattern as ajax_knittnet_delete_pinecone_prompt
  */
-public function ajax_mxchat_delete_chunks_by_url() {
+public function ajax_knittnet_delete_chunks_by_url() {
     // Verify nonce and permissions
-    if (!check_ajax_referer('mxchat_delete_chunks_nonce', 'nonce', false)) {
+    if (!check_ajax_referer('knittnet_delete_chunks_nonce', 'nonce', false)) {
         wp_send_json_error('Invalid nonce');
         exit;
     }
@@ -6297,19 +6297,19 @@ public function ajax_mxchat_delete_chunks_by_url() {
 
     if ($data_source === 'pinecone') {
         // Get bot-specific Pinecone settings (same as working delete function)
-        $pinecone_manager = MxChat_Pinecone_Manager::get_instance();
-        $pinecone_options = $pinecone_manager->mxchat_get_bot_pinecone_options($bot_id);
+        $pinecone_manager = KnittNet_Pinecone_Manager::get_instance();
+        $pinecone_options = $pinecone_manager->knittnet_get_bot_pinecone_options($bot_id);
 
-        $use_pinecone = ($pinecone_options['mxchat_use_pinecone'] ?? '0') === '1';
+        $use_pinecone = ($pinecone_options['knittnet_use_pinecone'] ?? '0') === '1';
 
-        if (!$use_pinecone || empty($pinecone_options['mxchat_pinecone_api_key'])) {
+        if (!$use_pinecone || empty($pinecone_options['knittnet_pinecone_api_key'])) {
             wp_send_json_error('Pinecone is not properly configured for bot: ' . $bot_id);
             exit;
         }
 
-        $api_key = $pinecone_options['mxchat_pinecone_api_key'];
-        $host = $pinecone_options['mxchat_pinecone_host'];
-        $namespace = $pinecone_options['mxchat_pinecone_namespace'] ?? '';
+        $api_key = $pinecone_options['knittnet_pinecone_api_key'];
+        $host = $pinecone_options['knittnet_pinecone_host'];
+        $namespace = $pinecone_options['knittnet_pinecone_namespace'] ?? '';
 
         // Collect all vector IDs to delete
         $vectors_to_delete = array();
@@ -6382,7 +6382,7 @@ public function ajax_mxchat_delete_chunks_by_url() {
         ));
 
         if (is_wp_error($delete_response)) {
-            MxChat_Admin::mxchat_log_debug('pinecone_error', 'Failed to delete chunks from Pinecone: ' . $delete_response->get_error_message(), array('source_url' => $source_url));
+            KnittNet_Admin::knittnet_log_debug('pinecone_error', 'Failed to delete chunks from Pinecone: ' . $delete_response->get_error_message(), array('source_url' => $source_url));
             wp_send_json_error('Failed to delete from Pinecone: ' . $delete_response->get_error_message());
             exit;
         }
@@ -6390,7 +6390,7 @@ public function ajax_mxchat_delete_chunks_by_url() {
         $response_code = wp_remote_retrieve_response_code($delete_response);
 
         if ($response_code !== 200) {
-            MxChat_Admin::mxchat_log_debug('pinecone_error', 'Pinecone API error (HTTP ' . $response_code . ')', array('source_url' => $source_url));
+            KnittNet_Admin::knittnet_log_debug('pinecone_error', 'Pinecone API error (HTTP ' . $response_code . ')', array('source_url' => $source_url));
             wp_send_json_error('Pinecone API error (HTTP ' . $response_code . ')');
             exit;
         }
@@ -6404,7 +6404,7 @@ public function ajax_mxchat_delete_chunks_by_url() {
     } else {
         // WordPress database deletion
         global $wpdb;
-        $table_name = $wpdb->prefix . 'mxchat_system_prompt_content';
+        $table_name = $wpdb->prefix . 'knittnet_system_prompt_content';
 
         $result = $wpdb->delete(
             $table_name,
@@ -6413,7 +6413,7 @@ public function ajax_mxchat_delete_chunks_by_url() {
         );
 
         if ($result === false) {
-            MxChat_Admin::mxchat_log_debug('database_error', 'Failed to delete from database: ' . $wpdb->last_error, array('source_url' => $source_url));
+            KnittNet_Admin::knittnet_log_debug('database_error', 'Failed to delete from database: ' . $wpdb->last_error, array('source_url' => $source_url));
             wp_send_json_error('Failed to delete from database: ' . $wpdb->last_error);
             exit;
         }
@@ -6432,9 +6432,9 @@ public function ajax_mxchat_delete_chunks_by_url() {
  * Handle individual WordPress database content deletion via AJAX
  * Mirrors the Pinecone delete handler but for WordPress database entries
  */
-public function ajax_mxchat_delete_wordpress_prompt() {
+public function ajax_knittnet_delete_wordpress_prompt() {
     // Verify nonce and permissions
-    if (!check_ajax_referer('mxchat_delete_wordpress_prompt_nonce', 'nonce', false)) {
+    if (!check_ajax_referer('knittnet_delete_wordpress_prompt_nonce', 'nonce', false)) {
         wp_send_json_error('Invalid nonce');
         exit;
     }
@@ -6452,10 +6452,10 @@ public function ajax_mxchat_delete_wordpress_prompt() {
     }
 
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_system_prompt_content';
+    $table_name = $wpdb->prefix . 'knittnet_system_prompt_content';
 
     // Clear cache for this entry
-    wp_cache_delete('prompt_' . $entry_id, 'mxchat_prompts');
+    wp_cache_delete('prompt_' . $entry_id, 'knittnet_prompts');
 
     // Delete from database
     $result = $wpdb->delete(
@@ -6480,9 +6480,9 @@ public function ajax_mxchat_delete_wordpress_prompt() {
  * Handle bulk deletion of knowledge entries via AJAX
  * Supports both Pinecone and WordPress database entries
  */
-public function ajax_mxchat_bulk_delete_knowledge() {
+public function ajax_knittnet_bulk_delete_knowledge() {
     // Verify nonce and permissions
-    if (!check_ajax_referer('mxchat_bulk_delete_knowledge_nonce', 'nonce', false)) {
+    if (!check_ajax_referer('knittnet_bulk_delete_knowledge_nonce', 'nonce', false)) {
         wp_send_json_error('Invalid nonce');
         exit;
     }
@@ -6510,15 +6510,15 @@ public function ajax_mxchat_bulk_delete_knowledge() {
     $errors = array();
 
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_system_prompt_content';
+    $table_name = $wpdb->prefix . 'knittnet_system_prompt_content';
 
     // Get Pinecone manager for Pinecone deletions
-    $pinecone_manager = MxChat_Pinecone_Manager::get_instance();
-    $pinecone_options = $pinecone_manager->mxchat_get_bot_pinecone_options($bot_id);
-    $use_pinecone = ($pinecone_options['mxchat_use_pinecone'] ?? '0') === '1';
+    $pinecone_manager = KnittNet_Pinecone_Manager::get_instance();
+    $pinecone_options = $pinecone_manager->knittnet_get_bot_pinecone_options($bot_id);
+    $use_pinecone = ($pinecone_options['knittnet_use_pinecone'] ?? '0') === '1';
 
-    $api_key = $pinecone_options['mxchat_pinecone_api_key'] ?? '';
-    $host = $pinecone_options['mxchat_pinecone_host'] ?? '';
+    $api_key = $pinecone_options['knittnet_pinecone_api_key'] ?? '';
+    $host = $pinecone_options['knittnet_pinecone_host'] ?? '';
 
     // =============================================
     // PHASE 1: Collect all Pinecone vector IDs
@@ -6602,14 +6602,14 @@ public function ajax_mxchat_bulk_delete_knowledge() {
             if (is_wp_error($delete_response)) {
                 $pinecone_success = false;
                 $errors[] = 'Pinecone batch deletion failed: ' . $delete_response->get_error_message();
-                MxChat_Admin::mxchat_log_debug('pinecone_error', 'Bulk delete batch failed: ' . $delete_response->get_error_message());
+                KnittNet_Admin::knittnet_log_debug('pinecone_error', 'Bulk delete batch failed: ' . $delete_response->get_error_message());
             } else {
                 $response_code = wp_remote_retrieve_response_code($delete_response);
                 if ($response_code !== 200) {
                     $pinecone_success = false;
                     $response_body = wp_remote_retrieve_body($delete_response);
                     $errors[] = "Pinecone API error (HTTP $response_code)";
-                    MxChat_Admin::mxchat_log_debug('pinecone_error', 'Bulk delete batch failed (HTTP ' . $response_code . ')', array('response' => substr($response_body, 0, 200)));
+                    KnittNet_Admin::knittnet_log_debug('pinecone_error', 'Bulk delete batch failed (HTTP ' . $response_code . ')', array('response' => substr($response_body, 0, 200)));
                 }
             }
         }
@@ -6644,7 +6644,7 @@ public function ajax_mxchat_bulk_delete_knowledge() {
                     array('%s')
                 );
             } else {
-                wp_cache_delete('prompt_' . $entry_id, 'mxchat_prompts');
+                wp_cache_delete('prompt_' . $entry_id, 'knittnet_prompts');
                 $result = $wpdb->delete(
                     $table_name,
                     array('id' => intval($entry_id)),
@@ -6677,22 +6677,22 @@ public function ajax_mxchat_bulk_delete_knowledge() {
 /**
  *   Get hierarchical roles for dropdown
  */
-public function mxchat_get_role_options() {
+public function knittnet_get_role_options() {
     return array(
-        'public' => __('Public (Everyone)', 'mxchat'),
-        'logged_in' => __('Logged In Users', 'mxchat'),
-        'subscriber' => __('Subscribers & Above', 'mxchat'),
-        'contributor' => __('Contributors & Above', 'mxchat'),
-        'author' => __('Authors & Above', 'mxchat'),
-        'editor' => __('Editors & Above', 'mxchat'),
-        'administrator' => __('Administrators Only', 'mxchat')
+        'public' => __('Public (Everyone)', 'knittnet'),
+        'logged_in' => __('Logged In Users', 'knittnet'),
+        'subscriber' => __('Subscribers & Above', 'knittnet'),
+        'contributor' => __('Contributors & Above', 'knittnet'),
+        'author' => __('Authors & Above', 'knittnet'),
+        'editor' => __('Editors & Above', 'knittnet'),
+        'administrator' => __('Administrators Only', 'knittnet')
     );
 }
 
 /**
  *   Check if user has access to content based on role restriction
  */
-public function mxchat_user_has_content_access($role_restriction) {
+public function knittnet_user_has_content_access($role_restriction) {
     // Public content is always accessible
     if ($role_restriction === 'public' || empty($role_restriction)) {
         return true;
@@ -6742,9 +6742,9 @@ public function mxchat_user_has_content_access($role_restriction) {
  * Handle role restriction updates via AJAX
  *  Removed cache clearing call since we removed caching
  */
-public function ajax_mxchat_update_role_restriction() {
+public function ajax_knittnet_update_role_restriction() {
     // Verify nonce and permissions
-    if (!check_ajax_referer('mxchat_update_role_nonce', 'nonce', false)) {
+    if (!check_ajax_referer('knittnet_update_role_nonce', 'nonce', false)) {
         wp_send_json_error('Invalid nonce');
         exit;
     }
@@ -6764,8 +6764,8 @@ public function ajax_mxchat_update_role_restriction() {
     }
     
     // Get knowledge manager instance to validate role restriction
-    $knowledge_manager = MxChat_Knowledge_Manager::get_instance();
-    $valid_roles = array_keys($knowledge_manager->mxchat_get_role_options());
+    $knowledge_manager = KnittNet_Knowledge_Manager::get_instance();
+    $valid_roles = array_keys($knowledge_manager->knittnet_get_role_options());
     if (!in_array($role_restriction, $valid_roles)) {
         wp_send_json_error('Invalid role restriction');
         exit;
@@ -6775,7 +6775,7 @@ public function ajax_mxchat_update_role_restriction() {
     
     if ($data_source === 'pinecone') {
         // Handle Pinecone role restriction (stored separately in WordPress table)
-        $roles_table = $wpdb->prefix . 'mxchat_pinecone_roles';
+        $roles_table = $wpdb->prefix . 'knittnet_pinecone_roles';
         
         // Use REPLACE to insert or update the role restriction
         $result = $wpdb->replace(
@@ -6792,7 +6792,7 @@ public function ajax_mxchat_update_role_restriction() {
         
     } else {
         // Handle WordPress database role restriction (existing functionality)
-        $table_name = $wpdb->prefix . 'mxchat_system_prompt_content';
+        $table_name = $wpdb->prefix . 'knittnet_system_prompt_content';
         
         $result = $wpdb->update(
             $table_name,
@@ -6819,25 +6819,25 @@ public function ajax_mxchat_update_role_restriction() {
 
 // ========================================
 // ROLE-BASED CONTENT RESTRICTIONS - NEW FUNCTIONS
-// Add these to your MxChat_Knowledge_Manager class
+// Add these to your KnittNet_Knowledge_Manager class
 // ========================================
 
 /**
  *   Initialize role-based content hooks
- * Add this call to your __construct() or mxchat_init_hooks() method
+ * Add this call to your __construct() or knittnet_init_hooks() method
  */
-private function mxchat_init_role_hooks() {
+private function knittnet_init_role_hooks() {
     // AJAX handlers for tag-role mappings
-    add_action('wp_ajax_mxchat_add_tag_role_mapping', array($this, 'ajax_add_tag_role_mapping'));
-    add_action('wp_ajax_mxchat_delete_tag_role_mapping', array($this, 'ajax_delete_tag_role_mapping'));
-    add_action('wp_ajax_mxchat_get_tag_role_mappings', array($this, 'ajax_get_tag_role_mappings'));
-    add_action('wp_ajax_mxchat_bulk_update_tag_roles', array($this, 'ajax_bulk_update_tag_roles'));
+    add_action('wp_ajax_knittnet_add_tag_role_mapping', array($this, 'ajax_add_tag_role_mapping'));
+    add_action('wp_ajax_knittnet_delete_tag_role_mapping', array($this, 'ajax_delete_tag_role_mapping'));
+    add_action('wp_ajax_knittnet_get_tag_role_mappings', array($this, 'ajax_get_tag_role_mappings'));
+    add_action('wp_ajax_knittnet_bulk_update_tag_roles', array($this, 'ajax_bulk_update_tag_roles'));
     
     // Hook to automatically update role restrictions when tags are added/removed
     add_action('set_object_terms', array($this, 'handle_tag_change'), 10, 6);
     
     // Hook to apply role restrictions on auto-sync
-    add_action('mxchat_content_stored', array($this, 'apply_role_restriction_after_storage'), 10, 2);
+    add_action('knittnet_content_stored', array($this, 'apply_role_restriction_after_storage'), 10, 2);
 }
 
 /**
@@ -6845,7 +6845,7 @@ private function mxchat_init_role_hooks() {
  */
 public function ajax_add_tag_role_mapping() {
     // Verify nonce and permissions
-    check_ajax_referer('mxchat_prompts_setting_nonce', 'nonce');
+    check_ajax_referer('knittnet_prompts_setting_nonce', 'nonce');
     
     if (!current_user_can('manage_options')) {
         wp_send_json_error('Unauthorized access');
@@ -6861,7 +6861,7 @@ public function ajax_add_tag_role_mapping() {
     }
 
     // Validate role restriction
-    $valid_roles = array_keys($this->mxchat_get_role_options());
+    $valid_roles = array_keys($this->knittnet_get_role_options());
     if (!in_array($role_restriction, $valid_roles)) {
         wp_send_json_error('Invalid role restriction');
         exit;
@@ -6886,7 +6886,7 @@ public function ajax_add_tag_role_mapping() {
     $tag_slug = $term->slug;
 
     // Get existing mappings
-    $mappings = get_option('mxchat_tag_role_mappings', array());
+    $mappings = get_option('knittnet_tag_role_mappings', array());
     
     // Check if mapping already exists
     if (isset($mappings[$tag_slug])) {
@@ -6896,7 +6896,7 @@ public function ajax_add_tag_role_mapping() {
     
     // Add new mapping
     $mappings[$tag_slug] = $role_restriction;
-    update_option('mxchat_tag_role_mappings', $mappings);
+    update_option('knittnet_tag_role_mappings', $mappings);
     
     wp_send_json_success(array(
         'message' => 'Tag-role mapping added successfully',
@@ -6911,7 +6911,7 @@ public function ajax_add_tag_role_mapping() {
  */
 public function ajax_delete_tag_role_mapping() {
     // Verify nonce and permissions
-    check_ajax_referer('mxchat_prompts_setting_nonce', 'nonce');
+    check_ajax_referer('knittnet_prompts_setting_nonce', 'nonce');
     
     if (!current_user_can('manage_options')) {
         wp_send_json_error('Unauthorized access');
@@ -6926,7 +6926,7 @@ public function ajax_delete_tag_role_mapping() {
     }
     
     // Get existing mappings
-    $mappings = get_option('mxchat_tag_role_mappings', array());
+    $mappings = get_option('knittnet_tag_role_mappings', array());
     
     // Check if mapping exists
     if (!isset($mappings[$tag_slug])) {
@@ -6936,7 +6936,7 @@ public function ajax_delete_tag_role_mapping() {
     
     // Remove mapping
     unset($mappings[$tag_slug]);
-    update_option('mxchat_tag_role_mappings', $mappings);
+    update_option('knittnet_tag_role_mappings', $mappings);
     
     wp_send_json_success(array(
         'message' => 'Tag-role mapping deleted successfully',
@@ -6950,7 +6950,7 @@ public function ajax_delete_tag_role_mapping() {
  */
 public function ajax_get_tag_role_mappings() {
     // Verify nonce and permissions
-    check_ajax_referer('mxchat_prompts_setting_nonce', 'nonce');
+    check_ajax_referer('knittnet_prompts_setting_nonce', 'nonce');
     
     if (!current_user_can('manage_options')) {
         wp_send_json_error('Unauthorized access');
@@ -6958,8 +6958,8 @@ public function ajax_get_tag_role_mappings() {
     }
     
     // Get mappings
-    $mappings = get_option('mxchat_tag_role_mappings', array());
-    $role_options = $this->mxchat_get_role_options();
+    $mappings = get_option('knittnet_tag_role_mappings', array());
+    $role_options = $this->knittnet_get_role_options();
     
     $formatted_mappings = array();
     
@@ -6992,7 +6992,7 @@ public function ajax_get_tag_role_mappings() {
  */
 public function ajax_bulk_update_tag_roles() {
     // Verify nonce and permissions
-    check_ajax_referer('mxchat_prompts_setting_nonce', 'nonce');
+    check_ajax_referer('knittnet_prompts_setting_nonce', 'nonce');
     
     if (!current_user_can('manage_options')) {
         wp_send_json_error('Unauthorized access');
@@ -7000,7 +7000,7 @@ public function ajax_bulk_update_tag_roles() {
     }
     
     // Get mappings
-    $mappings = get_option('mxchat_tag_role_mappings', array());
+    $mappings = get_option('knittnet_tag_role_mappings', array());
     
     if (empty($mappings)) {
         wp_send_json_error('No tag-role mappings found');
@@ -7010,8 +7010,8 @@ public function ajax_bulk_update_tag_roles() {
     global $wpdb;
     
     // Check if using Pinecone
-    $pinecone_options = get_option('mxchat_pinecone_addon_options', array());
-    $use_pinecone = ($pinecone_options['mxchat_use_pinecone'] ?? '0') === '1';
+    $pinecone_options = get_option('knittnet_pinecone_addon_options', array());
+    $use_pinecone = ($pinecone_options['knittnet_use_pinecone'] ?? '0') === '1';
     
     $updated_count = 0;
     $details = array();
@@ -7038,9 +7038,9 @@ public function ajax_bulk_update_tag_roles() {
                 continue;
             }
             
-            if ($use_pinecone && !empty($pinecone_options['mxchat_pinecone_api_key'])) {
+            if ($use_pinecone && !empty($pinecone_options['knittnet_pinecone_api_key'])) {
                 // Update Pinecone role restriction
-                $roles_table = $wpdb->prefix . 'mxchat_pinecone_roles';
+                $roles_table = $wpdb->prefix . 'knittnet_pinecone_roles';
                 $vector_id = md5($source_url);
                 
                 $result = $wpdb->replace(
@@ -7054,7 +7054,7 @@ public function ajax_bulk_update_tag_roles() {
                 );
             } else {
                 // Update WordPress DB
-                $table_name = $wpdb->prefix . 'mxchat_system_prompt_content';
+                $table_name = $wpdb->prefix . 'knittnet_system_prompt_content';
                 
                 $result = $wpdb->update(
                     $table_name,
@@ -7100,7 +7100,7 @@ public function handle_tag_change($object_id, $terms, $tt_ids, $taxonomy, $appen
     }
     
     // Get tag-role mappings
-    $mappings = get_option('mxchat_tag_role_mappings', array());
+    $mappings = get_option('knittnet_tag_role_mappings', array());
     
     if (empty($mappings)) {
         return;
@@ -7141,12 +7141,12 @@ public function handle_tag_change($object_id, $terms, $tt_ids, $taxonomy, $appen
     global $wpdb;
     
     // Check if using Pinecone
-    $pinecone_options = get_option('mxchat_pinecone_addon_options', array());
-    $use_pinecone = ($pinecone_options['mxchat_use_pinecone'] ?? '0') === '1';
+    $pinecone_options = get_option('knittnet_pinecone_addon_options', array());
+    $use_pinecone = ($pinecone_options['knittnet_use_pinecone'] ?? '0') === '1';
     
-    if ($use_pinecone && !empty($pinecone_options['mxchat_pinecone_api_key'])) {
+    if ($use_pinecone && !empty($pinecone_options['knittnet_pinecone_api_key'])) {
         // Update Pinecone role restriction
-        $roles_table = $wpdb->prefix . 'mxchat_pinecone_roles';
+        $roles_table = $wpdb->prefix . 'knittnet_pinecone_roles';
         $vector_id = md5($source_url);
         
         $wpdb->replace(
@@ -7160,7 +7160,7 @@ public function handle_tag_change($object_id, $terms, $tt_ids, $taxonomy, $appen
         );
     } else {
         // Update WordPress DB
-        $table_name = $wpdb->prefix . 'mxchat_system_prompt_content';
+        $table_name = $wpdb->prefix . 'knittnet_system_prompt_content';
         
         $wpdb->update(
             $table_name,
@@ -7177,7 +7177,7 @@ public function handle_tag_change($object_id, $terms, $tt_ids, $taxonomy, $appen
  */
 public function apply_role_restriction_after_storage($post_id, $source_url) {
     // Get tag-role mappings
-    $mappings = get_option('mxchat_tag_role_mappings', array());
+    $mappings = get_option('knittnet_tag_role_mappings', array());
     
     if (empty($mappings)) {
         return;
@@ -7220,12 +7220,12 @@ public function apply_role_restriction_after_storage($post_id, $source_url) {
     global $wpdb;
     
     // Check if using Pinecone
-    $pinecone_options = get_option('mxchat_pinecone_addon_options', array());
-    $use_pinecone = ($pinecone_options['mxchat_use_pinecone'] ?? '0') === '1';
+    $pinecone_options = get_option('knittnet_pinecone_addon_options', array());
+    $use_pinecone = ($pinecone_options['knittnet_use_pinecone'] ?? '0') === '1';
     
-    if ($use_pinecone && !empty($pinecone_options['mxchat_pinecone_api_key'])) {
+    if ($use_pinecone && !empty($pinecone_options['knittnet_pinecone_api_key'])) {
         // Update Pinecone role restriction
-        $roles_table = $wpdb->prefix . 'mxchat_pinecone_roles';
+        $roles_table = $wpdb->prefix . 'knittnet_pinecone_roles';
         $vector_id = md5($source_url);
         
         $wpdb->replace(
@@ -7239,7 +7239,7 @@ public function apply_role_restriction_after_storage($post_id, $source_url) {
         );
     } else {
         // Update WordPress DB
-        $table_name = $wpdb->prefix . 'mxchat_system_prompt_content';
+        $table_name = $wpdb->prefix . 'knittnet_system_prompt_content';
         
         $wpdb->update(
             $table_name,
@@ -7259,25 +7259,25 @@ public function apply_role_restriction_after_storage($post_id, $source_url) {
     /**
      * Check if user has required permissions for content processing
      */
-    private function mxchat_check_user_permissions() {
+    private function knittnet_check_user_permissions() {
         if (!current_user_can('manage_options')) {
-            wp_die(esc_html__('You do not have sufficient permissions.', 'mxchat'));
+            wp_die(esc_html__('You do not have sufficient permissions.', 'knittnet'));
         }
     }
     
     /**
      * Validate nonce for security
      */
-    private function mxchat_validate_nonce($nonce_name, $nonce_action) {
+    private function knittnet_validate_nonce($nonce_name, $nonce_action) {
         if (!isset($_POST[$nonce_name]) || !wp_verify_nonce($_POST[$nonce_name], $nonce_action)) {
-            wp_die(esc_html__('Security check failed.', 'mxchat'));
+            wp_die(esc_html__('Security check failed.', 'knittnet'));
         }
     }
     
     /**
      * Get embedding API credentials
      */
-    private function mxchat_get_embedding_credentials() {
+    private function knittnet_get_embedding_credentials() {
         $embedding_model = $this->options['embedding_model'] ?? 'text-embedding-ada-002';
         
         if (strpos($embedding_model, 'text-embedding-') !== false) {
@@ -7303,22 +7303,22 @@ public function apply_role_restriction_after_storage($post_id, $source_url) {
     /**
      * Log processing errors
      */
-    private function mxchat_log_processing_error($operation, $error_message) {
-        //error_log("MxChat Knowledge Processing {$operation} Error: " . $error_message);
+    private function knittnet_log_processing_error($operation, $error_message) {
+        //error_log("KnittNet Knowledge Processing {$operation} Error: " . $error_message);
     }
     
     /**
      * Set admin notice transient
      */
-    private function mxchat_set_admin_notice($type, $message) {
-        set_transient("mxchat_admin_notice_{$type}", $message, 30);
+    private function knittnet_set_admin_notice($type, $message) {
+        set_transient("knittnet_admin_notice_{$type}", $message, 30);
     }
     
     /**
      * Get Pinecone manager instance for vector operations
      */
-    private function mxchat_get_pinecone_manager() {
-        return MxChat_Pinecone_Manager::get_instance();
+    private function knittnet_get_pinecone_manager() {
+        return KnittNet_Pinecone_Manager::get_instance();
     }
     
     
@@ -7330,10 +7330,10 @@ public function apply_role_restriction_after_storage($post_id, $source_url) {
  * Create queue table on plugin activation
  * Call this from your plugin activation hook
  */
-public function mxchat_create_queue_table() {
+public function knittnet_create_queue_table() {
     global $wpdb;
     
-    $table_name = $wpdb->prefix . 'mxchat_processing_queue';
+    $table_name = $wpdb->prefix . 'knittnet_processing_queue';
     $charset_collate = $wpdb->get_charset_collate();
     
     $sql = "CREATE TABLE IF NOT EXISTS $table_name (
@@ -7361,7 +7361,7 @@ public function mxchat_create_queue_table() {
     dbDelta($sql);
     
     // Also create a meta table for queue metadata
-    $meta_table = $wpdb->prefix . 'mxchat_queue_meta';
+    $meta_table = $wpdb->prefix . 'knittnet_queue_meta';
     
     $meta_sql = "CREATE TABLE IF NOT EXISTS $meta_table (
         id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -7385,9 +7385,9 @@ public function mxchat_create_queue_table() {
  * @param string $bot_id Bot ID for processing
  * @return int Number of items queued
  */
-private function mxchat_add_to_queue($queue_id, $item_type, $items, $bot_id = 'default') {
+private function knittnet_add_to_queue($queue_id, $item_type, $items, $bot_id = 'default') {
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_processing_queue';
+    $table_name = $wpdb->prefix . 'knittnet_processing_queue';
     
     $queued_count = 0;
     $priority = 0;
@@ -7422,9 +7422,9 @@ private function mxchat_add_to_queue($queue_id, $item_type, $items, $bot_id = 'd
 /**
  * Store queue metadata (total counts, source URL, etc.)
  */
-private function mxchat_set_queue_meta($queue_id, $meta_key, $meta_value) {
+private function knittnet_set_queue_meta($queue_id, $meta_key, $meta_value) {
     global $wpdb;
-    $meta_table = $wpdb->prefix . 'mxchat_queue_meta';
+    $meta_table = $wpdb->prefix . 'knittnet_queue_meta';
     
     // Check if meta exists
     $existing = $wpdb->get_var($wpdb->prepare(
@@ -7459,9 +7459,9 @@ private function mxchat_set_queue_meta($queue_id, $meta_key, $meta_value) {
 /**
  * Get queue metadata
  */
-private function mxchat_get_queue_meta($queue_id, $meta_key) {
+private function knittnet_get_queue_meta($queue_id, $meta_key) {
     global $wpdb;
-    $meta_table = $wpdb->prefix . 'mxchat_queue_meta';
+    $meta_table = $wpdb->prefix . 'knittnet_queue_meta';
     
     $value = $wpdb->get_var($wpdb->prepare(
         "SELECT meta_value FROM $meta_table WHERE queue_id = %s AND meta_key = %s",
@@ -7479,9 +7479,9 @@ private function mxchat_get_queue_meta($queue_id, $meta_key) {
 /**
  * AJAX: Get next item from queue to process
  */
-public function ajax_mxchat_get_next_queue_item() {
+public function ajax_knittnet_get_next_queue_item() {
     // Verify nonce and permissions
-    check_ajax_referer('mxchat_queue_nonce', 'nonce');
+    check_ajax_referer('knittnet_queue_nonce', 'nonce');
     
     if (!current_user_can('manage_options')) {
         wp_send_json_error('Unauthorized access');
@@ -7494,7 +7494,7 @@ public function ajax_mxchat_get_next_queue_item() {
     }
     
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_processing_queue';
+    $table_name = $wpdb->prefix . 'knittnet_processing_queue';
     
     // Get next pending item with retry logic for failed items
     $next_item = $wpdb->get_row($wpdb->prepare(
@@ -7543,9 +7543,9 @@ public function ajax_mxchat_get_next_queue_item() {
 /**
  * AJAX: Process a single queue item
  */
-public function ajax_mxchat_process_queue_item() {
+public function ajax_knittnet_process_queue_item() {
     // Verify nonce and permissions
-    check_ajax_referer('mxchat_queue_nonce', 'nonce');
+    check_ajax_referer('knittnet_queue_nonce', 'nonce');
     
     if (!current_user_can('manage_options')) {
         wp_send_json_error('Unauthorized access');
@@ -7561,7 +7561,7 @@ public function ajax_mxchat_process_queue_item() {
     }
     
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_processing_queue';
+    $table_name = $wpdb->prefix . 'knittnet_processing_queue';
     
     // Process based on item type
     try {
@@ -7586,11 +7586,11 @@ public function ajax_mxchat_process_queue_item() {
 
         switch ($item_type) {
             case 'url':
-                $result = $this->mxchat_process_queue_url($item_data, $bot_id, $item_queue_id);
+                $result = $this->knittnet_process_queue_url($item_data, $bot_id, $item_queue_id);
                 break;
 
             case 'pdf_page':
-                $result = $this->mxchat_process_queue_pdf_page($item_data, $bot_id);
+                $result = $this->knittnet_process_queue_pdf_page($item_data, $bot_id);
                 break;
                 
             default:
@@ -7704,7 +7704,7 @@ public function ajax_mxchat_process_queue_item() {
 /**
  * Process a URL from the queue
  */
-private function mxchat_process_queue_url($item_data, $bot_id = 'default', $queue_id = '') {
+private function knittnet_process_queue_url($item_data, $bot_id = 'default', $queue_id = '') {
     $url = isset($item_data['url']) ? $item_data['url'] : '';
 
     if (empty($url)) {
@@ -7713,7 +7713,7 @@ private function mxchat_process_queue_url($item_data, $bot_id = 'default', $queu
 
     // Get bot-specific API key early (needed for both paths)
     $bot_options = $this->get_bot_options($bot_id);
-    $options = !empty($bot_options) ? $bot_options : get_option('mxchat_options');
+    $options = !empty($bot_options) ? $bot_options : get_option('knittnet_options');
     $selected_model = $options['embedding_model'] ?? 'text-embedding-ada-002';
 
     if (strpos($selected_model, 'voyage') === 0) {
@@ -7734,11 +7734,11 @@ private function mxchat_process_queue_url($item_data, $bot_id = 'default', $queu
 
     // Try to get WooCommerce product data if it's a product URL
     if ($is_product_url && class_exists('WooCommerce')) {
-        $product_content = $this->mxchat_extract_woocommerce_product_content($url);
+        $product_content = $this->knittnet_extract_woocommerce_product_content($url);
 
         if (!empty($product_content)) {
             // Successfully extracted WooCommerce product data with pricing
-            $result = MxChat_Utils::submit_content_to_db(
+            $result = KnittNet_Utils::submit_content_to_db(
                 $product_content,
                 $url,
                 $api_key,
@@ -7756,7 +7756,7 @@ private function mxchat_process_queue_url($item_data, $bot_id = 'default', $queu
     $response = wp_remote_get($url, array(
         'timeout' => $is_likely_pdf ? 120 : 30,
         'redirection' => 5,
-        'user-agent' => 'MxChat/1.0'
+        'user-agent' => 'KnittNet/1.0'
     ));
 
     if (is_wp_error($response)) {
@@ -7769,8 +7769,8 @@ private function mxchat_process_queue_url($item_data, $bot_id = 'default', $queu
     }
 
     // Check if URL is a PDF — expand into per-page queue items using the standard PDF pipeline
-    if ($this->mxchat_is_pdf_url($url, $response)) {
-        return $this->mxchat_expand_pdf_to_queue($url, $response, $bot_id, $queue_id);
+    if ($this->knittnet_is_pdf_url($url, $response)) {
+        return $this->knittnet_expand_pdf_to_queue($url, $response, $bot_id, $queue_id);
     }
 
     $html = wp_remote_retrieve_body($response);
@@ -7780,8 +7780,8 @@ private function mxchat_process_queue_url($item_data, $bot_id = 'default', $queu
     }
 
     // Extract and sanitize content
-    $content = $this->mxchat_extract_main_content($html);
-    $sanitized = $this->mxchat_sanitize_content_for_api($content);
+    $content = $this->knittnet_extract_main_content($html);
+    $sanitized = $this->knittnet_sanitize_content_for_api($content);
 
     if (empty($sanitized)) {
         // Not an error - just no content found (maybe a redirect or empty page)
@@ -7789,7 +7789,7 @@ private function mxchat_process_queue_url($item_data, $bot_id = 'default', $queu
     }
 
     // Submit to database with content_type
-    $result = MxChat_Utils::submit_content_to_db(
+    $result = KnittNet_Utils::submit_content_to_db(
         $sanitized,
         $url,
         $api_key,
@@ -7806,11 +7806,11 @@ private function mxchat_process_queue_url($item_data, $bot_id = 'default', $queu
  * Called when a sitemap URL turns out to be a PDF — downloads, parses page count,
  * and adds pdf_page items to the same queue so they process with full progress tracking.
  */
-private function mxchat_expand_pdf_to_queue($pdf_url, $response, $bot_id = 'default', $queue_id = '') {
+private function knittnet_expand_pdf_to_queue($pdf_url, $response, $bot_id = 'default', $queue_id = '') {
     set_time_limit(120); // PDFs need extra time for download + parsing
 
     $upload_dir = wp_upload_dir();
-    $pdf_filename = sanitize_file_name('mxchat_kb_' . md5($pdf_url) . '.pdf');
+    $pdf_filename = sanitize_file_name('knittnet_kb_' . md5($pdf_url) . '.pdf');
     $pdf_path = trailingslashit($upload_dir['path']) . $pdf_filename;
 
     $response_body = wp_remote_retrieve_body($response);
@@ -7829,14 +7829,14 @@ private function mxchat_expand_pdf_to_queue($pdf_url, $response, $bot_id = 'defa
     }
 
     try {
-        $total_pages = $this->mxchat_validate_and_count_pdf_pages($pdf_path);
+        $total_pages = $this->knittnet_validate_and_count_pdf_pages($pdf_path);
 
         if ($total_pages === false || $total_pages < 1) {
             wp_delete_file($pdf_path);
             return new WP_Error('no_pages', 'PDF has no pages: ' . $pdf_url);
         }
 
-        // Build per-page items identical to mxchat_handle_pdf_for_knowledge_base
+        // Build per-page items identical to knittnet_handle_pdf_for_knowledge_base
         $pages = array();
         for ($i = 1; $i <= $total_pages; $i++) {
             $pages[] = array(
@@ -7849,17 +7849,17 @@ private function mxchat_expand_pdf_to_queue($pdf_url, $response, $bot_id = 'defa
 
         // Add pdf_page items to the SAME queue so the JS picks them up automatically
         if (!empty($queue_id)) {
-            $queued_count = $this->mxchat_add_to_queue($queue_id, 'pdf_page', $pages, $bot_id);
+            $queued_count = $this->knittnet_add_to_queue($queue_id, 'pdf_page', $pages, $bot_id);
         } else {
             // Fallback: create a new PDF queue (shouldn't happen in sitemap flow)
             $new_queue_id = 'pdf_' . md5($pdf_url . time());
-            $queued_count = $this->mxchat_add_to_queue($new_queue_id, 'pdf_page', $pages, $bot_id);
-            $this->mxchat_set_queue_meta($new_queue_id, 'source_url', $pdf_url);
-            $this->mxchat_set_queue_meta($new_queue_id, 'queue_type', 'pdf');
-            $this->mxchat_set_queue_meta($new_queue_id, 'total_items', $total_pages);
-            $this->mxchat_set_queue_meta($new_queue_id, 'bot_id', $bot_id);
-            $this->mxchat_set_queue_meta($new_queue_id, 'pdf_path', $pdf_path);
-            $this->mxchat_set_queue_meta($new_queue_id, 'created_at', current_time('mysql'));
+            $queued_count = $this->knittnet_add_to_queue($new_queue_id, 'pdf_page', $pages, $bot_id);
+            $this->knittnet_set_queue_meta($new_queue_id, 'source_url', $pdf_url);
+            $this->knittnet_set_queue_meta($new_queue_id, 'queue_type', 'pdf');
+            $this->knittnet_set_queue_meta($new_queue_id, 'total_items', $total_pages);
+            $this->knittnet_set_queue_meta($new_queue_id, 'bot_id', $bot_id);
+            $this->knittnet_set_queue_meta($new_queue_id, 'pdf_path', $pdf_path);
+            $this->knittnet_set_queue_meta($new_queue_id, 'created_at', current_time('mysql'));
         }
 
         if ($queued_count === 0) {
@@ -7881,13 +7881,13 @@ private function mxchat_expand_pdf_to_queue($pdf_url, $response, $bot_id = 'defa
 
 /**
  * Legacy: Process a PDF URL inline during sitemap queue processing.
- * @deprecated Use mxchat_expand_pdf_to_queue instead — kept for reference only.
+ * @deprecated Use knittnet_expand_pdf_to_queue instead — kept for reference only.
  */
-private function mxchat_process_pdf_url_inline($pdf_url, $response, $api_key, $bot_id = 'default') {
+private function knittnet_process_pdf_url_inline($pdf_url, $response, $api_key, $bot_id = 'default') {
     set_time_limit(120); // PDFs need more time — downloading + parsing all pages
 
     $upload_dir = wp_upload_dir();
-    $pdf_filename = sanitize_file_name('mxchat_kb_' . md5($pdf_url) . '.pdf');
+    $pdf_filename = sanitize_file_name('knittnet_kb_' . md5($pdf_url) . '.pdf');
     $pdf_path = trailingslashit($upload_dir['path']) . $pdf_filename;
 
     $response_body = wp_remote_retrieve_body($response);
@@ -7906,7 +7906,7 @@ private function mxchat_process_pdf_url_inline($pdf_url, $response, $api_key, $b
     }
 
     try {
-        mxchat_load_pdf_parser();
+        knittnet_load_pdf_parser();
         $parser = new \Smalot\PdfParser\Parser();
         $pdf = $parser->parseFile($pdf_path);
         $pages = $pdf->getPages();
@@ -7928,7 +7928,7 @@ private function mxchat_process_pdf_url_inline($pdf_url, $response, $api_key, $b
                 continue;
             }
 
-            $sanitized = $this->mxchat_sanitize_content_for_api($text);
+            $sanitized = $this->knittnet_sanitize_content_for_api($text);
             if (empty($sanitized)) {
                 $skipped_pages[] = 'Page ' . $page_num . ': Text was extracted but contained only special characters, control codes, or unsupported content';
                 continue;
@@ -7944,7 +7944,7 @@ private function mxchat_process_pdf_url_inline($pdf_url, $response, $api_key, $b
             $content_with_metadata = wp_json_encode($metadata) . "\n---\n" . $sanitized;
             $page_url = esc_url($pdf_url . '#page=' . $page_num);
 
-            MxChat_Utils::submit_content_to_db(
+            KnittNet_Utils::submit_content_to_db(
                 $content_with_metadata,
                 $page_url,
                 $api_key,
@@ -7960,7 +7960,7 @@ private function mxchat_process_pdf_url_inline($pdf_url, $response, $api_key, $b
         wp_delete_file($pdf_path);
 
         if (!empty($skipped_pages)) {
-            error_log('MxChat PDF: Skipped ' . count($skipped_pages) . ' of ' . $total_pages . ' pages: ' . implode('; ', $skipped_pages));
+            error_log('KnittNet PDF: Skipped ' . count($skipped_pages) . ' of ' . $total_pages . ' pages: ' . implode('; ', $skipped_pages));
         }
 
         return $processed > 0 ? true : false;
@@ -7979,7 +7979,7 @@ private function mxchat_process_pdf_url_inline($pdf_url, $response, $api_key, $b
  * @param string $url The product URL
  * @return string|false Product content with pricing, or false if not found
  */
-private function mxchat_extract_woocommerce_product_content($url) {
+private function knittnet_extract_woocommerce_product_content($url) {
     // Try to get product ID from URL
     $product_id = url_to_postid($url);
 
@@ -8011,7 +8011,7 @@ private function mxchat_extract_woocommerce_product_content($url) {
         return false;
     }
 
-    // Build product content with pricing (similar to mxchat_store_product_embedding)
+    // Build product content with pricing (similar to knittnet_store_product_embedding)
     $title = $product->get_name();
     $description = $product->get_description();
     $short_description = $product->get_short_description();
@@ -8098,13 +8098,13 @@ private function mxchat_extract_woocommerce_product_content($url) {
         }
     }
 
-    return $this->mxchat_sanitize_content_for_api($content);
+    return $this->knittnet_sanitize_content_for_api($content);
 }
 
 /**
  * Process a PDF page from the queue
  */
-private function mxchat_process_queue_pdf_page($item_data, $bot_id = 'default') {
+private function knittnet_process_queue_pdf_page($item_data, $bot_id = 'default') {
     $pdf_path = isset($item_data['pdf_path']) ? $item_data['pdf_path'] : '';
     $pdf_url = isset($item_data['pdf_url']) ? $item_data['pdf_url'] : '';
     $page_number = isset($item_data['page_number']) ? absint($item_data['page_number']) : 0;
@@ -8119,7 +8119,7 @@ private function mxchat_process_queue_pdf_page($item_data, $bot_id = 'default') 
     }
     
     try {
-        mxchat_load_pdf_parser();
+        knittnet_load_pdf_parser();
         $parser = new \Smalot\PdfParser\Parser();
         $pdf = $parser->parseFile($pdf_path);
         $pages = $pdf->getPages();
@@ -8134,7 +8134,7 @@ private function mxchat_process_queue_pdf_page($item_data, $bot_id = 'default') 
             return new WP_Error('empty_page', 'Page ' . $page_number . ': No text could be extracted — page may contain only images, links, or non-standard encoding');
         }
 
-        $sanitized = $this->mxchat_sanitize_content_for_api($text);
+        $sanitized = $this->knittnet_sanitize_content_for_api($text);
 
         if (empty($sanitized)) {
             return new WP_Error('empty_after_sanitization', 'Page ' . $page_number . ': Text was extracted but contained only special characters, control codes, or unsupported content that was removed during cleanup');
@@ -8153,7 +8153,7 @@ private function mxchat_process_queue_pdf_page($item_data, $bot_id = 'default') 
         
         // Get bot-specific API key
         $bot_options = $this->get_bot_options($bot_id);
-        $options = !empty($bot_options) ? $bot_options : get_option('mxchat_options');
+        $options = !empty($bot_options) ? $bot_options : get_option('knittnet_options');
         $selected_model = $options['embedding_model'] ?? 'text-embedding-ada-002';
         
         if (strpos($selected_model, 'voyage') === 0) {
@@ -8169,7 +8169,7 @@ private function mxchat_process_queue_pdf_page($item_data, $bot_id = 'default') 
         }
 
         // Submit to database - UPDATED 2.5.6: Added content_type 'pdf'
-        $result = MxChat_Utils::submit_content_to_db(
+        $result = KnittNet_Utils::submit_content_to_db(
             $content_with_metadata,
             $page_url,
             $api_key,
@@ -8188,9 +8188,9 @@ private function mxchat_process_queue_pdf_page($item_data, $bot_id = 'default') 
 /**
  * AJAX: Get queue processing status
  */
-public function ajax_mxchat_get_queue_status() {
+public function ajax_knittnet_get_queue_status() {
     // Verify nonce and permissions
-    check_ajax_referer('mxchat_queue_nonce', 'nonce');
+    check_ajax_referer('knittnet_queue_nonce', 'nonce');
     
     if (!current_user_can('manage_options')) {
         wp_send_json_error('Unauthorized access');
@@ -8203,7 +8203,7 @@ public function ajax_mxchat_get_queue_status() {
     }
     
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_processing_queue';
+    $table_name = $wpdb->prefix . 'knittnet_processing_queue';
     
     // Get counts by status
     $counts = $wpdb->get_results($wpdb->prepare(
@@ -8258,8 +8258,8 @@ public function ajax_mxchat_get_queue_status() {
     }
     
     // Get queue metadata
-    $source_url = $this->mxchat_get_queue_meta($queue_id, 'source_url');
-    $queue_type = $this->mxchat_get_queue_meta($queue_id, 'queue_type');
+    $source_url = $this->knittnet_get_queue_meta($queue_id, 'source_url');
+    $queue_type = $this->knittnet_get_queue_meta($queue_id, 'queue_type');
     
     // Determine if queue is complete
     $is_complete = ($pending === 0 && $processing === 0);
@@ -8283,9 +8283,9 @@ public function ajax_mxchat_get_queue_status() {
 /**
  * AJAX: Clear completed queue
  */
-public function ajax_mxchat_clear_queue() {
+public function ajax_knittnet_clear_queue() {
     // Verify nonce and permissions
-    check_ajax_referer('mxchat_queue_nonce', 'nonce');
+    check_ajax_referer('knittnet_queue_nonce', 'nonce');
     
     if (!current_user_can('manage_options')) {
         wp_send_json_error('Unauthorized access');
@@ -8298,8 +8298,8 @@ public function ajax_mxchat_clear_queue() {
     }
     
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_processing_queue';
-    $meta_table = $wpdb->prefix . 'mxchat_queue_meta';
+    $table_name = $wpdb->prefix . 'knittnet_processing_queue';
+    $meta_table = $wpdb->prefix . 'knittnet_queue_meta';
     
     // Delete queue items
     $wpdb->delete(
@@ -8323,9 +8323,9 @@ public function ajax_mxchat_clear_queue() {
 /**
  * AJAX: Retry failed items in queue
  */
-public function ajax_mxchat_retry_failed() {
+public function ajax_knittnet_retry_failed() {
     // Verify nonce and permissions
-    check_ajax_referer('mxchat_queue_nonce', 'nonce');
+    check_ajax_referer('knittnet_queue_nonce', 'nonce');
     
     if (!current_user_can('manage_options')) {
         wp_send_json_error('Unauthorized access');
@@ -8338,7 +8338,7 @@ public function ajax_mxchat_retry_failed() {
     }
     
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_processing_queue';
+    $table_name = $wpdb->prefix . 'knittnet_processing_queue';
     
     // Reset failed items to pending and reset attempt count
     $updated = $wpdb->update(
@@ -8363,8 +8363,8 @@ public function ajax_mxchat_retry_failed() {
 }
 
 
-public function ajax_mxchat_mark_queue_complete() {
-    check_ajax_referer('mxchat_queue_nonce', 'nonce');
+public function ajax_knittnet_mark_queue_complete() {
+    check_ajax_referer('knittnet_queue_nonce', 'nonce');
     
     if (!current_user_can('manage_options')) {
         wp_send_json_error('Unauthorized access');
@@ -8378,9 +8378,9 @@ public function ajax_mxchat_mark_queue_complete() {
     
     // Clear active queue transients
     if (strpos($queue_id, 'sitemap_') === 0) {
-        delete_transient('mxchat_active_queue_sitemap');
+        delete_transient('knittnet_active_queue_sitemap');
     } else if (strpos($queue_id, 'pdf_') === 0) {
-        delete_transient('mxchat_active_queue_pdf');
+        delete_transient('knittnet_active_queue_pdf');
     }
     
     wp_send_json_success(array('message' => 'Queue marked as complete'));
@@ -8404,4 +8404,4 @@ public function ajax_mxchat_mark_queue_complete() {
 }
 
 // Initialize the Knowledge manager
-$mxchat_knowledge_manager = MxChat_Knowledge_Manager::get_instance();
+$knittnet_knowledge_manager = KnittNet_Knowledge_Manager::get_instance();

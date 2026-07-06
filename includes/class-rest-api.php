@@ -1,25 +1,25 @@
 <?php
 /**
- * MxChat REST API
+ * KnittNet REST API
  *
  * Bearer-token-authenticated REST endpoints exposing core primitives:
  *
- *   GET    /wp-json/mxchat/v1/transcripts   — read chat transcripts (filterable)
- *   DELETE /wp-json/mxchat/v1/transcripts   — delete by session_ids (cascades)
- *   POST   /wp-json/mxchat/v1/knowledge     — push content into the knowledge base
- *   GET    /wp-json/mxchat/v1/health        — connectivity + capability check
+ *   GET    /wp-json/knittnet/v1/transcripts   — read chat transcripts (filterable)
+ *   DELETE /wp-json/knittnet/v1/transcripts   — delete by session_ids (cascades)
+ *   POST   /wp-json/knittnet/v1/knowledge     — push content into the knowledge base
+ *   GET    /wp-json/knittnet/v1/health        — connectivity + capability check
  *
- * These are general-purpose primitives. They power the official MxChat FAQ
- * agent, but anyone running MxChat can use them for analytics exports,
+ * These are general-purpose primitives. They power the official KnittNet FAQ
+ * agent, but anyone running KnittNet can use them for analytics exports,
  * external automations (n8n, Zapier, Make), data migrations, custom RAG
  * pipelines, etc.
  *
  * Auth:
- *   Bearer token stored in wp_options under `mxchat_api_token`.
+ *   Bearer token stored in wp_options under `knittnet_api_token`.
  *   - When the token is empty (default), all authenticated routes are
  *     locked. The endpoints simply refuse with 401, so the surface area
  *     is zero until the site owner explicitly enables it from the
- *     "MxChat → API Access" admin page (or via WP-CLI).
+ *     "KnittNet → API Access" admin page (or via WP-CLI).
  *   - Comparison uses hash_equals() for constant-time safety.
  *
  * Privacy:
@@ -27,7 +27,7 @@
  *   intentionally gated behind a token the site owner generates. No data
  *   leaves the site unsolicited.
  *
- * @package MxChat
+ * @package KnittNet
  * @since   3.2.5
  */
 
@@ -35,10 +35,10 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class MxChat_Rest_Api {
+class KnittNet_Rest_Api {
 
-    const REST_NAMESPACE = 'mxchat/v1';
-    const TOKEN_OPTION   = 'mxchat_api_token';
+    const REST_NAMESPACE = 'knittnet/v1';
+    const TOKEN_OPTION   = 'knittnet_api_token';
 
     public function __construct() {
         add_action('rest_api_init', array($this, 'register_routes'));
@@ -63,39 +63,39 @@ class MxChat_Rest_Api {
                 'permission_callback' => array($this, 'check_bearer_token'),
                 'args'                => array(
                     'since' => array(
-                        'description'       => __('Only return rows with timestamp >= this value. Accepts ISO 8601 (2026-05-07T00:00:00Z) or any strtotime-compatible string.', 'mxchat'),
+                        'description'       => __('Only return rows with timestamp >= this value. Accepts ISO 8601 (2026-05-07T00:00:00Z) or any strtotime-compatible string.', 'knittnet'),
                         'type'              => 'string',
                         'required'          => false,
                         'sanitize_callback' => 'sanitize_text_field',
                     ),
                     'until' => array(
-                        'description'       => __('Only return rows with timestamp <= this value. Same format as `since`.', 'mxchat'),
+                        'description'       => __('Only return rows with timestamp <= this value. Same format as `since`.', 'knittnet'),
                         'type'              => 'string',
                         'required'          => false,
                         'sanitize_callback' => 'sanitize_text_field',
                     ),
                     'session_id' => array(
-                        'description'       => __('Filter to a single conversation.', 'mxchat'),
+                        'description'       => __('Filter to a single conversation.', 'knittnet'),
                         'type'              => 'string',
                         'required'          => false,
                         'sanitize_callback' => 'sanitize_text_field',
                     ),
                     'role' => array(
-                        'description'       => __('Filter by role. One of: user, assistant, all (default: all).', 'mxchat'),
+                        'description'       => __('Filter by role. One of: user, assistant, all (default: all).', 'knittnet'),
                         'type'              => 'string',
                         'required'          => false,
                         'enum'              => array('user', 'assistant', 'all'),
                         'default'           => 'all',
                     ),
                     'has_rag_context' => array(
-                        'description'       => __('Filter by whether the row has retrieved RAG context. Useful for finding "no-knowledge-hit" answers. One of: yes, no, any (default: any).', 'mxchat'),
+                        'description'       => __('Filter by whether the row has retrieved RAG context. Useful for finding "no-knowledge-hit" answers. One of: yes, no, any (default: any).', 'knittnet'),
                         'type'              => 'string',
                         'required'          => false,
                         'enum'              => array('yes', 'no', 'any'),
                         'default'           => 'any',
                     ),
                     'limit' => array(
-                        'description'       => __('Max number of rows to return. 1-1000, default 100.', 'mxchat'),
+                        'description'       => __('Max number of rows to return. 1-1000, default 100.', 'knittnet'),
                         'type'              => 'integer',
                         'required'          => false,
                         'default'           => 100,
@@ -103,14 +103,14 @@ class MxChat_Rest_Api {
                         'maximum'           => 1000,
                     ),
                     'offset' => array(
-                        'description'       => __('Skip this many rows (for pagination).', 'mxchat'),
+                        'description'       => __('Skip this many rows (for pagination).', 'knittnet'),
                         'type'              => 'integer',
                         'required'          => false,
                         'default'           => 0,
                         'minimum'           => 0,
                     ),
                     'order' => array(
-                        'description'       => __('Sort order on timestamp. asc or desc (default: desc).', 'mxchat'),
+                        'description'       => __('Sort order on timestamp. asc or desc (default: desc).', 'knittnet'),
                         'type'              => 'string',
                         'required'          => false,
                         'enum'              => array('asc', 'desc'),
@@ -127,13 +127,13 @@ class MxChat_Rest_Api {
                 'permission_callback' => array($this, 'check_bearer_token'),
                 'args'                => array(
                     'session_ids' => array(
-                        'description' => __('Array of session_ids to delete. Required and non-empty — there is intentionally no "delete all" shorthand.', 'mxchat'),
+                        'description' => __('Array of session_ids to delete. Required and non-empty — there is intentionally no "delete all" shorthand.', 'knittnet'),
                         'type'        => 'array',
                         'required'    => true,
                         'items'       => array('type' => 'string'),
                     ),
                     'cascade' => array(
-                        'description' => __('If true (default), also deletes related rows in mxchat_transcript_translations and mxchat_url_clicks for each session_id.', 'mxchat'),
+                        'description' => __('If true (default), also deletes related rows in knittnet_transcript_translations and knittnet_url_clicks for each session_id.', 'knittnet'),
                         'type'        => 'boolean',
                         'required'    => false,
                         'default'     => true,
@@ -149,25 +149,25 @@ class MxChat_Rest_Api {
                 'permission_callback' => array($this, 'check_bearer_token'),
                 'args'                => array(
                     'content' => array(
-                        'description' => __('The content body to embed and store.', 'mxchat'),
+                        'description' => __('The content body to embed and store.', 'knittnet'),
                         'type'        => 'string',
                         'required'    => true,
                     ),
                     'source_url' => array(
-                        'description'       => __('Canonical URL the content came from. Used as the dedupe key — submitting the same URL replaces the existing entry.', 'mxchat'),
+                        'description'       => __('Canonical URL the content came from. Used as the dedupe key — submitting the same URL replaces the existing entry.', 'knittnet'),
                         'type'              => 'string',
                         'required'          => true,
                         'sanitize_callback' => 'esc_url_raw',
                     ),
                     'bot_id' => array(
-                        'description'       => __('Bot ID (for multi-bot installs). Defaults to "default".', 'mxchat'),
+                        'description'       => __('Bot ID (for multi-bot installs). Defaults to "default".', 'knittnet'),
                         'type'              => 'string',
                         'required'          => false,
                         'default'           => 'default',
                         'sanitize_callback' => 'sanitize_key',
                     ),
                     'content_type' => array(
-                        'description'       => __('Free-form content type label, e.g. content, manual, faq, page, post. Stored alongside the entry for filtering. Defaults to "manual".', 'mxchat'),
+                        'description'       => __('Free-form content type label, e.g. content, manual, faq, page, post. Stored alongside the entry for filtering. Defaults to "manual".', 'knittnet'),
                         'type'              => 'string',
                         'required'          => false,
                         'default'           => 'manual',
@@ -189,8 +189,8 @@ class MxChat_Rest_Api {
         $stored = (string) get_option(self::TOKEN_OPTION, '');
         if ($stored === '') {
             return new WP_Error(
-                'mxchat_rest_disabled',
-                __('MxChat REST API is disabled. Generate a token from MxChat → API Access in the WordPress admin.', 'mxchat'),
+                'knittnet_rest_disabled',
+                __('KnittNet REST API is disabled. Generate a token from KnittNet → API Access in the WordPress admin.', 'knittnet'),
                 array('status' => 401)
             );
         }
@@ -198,16 +198,16 @@ class MxChat_Rest_Api {
         $auth = $request->get_header('authorization');
         if (!is_string($auth) || $auth === '') {
             return new WP_Error(
-                'mxchat_rest_no_auth',
-                __('Missing Authorization header. Expected: Authorization: Bearer <token>', 'mxchat'),
+                'knittnet_rest_no_auth',
+                __('Missing Authorization header. Expected: Authorization: Bearer <token>', 'knittnet'),
                 array('status' => 401)
             );
         }
 
         if (!preg_match('/^Bearer\s+(.+)$/i', $auth, $matches)) {
             return new WP_Error(
-                'mxchat_rest_bad_auth',
-                __('Malformed Authorization header. Expected: Authorization: Bearer <token>', 'mxchat'),
+                'knittnet_rest_bad_auth',
+                __('Malformed Authorization header. Expected: Authorization: Bearer <token>', 'knittnet'),
                 array('status' => 401)
             );
         }
@@ -215,8 +215,8 @@ class MxChat_Rest_Api {
         $provided = trim($matches[1]);
         if ($provided === '' || !hash_equals($stored, $provided)) {
             return new WP_Error(
-                'mxchat_rest_bad_token',
-                __('Invalid API token.', 'mxchat'),
+                'knittnet_rest_bad_token',
+                __('Invalid API token.', 'knittnet'),
                 array('status' => 401)
             );
         }
@@ -231,15 +231,15 @@ class MxChat_Rest_Api {
     public function handle_health($request) {
         $token_set = (string) get_option(self::TOKEN_OPTION, '') !== '';
 
-        $options = get_option('mxchat_options', array());
+        $options = get_option('knittnet_options', array());
         $embedding_model = isset($options['embedding_model']) ? (string) $options['embedding_model'] : '';
 
         return rest_ensure_response(array(
             'ok'              => true,
-            'plugin_version'  => defined('MXCHAT_VERSION') ? MXCHAT_VERSION : null,
+            'plugin_version'  => defined('KNITTNET_VERSION') ? KNITTNET_VERSION : null,
             'token_set'       => $token_set,
             'embedding_model' => $embedding_model,
-            'utils_loaded'    => class_exists('MxChat_Utils'),
+            'utils_loaded'    => class_exists('KnittNet_Utils'),
             'namespace'       => self::REST_NAMESPACE,
         ));
     }
@@ -250,12 +250,12 @@ class MxChat_Rest_Api {
      */
     public function handle_get_transcripts($request) {
         global $wpdb;
-        $table = $wpdb->prefix . 'mxchat_chat_transcripts';
+        $table = $wpdb->prefix . 'knittnet_chat_transcripts';
 
         if ($wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $table)) !== $table) {
             return new WP_Error(
-                'mxchat_rest_no_table',
-                __('Transcripts table does not exist on this site.', 'mxchat'),
+                'knittnet_rest_no_table',
+                __('Transcripts table does not exist on this site.', 'knittnet'),
                 array('status' => 500)
             );
         }
@@ -275,7 +275,7 @@ class MxChat_Rest_Api {
         if ($since !== '') {
             $ts = $this->parse_datetime($since);
             if ($ts === null) {
-                return new WP_Error('mxchat_rest_bad_since', __('Could not parse `since` parameter as a date.', 'mxchat'), array('status' => 400));
+                return new WP_Error('knittnet_rest_bad_since', __('Could not parse `since` parameter as a date.', 'knittnet'), array('status' => 400));
             }
             $where[]  = 'timestamp >= %s';
             $params[] = gmdate('Y-m-d H:i:s', $ts);
@@ -283,7 +283,7 @@ class MxChat_Rest_Api {
         if ($until !== '') {
             $ts = $this->parse_datetime($until);
             if ($ts === null) {
-                return new WP_Error('mxchat_rest_bad_until', __('Could not parse `until` parameter as a date.', 'mxchat'), array('status' => 400));
+                return new WP_Error('knittnet_rest_bad_until', __('Could not parse `until` parameter as a date.', 'knittnet'), array('status' => 400));
             }
             $where[]  = 'timestamp <= %s';
             $params[] = gmdate('Y-m-d H:i:s', $ts);
@@ -368,8 +368,8 @@ class MxChat_Rest_Api {
      *   }
      *
      * Cascading deletes (when cascade=true) also remove rows in:
-     *   - wp_mxchat_transcript_translations (any saved translations)
-     *   - wp_mxchat_url_clicks              (link-click tracking rows)
+     *   - wp_knittnet_transcript_translations (any saved translations)
+     *   - wp_knittnet_url_clicks              (link-click tracking rows)
      *
      * Hard caps for safety:
      *   - max 1000 session_ids per call
@@ -397,16 +397,16 @@ class MxChat_Rest_Api {
 
         if (!is_array($session_ids_raw) || empty($session_ids_raw)) {
             return new WP_Error(
-                'mxchat_rest_no_session_ids',
-                __('session_ids is required and must be a non-empty array.', 'mxchat'),
+                'knittnet_rest_no_session_ids',
+                __('session_ids is required and must be a non-empty array.', 'knittnet'),
                 array('status' => 400)
             );
         }
 
         if (count($session_ids_raw) > 1000) {
             return new WP_Error(
-                'mxchat_rest_too_many',
-                __('Too many session_ids in a single request. Cap is 1000; split into multiple calls.', 'mxchat'),
+                'knittnet_rest_too_many',
+                __('Too many session_ids in a single request. Cap is 1000; split into multiple calls.', 'knittnet'),
                 array('status' => 400)
             );
         }
@@ -425,21 +425,21 @@ class MxChat_Rest_Api {
 
         if (empty($session_ids)) {
             return new WP_Error(
-                'mxchat_rest_no_valid_session_ids',
-                __('session_ids must contain at least one valid non-empty string.', 'mxchat'),
+                'knittnet_rest_no_valid_session_ids',
+                __('session_ids must contain at least one valid non-empty string.', 'knittnet'),
                 array('status' => 400)
             );
         }
 
-        $transcripts_table  = $wpdb->prefix . 'mxchat_chat_transcripts';
-        $translations_table = $wpdb->prefix . 'mxchat_transcript_translations';
-        $url_clicks_table   = $wpdb->prefix . 'mxchat_url_clicks';
+        $transcripts_table  = $wpdb->prefix . 'knittnet_chat_transcripts';
+        $translations_table = $wpdb->prefix . 'knittnet_transcript_translations';
+        $url_clicks_table   = $wpdb->prefix . 'knittnet_url_clicks';
 
         // Verify the main table exists; the others are best-effort.
         if ($wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $transcripts_table)) !== $transcripts_table) {
             return new WP_Error(
-                'mxchat_rest_no_table',
-                __('Transcripts table does not exist on this site.', 'mxchat'),
+                'knittnet_rest_no_table',
+                __('Transcripts table does not exist on this site.', 'knittnet'),
                 array('status' => 500)
             );
         }
@@ -490,14 +490,14 @@ class MxChat_Rest_Api {
 
     /**
      * POST /knowledge — embed + store content in the KB.
-     * Wraps MxChat_Utils::submit_content_to_db() so external tools can push
+     * Wraps KnittNet_Utils::submit_content_to_db() so external tools can push
      * content the same way an admin would via the Knowledge UI.
      */
     public function handle_post_knowledge($request) {
-        if (!class_exists('MxChat_Utils')) {
+        if (!class_exists('KnittNet_Utils')) {
             return new WP_Error(
-                'mxchat_rest_no_utils',
-                __('MxChat_Utils is not loaded.', 'mxchat'),
+                'knittnet_rest_no_utils',
+                __('KnittNet_Utils is not loaded.', 'knittnet'),
                 array('status' => 500)
             );
         }
@@ -515,19 +515,19 @@ class MxChat_Rest_Api {
         $content_type = isset($body['content_type']) ? sanitize_key((string) $body['content_type']) : 'manual';
 
         if ($content === '') {
-            return new WP_Error('mxchat_rest_no_content', __('content is required.', 'mxchat'), array('status' => 400));
+            return new WP_Error('knittnet_rest_no_content', __('content is required.', 'knittnet'), array('status' => 400));
         }
         if ($source_url === '') {
-            return new WP_Error('mxchat_rest_no_url', __('source_url is required and must be a valid URL.', 'mxchat'), array('status' => 400));
+            return new WP_Error('knittnet_rest_no_url', __('source_url is required and must be a valid URL.', 'knittnet'), array('status' => 400));
         }
         if ($bot_id === '') {
             $bot_id = 'default';
         }
 
-        // Pull the embedding API key from MxChat options (same logic as the
-        // admin form handler in MxChat_Knowledge_Manager::mxchat_handle_content_submission).
+        // Pull the embedding API key from KnittNet options (same logic as the
+        // admin form handler in KnittNet_Knowledge_Manager::knittnet_handle_content_submission).
         $bot_options = $this->get_bot_options($bot_id);
-        $options     = !empty($bot_options) ? $bot_options : get_option('mxchat_options', array());
+        $options     = !empty($bot_options) ? $bot_options : get_option('knittnet_options', array());
         $selected_model = isset($options['embedding_model']) ? (string) $options['embedding_model'] : 'text-embedding-ada-002';
 
         if (strpos($selected_model, 'voyage') === 0) {
@@ -540,8 +540,8 @@ class MxChat_Rest_Api {
 
         if ($api_key === '') {
             return new WP_Error(
-                'mxchat_rest_no_api_key',
-                __('No embedding API key configured for the selected embedding model. Configure it in MxChat settings before pushing knowledge.', 'mxchat'),
+                'knittnet_rest_no_api_key',
+                __('No embedding API key configured for the selected embedding model. Configure it in KnittNet settings before pushing knowledge.', 'knittnet'),
                 array('status' => 500)
             );
         }
@@ -552,11 +552,11 @@ class MxChat_Rest_Api {
         }
         @ignore_user_abort(true);
 
-        $result = MxChat_Utils::submit_content_to_db($content, $source_url, $api_key, null, $bot_id, $content_type);
+        $result = KnittNet_Utils::submit_content_to_db($content, $source_url, $api_key, null, $bot_id, $content_type);
 
         if (is_wp_error($result)) {
             return new WP_Error(
-                'mxchat_rest_kb_failed',
+                'knittnet_rest_kb_failed',
                 $result->get_error_message(),
                 array('status' => 500)
             );
@@ -578,10 +578,10 @@ class MxChat_Rest_Api {
         if ($bot_id === '' || $bot_id === 'default') {
             return array();
         }
-        if (!class_exists('MxChat_Multi_Bot_Manager')) {
+        if (!class_exists('KnittNet_Multi_Bot_Manager')) {
             return array();
         }
-        $bot_options = apply_filters('mxchat_get_bot_options', array(), $bot_id);
+        $bot_options = apply_filters('knittnet_get_bot_options', array(), $bot_id);
         return is_array($bot_options) ? $bot_options : array();
     }
 

@@ -8,7 +8,7 @@
         var useSelect = wp.data.useSelect;
         var useDispatch = wp.data.useDispatch;
 
-        function MxChatSettingsPanel() {
+        function KnittNetSettingsPanel() {
             var meta = useSelect(function(select) {
                 return select('core/editor').getEditedPostAttribute('meta') || {};
             });
@@ -16,12 +16,12 @@
             var editPost = useDispatch('core/editor').editPost;
 
             // Determine effective visibility with backward compat
-            var visibility = meta._mxchat_page_visibility || '';
-            if (!visibility && meta._mxchat_hide_chatbot === '1') {
+            var visibility = meta._knittnet_page_visibility || '';
+            if (!visibility && meta._knittnet_hide_chatbot === '1') {
                 visibility = 'hide';
             }
 
-            var selectedBot = meta._mxchat_selected_bot || '';
+            var selectedBot = meta._knittnet_selected_bot || '';
 
             var elements = [];
 
@@ -31,18 +31,18 @@
                     PanelRow,
                     null,
                     wp.element.createElement(RadioControl, {
-                        label: mxchatMetaBox.strings.visibilityLabel,
+                        label: knittnetMetaBox.strings.visibilityLabel,
                         selected: visibility,
                         options: [
-                            { label: mxchatMetaBox.strings.useGlobalSetting, value: '' },
-                            { label: mxchatMetaBox.strings.showChatbot, value: 'show' },
-                            { label: mxchatMetaBox.strings.hideChatbot, value: 'hide' }
+                            { label: knittnetMetaBox.strings.useGlobalSetting, value: '' },
+                            { label: knittnetMetaBox.strings.showChatbot, value: 'show' },
+                            { label: knittnetMetaBox.strings.hideChatbot, value: 'hide' }
                         ],
                         onChange: function(value) {
                             var newMeta = Object.assign({}, meta, {
-                                _mxchat_page_visibility: value,
+                                _knittnet_page_visibility: value,
                                 // Sync legacy field
-                                _mxchat_hide_chatbot: value === 'hide' ? '1' : ''
+                                _knittnet_hide_chatbot: value === 'hide' ? '1' : ''
                             });
                             editPost({ meta: newMeta });
                         }
@@ -57,23 +57,23 @@
                     {
                         status: 'info',
                         isDismissible: false,
-                        className: 'mxchat-info-notice'
+                        className: 'knittnet-info-notice'
                     },
-                    mxchatMetaBox.globalAutoshow
-                        ? mxchatMetaBox.strings.globalAutoshowOn
-                        : mxchatMetaBox.strings.globalAutoshowOff
+                    knittnetMetaBox.globalAutoshow
+                        ? knittnetMetaBox.strings.globalAutoshowOn
+                        : knittnetMetaBox.strings.globalAutoshowOff
                 )
             );
 
             // Bot selection if multi-bot is available
-            if (mxchatMetaBox.hasMultibot && mxchatMetaBox.availableBots) {
+            if (knittnetMetaBox.hasMultibot && knittnetMetaBox.availableBots) {
                 var botOptions = [
-                    { label: mxchatMetaBox.strings.useDefaultBot, value: '' }
+                    { label: knittnetMetaBox.strings.useDefaultBot, value: '' }
                 ];
 
-                Object.keys(mxchatMetaBox.availableBots).forEach(function(botId) {
+                Object.keys(knittnetMetaBox.availableBots).forEach(function(botId) {
                     botOptions.push({
-                        label: mxchatMetaBox.availableBots[botId],
+                        label: knittnetMetaBox.availableBots[botId],
                         value: botId
                     });
                 });
@@ -84,13 +84,13 @@
                             PanelRow,
                             null,
                             wp.element.createElement(SelectControl, {
-                                label: mxchatMetaBox.strings.selectBot,
+                                label: knittnetMetaBox.strings.selectBot,
                                 value: selectedBot,
                                 options: botOptions,
                                 onChange: function(value) {
                                     editPost({
                                         meta: Object.assign({}, meta, {
-                                            _mxchat_selected_bot: value
+                                            _knittnet_selected_bot: value
                                         })
                                     });
                                 }
@@ -103,16 +103,16 @@
             return wp.element.createElement(
                 PluginDocumentSettingPanel,
                 {
-                    name: 'mxchat-settings',
-                    title: mxchatMetaBox.strings.panelTitle,
-                    className: 'mxchat-settings-panel'
+                    name: 'knittnet-settings',
+                    title: knittnetMetaBox.strings.panelTitle,
+                    className: 'knittnet-settings-panel'
                 },
                 elements
             );
         }
 
-        wp.plugins.registerPlugin('mxchat-settings', {
-            render: MxChatSettingsPanel
+        wp.plugins.registerPlugin('knittnet-settings', {
+            render: KnittNetSettingsPanel
         });
     }
 })();

@@ -5,11 +5,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Sitemap Form Loader
-    var sitemapForm = document.getElementById('mxchat-sitemap-form');
+    var sitemapForm = document.getElementById('knittnet-sitemap-form');
     
     if (sitemapForm) {
-        var loadingSpinner = document.getElementById('mxchat-sitemap-loading');
-        var loadingText = document.getElementById('mxchat-loading-text');
+        var loadingSpinner = document.getElementById('knittnet-sitemap-loading');
+        var loadingText = document.getElementById('knittnet-loading-text');
         var sitemapUrlField = document.getElementById('sitemap_url');
         var submitButton = sitemapForm.querySelector('input[type="submit"]');
 
@@ -23,11 +23,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Submit Content Form Loader
-    var contentForm = document.getElementById('mxchat-content-form');
+    var contentForm = document.getElementById('knittnet-content-form');
     
     if (contentForm) {
-        var contentLoadingSpinner = document.getElementById('mxchat-content-loading');
-        var contentLoadingText = document.getElementById('mxchat-content-loading-text');
+        var contentLoadingSpinner = document.getElementById('knittnet-content-loading');
+        var contentLoadingText = document.getElementById('knittnet-content-loading-text');
         var articleContentField = document.getElementById('article_content');
         var articleUrlField = document.getElementById('article_url');
         var contentSubmitButton = contentForm.querySelector('input[type="submit"]');

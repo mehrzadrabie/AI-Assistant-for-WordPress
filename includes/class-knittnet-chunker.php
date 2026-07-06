@@ -1,11 +1,11 @@
 <?php
 /**
- * MxChat Chunker - Text chunking utility for RAG optimization
+ * KnittNet Chunker - Text chunking utility for RAG optimization
  *
  * Splits large content into chunks for improved semantic retrieval.
  * All chunks for a URL are reassembled before sending to AI, so no overlap is needed.
  *
- * @package MxChat
+ * @package KnittNet
  * @since 2.6.3
  */
 
@@ -13,7 +13,7 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
-class MxChat_Chunker {
+class KnittNet_Chunker {
 
     /**
      * Maximum characters per chunk
@@ -36,7 +36,7 @@ class MxChat_Chunker {
      * @return array Array with chunk_size and chunking_enabled
      */
     public static function get_settings() {
-        $options = get_option('mxchat_options', array());
+        $options = get_option('knittnet_options', array());
 
         return array(
             'chunk_size' => isset($options['chunk_size']) ? intval($options['chunk_size']) : 4000,
@@ -47,7 +47,7 @@ class MxChat_Chunker {
     /**
      * Create a chunker instance with settings from WordPress options
      *
-     * @return MxChat_Chunker
+     * @return KnittNet_Chunker
      */
     public static function from_settings() {
         $settings = self::get_settings();

@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
-class MxChat_Admin {
+class KnittNet_Admin {
     private $options;
     private $chat_count;
     private $is_activated;
@@ -26,8 +26,8 @@ class MxChat_Admin {
     }
 
     public function __construct($knowledge_manager = null) {
-        $this->options = get_option('mxchat_options');
-        $this->chat_count = get_option('mxchat_chat_count', 0);
+        $this->options = get_option('knittnet_options');
+        $this->chat_count = get_option('knittnet_chat_count', 0);
         $this->is_activated = $this->is_license_active();
         $this->knowledge_manager = $knowledge_manager;
 
@@ -37,82 +37,82 @@ class MxChat_Admin {
         }
 
         // Add admin menu and initialize settings
-        add_action('admin_menu', array($this, 'mxchat_add_plugin_page'));
+        add_action('admin_menu', array($this, 'knittnet_add_plugin_page'));
         // Pro & Extensions registers at priority 30 so it always lands last in
         // the sidebar — below API Access (priority 20) and below any other
         // submenu that hooks at default priority 10.
-        add_action('admin_menu', array($this, 'mxchat_add_pro_extensions_page'), 30);
+        add_action('admin_menu', array($this, 'knittnet_add_pro_extensions_page'), 30);
         // Onboarding visibility — runs LAST so it can remove the submenu after every
         // other add_submenu_page() call. The page stays reachable by direct URL.
-        add_action('admin_menu', array($this, 'mxchat_apply_onboarding_visibility'), 999);
-        add_action('admin_init', array($this, 'mxchat_page_init'));
-        add_action('admin_init', array($this, 'mxchat_prompts_page_init'));
-        add_action('admin_enqueue_scripts', array($this, 'mxchat_enqueue_admin_assets'));
+        add_action('admin_menu', array($this, 'knittnet_apply_onboarding_visibility'), 999);
+        add_action('admin_init', array($this, 'knittnet_page_init'));
+        add_action('admin_init', array($this, 'knittnet_prompts_page_init'));
+        add_action('admin_enqueue_scripts', array($this, 'knittnet_enqueue_admin_assets'));
         // Add body class for the Onboarding wizard (plan-905439) so the
         // chrome-surgery CSS in admin-onboarding-wizard.css can scope its
         // WP-sidebar collapse to this page only.
-        add_filter('admin_body_class', array($this, 'mxchat_add_onboarding_body_class'));
-        add_action('wp_ajax_mxchat_delete_chat_history', array($this, 'mxchat_delete_chat_history'));
-        add_action('admin_post_mxchat_delete_prompt', array($this, 'mxchat_handle_delete_prompt'));
-        add_action('wp_ajax_mxchat_fetch_chat_history', array($this, 'mxchat_fetch_chat_history'));
-        add_action('wp_ajax_nopriv_mxchat_fetch_chat_history', array($this, 'mxchat_fetch_chat_history'));
-        add_action('wp_ajax_mxchat_fetch_conversation', array($this, 'mxchat_fetch_conversation'));
-        add_action('wp_footer', array($this, 'mxchat_append_chatbot_to_body'));
-        add_action('admin_head-mxchat-prompts', array($this, 'mxchat_enqueue_admin_assets'));
-        add_action('admin_head-toplevel_page_mxchat-max', array($this, 'mxchat_enqueue_admin_assets'));
-        add_action('admin_notices', array($this, 'mxchat_display_admin_notice'));
-        add_action('admin_post_mxchat_delete_all_prompts', array($this, 'mxchat_handle_delete_all_prompts'));
-        add_action('admin_post_mxchat_add_intent', array($this, 'mxchat_handle_add_intent'));
-        add_action('admin_post_mxchat_delete_intent', array($this, 'mxchat_handle_delete_intent'));
-        add_action('admin_post_mxchat_edit_intent', array($this, 'mxchat_handle_edit_intent'));
-        add_action('wp_ajax_mxchat_export_transcripts', array($this, 'export_chat_transcripts'));
+        add_filter('admin_body_class', array($this, 'knittnet_add_onboarding_body_class'));
+        add_action('wp_ajax_knittnet_delete_chat_history', array($this, 'knittnet_delete_chat_history'));
+        add_action('admin_post_knittnet_delete_prompt', array($this, 'knittnet_handle_delete_prompt'));
+        add_action('wp_ajax_knittnet_fetch_chat_history', array($this, 'knittnet_fetch_chat_history'));
+        add_action('wp_ajax_nopriv_knittnet_fetch_chat_history', array($this, 'knittnet_fetch_chat_history'));
+        add_action('wp_ajax_knittnet_fetch_conversation', array($this, 'knittnet_fetch_conversation'));
+        add_action('wp_footer', array($this, 'knittnet_append_chatbot_to_body'));
+        add_action('admin_head-knittnet-prompts', array($this, 'knittnet_enqueue_admin_assets'));
+        add_action('admin_head-toplevel_page_knittnet-max', array($this, 'knittnet_enqueue_admin_assets'));
+        add_action('admin_notices', array($this, 'knittnet_display_admin_notice'));
+        add_action('admin_post_knittnet_delete_all_prompts', array($this, 'knittnet_handle_delete_all_prompts'));
+        add_action('admin_post_knittnet_add_intent', array($this, 'knittnet_handle_add_intent'));
+        add_action('admin_post_knittnet_delete_intent', array($this, 'knittnet_handle_delete_intent'));
+        add_action('admin_post_knittnet_edit_intent', array($this, 'knittnet_handle_edit_intent'));
+        add_action('wp_ajax_knittnet_export_transcripts', array($this, 'export_chat_transcripts'));
 
         // Leads tab (inside Transcripts)
-        add_action('wp_ajax_mxchat_fetch_leads', array($this, 'mxchat_fetch_leads'));
-        add_action('wp_ajax_mxchat_delete_leads', array($this, 'mxchat_delete_leads'));
-        add_action('wp_ajax_mxchat_export_leads', array($this, 'mxchat_export_leads'));
+        add_action('wp_ajax_knittnet_fetch_leads', array($this, 'knittnet_fetch_leads'));
+        add_action('wp_ajax_knittnet_delete_leads', array($this, 'knittnet_delete_leads'));
+        add_action('wp_ajax_knittnet_export_leads', array($this, 'knittnet_export_leads'));
 
-        add_action('admin_init', array($this, 'mxchat_transcripts_page_init'));
+        add_action('admin_init', array($this, 'knittnet_transcripts_page_init'));
         add_action('wp_ajax_dismiss_live_agent_notice', array($this, 'dismiss_live_agent_notice'));
         add_action('wp_ajax_dismiss_theme_migration_notice', array($this, 'dismiss_theme_migration_notice'));
-        add_action('mxchat_cleanup_old_transcripts', array($this, 'cleanup_old_transcripts'));
+        add_action('knittnet_cleanup_old_transcripts', array($this, 'cleanup_old_transcripts'));
 
          add_action('admin_init', array($this, 'register_pinecone_settings'));
          add_action('admin_init', array($this, 'register_openai_vectorstore_settings'));
 
         add_action('admin_notices', array($this, 'display_admin_notices'));
 
-        add_action('wp_ajax_mxchat_test_streaming_actual', [$this, 'mxchat_handle_test_streaming_actual']);
-        add_action('wp_ajax_mxchat_test_streaming', [$this, 'mxchat_handle_test_streaming']); // Keep existing as fallback
-        add_action('wp_ajax_mxchat_test_vectorstore_connection', array($this, 'mxchat_test_vectorstore_connection'));
+        add_action('wp_ajax_knittnet_test_streaming_actual', [$this, 'knittnet_handle_test_streaming_actual']);
+        add_action('wp_ajax_knittnet_test_streaming', [$this, 'knittnet_handle_test_streaming']); // Keep existing as fallback
+        add_action('wp_ajax_knittnet_test_vectorstore_connection', array($this, 'knittnet_test_vectorstore_connection'));
 
-    	add_action('wp_ajax_mxchat_save_selected_bot', array($this, 'mxchat_save_selected_bot'));
-        add_action('wp_ajax_mxchat_fetch_openrouter_models', array($this, 'fetch_openrouter_models'));
-        add_action('wp_ajax_mxchat_get_rag_context', array($this, 'mxchat_get_rag_context'));
+    	add_action('wp_ajax_knittnet_save_selected_bot', array($this, 'knittnet_save_selected_bot'));
+        add_action('wp_ajax_knittnet_fetch_openrouter_models', array($this, 'fetch_openrouter_models'));
+        add_action('wp_ajax_knittnet_get_rag_context', array($this, 'knittnet_get_rag_context'));
 
         // Actions page AJAX handlers
-        add_action('wp_ajax_mxchat_fetch_actions_list', array($this, 'mxchat_fetch_actions_list'));
-        add_action('wp_ajax_mxchat_toggle_action_status', array($this, 'mxchat_toggle_action_status'));
-        add_action('wp_ajax_mxchat_bulk_delete_actions', array($this, 'mxchat_bulk_delete_actions'));
-        add_action('wp_ajax_mxchat_add_intent_ajax', array($this, 'mxchat_add_intent_ajax'));
-        add_action('wp_ajax_mxchat_edit_intent_ajax', array($this, 'mxchat_edit_intent_ajax'));
-        add_action('wp_ajax_mxchat_delete_intent_ajax', array($this, 'mxchat_delete_intent_ajax'));
-        add_action('wp_ajax_mxchat_add_phrase', array($this, 'mxchat_add_phrase_ajax'));
-        add_action('wp_ajax_mxchat_delete_phrase', array($this, 'mxchat_delete_phrase_ajax'));
-        add_action('wp_ajax_mxchat_get_phrases', array($this, 'mxchat_get_phrases_ajax'));
-        add_action('wp_ajax_mxchat_delete_legacy_phrases', array($this, 'mxchat_delete_legacy_phrases_ajax'));
+        add_action('wp_ajax_knittnet_fetch_actions_list', array($this, 'knittnet_fetch_actions_list'));
+        add_action('wp_ajax_knittnet_toggle_action_status', array($this, 'knittnet_toggle_action_status'));
+        add_action('wp_ajax_knittnet_bulk_delete_actions', array($this, 'knittnet_bulk_delete_actions'));
+        add_action('wp_ajax_knittnet_add_intent_ajax', array($this, 'knittnet_add_intent_ajax'));
+        add_action('wp_ajax_knittnet_edit_intent_ajax', array($this, 'knittnet_edit_intent_ajax'));
+        add_action('wp_ajax_knittnet_delete_intent_ajax', array($this, 'knittnet_delete_intent_ajax'));
+        add_action('wp_ajax_knittnet_add_phrase', array($this, 'knittnet_add_phrase_ajax'));
+        add_action('wp_ajax_knittnet_delete_phrase', array($this, 'knittnet_delete_phrase_ajax'));
+        add_action('wp_ajax_knittnet_get_phrases', array($this, 'knittnet_get_phrases_ajax'));
+        add_action('wp_ajax_knittnet_delete_legacy_phrases', array($this, 'knittnet_delete_legacy_phrases_ajax'));
 
         // Slack test connection
-        add_action('wp_ajax_mxchat_test_slack_connection', array($this, 'mxchat_test_slack_connection'));
+        add_action('wp_ajax_knittnet_test_slack_connection', array($this, 'knittnet_test_slack_connection'));
 
         // Translation handlers
-        add_action('wp_ajax_mxchat_translate_messages', array($this, 'mxchat_translate_messages'));
-        add_action('wp_ajax_mxchat_get_transcript_translation', array($this, 'mxchat_get_transcript_translation'));
+        add_action('wp_ajax_knittnet_translate_messages', array($this, 'knittnet_translate_messages'));
+        add_action('wp_ajax_knittnet_get_transcript_translation', array($this, 'knittnet_get_transcript_translation'));
 
         // 3.2.3: Embedding model switch protection
-        add_action('wp_ajax_mxchat_check_embedding_switch', array($this, 'mxchat_check_embedding_switch_ajax'));
-        add_action('wp_ajax_mxchat_dismiss_embedding_mismatch', array($this, 'mxchat_dismiss_embedding_mismatch_ajax'));
-        add_action('admin_notices', array($this, 'mxchat_embedding_mismatch_notice'));
+        add_action('wp_ajax_knittnet_check_embedding_switch', array($this, 'knittnet_check_embedding_switch_ajax'));
+        add_action('wp_ajax_knittnet_dismiss_embedding_mismatch', array($this, 'knittnet_dismiss_embedding_mismatch_ajax'));
+        add_action('admin_notices', array($this, 'knittnet_embedding_mismatch_notice'));
     }
 
     /**
@@ -121,26 +121,26 @@ class MxChat_Admin {
      * cached options. The dialog is shown whenever the user has previously
      * embedded with a different model than the one they're switching to.
      */
-    public function mxchat_check_embedding_switch_ajax() {
-        check_ajax_referer('mxchat_admin_nonce', 'security');
+    public function knittnet_check_embedding_switch_ajax() {
+        check_ajax_referer('knittnet_admin_nonce', 'security');
         if (!current_user_can('manage_options')) {
-            wp_send_json_error(__('Unauthorized', 'mxchat'));
+            wp_send_json_error(__('Unauthorized', 'knittnet'));
         }
 
         $new_model = isset($_POST['new_model']) ? sanitize_text_field(wp_unslash($_POST['new_model'])) : '';
-        $active_model = MxChat_Utils::get_active_embedding_model();
+        $active_model = KnittNet_Utils::get_active_embedding_model();
 
         $is_mismatch = !empty($active_model) && !empty($new_model) && $active_model !== $new_model;
 
-        $active_dims = MxChat_Utils::embedding_model_dimensions($active_model);
-        $new_dims = MxChat_Utils::embedding_model_dimensions($new_model);
+        $active_dims = KnittNet_Utils::embedding_model_dimensions($active_model);
+        $new_dims = KnittNet_Utils::embedding_model_dimensions($new_model);
 
         wp_send_json_success(array(
             'is_mismatch'  => $is_mismatch,
             'active_model' => $active_model,
-            'active_label' => MxChat_Utils::embedding_model_label($active_model),
+            'active_label' => KnittNet_Utils::embedding_model_label($active_model),
             'new_model'    => $new_model,
-            'new_label'    => MxChat_Utils::embedding_model_label($new_model),
+            'new_label'    => KnittNet_Utils::embedding_model_label($new_model),
             'dims_differ'  => ($active_dims > 0 && $new_dims > 0 && $active_dims !== $new_dims),
             'active_dims'  => $active_dims,
             'new_dims'     => $new_dims,
@@ -151,16 +151,16 @@ class MxChat_Admin {
      * 3.2.3: Dismiss the persistent mismatch banner. Tied to the active+selected
      * pair so the banner reappears on the next switch event.
      */
-    public function mxchat_dismiss_embedding_mismatch_ajax() {
-        check_ajax_referer('mxchat_admin_nonce', 'security');
+    public function knittnet_dismiss_embedding_mismatch_ajax() {
+        check_ajax_referer('knittnet_admin_nonce', 'security');
         if (!current_user_can('manage_options')) {
-            wp_send_json_error(__('Unauthorized', 'mxchat'));
+            wp_send_json_error(__('Unauthorized', 'knittnet'));
         }
 
-        $options = get_option('mxchat_options', array());
+        $options = get_option('knittnet_options', array());
         $selected = $options['embedding_model'] ?? '';
-        $active = MxChat_Utils::get_active_embedding_model();
-        update_option('mxchat_dismissed_embedding_mismatch', $active . '|' . $selected, false);
+        $active = KnittNet_Utils::get_active_embedding_model();
+        update_option('knittnet_dismissed_embedding_mismatch', $active . '|' . $selected, false);
         wp_send_json_success();
     }
 
@@ -171,43 +171,43 @@ class MxChat_Admin {
      * load. The banner auto-clears once both match again, i.e. after a delete
      * + re-embed cycle.
      */
-    public function mxchat_embedding_mismatch_notice() {
+    public function knittnet_embedding_mismatch_notice() {
         if (!current_user_can('manage_options')) {
             return;
         }
 
-        $options = get_option('mxchat_options', array());
+        $options = get_option('knittnet_options', array());
         $selected = $options['embedding_model'] ?? '';
-        $active = MxChat_Utils::get_active_embedding_model();
+        $active = KnittNet_Utils::get_active_embedding_model();
 
         if (empty($active) || empty($selected) || $active === $selected) {
             return;
         }
 
-        $dismissed = get_option('mxchat_dismissed_embedding_mismatch', '');
+        $dismissed = get_option('knittnet_dismissed_embedding_mismatch', '');
         if ($dismissed === $active . '|' . $selected) {
             return;
         }
 
-        $active_label = MxChat_Utils::embedding_model_label($active);
-        $selected_label = MxChat_Utils::embedding_model_label($selected);
-        $active_dims = MxChat_Utils::embedding_model_dimensions($active);
-        $selected_dims = MxChat_Utils::embedding_model_dimensions($selected);
+        $active_label = KnittNet_Utils::embedding_model_label($active);
+        $selected_label = KnittNet_Utils::embedding_model_label($selected);
+        $active_dims = KnittNet_Utils::embedding_model_dimensions($active);
+        $selected_dims = KnittNet_Utils::embedding_model_dimensions($selected);
         $dims_differ = ($active_dims > 0 && $selected_dims > 0 && $active_dims !== $selected_dims);
 
-        $kb_url = admin_url('admin.php?page=mxchat-prompts');
-        $actions_url = admin_url('admin.php?page=mxchat-actions');
+        $kb_url = admin_url('admin.php?page=knittnet-prompts');
+        $actions_url = admin_url('admin.php?page=knittnet-actions');
 
         ?>
-        <div class="notice notice-error is-dismissible mxchat-embedding-mismatch-notice"
+        <div class="notice notice-error is-dismissible knittnet-embedding-mismatch-notice"
              data-active="<?php echo esc_attr($active); ?>"
              data-selected="<?php echo esc_attr($selected); ?>">
-            <p><strong><?php esc_html_e('MxChat: Embedding model mismatch detected', 'mxchat'); ?></strong></p>
+            <p><strong><?php esc_html_e('KnittNet: Embedding model mismatch detected', 'knittnet'); ?></strong></p>
             <p>
                 <?php
                 printf(
                     /* translators: 1: previously-used model name, 2: currently-selected model name */
-                    esc_html__('Your knowledge base and actions were embedded with %1$s, but %2$s is now selected. Similarity matching will return inaccurate or empty results until you delete all existing embeddings and re-embed your content with the new model.', 'mxchat'),
+                    esc_html__('Your knowledge base and actions were embedded with %1$s, but %2$s is now selected. Similarity matching will return inaccurate or empty results until you delete all existing embeddings and re-embed your content with the new model.', 'knittnet'),
                     '<code>' . esc_html($active_label) . '</code>',
                     '<code>' . esc_html($selected_label) . '</code>'
                 );
@@ -215,11 +215,11 @@ class MxChat_Admin {
             </p>
             <?php if ($dims_differ) : ?>
                 <p>
-                    <strong><?php esc_html_e('Dimension mismatch:', 'mxchat'); ?></strong>
+                    <strong><?php esc_html_e('Dimension mismatch:', 'knittnet'); ?></strong>
                     <?php
                     printf(
                         /* translators: 1: old dim count, 2: new dim count */
-                        esc_html__('Existing vectors are %1$d-dimensional but the new model produces %2$d-dimensional vectors. If you use Pinecone, your index will reject queries entirely until re-embedded.', 'mxchat'),
+                        esc_html__('Existing vectors are %1$d-dimensional but the new model produces %2$d-dimensional vectors. If you use Pinecone, your index will reject queries entirely until re-embedded.', 'knittnet'),
                         (int) $active_dims,
                         (int) $selected_dims
                     );
@@ -227,18 +227,18 @@ class MxChat_Admin {
                 </p>
             <?php endif; ?>
             <p>
-                <?php esc_html_e('To fix this:', 'mxchat'); ?>
-                <a href="<?php echo esc_url($kb_url); ?>"><?php esc_html_e('Delete all knowledge base entries', 'mxchat'); ?></a> ·
-                <a href="<?php echo esc_url($actions_url); ?>"><?php esc_html_e('Delete all actions', 'mxchat'); ?></a> ·
-                <?php esc_html_e('then re-import / re-add them with the new model selected.', 'mxchat'); ?>
+                <?php esc_html_e('To fix this:', 'knittnet'); ?>
+                <a href="<?php echo esc_url($kb_url); ?>"><?php esc_html_e('Delete all knowledge base entries', 'knittnet'); ?></a> ·
+                <a href="<?php echo esc_url($actions_url); ?>"><?php esc_html_e('Delete all actions', 'knittnet'); ?></a> ·
+                <?php esc_html_e('then re-import / re-add them with the new model selected.', 'knittnet'); ?>
             </p>
         </div>
         <script>
         (function($){
-            $(document).on('click', '.mxchat-embedding-mismatch-notice .notice-dismiss', function(){
+            $(document).on('click', '.knittnet-embedding-mismatch-notice .notice-dismiss', function(){
                 $.post(ajaxurl, {
-                    action: 'mxchat_dismiss_embedding_mismatch',
-                    security: '<?php echo esc_js(wp_create_nonce('mxchat_admin_nonce')); ?>'
+                    action: 'knittnet_dismiss_embedding_mismatch',
+                    security: '<?php echo esc_js(wp_create_nonce('knittnet_admin_nonce')); ?>'
                 });
             });
         })(jQuery);
@@ -247,7 +247,7 @@ class MxChat_Admin {
     }
 
 private function is_license_active() {
-    $license_status = get_option('mxchat_license_status', 'inactive');
+    $license_status = get_option('knittnet_license_status', 'inactive');
     return ($license_status === 'active');
 }
 
@@ -281,20 +281,20 @@ private function initialize_default_options() {
         - NEVER invent or hallucinate URLs, links, product specs, procedures, dates, statistics, names, contacts, or company information
         - When knowledge base information is unclear or contradictory, acknowledge the limitation rather than guessing
         - Better to admit insufficient information than provide inaccurate answers',
-        'model' => esc_html__('gpt-5.1-chat-latest', 'mxchat'),
-        'rate_limit_logged_out' => esc_html__('100', 'mxchat'),
+        'model' => esc_html__('gpt-5.1-chat-latest', 'knittnet'),
+        'rate_limit_logged_out' => esc_html__('100', 'knittnet'),
         'role_rate_limits' => array(),
-        'rate_limit_message' => esc_html__('Rate limit exceeded. Please try again later.', 'mxchat'),
+        'rate_limit_message' => esc_html__('Rate limit exceeded. Please try again later.', 'knittnet'),
         'enable_email_block' => '',
-        'email_blocker_header_content' => __("<h2>Welcome to Our Chat!</h2>\n<p>Let's get started. Enter your email to begin chatting with us.</p>", 'mxchat'),
-        'email_blocker_button_text' => esc_html__('Start Chat', 'mxchat'),
+        'email_blocker_header_content' => __("<h2>Welcome to Our Chat!</h2>\n<p>Let's get started. Enter your email to begin chatting with us.</p>", 'knittnet'),
+        'email_blocker_button_text' => esc_html__('Start Chat', 'knittnet'),
         'enable_name_field' => 'off', // NEW
-        'name_field_placeholder' => esc_html__('Enter your name', 'mxchat'), // NEW
-        'top_bar_title' => esc_html__('MxChat', 'mxchat'),
-        'intro_message' => __('Hello! How can I assist you today?', 'mxchat'),
-        'ai_agent_text' => esc_html__('AI Agent', 'mxchat'),
-        'input_copy' => esc_html__('How can I assist?', 'mxchat'),
-        'append_to_body' => esc_html__('off', 'mxchat'),
+        'name_field_placeholder' => esc_html__('Enter your name', 'knittnet'), // NEW
+        'top_bar_title' => esc_html__('KnittNet', 'knittnet'),
+        'intro_message' => __('Hello! How can I assist you today?', 'knittnet'),
+        'ai_agent_text' => esc_html__('AI Agent', 'knittnet'),
+        'input_copy' => esc_html__('How can I assist?', 'knittnet'),
+        'append_to_body' => esc_html__('off', 'knittnet'),
         'post_type_visibility_mode' => 'all', // 'all', 'include', 'exclude'
         'post_type_visibility_list' => array(), // Array of post type slugs
         'contextual_awareness_toggle' => 'off',
@@ -305,32 +305,32 @@ private function initialize_default_options() {
         'satisfaction_rating_thanks' => '',
         'satisfaction_rating_placeholder' => '',
         'satisfaction_rating_saved' => '',
-        'close_button_color' => esc_html__('#fff', 'mxchat'),
-        'chatbot_bg_color' => esc_html__('#fff', 'mxchat'),
-        'user_message_bg_color' => esc_html__('#fff', 'mxchat'),
-        'user_message_font_color' => esc_html__('#212121', 'mxchat'),
-        'bot_message_bg_color' => esc_html__('#212121', 'mxchat'),
-        'bot_message_font_color' => esc_html__('#fff', 'mxchat'),
-        'top_bar_bg_color' => esc_html__('#212121', 'mxchat'),
-        'send_button_font_color' => esc_html__('#212121', 'mxchat'),
-        'chat_input_font_color' => esc_html__('#212121', 'mxchat'),
-        'chatbot_background_color' => esc_html__('#212121', 'mxchat'),
-        'icon_color' => esc_html__('#fff', 'mxchat'),
-        'enable_woocommerce_integration' => esc_html__('0', 'mxchat'),
-        'link_target_toggle' => esc_html__('off', 'mxchat'),
-        'pre_chat_message' => esc_html__('Hey there! Ask me anything!', 'mxchat'),
+        'close_button_color' => esc_html__('#fff', 'knittnet'),
+        'chatbot_bg_color' => esc_html__('#fff', 'knittnet'),
+        'user_message_bg_color' => esc_html__('#fff', 'knittnet'),
+        'user_message_font_color' => esc_html__('#212121', 'knittnet'),
+        'bot_message_bg_color' => esc_html__('#212121', 'knittnet'),
+        'bot_message_font_color' => esc_html__('#fff', 'knittnet'),
+        'top_bar_bg_color' => esc_html__('#212121', 'knittnet'),
+        'send_button_font_color' => esc_html__('#212121', 'knittnet'),
+        'chat_input_font_color' => esc_html__('#212121', 'knittnet'),
+        'chatbot_background_color' => esc_html__('#212121', 'knittnet'),
+        'icon_color' => esc_html__('#fff', 'knittnet'),
+        'enable_woocommerce_integration' => esc_html__('0', 'knittnet'),
+        'link_target_toggle' => esc_html__('off', 'knittnet'),
+        'pre_chat_message' => esc_html__('Hey there! Ask me anything!', 'knittnet'),
 
         // New fields for Loops Integration
         'loops_api_key' => '',
         'loops_mailing_list' => '',
-        'triggered_phrase_response' => __('Would you like to join our mailing list? Please provide your email below.', 'mxchat'),
-        'email_capture_response' => __('Thank you for providing your email! You\'ve been added to our list.', 'mxchat'),
+        'triggered_phrase_response' => __('Would you like to join our mailing list? Please provide your email below.', 'knittnet'),
+        'email_capture_response' => __('Thank you for providing your email! You\'ve been added to our list.', 'knittnet'),
         'popular_question_1' => '',
         'popular_question_2' => '',
         'popular_question_3' => '',
-        'pdf_intent_trigger_text' => __("Please provide the URL to the PDF you'd like to discuss.", 'mxchat'),
-        'pdf_intent_success_text' => __("I've processed the PDF. What questions do you have about it?", 'mxchat'),
-        'pdf_intent_error_text' => __("Sorry, I couldn't process the PDF. Please ensure it's a valid file.", 'mxchat'),
+        'pdf_intent_trigger_text' => __("Please provide the URL to the PDF you'd like to discuss.", 'knittnet'),
+        'pdf_intent_success_text' => __("I've processed the PDF. What questions do you have about it?", 'knittnet'),
+        'pdf_intent_error_text' => __("Sorry, I couldn't process the PDF. Please ensure it's a valid file.", 'knittnet'),
         'pdf_max_pages' => 69,
         'show_pdf_upload_button' => 'on',
         'show_word_upload_button' => 'on',
@@ -339,21 +339,21 @@ private function initialize_default_options() {
         'live_agent_webhook_url' => '',
         'live_agent_secret_key' => '',
         'live_agent_bot_token' => '',
-        'live_agent_message_bg_color' => esc_html__('#ffffff', 'mxchat'),
-        'live_agent_message_font_color' => esc_html__('#333333', 'mxchat'),
+        'live_agent_message_bg_color' => esc_html__('#ffffff', 'knittnet'),
+        'live_agent_message_font_color' => esc_html__('#333333', 'knittnet'),
 
         // Telegram Integration
         'telegram_status' => 'off',
         'telegram_bot_token' => '',
         'telegram_group_id' => '',
         'telegram_webhook_secret' => '',
-        'telegram_notification_message' => __("I've notified a support agent. Please allow a moment for them to respond. If you'd like to continue with AI, just type \"Switch to AI\" at any time.", 'mxchat'),
-        'telegram_away_message' => __("I just checked, and it looks like our support team isn't personally available at the moment. If you'd like, you can leave your email address, and they'll get back to you as soon as possible. In the meantime, you can keep chatting with me — just let me know how I can help!", 'mxchat'),
+        'telegram_notification_message' => __("I've notified a support agent. Please allow a moment for them to respond. If you'd like to continue with AI, just type \"Switch to AI\" at any time.", 'knittnet'),
+        'telegram_away_message' => __("I just checked, and it looks like our support team isn't personally available at the moment. If you'd like, you can leave your email address, and they'll get back to you as soon as possible. In the meantime, you can keep chatting with me — just let me know how I can help!", 'knittnet'),
 
-        'chat_toolbar_toggle' => esc_html__('off', 'mxchat'),
-        'mode_indicator_bg_color' => esc_html__('#767676', 'mxchat'),
-        'mode_indicator_font_color' => esc_html__('#ffffff', 'mxchat'),
-        'toolbar_icon_color' => esc_html__('#212121', 'mxchat'),
+        'chat_toolbar_toggle' => esc_html__('off', 'knittnet'),
+        'mode_indicator_bg_color' => esc_html__('#767676', 'knittnet'),
+        'mode_indicator_font_color' => esc_html__('#ffffff', 'knittnet'),
+        'toolbar_icon_color' => esc_html__('#212121', 'knittnet'),
 
         // Optimization settings
         'script_loading_strategy' => 'default',
@@ -364,18 +364,18 @@ private function initialize_default_options() {
 
 
         // Merge existing options with defaults
-        $existing_options = get_option('mxchat_options', array());
+        $existing_options = get_option('knittnet_options', array());
         $merged_options = wp_parse_args($existing_options, $default_options);
 
         // Update the options if they have changed
         if ($existing_options !== $merged_options) {
-            update_option('mxchat_options', $merged_options);
+            update_option('knittnet_options', $merged_options);
         }
 
             // Add default limits for each role
     $roles = wp_roles()->get_names();
     foreach ($roles as $role_id => $role_name) {
-        $default_options['role_rate_limits'][$role_id] = esc_html__('100', 'mxchat');
+        $default_options['role_rate_limits'][$role_id] = esc_html__('100', 'knittnet');
     }
 
     return $default_options;
@@ -384,132 +384,132 @@ private function initialize_default_options() {
         $this->options = $merged_options;
     }
 
-public function mxchat_add_plugin_page() {
+public function knittnet_add_plugin_page() {
     // Onboarding lifecycle helpers (admin_init redirect + ajax handlers live in the file).
     require_once plugin_dir_path(__FILE__) . 'admin-onboarding-page.php';
 
-    // Main menu page — `mxchat-max` remains the parent slug for every MxChat submenu
-    // (Settings, Knowledge, Transcripts, …). Hitting `?page=mxchat-max` directly now
+    // Main menu page — `knittnet-max` remains the parent slug for every KnittNet submenu
+    // (Settings, Knowledge, Transcripts, …). Hitting `?page=knittnet-max` directly now
     // dispatches to the Onboarding page (or Settings if the user has dismissed onboarding).
     add_menu_page(
-        esc_html__('MxChat', 'mxchat'),
-        esc_html__('MxChat', 'mxchat'),
+        esc_html__('KnittNet', 'knittnet'),
+        esc_html__('KnittNet', 'knittnet'),
         'manage_options',
-        'mxchat-max',
-        array($this, 'mxchat_create_dashboard_page'),
+        'knittnet-max',
+        array($this, 'knittnet_create_dashboard_page'),
         'dashicons-testimonial',
         6
     );
 
-    // Onboarding submenu — first child under MxChat (plan-d14e89).
-    // First registration uses menu_slug === parent slug 'mxchat-max' →
-    // WP-canonical override of the auto-duplicate "MxChat" entry. Result: the
+    // Onboarding submenu — first child under KnittNet (plan-d14e89).
+    // First registration uses menu_slug === parent slug 'knittnet-max' →
+    // WP-canonical override of the auto-duplicate "KnittNet" entry. Result: the
     // first child shows as "Onboarding" instead of a redundant pair.
     add_submenu_page(
-        'mxchat-max',
-        esc_html__('MxChat Onboarding', 'mxchat'),
-        esc_html__('Onboarding', 'mxchat'),
+        'knittnet-max',
+        esc_html__('KnittNet Onboarding', 'knittnet'),
+        esc_html__('Onboarding', 'knittnet'),
         'manage_options',
-        'mxchat-max',
-        array($this, 'mxchat_create_dashboard_page')
+        'knittnet-max',
+        array($this, 'knittnet_create_dashboard_page')
     );
-    // Hidden route for `?page=mxchat-onboarding` (Settings "Show again" link
+    // Hidden route for `?page=knittnet-onboarding` (Settings "Show again" link
     // + legacy redirects still target this slug). Parent === null keeps it
     // out of the menu while remaining accessible by URL.
     add_submenu_page(
         null,
-        esc_html__('MxChat Onboarding', 'mxchat'),
-        esc_html__('Onboarding', 'mxchat'),
+        esc_html__('KnittNet Onboarding', 'knittnet'),
+        esc_html__('Onboarding', 'knittnet'),
         'manage_options',
-        'mxchat-onboarding',
-        array($this, 'mxchat_create_dashboard_page')
+        'knittnet-onboarding',
+        array($this, 'knittnet_create_dashboard_page')
     );
 
     // Settings submenu — same callback as before, just at a new slug.
     add_submenu_page(
-        'mxchat-max',
-        esc_html__('MxChat Settings', 'mxchat'),
-        esc_html__('Settings', 'mxchat'),
+        'knittnet-max',
+        esc_html__('KnittNet Settings', 'knittnet'),
+        esc_html__('Settings', 'knittnet'),
         'manage_options',
-        'mxchat-settings',
-        array($this, 'mxchat_create_admin_page')
+        'knittnet-settings',
+        array($this, 'knittnet_create_admin_page')
     );
 
     // Submenu page for Knowledge
     add_submenu_page(
-        'mxchat-max',
-        esc_html__('Prompts', 'mxchat'),
-        esc_html__('Knowledge', 'mxchat'),
+        'knittnet-max',
+        esc_html__('Prompts', 'knittnet'),
+        esc_html__('Knowledge', 'knittnet'),
         'manage_options',
-        'mxchat-prompts',
-        array($this, 'mxchat_create_prompts_page')
+        'knittnet-prompts',
+        array($this, 'knittnet_create_prompts_page')
     );
 
     add_submenu_page(
-        'mxchat-max',
-        esc_html__('Chat Transcripts', 'mxchat'),
-        esc_html__('Transcripts', 'mxchat'),
+        'knittnet-max',
+        esc_html__('Chat Transcripts', 'knittnet'),
+        esc_html__('Transcripts', 'knittnet'),
         'manage_options',
-        'mxchat-transcripts',
-        array($this, 'mxchat_create_transcripts_page')
+        'knittnet-transcripts',
+        array($this, 'knittnet_create_transcripts_page')
     );
 
     add_submenu_page(
-        'mxchat-max',
-        esc_html__('MxChat Actions', 'mxchat'),
-        esc_html__('Actions', 'mxchat'),
+        'knittnet-max',
+        esc_html__('KnittNet Actions', 'knittnet'),
+        esc_html__('Actions', 'knittnet'),
         'manage_options',
-        'mxchat-actions',
-        array($this, 'mxchat_actions_page_html')
+        'knittnet-actions',
+        array($this, 'knittnet_actions_page_html')
     );
 
     // Content Generator page
     add_submenu_page(
-        'mxchat-max',
-        esc_html__('Content', 'mxchat'),
-        esc_html__('Content', 'mxchat'),
+        'knittnet-max',
+        esc_html__('Content', 'knittnet'),
+        esc_html__('Content', 'knittnet'),
         'manage_options',
-        'mxchat-content',
-        array($this, 'mxchat_create_content_page')
+        'knittnet-content',
+        array($this, 'knittnet_create_content_page')
     );
 
 }
 
 /**
  * Register the Pro & Extensions submenu on a later admin_menu priority so it
- * always renders as the bottom-most item in the MxChat sidebar — below
+ * always renders as the bottom-most item in the KnittNet sidebar — below
  * configuration pages like API Access (priority 20).
  */
-public function mxchat_add_pro_extensions_page() {
+public function knittnet_add_pro_extensions_page() {
     add_submenu_page(
-        'mxchat-max',
-        esc_html__('Pro & Extensions', 'mxchat'),
-        esc_html__('Pro & Extensions', 'mxchat'),
+        'knittnet-max',
+        esc_html__('Pro & Extensions', 'knittnet'),
+        esc_html__('Pro & Extensions', 'knittnet'),
         'manage_options',
-        'mxchat-activation',
-        array($this, 'mxchat_create_activation_page')
+        'knittnet-activation',
+        array($this, 'knittnet_create_activation_page')
     );
 }
 
-public function mxchat_create_addons_page() {
-    require_once plugin_dir_path(__FILE__) . 'class-mxchat-addons.php';
-    $addons_page = new MxChat_Addons();
+public function knittnet_create_addons_page() {
+    require_once plugin_dir_path(__FILE__) . 'class-knittnet-addons.php';
+    $addons_page = new KnittNet_Addons();
     $addons_page->render_page();
 }
 
 /**
  * Render the Content Generator admin page
  */
-public function mxchat_create_content_page() {
+public function knittnet_create_content_page() {
     require_once plugin_dir_path(__FILE__) . 'admin-content-page.php';
-    mxchat_render_content_page($this);
+    knittnet_render_content_page($this);
 }
 
 /**
  * Test actual streaming functionality in the WordPress environment
  */
-public function mxchat_handle_test_streaming_actual() {
-    check_ajax_referer('mxchat_test_streaming_nonce', 'nonce');
+public function knittnet_handle_test_streaming_actual() {
+    check_ajax_referer('knittnet_test_streaming_nonce', 'nonce');
 
     // Check if headers have already been sent
     if (headers_sent()) {
@@ -524,7 +524,7 @@ public function mxchat_handle_test_streaming_actual() {
     }
 
     // Get user's selected model and API key
-    $options = get_option('mxchat_options', []);
+    $options = get_option('knittnet_options', []);
     $selected_model = $options['model'] ?? 'gpt-5.1-chat-latest';
 
     // Get the provider from the model
@@ -755,27 +755,27 @@ private function process_streaming_test_data($data, $provider) {
 /**
  * Updated version of your existing test method (keep this as a fallback)
  */
-public function mxchat_handle_test_streaming() {
-    check_ajax_referer('mxchat_test_streaming_nonce', 'nonce');
+public function knittnet_handle_test_streaming() {
+    check_ajax_referer('knittnet_test_streaming_nonce', 'nonce');
 
     // Use the actual streaming test instead
-    $this->mxchat_handle_test_streaming_actual();
+    $this->knittnet_handle_test_streaming_actual();
 }
 
 
 public function register_pinecone_settings() {
     register_setting(
-        'mxchat_pinecone_addon_options',
-        'mxchat_pinecone_addon_options',
+        'knittnet_pinecone_addon_options',
+        'knittnet_pinecone_addon_options',
         array(
             'type' => 'array',
             'sanitize_callback' => array($this, 'sanitize_pinecone_settings'),
             'default' => array(
-                'mxchat_use_pinecone' => '0',
-                'mxchat_pinecone_api_key' => '',
-                'mxchat_pinecone_host' => '',
-                'mxchat_pinecone_index' => '',
-                'mxchat_pinecone_environment' => ''
+                'knittnet_use_pinecone' => '0',
+                'knittnet_pinecone_api_key' => '',
+                'knittnet_pinecone_host' => '',
+                'knittnet_pinecone_index' => '',
+                'knittnet_pinecone_environment' => ''
             )
         )
     );
@@ -784,29 +784,29 @@ public function register_pinecone_settings() {
 public function sanitize_pinecone_settings($input) {
     $sanitized = array();
 
-    $sanitized['mxchat_use_pinecone'] = isset($input['mxchat_use_pinecone']) ? '1' : '0';
-    $sanitized['mxchat_pinecone_api_key'] = sanitize_text_field($input['mxchat_pinecone_api_key'] ?? '');
-    $sanitized['mxchat_pinecone_host'] = sanitize_text_field($input['mxchat_pinecone_host'] ?? '');
-    $sanitized['mxchat_pinecone_index'] = sanitize_text_field($input['mxchat_pinecone_index'] ?? '');
-    $sanitized['mxchat_pinecone_environment'] = sanitize_text_field($input['mxchat_pinecone_environment'] ?? '');
+    $sanitized['knittnet_use_pinecone'] = isset($input['knittnet_use_pinecone']) ? '1' : '0';
+    $sanitized['knittnet_pinecone_api_key'] = sanitize_text_field($input['knittnet_pinecone_api_key'] ?? '');
+    $sanitized['knittnet_pinecone_host'] = sanitize_text_field($input['knittnet_pinecone_host'] ?? '');
+    $sanitized['knittnet_pinecone_index'] = sanitize_text_field($input['knittnet_pinecone_index'] ?? '');
+    $sanitized['knittnet_pinecone_environment'] = sanitize_text_field($input['knittnet_pinecone_environment'] ?? '');
 
     // Remove https:// from host if present
-    $sanitized['mxchat_pinecone_host'] = str_replace(['https://', 'http://'], '', $sanitized['mxchat_pinecone_host']);
+    $sanitized['knittnet_pinecone_host'] = str_replace(['https://', 'http://'], '', $sanitized['knittnet_pinecone_host']);
 
     return $sanitized;
 }
 
 public function register_openai_vectorstore_settings() {
     register_setting(
-        'mxchat_openai_vectorstore_options',
-        'mxchat_openai_vectorstore_options',
+        'knittnet_openai_vectorstore_options',
+        'knittnet_openai_vectorstore_options',
         array(
             'type' => 'array',
             'sanitize_callback' => array($this, 'sanitize_openai_vectorstore_settings'),
             'default' => array(
-                'mxchat_use_openai_vectorstore' => '0',
-                'mxchat_vectorstore_ids' => '',
-                'mxchat_vectorstore_max_results' => 5
+                'knittnet_use_openai_vectorstore' => '0',
+                'knittnet_vectorstore_ids' => '',
+                'knittnet_vectorstore_max_results' => 5
             )
         )
     );
@@ -815,16 +815,16 @@ public function register_openai_vectorstore_settings() {
 public function sanitize_openai_vectorstore_settings($input) {
     $sanitized = array();
 
-    $sanitized['mxchat_use_openai_vectorstore'] = isset($input['mxchat_use_openai_vectorstore']) ? '1' : '0';
-    $sanitized['mxchat_vectorstore_ids'] = sanitize_text_field($input['mxchat_vectorstore_ids'] ?? '');
-    $sanitized['mxchat_vectorstore_max_results'] = absint($input['mxchat_vectorstore_max_results'] ?? 5);
+    $sanitized['knittnet_use_openai_vectorstore'] = isset($input['knittnet_use_openai_vectorstore']) ? '1' : '0';
+    $sanitized['knittnet_vectorstore_ids'] = sanitize_text_field($input['knittnet_vectorstore_ids'] ?? '');
+    $sanitized['knittnet_vectorstore_max_results'] = absint($input['knittnet_vectorstore_max_results'] ?? 5);
 
     // Ensure max results is within reasonable range
-    if ($sanitized['mxchat_vectorstore_max_results'] < 1) {
-        $sanitized['mxchat_vectorstore_max_results'] = 1;
+    if ($sanitized['knittnet_vectorstore_max_results'] < 1) {
+        $sanitized['knittnet_vectorstore_max_results'] = 1;
     }
-    if ($sanitized['mxchat_vectorstore_max_results'] > 20) {
-        $sanitized['mxchat_vectorstore_max_results'] = 20;
+    if ($sanitized['knittnet_vectorstore_max_results'] > 20) {
+        $sanitized['knittnet_vectorstore_max_results'] = 20;
     }
 
     return $sanitized;
@@ -833,26 +833,26 @@ public function sanitize_openai_vectorstore_settings($input) {
 /**
  * AJAX handler to test OpenAI Vector Store connection
  */
-public function mxchat_test_vectorstore_connection() {
-    check_ajax_referer('mxchat_admin_nonce', 'nonce');
+public function knittnet_test_vectorstore_connection() {
+    check_ajax_referer('knittnet_admin_nonce', 'nonce');
 
     if (!current_user_can('manage_options')) {
-        wp_send_json_error(array('message' => __('Permission denied.', 'mxchat')));
+        wp_send_json_error(array('message' => __('Permission denied.', 'knittnet')));
         return;
     }
 
-    $vectorstore_options = get_option('mxchat_openai_vectorstore_options', array());
-    $vectorstore_ids = $vectorstore_options['mxchat_vectorstore_ids'] ?? '';
-    $mxchat_options = get_option('mxchat_options', array());
-    $api_key = $mxchat_options['api_key'] ?? '';
+    $vectorstore_options = get_option('knittnet_openai_vectorstore_options', array());
+    $vectorstore_ids = $vectorstore_options['knittnet_vectorstore_ids'] ?? '';
+    $knittnet_options = get_option('knittnet_options', array());
+    $api_key = $knittnet_options['api_key'] ?? '';
 
     if (empty($api_key)) {
-        wp_send_json_error(array('message' => __('OpenAI API key is not configured.', 'mxchat')));
+        wp_send_json_error(array('message' => __('OpenAI API key is not configured.', 'knittnet')));
         return;
     }
 
     if (empty($vectorstore_ids)) {
-        wp_send_json_error(array('message' => __('No Vector Store ID configured.', 'mxchat')));
+        wp_send_json_error(array('message' => __('No Vector Store ID configured.', 'knittnet')));
         return;
     }
 
@@ -874,7 +874,7 @@ public function mxchat_test_vectorstore_connection() {
     );
 
     if (is_wp_error($response)) {
-        wp_send_json_error(array('message' => __('Connection failed: ', 'mxchat') . $response->get_error_message()));
+        wp_send_json_error(array('message' => __('Connection failed: ', 'knittnet') . $response->get_error_message()));
         return;
     }
 
@@ -886,17 +886,17 @@ public function mxchat_test_vectorstore_connection() {
         $name = $body['name'] ?? $test_id;
         wp_send_json_success(array(
             'message' => sprintf(
-                __('Connected successfully! Vector Store: %s (%d files)', 'mxchat'),
+                __('Connected successfully! Vector Store: %s (%d files)', 'knittnet'),
                 esc_html($name),
                 $file_count
             )
         ));
     } elseif ($status_code === 404) {
-        wp_send_json_error(array('message' => __('Vector Store not found. Please check the ID.', 'mxchat')));
+        wp_send_json_error(array('message' => __('Vector Store not found. Please check the ID.', 'knittnet')));
     } elseif ($status_code === 401) {
-        wp_send_json_error(array('message' => __('Invalid API key.', 'mxchat')));
+        wp_send_json_error(array('message' => __('Invalid API key.', 'knittnet')));
     } else {
-        $error_message = $body['error']['message'] ?? __('Unknown error occurred.', 'mxchat');
+        $error_message = $body['error']['message'] ?? __('Unknown error occurred.', 'knittnet');
         wp_send_json_error(array('message' => $error_message));
     }
 }
@@ -904,18 +904,18 @@ public function mxchat_test_vectorstore_connection() {
 /**
  * AJAX handler to test Slack connection and validate scopes
  */
-public function mxchat_test_slack_connection() {
-    check_ajax_referer('mxchat_admin_nonce', 'nonce');
+public function knittnet_test_slack_connection() {
+    check_ajax_referer('knittnet_admin_nonce', 'nonce');
 
     if (!current_user_can('manage_options')) {
-        wp_send_json_error(array('message' => __('Permission denied.', 'mxchat')));
+        wp_send_json_error(array('message' => __('Permission denied.', 'knittnet')));
         return;
     }
 
     $bot_token = $this->options['live_agent_bot_token'] ?? '';
 
     if (empty($bot_token)) {
-        wp_send_json_error(array('message' => __('Slack Bot Token is not configured. Please enter your token and save settings first.', 'mxchat')));
+        wp_send_json_error(array('message' => __('Slack Bot Token is not configured. Please enter your token and save settings first.', 'knittnet')));
         return;
     }
 
@@ -929,7 +929,7 @@ public function mxchat_test_slack_connection() {
     ));
 
     if (is_wp_error($auth_response)) {
-        wp_send_json_error(array('message' => __('Connection failed: ', 'mxchat') . $auth_response->get_error_message()));
+        wp_send_json_error(array('message' => __('Connection failed: ', 'knittnet') . $auth_response->get_error_message()));
         return;
     }
 
@@ -938,12 +938,12 @@ public function mxchat_test_slack_connection() {
     if (!isset($auth_body['ok']) || !$auth_body['ok']) {
         $error = $auth_body['error'] ?? 'unknown_error';
         $error_messages = array(
-            'invalid_auth' => __('Invalid bot token. Please check your token starts with xoxb-', 'mxchat'),
-            'not_authed' => __('No authentication token provided.', 'mxchat'),
-            'account_inactive' => __('The Slack workspace has been deactivated.', 'mxchat'),
-            'token_revoked' => __('The bot token has been revoked. Please generate a new one.', 'mxchat'),
+            'invalid_auth' => __('Invalid bot token. Please check your token starts with xoxb-', 'knittnet'),
+            'not_authed' => __('No authentication token provided.', 'knittnet'),
+            'account_inactive' => __('The Slack workspace has been deactivated.', 'knittnet'),
+            'token_revoked' => __('The bot token has been revoked. Please generate a new one.', 'knittnet'),
         );
-        $message = $error_messages[$error] ?? sprintf(__('Authentication failed: %s', 'mxchat'), $error);
+        $message = $error_messages[$error] ?? sprintf(__('Authentication failed: %s', 'knittnet'), $error);
         wp_send_json_error(array('message' => $message));
         return;
     }
@@ -971,7 +971,7 @@ public function mxchat_test_slack_connection() {
             'Authorization' => 'Bearer ' . $bot_token,
             'Content-Type' => 'application/json'
         ),
-        'body' => json_encode(array('name' => 'mxchat-test-' . time(), 'is_private' => false)),
+        'body' => json_encode(array('name' => 'knittnet-test-' . time(), 'is_private' => false)),
         'timeout' => 15
     ));
 
@@ -1001,11 +1001,11 @@ public function mxchat_test_slack_connection() {
 
     // Build result message
     $results = array();
-    $results[] = sprintf(__('Workspace: %s', 'mxchat'), esc_html($team_name));
-    $results[] = sprintf(__('Bot: %s', 'mxchat'), esc_html($bot_name));
+    $results[] = sprintf(__('Workspace: %s', 'knittnet'), esc_html($team_name));
+    $results[] = sprintf(__('Bot: %s', 'knittnet'), esc_html($bot_name));
     $results[] = '';
-    $results[] = ($can_read_channels ? '✓' : '✗') . ' ' . __('channels:read - List channels', 'mxchat');
-    $results[] = ($can_create_channels ? '✓' : '✗') . ' ' . __('channels:manage - Create channels', 'mxchat');
+    $results[] = ($can_read_channels ? '✓' : '✗') . ' ' . __('channels:read - List channels', 'knittnet');
+    $results[] = ($can_create_channels ? '✓' : '✗') . ' ' . __('channels:manage - Create channels', 'knittnet');
 
     $missing_scopes = array();
     if (!$can_read_channels) $missing_scopes[] = 'channels:read';
@@ -1024,44 +1024,44 @@ public function mxchat_test_slack_connection() {
     }
 }
 
-public function mxchat_display_admin_notice() {
+public function knittnet_display_admin_notice() {
     // Success notice
-    if ($message = get_transient('mxchat_admin_notice_success')) {
+    if ($message = get_transient('knittnet_admin_notice_success')) {
         ?>
         <div class="notice notice-success is-dismissible">
             <p><?php echo esc_html($message); ?></p>
-            <button type="button" class="notice-dismiss"><span class="screen-reader-text"><?php echo esc_html__('Dismiss this notice.', 'mxchat'); ?></span></button>
+            <button type="button" class="notice-dismiss"><span class="screen-reader-text"><?php echo esc_html__('Dismiss this notice.', 'knittnet'); ?></span></button>
         </div>
         <?php
-        delete_transient('mxchat_admin_notice_success'); // Clear the transient after displaying
+        delete_transient('knittnet_admin_notice_success'); // Clear the transient after displaying
     }
 
     // Error notice
-    if ($message = get_transient('mxchat_admin_notice_error')) {
+    if ($message = get_transient('knittnet_admin_notice_error')) {
         ?>
         <div class="notice notice-error is-dismissible">
             <p><?php echo esc_html($message); ?></p>
-            <button type="button" class="notice-dismiss"><span class="screen-reader-text"><?php echo esc_html__('Dismiss this notice.', 'mxchat'); ?></span></button>
+            <button type="button" class="notice-dismiss"><span class="screen-reader-text"><?php echo esc_html__('Dismiss this notice.', 'knittnet'); ?></span></button>
         </div>
         <?php
-        delete_transient('mxchat_admin_notice_error'); // Clear the transient after displaying
+        delete_transient('knittnet_admin_notice_error'); // Clear the transient after displaying
     }
 }
 
 public function show_live_agent_disabled_banner() {
-    $show_disabled_notice = get_option('mxchat_show_live_agent_disabled_notice', false);
+    $show_disabled_notice = get_option('knittnet_show_live_agent_disabled_notice', false);
 
     if ($show_disabled_notice) {
         ?>
-        <div class="mxchat-live-agent-disabled-notice" id="mxchat-disabled-notice">
-            <div class="mxchat-pro-notification">
-                <button type="button" class="mxchat-dismiss-btn" onclick="dismissLiveAgentNotice()" aria-label="Dismiss notification">
+        <div class="knittnet-live-agent-disabled-notice" id="knittnet-disabled-notice">
+            <div class="knittnet-pro-notification">
+                <button type="button" class="knittnet-dismiss-btn" onclick="dismissLiveAgentNotice()" aria-label="Dismiss notification">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <line x1="18" y1="6" x2="6" y2="18"></line>
                         <line x1="6" y1="6" x2="18" y2="18"></line>
                     </svg>
                 </button>
-                <div class="mxchat-live-agent-content">
+                <div class="knittnet-live-agent-content">
                     <h3>🔧 Live Agent Integration Updated!</h3>
                     <p>We've temporarily disabled your Live Agent integration due to recent enhancements that have made it much better! You can easily turn it back on by going to <strong>Toolbar & Components → Live Agent Settings</strong> and reviewing the new configuration options.</p>
                 </div>
@@ -1072,57 +1072,57 @@ public function show_live_agent_disabled_banner() {
 }
 /**
  * Render the Onboarding page. Delegates to the procedural renderer in
- * includes/admin-onboarding-page.php. Wired to both `?page=mxchat-max`
- * (legacy top-level URL) and `?page=mxchat-onboarding` (the canonical
+ * includes/admin-onboarding-page.php. Wired to both `?page=knittnet-max`
+ * (legacy top-level URL) and `?page=knittnet-onboarding` (the canonical
  * Onboarding submenu).
  *
- * When the user has dismissed onboarding and lands on `mxchat-max` (the
+ * When the user has dismissed onboarding and lands on `knittnet-max` (the
  * legacy URL, since the Onboarding submenu has been removed), redirect to
  * Settings instead — the page is "graduated" and we shouldn't dump them
  * back onto it. They can still navigate here directly via the unhide link.
  */
-public function mxchat_create_dashboard_page() {
+public function knittnet_create_dashboard_page() {
     require_once plugin_dir_path(__FILE__) . 'admin-onboarding-page.php';
 
     $current = isset($_GET['page']) ? sanitize_key($_GET['page']) : '';
-    if ($current === 'mxchat-max' && function_exists('mxchat_onboarding_is_dismissed') && mxchat_onboarding_is_dismissed()) {
-        wp_safe_redirect(admin_url('admin.php?page=mxchat-settings'));
+    if ($current === 'knittnet-max' && function_exists('knittnet_onboarding_is_dismissed') && knittnet_onboarding_is_dismissed()) {
+        wp_safe_redirect(admin_url('admin.php?page=knittnet-settings'));
         exit;
     }
 
-    if (function_exists('mxchat_render_onboarding_page')) {
-        mxchat_render_onboarding_page();
+    if (function_exists('knittnet_render_onboarding_page')) {
+        knittnet_render_onboarding_page();
         return;
     }
     // Defensive: if the include failed to load, fall back to the old Settings page
     // so the top-level menu never lands on an empty screen.
-    $this->mxchat_create_admin_page();
+    $this->knittnet_create_admin_page();
 }
 
 /**
  * Hide the Onboarding submenu when the user has dismissed it (either
  * manually or via auto-graduation). The page itself remains routable so
- * the Settings "Show MxChat Onboarding again" link can navigate back to it.
+ * the Settings "Show KnittNet Onboarding again" link can navigate back to it.
  */
-public function mxchat_apply_onboarding_visibility() {
-    if (!function_exists('mxchat_onboarding_is_dismissed')) {
+public function knittnet_apply_onboarding_visibility() {
+    if (!function_exists('knittnet_onboarding_is_dismissed')) {
         return;
     }
-    if (mxchat_onboarding_is_dismissed()) {
-        // The first MxChat child is the same-slug-as-parent registration
-        // (slug 'mxchat-max', labelled "Onboarding") added in plan-d14e89.
+    if (knittnet_onboarding_is_dismissed()) {
+        // The first KnittNet child is the same-slug-as-parent registration
+        // (slug 'knittnet-max', labelled "Onboarding") added in plan-d14e89.
         // Remove it so the menu opens straight to Settings after dismiss.
-        remove_submenu_page('mxchat-max', 'mxchat-max');
+        remove_submenu_page('knittnet-max', 'knittnet-max');
     }
 }
 
-public function mxchat_create_admin_page() {
+public function knittnet_create_admin_page() {
     $this->add_live_agent_nonce();
     $this->add_theme_migration_nonce();
 
     // Include and render the new sidebar-based settings page
     require_once plugin_dir_path(__FILE__) . 'admin-settings-page.php';
-    mxchat_render_settings_page($this);
+    knittnet_render_settings_page($this);
 }
 
 public function dismiss_live_agent_notice() {
@@ -1137,15 +1137,15 @@ public function dismiss_live_agent_notice() {
     }
 
     // Remove the notice flag
-    $deleted = delete_option('mxchat_show_live_agent_disabled_notice');
+    $deleted = delete_option('knittnet_show_live_agent_disabled_notice');
     //error_log('Option deleted: ' . ($deleted ? 'yes' : 'no'));
 
     wp_send_json_success();
 }
 public function add_live_agent_nonce() {
-    if (get_option('mxchat_show_live_agent_disabled_notice', false)) {
+    if (get_option('knittnet_show_live_agent_disabled_notice', false)) {
         // Make sure your admin script is enqueued and localize the data
-        wp_localize_script('mxchat-admin-js', 'mxchatLiveAgent', array(
+        wp_localize_script('knittnet-admin-js', 'knittnetLiveAgent', array(
             'nonce' => wp_create_nonce('dismiss_live_agent_notice'),
             'ajaxurl' => admin_url('admin-ajax.php')
         ));
@@ -1163,19 +1163,19 @@ public function show_theme_migration_banner() {
     }
 
     // Check if notice should be shown
-    $show_notice = get_option('mxchat_show_theme_migration_notice', false);
+    $show_notice = get_option('knittnet_show_theme_migration_notice', false);
 
     if ($show_notice) {
         ?>
-        <div class="mxchat-theme-migration-notice" id="mxchat-theme-migration-notice">
-            <div class="mxchat-pro-notification">
-                <button type="button" class="mxchat-dismiss-btn" onclick="dismissThemeMigrationNotice()" aria-label="Dismiss notification">
+        <div class="knittnet-theme-migration-notice" id="knittnet-theme-migration-notice">
+            <div class="knittnet-pro-notification">
+                <button type="button" class="knittnet-dismiss-btn" onclick="dismissThemeMigrationNotice()" aria-label="Dismiss notification">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <line x1="18" y1="6" x2="6" y2="18"></line>
                         <line x1="6" y1="6" x2="18" y2="18"></line>
                     </svg>
                 </button>
-                <div class="mxchat-theme-migration-content">
+                <div class="knittnet-theme-migration-content">
                     <h3>🎨 AI Theme Migration Required</h3>
                     <p>If you're using an AI-generated chatbot theme, you'll need to migrate it to match the new CSS structure. Go to <strong>Theme Settings</strong>, select your theme from the sidebar, and click the <strong>Migrate</strong> button.</p>
                 </div>
@@ -1195,7 +1195,7 @@ public function dismiss_theme_migration_notice() {
     }
 
     // Remove the notice flag
-    delete_option('mxchat_show_theme_migration_notice');
+    delete_option('knittnet_show_theme_migration_notice');
 
     wp_send_json_success();
 }
@@ -1204,17 +1204,17 @@ public function dismiss_theme_migration_notice() {
  * Add nonce for theme migration notice dismiss
  */
 public function add_theme_migration_nonce() {
-    if (get_option('mxchat_show_theme_migration_notice', false) && $this->is_activated) {
-        wp_localize_script('mxchat-admin-js', 'mxchatThemeMigration', array(
+    if (get_option('knittnet_show_theme_migration_notice', false) && $this->is_activated) {
+        wp_localize_script('knittnet-admin-js', 'knittnetThemeMigration', array(
             'nonce' => wp_create_nonce('dismiss_theme_migration_notice'),
             'ajaxurl' => admin_url('admin-ajax.php')
         ));
     }
 }
 
-public function mxchat_create_transcripts_page() {
+public function knittnet_create_transcripts_page() {
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_chat_transcripts';
+    $table_name = $wpdb->prefix . 'knittnet_chat_transcripts';
 
     // Get basic stats
     $total_chats = $wpdb->get_var("SELECT COUNT(DISTINCT session_id) FROM $table_name") ?: 0;
@@ -1383,7 +1383,7 @@ public function mxchat_create_transcripts_page() {
 
     // Include and render the new template
     require_once plugin_dir_path(__FILE__) . 'admin-transcripts-page.php';
-    mxchat_render_transcripts_page($this, $page_data);
+    knittnet_render_transcripts_page($this, $page_data);
 }
 
 /**
@@ -1395,7 +1395,7 @@ public function mxchat_create_transcripts_page() {
  */
 public function get_satisfaction_rating_stats($days = 30) {
     global $wpdb;
-    $table = $wpdb->prefix . 'mxchat_session_ratings';
+    $table = $wpdb->prefix . 'knittnet_session_ratings';
     if ($wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $table)) !== $table) {
         return array();
     }
@@ -1436,9 +1436,9 @@ public function get_satisfaction_rating_stats($days = 30) {
  */
 private function get_transcripts_chart_data() {
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_chat_transcripts';
+    $table_name = $wpdb->prefix . 'knittnet_chat_transcripts';
 
-    // Get daily chat data for last 7 days - same query as mxchat_transcripts_page()
+    // Get daily chat data for last 7 days - same query as knittnet_transcripts_page()
     $daily_stats = $wpdb->get_results("
         SELECT
             DATE(timestamp) as date,
@@ -1455,7 +1455,7 @@ private function get_transcripts_chart_data() {
     $chart_chats = array();
     $chart_messages = array();
 
-    // Fill last 7 days with data - same logic as mxchat_transcripts_page()
+    // Fill last 7 days with data - same logic as knittnet_transcripts_page()
     for ($i = 6; $i >= 0; $i--) {
         $date = date('Y-m-d', strtotime("-$i days"));
         $day_name = date('D', strtotime("-$i days"));
@@ -1485,59 +1485,59 @@ private function get_transcripts_chart_data() {
     );
 }
 
-public function mxchat_transcripts_notification_section_callback() {
-    echo '<p>' . esc_html__('Configure email notifications for new chat transcripts. You will receive an email notification when a new chat session begins.', 'mxchat') . '</p>';
+public function knittnet_transcripts_notification_section_callback() {
+    echo '<p>' . esc_html__('Configure email notifications for new chat transcripts. You will receive an email notification when a new chat session begins.', 'knittnet') . '</p>';
 }
-public function mxchat_enable_notifications_callback() {
-    $options = get_option('mxchat_transcripts_options', array());
-    $enabled = isset($options['mxchat_enable_notifications']) ? $options['mxchat_enable_notifications'] : 0;
+public function knittnet_enable_notifications_callback() {
+    $options = get_option('knittnet_transcripts_options', array());
+    $enabled = isset($options['knittnet_enable_notifications']) ? $options['knittnet_enable_notifications'] : 0;
     ?>
-    <label for="mxchat_enable_notifications">
-        <input type="checkbox" id="mxchat_enable_notifications"
-               name="mxchat_transcripts_options[mxchat_enable_notifications]"
+    <label for="knittnet_enable_notifications">
+        <input type="checkbox" id="knittnet_enable_notifications"
+               name="knittnet_transcripts_options[knittnet_enable_notifications]"
                value="1" <?php checked(1, $enabled); ?>>
-        <?php esc_html_e('Send email notification when a new chat session starts', 'mxchat'); ?>
+        <?php esc_html_e('Send email notification when a new chat session starts', 'knittnet'); ?>
     </label>
     <p class="description">
-        <?php esc_html_e('Enable this option to receive email notifications for new chat sessions.', 'mxchat'); ?>
+        <?php esc_html_e('Enable this option to receive email notifications for new chat sessions.', 'knittnet'); ?>
     </p>
     <?php
 }
-public function mxchat_notification_email_callback() {
-    $options = get_option('mxchat_transcripts_options', array());
-    $email = isset($options['mxchat_notification_email']) ? $options['mxchat_notification_email'] : get_option('admin_email');
+public function knittnet_notification_email_callback() {
+    $options = get_option('knittnet_transcripts_options', array());
+    $email = isset($options['knittnet_notification_email']) ? $options['knittnet_notification_email'] : get_option('admin_email');
     ?>
-    <input type="email" id="mxchat_notification_email"
-           name="mxchat_transcripts_options[mxchat_notification_email]"
+    <input type="email" id="knittnet_notification_email"
+           name="knittnet_transcripts_options[knittnet_notification_email]"
            value="<?php echo esc_attr($email); ?>"
            class="regular-text">
     <p class="description">
-        <?php esc_html_e('Enter the email address where notifications should be sent. Defaults to the admin email address.', 'mxchat'); ?>
+        <?php esc_html_e('Enter the email address where notifications should be sent. Defaults to the admin email address.', 'knittnet'); ?>
     </p>
     <?php
 }
 
-public function mxchat_auto_delete_transcripts_callback() {
-    $options = get_option('mxchat_transcripts_options', array());
-    $interval = isset($options['mxchat_auto_delete_transcripts']) ? $options['mxchat_auto_delete_transcripts'] : 'never';
+public function knittnet_auto_delete_transcripts_callback() {
+    $options = get_option('knittnet_transcripts_options', array());
+    $interval = isset($options['knittnet_auto_delete_transcripts']) ? $options['knittnet_auto_delete_transcripts'] : 'never';
     ?>
-    <select id="mxchat_auto_delete_transcripts" 
-            name="mxchat_transcripts_options[mxchat_auto_delete_transcripts]">
+    <select id="knittnet_auto_delete_transcripts" 
+            name="knittnet_transcripts_options[knittnet_auto_delete_transcripts]">
         <option value="never" <?php selected($interval, 'never'); ?>>
-            <?php esc_html_e('Never (Keep All Transcripts)', 'mxchat'); ?>
+            <?php esc_html_e('Never (Keep All Transcripts)', 'knittnet'); ?>
         </option>
         <option value="1week" <?php selected($interval, '1week'); ?>>
-            <?php esc_html_e('After 1 Week', 'mxchat'); ?>
+            <?php esc_html_e('After 1 Week', 'knittnet'); ?>
         </option>
         <option value="2weeks" <?php selected($interval, '2weeks'); ?>>
-            <?php esc_html_e('After 2 Weeks', 'mxchat'); ?>
+            <?php esc_html_e('After 2 Weeks', 'knittnet'); ?>
         </option>
         <option value="1month" <?php selected($interval, '1month'); ?>>
-            <?php esc_html_e('After 1 Month', 'mxchat'); ?>
+            <?php esc_html_e('After 1 Month', 'knittnet'); ?>
         </option>
     </select>
     <p class="description">
-        <?php esc_html_e('Automatically delete old chat transcripts after the selected time period. This helps manage database size and privacy.', 'mxchat'); ?>
+        <?php esc_html_e('Automatically delete old chat transcripts after the selected time period. This helps manage database size and privacy.', 'knittnet'); ?>
     </p>
     <?php
 }
@@ -1547,75 +1547,75 @@ public function mxchat_auto_delete_transcripts_callback() {
  * and deletes transcripts older than the given number of days. Set to 0 to fall
  * back to the dropdown (or "Never" if the dropdown is also Never).
  *
- * Devs can override the final day count via the `mxchat_transcript_retention_days`
+ * Devs can override the final day count via the `knittnet_transcript_retention_days`
  * filter — runs in `cleanup_old_transcripts()` after this option is read.
  *
- * (plan-mxchat-20260509-9b80b1)
+ * (plan-knittnet-20260509-9b80b1)
  */
-public function mxchat_retention_days_callback() {
-    $options = get_option('mxchat_transcripts_options', array());
-    $days = isset($options['mxchat_retention_days']) ? (int) $options['mxchat_retention_days'] : 0;
+public function knittnet_retention_days_callback() {
+    $options = get_option('knittnet_transcripts_options', array());
+    $days = isset($options['knittnet_retention_days']) ? (int) $options['knittnet_retention_days'] : 0;
     ?>
     <input type="number"
-           id="mxchat_retention_days"
-           name="mxchat_transcripts_options[mxchat_retention_days]"
+           id="knittnet_retention_days"
+           name="knittnet_transcripts_options[knittnet_retention_days]"
            value="<?php echo esc_attr($days); ?>"
            min="0"
            max="3650"
            step="1"
            style="width: 90px;" />
     <p class="description">
-        <?php esc_html_e('Number of days to retain transcripts. When set to a value greater than 0, this overrides the dropdown above. Set to 0 to use the dropdown. Maximum 3650 (10 years). A daily wp-cron task removes anything older, cascading to translations and click-tracking rows.', 'mxchat'); ?>
+        <?php esc_html_e('Number of days to retain transcripts. When set to a value greater than 0, this overrides the dropdown above. Set to 0 to use the dropdown. Maximum 3650 (10 years). A daily wp-cron task removes anything older, cascading to translations and click-tracking rows.', 'knittnet'); ?>
         <br>
-        <code>apply_filters( 'mxchat_transcript_retention_days', $days )</code>
-        <?php esc_html_e('lets developers override the final day count programmatically.', 'mxchat'); ?>
+        <code>apply_filters( 'knittnet_transcript_retention_days', $days )</code>
+        <?php esc_html_e('lets developers override the final day count programmatically.', 'knittnet'); ?>
     </p>
     <?php
 }
 
-public function mxchat_auto_email_transcript_callback() {
-    $options = get_option('mxchat_transcripts_options', array());
-    $enabled = isset($options['mxchat_auto_email_transcript_enabled']) ? $options['mxchat_auto_email_transcript_enabled'] : 0;
-    $delay = isset($options['mxchat_auto_email_transcript_delay']) ? $options['mxchat_auto_email_transcript_delay'] : '30';
-    $require_contact = isset($options['mxchat_auto_email_transcript_require_contact']) ? $options['mxchat_auto_email_transcript_require_contact'] : 0;
+public function knittnet_auto_email_transcript_callback() {
+    $options = get_option('knittnet_transcripts_options', array());
+    $enabled = isset($options['knittnet_auto_email_transcript_enabled']) ? $options['knittnet_auto_email_transcript_enabled'] : 0;
+    $delay = isset($options['knittnet_auto_email_transcript_delay']) ? $options['knittnet_auto_email_transcript_delay'] : '30';
+    $require_contact = isset($options['knittnet_auto_email_transcript_require_contact']) ? $options['knittnet_auto_email_transcript_require_contact'] : 0;
     ?>
     <label>
         <input type="checkbox"
-               id="mxchat_auto_email_transcript_enabled"
-               name="mxchat_transcripts_options[mxchat_auto_email_transcript_enabled]"
+               id="knittnet_auto_email_transcript_enabled"
+               name="knittnet_transcripts_options[knittnet_auto_email_transcript_enabled]"
                value="1"
                <?php checked($enabled, 1); ?>>
-        <?php esc_html_e('Enable Auto-Email of Full Transcript', 'mxchat'); ?>
+        <?php esc_html_e('Enable Auto-Email of Full Transcript', 'knittnet'); ?>
     </label>
     <br><br>
-    <label for="mxchat_auto_email_transcript_delay">
-        <?php esc_html_e('Send transcript after:', 'mxchat'); ?>
+    <label for="knittnet_auto_email_transcript_delay">
+        <?php esc_html_e('Send transcript after:', 'knittnet'); ?>
     </label>
-    <select id="mxchat_auto_email_transcript_delay"
-            name="mxchat_transcripts_options[mxchat_auto_email_transcript_delay]">
+    <select id="knittnet_auto_email_transcript_delay"
+            name="knittnet_transcripts_options[knittnet_auto_email_transcript_delay]">
         <option value="15" <?php selected($delay, '15'); ?>>
-            <?php esc_html_e('15 minutes', 'mxchat'); ?>
+            <?php esc_html_e('15 minutes', 'knittnet'); ?>
         </option>
         <option value="30" <?php selected($delay, '30'); ?>>
-            <?php esc_html_e('30 minutes', 'mxchat'); ?>
+            <?php esc_html_e('30 minutes', 'knittnet'); ?>
         </option>
         <option value="60" <?php selected($delay, '60'); ?>>
-            <?php esc_html_e('1 hour', 'mxchat'); ?>
+            <?php esc_html_e('1 hour', 'knittnet'); ?>
         </option>
     </select>
     <br><br>
     <label>
         <input type="checkbox"
-               id="mxchat_auto_email_transcript_require_contact"
-               name="mxchat_transcripts_options[mxchat_auto_email_transcript_require_contact]"
+               id="knittnet_auto_email_transcript_require_contact"
+               name="knittnet_transcripts_options[knittnet_auto_email_transcript_require_contact]"
                value="1"
                <?php checked($require_contact, 1); ?>>
-        <?php esc_html_e('Only send if visitor provided contact info', 'mxchat'); ?>
+        <?php esc_html_e('Only send if visitor provided contact info', 'knittnet'); ?>
     </label>
     <p class="description">
-        <?php esc_html_e('Automatically email the full transcript as a .txt file after the specified time has passed since the last user message. The scheduled email will be cancelled if a new message is received.', 'mxchat'); ?>
+        <?php esc_html_e('Automatically email the full transcript as a .txt file after the specified time has passed since the last user message. The scheduled email will be cancelled if a new message is received.', 'knittnet'); ?>
         <br>
-        <?php esc_html_e('When "Only send if visitor provided contact info" is enabled, transcripts will only be emailed if the visitor shared an email address or phone number (including WhatsApp) in the chat.', 'mxchat'); ?>
+        <?php esc_html_e('When "Only send if visitor provided contact info" is enabled, transcripts will only be emailed if the visitor shared an email address or phone number (including WhatsApp) in the chat.', 'knittnet'); ?>
     </p>
     <?php
 }
@@ -1625,68 +1625,68 @@ public function mxchat_auto_email_transcript_callback() {
 public function sanitize_transcripts_options($input) {
     $sanitized = array();
 
-    $sanitized['mxchat_enable_notifications'] = isset($input['mxchat_enable_notifications']) ? 1 : 0;
+    $sanitized['knittnet_enable_notifications'] = isset($input['knittnet_enable_notifications']) ? 1 : 0;
 
-    if (isset($input['mxchat_notification_email'])) {
-        $sanitized['mxchat_notification_email'] = sanitize_email($input['mxchat_notification_email']);
-        if (!is_email($sanitized['mxchat_notification_email'])) {
+    if (isset($input['knittnet_notification_email'])) {
+        $sanitized['knittnet_notification_email'] = sanitize_email($input['knittnet_notification_email']);
+        if (!is_email($sanitized['knittnet_notification_email'])) {
             add_settings_error(
-                'mxchat_transcripts_options',
+                'knittnet_transcripts_options',
                 'invalid_email',
-                __('Please enter a valid email address for notifications.', 'mxchat'),
+                __('Please enter a valid email address for notifications.', 'knittnet'),
                 'error'
             );
-            $sanitized['mxchat_notification_email'] = get_option('admin_email');
+            $sanitized['knittnet_notification_email'] = get_option('admin_email');
         }
     }
 
     // Sanitize auto-delete setting
     $valid_intervals = array('never', '1week', '2weeks', '1month');
-    if (isset($input['mxchat_auto_delete_transcripts'])) {
-        $sanitized['mxchat_auto_delete_transcripts'] = in_array($input['mxchat_auto_delete_transcripts'], $valid_intervals) 
-            ? $input['mxchat_auto_delete_transcripts'] 
+    if (isset($input['knittnet_auto_delete_transcripts'])) {
+        $sanitized['knittnet_auto_delete_transcripts'] = in_array($input['knittnet_auto_delete_transcripts'], $valid_intervals) 
+            ? $input['knittnet_auto_delete_transcripts'] 
             : 'never';
     } else {
-        $sanitized['mxchat_auto_delete_transcripts'] = 'never';
+        $sanitized['knittnet_auto_delete_transcripts'] = 'never';
     }
 
     // Sanitize custom retention-days override (plan-9b80b1).
-    if (isset($input['mxchat_retention_days'])) {
-        $days = (int) $input['mxchat_retention_days'];
-        $sanitized['mxchat_retention_days'] = max(0, min(3650, $days));
+    if (isset($input['knittnet_retention_days'])) {
+        $days = (int) $input['knittnet_retention_days'];
+        $sanitized['knittnet_retention_days'] = max(0, min(3650, $days));
     } else {
-        $sanitized['mxchat_retention_days'] = 0;
+        $sanitized['knittnet_retention_days'] = 0;
     }
 
     // Get old values to check if auto-delete or retention-days changed.
-    $old_options = get_option('mxchat_transcripts_options');
-    $old_interval = isset($old_options['mxchat_auto_delete_transcripts']) ? $old_options['mxchat_auto_delete_transcripts'] : 'never';
-    $old_retention = isset($old_options['mxchat_retention_days']) ? (int) $old_options['mxchat_retention_days'] : 0;
+    $old_options = get_option('knittnet_transcripts_options');
+    $old_interval = isset($old_options['knittnet_auto_delete_transcripts']) ? $old_options['knittnet_auto_delete_transcripts'] : 'never';
+    $old_retention = isset($old_options['knittnet_retention_days']) ? (int) $old_options['knittnet_retention_days'] : 0;
 
     // If either setting changed, reschedule the cron job. The schedule_transcript_cleanup
     // helper now treats "any active retention" (dropdown != never OR custom days > 0) as a
     // reason to keep the daily cron registered.
-    $interval_changed  = ($old_interval !== $sanitized['mxchat_auto_delete_transcripts']);
-    $retention_changed = ($old_retention !== $sanitized['mxchat_retention_days']);
+    $interval_changed  = ($old_interval !== $sanitized['knittnet_auto_delete_transcripts']);
+    $retention_changed = ($old_retention !== $sanitized['knittnet_retention_days']);
     if ($interval_changed || $retention_changed) {
-        $any_active = ($sanitized['mxchat_auto_delete_transcripts'] !== 'never') || ($sanitized['mxchat_retention_days'] > 0);
+        $any_active = ($sanitized['knittnet_auto_delete_transcripts'] !== 'never') || ($sanitized['knittnet_retention_days'] > 0);
         $this->schedule_transcript_cleanup($any_active ? 'active' : 'never');
     }
 
     // Sanitize auto-email transcript settings
-    $sanitized['mxchat_auto_email_transcript_enabled'] = isset($input['mxchat_auto_email_transcript_enabled']) ? 1 : 0;
+    $sanitized['knittnet_auto_email_transcript_enabled'] = isset($input['knittnet_auto_email_transcript_enabled']) ? 1 : 0;
 
     $valid_delays = array('15', '30', '60');
-    if (isset($input['mxchat_auto_email_transcript_delay'])) {
-        $sanitized['mxchat_auto_email_transcript_delay'] = in_array($input['mxchat_auto_email_transcript_delay'], $valid_delays)
-            ? $input['mxchat_auto_email_transcript_delay']
+    if (isset($input['knittnet_auto_email_transcript_delay'])) {
+        $sanitized['knittnet_auto_email_transcript_delay'] = in_array($input['knittnet_auto_email_transcript_delay'], $valid_delays)
+            ? $input['knittnet_auto_email_transcript_delay']
             : '30';
     } else {
-        $sanitized['mxchat_auto_email_transcript_delay'] = '30';
+        $sanitized['knittnet_auto_email_transcript_delay'] = '30';
     }
 
     // Sanitize require contact info setting
-    $sanitized['mxchat_auto_email_transcript_require_contact'] = isset($input['mxchat_auto_email_transcript_require_contact']) ? 1 : 0;
+    $sanitized['knittnet_auto_email_transcript_require_contact'] = isset($input['knittnet_auto_email_transcript_require_contact']) ? 1 : 0;
 
     return $sanitized;
 }
@@ -1696,9 +1696,9 @@ public function sanitize_transcripts_options($input) {
  */
 public function schedule_transcript_cleanup($interval) {
     // Clear any existing scheduled event
-    $timestamp = wp_next_scheduled('mxchat_cleanup_old_transcripts');
+    $timestamp = wp_next_scheduled('knittnet_cleanup_old_transcripts');
     if ($timestamp) {
-        wp_unschedule_event($timestamp, 'mxchat_cleanup_old_transcripts');
+        wp_unschedule_event($timestamp, 'knittnet_cleanup_old_transcripts');
     }
 
     // Schedule new event whenever retention is active. "active" is the canonical
@@ -1708,7 +1708,7 @@ public function schedule_transcript_cleanup($interval) {
     if ($interval !== 'never') {
         // Schedule to run daily at 3 AM
         $next_run = strtotime('tomorrow 3:00 AM');
-        wp_schedule_event($next_run, 'daily', 'mxchat_cleanup_old_transcripts');
+        wp_schedule_event($next_run, 'daily', 'knittnet_cleanup_old_transcripts');
     }
 }
 
@@ -1716,9 +1716,9 @@ public function schedule_transcript_cleanup($interval) {
  * Delete old transcripts based on the configured interval
  */
 public function cleanup_old_transcripts() {
-    $options       = get_option('mxchat_transcripts_options', array());
-    $interval      = isset($options['mxchat_auto_delete_transcripts']) ? $options['mxchat_auto_delete_transcripts'] : 'never';
-    $custom_days   = isset($options['mxchat_retention_days']) ? (int) $options['mxchat_retention_days'] : 0;
+    $options       = get_option('knittnet_transcripts_options', array());
+    $interval      = isset($options['knittnet_auto_delete_transcripts']) ? $options['knittnet_auto_delete_transcripts'] : 'never';
+    $custom_days   = isset($options['knittnet_retention_days']) ? (int) $options['knittnet_retention_days'] : 0;
 
     // Custom retention-days (plan-9b80b1) takes precedence over the bucket dropdown.
     $days = 0;
@@ -1736,16 +1736,16 @@ public function cleanup_old_transcripts() {
     }
 
     // Devs can override the final day count programmatically.
-    $days = (int) apply_filters('mxchat_transcript_retention_days', $days);
+    $days = (int) apply_filters('knittnet_transcript_retention_days', $days);
 
     if ($days <= 0) {
         return; // Retention disabled — bail.
     }
 
     global $wpdb;
-    $transcripts_table  = $wpdb->prefix . 'mxchat_chat_transcripts';
-    $translations_table = $wpdb->prefix . 'mxchat_transcript_translations';
-    $url_clicks_table   = $wpdb->prefix . 'mxchat_url_clicks';
+    $transcripts_table  = $wpdb->prefix . 'knittnet_chat_transcripts';
+    $translations_table = $wpdb->prefix . 'knittnet_transcript_translations';
+    $url_clicks_table   = $wpdb->prefix . 'knittnet_url_clicks';
 
     // Defensive: if the main table doesn't exist (fresh-ish install), bail.
     if ($wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $transcripts_table)) !== $transcripts_table) {
@@ -1756,7 +1756,7 @@ public function cleanup_old_transcripts() {
 
     // Cap at 5000 session_ids per run so a large unattended site doesn't OOM —
     // the cron will pick up where it left off on the next tick (within hours).
-    $batch_cap = (int) apply_filters('mxchat_transcript_retention_batch_cap', 5000);
+    $batch_cap = (int) apply_filters('knittnet_transcript_retention_batch_cap', 5000);
 
     $sessions_to_delete = $wpdb->get_col(
         $wpdb->prepare(
@@ -1800,19 +1800,19 @@ public function cleanup_old_transcripts() {
     }
     // phpcs:enable
 
-    update_option('mxchat_retention_last_swept_at', time(), false);
-    update_option('mxchat_retention_rows_last_deleted', $deleted_transcripts, false);
+    update_option('knittnet_retention_last_swept_at', time(), false);
+    update_option('knittnet_retention_rows_last_deleted', $deleted_transcripts, false);
 }
 
 public function export_chat_transcripts() {
     if (!current_user_can('manage_options')) {
-        wp_die(esc_html__('You do not have sufficient permissions to access this page.', 'mxchat'));
+        wp_die(esc_html__('You do not have sufficient permissions to access this page.', 'knittnet'));
     }
 
-    check_ajax_referer('mxchat_export_transcripts', 'security');
+    check_ajax_referer('knittnet_export_transcripts', 'security');
 
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_chat_transcripts';
+    $table_name = $wpdb->prefix . 'knittnet_chat_transcripts';
 
     // Get all transcripts ordered by session and timestamp
     $results = $wpdb->get_results(
@@ -1868,22 +1868,22 @@ public function export_chat_transcripts() {
 // Leads tab (inside Transcripts)
 //
 // Leads are derived from existing data — no dedicated table. Primary source:
-// wp_mxchat_chat_transcripts rows where user_email is populated. Secondary
-// source: wp_options entries `mxchat_email_{session_id}` / `mxchat_name_{sid}`
+// wp_knittnet_chat_transcripts rows where user_email is populated. Secondary
+// source: wp_options entries `knittnet_email_{session_id}` / `knittnet_name_{sid}`
 // for "orphan" leads who submitted the pre-chat form but never chatted.
 // ============================================================================
 
 /**
  * Fetch leads: dedup-by-email rows, stats strip, and top pages in one call.
  */
-public function mxchat_fetch_leads() {
+public function knittnet_fetch_leads() {
     if (!current_user_can('manage_options')) {
         wp_send_json_error(['message' => 'Insufficient permissions']);
         wp_die();
     }
 
     global $wpdb;
-    $table = $wpdb->prefix . 'mxchat_chat_transcripts';
+    $table = $wpdb->prefix . 'knittnet_chat_transcripts';
 
     $page           = isset($_POST['page']) ? max(1, absint($_POST['page'])) : 1;
     $per_page       = isset($_POST['per_page']) ? min(100, max(10, absint($_POST['per_page']))) : 25;
@@ -1895,7 +1895,7 @@ public function mxchat_fetch_leads() {
     $sort           = isset($_POST['sort']) ? sanitize_key($_POST['sort']) : 'last_seen';
     $sort_dir       = (isset($_POST['sort_dir']) && $_POST['sort_dir'] === 'asc') ? 'ASC' : 'DESC';
 
-    $date_cutoff = self::mxchat_leads_date_cutoff($date_range);
+    $date_cutoff = self::knittnet_leads_date_cutoff($date_range);
     $has_page_url_column = !empty($wpdb->get_results("SHOW COLUMNS FROM $table LIKE 'originating_page_url'"));
 
     // Base WHERE for transcripts leads.
@@ -1961,7 +1961,7 @@ public function mxchat_fetch_leads() {
             'name'               => isset($detail->user_name) ? (string) $detail->user_name : '',
             'conversation_count' => (int) $row->conversation_count,
             'last_seen'          => $row->last_seen,
-            'last_seen_display'  => self::mxchat_leads_format_relative($row->last_seen),
+            'last_seen_display'  => self::knittnet_leads_format_relative($row->last_seen),
             'first_seen'         => $row->first_seen,
             'latest_session_id'  => isset($detail->session_id) ? $detail->session_id : '',
             'top_page_url'       => isset($detail->originating_page_url) ? $detail->originating_page_url : '',
@@ -1980,10 +1980,10 @@ public function mxchat_fetch_leads() {
     ));
 
     // Chat-deleted leads: had a conversation that an admin removed. Preserved via
-    // mxchat_lead_del_* options, with timestamps so they respect date filters.
+    // knittnet_lead_del_* options, with timestamps so they respect date filters.
     $chat_deleted_leads_all = [];
     if ($status === 'all' || $status === 'chat_deleted') {
-        $chat_deleted_leads_all = self::mxchat_collect_chat_deleted_leads($search, $date_cutoff);
+        $chat_deleted_leads_all = self::knittnet_collect_chat_deleted_leads($search, $date_cutoff);
         // Dedup: drop any chat_deleted row whose email is already in the transcripts set.
         $chat_deleted_leads_all = array_values(array_filter(
             $chat_deleted_leads_all,
@@ -2000,7 +2000,7 @@ public function mxchat_fetch_leads() {
     // when a date filter is active.
     $orphan_leads_all = [];
     if (($status === 'all' || $status === 'orphan') && !$date_cutoff && !$page_filter) {
-        $orphan_leads_all = self::mxchat_collect_orphan_leads($search);
+        $orphan_leads_all = self::knittnet_collect_orphan_leads($search);
         $orphan_leads_all = array_values(array_filter(
             $orphan_leads_all,
             function ($row) use ($transcripts_emails_seen) {
@@ -2038,7 +2038,7 @@ public function mxchat_fetch_leads() {
     $total_pages = $per_page > 0 ? (int) ceil($total_count / $per_page) : 1;
 
     // Stats strip: always computed over full dataset, unaffected by filters.
-    $stats = self::mxchat_leads_stats($table, $has_page_url_column);
+    $stats = self::knittnet_leads_stats($table, $has_page_url_column);
 
     // Top pages: top 5 by distinct emails captured.
     $top_pages = [];
@@ -2080,15 +2080,15 @@ public function mxchat_fetch_leads() {
 
 /**
  * Delete one or more leads by email. Removes every transcripts row for that
- * email and cleans up related wp_options (mxchat_email_{sid}, mxchat_name_{sid},
- * mxchat_history_{sid}) and any orphan option entries matching the email.
+ * email and cleans up related wp_options (knittnet_email_{sid}, knittnet_name_{sid},
+ * knittnet_history_{sid}) and any orphan option entries matching the email.
  */
-public function mxchat_delete_leads() {
+public function knittnet_delete_leads() {
     if (!current_user_can('manage_options')) {
         wp_send_json_error(['message' => 'Insufficient permissions']);
         wp_die();
     }
-    check_ajax_referer('mxchat_delete_leads', 'security');
+    check_ajax_referer('knittnet_delete_leads', 'security');
 
     $emails_raw = isset($_POST['emails']) ? (array) wp_unslash($_POST['emails']) : [];
     $emails = [];
@@ -2103,7 +2103,7 @@ public function mxchat_delete_leads() {
         wp_die();
     }
 
-    $summary = self::mxchat_wipe_leads_by_email($emails);
+    $summary = self::knittnet_wipe_leads_by_email($emails);
 
     wp_send_json([
         'success'           => true,
@@ -2121,10 +2121,10 @@ public function mxchat_delete_leads() {
  * Shared between the Leads-tab Delete button and the transcript-delete opt-in checkbox.
  * Input emails must already be sanitized with sanitize_email().
  */
-private static function mxchat_wipe_leads_by_email(array $emails) {
+private static function knittnet_wipe_leads_by_email(array $emails) {
     global $wpdb;
-    $table = $wpdb->prefix . 'mxchat_chat_transcripts';
-    $translations_table = $wpdb->prefix . 'mxchat_transcript_translations';
+    $table = $wpdb->prefix . 'knittnet_chat_transcripts';
+    $translations_table = $wpdb->prefix . 'knittnet_transcript_translations';
     $has_translations = $wpdb->get_var("SHOW TABLES LIKE '$translations_table'") === $translations_table;
 
     $deleted_sessions = 0;
@@ -2144,14 +2144,14 @@ private static function mxchat_wipe_leads_by_email(array $emails) {
 
         foreach ($session_ids as $sid) {
             $deleted_sessions++;
-            wp_cache_delete('chat_session_' . $sid, 'mxchat_chat_sessions');
-            delete_option('mxchat_history_' . $sid);
-            delete_option('mxchat_email_' . $sid);
-            delete_option('mxchat_name_' . $sid);
-            delete_option('mxchat_agent_name_' . $sid);
-            delete_option('mxchat_lead_del_email_' . $sid);
-            delete_option('mxchat_lead_del_name_' . $sid);
-            delete_option('mxchat_lead_del_ts_' . $sid);
+            wp_cache_delete('chat_session_' . $sid, 'knittnet_chat_sessions');
+            delete_option('knittnet_history_' . $sid);
+            delete_option('knittnet_email_' . $sid);
+            delete_option('knittnet_name_' . $sid);
+            delete_option('knittnet_agent_name_' . $sid);
+            delete_option('knittnet_lead_del_email_' . $sid);
+            delete_option('knittnet_lead_del_name_' . $sid);
+            delete_option('knittnet_lead_del_ts_' . $sid);
             if ($has_translations) {
                 $wpdb->delete($translations_table, ['session_id' => $sid], ['%s']);
             }
@@ -2162,25 +2162,25 @@ private static function mxchat_wipe_leads_by_email(array $emails) {
     // preservations) whose stored value matches one of the emails being wiped.
     $lingering = $wpdb->get_results(
         "SELECT option_name, option_value FROM {$wpdb->options}
-         WHERE option_name LIKE 'mxchat_email_%' OR option_name LIKE 'mxchat_lead_del_email_%'"
+         WHERE option_name LIKE 'knittnet_email_%' OR option_name LIKE 'knittnet_lead_del_email_%'"
     );
     foreach ($lingering as $opt) {
         if (!in_array(strtolower(trim($opt->option_value)), $emails_lc, true)) {
             continue;
         }
-        if (strpos($opt->option_name, 'mxchat_lead_del_email_') === 0) {
-            $sid = substr($opt->option_name, strlen('mxchat_lead_del_email_'));
-            delete_option('mxchat_lead_del_email_' . $sid);
-            delete_option('mxchat_lead_del_name_' . $sid);
-            delete_option('mxchat_lead_del_ts_' . $sid);
+        if (strpos($opt->option_name, 'knittnet_lead_del_email_') === 0) {
+            $sid = substr($opt->option_name, strlen('knittnet_lead_del_email_'));
+            delete_option('knittnet_lead_del_email_' . $sid);
+            delete_option('knittnet_lead_del_name_' . $sid);
+            delete_option('knittnet_lead_del_ts_' . $sid);
         } else {
-            $sid = substr($opt->option_name, strlen('mxchat_email_'));
-            delete_option('mxchat_email_' . $sid);
-            delete_option('mxchat_name_' . $sid);
+            $sid = substr($opt->option_name, strlen('knittnet_email_'));
+            delete_option('knittnet_email_' . $sid);
+            delete_option('knittnet_name_' . $sid);
         }
     }
 
-    wp_cache_delete('all_chat_sessions', 'mxchat_chat_sessions');
+    wp_cache_delete('all_chat_sessions', 'knittnet_chat_sessions');
 
     return [
         'deleted_sessions' => $deleted_sessions,
@@ -2193,11 +2193,11 @@ private static function mxchat_wipe_leads_by_email(array $emails) {
  * supported to keep semantics simple; caller either exports all leads or a
  * specific set of selected emails.
  */
-public function mxchat_export_leads() {
+public function knittnet_export_leads() {
     if (!current_user_can('manage_options')) {
-        wp_die(esc_html__('You do not have sufficient permissions to access this page.', 'mxchat'));
+        wp_die(esc_html__('You do not have sufficient permissions to access this page.', 'knittnet'));
     }
-    check_ajax_referer('mxchat_export_leads', 'security');
+    check_ajax_referer('knittnet_export_leads', 'security');
 
     $scope       = isset($_POST['scope']) ? sanitize_key($_POST['scope']) : 'all';
     $fields_mode = isset($_POST['fields']) ? sanitize_key($_POST['fields']) : 'email_and_name';
@@ -2212,7 +2212,7 @@ public function mxchat_export_leads() {
     }
 
     global $wpdb;
-    $table = $wpdb->prefix . 'mxchat_chat_transcripts';
+    $table = $wpdb->prefix . 'knittnet_chat_transcripts';
     $has_page_url_column = !empty($wpdb->get_results("SHOW COLUMNS FROM $table LIKE 'originating_page_url'"));
 
     // Collect leads from transcripts.
@@ -2262,7 +2262,7 @@ public function mxchat_export_leads() {
             function ($r) { return strtolower($r['email']); },
             $export_rows
         ));
-        foreach (self::mxchat_collect_chat_deleted_leads('') as $cd) {
+        foreach (self::knittnet_collect_chat_deleted_leads('') as $cd) {
             if (isset($transcripts_emails_lc[strtolower($cd['email'])])) continue;
             $transcripts_emails_lc[strtolower($cd['email'])] = true;
             $export_rows[] = [
@@ -2273,7 +2273,7 @@ public function mxchat_export_leads() {
                 'top_page_url'       => '',
             ];
         }
-        foreach (self::mxchat_collect_orphan_leads('') as $orphan) {
+        foreach (self::knittnet_collect_orphan_leads('') as $orphan) {
             if (isset($transcripts_emails_lc[strtolower($orphan['email'])])) continue;
             $transcripts_emails_lc[strtolower($orphan['email'])] = true;
             $export_rows[] = [
@@ -2291,7 +2291,7 @@ public function mxchat_export_leads() {
         wp_die();
     }
 
-    $filename = 'mxchat-leads-' . date('Y-m-d') . '.csv';
+    $filename = 'knittnet-leads-' . date('Y-m-d') . '.csv';
     header('Content-Type: text/csv');
     header('Content-Disposition: attachment; filename="' . $filename . '"');
     header('Pragma: no-cache');
@@ -2325,7 +2325,7 @@ public function mxchat_export_leads() {
 /**
  * Stats strip payload (independent of filters).
  */
-private static function mxchat_leads_stats($table, $has_page_url_column) {
+private static function knittnet_leads_stats($table, $has_page_url_column) {
     global $wpdb;
 
     $total_transcripts_emails = (int) $wpdb->get_var(
@@ -2348,11 +2348,11 @@ private static function mxchat_leads_stats($table, $has_page_url_column) {
          WHERE user_email IS NOT NULL AND user_email != ''"
     );
 
-    $orphan_count = count(self::mxchat_collect_orphan_leads(''));
-    $chat_deleted_count = self::mxchat_count_chat_deleted_leads();
+    $orphan_count = count(self::knittnet_collect_orphan_leads(''));
+    $chat_deleted_count = self::knittnet_count_chat_deleted_leads();
 
     // Total leads = unique emails across all three sources (dedup priority: transcripts > chat_deleted > orphan
-    // is already enforced at collection time in mxchat_fetch_leads; stats re-apply it here).
+    // is already enforced at collection time in knittnet_fetch_leads; stats re-apply it here).
     $total_leads = $total_transcripts_emails + $chat_deleted_count + $orphan_count;
 
     $avg = $total_transcripts_emails > 0
@@ -2378,20 +2378,20 @@ private static function mxchat_leads_stats($table, $has_page_url_column) {
 
 /**
  * Collect leads who had a conversation that an admin later deleted (preserved via
- * mxchat_lead_del_* options). Returns rows tagged status='chat_deleted' with the
+ * knittnet_lead_del_* options). Returns rows tagged status='chat_deleted' with the
  * original last-seen timestamp so they still sort and filter sensibly.
  *
  * @param string $search      Optional email/name substring filter.
  * @param string $date_cutoff Optional 'Y-m-d H:i:s' cutoff — only rows with last_ts >= cutoff.
  * @return array
  */
-private static function mxchat_collect_chat_deleted_leads($search = '', $date_cutoff = '') {
+private static function knittnet_collect_chat_deleted_leads($search = '', $date_cutoff = '') {
     global $wpdb;
-    $table = $wpdb->prefix . 'mxchat_chat_transcripts';
+    $table = $wpdb->prefix . 'knittnet_chat_transcripts';
 
     $rows = $wpdb->get_results(
         "SELECT option_name, option_value FROM {$wpdb->options}
-         WHERE option_name LIKE 'mxchat_lead_del_email_%'"
+         WHERE option_name LIKE 'knittnet_lead_del_email_%'"
     );
     if (empty($rows)) {
         return [];
@@ -2419,12 +2419,12 @@ private static function mxchat_collect_chat_deleted_leads($search = '', $date_cu
         if (isset($emails_in_transcripts[strtolower($email)])) {
             continue;
         }
-        $sid = substr($opt->option_name, strlen('mxchat_lead_del_email_'));
+        $sid = substr($opt->option_name, strlen('knittnet_lead_del_email_'));
         if (!$sid) {
             continue;
         }
-        $name = (string) get_option('mxchat_lead_del_name_' . $sid, '');
-        $ts   = (string) get_option('mxchat_lead_del_ts_' . $sid, '');
+        $name = (string) get_option('knittnet_lead_del_name_' . $sid, '');
+        $ts   = (string) get_option('knittnet_lead_del_ts_' . $sid, '');
 
         if ($date_cutoff !== '' && ($ts === '' || $ts < $date_cutoff)) {
             continue;
@@ -2443,7 +2443,7 @@ private static function mxchat_collect_chat_deleted_leads($search = '', $date_cu
                 'name'               => $name,
                 'conversation_count' => 0,
                 'last_seen'          => $ts,
-                'last_seen_display'  => $ts ? self::mxchat_leads_format_relative($ts) : __('Chat deleted', 'mxchat'),
+                'last_seen_display'  => $ts ? self::knittnet_leads_format_relative($ts) : __('Chat deleted', 'knittnet'),
                 'first_seen'         => $ts,
                 'latest_session_id'  => '',
                 'top_page_url'       => '',
@@ -2464,13 +2464,13 @@ private static function mxchat_collect_chat_deleted_leads($search = '', $date_cu
 /**
  * Count unique emails preserved as "chat deleted" (for the stats strip).
  */
-private static function mxchat_count_chat_deleted_leads() {
+private static function knittnet_count_chat_deleted_leads() {
     global $wpdb;
-    $table = $wpdb->prefix . 'mxchat_chat_transcripts';
+    $table = $wpdb->prefix . 'knittnet_chat_transcripts';
 
     $emails = $wpdb->get_col(
         "SELECT DISTINCT option_value FROM {$wpdb->options}
-         WHERE option_name LIKE 'mxchat_lead_del_email_%'"
+         WHERE option_name LIKE 'knittnet_lead_del_email_%'"
     );
     if (empty($emails)) {
         return 0;
@@ -2505,13 +2505,13 @@ private static function mxchat_count_chat_deleted_leads() {
  * @param string $search  Optional email/name substring filter.
  * @return array
  */
-private static function mxchat_collect_orphan_leads($search = '') {
+private static function knittnet_collect_orphan_leads($search = '') {
     global $wpdb;
-    $table = $wpdb->prefix . 'mxchat_chat_transcripts';
+    $table = $wpdb->prefix . 'knittnet_chat_transcripts';
 
     $option_rows = $wpdb->get_results(
         "SELECT option_name, option_value FROM {$wpdb->options}
-         WHERE option_name LIKE 'mxchat_email_%'"
+         WHERE option_name LIKE 'knittnet_email_%'"
     );
     if (empty($option_rows)) {
         return [];
@@ -2542,7 +2542,7 @@ private static function mxchat_collect_orphan_leads($search = '') {
         if (!$email) {
             continue;
         }
-        $sid = substr($opt->option_name, strlen('mxchat_email_'));
+        $sid = substr($opt->option_name, strlen('knittnet_email_'));
         if (!$sid) {
             continue;
         }
@@ -2554,7 +2554,7 @@ private static function mxchat_collect_orphan_leads($search = '') {
             continue;
         }
 
-        $name_option = get_option('mxchat_name_' . $sid, '');
+        $name_option = get_option('knittnet_name_' . $sid, '');
         $name = is_string($name_option) ? trim($name_option) : '';
 
         if ($needle !== '') {
@@ -2571,7 +2571,7 @@ private static function mxchat_collect_orphan_leads($search = '') {
                 'name'               => $name,
                 'conversation_count' => 0,
                 'last_seen'          => '',
-                'last_seen_display'  => __('No conversation yet', 'mxchat'),
+                'last_seen_display'  => __('No conversation yet', 'knittnet'),
                 'first_seen'         => '',
                 'latest_session_id'  => '',
                 'top_page_url'       => '',
@@ -2588,7 +2588,7 @@ private static function mxchat_collect_orphan_leads($search = '') {
 /**
  * Map a date_range key to a SQL-comparable cutoff string, or '' for all-time.
  */
-private static function mxchat_leads_date_cutoff($date_range) {
+private static function knittnet_leads_date_cutoff($date_range) {
     switch ($date_range) {
         case 'today':   return gmdate('Y-m-d H:i:s', strtotime('-24 hours'));
         case '7d':      return gmdate('Y-m-d H:i:s', strtotime('-7 days'));
@@ -2602,7 +2602,7 @@ private static function mxchat_leads_date_cutoff($date_range) {
 /**
  * Turn a UTC timestamp into a short relative display like "2h ago" or "Apr 12".
  */
-private static function mxchat_leads_format_relative($timestamp) {
+private static function knittnet_leads_format_relative($timestamp) {
     if (!$timestamp) {
         return '';
     }
@@ -2611,17 +2611,17 @@ private static function mxchat_leads_format_relative($timestamp) {
         return '';
     }
     $diff = time() - $ts;
-    if ($diff < 60)       return __('just now', 'mxchat');
-    if ($diff < 3600)     return floor($diff / 60) . __('m ago', 'mxchat');
-    if ($diff < 86400)    return floor($diff / 3600) . __('h ago', 'mxchat');
-    if ($diff < 604800)   return floor($diff / 86400) . __('d ago', 'mxchat');
+    if ($diff < 60)       return __('just now', 'knittnet');
+    if ($diff < 3600)     return floor($diff / 60) . __('m ago', 'knittnet');
+    if ($diff < 86400)    return floor($diff / 3600) . __('h ago', 'knittnet');
+    if ($diff < 604800)   return floor($diff / 86400) . __('d ago', 'knittnet');
     return wp_date('M j', $ts);
 }
 
 /**
  * Handle translation of chat messages via AJAX
  */
-public function mxchat_translate_messages() {
+public function knittnet_translate_messages() {
     if (!current_user_can('manage_options')) {
         wp_send_json_error(['error' => 'Insufficient permissions']);
         wp_die();
@@ -2688,7 +2688,7 @@ public function mxchat_translate_messages() {
     $system_prompt = "You are a translator. Translate the following messages to {$target_lang_name}. Keep the [MSG#] and [/MSG#] tags exactly as they are - only translate the content between them. Maintain the original formatting, line breaks, and any HTML tags. Return ONLY the translated messages with the tags, no explanations.";
 
     // Get user's selected model and determine provider
-    $options = get_option('mxchat_options', []);
+    $options = get_option('knittnet_options', []);
     $selected_model = $options['model'] ?? 'gpt-5.1-chat-latest';
 
     // Check if using OpenRouter
@@ -2773,11 +2773,11 @@ public function mxchat_translate_messages() {
  */
 private function save_transcript_translation($session_id, $language_code, $translations) {
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_transcript_translations';
+    $table_name = $wpdb->prefix . 'knittnet_transcript_translations';
 
     // Check if table exists, create if not
     if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") !== $table_name) {
-        mxchat_create_translations_table();
+        knittnet_create_translations_table();
     }
 
     $now = current_time('mysql');
@@ -2798,7 +2798,7 @@ private function save_transcript_translation($session_id, $language_code, $trans
 /**
  * Get saved translation for a session
  */
-public function mxchat_get_transcript_translation() {
+public function knittnet_get_transcript_translation() {
     if (!current_user_can('manage_options')) {
         wp_send_json_error(['error' => 'Insufficient permissions']);
         wp_die();
@@ -2812,7 +2812,7 @@ public function mxchat_get_transcript_translation() {
     }
 
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_transcript_translations';
+    $table_name = $wpdb->prefix . 'knittnet_transcript_translations';
 
     // Check if table exists
     if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") !== $table_name) {
@@ -3070,7 +3070,7 @@ private function translate_with_openrouter($api_key, $model, $system_prompt, $te
             'Authorization' => 'Bearer ' . $api_key,
             'Content-Type' => 'application/json',
             'HTTP-Referer' => home_url(),
-            'X-Title' => 'MxChat Translation'
+            'X-Title' => 'KnittNet Translation'
         ],
         'body' => wp_json_encode([
             'model' => $model,
@@ -3099,10 +3099,10 @@ private function translate_with_openrouter($api_key, $model, $system_prompt, $te
     return new WP_Error('api_error', 'Invalid API response');
 }
 
-public function mxchat_fetch_chat_history() {
+public function knittnet_fetch_chat_history() {
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_chat_transcripts';
-    $url_clicks_table = $wpdb->prefix . 'mxchat_url_clicks';
+    $table_name = $wpdb->prefix . 'knittnet_chat_transcripts';
+    $url_clicks_table = $wpdb->prefix . 'knittnet_url_clicks';
 
     if (!current_user_can('manage_options')) {
         wp_send_json_error(['message' => 'Insufficient permissions']);
@@ -3117,7 +3117,7 @@ public function mxchat_fetch_chat_history() {
     $allowed_sorts = array('asc', 'desc', 'rating_positive', 'rating_negative');
     if (!in_array($sort_raw, $allowed_sorts, true)) { $sort_raw = 'desc'; }
     $sort_order = ($sort_raw === 'asc') ? 'ASC' : 'DESC';
-    $ratings_table = $wpdb->prefix . 'mxchat_session_ratings';
+    $ratings_table = $wpdb->prefix . 'knittnet_session_ratings';
     $ratings_join = '';
     $rating_table_exists = ($wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $ratings_table)) === $ratings_table);
     if ($rating_table_exists && ($sort_raw === 'rating_positive' || $sort_raw === 'rating_negative')) {
@@ -3292,10 +3292,10 @@ public function mxchat_fetch_chat_history() {
 /**
  * Fetch single conversation details for split-panel view
  */
-public function mxchat_fetch_conversation() {
+public function knittnet_fetch_conversation() {
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_chat_transcripts';
-    $url_clicks_table = $wpdb->prefix . 'mxchat_url_clicks';
+    $table_name = $wpdb->prefix . 'knittnet_chat_transcripts';
+    $url_clicks_table = $wpdb->prefix . 'knittnet_url_clicks';
 
     if (!current_user_can('manage_options')) {
         wp_send_json_error(['message' => 'Insufficient permissions']);
@@ -3387,7 +3387,7 @@ public function mxchat_fetch_conversation() {
                 'img' => ['src' => [], 'alt' => [], 'class' => []],
                 'h3' => ['class' => []],
                 'h4' => ['class' => []],
-                'button' => ['type' => [], 'class' => [], 'data-product-id' => [], 'data-nonce' => [], 'data-product-type' => [], 'data-original-text' => [], 'data-mxchat-action' => []],
+                'button' => ['type' => [], 'class' => [], 'data-product-id' => [], 'data-nonce' => [], 'data-product-type' => [], 'data-original-text' => [], 'data-knittnet-action' => []],
                 'select' => ['class' => [], 'data-attribute' => []],
                 'option' => ['value' => []],
                 'span' => ['class' => []],
@@ -3415,7 +3415,7 @@ public function mxchat_fetch_conversation() {
 
     // Pull rating_feedback for this session (if any) so the details drawer can show it.
     $rating_feedback   = '';
-    $ratings_table_det = $wpdb->prefix . 'mxchat_session_ratings';
+    $ratings_table_det = $wpdb->prefix . 'knittnet_session_ratings';
     if ($wpdb->get_var("SHOW TABLES LIKE '$ratings_table_det'") === $ratings_table_det) {
         $rating_feedback = (string) $wpdb->get_var($wpdb->prepare(
             "SELECT rating_feedback FROM {$ratings_table_det} WHERE session_id = %s LIMIT 1",
@@ -3493,7 +3493,7 @@ private function highlight_clicked_links($message_content, $clicked_urls) {
                         $attributes = $matches[1];
 
                         // Check if it already has the class
-                        if (strpos($full_match, 'mxchat-clicked-link') !== false) {
+                        if (strpos($full_match, 'knittnet-clicked-link') !== false) {
                             return $full_match;
                         }
 
@@ -3502,12 +3502,12 @@ private function highlight_clicked_links($message_content, $clicked_urls) {
                             // Add to existing class
                             $new_attributes = preg_replace(
                                 '/class=["\']([^"\']*)["\']/',
-                                'class="$1 mxchat-clicked-link"',
+                                'class="$1 knittnet-clicked-link"',
                                 $attributes
                             );
                         } else {
                             // Add new class attribute
-                            $new_attributes = $attributes . ' class="mxchat-clicked-link"';
+                            $new_attributes = $attributes . ' class="knittnet-clicked-link"';
                         }
 
                         // Add title if not present
@@ -3529,23 +3529,23 @@ private function highlight_clicked_links($message_content, $clicked_urls) {
     return $message_content;
 }
 
-public function mxchat_create_prompts_page() {
-    //error_log('=== DEBUG: mxchat_create_prompts_page started ===');
+public function knittnet_create_prompts_page() {
+    //error_log('=== DEBUG: knittnet_create_prompts_page started ===');
 
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_system_prompt_content';
+    $table_name = $wpdb->prefix . 'knittnet_system_prompt_content';
 
-    $knowledge_manager = MxChat_Knowledge_Manager::get_instance();
-    $pinecone_manager = MxChat_Pinecone_Manager::get_instance();
+    $knowledge_manager = KnittNet_Knowledge_Manager::get_instance();
+    $pinecone_manager = KnittNet_Pinecone_Manager::get_instance();
 
     // Display success message if all prompts were deleted
     if (isset($_GET['all_deleted']) && $_GET['all_deleted'] === 'true') {
-        echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__('All knowledge has been deleted successfully.', 'mxchat') . '</p><button type="button" class="notice-dismiss"><span class="screen-reader-text">' . esc_html__('Dismiss this notice.', 'mxchat') . '</span></button></div>';
+        echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__('All knowledge has been deleted successfully.', 'knittnet') . '</p><button type="button" class="notice-dismiss"><span class="screen-reader-text">' . esc_html__('Dismiss this notice.', 'knittnet') . '</span></button></div>';
     }
 
     // Set up pagination, search query, and content type filter
     $nonce = isset($_GET['_wpnonce']) ? sanitize_text_field($_GET['_wpnonce']) : '';
-    $search_query = (!empty($nonce) && wp_verify_nonce($nonce, 'mxchat_prompts_search_nonce') && isset($_GET['search'])) ? sanitize_text_field($_GET['search']) : '';
+    $search_query = (!empty($nonce) && wp_verify_nonce($nonce, 'knittnet_prompts_search_nonce') && isset($_GET['search'])) ? sanitize_text_field($_GET['search']) : '';
     $content_type_filter = isset($_GET['content_type']) ? sanitize_key($_GET['content_type']) : ''; // ADDED 2.5.6
     $current_page = isset($_GET['paged']) ? absint($_GET['paged']) : 1;
     $per_page = 25;
@@ -3560,15 +3560,15 @@ public function mxchat_create_prompts_page() {
     // ================================
     
     // Check for multi-bot and set up bot selection
-    if (class_exists('MxChat_Multi_Bot_Manager')) {
-        $multi_bot_manager = MxChat_Multi_Bot_Core_Manager::get_instance();
+    if (class_exists('KnittNet_Multi_Bot_Manager')) {
+        $multi_bot_manager = KnittNet_Multi_Bot_Core_Manager::get_instance();
         $available_bots = $multi_bot_manager->get_available_bots();
         
         // Get saved bot selection (user-specific first, then site-wide default)
         $user_id = get_current_user_id();
-        $saved_bot_id = get_user_meta($user_id, 'mxchat_selected_knowledge_bot', true);
+        $saved_bot_id = get_user_meta($user_id, 'knittnet_selected_knowledge_bot', true);
         if (empty($saved_bot_id)) {
-            $saved_bot_id = get_option('mxchat_current_knowledge_bot', 'default');
+            $saved_bot_id = get_option('knittnet_current_knowledge_bot', 'default');
         }
         
         // Allow URL override but default to saved selection
@@ -3584,18 +3584,18 @@ public function mxchat_create_prompts_page() {
     // ================================
 
     // Get bot-specific Pinecone settings
-    $pinecone_options = $pinecone_manager->mxchat_get_bot_pinecone_options($current_bot_id);
-    $use_pinecone = ($pinecone_options['mxchat_use_pinecone'] ?? '0') === '1';
-    $pinecone_api_key = $pinecone_options['mxchat_pinecone_api_key'] ?? '';
+    $pinecone_options = $pinecone_manager->knittnet_get_bot_pinecone_options($current_bot_id);
+    $use_pinecone = ($pinecone_options['knittnet_use_pinecone'] ?? '0') === '1';
+    $pinecone_api_key = $pinecone_options['knittnet_pinecone_api_key'] ?? '';
 
     // Get OpenAI Vector Store settings
-    $vectorstore_options = get_option('mxchat_openai_vectorstore_options', array());
-    $use_vectorstore = ($vectorstore_options['mxchat_use_openai_vectorstore'] ?? '0') === '1';
+    $vectorstore_options = get_option('knittnet_openai_vectorstore_options', array());
+    $use_vectorstore = ($vectorstore_options['knittnet_use_openai_vectorstore'] ?? '0') === '1';
 
     //error_log('DEBUG: Bot ' . $current_bot_id . ' - Use Pinecone: ' . ($use_pinecone ? 'YES' : 'NO'));
     //error_log('DEBUG: Bot ' . $current_bot_id . ' - Has API Key: ' . (!empty($pinecone_api_key) ? 'YES' : 'NO'));
-    //error_log('DEBUG: Bot ' . $current_bot_id . ' - Host: ' . ($pinecone_options['mxchat_pinecone_host'] ?? 'NOT SET'));
-    //error_log('DEBUG: Bot ' . $current_bot_id . ' - Namespace: ' . ($pinecone_options['mxchat_pinecone_namespace'] ?? 'NOT SET'));
+    //error_log('DEBUG: Bot ' . $current_bot_id . ' - Host: ' . ($pinecone_options['knittnet_pinecone_host'] ?? 'NOT SET'));
+    //error_log('DEBUG: Bot ' . $current_bot_id . ' - Namespace: ' . ($pinecone_options['knittnet_pinecone_namespace'] ?? 'NOT SET'));
 
     if ($use_pinecone && !empty($pinecone_api_key)) {
         //error_log('DEBUG: Using PINECONE data source with bot-specific config');
@@ -3604,7 +3604,7 @@ public function mxchat_create_prompts_page() {
         
         // IMPORTANT: Pass the bot-specific $pinecone_options, not default options!
         // UPDATED 2.5.6: Added content_type_filter parameter
-        $records = $pinecone_manager->mxchat_fetch_pinecone_records($pinecone_options, $search_query, $current_page, $per_page, $current_bot_id, $content_type_filter);
+        $records = $pinecone_manager->knittnet_fetch_pinecone_records($pinecone_options, $search_query, $current_page, $per_page, $current_bot_id, $content_type_filter);
 
         // TEMPORARY DEBUG - Add this right after the fetch call
         //error_log('=== DEBUG: Bot switching issue ===');
@@ -3771,7 +3771,7 @@ public function mxchat_create_prompts_page() {
     // Generate pagination links
     if ($total_pages > 1) {
         // Build a clean base URL with only necessary parameters
-        $pagination_args = array('page' => 'mxchat-prompts');
+        $pagination_args = array('page' => 'knittnet-prompts');
 
         // Preserve bot_id parameter if multi-bot is active
         if ($multibot_active && !empty($current_bot_id) && $current_bot_id !== 'default') {
@@ -3797,8 +3797,8 @@ public function mxchat_create_prompts_page() {
         $page_links = paginate_links(array(
             'base' => $base_url . '%_%',
             'format' => '&paged=%#%',
-            'prev_text' => __('&laquo; Previous', 'mxchat'),
-            'next_text' => __('Next &raquo;', 'mxchat'),
+            'prev_text' => __('&laquo; Previous', 'knittnet'),
+            'next_text' => __('Next &raquo;', 'knittnet'),
             'total' => $total_pages,
             'current' => $current_page,
             'type' => 'plain',
@@ -3812,12 +3812,12 @@ public function mxchat_create_prompts_page() {
     // ================================
 
     // Retrieve processing statuses using queue-based method
-    $processing_statuses = $knowledge_manager->mxchat_get_processing_statuses();
+    $processing_statuses = $knowledge_manager->knittnet_get_processing_statuses();
     $pdf_status = $processing_statuses['pdf_status'];
     $sitemap_status = $processing_statuses['sitemap_status'];
     $is_processing = $processing_statuses['is_processing'];
 
-    //error_log('=== DEBUG: mxchat_create_prompts_page data preparation completed ===');
+    //error_log('=== DEBUG: knittnet_create_prompts_page data preparation completed ===');
 
     // ================================
     // RENDER PAGE WITH NEW SIDEBAR LAYOUT
@@ -3849,7 +3849,7 @@ public function mxchat_create_prompts_page() {
     );
 
     // Render the new sidebar-based page
-    mxchat_render_knowledge_page($this, $knowledge_manager, $page_data);
+    knittnet_render_knowledge_page($this, $knowledge_manager, $page_data);
 }
 
 /**
@@ -3857,54 +3857,54 @@ public function mxchat_create_prompts_page() {
  * Used in the knowledge retrieval functions
  */
 private function get_bot_pinecone_config($bot_id = 'default') {
-    //error_log("MXCHAT DEBUG: get_bot_pinecone_config called for bot: " . $bot_id);
+    //error_log("KNITTNET DEBUG: get_bot_pinecone_config called for bot: " . $bot_id);
     
     // If default bot or multi-bot add-on not active, use default Pinecone config
-    if ($bot_id === 'default' || !class_exists('MxChat_Multi_Bot_Manager')) {
-        //error_log("MXCHAT DEBUG: Using default Pinecone config (no multi-bot or bot is 'default')");
-        $addon_options = get_option('mxchat_pinecone_addon_options', array());
+    if ($bot_id === 'default' || !class_exists('KnittNet_Multi_Bot_Manager')) {
+        //error_log("KNITTNET DEBUG: Using default Pinecone config (no multi-bot or bot is 'default')");
+        $addon_options = get_option('knittnet_pinecone_addon_options', array());
         $config = array(
-            'use_pinecone' => (isset($addon_options['mxchat_use_pinecone']) && $addon_options['mxchat_use_pinecone'] === '1'),
-            'api_key' => $addon_options['mxchat_pinecone_api_key'] ?? '',
-            'host' => $addon_options['mxchat_pinecone_host'] ?? '',
-            'namespace' => $addon_options['mxchat_pinecone_namespace'] ?? ''
+            'use_pinecone' => (isset($addon_options['knittnet_use_pinecone']) && $addon_options['knittnet_use_pinecone'] === '1'),
+            'api_key' => $addon_options['knittnet_pinecone_api_key'] ?? '',
+            'host' => $addon_options['knittnet_pinecone_host'] ?? '',
+            'namespace' => $addon_options['knittnet_pinecone_namespace'] ?? ''
         );
-        //error_log("MXCHAT DEBUG: Default config - use_pinecone: " . ($config['use_pinecone'] ? 'true' : 'false'));
+        //error_log("KNITTNET DEBUG: Default config - use_pinecone: " . ($config['use_pinecone'] ? 'true' : 'false'));
         return $config;
     }
     
-    //error_log("MXCHAT DEBUG: Calling filter 'mxchat_get_bot_pinecone_config' for bot: " . $bot_id);
+    //error_log("KNITTNET DEBUG: Calling filter 'knittnet_get_bot_pinecone_config' for bot: " . $bot_id);
     
     // Hook for multi-bot add-on to provide bot-specific Pinecone config
-    $bot_pinecone_config = apply_filters('mxchat_get_bot_pinecone_config', array(), $bot_id);
+    $bot_pinecone_config = apply_filters('knittnet_get_bot_pinecone_config', array(), $bot_id);
     
     if (!empty($bot_pinecone_config)) {
-        //error_log("MXCHAT DEBUG: Got bot-specific config from filter");
+        //error_log("KNITTNET DEBUG: Got bot-specific config from filter");
         //error_log("  - use_pinecone: " . (isset($bot_pinecone_config['use_pinecone']) ? ($bot_pinecone_config['use_pinecone'] ? 'true' : 'false') : 'not set'));
         //error_log("  - host: " . ($bot_pinecone_config['host'] ?? 'not set'));
         //error_log("  - namespace: " . ($bot_pinecone_config['namespace'] ?? 'not set'));
     } else {
-        //error_log("MXCHAT DEBUG: Filter returned empty config!");
+        //error_log("KNITTNET DEBUG: Filter returned empty config!");
     }
     
     return is_array($bot_pinecone_config) ? $bot_pinecone_config : array();
 }
 
-public function mxchat_delete_chat_history() {
+public function knittnet_delete_chat_history() {
     if (!current_user_can('manage_options')) {
-        echo wp_json_encode(['error' => esc_html__('You do not have sufficient permissions.', 'mxchat')]);
+        echo wp_json_encode(['error' => esc_html__('You do not have sufficient permissions.', 'knittnet')]);
         wp_die();
     }
-    check_ajax_referer('mxchat_delete_chat_history', 'security');
+    check_ajax_referer('knittnet_delete_chat_history', 'security');
 
     if (!isset($_POST['delete_session_ids']) || !is_array($_POST['delete_session_ids'])) {
-        echo wp_json_encode(['error' => esc_html__('No chat sessions selected for deletion.', 'mxchat')]);
+        echo wp_json_encode(['error' => esc_html__('No chat sessions selected for deletion.', 'knittnet')]);
         wp_die();
     }
 
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_chat_transcripts';
-    $translations_table = $wpdb->prefix . 'mxchat_transcript_translations';
+    $table_name = $wpdb->prefix . 'knittnet_chat_transcripts';
+    $translations_table = $wpdb->prefix . 'knittnet_transcript_translations';
     $has_translations = $wpdb->get_var("SHOW TABLES LIKE '$translations_table'") === $translations_table;
 
     // When true, any lead attached to these sessions is fully wiped (all their sessions,
@@ -3932,15 +3932,15 @@ public function mxchat_delete_chat_history() {
             $session_id_sanitized
         ));
 
-        wp_cache_delete('chat_session_' . $session_id_sanitized, 'mxchat_chat_sessions');
+        wp_cache_delete('chat_session_' . $session_id_sanitized, 'knittnet_chat_sessions');
         $wpdb->delete($table_name, ['session_id' => $session_id_sanitized]);
 
         if ($has_translations) {
             $wpdb->delete($translations_table, ['session_id' => $session_id_sanitized]);
         }
 
-        delete_option('mxchat_history_' . $session_id_sanitized);
-        delete_option('mxchat_agent_name_' . $session_id_sanitized);
+        delete_option('knittnet_history_' . $session_id_sanitized);
+        delete_option('knittnet_agent_name_' . $session_id_sanitized);
 
         if ($lead_row && !empty($lead_row->user_email)) {
             if ($also_delete_lead) {
@@ -3948,27 +3948,27 @@ public function mxchat_delete_chat_history() {
                 // related options get swept below. Also clear this session's pre-chat
                 // capture options (they're no longer meaningful).
                 $emails_to_fully_wipe[strtolower($lead_row->user_email)] = $lead_row->user_email;
-                delete_option('mxchat_email_' . $session_id_sanitized);
-                delete_option('mxchat_name_' . $session_id_sanitized);
+                delete_option('knittnet_email_' . $session_id_sanitized);
+                delete_option('knittnet_name_' . $session_id_sanitized);
             } else {
                 // Preserve the lead in a "Chat deleted" state via distinct option keys so
                 // they stay out of the orphan bucket (orphan = pre-chat form dropoff).
-                update_option('mxchat_lead_del_email_' . $session_id_sanitized, $lead_row->user_email, false);
+                update_option('knittnet_lead_del_email_' . $session_id_sanitized, $lead_row->user_email, false);
                 if (!empty($lead_row->user_name)) {
-                    update_option('mxchat_lead_del_name_' . $session_id_sanitized, $lead_row->user_name, false);
+                    update_option('knittnet_lead_del_name_' . $session_id_sanitized, $lead_row->user_name, false);
                 }
                 if (!empty($lead_row->last_ts)) {
-                    update_option('mxchat_lead_del_ts_' . $session_id_sanitized, $lead_row->last_ts, false);
+                    update_option('knittnet_lead_del_ts_' . $session_id_sanitized, $lead_row->last_ts, false);
                 }
                 // Clean up pre-chat capture options for this session — chat_deleted supersedes.
-                delete_option('mxchat_email_' . $session_id_sanitized);
-                delete_option('mxchat_name_' . $session_id_sanitized);
+                delete_option('knittnet_email_' . $session_id_sanitized);
+                delete_option('knittnet_name_' . $session_id_sanitized);
                 $preserved_as_deleted_leads++;
             }
         } else {
             // No lead attached — nothing to preserve. Clean up any orphan options anyway.
-            delete_option('mxchat_email_' . $session_id_sanitized);
-            delete_option('mxchat_name_' . $session_id_sanitized);
+            delete_option('knittnet_email_' . $session_id_sanitized);
+            delete_option('knittnet_name_' . $session_id_sanitized);
         }
 
         $deleted_count++;
@@ -3978,14 +3978,14 @@ public function mxchat_delete_chat_history() {
     // chat_deleted preservation) for each affected email. Reuses the same internal
     // helper as the Leads-tab Delete button for consistency.
     if (!empty($emails_to_fully_wipe)) {
-        self::mxchat_wipe_leads_by_email(array_values($emails_to_fully_wipe));
+        self::knittnet_wipe_leads_by_email(array_values($emails_to_fully_wipe));
     }
 
-    wp_cache_delete('all_chat_sessions', 'mxchat_chat_sessions');
+    wp_cache_delete('all_chat_sessions', 'knittnet_chat_sessions');
 
     echo wp_json_encode([
         'success' => sprintf(
-            esc_html__('%d chat session(s) have been deleted.', 'mxchat'),
+            esc_html__('%d chat session(s) have been deleted.', 'knittnet'),
             $deleted_count
         ),
         'preserved_as_deleted_leads' => $preserved_as_deleted_leads,
@@ -4101,23 +4101,23 @@ private function format_transcript_message($text) {
  * AJAX handler to fetch RAG context for a specific message
  * Used by the transcript viewer to show retrieved documents
  */
-public function mxchat_get_rag_context() {
+public function knittnet_get_rag_context() {
     // Check permissions
     if (!current_user_can('manage_options')) {
-        wp_send_json_error(['message' => esc_html__('You do not have sufficient permissions.', 'mxchat')]);
+        wp_send_json_error(['message' => esc_html__('You do not have sufficient permissions.', 'knittnet')]);
         wp_die();
     }
 
     // Validate message ID
     if (!isset($_POST['message_id']) || empty($_POST['message_id'])) {
-        wp_send_json_error(['message' => esc_html__('Message ID is required.', 'mxchat')]);
+        wp_send_json_error(['message' => esc_html__('Message ID is required.', 'knittnet')]);
         wp_die();
     }
 
     $message_id = absint($_POST['message_id']);
 
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_chat_transcripts';
+    $table_name = $wpdb->prefix . 'knittnet_chat_transcripts';
 
     // Fetch the RAG context for this message
     $result = $wpdb->get_row($wpdb->prepare(
@@ -4126,7 +4126,7 @@ public function mxchat_get_rag_context() {
     ));
 
     if (!$result || empty($result->rag_context)) {
-        wp_send_json_error(['message' => esc_html__('No RAG context found for this message.', 'mxchat')]);
+        wp_send_json_error(['message' => esc_html__('No RAG context found for this message.', 'knittnet')]);
         wp_die();
     }
 
@@ -4134,7 +4134,7 @@ public function mxchat_get_rag_context() {
     $rag_context = json_decode($result->rag_context, true);
 
     if (json_last_error() !== JSON_ERROR_NONE) {
-        wp_send_json_error(['message' => esc_html__('Invalid RAG context data.', 'mxchat')]);
+        wp_send_json_error(['message' => esc_html__('Invalid RAG context data.', 'knittnet')]);
         wp_die();
     }
 
@@ -4143,48 +4143,48 @@ public function mxchat_get_rag_context() {
 }
 
 public function display_admin_notices() {
-    // Check if we're on a MXChat admin page
+    // Check if we're on a KnittNet admin page
     $screen = get_current_screen();
-    if (!$screen || strpos($screen->base, 'mxchat') === false) {
+    if (!$screen || strpos($screen->base, 'knittnet') === false) {
         return;
     }
 
-    $dismiss_button = '<button type="button" class="notice-dismiss"><span class="screen-reader-text">' . esc_html__('Dismiss this notice.', 'mxchat') . '</span></button>';
+    $dismiss_button = '<button type="button" class="notice-dismiss"><span class="screen-reader-text">' . esc_html__('Dismiss this notice.', 'knittnet') . '</span></button>';
 
     // Check for error notices
-    $error_notice = get_transient('mxchat_admin_notice_error');
+    $error_notice = get_transient('knittnet_admin_notice_error');
     if ($error_notice) {
         echo '<div class="notice notice-error is-dismissible"><p>' . wp_kses_post($error_notice) . '</p>' . $dismiss_button . '</div>';
-        delete_transient('mxchat_admin_notice_error');
+        delete_transient('knittnet_admin_notice_error');
     }
 
     // Check for success notices
-    $success_notice = get_transient('mxchat_admin_notice_success');
+    $success_notice = get_transient('knittnet_admin_notice_success');
     if ($success_notice) {
         echo '<div class="notice notice-success is-dismissible"><p>' . wp_kses_post($success_notice) . '</p>' . $dismiss_button . '</div>';
-        delete_transient('mxchat_admin_notice_success');
+        delete_transient('knittnet_admin_notice_success');
     }
 
     // Check for info notices
-    $info_notice = get_transient('mxchat_admin_notice_info');
+    $info_notice = get_transient('knittnet_admin_notice_info');
     if ($info_notice) {
         echo '<div class="notice notice-info is-dismissible"><p>' . wp_kses_post($info_notice) . '</p>' . $dismiss_button . '</div>';
-        delete_transient('mxchat_admin_notice_info');
+        delete_transient('knittnet_admin_notice_info');
     }
 }
 
 
-public function mxchat_create_activation_page() {
+public function knittnet_create_activation_page() {
     // Include the new Pro & Extensions page template
     require_once plugin_dir_path(__FILE__) . 'admin-pro-page.php';
 
-    // Get addons configuration from the MxChat_Addons class
-    require_once plugin_dir_path(__FILE__) . 'class-mxchat-addons.php';
-    $addons_instance = new MxChat_Addons();
+    // Get addons configuration from the KnittNet_Addons class
+    require_once plugin_dir_path(__FILE__) . 'class-knittnet-addons.php';
+    $addons_instance = new KnittNet_Addons();
     $addons_config = $addons_instance->get_addons_config();
 
     // Render the consolidated Pro & Extensions page
-    mxchat_render_pro_page($this, $addons_config);
+    knittnet_render_pro_page($this, $addons_config);
 }
 
 /**
@@ -4192,15 +4192,15 @@ public function mxchat_create_activation_page() {
  * This checks YOUR website's database, not the user's local database
  */
 public function is_current_activation_linked($domain) {
-    $license_key = get_option('mxchat_activation_key');
-    $email = get_option('mxchat_pro_email');
+    $license_key = get_option('knittnet_activation_key');
+    $email = get_option('knittnet_pro_email');
 
     if (empty($license_key) || empty($email)) {
         return false;
     }
 
     // Check with YOUR website's API
-    $response = wp_remote_post('https://mxchat.ai/mxchat-api/check-domain', array(
+    $response = wp_remote_post('https://knittnet.ai/knittnet-api/check-domain', array(
         'body' => array(
             'license_key' => $license_key,
             'email' => $email,
@@ -4219,13 +4219,13 @@ public function is_current_activation_linked($domain) {
 }
 
 
-public function mxchat_actions_page_html() {
+public function knittnet_actions_page_html() {
     if (!current_user_can('manage_options')) {
         return;
     }
 
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_intents';
+    $table_name = $wpdb->prefix . 'knittnet_intents';
 
     // Get stats for dashboard
     $total_actions = $wpdb->get_var("SELECT COUNT(*) FROM $table_name");
@@ -4237,8 +4237,8 @@ public function mxchat_actions_page_html() {
 
     // Get action type distribution
     $type_distribution_raw = $wpdb->get_results("SELECT callback_function, COUNT(*) as count FROM $table_name GROUP BY callback_function ORDER BY count DESC LIMIT 10");
-    $available_callbacks = $this->mxchat_get_available_callbacks();
-    $callback_groups = $this->mxchat_get_available_callbacks(true, true);
+    $available_callbacks = $this->knittnet_get_available_callbacks();
+    $callback_groups = $this->knittnet_get_available_callbacks(true, true);
 
     $action_type_distribution = array();
     foreach ($type_distribution_raw as $row) {
@@ -4248,26 +4248,26 @@ public function mxchat_actions_page_html() {
         $action_type_distribution[$label] = $row->count;
     }
 
-    // Native function-calling (AI Tools) data — plan-mxchat-20260617-a41dee.
-    // The AI Tools checklist reads from MxChat_Tool_Registry, the SAME single
+    // Native function-calling (AI Tools) data — plan-knittnet-20260617-a41dee.
+    // The AI Tools checklist reads from KnittNet_Tool_Registry, the SAME single
     // source the chat-time function-calling loop reads, so the two never drift.
-    if (!class_exists('MxChat_Tool_Registry')) {
-        require_once plugin_dir_path(__FILE__) . 'class-mxchat-tool-registry.php';
+    if (!class_exists('KnittNet_Tool_Registry')) {
+        require_once plugin_dir_path(__FILE__) . 'class-knittnet-tool-registry.php';
     }
-    if (!class_exists('MxChat_Model_Catalog')) {
-        require_once plugin_dir_path(__FILE__) . 'class-mxchat-model-catalog.php';
+    if (!class_exists('KnittNet_Model_Catalog')) {
+        require_once plugin_dir_path(__FILE__) . 'class-knittnet-model-catalog.php';
     }
-    $fc_options       = get_option('mxchat_options', array());
+    $fc_options       = get_option('knittnet_options', array());
     $fc_current_model = isset($fc_options['model']) ? $fc_options['model'] : 'gpt-5.1-chat-latest';
-    $fc_model_capable = class_exists('MxChat_Model_Catalog')
-        ? MxChat_Model_Catalog::supports_tools($fc_current_model) : true;
+    $fc_model_capable = class_exists('KnittNet_Model_Catalog')
+        ? KnittNet_Model_Catalog::supports_tools($fc_current_model) : true;
     $active_tab = (isset($_GET['tab']) && $_GET['tab'] === 'ai-tools') ? 'ai-tools' : 'dashboard';
 
     // Enrich each AI Tool with the dashicon its callback already uses on the
     // Trigger Phrases "Choose what it does" grid, so the AI Tools cards/modal
     // share the same iconography (plan 8bbf98 part 4). View-layer only — the
     // registry's model-facing data is untouched. Default admin-generic.
-    $fc_tools = MxChat_Tool_Registry::available_tools();
+    $fc_tools = KnittNet_Tool_Registry::available_tools();
     foreach ($fc_tools as &$fc_tool_ref) {
         $fc_cb_ref = $fc_tool_ref['callback'];
         $fc_tool_ref['icon'] = isset($available_callbacks[$fc_cb_ref]['icon'])
@@ -4309,51 +4309,51 @@ public function mxchat_actions_page_html() {
         'callback_groups' => $callback_groups,
         // AI Tools section
         'active_tab'        => $active_tab,
-        'fc_enabled'        => MxChat_Tool_Registry::is_enabled(),
+        'fc_enabled'        => KnittNet_Tool_Registry::is_enabled(),
         'total_tools'       => $total_tools,
         'fc_tools'          => $fc_tools,
         'fc_current_model'  => $fc_current_model,
         'fc_model_capable'  => $fc_model_capable,
         'fc_brave_missing'  => $fc_brave_missing,
-        'fc_saved'          => isset($_GET['mxchat_fc_saved']),
+        'fc_saved'          => isset($_GET['knittnet_fc_saved']),
     );
 
     // Include and render the new template
     require_once plugin_dir_path(__FILE__) . 'admin-actions-page.php';
-    mxchat_render_actions_page($this, $page_data);
+    knittnet_render_actions_page($this, $page_data);
 }
 
 /**
  * LEGACY HTML - Preserved below for reference, to be removed in future update
  */
-function mxchat_actions_page_legacy_html() {
+function knittnet_actions_page_legacy_html() {
     // This function is deprecated and no longer used
     // The new template is in includes/admin-actions-page.php
     ?>
-    <div class="wrap mxchat-wrapper">
+    <div class="wrap knittnet-wrapper">
         <!-- Hero Section -->
-        <div class="mxchat-hero">
-            <h1 class="mxchat-main-title">
-                <span class="mxchat-gradient-text">Actions</span> Manager
+        <div class="knittnet-hero">
+            <h1 class="knittnet-main-title">
+                <span class="knittnet-gradient-text">Actions</span> Manager
             </h1>
-            <p class="mxchat-hero-subtitle">
-                <?php esc_html_e('Create and manage custom actions to enhance your chatbot\'s capabilities.', 'mxchat'); ?>
+            <p class="knittnet-hero-subtitle">
+                <?php esc_html_e('Create and manage custom actions to enhance your chatbot\'s capabilities.', 'knittnet'); ?>
             </p>
         </div>
 
         <!-- Actions Header with Search and Filter -->
-        <div class="mxchat-actions-header">
-            <div class="mxchat-actions-filters">
-                <form method="get" class="mxchat-search-form">
-                    <input type="hidden" name="page" value="mxchat-actions">
-                    <div class="mxchat-search-group">
+        <div class="knittnet-actions-header">
+            <div class="knittnet-actions-filters">
+                <form method="get" class="knittnet-search-form">
+                    <input type="hidden" name="page" value="knittnet-actions">
+                    <div class="knittnet-search-group">
                         <span class="dashicons dashicons-search"></span>
-                        <input type="text" name="s" class="mxchat-search-input"
-                               placeholder="<?php esc_attr_e('Search Actions', 'mxchat'); ?>"
+                        <input type="text" name="s" class="knittnet-search-input"
+                               placeholder="<?php esc_attr_e('Search Actions', 'knittnet'); ?>"
                                value="<?php echo esc_attr($search_term); ?>">
                     </div>
-                    <select name="callback_filter" class="mxchat-action-filter">
-                        <option value=""><?php esc_html_e('All Action Types', 'mxchat'); ?></option>
+                    <select name="callback_filter" class="knittnet-action-filter">
+                        <option value=""><?php esc_html_e('All Action Types', 'knittnet'); ?></option>
                         <?php foreach ($available_callbacks as $function => $callback_data) :
                             $label = $callback_data['label']; ?>
                             <option value="<?php echo esc_attr($function); ?>"
@@ -4362,22 +4362,22 @@ function mxchat_actions_page_legacy_html() {
                             </option>
                         <?php endforeach; ?>
                     </select>
-                    <button type="submit" class="mxchat-button-secondary">
-                        <?php esc_html_e('Filter', 'mxchat'); ?>
+                    <button type="submit" class="knittnet-button-secondary">
+                        <?php esc_html_e('Filter', 'knittnet'); ?>
                     </button>
                 </form>
             </div>
-            <div class="mxchat-actions-controls">
-                <button type="button" id="mxchat-add-action-btn" class="mxchat-button-primary">
+            <div class="knittnet-actions-controls">
+                <button type="button" id="knittnet-add-action-btn" class="knittnet-button-primary">
                     <span class="dashicons dashicons-plus-alt"></span>
-                    <?php esc_html_e('Add New Action', 'mxchat'); ?>
+                    <?php esc_html_e('Add New Action', 'knittnet'); ?>
                 </button>
             </div>
         </div>
 
         <!-- Actions Grid Layout - All actions in a single grid -->
-        <div class="mxchat-actions-grid">
-            <div class="mxchat-cards-container">
+        <div class="knittnet-actions-grid">
+            <div class="knittnet-cards-container">
                 <?php if (!empty($actions)) : ?>
                     <?php foreach ($actions as $action) :
                         $callback_function = $action->callback_function;
@@ -4405,28 +4405,28 @@ function mxchat_actions_page_legacy_html() {
                             $enabled_bots = ['default']; // Backward compatibility
                         }
                     ?>
-                        <div class="mxchat-action-card <?php echo $is_form_action ? 'mxchat-form-action' : ''; ?>">
-                            <div class="mxchat-card-header">
-                                <div class="mxchat-card-title"><?php echo esc_html($action->intent_label); ?></div>
-                                <div class="mxchat-card-toggle">
-                                    <label class="mxchat-switch">
-                                        <input type="checkbox" class="mxchat-action-toggle"
+                        <div class="knittnet-action-card <?php echo $is_form_action ? 'knittnet-form-action' : ''; ?>">
+                            <div class="knittnet-card-header">
+                                <div class="knittnet-card-title"><?php echo esc_html($action->intent_label); ?></div>
+                                <div class="knittnet-card-toggle">
+                                    <label class="knittnet-switch">
+                                        <input type="checkbox" class="knittnet-action-toggle"
                                                data-action-id="<?php echo esc_attr($action->id); ?>"
                                                <?php checked($is_enabled); ?>>
-                                        <span class="mxchat-slider round"></span>
+                                        <span class="knittnet-slider round"></span>
                                     </label>
                                 </div>
                             </div>
 
-                            <div class="mxchat-card-body">
-                                <div class="mxchat-card-description">
-                                    <strong><?php esc_html_e('Type:', 'mxchat'); ?></strong>
+                            <div class="knittnet-card-body">
+                                <div class="knittnet-card-description">
+                                    <strong><?php esc_html_e('Type:', 'knittnet'); ?></strong>
                                     <?php echo esc_html($callback_label); ?>
                                 </div>
 
-                                <div class="mxchat-card-phrases">
-                                    <strong><?php esc_html_e('Trigger phrases:', 'mxchat'); ?></strong>
-                                    <div class="mxchat-phrases-preview">
+                                <div class="knittnet-card-phrases">
+                                    <strong><?php esc_html_e('Trigger phrases:', 'knittnet'); ?></strong>
+                                    <div class="knittnet-phrases-preview">
                                         <?php
                                         // Check if the helper function exists, otherwise use a simple substring
                                         if (method_exists($this, 'get_trimmed_phrases')) {
@@ -4440,30 +4440,30 @@ function mxchat_actions_page_legacy_html() {
                                     </div>
                                 </div>
 
-                                <div class="mxchat-threshold-control">
-                                    <div class="mxchat-threshold-label">
-                                        <?php esc_html_e('Similarity Threshold:', 'mxchat'); ?>
-                                        <span class="mxchat-threshold-value"><?php echo esc_html($threshold_value); ?>%</span>
+                                <div class="knittnet-threshold-control">
+                                    <div class="knittnet-threshold-label">
+                                        <?php esc_html_e('Similarity Threshold:', 'knittnet'); ?>
+                                        <span class="knittnet-threshold-value"><?php echo esc_html($threshold_value); ?>%</span>
                                     </div>
                                 </div>
                                 
                                 <!-- Bot Availability Display (Read-only) -->
-                                <div class="mxchat-card-bots">
-                                    <strong><?php esc_html_e('Assigned bots:', 'mxchat'); ?></strong>
-                                    <div class="mxchat-bot-badges">
+                                <div class="knittnet-card-bots">
+                                    <strong><?php esc_html_e('Assigned bots:', 'knittnet'); ?></strong>
+                                    <div class="knittnet-bot-badges">
                                         <?php
                                         foreach ($enabled_bots as $bot_id) {
                                             if ($bot_id === 'default') {
-                                                echo '<span class="mxchat-bot-badge">' . esc_html__('Default Bot', 'mxchat') . '</span>';
+                                                echo '<span class="knittnet-bot-badge">' . esc_html__('Default Bot', 'knittnet') . '</span>';
                                             } else {
                                                 // Try to get bot name from multi-bot manager
-                                                if (class_exists('MxChat_Multi_Bot_Core_Manager')) {
-                                                    $multi_bot_manager = MxChat_Multi_Bot_Core_Manager::get_instance();
+                                                if (class_exists('KnittNet_Multi_Bot_Core_Manager')) {
+                                                    $multi_bot_manager = KnittNet_Multi_Bot_Core_Manager::get_instance();
                                                     $available_bots = $multi_bot_manager->get_available_bots();
                                                     $bot_name = isset($available_bots[$bot_id]) ? $available_bots[$bot_id] : $bot_id;
-                                                    echo '<span class="mxchat-bot-badge">' . esc_html($bot_name) . '</span>';
+                                                    echo '<span class="knittnet-bot-badge">' . esc_html($bot_name) . '</span>';
                                                 } else {
-                                                    echo '<span class="mxchat-bot-badge">' . esc_html($bot_id) . '</span>';
+                                                    echo '<span class="knittnet-bot-badge">' . esc_html($bot_id) . '</span>';
                                                 }
                                             }
                                         }
@@ -4472,7 +4472,7 @@ function mxchat_actions_page_legacy_html() {
                                 </div>
                             </div>
 
-                            <div class="mxchat-card-footer">
+                            <div class="knittnet-card-footer">
                                 <?php
                                 // Check if it's a form action
                                 $is_form_action = preg_match('/Form (\d+)/', $action->intent_label, $form_matches);
@@ -4483,21 +4483,21 @@ function mxchat_actions_page_legacy_html() {
                                 if ($is_form_action) {
                                     $form_id = isset($form_matches[1]) ? $form_matches[1] : '';
                                 ?>
-                                    <a href="<?php echo esc_url(admin_url('admin.php?page=mxchat-forms&action=edit&form_id=' . $form_id)); ?>"
-                                       class="mxchat-button-primary">
+                                    <a href="<?php echo esc_url(admin_url('admin.php?page=knittnet-forms&action=edit&form_id=' . $form_id)); ?>"
+                                       class="knittnet-button-primary">
                                         <span class="dashicons dashicons-feedback"></span>
-                                        <?php esc_html_e('Edit Form', 'mxchat'); ?>
+                                        <?php esc_html_e('Edit Form', 'knittnet'); ?>
                                     </a>
                                 <?php } elseif ($is_flow_action) {
                                 ?>
-                                    <a href="<?php echo esc_url(admin_url('admin.php?page=mxchat-smart-recommender')); ?>"
-                                       class="mxchat-button-primary">
+                                    <a href="<?php echo esc_url(admin_url('admin.php?page=knittnet-smart-recommender')); ?>"
+                                       class="knittnet-button-primary">
                                         <span class="dashicons dashicons-list-view"></span>
-                                        <?php esc_html_e('Manage Flows', 'mxchat'); ?>
+                                        <?php esc_html_e('Manage Flows', 'knittnet'); ?>
                                     </a>
                                 <?php } else { ?>
                                     <button type="button"
-                                            class="mxchat-button-secondary mxchat-edit-button"
+                                            class="knittnet-button-secondary knittnet-edit-button"
                                             data-action-id="<?php echo esc_attr($action->id); ?>"
                                             data-phrases="<?php echo esc_attr($action->phrases); ?>"
                                             data-label="<?php echo esc_attr($action->intent_label); ?>"
@@ -4505,18 +4505,18 @@ function mxchat_actions_page_legacy_html() {
                                             data-callback-function="<?php echo esc_attr($action->callback_function); ?>"
                                             data-enabled-bots="<?php echo esc_attr(json_encode($enabled_bots)); ?>">
                                         <span class="dashicons dashicons-edit"></span>
-                                        <?php esc_html_e('Edit', 'mxchat'); ?>
+                                        <?php esc_html_e('Edit', 'knittnet'); ?>
                                     </button>
                                     <form method="post"
                                           action="<?php echo esc_url(admin_url('admin-post.php')); ?>"
-                                          class="mxchat-delete-form"
-                                          onsubmit="return confirm('<?php esc_attr_e('Are you sure you want to delete this action?', 'mxchat'); ?>');">
-                                        <?php wp_nonce_field('mxchat_delete_intent_nonce'); ?>
-                                        <input type="hidden" name="action" value="mxchat_delete_intent">
+                                          class="knittnet-delete-form"
+                                          onsubmit="return confirm('<?php esc_attr_e('Are you sure you want to delete this action?', 'knittnet'); ?>');">
+                                        <?php wp_nonce_field('knittnet_delete_intent_nonce'); ?>
+                                        <input type="hidden" name="action" value="knittnet_delete_intent">
                                         <input type="hidden" name="intent_id" value="<?php echo esc_attr($action->id); ?>">
-                                        <button type="submit" class="mxchat-button-text mxchat-delete-button">
+                                        <button type="submit" class="knittnet-button-text knittnet-delete-button">
                                             <span class="dashicons dashicons-trash"></span>
-                                            <?php esc_html_e('Delete', 'mxchat'); ?>
+                                            <?php esc_html_e('Delete', 'knittnet'); ?>
                                         </button>
                                     </form>
                                 <?php } ?>
@@ -4525,13 +4525,13 @@ function mxchat_actions_page_legacy_html() {
                     <?php endforeach; ?>
                 <?php else : ?>
                     <!-- If no actions found -->
-                    <div class="mxchat-no-actions">
-                        <div class="mxchat-empty-state">
+                    <div class="knittnet-no-actions">
+                        <div class="knittnet-empty-state">
                             <span class="dashicons dashicons-format-chat"></span>
-                            <h2><?php esc_html_e('No actions found', 'mxchat'); ?></h2>
-                            <p><?php esc_html_e('Get started by creating your first action to enhance your chatbot.', 'mxchat'); ?></p>
-                            <button type="button" id="mxchat-create-first-action" class="mxchat-button-primary">
-                                <?php esc_html_e('Create Your First Action', 'mxchat'); ?>
+                            <h2><?php esc_html_e('No actions found', 'knittnet'); ?></h2>
+                            <p><?php esc_html_e('Get started by creating your first action to enhance your chatbot.', 'knittnet'); ?></p>
+                            <button type="button" id="knittnet-create-first-action" class="knittnet-button-primary">
+                                <?php esc_html_e('Create Your First Action', 'knittnet'); ?>
                             </button>
                         </div>
                     </div>
@@ -4540,13 +4540,13 @@ function mxchat_actions_page_legacy_html() {
         </div>
 
         <?php if ($total_pages > 1) : ?>
-            <div class="mxchat-pagination">
+            <div class="knittnet-pagination">
                 <?php
                 echo paginate_links(array(
                     'base' => add_query_arg('paged', '%#%'),
                     'format' => '',
-                    'prev_text' => __('&laquo; Previous', 'mxchat'),
-                    'next_text' => __('Next &raquo;', 'mxchat'),
+                    'prev_text' => __('&laquo; Previous', 'knittnet'),
+                    'next_text' => __('Next &raquo;', 'knittnet'),
                     'total' => $total_pages,
                     'current' => $page
                 ));
@@ -4556,49 +4556,49 @@ function mxchat_actions_page_legacy_html() {
 
 <!-- Add/Edit Action Modal with Step-Based Approach -->
 <!-- Complete Modal HTML with Defined Groups Variable -->
-<div id="mxchat-action-modal" class="mxchat-modal" style="display: none;">
-    <div class="mxchat-modal-content">
-        <span class="mxchat-modal-close">&times;</span>
+<div id="knittnet-action-modal" class="knittnet-modal" style="display: none;">
+    <div class="knittnet-modal-content">
+        <span class="knittnet-modal-close">&times;</span>
 
-        <form id="mxchat-action-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+        <form id="knittnet-action-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
             <!-- Dynamic nonce field -->
             <div id="action-nonce-container">
-                <?php wp_nonce_field('mxchat_add_intent_nonce', 'add_intent_nonce'); ?>
+                <?php wp_nonce_field('knittnet_add_intent_nonce', 'add_intent_nonce'); ?>
             </div>
-            <input type="hidden" name="action" id="form_action_type" value="mxchat_add_intent">
+            <input type="hidden" name="action" id="form_action_type" value="knittnet_add_intent">
             <input type="hidden" name="intent_id" id="edit_action_id" value="">
             <input type="hidden" name="callback_function" id="callback_function" value="">
 
             <!-- Step 1: Action Type Selection -->
-            <div id="mxchat-action-step-1" class="mxchat-action-step active">
-                <div class="mxchat-step-indicator">
-                    <div class="mxchat-step-number">1</div>
-                    <div class="mxchat-step-title"><?php esc_html_e('Select Action Type', 'mxchat'); ?></div>
+            <div id="knittnet-action-step-1" class="knittnet-action-step active">
+                <div class="knittnet-step-indicator">
+                    <div class="knittnet-step-number">1</div>
+                    <div class="knittnet-step-title"><?php esc_html_e('Select Action Type', 'knittnet'); ?></div>
                 </div>
 
-                <div id="mxchat-action-type-selector" class="mxchat-action-type-selector">
-                    <div class="mxchat-action-type-search">
+                <div id="knittnet-action-type-selector" class="knittnet-action-type-selector">
+                    <div class="knittnet-action-type-search">
                         <span class="dashicons dashicons-search"></span>
-                        <input type="text" id="action-type-search" placeholder="<?php esc_attr_e('Search action types...', 'mxchat'); ?>" class="mxchat-action-type-search-input">
+                        <input type="text" id="action-type-search" placeholder="<?php esc_attr_e('Search action types...', 'knittnet'); ?>" class="knittnet-action-type-search-input">
                     </div>
 
                     <?php
                     // Get the callbacks - IMPORTANT: Define the $groups variable here
-                    $groups = $this->mxchat_get_available_callbacks(true, true);
+                    $groups = $this->knittnet_get_available_callbacks(true, true);
                     ?>
 
-                    <div class="mxchat-action-type-categories">
-                        <button type="button" class="mxchat-category-button active" data-category="all"><?php esc_html_e('All', 'mxchat'); ?></button>
+                    <div class="knittnet-action-type-categories">
+                        <button type="button" class="knittnet-category-button active" data-category="all"><?php esc_html_e('All', 'knittnet'); ?></button>
                         <?php
                         // Get unique categories from the defined groups
                         foreach ($groups as $group_label => $group_callbacks) :
                             $category_slug = sanitize_title($group_label);
                         ?>
-                            <button type="button" class="mxchat-category-button" data-category="<?php echo esc_attr($category_slug); ?>"><?php echo esc_html($group_label); ?></button>
+                            <button type="button" class="knittnet-category-button" data-category="<?php echo esc_attr($category_slug); ?>"><?php echo esc_html($group_label); ?></button>
                         <?php endforeach; ?>
                     </div>
 
-                    <div class="mxchat-action-types-grid">
+                    <div class="knittnet-action-types-grid">
                         <?php
                         // Generate action cards from available callbacks
                         foreach ($groups as $group_label => $group_callbacks) :
@@ -4614,24 +4614,24 @@ function mxchat_actions_page_legacy_html() {
                                 $is_promo = !empty($data['addon_promo']) && !$is_installed;
 
                                 // Determine card status and styling
-                                $card_class = 'mxchat-action-type-card';
-                                $icon_class = 'mxchat-action-type-icon';
+                                $card_class = 'knittnet-action-type-card';
+                                $icon_class = 'knittnet-action-type-icon';
                                 $status_badge = '';
 
                                 if ($is_promo) {
                                     // Promotional card — not selectable, just informational
-                                    $card_class .= ' not-installed mxchat-promo-card';
-                                    $status_badge = '<span class="mxchat-addon-badge">' . esc_html__('Add-on Required', 'mxchat') . '</span>';
+                                    $card_class .= ' not-installed knittnet-promo-card';
+                                    $status_badge = '<span class="knittnet-addon-badge">' . esc_html__('Add-on Required', 'knittnet') . '</span>';
                                 } elseif ($is_addon && !$is_installed) {
                                     // Add-on not installed
                                     $card_class .= ' not-installed';
-                                    $status_badge .= '<span class="mxchat-addon-badge">' . esc_html__('Add-on Required', 'mxchat') . '</span>';
+                                    $status_badge .= '<span class="knittnet-addon-badge">' . esc_html__('Add-on Required', 'knittnet') . '</span>';
                                 }
 
                                 // Default description if none provided
                                 if (empty($description)) {
                                     $description = sprintf(
-                                        esc_html__('Use the %s action in your chatbot', 'mxchat'),
+                                        esc_html__('Use the %s action in your chatbot', 'knittnet'),
                                         $label
                                     );
                                 }
@@ -4649,7 +4649,7 @@ function mxchat_actions_page_legacy_html() {
                                     <div class="<?php echo esc_attr($icon_class); ?>">
                                         <span class="dashicons dashicons-<?php echo esc_attr($icon); ?>"></span>
                                     </div>
-                                    <div class="mxchat-action-type-info">
+                                    <div class="knittnet-action-type-info">
                                         <h4><?php echo esc_html($label); ?></h4>
                                         <p><?php echo esc_html($description); ?></p>
                                         <?php if (!empty($status_badge)) : ?>
@@ -4657,12 +4657,12 @@ function mxchat_actions_page_legacy_html() {
                                         <?php endif; ?>
 
                                         <?php if ($is_promo || ($is_addon && !$is_installed)) : ?>
-                                            <div class="mxchat-addon-info">
+                                            <div class="knittnet-addon-info">
                                                 <?php echo esc_html(sprintf(
-                                                    __('Requires %s', 'mxchat'),
+                                                    __('Requires %s', 'knittnet'),
                                                     $addon_name
                                                 )); ?>
-                                                — <a href="https://mxchat.ai/" target="_blank"><?php esc_html_e('Get Add-on', 'mxchat'); ?></a>
+                                                — <a href="https://knittnet.ai/" target="_blank"><?php esc_html_e('Get Add-on', 'knittnet'); ?></a>
                                             </div>
                                         <?php endif; ?>
                                     </div>
@@ -4672,106 +4672,106 @@ function mxchat_actions_page_legacy_html() {
                     </div>
                 </div>
 
-                <div class="mxchat-modal-actions">
-                    <button type="button" class="mxchat-button-secondary mxchat-modal-cancel">
-                        <?php esc_html_e('Cancel', 'mxchat'); ?>
+                <div class="knittnet-modal-actions">
+                    <button type="button" class="knittnet-button-secondary knittnet-modal-cancel">
+                        <?php esc_html_e('Cancel', 'knittnet'); ?>
                     </button>
                 </div>
             </div>
 
             <!-- Step 2: Action Configuration -->
-            <div id="mxchat-action-step-2" class="mxchat-action-step">
-                <div class="mxchat-step-indicator">
-                    <div class="mxchat-step-number">2</div>
-                    <div class="mxchat-step-title"><?php esc_html_e('Configure Action', 'mxchat'); ?></div>
+            <div id="knittnet-action-step-2" class="knittnet-action-step">
+                <div class="knittnet-step-indicator">
+                    <div class="knittnet-step-number">2</div>
+                    <div class="knittnet-step-title"><?php esc_html_e('Configure Action', 'knittnet'); ?></div>
                 </div>
 
-                <div class="mxchat-selected-action">
-                    <button type="button" class="mxchat-back-button" id="mxchat-back-to-step-1">
+                <div class="knittnet-selected-action">
+                    <button type="button" class="knittnet-back-button" id="knittnet-back-to-step-1">
                         <span class="dashicons dashicons-arrow-left-alt"></span>
-                        <?php esc_html_e('Back to Action Types', 'mxchat'); ?>
+                        <?php esc_html_e('Back to Action Types', 'knittnet'); ?>
                     </button>
-                    <div class="mxchat-selected-action-info">
-                        <div id="selected-action-icon" class="mxchat-action-type-icon">
+                    <div class="knittnet-selected-action-info">
+                        <div id="selected-action-icon" class="knittnet-action-type-icon">
                             <span class="dashicons dashicons-admin-generic"></span>
                         </div>
-                        <div class="mxchat-selected-action-details">
-                            <h3 id="selected-action-title"><?php esc_html_e('Selected Action', 'mxchat'); ?></h3>
-                            <p id="selected-action-description"><?php esc_html_e('Configure this action for your chatbot', 'mxchat'); ?></p>
+                        <div class="knittnet-selected-action-details">
+                            <h3 id="selected-action-title"><?php esc_html_e('Selected Action', 'knittnet'); ?></h3>
+                            <p id="selected-action-description"><?php esc_html_e('Configure this action for your chatbot', 'knittnet'); ?></p>
                         </div>
                     </div>
                 </div>
 
-                <div class="mxchat-form-group">
+                <div class="knittnet-form-group">
                     <label for="intent_label">
-                        <?php esc_html_e('Action Label (For your reference only)', 'mxchat'); ?>
+                        <?php esc_html_e('Action Label (For your reference only)', 'knittnet'); ?>
                     </label>
                     <input name="intent_label" type="text" id="intent_label" required
-                           class="mxchat-intent-input"
-                           placeholder="<?php esc_attr_e('Example: Newsletter Signup', 'mxchat'); ?>">
+                           class="knittnet-intent-input"
+                           placeholder="<?php esc_attr_e('Example: Newsletter Signup', 'knittnet'); ?>">
                 </div>
 
-                <div class="mxchat-form-group">
+                <div class="knittnet-form-group">
                     <label for="phrases">
-                        <?php esc_html_e('Trigger Phrases (comma-separated)', 'mxchat'); ?>
+                        <?php esc_html_e('Trigger Phrases (comma-separated)', 'knittnet'); ?>
                     </label>
                     <textarea name="phrases" id="action_phrases" rows="5" required
-                            class="mxchat-intent-textarea"
-                            placeholder="<?php esc_attr_e('Example: sign me up, subscribe me, I want to join, add me to the newsletter', 'mxchat'); ?>"></textarea>
+                            class="knittnet-intent-textarea"
+                            placeholder="<?php esc_attr_e('Example: sign me up, subscribe me, I want to join, add me to the newsletter', 'knittnet'); ?>"></textarea>
                 </div>
 
-                <div class="mxchat-form-group">
+                <div class="knittnet-form-group">
                     <label for="similarity_threshold">
-                        <?php esc_html_e('Similarity Threshold', 'mxchat'); ?>
-                        <span class="mxchat-threshold-value-display">85%</span>
+                        <?php esc_html_e('Similarity Threshold', 'knittnet'); ?>
+                        <span class="knittnet-threshold-value-display">85%</span>
                     </label>
-                    <div class="mxchat-slider-group modal-slider">
+                    <div class="knittnet-slider-group modal-slider">
                         <input type="range"
                                name="similarity_threshold"
                                id="similarity_threshold"
                                min="10"
                                max="95"
                                value="85"
-                               class="mxchat-intent-slider"
-                               oninput="document.querySelector('.mxchat-threshold-value-display').textContent = this.value + '%'">
+                               class="knittnet-intent-slider"
+                               oninput="document.querySelector('.knittnet-threshold-value-display').textContent = this.value + '%'">
                     </div>
-                    <div class="mxchat-threshold-hint">
-                        <?php esc_html_e('Lower values (10-30) make the action trigger more easily. Higher values (70-95) require more exact matches.', 'mxchat'); ?>
+                    <div class="knittnet-threshold-hint">
+                        <?php esc_html_e('Lower values (10-30) make the action trigger more easily. Higher values (70-95) require more exact matches.', 'knittnet'); ?>
                     </div>
                 </div>
 
                 <!-- Bot Selection Section -->
-                <div class="mxchat-form-group">
+                <div class="knittnet-form-group">
                     <label for="enabled_bots">
-                        <?php esc_html_e('Which bots should we enable this action for?', 'mxchat'); ?>
+                        <?php esc_html_e('Which bots should we enable this action for?', 'knittnet'); ?>
                     </label>
-                    <div class="mxchat-bot-selector">
-                        <div class="mxchat-bot-option">
-                            <label class="mxchat-checkbox-label">
+                    <div class="knittnet-bot-selector">
+                        <div class="knittnet-bot-option">
+                            <label class="knittnet-checkbox-label">
                                 <input type="checkbox" 
                                        name="enabled_bots[]" 
                                        value="default" 
                                        id="bot_default" 
                                        checked="checked">
-                                <span class="mxchat-checkmark"></span>
-                                <?php esc_html_e('Default Bot', 'mxchat'); ?>
+                                <span class="knittnet-checkmark"></span>
+                                <?php esc_html_e('Default Bot', 'knittnet'); ?>
                             </label>
                         </div>
                         
-                        <?php if (class_exists('MxChat_Multi_Bot_Core_Manager')) : 
-                            $multi_bot_manager = MxChat_Multi_Bot_Core_Manager::get_instance();
+                        <?php if (class_exists('KnittNet_Multi_Bot_Core_Manager')) : 
+                            $multi_bot_manager = KnittNet_Multi_Bot_Core_Manager::get_instance();
                             $available_bots = $multi_bot_manager->get_available_bots();
                             
                             foreach ($available_bots as $bot_id => $bot_name) :
                                 if ($bot_id === 'default') continue; // Skip default, already shown above
                         ?>
-                            <div class="mxchat-bot-option">
-                                <label class="mxchat-checkbox-label">
+                            <div class="knittnet-bot-option">
+                                <label class="knittnet-checkbox-label">
                                     <input type="checkbox" 
                                            name="enabled_bots[]" 
                                            value="<?php echo esc_attr($bot_id); ?>" 
                                            id="bot_<?php echo esc_attr($bot_id); ?>">
-                                    <span class="mxchat-checkmark"></span>
+                                    <span class="knittnet-checkmark"></span>
                                     <?php echo esc_html($bot_name); ?>
                                 </label>
                             </div>
@@ -4781,12 +4781,12 @@ function mxchat_actions_page_legacy_html() {
                     </div>
                 </div>
 
-                <div class="mxchat-modal-actions">
-                    <button type="button" class="mxchat-button-secondary mxchat-modal-cancel">
-                        <?php esc_html_e('Cancel', 'mxchat'); ?>
+                <div class="knittnet-modal-actions">
+                    <button type="button" class="knittnet-button-secondary knittnet-modal-cancel">
+                        <?php esc_html_e('Cancel', 'knittnet'); ?>
                     </button>
-                    <button type="submit" class="mxchat-button-primary" id="mxchat-save-action-btn">
-                        <?php esc_html_e('Save Action', 'mxchat'); ?>
+                    <button type="submit" class="knittnet-button-primary" id="knittnet-save-action-btn">
+                        <?php esc_html_e('Save Action', 'knittnet'); ?>
                     </button>
                 </div>
             </div>
@@ -4794,13 +4794,13 @@ function mxchat_actions_page_legacy_html() {
     </div>
 </div>
 
-<div id="mxchat-action-loading" class="mxchat-action-loading" style="display: none;">
-    <div class="mxchat-action-loading-spinner"></div>
-    <div class="mxchat-action-loading-text">
-        <?php esc_html_e('Saving action, please wait...', 'mxchat'); ?>
+<div id="knittnet-action-loading" class="knittnet-action-loading" style="display: none;">
+    <div class="knittnet-action-loading-spinner"></div>
+    <div class="knittnet-action-loading-text">
+        <?php esc_html_e('Saving action, please wait...', 'knittnet'); ?>
     </div>
 </div>
-    </div><!-- .mxchat-wrapper -->
+    </div><!-- .knittnet-wrapper -->
     <?php
 }
 private function get_trimmed_phrases($phrases, $max_length = 100) {
@@ -4817,9 +4817,9 @@ private function get_trimmed_phrases($phrases, $max_length = 100) {
 
     return $trimmed . '...';
 }
-public function mxchat_add_enabled_column_to_intents() {
+public function knittnet_add_enabled_column_to_intents() {
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_intents';
+    $table_name = $wpdb->prefix . 'knittnet_intents';
 
     // Check if the column already exists
     $columns = $wpdb->get_results("SHOW COLUMNS FROM $table_name LIKE 'enabled'");
@@ -4830,30 +4830,30 @@ public function mxchat_add_enabled_column_to_intents() {
     }
 }
 
-public function mxchat_handle_delete_intent() {
+public function knittnet_handle_delete_intent() {
     if ( ! current_user_can( 'manage_options' ) ) {
-        wp_die( esc_html__('Unauthorized user', 'mxchat') );
+        wp_die( esc_html__('Unauthorized user', 'knittnet') );
     }
 
-    check_admin_referer('mxchat_delete_intent_nonce');
+    check_admin_referer('knittnet_delete_intent_nonce');
 
     if (isset($_POST['intent_id'])) {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'mxchat_intents';
+        $table_name = $wpdb->prefix . 'knittnet_intents';
         $intent_id = intval($_POST['intent_id']);
 
         $wpdb->delete($table_name, ['id' => $intent_id], ['%d']);
     }
 
-    wp_safe_redirect(admin_url('admin.php?page=mxchat-actions'));
+    wp_safe_redirect(admin_url('admin.php?page=knittnet-actions'));
     exit;
 }
-public function mxchat_handle_edit_intent() {
+public function knittnet_handle_edit_intent() {
     // Security checks (nonce and permissions)
     if (!current_user_can('manage_options')) {
-        wp_die(esc_html__('Unauthorized user', 'mxchat'));
+        wp_die(esc_html__('Unauthorized user', 'knittnet'));
     }
-    check_admin_referer('mxchat_edit_intent');
+    check_admin_referer('knittnet_edit_intent');
 
     // Get POST data
     $intent_id = isset($_POST['intent_id']) ? absint($_POST['intent_id']) : 0;
@@ -4875,13 +4875,13 @@ public function mxchat_handle_edit_intent() {
 
     // Validate inputs
     if (!$intent_id || empty($intent_label) || empty($phrases_input)) {
-        $this->handle_embedding_error(__('Invalid input. Please ensure all fields are filled out.', 'mxchat'));
+        $this->handle_embedding_error(__('Invalid input. Please ensure all fields are filled out.', 'knittnet'));
         return;
     }
 
     $phrases_array = array_map('sanitize_text_field', array_filter(array_map('trim', explode(',', $phrases_input))));
     if (empty($phrases_array)) {
-        $this->handle_embedding_error(__('Please enter at least one valid phrase.', 'mxchat'));
+        $this->handle_embedding_error(__('Please enter at least one valid phrase.', 'knittnet'));
         return;
     }
 
@@ -4890,7 +4890,7 @@ public function mxchat_handle_edit_intent() {
     $failed_phrases = [];
 
     foreach ($phrases_array as $phrase) {
-        $embedding_vector = $this->mxchat_generate_embedding($phrase, $this->options['api_key']);
+        $embedding_vector = $this->knittnet_generate_embedding($phrase, $this->options['api_key']);
         if (is_array($embedding_vector)) {
             $vectors[] = $embedding_vector;
         } else {
@@ -4901,7 +4901,7 @@ public function mxchat_handle_edit_intent() {
     if (!empty($failed_phrases)) {
         $this->handle_embedding_error(
             sprintf(
-                __('Error generating embeddings for phrases: %s. Check your embedding API.', 'mxchat'),
+                __('Error generating embeddings for phrases: %s. Check your embedding API.', 'knittnet'),
                 implode(', ', $failed_phrases)
             )
         );
@@ -4909,16 +4909,16 @@ public function mxchat_handle_edit_intent() {
     }
 
     if (empty($vectors)) {
-        $this->handle_embedding_error(__('No valid embeddings generated. Please check your phrases.', 'mxchat'));
+        $this->handle_embedding_error(__('No valid embeddings generated. Please check your phrases.', 'knittnet'));
         return;
     }
 
-    $combined_vector = $this->mxchat_average_vectors($vectors);
+    $combined_vector = $this->knittnet_average_vectors($vectors);
     $serialized_vector = maybe_serialize($combined_vector);
 
     // Update the database
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_intents';
+    $table_name = $wpdb->prefix . 'knittnet_intents';
 
     $result = $wpdb->update(
         $table_name,
@@ -4935,29 +4935,29 @@ public function mxchat_handle_edit_intent() {
     );
 
     if (false === $result) {
-        $this->handle_embedding_error(__('Failed to update action in database.', 'mxchat'));
+        $this->handle_embedding_error(__('Failed to update action in database.', 'knittnet'));
         return;
     }
 
     // Set success message and redirect
-    set_transient('mxchat_admin_notice_success', __('Intent updated successfully!', 'mxchat'), 60);
+    set_transient('knittnet_admin_notice_success', __('Intent updated successfully!', 'knittnet'), 60);
 
     $redirect_url = add_query_arg(
         array(
-            'page' => 'mxchat-actions'
+            'page' => 'knittnet-actions'
         ),
         admin_url('admin.php')
     );
     wp_safe_redirect($redirect_url);
     exit;
 }
-public function mxchat_handle_add_intent() {
+public function knittnet_handle_add_intent() {
     if (!current_user_can('manage_options')) {
-        wp_die(esc_html__('Unauthorized user', 'mxchat'));
+        wp_die(esc_html__('Unauthorized user', 'knittnet'));
     }
-    check_admin_referer('mxchat_add_intent_nonce');
+    check_admin_referer('knittnet_add_intent_nonce');
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_intents';
+    $table_name = $wpdb->prefix . 'knittnet_intents';
     
     // Sanitize and get form data
     $intent_label = isset($_POST['intent_label']) ? sanitize_text_field($_POST['intent_label']) : '';
@@ -4980,22 +4980,22 @@ public function mxchat_handle_add_intent() {
     
     // Validate required fields
     if (empty($intent_label) || empty($callback_function) || empty($phrases_input)) {
-        $this->handle_embedding_error(__('Invalid input. Please ensure all fields are filled out.', 'mxchat'));
+        $this->handle_embedding_error(__('Invalid input. Please ensure all fields are filled out.', 'knittnet'));
         return;
     }
     
     // Validate callback function
-    $available_callbacks = $this->mxchat_get_available_callbacks();
+    $available_callbacks = $this->knittnet_get_available_callbacks();
     if (!array_key_exists($callback_function, $available_callbacks)) {
-        $this->handle_embedding_error(__('Invalid callback function selected.', 'mxchat'));
+        $this->handle_embedding_error(__('Invalid callback function selected.', 'knittnet'));
         return;
     }
     
     // Check if this is an add-on promotional placeholder (not a real action)
     if (!empty($available_callbacks[$callback_function]['addon_promo'])) {
-        $addon_name = isset($available_callbacks[$callback_function]['addon_name']) ? $available_callbacks[$callback_function]['addon_name'] : __('an add-on', 'mxchat');
+        $addon_name = isset($available_callbacks[$callback_function]['addon_name']) ? $available_callbacks[$callback_function]['addon_name'] : __('an add-on', 'knittnet');
         $this->handle_embedding_error(sprintf(
-            __('This action requires the %s to be installed and activated.', 'mxchat'),
+            __('This action requires the %s to be installed and activated.', 'knittnet'),
             $addon_name
         ));
         return;
@@ -5004,7 +5004,7 @@ public function mxchat_handle_add_intent() {
     // Process phrases
     $phrases_array = array_map('sanitize_text_field', array_filter(array_map('trim', explode(',', $phrases_input))));
     if (empty($phrases_array)) {
-        $this->handle_embedding_error(__('Please enter at least one valid phrase.', 'mxchat'));
+        $this->handle_embedding_error(__('Please enter at least one valid phrase.', 'knittnet'));
         return;
     }
     
@@ -5012,7 +5012,7 @@ public function mxchat_handle_add_intent() {
     $vectors = [];
     $failed_phrases = [];
     foreach ($phrases_array as $phrase) {
-        $embedding_vector = $this->mxchat_generate_embedding($phrase, $this->options['api_key']);
+        $embedding_vector = $this->knittnet_generate_embedding($phrase, $this->options['api_key']);
         if (is_array($embedding_vector)) {
             $vectors[] = $embedding_vector;
         } else {
@@ -5024,7 +5024,7 @@ public function mxchat_handle_add_intent() {
     if (!empty($failed_phrases)) {
         $this->handle_embedding_error(
             sprintf(
-                __('Error generating embeddings for phrases: %s. Check your embedding API.', 'mxchat'),
+                __('Error generating embeddings for phrases: %s. Check your embedding API.', 'knittnet'),
                 implode(', ', $failed_phrases)
             )
         );
@@ -5032,12 +5032,12 @@ public function mxchat_handle_add_intent() {
     }
     
     if (empty($vectors)) {
-        $this->handle_embedding_error(__('No valid embeddings generated. Please check your phrases.', 'mxchat'));
+        $this->handle_embedding_error(__('No valid embeddings generated. Please check your phrases.', 'knittnet'));
         return;
     }
     
     // Create combined vector and insert into database
-    $combined_vector = $this->mxchat_average_vectors($vectors);
+    $combined_vector = $this->knittnet_average_vectors($vectors);
     $serialized_vector = maybe_serialize($combined_vector);
     
     $result = $wpdb->insert($table_name, [
@@ -5050,13 +5050,13 @@ public function mxchat_handle_add_intent() {
     ]);
     
     if ($result === false) {
-        $this->handle_embedding_error(__('Database error: ', 'mxchat') . $wpdb->last_error);
+        $this->handle_embedding_error(__('Database error: ', 'knittnet') . $wpdb->last_error);
         return;
     }
     
     // Set success message and redirect
-    set_transient('mxchat_admin_notice_success', __('New intent added successfully!', 'mxchat'), 60);
-    wp_safe_redirect(admin_url('admin.php?page=mxchat-actions'));
+    set_transient('knittnet_admin_notice_success', __('New intent added successfully!', 'knittnet'), 60);
+    wp_safe_redirect(admin_url('admin.php?page=knittnet-actions'));
     exit;
 }
 
@@ -5065,13 +5065,13 @@ public function mxchat_handle_add_intent() {
 
 private function handle_embedding_error($message, $redirect = true) {
     // Store the error message in the existing transient
-    set_transient('mxchat_admin_notice_error', $message, 60);
+    set_transient('knittnet_admin_notice_error', $message, 60);
 
     if ($redirect) {
         // Redirect back to the actions page
         $redirect_url = add_query_arg(
             array(
-                'page' => 'mxchat-actions'
+                'page' => 'knittnet-actions'
             ),
             admin_url('admin.php')
         );
@@ -5083,15 +5083,15 @@ private function handle_embedding_error($message, $redirect = true) {
 /**
  * AJAX handler to fetch actions list for the new split-panel UI
  */
-public function mxchat_fetch_actions_list() {
-    check_ajax_referer('mxchat_actions_nonce', 'security');
+public function knittnet_fetch_actions_list() {
+    check_ajax_referer('knittnet_actions_nonce', 'security');
 
     if (!current_user_can('manage_options')) {
-        wp_send_json_error(__('Unauthorized', 'mxchat'));
+        wp_send_json_error(__('Unauthorized', 'knittnet'));
     }
 
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_intents';
+    $table_name = $wpdb->prefix . 'knittnet_intents';
 
     $page = isset($_POST['page']) ? max(1, intval($_POST['page'])) : 1;
     $per_page = isset($_POST['per_page']) ? min(100, max(1, intval($_POST['per_page']))) : 50;
@@ -5129,10 +5129,10 @@ public function mxchat_fetch_actions_list() {
     $actions = $wpdb->get_results($wpdb->prepare($query, $all_params));
 
     // Get available callbacks for labels/icons
-    $available_callbacks = $this->mxchat_get_available_callbacks();
+    $available_callbacks = $this->knittnet_get_available_callbacks();
 
     // Prefetch individual phrase counts for all fetched actions
-    $phrases_table = $wpdb->prefix . 'mxchat_intent_phrases';
+    $phrases_table = $wpdb->prefix . 'knittnet_intent_phrases';
     $phrase_counts = array();
     if ($wpdb->get_var("SHOW TABLES LIKE '$phrases_table'") === $phrases_table) {
         $action_ids = wp_list_pluck($actions, 'id');
@@ -5193,22 +5193,22 @@ public function mxchat_fetch_actions_list() {
 /**
  * AJAX handler to toggle action enabled status
  */
-public function mxchat_toggle_action_status() {
-    check_ajax_referer('mxchat_actions_nonce', 'security');
+public function knittnet_toggle_action_status() {
+    check_ajax_referer('knittnet_actions_nonce', 'security');
 
     if (!current_user_can('manage_options')) {
-        wp_send_json_error(__('Unauthorized', 'mxchat'));
+        wp_send_json_error(__('Unauthorized', 'knittnet'));
     }
 
     $action_id = isset($_POST['action_id']) ? intval($_POST['action_id']) : 0;
     $enabled = isset($_POST['enabled']) ? intval($_POST['enabled']) : 0;
 
     if (!$action_id) {
-        wp_send_json_error(__('Invalid action ID', 'mxchat'));
+        wp_send_json_error(__('Invalid action ID', 'knittnet'));
     }
 
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_intents';
+    $table_name = $wpdb->prefix . 'knittnet_intents';
 
     $result = $wpdb->update(
         $table_name,
@@ -5219,7 +5219,7 @@ public function mxchat_toggle_action_status() {
     );
 
     if ($result === false) {
-        wp_send_json_error(__('Failed to update action status', 'mxchat'));
+        wp_send_json_error(__('Failed to update action status', 'knittnet'));
     }
 
     wp_send_json_success(array('enabled' => (bool) $enabled));
@@ -5228,32 +5228,32 @@ public function mxchat_toggle_action_status() {
 /**
  * AJAX handler to bulk delete actions
  */
-public function mxchat_bulk_delete_actions() {
-    check_ajax_referer('mxchat_delete_intent_nonce', 'security');
+public function knittnet_bulk_delete_actions() {
+    check_ajax_referer('knittnet_delete_intent_nonce', 'security');
 
     if (!current_user_can('manage_options')) {
-        wp_send_json_error(__('Unauthorized', 'mxchat'));
+        wp_send_json_error(__('Unauthorized', 'knittnet'));
     }
 
     $action_ids = isset($_POST['action_ids']) ? array_map('intval', (array) $_POST['action_ids']) : array();
 
     if (empty($action_ids)) {
-        wp_send_json_error(__('No actions selected', 'mxchat'));
+        wp_send_json_error(__('No actions selected', 'knittnet'));
     }
 
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_intents';
+    $table_name = $wpdb->prefix . 'knittnet_intents';
 
     $placeholders = implode(',', array_fill(0, count($action_ids), '%d'));
     $query = $wpdb->prepare("DELETE FROM $table_name WHERE id IN ($placeholders)", $action_ids);
     $result = $wpdb->query($query);
 
     if ($result === false) {
-        wp_send_json_error(__('Failed to delete actions', 'mxchat'));
+        wp_send_json_error(__('Failed to delete actions', 'knittnet'));
     }
 
     // Also delete individual phrases for these intents
-    $phrases_table = $wpdb->prefix . 'mxchat_intent_phrases';
+    $phrases_table = $wpdb->prefix . 'knittnet_intent_phrases';
     if ($wpdb->get_var("SHOW TABLES LIKE '$phrases_table'") === $phrases_table) {
         $wpdb->query($wpdb->prepare("DELETE FROM $phrases_table WHERE intent_id IN ($placeholders)", $action_ids));
     }
@@ -5264,15 +5264,15 @@ public function mxchat_bulk_delete_actions() {
 /**
  * AJAX handler to add a new intent/action
  */
-public function mxchat_add_intent_ajax() {
-    check_ajax_referer('mxchat_add_intent_nonce', 'security');
+public function knittnet_add_intent_ajax() {
+    check_ajax_referer('knittnet_add_intent_nonce', 'security');
 
     if (!current_user_can('manage_options')) {
-        wp_send_json_error(__('Unauthorized', 'mxchat'));
+        wp_send_json_error(__('Unauthorized', 'knittnet'));
     }
 
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_intents';
+    $table_name = $wpdb->prefix . 'knittnet_intents';
 
     // Sanitize input
     $intent_label = isset($_POST['intent_label']) ? sanitize_text_field($_POST['intent_label']) : '';
@@ -5288,10 +5288,10 @@ public function mxchat_add_intent_ajax() {
 
     // Validate required fields (phrases not required when using individual mode)
     if (empty($intent_label) || empty($callback_function)) {
-        wp_send_json_error(__('Please fill in all required fields.', 'mxchat'));
+        wp_send_json_error(__('Please fill in all required fields.', 'knittnet'));
     }
     if (!$use_individual && empty($phrases_input)) {
-        wp_send_json_error(__('Please fill in all required fields.', 'mxchat'));
+        wp_send_json_error(__('Please fill in all required fields.', 'knittnet'));
     }
 
     // Ensure default bot is included
@@ -5317,19 +5317,19 @@ public function mxchat_add_intent_ajax() {
         );
 
         if ($result === false) {
-            wp_send_json_error(__('Failed to add action to database.', 'mxchat'));
+            wp_send_json_error(__('Failed to add action to database.', 'knittnet'));
         }
 
         $intent_id = $wpdb->insert_id;
 
         // Insert each phrase individually with its own embedding
-        $phrases_table = $wpdb->prefix . 'mxchat_intent_phrases';
+        $phrases_table = $wpdb->prefix . 'knittnet_intent_phrases';
         $failed_phrases = array();
         foreach ($individual_phrases as $phrase) {
             $phrase = trim($phrase);
             if (empty($phrase)) continue;
 
-            $embedding_vector = $this->mxchat_generate_embedding($phrase);
+            $embedding_vector = $this->knittnet_generate_embedding($phrase);
             if (is_wp_error($embedding_vector)) {
                 $failed_phrases[] = $phrase;
                 continue;
@@ -5355,11 +5355,11 @@ public function mxchat_add_intent_ajax() {
         // Legacy mode: combine all phrases into one embedding (backwards compatible)
         $phrases_array = array_filter(array_map('trim', preg_split('/[\n,]+/', $phrases_input)));
         if (empty($phrases_array)) {
-            wp_send_json_error(__('Please provide at least one trigger phrase.', 'mxchat'));
+            wp_send_json_error(__('Please provide at least one trigger phrase.', 'knittnet'));
         }
 
         // Generate embedding (combine phrases into single string for embedding)
-        $embedding_vector = $this->mxchat_generate_embedding(implode(' ', $phrases_array));
+        $embedding_vector = $this->knittnet_generate_embedding(implode(' ', $phrases_array));
         if (is_wp_error($embedding_vector)) {
             // Fallback: store without embedding
             $serialized_vector = null;
@@ -5382,7 +5382,7 @@ public function mxchat_add_intent_ajax() {
         );
 
         if ($result === false) {
-            wp_send_json_error(__('Failed to add action to database.', 'mxchat'));
+            wp_send_json_error(__('Failed to add action to database.', 'knittnet'));
         }
 
         wp_send_json_success(array('id' => $wpdb->insert_id));
@@ -5392,15 +5392,15 @@ public function mxchat_add_intent_ajax() {
 /**
  * AJAX handler to edit an existing intent/action
  */
-public function mxchat_edit_intent_ajax() {
-    check_ajax_referer('mxchat_edit_intent', 'security');
+public function knittnet_edit_intent_ajax() {
+    check_ajax_referer('knittnet_edit_intent', 'security');
 
     if (!current_user_can('manage_options')) {
-        wp_send_json_error(__('Unauthorized', 'mxchat'));
+        wp_send_json_error(__('Unauthorized', 'knittnet'));
     }
 
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_intents';
+    $table_name = $wpdb->prefix . 'knittnet_intents';
 
     // Sanitize input
     $intent_id = isset($_POST['intent_id']) ? intval($_POST['intent_id']) : 0;
@@ -5412,7 +5412,7 @@ public function mxchat_edit_intent_ajax() {
 
     // Validate
     if (!$intent_id || empty($intent_label)) {
-        wp_send_json_error(__('Please fill in all required fields.', 'mxchat'));
+        wp_send_json_error(__('Please fill in all required fields.', 'knittnet'));
     }
 
     // Check if phrases are managed individually (empty phrases_input means individual mode)
@@ -5430,11 +5430,11 @@ public function mxchat_edit_intent_ajax() {
         // Legacy mode: process phrases and regenerate embedding (backwards compatible for add-ons)
         $phrases_array = array_filter(array_map('trim', preg_split('/[\n,]+/', $phrases_input)));
         if (empty($phrases_array)) {
-            wp_send_json_error(__('Please provide at least one trigger phrase.', 'mxchat'));
+            wp_send_json_error(__('Please provide at least one trigger phrase.', 'knittnet'));
         }
 
         // Generate new embedding (combine phrases into single string for embedding)
-        $embedding_vector = $this->mxchat_generate_embedding(implode(' ', $phrases_array));
+        $embedding_vector = $this->knittnet_generate_embedding(implode(' ', $phrases_array));
         if (is_wp_error($embedding_vector)) {
             // Keep existing embedding
             $update_data = array(
@@ -5472,7 +5472,7 @@ public function mxchat_edit_intent_ajax() {
     );
 
     if ($result === false) {
-        wp_send_json_error(__('Failed to update action.', 'mxchat'));
+        wp_send_json_error(__('Failed to update action.', 'knittnet'));
     }
 
     wp_send_json_success(array('updated' => true));
@@ -5481,30 +5481,30 @@ public function mxchat_edit_intent_ajax() {
 /**
  * AJAX handler to delete a single intent/action
  */
-public function mxchat_delete_intent_ajax() {
-    check_ajax_referer('mxchat_delete_intent_nonce', 'security');
+public function knittnet_delete_intent_ajax() {
+    check_ajax_referer('knittnet_delete_intent_nonce', 'security');
 
     if (!current_user_can('manage_options')) {
-        wp_send_json_error(__('Unauthorized', 'mxchat'));
+        wp_send_json_error(__('Unauthorized', 'knittnet'));
     }
 
     $intent_id = isset($_POST['intent_id']) ? intval($_POST['intent_id']) : 0;
 
     if (!$intent_id) {
-        wp_send_json_error(__('Invalid action ID', 'mxchat'));
+        wp_send_json_error(__('Invalid action ID', 'knittnet'));
     }
 
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_intents';
+    $table_name = $wpdb->prefix . 'knittnet_intents';
 
     $result = $wpdb->delete($table_name, array('id' => $intent_id), array('%d'));
 
     if ($result === false) {
-        wp_send_json_error(__('Failed to delete action', 'mxchat'));
+        wp_send_json_error(__('Failed to delete action', 'knittnet'));
     }
 
     // Also delete individual phrases for this intent
-    $phrases_table = $wpdb->prefix . 'mxchat_intent_phrases';
+    $phrases_table = $wpdb->prefix . 'knittnet_intent_phrases';
     if ($wpdb->get_var("SHOW TABLES LIKE '$phrases_table'") === $phrases_table) {
         $wpdb->delete($phrases_table, array('intent_id' => $intent_id), array('%d'));
     }
@@ -5515,35 +5515,35 @@ public function mxchat_delete_intent_ajax() {
 /**
  * AJAX handler to add a single phrase with its own embedding to an intent
  */
-public function mxchat_add_phrase_ajax() {
-    check_ajax_referer('mxchat_add_phrase_nonce', 'security');
+public function knittnet_add_phrase_ajax() {
+    check_ajax_referer('knittnet_add_phrase_nonce', 'security');
 
     if (!current_user_can('manage_options')) {
-        wp_send_json_error(__('Unauthorized', 'mxchat'));
+        wp_send_json_error(__('Unauthorized', 'knittnet'));
     }
 
     $intent_id = isset($_POST['intent_id']) ? intval($_POST['intent_id']) : 0;
     $phrase = isset($_POST['phrase']) ? sanitize_text_field($_POST['phrase']) : '';
 
     if (!$intent_id || empty($phrase)) {
-        wp_send_json_error(__('Please provide an intent ID and phrase.', 'mxchat'));
+        wp_send_json_error(__('Please provide an intent ID and phrase.', 'knittnet'));
     }
 
     // Verify the intent exists
     global $wpdb;
-    $intents_table = $wpdb->prefix . 'mxchat_intents';
+    $intents_table = $wpdb->prefix . 'knittnet_intents';
     $intent = $wpdb->get_row($wpdb->prepare("SELECT id FROM $intents_table WHERE id = %d", $intent_id));
     if (!$intent) {
-        wp_send_json_error(__('Action not found.', 'mxchat'));
+        wp_send_json_error(__('Action not found.', 'knittnet'));
     }
 
     // Generate embedding for this single phrase
-    $embedding_vector = $this->mxchat_generate_embedding($phrase);
+    $embedding_vector = $this->knittnet_generate_embedding($phrase);
     if (is_wp_error($embedding_vector)) {
-        wp_send_json_error(__('Failed to generate embedding: ', 'mxchat') . $embedding_vector->get_error_message());
+        wp_send_json_error(__('Failed to generate embedding: ', 'knittnet') . $embedding_vector->get_error_message());
     }
 
-    $phrases_table = $wpdb->prefix . 'mxchat_intent_phrases';
+    $phrases_table = $wpdb->prefix . 'knittnet_intent_phrases';
     $result = $wpdb->insert(
         $phrases_table,
         array(
@@ -5554,33 +5554,33 @@ public function mxchat_add_phrase_ajax() {
     );
 
     if ($result === false) {
-        wp_send_json_error(__('Failed to add phrase.', 'mxchat'));
+        wp_send_json_error(__('Failed to add phrase.', 'knittnet'));
     }
 
     wp_send_json_success(array('id' => $wpdb->insert_id, 'phrase' => $phrase));
 }
 
 /**
- * AJAX handler to delete a single phrase from wp_mxchat_intent_phrases
+ * AJAX handler to delete a single phrase from wp_knittnet_intent_phrases
  */
-public function mxchat_delete_phrase_ajax() {
-    check_ajax_referer('mxchat_delete_phrase_nonce', 'security');
+public function knittnet_delete_phrase_ajax() {
+    check_ajax_referer('knittnet_delete_phrase_nonce', 'security');
 
     if (!current_user_can('manage_options')) {
-        wp_send_json_error(__('Unauthorized', 'mxchat'));
+        wp_send_json_error(__('Unauthorized', 'knittnet'));
     }
 
     $phrase_id = isset($_POST['phrase_id']) ? intval($_POST['phrase_id']) : 0;
     if (!$phrase_id) {
-        wp_send_json_error(__('Invalid phrase ID.', 'mxchat'));
+        wp_send_json_error(__('Invalid phrase ID.', 'knittnet'));
     }
 
     global $wpdb;
-    $phrases_table = $wpdb->prefix . 'mxchat_intent_phrases';
+    $phrases_table = $wpdb->prefix . 'knittnet_intent_phrases';
     $result = $wpdb->delete($phrases_table, array('id' => $phrase_id), array('%d'));
 
     if ($result === false) {
-        wp_send_json_error(__('Failed to delete phrase.', 'mxchat'));
+        wp_send_json_error(__('Failed to delete phrase.', 'knittnet'));
     }
 
     wp_send_json_success(array('deleted' => true));
@@ -5589,20 +5589,20 @@ public function mxchat_delete_phrase_ajax() {
 /**
  * AJAX handler to fetch individual phrases for an intent
  */
-public function mxchat_get_phrases_ajax() {
-    check_ajax_referer('mxchat_get_phrases_nonce', 'security');
+public function knittnet_get_phrases_ajax() {
+    check_ajax_referer('knittnet_get_phrases_nonce', 'security');
 
     if (!current_user_can('manage_options')) {
-        wp_send_json_error(__('Unauthorized', 'mxchat'));
+        wp_send_json_error(__('Unauthorized', 'knittnet'));
     }
 
     $intent_id = isset($_POST['intent_id']) ? intval($_POST['intent_id']) : 0;
     if (!$intent_id) {
-        wp_send_json_error(__('Invalid intent ID.', 'mxchat'));
+        wp_send_json_error(__('Invalid intent ID.', 'knittnet'));
     }
 
     global $wpdb;
-    $phrases_table = $wpdb->prefix . 'mxchat_intent_phrases';
+    $phrases_table = $wpdb->prefix . 'knittnet_intent_phrases';
 
     $phrases = array();
     if ($wpdb->get_var("SHOW TABLES LIKE '$phrases_table'") === $phrases_table) {
@@ -5618,20 +5618,20 @@ public function mxchat_get_phrases_ajax() {
 /**
  * AJAX handler to clear legacy phrases and embedding from the main intents table
  */
-public function mxchat_delete_legacy_phrases_ajax() {
-    check_ajax_referer('mxchat_delete_legacy_nonce', 'security');
+public function knittnet_delete_legacy_phrases_ajax() {
+    check_ajax_referer('knittnet_delete_legacy_nonce', 'security');
 
     if (!current_user_can('manage_options')) {
-        wp_send_json_error(__('Unauthorized', 'mxchat'));
+        wp_send_json_error(__('Unauthorized', 'knittnet'));
     }
 
     $intent_id = isset($_POST['intent_id']) ? intval($_POST['intent_id']) : 0;
     if (!$intent_id) {
-        wp_send_json_error(__('Invalid intent ID.', 'mxchat'));
+        wp_send_json_error(__('Invalid intent ID.', 'knittnet'));
     }
 
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_intents';
+    $table_name = $wpdb->prefix . 'knittnet_intents';
 
     $result = $wpdb->update(
         $table_name,
@@ -5642,7 +5642,7 @@ public function mxchat_delete_legacy_phrases_ajax() {
     );
 
     if ($result === false) {
-        wp_send_json_error(__('Failed to clear legacy phrases.', 'mxchat'));
+        wp_send_json_error(__('Failed to clear legacy phrases.', 'knittnet'));
     }
 
     wp_send_json_success(array('cleared' => true));
@@ -5655,7 +5655,7 @@ public function mxchat_delete_legacy_phrases_ajax() {
  * @param bool $include_all Whether to include all potential actions (even if add-on not installed)
  * @return array Callbacks data with icons, descriptions and availability status
  */
-private function mxchat_get_available_callbacks($grouped = false, $include_all = true) {
+private function knittnet_get_available_callbacks($grouped = false, $include_all = true) {
     // Load WordPress plugin functions if needed
     if (!function_exists('get_plugins')) {
         require_once ABSPATH . 'wp-admin/includes/plugin.php';
@@ -5667,7 +5667,7 @@ private function mxchat_get_available_callbacks($grouped = false, $include_all =
     // Functions to exclude from the action selector only if Pro is activated
     // If user doesn't have Pro, show these so they can see what they're missing
     $excluded_when_pro_active_functions = array(
-        'mxchat_handle_form_collection' // Forms add-on action
+        'knittnet_handle_form_collection' // Forms add-on action
     );
 
     // Always excluded functions (regardless of Pro status)
@@ -5682,26 +5682,26 @@ private function mxchat_get_available_callbacks($grouped = false, $include_all =
 
     // Define add-on plugin files and their corresponding action functions
     $addon_plugins = array(
-        'mxchat-woo/mxchat-woo.php' => array(
+        'knittnet-woo/knittnet-woo.php' => array(
             'functions' => array(
-                'mxchat_handle_product_recommendations',
-                'mxchat_handle_order_history',
-                'mxchat_show_product_card',
-                'mxchat_add_to_cart',
-                'mxchat_checkout_redirect',
-                'mxchat_handle_featured_products'
+                'knittnet_handle_product_recommendations',
+                'knittnet_handle_order_history',
+                'knittnet_show_product_card',
+                'knittnet_add_to_cart',
+                'knittnet_checkout_redirect',
+                'knittnet_handle_featured_products'
             ),
-            'name' => __('WooCommerce Add-on', 'mxchat'),
+            'name' => __('WooCommerce Add-on', 'knittnet'),
             'pro_required' => true
         ),
-        'mxchat-perplexity/mxchat-perplexity.php' => array(
-            'functions' => array('mxchat_perplexity_research'),
-            'name' => __('Perplexity Add-on', 'mxchat'),
+        'knittnet-perplexity/knittnet-perplexity.php' => array(
+            'functions' => array('knittnet_perplexity_research'),
+            'name' => __('Perplexity Add-on', 'knittnet'),
             'pro_required' => true
         ),
-        'mxchat-forms/mxchat-forms.php' => array(
-            'functions' => array('mxchat_handle_form_collection'),
-            'name' => __('Forms Add-on', 'mxchat'),
+        'knittnet-forms/knittnet-forms.php' => array(
+            'functions' => array('knittnet_handle_form_collection'),
+            'name' => __('Forms Add-on', 'knittnet'),
             'pro_required' => true
         ),
         // Add other add-ons and their functions here
@@ -5740,85 +5740,85 @@ private function mxchat_get_available_callbacks($grouped = false, $include_all =
 
     // Core callbacks - always available in the base plugin
     $core_callbacks = array(
-        'mxchat_handle_email_capture' => array(
-            'label'       => __('Loops Email Capture', 'mxchat'),
+        'knittnet_handle_email_capture' => array(
+            'label'       => __('Loops Email Capture', 'knittnet'),
             'pro_only'    => false,
-            'group'       => __('Customer Engagement', 'mxchat'),
+            'group'       => __('Customer Engagement', 'knittnet'),
             'icon'        => 'email-alt',
-            'description' => __('Collect visitor emails for your mailing list in Loops', 'mxchat'),
+            'description' => __('Collect visitor emails for your mailing list in Loops', 'knittnet'),
             'addon'       => false, // Not from an add-on
             'installed'   => true   // Always installed with base plugin
         ),
-        'mxchat_handle_search_request' => array(
-            'label'       => __('Brave Web Search', 'mxchat'),
+        'knittnet_handle_search_request' => array(
+            'label'       => __('Brave Web Search', 'knittnet'),
             'pro_only'    => false,
-            'group'       => __('Search Features', 'mxchat'),
+            'group'       => __('Search Features', 'knittnet'),
             'icon'        => 'search',
-            'description' => __('Let users search the web directly from the chat (requires a Brave Search API key)', 'mxchat'),
+            'description' => __('Let users search the web directly from the chat (requires a Brave Search API key)', 'knittnet'),
             'addon'       => false,
             'installed'   => true
         ),
-        'mxchat_handle_image_search_request' => array(
-            'label'       => __('Brave Image Search', 'mxchat'),
+        'knittnet_handle_image_search_request' => array(
+            'label'       => __('Brave Image Search', 'knittnet'),
             'pro_only'    => false,
-            'group'       => __('Search Features', 'mxchat'),
+            'group'       => __('Search Features', 'knittnet'),
             'icon'        => 'format-image',
-            'description' => __('Search and display images in the chat conversation (requires a Brave Search API key)', 'mxchat'),
+            'description' => __('Search and display images in the chat conversation (requires a Brave Search API key)', 'knittnet'),
             'addon'       => false,
             'installed'   => true
         ),
         // Pro core features - check is_activated property
-        'mxchat_generate_image' => array(
-            'label'       => __('Generate Image (OpenAI)', 'mxchat'),
+        'knittnet_generate_image' => array(
+            'label'       => __('Generate Image (OpenAI)', 'knittnet'),
             'pro_only'    => false,
-            'group'       => __('Other Features', 'mxchat'),
+            'group'       => __('Other Features', 'knittnet'),
             'icon'        => 'art',
-            'description' => __('Create images with GPT Image from OpenAI (requires OpenAI API key)', 'mxchat'),
+            'description' => __('Create images with GPT Image from OpenAI (requires OpenAI API key)', 'knittnet'),
             'addon'       => false,
             'installed'   => true
         ),
-        'mxchat_generate_gemini_image' => array(
-            'label'       => __('Generate Image (Gemini)', 'mxchat'),
+        'knittnet_generate_gemini_image' => array(
+            'label'       => __('Generate Image (Gemini)', 'knittnet'),
             'pro_only'    => false,
-            'group'       => __('Other Features', 'mxchat'),
+            'group'       => __('Other Features', 'knittnet'),
             'icon'        => 'art',
-            'description' => __('Create images with Imagen from Google (requires Gemini API key)', 'mxchat'),
+            'description' => __('Create images with Imagen from Google (requires Gemini API key)', 'knittnet'),
             'addon'       => false,
             'installed'   => true
         ),
-        'mxchat_handle_pdf_discussion' => array(
-            'label'       => __('Chat with PDF', 'mxchat'),
+        'knittnet_handle_pdf_discussion' => array(
+            'label'       => __('Chat with PDF', 'knittnet'),
             'pro_only'    => false,
-            'group'       => __('Other Features', 'mxchat'),
+            'group'       => __('Other Features', 'knittnet'),
             'icon'        => 'media-document',
-            'description' => __('Answer questions about uploaded PDF documents', 'mxchat'),
+            'description' => __('Answer questions about uploaded PDF documents', 'knittnet'),
             'addon'       => false,
             'installed'   => true
         ),
-        'mxchat_live_agent_handover' => array(
-            'label'       => __('Slack Live Agent', 'mxchat'),
+        'knittnet_live_agent_handover' => array(
+            'label'       => __('Slack Live Agent', 'knittnet'),
             'pro_only'    => false,
-            'group'       => __('Customer Engagement', 'mxchat'),
+            'group'       => __('Customer Engagement', 'knittnet'),
             'icon'        => 'admin-users',
-            'description' => __('Transfer conversation to a human support agent on Slack', 'mxchat'),
+            'description' => __('Transfer conversation to a human support agent on Slack', 'knittnet'),
             'addon'       => false,
             'installed'   => true
         ),
-        'mxchat_telegram_live_agent_handover' => array(
-            'label'       => __('Telegram Live Agent', 'mxchat'),
+        'knittnet_telegram_live_agent_handover' => array(
+            'label'       => __('Telegram Live Agent', 'knittnet'),
             'pro_only'    => false,
-            'group'       => __('Customer Engagement', 'mxchat'),
+            'group'       => __('Customer Engagement', 'knittnet'),
             'icon'        => 'format-chat',
-            'description' => __('Transfer conversation to a human support agent on Telegram', 'mxchat'),
+            'description' => __('Transfer conversation to a human support agent on Telegram', 'knittnet'),
             'addon'       => false,
             'installed'   => true
         ),
-        'mxchat_handle_switch_to_chatbot_intent' => array(
-            'label'       => __('Back to Chatbot', 'mxchat'),
+        'knittnet_handle_switch_to_chatbot_intent' => array(
+            'label'       => __('Back to Chatbot', 'knittnet'),
             'pro_only'    => false,
-            'group'       => __('Customer Engagement', 'mxchat'),
+            'group'       => __('Customer Engagement', 'knittnet'),
             'icon'        => 'backup',
-            'description' => __('Return from live agent mode to AI chatbot', 'mxchat'),
+            'description' => __('Return from live agent mode to AI chatbot', 'knittnet'),
             'addon'       => false,
             'installed'   => true
         ),
@@ -5828,73 +5828,73 @@ private function mxchat_get_available_callbacks($grouped = false, $include_all =
     // These are promotional/informational only — not selectable as real actions
     $addon_callbacks = array(
         // WooCommerce Add-on
-        'mxchat_handle_product_recommendations' => array(
-            'label'       => __('Product Recommendations', 'mxchat'),
+        'knittnet_handle_product_recommendations' => array(
+            'label'       => __('Product Recommendations', 'knittnet'),
             'pro_only'    => false,
             'addon_promo' => true,
-            'group'       => __('WooCommerce Features', 'mxchat'),
+            'group'       => __('WooCommerce Features', 'knittnet'),
             'icon'        => 'cart',
-            'description' => __('Suggest products based on customer preferences', 'mxchat'),
+            'description' => __('Suggest products based on customer preferences', 'knittnet'),
         ),
-        'mxchat_handle_order_history' => array(
-            'label'       => __('Order History', 'mxchat'),
+        'knittnet_handle_order_history' => array(
+            'label'       => __('Order History', 'knittnet'),
             'pro_only'    => false,
             'addon_promo' => true,
-            'group'       => __('WooCommerce Features', 'mxchat'),
+            'group'       => __('WooCommerce Features', 'knittnet'),
             'icon'        => 'clipboard',
-            'description' => __('Allow customers to check their order status', 'mxchat'),
+            'description' => __('Allow customers to check their order status', 'knittnet'),
         ),
-        'mxchat_show_product_card' => array(
-            'label'       => __('Show Product Card', 'mxchat'),
+        'knittnet_show_product_card' => array(
+            'label'       => __('Show Product Card', 'knittnet'),
             'pro_only'    => false,
             'addon_promo' => true,
-            'group'       => __('WooCommerce Features', 'mxchat'),
+            'group'       => __('WooCommerce Features', 'knittnet'),
             'icon'        => 'products',
-            'description' => __('Display product information in the chat', 'mxchat'),
+            'description' => __('Display product information in the chat', 'knittnet'),
         ),
-        'mxchat_add_to_cart' => array(
-            'label'       => __('Add to Cart', 'mxchat'),
+        'knittnet_add_to_cart' => array(
+            'label'       => __('Add to Cart', 'knittnet'),
             'pro_only'    => false,
             'addon_promo' => true,
-            'group'       => __('WooCommerce Features', 'mxchat'),
+            'group'       => __('WooCommerce Features', 'knittnet'),
             'icon'        => 'plus-alt',
-            'description' => __('Add products to cart directly from chat', 'mxchat'),
+            'description' => __('Add products to cart directly from chat', 'knittnet'),
         ),
-        'mxchat_checkout_redirect' => array(
-            'label'       => __('Proceed to Checkout', 'mxchat'),
+        'knittnet_checkout_redirect' => array(
+            'label'       => __('Proceed to Checkout', 'knittnet'),
             'pro_only'    => false,
             'addon_promo' => true,
-            'group'       => __('WooCommerce Features', 'mxchat'),
+            'group'       => __('WooCommerce Features', 'knittnet'),
             'icon'        => 'arrow-right-alt',
-            'description' => __('Redirect customer to checkout page', 'mxchat'),
+            'description' => __('Redirect customer to checkout page', 'knittnet'),
         ),
-        'mxchat_handle_featured_products' => array(
-            'label'       => __('Featured Products Showcase', 'mxchat'),
+        'knittnet_handle_featured_products' => array(
+            'label'       => __('Featured Products Showcase', 'knittnet'),
             'pro_only'    => false,
             'addon_promo' => true,
-            'group'       => __('WooCommerce Features', 'mxchat'),
+            'group'       => __('WooCommerce Features', 'knittnet'),
             'icon'        => 'star-filled',
-            'description' => __('Display a curated selection of products with an AI-generated message', 'mxchat'),
+            'description' => __('Display a curated selection of products with an AI-generated message', 'knittnet'),
         ),
 
         // Perplexity Add-on
-        'mxchat_perplexity_research' => array(
-            'label'       => __('Perplexity Research', 'mxchat'),
+        'knittnet_perplexity_research' => array(
+            'label'       => __('Perplexity Research', 'knittnet'),
             'pro_only'    => false,
             'addon_promo' => true,
-            'group'       => __('Search Features', 'mxchat'),
+            'group'       => __('Search Features', 'knittnet'),
             'icon'        => 'book-alt',
-            'description' => __('Allows the chatbot to search the web for accurate, up-to-date answers', 'mxchat'),
+            'description' => __('Allows the chatbot to search the web for accurate, up-to-date answers', 'knittnet'),
         ),
 
         // Forms Add-on
-        'mxchat_handle_form_collection' => array(
-            'label'       => __('Form Collection', 'mxchat'),
+        'knittnet_handle_form_collection' => array(
+            'label'       => __('Form Collection', 'knittnet'),
             'pro_only'    => false,
             'addon_promo' => true,
-            'group'       => __('Form Features', 'mxchat'),
+            'group'       => __('Form Features', 'knittnet'),
             'icon'        => 'feedback',
-            'description' => __('Collect user information through custom forms in chat', 'mxchat'),
+            'description' => __('Collect user information through custom forms in chat', 'knittnet'),
         ),
     );
 
@@ -5911,7 +5911,7 @@ private function mxchat_get_available_callbacks($grouped = false, $include_all =
             $addon_callbacks[$function]['pro_only'] = $addon_info['pro_required'];
         } else {
             $addon_callbacks[$function]['addon'] = 'unknown';
-            $addon_callbacks[$function]['addon_name'] = __('Unknown Add-on', 'mxchat');
+            $addon_callbacks[$function]['addon_name'] = __('Unknown Add-on', 'knittnet');
             $addon_callbacks[$function]['installed'] = false;
         }
     }
@@ -5920,7 +5920,7 @@ private function mxchat_get_available_callbacks($grouped = false, $include_all =
     $callbacks = $core_callbacks;
 
     // Get callbacks from active add-ons
-    $active_addon_callbacks = apply_filters('mxchat_available_callbacks', array());
+    $active_addon_callbacks = apply_filters('knittnet_available_callbacks', array());
 
     // Add placeholder callbacks only for add-ons that aren't active
     if ($include_all) {
@@ -5983,14 +5983,14 @@ private function mxchat_get_available_callbacks($grouped = false, $include_all =
     if ($grouped) {
         $grouped_callbacks = array();
         foreach ($callbacks as $key => $data) {
-            $group_label = isset($data['group']) ? $data['group'] : __('Other Features', 'mxchat');
+            $group_label = isset($data['group']) ? $data['group'] : __('Other Features', 'knittnet');
 
             // Ensure we carry forward all the new fields in grouped mode
             $callback_data = array(
                 'label'       => $data['label'],
                 'pro_only'    => isset($data['pro_only']) ? $data['pro_only'] : false,
                 'icon'        => isset($data['icon']) ? $data['icon'] : 'admin-generic',
-                'description' => isset($data['description']) ? $data['description'] : __('Custom action for your chatbot', 'mxchat'),
+                'description' => isset($data['description']) ? $data['description'] : __('Custom action for your chatbot', 'knittnet'),
                 'addon'       => isset($data['addon']) ? $data['addon'] : false,
                 'addon_name'  => isset($data['addon_name']) ? $data['addon_name'] : '',
                 'installed'   => isset($data['installed']) ? $data['installed'] : true
@@ -6021,16 +6021,16 @@ private function mxchat_get_available_callbacks($grouped = false, $include_all =
     return $callbacks;
 }
 
-public function mxchat_page_init() {
+public function knittnet_page_init() {
     register_setting(
-        'mxchat_option_group',
-        'mxchat_options',
-        array($this, 'mxchat_sanitize')
+        'knittnet_option_group',
+        'knittnet_options',
+        array($this, 'knittnet_sanitize')
     );
 
     register_setting(
-        'mxchat_option_group',
-        'mxchat_similarity_threshold',
+        'knittnet_option_group',
+        'knittnet_similarity_threshold',
         array(
             'type' => 'number',
             'sanitize_callback' => function($value) {
@@ -6043,182 +6043,182 @@ public function mxchat_page_init() {
 
     // Chatbot Settings Section
     add_settings_section(
-        'mxchat_chatbot_section',
-        esc_html__('Chatbot Settings', 'mxchat'),
+        'knittnet_chatbot_section',
+        esc_html__('Chatbot Settings', 'knittnet'),
         null,
-        'mxchat-chatbot'
+        'knittnet-chatbot'
     );
 
     // API Keys Settings Section
     add_settings_section(
-        'mxchat_api_keys_section',
-        esc_html__('API Keys', 'mxchat'),
-        array($this, 'mxchat_api_keys_section_callback'),
-        'mxchat-api-keys'
+        'knittnet_api_keys_section',
+        esc_html__('API Keys', 'knittnet'),
+        array($this, 'knittnet_api_keys_section_callback'),
+        'knittnet-api-keys'
     );
 
     // OpenAI API Key
     add_settings_field(
         'api_key',
-        esc_html__('OpenAI API Key', 'mxchat'),
+        esc_html__('OpenAI API Key', 'knittnet'),
         array($this, 'api_key_callback'),
-        'mxchat-api-keys',
-        'mxchat_api_keys_section'
+        'knittnet-api-keys',
+        'knittnet_api_keys_section'
     );
 
     // X.AI API Key
     add_settings_field(
         'xai_api_key',
-        esc_html__('X.AI API Key', 'mxchat'),
+        esc_html__('X.AI API Key', 'knittnet'),
         array($this, 'xai_api_key_callback'),
-        'mxchat-api-keys',
-        'mxchat_api_keys_section'
+        'knittnet-api-keys',
+        'knittnet_api_keys_section'
     );
 
     // Claude API Key
     add_settings_field(
         'claude_api_key',
-        esc_html__('Claude API Key', 'mxchat'),
+        esc_html__('Claude API Key', 'knittnet'),
         array($this, 'claude_api_key_callback'),
-        'mxchat-api-keys',
-        'mxchat_api_keys_section'
+        'knittnet-api-keys',
+        'knittnet_api_keys_section'
     );
 
     // DeepSeek API Key
     add_settings_field(
         'deepseek_api_key',
-        esc_html__('DeepSeek API Key', 'mxchat'),
+        esc_html__('DeepSeek API Key', 'knittnet'),
         array($this, 'deepseek_api_key_callback'),
-        'mxchat-api-keys',
-        'mxchat_api_keys_section'
+        'knittnet-api-keys',
+        'knittnet_api_keys_section'
     );
 
     // Google Gemini API Key
     add_settings_field(
         'gemini_api_key',
-        esc_html__('Google Gemini API Key', 'mxchat'),
+        esc_html__('Google Gemini API Key', 'knittnet'),
         array($this, 'gemini_api_key_callback'),
-        'mxchat-api-keys',
-        'mxchat_api_keys_section'
+        'knittnet-api-keys',
+        'knittnet_api_keys_section'
     );
 
     // Voyage AI API Key
     add_settings_field(
         'voyage_api_key',
-        esc_html__('Voyage AI API Key', 'mxchat'),
+        esc_html__('Voyage AI API Key', 'knittnet'),
         array($this, 'voyage_api_key_callback'),
-        'mxchat-api-keys',
-        'mxchat_api_keys_section'
+        'knittnet-api-keys',
+        'knittnet_api_keys_section'
     );
 
     // OpenRouter API Key
     add_settings_field(
         'openrouter_api_key',
-        esc_html__('OpenRouter API Key', 'mxchat'),
+        esc_html__('OpenRouter API Key', 'knittnet'),
         array($this, 'openrouter_api_key_callback'),
-        'mxchat-api-keys',
-        'mxchat_api_keys_section'
+        'knittnet-api-keys',
+        'knittnet_api_keys_section'
     );
 
     // Custom (OpenAI-compatible) Provider — for Ollama, LM Studio, vLLM, llama.cpp, Azure OpenAI, etc.
     add_settings_field(
         'custom_provider',
-        esc_html__('Custom Provider (OpenAI-compatible)', 'mxchat'),
+        esc_html__('Custom Provider (OpenAI-compatible)', 'knittnet'),
         array($this, 'custom_provider_callback'),
-        'mxchat-api-keys',
-        'mxchat_api_keys_section'
+        'knittnet-api-keys',
+        'knittnet_api_keys_section'
     );
 
     // Loops API Key
     add_settings_field(
         'loops_api_key',
-        esc_html__('Loops API Key', 'mxchat'),
-        array($this, 'mxchat_loops_api_key_callback'),
-        'mxchat-api-keys',
-        'mxchat_api_keys_section'
+        esc_html__('Loops API Key', 'knittnet'),
+        array($this, 'knittnet_loops_api_key_callback'),
+        'knittnet-api-keys',
+        'knittnet_api_keys_section'
     );
 
     // Brave Search API Key
     add_settings_field(
         'brave_api_key',
-        __('Brave API Key', 'mxchat'),
-        array($this, 'mxchat_brave_api_key_callback'),
-        'mxchat-api-keys',
-        'mxchat_api_keys_section'
+        __('Brave API Key', 'knittnet'),
+        array($this, 'knittnet_brave_api_key_callback'),
+        'knittnet-api-keys',
+        'knittnet_api_keys_section'
     );
 
     // Similarity Threshold Slider
     add_settings_field(
         'similarity_threshold', // Field ID
-        esc_html__('Similarity Threshold', 'mxchat'), // Field title
-        array($this, 'mxchat_similarity_threshold_callback'), // Callback function
-        'mxchat-chatbot', // Page
-        'mxchat_chatbot_section' // Section
+        esc_html__('Similarity Threshold', 'knittnet'), // Field title
+        array($this, 'knittnet_similarity_threshold_callback'), // Callback function
+        'knittnet-chatbot', // Page
+        'knittnet_chatbot_section' // Section
     );
 
     // RAG Sources Limit Slider
     add_settings_field(
         'rag_sources_limit', // Field ID
-        esc_html__('RAG Sources Limit', 'mxchat'), // Field title
-        array($this, 'mxchat_rag_sources_limit_callback'), // Callback function
-        'mxchat-chatbot', // Page
-        'mxchat_chatbot_section' // Section
+        esc_html__('RAG Sources Limit', 'knittnet'), // Field title
+        array($this, 'knittnet_rag_sources_limit_callback'), // Callback function
+        'knittnet-chatbot', // Page
+        'knittnet_chatbot_section' // Section
     );
 
     // RAG Chunks Limit Slider
     add_settings_field(
         'rag_chunks_limit', // Field ID
-        esc_html__('RAG Chunks Limit', 'mxchat'), // Field title
-        array($this, 'mxchat_rag_chunks_limit_callback'), // Callback function
-        'mxchat-chatbot', // Page
-        'mxchat_chatbot_section' // Section
+        esc_html__('RAG Chunks Limit', 'knittnet'), // Field title
+        array($this, 'knittnet_rag_chunks_limit_callback'), // Callback function
+        'knittnet-chatbot', // Page
+        'knittnet_chatbot_section' // Section
     );
 
     add_settings_field(
         'append_to_body',
-        esc_html__('Auto-Display Chatbot', 'mxchat'),
-        array($this, 'mxchat_append_to_body_callback'),
-        'mxchat-chatbot',
-        'mxchat_chatbot_section'
+        esc_html__('Auto-Display Chatbot', 'knittnet'),
+        array($this, 'knittnet_append_to_body_callback'),
+        'knittnet-chatbot',
+        'knittnet_chatbot_section'
     );
 
     add_settings_field(
         'contextual_awareness_toggle',
-        esc_html__('Contextual Awareness', 'mxchat'),
-        array($this, 'mxchat_contextual_awareness_callback'),
-        'mxchat-chatbot',
-        'mxchat_chatbot_section'
+        esc_html__('Contextual Awareness', 'knittnet'),
+        array($this, 'knittnet_contextual_awareness_callback'),
+        'knittnet-chatbot',
+        'knittnet_chatbot_section'
     );
 
     add_settings_field(
         'citation_links_toggle',
-        esc_html__('Citation Links', 'mxchat'),
-        array($this, 'mxchat_citation_links_toggle_callback'),
-        'mxchat-chatbot',
-        'mxchat_chatbot_section'
+        esc_html__('Citation Links', 'knittnet'),
+        array($this, 'knittnet_citation_links_toggle_callback'),
+        'knittnet-chatbot',
+        'knittnet_chatbot_section'
     );
 
     // Satisfaction rating toggle (plan-a5b006).
     add_settings_field(
         'satisfaction_rating_enabled',
-        esc_html__('Satisfaction Rating Prompt', 'mxchat'),
-        array($this, 'mxchat_satisfaction_rating_toggle_callback'),
-        'mxchat-chatbot',
-        'mxchat_chatbot_section'
+        esc_html__('Satisfaction Rating Prompt', 'knittnet'),
+        array($this, 'knittnet_satisfaction_rating_toggle_callback'),
+        'knittnet-chatbot',
+        'knittnet_chatbot_section'
     );
 
     // Satisfaction rating customization (plan-141a12, plan-29caac):
     // the 5 customization fields are now inline-rendered inside
-    // mxchat_satisfaction_rating_toggle_callback's sub-options wrapper.
+    // knittnet_satisfaction_rating_toggle_callback's sub-options wrapper.
 
     add_settings_field(
         'enable_streaming_toggle',
-        esc_html__('Enable Streaming', 'mxchat'),
+        esc_html__('Enable Streaming', 'knittnet'),
         array($this, 'enable_streaming_toggle_callback'),
-        'mxchat-chatbot',
-        'mxchat_chatbot_section', // Same section as your working toggle
+        'knittnet-chatbot',
+        'knittnet_chatbot_section', // Same section as your working toggle
         array(
-            'class' => 'mxchat-setting-row streaming-setting',
+            'class' => 'knittnet-setting-row streaming-setting',
             'style' => 'display: none;' // Hidden by default, shown when OpenAI/Claude selected
         )
     );
@@ -6226,501 +6226,501 @@ public function mxchat_page_init() {
 
     add_settings_field(
         'model',
-        esc_html__('Chat Model', 'mxchat'),
-        array($this, 'mxchat_model_callback'),
-        'mxchat-chatbot',
-        'mxchat_chatbot_section'
+        esc_html__('Chat Model', 'knittnet'),
+        array($this, 'knittnet_model_callback'),
+        'knittnet-chatbot',
+        'knittnet_chatbot_section'
     );
 
     add_settings_field(
         'embedding_model',
-        esc_html__('Embedding Model', 'mxchat'),
+        esc_html__('Embedding Model', 'knittnet'),
         array($this, 'embedding_model_callback'),
-        'mxchat-chatbot',
-        'mxchat_chatbot_section'
+        'knittnet-chatbot',
+        'knittnet_chatbot_section'
     );
 
     add_settings_field(
         'system_prompt_instructions',
-        esc_html__('AI Instructions (Behavior)', 'mxchat'),
+        esc_html__('AI Instructions (Behavior)', 'knittnet'),
         array($this, 'system_prompt_instructions_callback'),
-        'mxchat-chatbot',
-        'mxchat_chatbot_section'
+        'knittnet-chatbot',
+        'knittnet_chatbot_section'
     );
 
 
     add_settings_field(
         'top_bar_title',
-        esc_html__('Top Bar Title', 'mxchat'),
-        array($this, 'mxchat_top_bar_title_callback'),
-        'mxchat-chatbot',
-        'mxchat_chatbot_section'
+        esc_html__('Top Bar Title', 'knittnet'),
+        array($this, 'knittnet_top_bar_title_callback'),
+        'knittnet-chatbot',
+        'knittnet_chatbot_section'
     );
 
     add_settings_field(
         'ai_agent_text',
-        esc_html__('AI Agent Text', 'mxchat'),
-        array($this, 'mxchat_ai_agent_text_callback'),
-        'mxchat-chatbot',
-        'mxchat_chatbot_section'
+        esc_html__('AI Agent Text', 'knittnet'),
+        array($this, 'knittnet_ai_agent_text_callback'),
+        'knittnet-chatbot',
+        'knittnet_chatbot_section'
     );
 
     add_settings_field(
         'enable_email_block',
-        esc_html__('Require Email To Chat', 'mxchat'),
+        esc_html__('Require Email To Chat', 'knittnet'),
         array($this, 'enable_email_block_callback'),
-        'mxchat-chatbot',
-        'mxchat_chatbot_section'
+        'knittnet-chatbot',
+        'knittnet_chatbot_section'
     );
 
     add_settings_field(
         'email_blocker_header_content',
-        esc_html__('Require Email Chat Content', 'mxchat'),
+        esc_html__('Require Email Chat Content', 'knittnet'),
         array($this, 'email_blocker_header_content_callback'),
-        'mxchat-chatbot',
-        'mxchat_chatbot_section'
+        'knittnet-chatbot',
+        'knittnet_chatbot_section'
     );
 
     add_settings_field(
         'email_blocker_button_text',
-        esc_html__('Require Email Chat Button Text', 'mxchat'),
+        esc_html__('Require Email Chat Button Text', 'knittnet'),
         [$this, 'email_blocker_button_text_callback'],
-        'mxchat-chatbot',
-        'mxchat_chatbot_section'
+        'knittnet-chatbot',
+        'knittnet_chatbot_section'
     );
 
     add_settings_field(
         'enable_name_field',
-        esc_html__('Require Name Field', 'mxchat'),
+        esc_html__('Require Name Field', 'knittnet'),
         array($this, 'enable_name_field_callback'),
-        'mxchat-chatbot',
-        'mxchat_chatbot_section'
+        'knittnet-chatbot',
+        'knittnet_chatbot_section'
     );
 
     add_settings_field(
         'name_field_placeholder',
-        esc_html__('Name Field Placeholder', 'mxchat'),
+        esc_html__('Name Field Placeholder', 'knittnet'),
         array($this, 'name_field_placeholder_callback'),
-        'mxchat-chatbot',
-        'mxchat_chatbot_section'
+        'knittnet-chatbot',
+        'knittnet_chatbot_section'
     );
 
     add_settings_field(
         'intro_message',
-        esc_html__('Introductory Message', 'mxchat'),
-        array($this, 'mxchat_intro_message_callback'),
-        'mxchat-chatbot',
-        'mxchat_chatbot_section'
+        esc_html__('Introductory Message', 'knittnet'),
+        array($this, 'knittnet_intro_message_callback'),
+        'knittnet-chatbot',
+        'knittnet_chatbot_section'
     );
 
     add_settings_field(
         'input_copy',
-        esc_html__('Input Copy', 'mxchat'),
-        array($this, 'mxchat_input_copy_callback'),
-        'mxchat-chatbot',
-        'mxchat_chatbot_section'
+        esc_html__('Input Copy', 'knittnet'),
+        array($this, 'knittnet_input_copy_callback'),
+        'knittnet-chatbot',
+        'knittnet_chatbot_section'
     );
 
     add_settings_field(
         'pre_chat_message',
-        esc_html__('Chat Teaser Pop-up', 'mxchat'),
-        array($this, 'mxchat_pre_chat_message_callback'),
-        'mxchat-chatbot',
-        'mxchat_chatbot_section'
+        esc_html__('Chat Teaser Pop-up', 'knittnet'),
+        array($this, 'knittnet_pre_chat_message_callback'),
+        'knittnet-chatbot',
+        'knittnet_chatbot_section'
     );
 
     add_settings_field(
         'privacy_toggle',
-        esc_html__('Toggle Privacy Notice', 'mxchat'),
-        array($this, 'mxchat_privacy_toggle_callback'),
-        'mxchat-chatbot',
-        'mxchat_chatbot_section'
+        esc_html__('Toggle Privacy Notice', 'knittnet'),
+        array($this, 'knittnet_privacy_toggle_callback'),
+        'knittnet-chatbot',
+        'knittnet_chatbot_section'
     );
 
     add_settings_field(
         'complianz_toggle',
-        esc_html__('Enable Complianz', 'mxchat'),
-        array($this, 'mxchat_complianz_toggle_callback'),
-        'mxchat-chatbot',
-        'mxchat_chatbot_section'
+        esc_html__('Enable Complianz', 'knittnet'),
+        array($this, 'knittnet_complianz_toggle_callback'),
+        'knittnet-chatbot',
+        'knittnet_chatbot_section'
     );
 
     add_settings_field(
         'link_target_toggle',
-        esc_html__('Open Links in a New Tab', 'mxchat'),
-        array($this, 'mxchat_link_target_toggle_callback'),
-        'mxchat-chatbot',
-        'mxchat_chatbot_section'
+        esc_html__('Open Links in a New Tab', 'knittnet'),
+        array($this, 'knittnet_link_target_toggle_callback'),
+        'knittnet-chatbot',
+        'knittnet_chatbot_section'
     );
 
     add_settings_field(
         'chat_persistence_toggle',
-        esc_html__('Enable Chat Persistence', 'mxchat'),
-        array($this, 'mxchat_chat_persistence_toggle_callback'),
-        'mxchat-chatbot',
-        'mxchat_chatbot_section'
+        esc_html__('Enable Chat Persistence', 'knittnet'),
+        array($this, 'knittnet_chat_persistence_toggle_callback'),
+        'knittnet-chatbot',
+        'knittnet_chatbot_section'
     );
 
     add_settings_field(
         'print_button_enabled',
-        esc_html__('Show Download Transcript Button', 'mxchat'),
-        array($this, 'mxchat_print_button_toggle_callback'),
-        'mxchat-chatbot',
-        'mxchat_chatbot_section'
+        esc_html__('Show Download Transcript Button', 'knittnet'),
+        array($this, 'knittnet_print_button_toggle_callback'),
+        'knittnet-chatbot',
+        'knittnet_chatbot_section'
     );
 
     add_settings_field(
         'reset_chat_enabled',
-        esc_html__('Show Start-New-Chat Button', 'mxchat'),
-        array($this, 'mxchat_reset_chat_toggle_callback'),
-        'mxchat-chatbot',
-        'mxchat_chatbot_section'
+        esc_html__('Show Start-New-Chat Button', 'knittnet'),
+        array($this, 'knittnet_reset_chat_toggle_callback'),
+        'knittnet-chatbot',
+        'knittnet_chatbot_section'
     );
 
     add_settings_field(
         'reset_chat_label',
-        esc_html__('Start-New-Chat Button Label', 'mxchat'),
-        array($this, 'mxchat_reset_chat_label_callback'),
-        'mxchat-chatbot',
-        'mxchat_chatbot_section'
+        esc_html__('Start-New-Chat Button Label', 'knittnet'),
+        array($this, 'knittnet_reset_chat_label_callback'),
+        'knittnet-chatbot',
+        'knittnet_chatbot_section'
     );
 
     add_settings_field(
         'popular_question_1',
-        esc_html__('Quick Question 1', 'mxchat'),
-        array($this, 'mxchat_popular_question_1_callback'),
-        'mxchat-chatbot',
-        'mxchat_chatbot_section'
+        esc_html__('Quick Question 1', 'knittnet'),
+        array($this, 'knittnet_popular_question_1_callback'),
+        'knittnet-chatbot',
+        'knittnet_chatbot_section'
     );
 
     add_settings_field(
         'popular_question_2',
-        esc_html__('Quick Question 2', 'mxchat'),
-        array($this, 'mxchat_popular_question_2_callback'),
-        'mxchat-chatbot',
-        'mxchat_chatbot_section'
+        esc_html__('Quick Question 2', 'knittnet'),
+        array($this, 'knittnet_popular_question_2_callback'),
+        'knittnet-chatbot',
+        'knittnet_chatbot_section'
     );
 
     add_settings_field(
         'popular_question_3',
-        esc_html__('Quick Question 3', 'mxchat'),
-        array($this, 'mxchat_popular_question_3_callback'),
-        'mxchat-chatbot',
-        'mxchat_chatbot_section'
+        esc_html__('Quick Question 3', 'knittnet'),
+        array($this, 'knittnet_popular_question_3_callback'),
+        'knittnet-chatbot',
+        'knittnet_chatbot_section'
     );
 
     add_settings_field(
         'additional_popular_questions',
-        esc_html__('Additional Quick Questions', 'mxchat'),
-        array($this, 'mxchat_additional_popular_questions_callback'),
-        'mxchat-chatbot',
-        'mxchat_chatbot_section'
+        esc_html__('Additional Quick Questions', 'knittnet'),
+        array($this, 'knittnet_additional_popular_questions_callback'),
+        'knittnet-chatbot',
+        'knittnet_chatbot_section'
     );
 
 
     add_settings_field(
         'rate_limits',
-        __('Rate Limits Settings', 'mxchat'),
-        array($this, 'mxchat_rate_limits_callback'),
-        'mxchat-chatbot',
-        'mxchat_chatbot_section'
+        __('Rate Limits Settings', 'knittnet'),
+        array($this, 'knittnet_rate_limits_callback'),
+        'knittnet-chatbot',
+        'knittnet_chatbot_section'
     );
 
     // Loops Settings Section
     add_settings_section(
-        'mxchat_loops_section',
-        esc_html__('Loops Settings', 'mxchat'),
+        'knittnet_loops_section',
+        esc_html__('Loops Settings', 'knittnet'),
         null,
-        'mxchat-embed'
+        'knittnet-embed'
     );
 
     // Loops Settings Fields (API Key moved to API Keys tab)
     add_settings_field(
         'loops_mailing_list',
-        esc_html__('Loops Mailing List', 'mxchat'),
-        array($this, 'mxchat_loops_mailing_list_callback'),
-        'mxchat-embed',
-        'mxchat_loops_section'
+        esc_html__('Loops Mailing List', 'knittnet'),
+        array($this, 'knittnet_loops_mailing_list_callback'),
+        'knittnet-embed',
+        'knittnet_loops_section'
     );
 
     add_settings_field(
         'triggered_phrase_response',
-        esc_html__('Triggered Phrase Response', 'mxchat'),
-        array($this, 'mxchat_triggered_phrase_response_callback'),
-        'mxchat-embed',
-        'mxchat_loops_section'
+        esc_html__('Triggered Phrase Response', 'knittnet'),
+        array($this, 'knittnet_triggered_phrase_response_callback'),
+        'knittnet-embed',
+        'knittnet_loops_section'
     );
 
     add_settings_field(
         'email_capture_response',
-        esc_html__('Email Capture Response', 'mxchat'),
-        array($this, 'mxchat_email_capture_response_callback'),
-        'mxchat-embed',
-        'mxchat_loops_section'
+        esc_html__('Email Capture Response', 'knittnet'),
+        array($this, 'knittnet_email_capture_response_callback'),
+        'knittnet-embed',
+        'knittnet_loops_section'
     );
 
     // Brave Search Settings Fields
     add_settings_section(
-        'mxchat_brave_section',
-        __('Brave Search Settings', 'mxchat'),
-        array($this, 'mxchat_brave_section_callback'),
-        'mxchat-embed'
+        'knittnet_brave_section',
+        __('Brave Search Settings', 'knittnet'),
+        array($this, 'knittnet_brave_section_callback'),
+        'knittnet-embed'
     );
 
     // Brave API Key moved to API Keys tab
     add_settings_field(
         'brave_image_count',
-        __('Number of Images to Return', 'mxchat'),
-        array($this, 'mxchat_brave_image_count_callback'),
-        'mxchat-embed',
-        'mxchat_brave_section'
+        __('Number of Images to Return', 'knittnet'),
+        array($this, 'knittnet_brave_image_count_callback'),
+        'knittnet-embed',
+        'knittnet_brave_section'
     );
 
     add_settings_field(
         'brave_safe_search',
-        __('Safe Search', 'mxchat'),
-        array($this, 'mxchat_brave_safe_search_callback'),
-        'mxchat-embed',
-        'mxchat_brave_section'
+        __('Safe Search', 'knittnet'),
+        array($this, 'knittnet_brave_safe_search_callback'),
+        'knittnet-embed',
+        'knittnet_brave_section'
     );
 
     add_settings_field(
         'brave_news_count',
-        __('Number of News Articles', 'mxchat'),
-        array($this, 'mxchat_brave_news_count_callback'),
-        'mxchat-embed',
-        'mxchat_brave_section'
+        __('Number of News Articles', 'knittnet'),
+        array($this, 'knittnet_brave_news_count_callback'),
+        'knittnet-embed',
+        'knittnet_brave_section'
     );
 
     add_settings_field(
         'brave_country',
-        __('Country', 'mxchat'),
-        array($this, 'mxchat_brave_country_callback'),
-        'mxchat-embed',
-        'mxchat_brave_section'
+        __('Country', 'knittnet'),
+        array($this, 'knittnet_brave_country_callback'),
+        'knittnet-embed',
+        'knittnet_brave_section'
     );
 
     add_settings_field(
         'brave_language',
-        __('Language', 'mxchat'),
-        array($this, 'mxchat_brave_language_callback'),
-        'mxchat-embed',
-        'mxchat_brave_section'
+        __('Language', 'knittnet'),
+        array($this, 'knittnet_brave_language_callback'),
+        'knittnet-embed',
+        'knittnet_brave_section'
     );
 
     // Chat with PDF Intent Settings Fields
     add_settings_section(
-        'mxchat_pdf_intent_section',
-        __('Toolbar Settings & Intents', 'mxchat'),
-        array($this, 'mxchat_pdf_intent_section_callback'),
-        'mxchat-embed'
+        'knittnet_pdf_intent_section',
+        __('Toolbar Settings & Intents', 'knittnet'),
+        array($this, 'knittnet_pdf_intent_section_callback'),
+        'knittnet-embed'
     );
 
     add_settings_field(
         'chat_toolbar_toggle',
-        __('Show Chat Toolbar', 'mxchat'),
-        array($this, 'mxchat_chat_toolbar_toggle_callback'),
-        'mxchat-embed',
-        'mxchat_pdf_intent_section'
+        __('Show Chat Toolbar', 'knittnet'),
+        array($this, 'knittnet_chat_toolbar_toggle_callback'),
+        'knittnet-embed',
+        'knittnet_pdf_intent_section'
     );
 
     // PDF Upload Button Toggle
     add_settings_field(
         'show_pdf_upload_button',
-        __('Show PDF Upload Button', 'mxchat'),
-        array($this, 'mxchat_show_pdf_upload_button_callback'),
-        'mxchat-embed',
-        'mxchat_pdf_intent_section'
+        __('Show PDF Upload Button', 'knittnet'),
+        array($this, 'knittnet_show_pdf_upload_button_callback'),
+        'knittnet-embed',
+        'knittnet_pdf_intent_section'
     );
 
     // Word Upload Button Toggle
     add_settings_field(
         'show_word_upload_button',
-        __('Show Word Upload Button', 'mxchat'),
-        array($this, 'mxchat_show_word_upload_button_callback'),
-        'mxchat-embed',
-        'mxchat_pdf_intent_section'
+        __('Show Word Upload Button', 'knittnet'),
+        array($this, 'knittnet_show_word_upload_button_callback'),
+        'knittnet-embed',
+        'knittnet_pdf_intent_section'
     );
 
     add_settings_field(
         'pdf_intent_trigger_text',
-        __('Intent Trigger Text', 'mxchat'),
-        array($this, 'mxchat_pdf_intent_trigger_text_callback'),
-        'mxchat-embed',
-        'mxchat_pdf_intent_section'
+        __('Intent Trigger Text', 'knittnet'),
+        array($this, 'knittnet_pdf_intent_trigger_text_callback'),
+        'knittnet-embed',
+        'knittnet_pdf_intent_section'
     );
 
     add_settings_field(
         'pdf_intent_success_text',
-        __('Success Text', 'mxchat'),
-        array($this, 'mxchat_pdf_intent_success_text_callback'),
-        'mxchat-embed',
-        'mxchat_pdf_intent_section'
+        __('Success Text', 'knittnet'),
+        array($this, 'knittnet_pdf_intent_success_text_callback'),
+        'knittnet-embed',
+        'knittnet_pdf_intent_section'
     );
 
     add_settings_field(
         'pdf_intent_error_text',
-        __('Error Text', 'mxchat'),
-        array($this, 'mxchat_pdf_intent_error_text_callback'),
-        'mxchat-embed',
-        'mxchat_pdf_intent_section'
+        __('Error Text', 'knittnet'),
+        array($this, 'knittnet_pdf_intent_error_text_callback'),
+        'knittnet-embed',
+        'knittnet_pdf_intent_section'
     );
 
     // Add PDF Maximum Pages Field
     add_settings_field(
         'pdf_max_pages',
-        __('Maximum Document Pages', 'mxchat'),
-        array($this, 'mxchat_pdf_max_pages_callback'),
-        'mxchat-embed',
-        'mxchat_pdf_intent_section'
+        __('Maximum Document Pages', 'knittnet'),
+        array($this, 'knittnet_pdf_max_pages_callback'),
+        'knittnet-embed',
+        'knittnet_pdf_intent_section'
     );
 
     // Live Agent Settings Fields
     add_settings_section(
-        'mxchat_live_agent_section',
-        __('Live Agent Settings', 'mxchat'),
-        array($this, 'mxchat_live_agent_section_callback'),
-        'mxchat-embed'
+        'knittnet_live_agent_section',
+        __('Live Agent Settings', 'knittnet'),
+        array($this, 'knittnet_live_agent_section_callback'),
+        'knittnet-embed'
     );
 
     // Live Agent Status Fields (add at top of live agent settings)
     add_settings_field(
         'live_agent_status',
-        __('Live Agent Status', 'mxchat'),
-        array($this, 'mxchat_live_agent_status_callback'),
-        'mxchat-embed',
-        'mxchat_live_agent_section'
+        __('Live Agent Status', 'knittnet'),
+        array($this, 'knittnet_live_agent_status_callback'),
+        'knittnet-embed',
+        'knittnet_live_agent_section'
     );
 
     add_settings_field(
         'live_agent_notification_message',
-        __('Notification Message', 'mxchat'),
-        array($this, 'mxchat_live_agent_notification_message_callback'),
-        'mxchat-embed',
-        'mxchat_live_agent_section'
+        __('Notification Message', 'knittnet'),
+        array($this, 'knittnet_live_agent_notification_message_callback'),
+        'knittnet-embed',
+        'knittnet_live_agent_section'
     );
 
     add_settings_field(
         'live_agent_away_message',
-        __('Away Message', 'mxchat'),
-        array($this, 'mxchat_live_agent_away_message_callback'),
-        'mxchat-embed',
-        'mxchat_live_agent_section'
+        __('Away Message', 'knittnet'),
+        array($this, 'knittnet_live_agent_away_message_callback'),
+        'knittnet-embed',
+        'knittnet_live_agent_section'
     );
 
     add_settings_field(
         'live_agent_user_ids',
-        __('Slack Agent User IDs', 'mxchat'),
-        array($this, 'mxchat_live_agent_user_ids_callback'),
-        'mxchat-embed',
-        'mxchat_live_agent_section'
+        __('Slack Agent User IDs', 'knittnet'),
+        array($this, 'knittnet_live_agent_user_ids_callback'),
+        'knittnet-embed',
+        'knittnet_live_agent_section'
     );
 
     add_settings_field(
         'live_agent_webhook_url',
-        __('Slack Webhook URL', 'mxchat'),
-        array($this, 'mxchat_live_agent_webhook_url_callback'),
-        'mxchat-embed',
-        'mxchat_live_agent_section'
+        __('Slack Webhook URL', 'knittnet'),
+        array($this, 'knittnet_live_agent_webhook_url_callback'),
+        'knittnet-embed',
+        'knittnet_live_agent_section'
     );
 
     add_settings_field(
         'live_agent_secret_key',
-        __('Slack Secret Key', 'mxchat'),
-        array($this, 'mxchat_live_agent_secret_key_callback'),
-        'mxchat-embed',
-        'mxchat_live_agent_section'
+        __('Slack Secret Key', 'knittnet'),
+        array($this, 'knittnet_live_agent_secret_key_callback'),
+        'knittnet-embed',
+        'knittnet_live_agent_section'
     );
 
     // Live Agent Integration Fields
     add_settings_field(
         'live_agent_bot_token',
-        __('Slack Bot OAuth Token', 'mxchat'),
-        array($this, 'mxchat_live_agent_bot_token_callback'),
-        'mxchat-embed',
-        'mxchat_live_agent_section'
+        __('Slack Bot OAuth Token', 'knittnet'),
+        array($this, 'knittnet_live_agent_bot_token_callback'),
+        'knittnet-embed',
+        'knittnet_live_agent_section'
     );
 
     // Telegram Integration Section
     add_settings_section(
-        'mxchat_telegram_section',
-        __('Telegram Settings', 'mxchat'),
-        array($this, 'mxchat_telegram_section_callback'),
-        'mxchat-embed'
+        'knittnet_telegram_section',
+        __('Telegram Settings', 'knittnet'),
+        array($this, 'knittnet_telegram_section_callback'),
+        'knittnet-embed'
     );
 
     add_settings_field(
         'telegram_status',
-        __('Live Agent Status', 'mxchat'),
-        array($this, 'mxchat_telegram_status_callback'),
-        'mxchat-embed',
-        'mxchat_telegram_section'
+        __('Live Agent Status', 'knittnet'),
+        array($this, 'knittnet_telegram_status_callback'),
+        'knittnet-embed',
+        'knittnet_telegram_section'
     );
 
     add_settings_field(
         'telegram_notification_message',
-        __('Notification Message', 'mxchat'),
-        array($this, 'mxchat_telegram_notification_message_callback'),
-        'mxchat-embed',
-        'mxchat_telegram_section'
+        __('Notification Message', 'knittnet'),
+        array($this, 'knittnet_telegram_notification_message_callback'),
+        'knittnet-embed',
+        'knittnet_telegram_section'
     );
 
     add_settings_field(
         'telegram_away_message',
-        __('Away Message', 'mxchat'),
-        array($this, 'mxchat_telegram_away_message_callback'),
-        'mxchat-embed',
-        'mxchat_telegram_section'
+        __('Away Message', 'knittnet'),
+        array($this, 'knittnet_telegram_away_message_callback'),
+        'knittnet-embed',
+        'knittnet_telegram_section'
     );
 
     add_settings_field(
         'telegram_bot_token',
-        __('Telegram Bot Token', 'mxchat'),
-        array($this, 'mxchat_telegram_bot_token_callback'),
-        'mxchat-embed',
-        'mxchat_telegram_section'
+        __('Telegram Bot Token', 'knittnet'),
+        array($this, 'knittnet_telegram_bot_token_callback'),
+        'knittnet-embed',
+        'knittnet_telegram_section'
     );
 
     add_settings_field(
         'telegram_group_id',
-        __('Telegram Group ID', 'mxchat'),
-        array($this, 'mxchat_telegram_group_id_callback'),
-        'mxchat-embed',
-        'mxchat_telegram_section'
+        __('Telegram Group ID', 'knittnet'),
+        array($this, 'knittnet_telegram_group_id_callback'),
+        'knittnet-embed',
+        'knittnet_telegram_section'
     );
 
     add_settings_field(
         'telegram_webhook_secret',
-        __('Webhook Secret Token', 'mxchat'),
-        array($this, 'mxchat_telegram_webhook_secret_callback'),
-        'mxchat-embed',
-        'mxchat_telegram_section'
+        __('Webhook Secret Token', 'knittnet'),
+        array($this, 'knittnet_telegram_webhook_secret_callback'),
+        'knittnet-embed',
+        'knittnet_telegram_section'
     );
 
     // General Settings Section
     add_settings_section(
-        'mxchat_general_section',
-        esc_html__('YouTube Tutorials', 'mxchat'),
+        'knittnet_general_section',
+        esc_html__('YouTube Tutorials', 'knittnet'),
         null,
-        'mxchat-general'
+        'knittnet-general'
     );
 }
 
-public function mxchat_prompts_page_init() {
+public function knittnet_prompts_page_init() {
         register_setting(
-            'mxchat_prompts_options',
-            'mxchat_prompts_options',
+            'knittnet_prompts_options',
+            'knittnet_prompts_options',
             array(
                 'type' => 'array',
-                'description' => __('MXChat Knowledge Base Settings', 'mxchat'),
+                'description' => __('KnittNet Knowledge Base Settings', 'knittnet'),
                 'default' => array(
-                    'mxchat_auto_sync_posts' => 0,
-                    'mxchat_auto_sync_pages' => 0,
-                    'mxchat_use_pinecone' => 0,
-                    'mxchat_pinecone_api_key' => '',
-                    'mxchat_pinecone_environment' => '',
-                    'mxchat_pinecone_index' => '',
-                    'mxchat_pinecone_host' => '',
+                    'knittnet_auto_sync_posts' => 0,
+                    'knittnet_auto_sync_pages' => 0,
+                    'knittnet_use_pinecone' => 0,
+                    'knittnet_pinecone_api_key' => '',
+                    'knittnet_pinecone_environment' => '',
+                    'knittnet_pinecone_index' => '',
+                    'knittnet_pinecone_host' => '',
                 ),
                 'sanitize_callback' => array($this, 'sanitize_prompts_options'),
             )
@@ -6729,67 +6729,67 @@ public function mxchat_prompts_page_init() {
     add_action('admin_notices', array($this, 'sync_settings_notice'));
 }
 
-public function mxchat_transcripts_page_init() {
+public function knittnet_transcripts_page_init() {
     register_setting(
-        'mxchat_transcripts_options',
-        'mxchat_transcripts_options',
+        'knittnet_transcripts_options',
+        'knittnet_transcripts_options',
         array(
             'type' => 'array',
-            'description' => __('MXChat Transcripts Notification Settings', 'mxchat'),
+            'description' => __('KnittNet Transcripts Notification Settings', 'knittnet'),
             'default' => array(
-                'mxchat_enable_notifications' => 0,
-                'mxchat_notification_email' => get_option('admin_email'),
-                'mxchat_auto_delete_transcripts' => 'never',
+                'knittnet_enable_notifications' => 0,
+                'knittnet_notification_email' => get_option('admin_email'),
+                'knittnet_auto_delete_transcripts' => 'never',
             ),
             'sanitize_callback' => array($this, 'sanitize_transcripts_options'),
         )
     );
 
     add_settings_section(
-        'mxchat_transcripts_notification_section',
-        esc_html__('Chat Notification Settings', 'mxchat'),
-        array($this, 'mxchat_transcripts_notification_section_callback'),
-        'mxchat-transcripts'
+        'knittnet_transcripts_notification_section',
+        esc_html__('Chat Notification Settings', 'knittnet'),
+        array($this, 'knittnet_transcripts_notification_section_callback'),
+        'knittnet-transcripts'
     );
 
     add_settings_field(
-        'mxchat_enable_notifications',
-        esc_html__('Enable Chat Notifications', 'mxchat'),
-        array($this, 'mxchat_enable_notifications_callback'),
-        'mxchat-transcripts',
-        'mxchat_transcripts_notification_section'
+        'knittnet_enable_notifications',
+        esc_html__('Enable Chat Notifications', 'knittnet'),
+        array($this, 'knittnet_enable_notifications_callback'),
+        'knittnet-transcripts',
+        'knittnet_transcripts_notification_section'
     );
 
     add_settings_field(
-        'mxchat_notification_email',
-        esc_html__('Notification Email Address', 'mxchat'),
-        array($this, 'mxchat_notification_email_callback'),
-        'mxchat-transcripts',
-        'mxchat_transcripts_notification_section'
+        'knittnet_notification_email',
+        esc_html__('Notification Email Address', 'knittnet'),
+        array($this, 'knittnet_notification_email_callback'),
+        'knittnet-transcripts',
+        'knittnet_transcripts_notification_section'
     );
 
     add_settings_field(
-        'mxchat_auto_delete_transcripts',
-        esc_html__('Auto-Delete Old Transcripts', 'mxchat'),
-        array($this, 'mxchat_auto_delete_transcripts_callback'),
-        'mxchat-transcripts',
-        'mxchat_transcripts_notification_section'
+        'knittnet_auto_delete_transcripts',
+        esc_html__('Auto-Delete Old Transcripts', 'knittnet'),
+        array($this, 'knittnet_auto_delete_transcripts_callback'),
+        'knittnet-transcripts',
+        'knittnet_transcripts_notification_section'
     );
 
     add_settings_field(
-        'mxchat_retention_days',
-        esc_html__('Custom Retention (Days)', 'mxchat'),
-        array($this, 'mxchat_retention_days_callback'),
-        'mxchat-transcripts',
-        'mxchat_transcripts_notification_section'
+        'knittnet_retention_days',
+        esc_html__('Custom Retention (Days)', 'knittnet'),
+        array($this, 'knittnet_retention_days_callback'),
+        'knittnet-transcripts',
+        'knittnet_transcripts_notification_section'
     );
 
     add_settings_field(
-        'mxchat_auto_email_transcript',
-        esc_html__('Auto-Email Full Transcript', 'mxchat'),
-        array($this, 'mxchat_auto_email_transcript_callback'),
-        'mxchat-transcripts',
-        'mxchat_transcripts_notification_section'
+        'knittnet_auto_email_transcript',
+        esc_html__('Auto-Email Full Transcript', 'knittnet'),
+        array($this, 'knittnet_auto_email_transcript_callback'),
+        'knittnet-transcripts',
+        'knittnet_transcripts_notification_section'
     );
 }
 
@@ -6807,46 +6807,46 @@ public function sanitize_prompts_options($input) {
     $sanitized = array();
 
     // Boolean options
-    $sanitized['mxchat_auto_sync_posts'] = isset($input['mxchat_auto_sync_posts']) ? 1 : 0;
-    $sanitized['mxchat_auto_sync_pages'] = isset($input['mxchat_auto_sync_pages']) ? 1 : 0;
-$sanitized['mxchat_use_pinecone'] = !empty($input['mxchat_use_pinecone']) ? 1 : 0;
+    $sanitized['knittnet_auto_sync_posts'] = isset($input['knittnet_auto_sync_posts']) ? 1 : 0;
+    $sanitized['knittnet_auto_sync_pages'] = isset($input['knittnet_auto_sync_pages']) ? 1 : 0;
+$sanitized['knittnet_use_pinecone'] = !empty($input['knittnet_use_pinecone']) ? 1 : 0;
 
     // API Key: if less than 32 characters, flag as invalid.
-    $api_key = sanitize_text_field($input['mxchat_pinecone_api_key'] ?? '');
+    $api_key = sanitize_text_field($input['knittnet_pinecone_api_key'] ?? '');
     if (!empty($api_key) && strlen($api_key) < 32) {
         add_settings_error(
-            'mxchat_prompts_options',
+            'knittnet_prompts_options',
             'invalid_api_key',
-            __('The Pinecone API key appears to be invalid. Please check your API key.', 'mxchat')
+            __('The Pinecone API key appears to be invalid. Please check your API key.', 'knittnet')
         );
-        $existing_options = get_option('mxchat_prompts_options', array());
-        $sanitized['mxchat_pinecone_api_key'] = $existing_options['mxchat_pinecone_api_key'] ?? '';
+        $existing_options = get_option('knittnet_prompts_options', array());
+        $sanitized['knittnet_pinecone_api_key'] = $existing_options['knittnet_pinecone_api_key'] ?? '';
     } else {
-        $sanitized['mxchat_pinecone_api_key'] = $api_key;
+        $sanitized['knittnet_pinecone_api_key'] = $api_key;
     }
 
     // Environment and Index Name
-    $sanitized['mxchat_pinecone_environment'] = sanitize_text_field($input['mxchat_pinecone_environment'] ?? '');
-    $sanitized['mxchat_pinecone_index'] = sanitize_text_field($input['mxchat_pinecone_index'] ?? '');
+    $sanitized['knittnet_pinecone_environment'] = sanitize_text_field($input['knittnet_pinecone_environment'] ?? '');
+    $sanitized['knittnet_pinecone_index'] = sanitize_text_field($input['knittnet_pinecone_index'] ?? '');
 
     // Host: Remove protocol and validate format.
-    $host = sanitize_text_field($input['mxchat_pinecone_host'] ?? '');
+    $host = sanitize_text_field($input['knittnet_pinecone_host'] ?? '');
     $host = preg_replace('#^https?://#', '', $host);
     //error_log('Host after removing protocol: ' . $host);
     if (!empty($host)) {
         if (!preg_match('/^[\w-]+\.svc\.[\w-]+\.pinecone\.io$/', $host)) {
             add_settings_error(
-                'mxchat_prompts_options',
+                'knittnet_prompts_options',
                 'invalid_host',
-                __('The Pinecone host appears to be invalid. It should look like "mxchat-vectors-zrmsquq.svc.aped-4627-b74a.pinecone.io"', 'mxchat')
+                __('The Pinecone host appears to be invalid. It should look like "knittnet-vectors-zrmsquq.svc.aped-4627-b74a.pinecone.io"', 'knittnet')
             );
-            $existing_options = get_option('mxchat_prompts_options', array());
-            $sanitized['mxchat_pinecone_host'] = $existing_options['mxchat_pinecone_host'] ?? '';
+            $existing_options = get_option('knittnet_prompts_options', array());
+            $sanitized['knittnet_pinecone_host'] = $existing_options['knittnet_pinecone_host'] ?? '';
         } else {
-            $sanitized['mxchat_pinecone_host'] = $host;
+            $sanitized['knittnet_pinecone_host'] = $host;
         }
     } else {
-        $sanitized['mxchat_pinecone_host'] = '';
+        $sanitized['knittnet_pinecone_host'] = '';
     }
 
     //error_log('Final sanitized array: ' . print_r($sanitized, true));
@@ -6856,7 +6856,7 @@ $sanitized['mxchat_use_pinecone'] = !empty($input['mxchat_use_pinecone']) ? 1 : 
 
 public function sync_settings_notice() {
     // Only show notice on our plugin page
-    if (!isset($_GET['page']) || $_GET['page'] !== 'mxchat-prompts') {
+    if (!isset($_GET['page']) || $_GET['page'] !== 'knittnet-prompts') {
         return;
     }
 
@@ -6865,8 +6865,8 @@ public function sync_settings_notice() {
 
         ?>
         <div class="notice notice-success is-dismissible">
-            <p><?php esc_html_e('Sync settings updated successfully.', 'mxchat'); ?></p>
-            <button type="button" class="notice-dismiss"><span class="screen-reader-text"><?php esc_html_e('Dismiss this notice.', 'mxchat'); ?></span></button>
+            <p><?php esc_html_e('Sync settings updated successfully.', 'knittnet'); ?></p>
+            <button type="button" class="notice-dismiss"><span class="screen-reader-text"><?php esc_html_e('Dismiss this notice.', 'knittnet'); ?></span></button>
         </div>
         <?php
 
@@ -6874,39 +6874,39 @@ public function sync_settings_notice() {
 }
 // Add this sanitization function to your class
 public function sanitize_sync_setting($input) {
-    return (bool)$input ? __('1', 'mxchat') : __('', 'mxchat');
+    return (bool)$input ? __('1', 'knittnet') : __('', 'knittnet');
 }
 
-public function mxchat_rate_limits_callback() {
-    $all_options = get_option('mxchat_options', []);
+public function knittnet_rate_limits_callback() {
+    $all_options = get_option('knittnet_options', []);
 
     // Define available rate limits
     $rate_limits = array('1', '3', '5', '10', '15', '20', '50', '100', 'unlimited');
 
     // Define available timeframes
     $timeframes = array(
-        'hourly' => __('Per Hour', 'mxchat'),
-        'daily' => __('Per Day', 'mxchat'),
-        'weekly' => __('Per Week', 'mxchat'),
-        'monthly' => __('Per Month', 'mxchat')
+        'hourly' => __('Per Hour', 'knittnet'),
+        'daily' => __('Per Day', 'knittnet'),
+        'weekly' => __('Per Week', 'knittnet'),
+        'monthly' => __('Per Month', 'knittnet')
     );
 
     // Get all roles plus a "logged_out" pseudo-role
     $roles = wp_roles()->get_names();
-    $roles['logged_out'] = __('Logged Out Users', 'mxchat');
+    $roles['logged_out'] = __('Logged Out Users', 'knittnet');
 
     // Start the wrapper
     echo '<div class="pro-feature-wrapper active">';
-    echo '<div class="mxchat-rate-limits-container">';
+    echo '<div class="knittnet-rate-limits-container">';
 
     echo '<p class="description" style="margin-bottom: 20px;">' .
-         esc_html__('Set message limits for each user role and customize the experience when users reach those limits. You can use {limit}, {timeframe}, {count}, and {remaining} as placeholders.', 'mxchat') .
+         esc_html__('Set message limits for each user role and customize the experience when users reach those limits. You can use {limit}, {timeframe}, {count}, and {remaining} as placeholders.', 'knittnet') .
          '</p>';
 
     // Add markdown link documentation
     echo '<div class="notice notice-info inline" style="margin-bottom: 20px; padding: 10px;">';
-    echo '<p><strong>' . esc_html__('Markdown Links Supported:', 'mxchat') . '</strong></p>';
-    echo '<p>' . esc_html__('You can include clickable links in your custom messages using markdown syntax:', 'mxchat') . '</p>';
+    echo '<p><strong>' . esc_html__('Markdown Links Supported:', 'knittnet') . '</strong></p>';
+    echo '<p>' . esc_html__('You can include clickable links in your custom messages using markdown syntax:', 'knittnet') . '</p>';
     echo '<ul style="margin-left: 20px;">';
     echo '<li><code>[Link text](https://example.com)</code> - Creates a clickable link</li>';
     echo '<li><code>[Visit our pricing](https://example.com/pricing)</code> - Link with custom text</li>';
@@ -6919,7 +6919,7 @@ public function mxchat_rate_limits_callback() {
         // Get saved options or defaults
         $default_limit = ($role_id === 'logged_out') ? '10' : '100';
         $default_timeframe = 'daily';
-        $default_message = __('Rate limit exceeded. Please try again later.', 'mxchat');
+        $default_message = __('Rate limit exceeded. Please try again later.', 'knittnet');
 
         $selected_limit = isset($all_options['rate_limits'][$role_id]['limit'])
             ? $all_options['rate_limits'][$role_id]['limit']
@@ -6934,24 +6934,24 @@ public function mxchat_rate_limits_callback() {
             : $default_message;
 
         // Output the row
-        echo '<div class="mxchat-rate-limit-row mxchat-autosave-section">';
+        echo '<div class="knittnet-rate-limit-row knittnet-autosave-section">';
 
         // Role label
-        echo '<div class="mxchat-rate-limit-role">' . esc_html($role_name) . '</div>';
+        echo '<div class="knittnet-rate-limit-role">' . esc_html($role_name) . '</div>';
 
         // Controls section
-        echo '<div class="mxchat-rate-limit-controls-wrapper">';
+        echo '<div class="knittnet-rate-limit-controls-wrapper">';
 
         // Rate limit and timeframe controls
-        echo '<div class="mxchat-rate-limit-controls">';
+        echo '<div class="knittnet-rate-limit-controls">';
 
         // Limit dropdown
         echo '<div>';
-        echo '<label for="rate_limits_' . esc_attr($role_id) . '_limit">' . esc_html__('Limit:', 'mxchat') . '</label>';
+        echo '<label for="rate_limits_' . esc_attr($role_id) . '_limit">' . esc_html__('Limit:', 'knittnet') . '</label>';
         echo '<select
                 id="rate_limits_' . esc_attr($role_id) . '_limit"
-                name="mxchat_options[rate_limits][' . esc_attr($role_id) . '][limit]"
-                class="mxchat-autosave-field">';
+                name="knittnet_options[rate_limits][' . esc_attr($role_id) . '][limit]"
+                class="knittnet-autosave-field">';
         foreach ($rate_limits as $limit) {
             echo '<option value="' . esc_attr($limit) . '" ' . selected($selected_limit, $limit, false) . '>' . esc_html($limit) . '</option>';
         }
@@ -6960,11 +6960,11 @@ public function mxchat_rate_limits_callback() {
 
         // Timeframe dropdown
         echo '<div>';
-        echo '<label for="rate_limits_' . esc_attr($role_id) . '_timeframe">' . esc_html__('Timeframe:', 'mxchat') . '</label>';
+        echo '<label for="rate_limits_' . esc_attr($role_id) . '_timeframe">' . esc_html__('Timeframe:', 'knittnet') . '</label>';
         echo '<select
                 id="rate_limits_' . esc_attr($role_id) . '_timeframe"
-                name="mxchat_options[rate_limits][' . esc_attr($role_id) . '][timeframe]"
-                class="mxchat-autosave-field">';
+                name="knittnet_options[rate_limits][' . esc_attr($role_id) . '][timeframe]"
+                class="knittnet-autosave-field">';
         foreach ($timeframes as $value => $label) {
             echo '<option value="' . esc_attr($value) . '" ' . selected($selected_timeframe, $value, false) . '>' . esc_html($label) . '</option>';
         }
@@ -6974,17 +6974,17 @@ public function mxchat_rate_limits_callback() {
         echo '</div>'; // End controls
 
         // Custom message textarea
-        echo '<div class="mxchat-rate-limit-message">';
-        echo '<label for="rate_limits_' . esc_attr($role_id) . '_message">' . esc_html__('Custom Message:', 'mxchat') . '</label>';
+        echo '<div class="knittnet-rate-limit-message">';
+        echo '<label for="rate_limits_' . esc_attr($role_id) . '_message">' . esc_html__('Custom Message:', 'knittnet') . '</label>';
         echo '<textarea
                 id="rate_limits_' . esc_attr($role_id) . '_message"
-                name="mxchat_options[rate_limits][' . esc_attr($role_id) . '][message]"
-                class="mxchat-autosave-field"
-                placeholder="' . esc_attr__('Enter custom message when rate limit is exceeded', 'mxchat') . '">' .
+                name="knittnet_options[rate_limits][' . esc_attr($role_id) . '][message]"
+                class="knittnet-autosave-field"
+                placeholder="' . esc_attr__('Enter custom message when rate limit is exceeded', 'knittnet') . '">' .
                 esc_textarea($custom_message) .
               '</textarea>';
         echo '<p class="description">' .
-             esc_html__('Example: Rate limit reached! [Visit our pricing page](https://example.com/pricing) to upgrade.', 'mxchat') .
+             esc_html__('Example: Rate limit reached! [Visit our pricing page](https://example.com/pricing) to upgrade.', 'knittnet') .
              '</p>';
         echo '</div>'; // End message
 
@@ -6998,83 +6998,83 @@ public function mxchat_rate_limits_callback() {
     echo '</div>'; // End pro-feature-wrapper
 }
 
-private function mxchat_add_option_field($id, $title, $callback = '') {
+private function knittnet_add_option_field($id, $title, $callback = '') {
         add_settings_field(
             $id,
-            __($title, 'mxchat'),
+            __($title, 'knittnet'),
             $callback ? array($this, $callback) : array($this, $id . '_callback'),
-            'mxchat-max',
-            'mxchat_setting_section_id',
+            'knittnet-max',
+            'knittnet_setting_section_id',
             $id === 'model' ? ['label_for' => 'model'] : []
         );
     }
 
 // API Keys Section Callback
-public function mxchat_api_keys_section_callback() {
-    echo '<p>' . esc_html__('Manage all your API keys in one place. Add the API keys for the services you want to use with your chatbot.', 'mxchat') . '</p>';
+public function knittnet_api_keys_section_callback() {
+    echo '<p>' . esc_html__('Manage all your API keys in one place. Add the API keys for the services you want to use with your chatbot.', 'knittnet') . '</p>';
 }
 
 // OpenAI API Key
 public function api_key_callback() {
     $apiKey = isset($this->options['api_key']) ? esc_attr($this->options['api_key']) : '';
-    $nonce = wp_create_nonce('mxchat_autosave_nonce');
+    $nonce = wp_create_nonce('knittnet_autosave_nonce');
 
     echo '<div class="api-key-wrapper">';
-    echo '<input type="text" id="api_key" name="api_key" value="' . $apiKey . '" class="regular-text mxchat-autosave-field mxchat-api-key-field" autocomplete="new-password" data-lpignore="true" data-form-type="other" data-nonce="' . $nonce . '" />';
-    echo '<button type="button" id="toggleApiKeyVisibility">' . esc_html__('Show', 'mxchat') . '</button>';
-    echo '<p class="description">' . esc_html__('Required for OpenAI GPT models and OpenAI embeddings. Get your API key from OpenAI Platform.', 'mxchat') . '</p>';
-    echo $this->mxchat_provider_key_test_button('openai', 'api_key');
+    echo '<input type="text" id="api_key" name="api_key" value="' . $apiKey . '" class="regular-text knittnet-autosave-field knittnet-api-key-field" autocomplete="new-password" data-lpignore="true" data-form-type="other" data-nonce="' . $nonce . '" />';
+    echo '<button type="button" id="toggleApiKeyVisibility">' . esc_html__('Show', 'knittnet') . '</button>';
+    echo '<p class="description">' . esc_html__('Required for OpenAI GPT models and OpenAI embeddings. Get your API key from OpenAI Platform.', 'knittnet') . '</p>';
+    echo $this->knittnet_provider_key_test_button('openai', 'api_key');
     echo '</div>';
 }
 
 // X.AI API Key
 public function xai_api_key_callback() {
     $xaiApiKey = isset($this->options['xai_api_key']) ? esc_attr($this->options['xai_api_key']) : '';
-    $nonce = wp_create_nonce('mxchat_autosave_nonce');
+    $nonce = wp_create_nonce('knittnet_autosave_nonce');
 
     echo '<div class="api-key-wrapper">';
-    echo '<input type="text" id="xai_api_key" name="xai_api_key" value="' . $xaiApiKey . '" class="regular-text mxchat-autosave-field mxchat-api-key-field" autocomplete="new-password" data-lpignore="true" data-form-type="other" data-nonce="' . $nonce . '" />';
-    echo '<button type="button" id="toggleXaiApiKeyVisibility">' . esc_html__('Show', 'mxchat') . '</button>';
-    echo '<p class="description">' . esc_html__('Required for X.AI Grok models. Get your API key from X.AI Console.', 'mxchat') . '</p>';
-    echo $this->mxchat_provider_key_test_button('xai', 'xai_api_key');
+    echo '<input type="text" id="xai_api_key" name="xai_api_key" value="' . $xaiApiKey . '" class="regular-text knittnet-autosave-field knittnet-api-key-field" autocomplete="new-password" data-lpignore="true" data-form-type="other" data-nonce="' . $nonce . '" />';
+    echo '<button type="button" id="toggleXaiApiKeyVisibility">' . esc_html__('Show', 'knittnet') . '</button>';
+    echo '<p class="description">' . esc_html__('Required for X.AI Grok models. Get your API key from X.AI Console.', 'knittnet') . '</p>';
+    echo $this->knittnet_provider_key_test_button('xai', 'xai_api_key');
     echo '</div>';
 }
 // Claude API Key
 public function claude_api_key_callback() {
     $claudeApiKey = isset($this->options['claude_api_key']) ? esc_attr($this->options['claude_api_key']) : '';
-    $nonce = wp_create_nonce('mxchat_autosave_nonce');
+    $nonce = wp_create_nonce('knittnet_autosave_nonce');
 
     echo '<div class="api-key-wrapper">';
-    echo '<input type="text" id="claude_api_key" name="claude_api_key" value="' . $claudeApiKey . '" class="regular-text mxchat-autosave-field mxchat-api-key-field" autocomplete="new-password" data-lpignore="true" data-form-type="other" data-nonce="' . $nonce . '" />';
-    echo '<button type="button" id="toggleClaudeApiKeyVisibility">' . esc_html__('Show', 'mxchat') . '</button>';
-    echo '<p class="description">' . esc_html__('Required for Anthropic Claude models. Get your API key from Anthropic Console.', 'mxchat') . '</p>';
-    echo $this->mxchat_provider_key_test_button('claude', 'claude_api_key');
+    echo '<input type="text" id="claude_api_key" name="claude_api_key" value="' . $claudeApiKey . '" class="regular-text knittnet-autosave-field knittnet-api-key-field" autocomplete="new-password" data-lpignore="true" data-form-type="other" data-nonce="' . $nonce . '" />';
+    echo '<button type="button" id="toggleClaudeApiKeyVisibility">' . esc_html__('Show', 'knittnet') . '</button>';
+    echo '<p class="description">' . esc_html__('Required for Anthropic Claude models. Get your API key from Anthropic Console.', 'knittnet') . '</p>';
+    echo $this->knittnet_provider_key_test_button('claude', 'claude_api_key');
     echo '</div>';
 }
 
 // DeepSeek API Key
 public function deepseek_api_key_callback() {
     $apiKey = isset($this->options['deepseek_api_key']) ? esc_attr($this->options['deepseek_api_key']) : '';
-    $nonce = wp_create_nonce('mxchat_autosave_nonce');
+    $nonce = wp_create_nonce('knittnet_autosave_nonce');
 
     echo '<div class="api-key-wrapper">';
-    echo '<input type="text" id="deepseek_api_key" name="deepseek_api_key" value="' . $apiKey . '" class="regular-text mxchat-autosave-field mxchat-api-key-field" autocomplete="new-password" data-lpignore="true" data-form-type="other" data-nonce="' . $nonce . '" />';
-    echo '<button type="button" id="toggleDeepSeekApiKeyVisibility">' . esc_html__('Show', 'mxchat') . '</button>';
-    echo '<p class="description">' . esc_html__('Required for DeepSeek models. Get your API key from DeepSeek Platform.', 'mxchat') . '</p>';
-    echo $this->mxchat_provider_key_test_button('deepseek', 'deepseek_api_key');
+    echo '<input type="text" id="deepseek_api_key" name="deepseek_api_key" value="' . $apiKey . '" class="regular-text knittnet-autosave-field knittnet-api-key-field" autocomplete="new-password" data-lpignore="true" data-form-type="other" data-nonce="' . $nonce . '" />';
+    echo '<button type="button" id="toggleDeepSeekApiKeyVisibility">' . esc_html__('Show', 'knittnet') . '</button>';
+    echo '<p class="description">' . esc_html__('Required for DeepSeek models. Get your API key from DeepSeek Platform.', 'knittnet') . '</p>';
+    echo $this->knittnet_provider_key_test_button('deepseek', 'deepseek_api_key');
     echo '</div>';
 }
 
 // Gemini API Key
 public function gemini_api_key_callback() {
     $geminiApiKey = isset($this->options['gemini_api_key']) ? esc_attr($this->options['gemini_api_key']) : '';
-    $nonce = wp_create_nonce('mxchat_autosave_nonce');
+    $nonce = wp_create_nonce('knittnet_autosave_nonce');
 
     echo '<div class="api-key-wrapper">';
-    echo '<input type="text" id="gemini_api_key" name="gemini_api_key" value="' . $geminiApiKey . '" class="regular-text mxchat-autosave-field mxchat-api-key-field" autocomplete="new-password" data-lpignore="true" data-form-type="other" data-nonce="' . $nonce . '" />';
-    echo '<button type="button" id="toggleGeminiApiKeyVisibility">' . esc_html__('Show', 'mxchat') . '</button>';
-    echo '<p class="description">' . esc_html__('Required for Google Gemini models and embeddings. Get your API key from Google AI Studio.', 'mxchat') . '</p>';
-    echo $this->mxchat_provider_key_test_button('gemini', 'gemini_api_key');
+    echo '<input type="text" id="gemini_api_key" name="gemini_api_key" value="' . $geminiApiKey . '" class="regular-text knittnet-autosave-field knittnet-api-key-field" autocomplete="new-password" data-lpignore="true" data-form-type="other" data-nonce="' . $nonce . '" />';
+    echo '<button type="button" id="toggleGeminiApiKeyVisibility">' . esc_html__('Show', 'knittnet') . '</button>';
+    echo '<p class="description">' . esc_html__('Required for Google Gemini models and embeddings. Get your API key from Google AI Studio.', 'knittnet') . '</p>';
+    echo $this->knittnet_provider_key_test_button('gemini', 'gemini_api_key');
     echo '</div>';
 }
 
@@ -7082,13 +7082,13 @@ public function gemini_api_key_callback() {
 // OpenRouter API Key
 public function openrouter_api_key_callback() {
     $openrouterApiKey = isset($this->options['openrouter_api_key']) ? esc_attr($this->options['openrouter_api_key']) : '';
-    $nonce = wp_create_nonce('mxchat_autosave_nonce');
+    $nonce = wp_create_nonce('knittnet_autosave_nonce');
 
     echo '<div class="api-key-wrapper">';
-    echo '<input type="text" id="openrouter_api_key" name="openrouter_api_key" value="' . $openrouterApiKey . '" class="regular-text mxchat-autosave-field mxchat-api-key-field" autocomplete="new-password" data-lpignore="true" data-form-type="other" data-nonce="' . $nonce . '" />';
-    echo '<button type="button" id="toggleOpenRouterApiKeyVisibility">' . esc_html__('Show', 'mxchat') . '</button>';
-    echo '<p class="description">' . esc_html__('Required for OpenRouter models. Get your API key from OpenRouter.ai', 'mxchat') . '</p>';
-    echo $this->mxchat_provider_key_test_button('openrouter', 'openrouter_api_key');
+    echo '<input type="text" id="openrouter_api_key" name="openrouter_api_key" value="' . $openrouterApiKey . '" class="regular-text knittnet-autosave-field knittnet-api-key-field" autocomplete="new-password" data-lpignore="true" data-form-type="other" data-nonce="' . $nonce . '" />';
+    echo '<button type="button" id="toggleOpenRouterApiKeyVisibility">' . esc_html__('Show', 'knittnet') . '</button>';
+    echo '<p class="description">' . esc_html__('Required for OpenRouter models. Get your API key from OpenRouter.ai', 'knittnet') . '</p>';
+    echo $this->knittnet_provider_key_test_button('openrouter', 'openrouter_api_key');
     echo '</div>';
 }
 
@@ -7099,45 +7099,45 @@ public function openrouter_api_key_callback() {
  * they just typed (test-before-save); the AJAX handler falls back to the saved
  * key when the field is empty. Styled with the WP `button` class to match the
  * adjacent Custom-provider "Test Connection" button on this same page.
- * plan-mxchat-20260623-c41f74.
+ * plan-knittnet-20260623-c41f74.
  */
-public function mxchat_provider_key_test_button($provider, $target_id) {
+public function knittnet_provider_key_test_button($provider, $target_id) {
     static $script_emitted = false;
-    $nonce = wp_create_nonce('mxchat_test_provider_key');
-    $html  = '<div class="mxchat-key-test" style="margin-top:8px;">'
-           . '<button type="button" class="button mxchat-test-provider-key" data-provider="' . esc_attr($provider) . '" data-target="' . esc_attr($target_id) . '" data-nonce="' . esc_attr($nonce) . '">' . esc_html__('Test key', 'mxchat') . '</button>'
-           . '<span class="mxchat-test-provider-key-result" style="margin-left:10px;font-size:13px;vertical-align:middle;"></span>'
+    $nonce = wp_create_nonce('knittnet_test_provider_key');
+    $html  = '<div class="knittnet-key-test" style="margin-top:8px;">'
+           . '<button type="button" class="button knittnet-test-provider-key" data-provider="' . esc_attr($provider) . '" data-target="' . esc_attr($target_id) . '" data-nonce="' . esc_attr($nonce) . '">' . esc_html__('Test key', 'knittnet') . '</button>'
+           . '<span class="knittnet-test-provider-key-result" style="margin-left:10px;font-size:13px;vertical-align:middle;"></span>'
            . '</div>';
     if (!$script_emitted) {
         $script_emitted = true;
-        $html .= $this->mxchat_provider_key_test_script();
+        $html .= $this->knittnet_provider_key_test_script();
     }
     return $html;
 }
 
 /**
- * One-time delegated click handler shared by every .mxchat-test-provider-key
- * button. Posts the typed key value + provider to mxchat_test_provider_key and
+ * One-time delegated click handler shared by every .knittnet-test-provider-key
+ * button. Posts the typed key value + provider to knittnet_test_provider_key and
  * renders the success/error message inline. Mirrors the Custom-provider test.
  */
-private function mxchat_provider_key_test_script() {
-    $t_testing = esc_js(__('Testing...', 'mxchat'));
-    $t_valid   = esc_js(__('Key is valid.', 'mxchat'));
-    $t_failed  = esc_js(__('Failed', 'mxchat'));
-    $t_req     = esc_js(__('Request failed', 'mxchat'));
+private function knittnet_provider_key_test_script() {
+    $t_testing = esc_js(__('Testing...', 'knittnet'));
+    $t_valid   = esc_js(__('Key is valid.', 'knittnet'));
+    $t_failed  = esc_js(__('Failed', 'knittnet'));
+    $t_req     = esc_js(__('Request failed', 'knittnet'));
     return '<script>(function(){'
-        . 'if (window.__mxchatProviderKeyTestWired) { return; }'
-        . 'window.__mxchatProviderKeyTestWired = true;'
+        . 'if (window.__knittnetProviderKeyTestWired) { return; }'
+        . 'window.__knittnetProviderKeyTestWired = true;'
         . 'document.addEventListener("click", function(e){'
-        . 'var btn = e.target && e.target.closest ? e.target.closest(".mxchat-test-provider-key") : null;'
+        . 'var btn = e.target && e.target.closest ? e.target.closest(".knittnet-test-provider-key") : null;'
         . 'if (!btn) { return; }'
         . 'e.preventDefault();'
         . 'var field = btn.getAttribute("data-target") ? document.getElementById(btn.getAttribute("data-target")) : null;'
-        . 'var out = btn.parentNode ? btn.parentNode.querySelector(".mxchat-test-provider-key-result") : null;'
+        . 'var out = btn.parentNode ? btn.parentNode.querySelector(".knittnet-test-provider-key-result") : null;'
         . 'if (out) { out.textContent = "' . $t_testing . '"; out.style.color = "#646970"; }'
         . 'btn.disabled = true;'
         . 'var fd = new FormData();'
-        . 'fd.append("action", "mxchat_test_provider_key");'
+        . 'fd.append("action", "knittnet_test_provider_key");'
         . 'fd.append("_wpnonce", btn.getAttribute("data-nonce"));'
         . 'fd.append("provider", btn.getAttribute("data-provider") || "");'
         . 'fd.append("key", field ? field.value : "");'
@@ -7165,116 +7165,116 @@ public function custom_provider_callback() {
     $use_embed     = !empty($this->options['custom_provider_for_embeddings']) && $this->options['custom_provider_for_embeddings'] === 'on';
     $use_images    = !empty($this->options['custom_provider_for_images']) && $this->options['custom_provider_for_images'] === 'on';
     $embed_model   = isset($this->options['custom_provider_embedding_model']) ? esc_attr($this->options['custom_provider_embedding_model']) : '';
-    $nonce         = wp_create_nonce('mxchat_autosave_nonce');
-    $test_nonce    = wp_create_nonce('mxchat_test_custom_provider');
+    $nonce         = wp_create_nonce('knittnet_autosave_nonce');
+    $test_nonce    = wp_create_nonce('knittnet_test_custom_provider');
 
     echo '<style>
-        .mxchat-cp { max-width: 680px; }
-        .mxchat-cp .mxchat-cp-intro { margin: 0 0 16px; color: #50575e; font-size: 13px; line-height: 1.5; }
-        .mxchat-cp .mxchat-cp-row { display: block; margin: 0 0 18px; }
-        .mxchat-cp .mxchat-cp-row > label { display: block; font-weight: 600; margin: 0 0 6px; color: #1d2327; font-size: 13px; }
-        .mxchat-cp .mxchat-cp-row > input[type="text"],
-        .mxchat-cp .mxchat-cp-row > input[type="password"],
-        .mxchat-cp .mxchat-cp-row > select { display: block; width: 100%; max-width: 480px; margin: 0; }
-        .mxchat-cp .mxchat-cp-row > .description { display: block; margin: 6px 0 0; color: #646970; font-size: 12px; line-height: 1.5; max-width: 480px; }
-        .mxchat-cp .mxchat-cp-test { margin-top: 4px; padding-top: 14px; border-top: 1px solid #e5e7eb; }
-        .mxchat-cp .mxchat-cp-test .mxchat-cp-test-status { display: inline-block; margin-left: 10px; vertical-align: middle; font-size: 13px; }
-        .mxchat-cp .mxchat-cp-azure { margin: 0 0 18px; padding: 12px 14px; background: #f6f7ff; border: 1px solid #dfe1f5; border-left: 3px solid #7873f5; border-radius: 6px; max-width: 480px; }
-        .mxchat-cp .mxchat-cp-azure > .mxchat-cp-azure-title { display: block; font-weight: 600; color: #1d2327; font-size: 12px; text-transform: uppercase; letter-spacing: 0.4px; margin: 0 0 8px; }
-        .mxchat-cp .mxchat-cp-azure ol { margin: 0; padding: 0 0 0 18px; color: #50575e; font-size: 12px; line-height: 1.7; }
-        .mxchat-cp .mxchat-cp-azure code { background: #eceefb; padding: 1px 5px; border-radius: 3px; font-size: 11px; }
+        .knittnet-cp { max-width: 680px; }
+        .knittnet-cp .knittnet-cp-intro { margin: 0 0 16px; color: #50575e; font-size: 13px; line-height: 1.5; }
+        .knittnet-cp .knittnet-cp-row { display: block; margin: 0 0 18px; }
+        .knittnet-cp .knittnet-cp-row > label { display: block; font-weight: 600; margin: 0 0 6px; color: #1d2327; font-size: 13px; }
+        .knittnet-cp .knittnet-cp-row > input[type="text"],
+        .knittnet-cp .knittnet-cp-row > input[type="password"],
+        .knittnet-cp .knittnet-cp-row > select { display: block; width: 100%; max-width: 480px; margin: 0; }
+        .knittnet-cp .knittnet-cp-row > .description { display: block; margin: 6px 0 0; color: #646970; font-size: 12px; line-height: 1.5; max-width: 480px; }
+        .knittnet-cp .knittnet-cp-test { margin-top: 4px; padding-top: 14px; border-top: 1px solid #e5e7eb; }
+        .knittnet-cp .knittnet-cp-test .knittnet-cp-test-status { display: inline-block; margin-left: 10px; vertical-align: middle; font-size: 13px; }
+        .knittnet-cp .knittnet-cp-azure { margin: 0 0 18px; padding: 12px 14px; background: #f6f7ff; border: 1px solid #dfe1f5; border-left: 3px solid #7873f5; border-radius: 6px; max-width: 480px; }
+        .knittnet-cp .knittnet-cp-azure > .knittnet-cp-azure-title { display: block; font-weight: 600; color: #1d2327; font-size: 12px; text-transform: uppercase; letter-spacing: 0.4px; margin: 0 0 8px; }
+        .knittnet-cp .knittnet-cp-azure ol { margin: 0; padding: 0 0 0 18px; color: #50575e; font-size: 12px; line-height: 1.7; }
+        .knittnet-cp .knittnet-cp-azure code { background: #eceefb; padding: 1px 5px; border-radius: 3px; font-size: 11px; }
     </style>';
 
-    echo '<div class="api-key-wrapper mxchat-cp">';
-    echo '<p class="mxchat-cp-intro">' . esc_html__('Point MxChat at any OpenAI-compatible /v1/chat/completions endpoint: Ollama, LM Studio, vLLM, llama.cpp, LocalAI, Azure OpenAI, etc. Then select "Custom (OpenAI-compatible)" in the model picker.', 'mxchat') . '</p>';
+    echo '<div class="api-key-wrapper knittnet-cp">';
+    echo '<p class="knittnet-cp-intro">' . esc_html__('Point KnittNet at any OpenAI-compatible /v1/chat/completions endpoint: Ollama, LM Studio, vLLM, llama.cpp, LocalAI, Azure OpenAI, etc. Then select "Custom (OpenAI-compatible)" in the model picker.', 'knittnet') . '</p>';
 
     // Azure OpenAI quick start — consolidates the 4-field Azure recipe in one scannable callout
     // so admins can configure Azure without piecing it together from each field's hint.
-    echo '<div class="mxchat-cp-azure">';
-    echo '<span class="mxchat-cp-azure-title">' . esc_html__('Azure OpenAI quick start', 'mxchat') . '</span>';
+    echo '<div class="knittnet-cp-azure">';
+    echo '<span class="knittnet-cp-azure-title">' . esc_html__('Azure OpenAI quick start', 'knittnet') . '</span>';
     echo '<ol>';
-    echo '<li>' . wp_kses(__('<strong>Base URL</strong> → <code>https://&lt;resource&gt;.openai.azure.com/openai/deployments/&lt;deployment&gt;</code>', 'mxchat'), array('strong' => array(), 'code' => array())) . '</li>';
-    echo '<li>' . wp_kses(__('<strong>API Key</strong> → your Azure OpenAI key (required)', 'mxchat'), array('strong' => array(), 'code' => array())) . '</li>';
-    echo '<li>' . wp_kses(__('<strong>Auth Scheme</strong> → <code>api-key header (Azure OpenAI)</code>', 'mxchat'), array('strong' => array(), 'code' => array())) . '</li>';
-    echo '<li>' . wp_kses(__('<strong>API Version</strong> → required for Azure, e.g. <code>2024-08-01-preview</code>', 'mxchat'), array('strong' => array(), 'code' => array())) . '</li>';
+    echo '<li>' . wp_kses(__('<strong>Base URL</strong> → <code>https://&lt;resource&gt;.openai.azure.com/openai/deployments/&lt;deployment&gt;</code>', 'knittnet'), array('strong' => array(), 'code' => array())) . '</li>';
+    echo '<li>' . wp_kses(__('<strong>API Key</strong> → your Azure OpenAI key (required)', 'knittnet'), array('strong' => array(), 'code' => array())) . '</li>';
+    echo '<li>' . wp_kses(__('<strong>Auth Scheme</strong> → <code>api-key header (Azure OpenAI)</code>', 'knittnet'), array('strong' => array(), 'code' => array())) . '</li>';
+    echo '<li>' . wp_kses(__('<strong>API Version</strong> → required for Azure, e.g. <code>2024-08-01-preview</code>', 'knittnet'), array('strong' => array(), 'code' => array())) . '</li>';
     echo '</ol>';
     echo '</div>';
 
-    echo '<div class="mxchat-cp-row">';
-    echo '<label for="custom_provider_base_url">' . esc_html__('Base URL', 'mxchat') . '</label>';
-    echo '<input type="text" id="custom_provider_base_url" name="custom_provider_base_url" value="' . $base_url . '" class="regular-text mxchat-autosave-field" placeholder="http://localhost:11434/v1" autocomplete="off" data-lpignore="true" data-form-type="other" data-nonce="' . $nonce . '" />';
-    echo '<p class="description">' . esc_html__('Examples: Ollama http://localhost:11434/v1  ·  LM Studio http://localhost:1234/v1  ·  vLLM http://gpu:8000/v1  ·  Azure https://<resource>.openai.azure.com/openai/deployments/<deployment>', 'mxchat') . '</p>';
+    echo '<div class="knittnet-cp-row">';
+    echo '<label for="custom_provider_base_url">' . esc_html__('Base URL', 'knittnet') . '</label>';
+    echo '<input type="text" id="custom_provider_base_url" name="custom_provider_base_url" value="' . $base_url . '" class="regular-text knittnet-autosave-field" placeholder="http://localhost:11434/v1" autocomplete="off" data-lpignore="true" data-form-type="other" data-nonce="' . $nonce . '" />';
+    echo '<p class="description">' . esc_html__('Examples: Ollama http://localhost:11434/v1  ·  LM Studio http://localhost:1234/v1  ·  vLLM http://gpu:8000/v1  ·  Azure https://<resource>.openai.azure.com/openai/deployments/<deployment>', 'knittnet') . '</p>';
     echo '</div>';
 
-    echo '<div class="mxchat-cp-row">';
-    echo '<label for="custom_provider_api_key">' . esc_html__('API Key (optional)', 'mxchat') . '</label>';
-    echo '<input type="password" id="custom_provider_api_key" name="custom_provider_api_key" value="' . $api_key . '" class="regular-text mxchat-autosave-field mxchat-api-key-field" autocomplete="new-password" data-lpignore="true" data-form-type="other" data-nonce="' . $nonce . '" />';
-    echo '<p class="description">' . esc_html__('Leave empty for unauthenticated local servers. Required for Azure / vLLM / hosted endpoints.', 'mxchat') . '</p>';
+    echo '<div class="knittnet-cp-row">';
+    echo '<label for="custom_provider_api_key">' . esc_html__('API Key (optional)', 'knittnet') . '</label>';
+    echo '<input type="password" id="custom_provider_api_key" name="custom_provider_api_key" value="' . $api_key . '" class="regular-text knittnet-autosave-field knittnet-api-key-field" autocomplete="new-password" data-lpignore="true" data-form-type="other" data-nonce="' . $nonce . '" />';
+    echo '<p class="description">' . esc_html__('Leave empty for unauthenticated local servers. Required for Azure / vLLM / hosted endpoints.', 'knittnet') . '</p>';
     echo '</div>';
 
-    echo '<div class="mxchat-cp-row">';
-    echo '<label for="custom_provider_model">' . esc_html__('Model Name', 'mxchat') . '</label>';
-    echo '<input type="text" id="custom_provider_model" name="custom_provider_model" value="' . $model_name . '" class="regular-text mxchat-autosave-field" placeholder="llama3.2" autocomplete="off" data-lpignore="true" data-nonce="' . $nonce . '" />';
-    echo '<p class="description">' . esc_html__('The model identifier the upstream server expects (e.g. llama3.2, mistral, gpt-oss). For Azure this is the deployment ID — leave empty if the Base URL already includes /deployments/<deployment>.', 'mxchat') . '</p>';
+    echo '<div class="knittnet-cp-row">';
+    echo '<label for="custom_provider_model">' . esc_html__('Model Name', 'knittnet') . '</label>';
+    echo '<input type="text" id="custom_provider_model" name="custom_provider_model" value="' . $model_name . '" class="regular-text knittnet-autosave-field" placeholder="llama3.2" autocomplete="off" data-lpignore="true" data-nonce="' . $nonce . '" />';
+    echo '<p class="description">' . esc_html__('The model identifier the upstream server expects (e.g. llama3.2, mistral, gpt-oss). For Azure this is the deployment ID — leave empty if the Base URL already includes /deployments/<deployment>.', 'knittnet') . '</p>';
     echo '</div>';
 
-    echo '<div class="mxchat-cp-row">';
-    echo '<label for="custom_provider_auth_scheme">' . esc_html__('Auth Scheme', 'mxchat') . '</label>';
-    echo '<select id="custom_provider_auth_scheme" name="custom_provider_auth_scheme" class="mxchat-autosave-field" data-nonce="' . $nonce . '">';
-    echo '<option value="bearer"' . selected($auth_scheme, 'bearer', false) . '>' . esc_html__('Authorization: Bearer (OpenAI / Ollama / vLLM / LM Studio)', 'mxchat') . '</option>';
-    echo '<option value="api-key"' . selected($auth_scheme, 'api-key', false) . '>' . esc_html__('api-key header (Azure OpenAI)', 'mxchat') . '</option>';
+    echo '<div class="knittnet-cp-row">';
+    echo '<label for="custom_provider_auth_scheme">' . esc_html__('Auth Scheme', 'knittnet') . '</label>';
+    echo '<select id="custom_provider_auth_scheme" name="custom_provider_auth_scheme" class="knittnet-autosave-field" data-nonce="' . $nonce . '">';
+    echo '<option value="bearer"' . selected($auth_scheme, 'bearer', false) . '>' . esc_html__('Authorization: Bearer (OpenAI / Ollama / vLLM / LM Studio)', 'knittnet') . '</option>';
+    echo '<option value="api-key"' . selected($auth_scheme, 'api-key', false) . '>' . esc_html__('api-key header (Azure OpenAI)', 'knittnet') . '</option>';
     echo '</select>';
-    echo '<p class="description">' . esc_html__('Most OpenAI-compatible servers use Bearer. Azure OpenAI uses the api-key header.', 'mxchat') . '</p>';
+    echo '<p class="description">' . esc_html__('Most OpenAI-compatible servers use Bearer. Azure OpenAI uses the api-key header.', 'knittnet') . '</p>';
     echo '</div>';
 
-    echo '<div class="mxchat-cp-row">';
-    echo '<label for="custom_provider_api_version">' . esc_html__('API Version (Azure only)', 'mxchat') . '</label>';
-    echo '<input type="text" id="custom_provider_api_version" name="custom_provider_api_version" value="' . $api_version . '" class="regular-text mxchat-autosave-field" placeholder="2024-08-01-preview" autocomplete="off" data-lpignore="true" data-nonce="' . $nonce . '" />';
-    echo '<p class="description">' . esc_html__('Appended as ?api-version=... on the request URL. Required for Azure OpenAI; leave empty for non-Azure providers.', 'mxchat') . '</p>';
+    echo '<div class="knittnet-cp-row">';
+    echo '<label for="custom_provider_api_version">' . esc_html__('API Version (Azure only)', 'knittnet') . '</label>';
+    echo '<input type="text" id="custom_provider_api_version" name="custom_provider_api_version" value="' . $api_version . '" class="regular-text knittnet-autosave-field" placeholder="2024-08-01-preview" autocomplete="off" data-lpignore="true" data-nonce="' . $nonce . '" />';
+    echo '<p class="description">' . esc_html__('Appended as ?api-version=... on the request URL. Required for Azure OpenAI; leave empty for non-Azure providers.', 'knittnet') . '</p>';
     echo '</div>';
 
     // Extended-use checkboxes — opt-in routing of other dispatcher paths through the custom provider.
-    echo '<div class="mxchat-cp-row">';
-    echo '<label style="font-weight:600; display:block; margin:0 0 6px; color:#1d2327; font-size:13px;">' . esc_html__('Extended routing (opt-in)', 'mxchat') . '</label>';
-    echo '<label style="display:block; margin:0 0 6px; font-weight:400;"><input type="checkbox" id="custom_provider_for_embeddings" name="custom_provider_for_embeddings" value="on"' . checked($use_embed, true, false) . ' class="mxchat-autosave-field" data-nonce="' . $nonce . '" /> ' . esc_html__('Use custom provider for embeddings', 'mxchat') . '</label>';
-    echo '<label style="display:block; margin:0 0 0; font-weight:400;"><input type="checkbox" id="custom_provider_for_images" name="custom_provider_for_images" value="on"' . checked($use_images, true, false) . ' class="mxchat-autosave-field" data-nonce="' . $nonce . '" /> ' . esc_html__('Use custom provider for image generation', 'mxchat') . '</label>';
-    echo '<p class="description">' . esc_html__('When off, embeddings and image generation continue to use OpenAI (current behavior). Turn on only if your endpoint exposes OpenAI-compatible /embeddings or /images/generations routes (e.g. Ollama, vLLM, LocalAI).', 'mxchat') . '</p>';
+    echo '<div class="knittnet-cp-row">';
+    echo '<label style="font-weight:600; display:block; margin:0 0 6px; color:#1d2327; font-size:13px;">' . esc_html__('Extended routing (opt-in)', 'knittnet') . '</label>';
+    echo '<label style="display:block; margin:0 0 6px; font-weight:400;"><input type="checkbox" id="custom_provider_for_embeddings" name="custom_provider_for_embeddings" value="on"' . checked($use_embed, true, false) . ' class="knittnet-autosave-field" data-nonce="' . $nonce . '" /> ' . esc_html__('Use custom provider for embeddings', 'knittnet') . '</label>';
+    echo '<label style="display:block; margin:0 0 0; font-weight:400;"><input type="checkbox" id="custom_provider_for_images" name="custom_provider_for_images" value="on"' . checked($use_images, true, false) . ' class="knittnet-autosave-field" data-nonce="' . $nonce . '" /> ' . esc_html__('Use custom provider for image generation', 'knittnet') . '</label>';
+    echo '<p class="description">' . esc_html__('When off, embeddings and image generation continue to use OpenAI (current behavior). Turn on only if your endpoint exposes OpenAI-compatible /embeddings or /images/generations routes (e.g. Ollama, vLLM, LocalAI).', 'knittnet') . '</p>';
     echo '</div>';
 
-    echo '<div class="mxchat-cp-row">';
-    echo '<label for="custom_provider_embedding_model">' . esc_html__('Custom Embedding Model', 'mxchat') . '</label>';
-    echo '<input type="text" id="custom_provider_embedding_model" name="custom_provider_embedding_model" value="' . $embed_model . '" class="regular-text mxchat-autosave-field" placeholder="nomic-embed-text" autocomplete="off" data-lpignore="true" data-nonce="' . $nonce . '" />';
-    echo '<p class="description">' . esc_html__('Only used when "Use custom provider for embeddings" is on. The embedding model name is separate from the chat model name above (e.g. Ollama embedding models: nomic-embed-text, mxbai-embed-large). Leave blank to fall back to the chat model name.', 'mxchat') . '</p>';
+    echo '<div class="knittnet-cp-row">';
+    echo '<label for="custom_provider_embedding_model">' . esc_html__('Custom Embedding Model', 'knittnet') . '</label>';
+    echo '<input type="text" id="custom_provider_embedding_model" name="custom_provider_embedding_model" value="' . $embed_model . '" class="regular-text knittnet-autosave-field" placeholder="nomic-embed-text" autocomplete="off" data-lpignore="true" data-nonce="' . $nonce . '" />';
+    echo '<p class="description">' . esc_html__('Only used when "Use custom provider for embeddings" is on. The embedding model name is separate from the chat model name above (e.g. Ollama embedding models: nomic-embed-text, mxbai-embed-large). Leave blank to fall back to the chat model name.', 'knittnet') . '</p>';
     echo '</div>';
 
-    echo '<div class="mxchat-cp-test">';
-    echo '<button type="button" class="button" id="mxchat-test-custom-provider" data-nonce="' . $test_nonce . '">' . esc_html__('Test Connection', 'mxchat') . '</button>';
-    echo '<span id="mxchat-test-custom-provider-result" class="mxchat-cp-test-status"></span>';
+    echo '<div class="knittnet-cp-test">';
+    echo '<button type="button" class="button" id="knittnet-test-custom-provider" data-nonce="' . $test_nonce . '">' . esc_html__('Test Connection', 'knittnet') . '</button>';
+    echo '<span id="knittnet-test-custom-provider-result" class="knittnet-cp-test-status"></span>';
     echo '</div>';
 
     echo '<script>(function(){
-        var btn = document.getElementById("mxchat-test-custom-provider");
+        var btn = document.getElementById("knittnet-test-custom-provider");
         if (!btn || btn._wired) { return; } btn._wired = true;
         btn.addEventListener("click", function(){
-            var out = document.getElementById("mxchat-test-custom-provider-result");
-            out.textContent = "' . esc_js(__('Testing...', 'mxchat')) . '";
+            var out = document.getElementById("knittnet-test-custom-provider-result");
+            out.textContent = "' . esc_js(__('Testing...', 'knittnet')) . '";
             out.style.color = "#646970";
             var fd = new FormData();
-            fd.append("action", "mxchat_test_custom_provider");
+            fd.append("action", "knittnet_test_custom_provider");
             fd.append("_wpnonce", btn.getAttribute("data-nonce"));
             fetch(ajaxurl, { method:"POST", credentials:"same-origin", body: fd })
                 .then(function(r){ return r.json(); })
                 .then(function(j){
                     if (j && j.success) {
-                        out.textContent = "✓ " + (j.data && j.data.message ? j.data.message : "' . esc_js(__('OK', 'mxchat')) . '");
+                        out.textContent = "✓ " + (j.data && j.data.message ? j.data.message : "' . esc_js(__('OK', 'knittnet')) . '");
                         out.style.color = "#00a32a";
                     } else {
-                        out.textContent = "⚠ " + (j && j.data && j.data.message ? j.data.message : "' . esc_js(__('Failed', 'mxchat')) . '");
+                        out.textContent = "⚠ " + (j && j.data && j.data.message ? j.data.message : "' . esc_js(__('Failed', 'knittnet')) . '");
                         out.style.color = "#d63638";
                     }
                 })
                 .catch(function(){
-                    out.textContent = "⚠ ' . esc_js(__('Request failed', 'mxchat')) . '";
+                    out.textContent = "⚠ ' . esc_js(__('Request failed', 'knittnet')) . '";
                     out.style.color = "#d63638";
                 });
         });
@@ -7286,34 +7286,34 @@ public function custom_provider_callback() {
 // Voyage API Key
 public function voyage_api_key_callback() {
     $apiKey = isset($this->options['voyage_api_key']) ? esc_attr($this->options['voyage_api_key']) : '';
-    $nonce = wp_create_nonce('mxchat_autosave_nonce');
+    $nonce = wp_create_nonce('knittnet_autosave_nonce');
 
     echo '<div class="api-key-wrapper">';
-    echo '<input type="text" id="voyage_api_key" name="voyage_api_key" value="' . $apiKey . '" class="regular-text mxchat-autosave-field mxchat-api-key-field" autocomplete="new-password" data-lpignore="true" data-form-type="other" data-nonce="' . $nonce . '" />';
-    echo '<button type="button" id="toggleVoyageAPIKeyVisibility">' . esc_html__('Show', 'mxchat') . '</button>';
-    echo '<p class="description">' . esc_html__('Required for Voyage AI embedding models. Get your API key from Voyage AI.', 'mxchat') . '</p>';
+    echo '<input type="text" id="voyage_api_key" name="voyage_api_key" value="' . $apiKey . '" class="regular-text knittnet-autosave-field knittnet-api-key-field" autocomplete="new-password" data-lpignore="true" data-form-type="other" data-nonce="' . $nonce . '" />';
+    echo '<button type="button" id="toggleVoyageAPIKeyVisibility">' . esc_html__('Show', 'knittnet') . '</button>';
+    echo '<p class="description">' . esc_html__('Required for Voyage AI embedding models. Get your API key from Voyage AI.', 'knittnet') . '</p>';
     echo '</div>';
 }
 
-public function mxchat_loops_api_key_callback() {
+public function knittnet_loops_api_key_callback() {
     $loops_api_key = isset($this->options['loops_api_key']) ? esc_attr($this->options['loops_api_key']) : '';
-    $nonce = wp_create_nonce('mxchat_autosave_nonce');
+    $nonce = wp_create_nonce('knittnet_autosave_nonce');
 
     echo '<div class="api-key-wrapper">';
     echo sprintf(
-        '<input type="text" id="loops_api_key" name="loops_api_key" value="%s" class="regular-text mxchat-autosave-field mxchat-api-key-field" autocomplete="new-password" data-lpignore="true" data-form-type="other" data-nonce="%s" />',
+        '<input type="text" id="loops_api_key" name="loops_api_key" value="%s" class="regular-text knittnet-autosave-field knittnet-api-key-field" autocomplete="new-password" data-lpignore="true" data-form-type="other" data-nonce="%s" />',
         $loops_api_key,
         $nonce
     );
-    echo '<button type="button" id="toggleLoopsApiKeyVisibility">' . esc_html__('Show', 'mxchat') . '</button>';
+    echo '<button type="button" id="toggleLoopsApiKeyVisibility">' . esc_html__('Show', 'knittnet') . '</button>';
     echo '</div>';
-    echo '<p class="description">' . esc_html__('Required for Loops email integration. Get your API key from Loops.so', 'mxchat') . '</p>';
+    echo '<p class="description">' . esc_html__('Required for Loops email integration. Get your API key from Loops.so', 'knittnet') . '</p>';
 }
-public function mxchat_loops_mailing_list_callback() {
+public function knittnet_loops_mailing_list_callback() {
     // Add error handling and type checking
     $loops_api_key = '';
     $selected_list = '';
-    $nonce = wp_create_nonce('mxchat_autosave_nonce');
+    $nonce = wp_create_nonce('knittnet_autosave_nonce');
 
     // Safely get the API key
     if (isset($this->options['loops_api_key']) && is_string($this->options['loops_api_key'])) {
@@ -7326,13 +7326,13 @@ public function mxchat_loops_mailing_list_callback() {
     }
 
     if (!empty($loops_api_key)) {
-        $lists = $this->mxchat_fetch_loops_mailing_lists($loops_api_key);
+        $lists = $this->knittnet_fetch_loops_mailing_lists($loops_api_key);
         if (is_array($lists) && !empty($lists)) {
-            echo '<div class="mxchat-field-wrapper">';
-            echo '<select id="loops_mailing_list" name="loops_mailing_list" class="mxchat-autosave-field" data-nonce="' . $nonce . '">';
+            echo '<div class="knittnet-field-wrapper">';
+            echo '<select id="loops_mailing_list" name="loops_mailing_list" class="knittnet-autosave-field" data-nonce="' . $nonce . '">';
 
             // Add a default "Select a list" option
-            echo '<option value="" ' . selected($selected_list, '', false) . '>' . esc_html__('Select a list', 'mxchat') . '</option>';
+            echo '<option value="" ' . selected($selected_list, '', false) . '>' . esc_html__('Select a list', 'knittnet') . '</option>';
 
             foreach ($lists as $list) {
                 if (is_array($list) && isset($list['id']) && isset($list['name'])) {
@@ -7346,53 +7346,53 @@ public function mxchat_loops_mailing_list_callback() {
             }
             echo '</select>';
             echo '</div>';
-            echo '<p class="description">' . esc_html__('Please select a mailing list to use with Loops.', 'mxchat') . '</p>';
+            echo '<p class="description">' . esc_html__('Please select a mailing list to use with Loops.', 'knittnet') . '</p>';
         } else {
-            echo '<p class="description">' . esc_html__('No lists found. Please verify your API Key.', 'mxchat') . '</p>';
+            echo '<p class="description">' . esc_html__('No lists found. Please verify your API Key.', 'knittnet') . '</p>';
         }
     } else {
-        echo '<p class="description">' . esc_html__('Enter a valid Loops API Key to load mailing lists.', 'mxchat') . '</p>';
+        echo '<p class="description">' . esc_html__('Enter a valid Loops API Key to load mailing lists.', 'knittnet') . '</p>';
     }
 }
-public function mxchat_triggered_phrase_response_callback() {
-    $default_response = __('Would you like to join our mailing list? Please provide your email below.', 'mxchat');
+public function knittnet_triggered_phrase_response_callback() {
+    $default_response = __('Would you like to join our mailing list? Please provide your email below.', 'knittnet');
     $triggered_response = isset($this->options['triggered_phrase_response'])
         ? $this->options['triggered_phrase_response']
         : $default_response;
-    $nonce = wp_create_nonce('mxchat_autosave_nonce');
+    $nonce = wp_create_nonce('knittnet_autosave_nonce');
 
-    echo '<div class="mxchat-field-wrapper">';
+    echo '<div class="knittnet-field-wrapper">';
     echo sprintf(
-        '<textarea id="triggered_phrase_response" name="triggered_phrase_response" rows="3" cols="50" class="mxchat-autosave-field" data-nonce="%s">%s</textarea>',
+        '<textarea id="triggered_phrase_response" name="triggered_phrase_response" rows="3" cols="50" class="knittnet-autosave-field" data-nonce="%s">%s</textarea>',
         $nonce,
         esc_textarea($triggered_response)
     );
     echo '</div>';
-    echo '<p class="description">' . esc_html__('Enter the instruction for the AI when a trigger keyword is detected. The AI will use this as guidance to naturally ask for the user\'s email in a conversational way.', 'mxchat') . '</p>';
+    echo '<p class="description">' . esc_html__('Enter the instruction for the AI when a trigger keyword is detected. The AI will use this as guidance to naturally ask for the user\'s email in a conversational way.', 'knittnet') . '</p>';
 }
 
-public function mxchat_email_capture_response_callback() {
-    $default_response = __('Thank you for providing your email! You\'ve been added to our list.', 'mxchat');
+public function knittnet_email_capture_response_callback() {
+    $default_response = __('Thank you for providing your email! You\'ve been added to our list.', 'knittnet');
     $email_capture_response = isset($this->options['email_capture_response'])
         ? $this->options['email_capture_response']
         : $default_response;
-    $nonce = wp_create_nonce('mxchat_autosave_nonce');
+    $nonce = wp_create_nonce('knittnet_autosave_nonce');
 
-    echo '<div class="mxchat-field-wrapper">';
+    echo '<div class="knittnet-field-wrapper">';
     echo sprintf(
-        '<textarea id="email_capture_response" name="email_capture_response" rows="3" cols="50" class="mxchat-autosave-field" data-nonce="%s">%s</textarea>',
+        '<textarea id="email_capture_response" name="email_capture_response" rows="3" cols="50" class="knittnet-autosave-field" data-nonce="%s">%s</textarea>',
         $nonce,
         esc_textarea($email_capture_response)
     );
     echo '</div>';
-    echo '<p class="description">' . esc_html__('Enter the instruction for the AI when a user provides their email. The AI will use this as guidance to naturally confirm the email capture in a conversational way.', 'mxchat') . '</p>';
+    echo '<p class="description">' . esc_html__('Enter the instruction for the AI when a user provides their email. The AI will use this as guidance to naturally confirm the email capture in a conversational way.', 'knittnet') . '</p>';
 }
-public function mxchat_pre_chat_message_callback() {
-    // Load the entire 'mxchat_options' array
-    $all_options = get_option('mxchat_options', []);
+public function knittnet_pre_chat_message_callback() {
+    // Load the entire 'knittnet_options' array
+    $all_options = get_option('knittnet_options', []);
 
     // Retrieve the saved message or use the default value
-    $default_message = __('Hey there! Ask me anything!', 'mxchat');
+    $default_message = __('Hey there! Ask me anything!', 'knittnet');
     $pre_chat_message = isset($all_options['pre_chat_message']) ? $all_options['pre_chat_message'] : $default_message;
 
     // Output the textarea
@@ -7413,17 +7413,17 @@ public function system_prompt_instructions_callback() {
     );
     // Personalization hint
     echo '<p class="description" style="margin-top: 8px;">';
-    echo esc_html__('Use {visitor_name} to personalize AI responses when lead capture is enabled.', 'mxchat') . '<br>';
-    echo '<code style="font-size: 12px;">' . esc_html__('Example: The visitor\'s name is {visitor_name}. Address them by name.', 'mxchat') . '</code>';
+    echo esc_html__('Use {visitor_name} to personalize AI responses when lead capture is enabled.', 'knittnet') . '<br>';
+    echo '<code style="font-size: 12px;">' . esc_html__('Example: The visitor\'s name is {visitor_name}. Address them by name.', 'knittnet') . '</code>';
     echo '</p>';
     // Sample instructions button
-    echo '<div class="mxchat-instructions-container">';
-    echo '<button type="button" class="mxchat-instructions-btn" id="mxchatViewSampleBtn">';
+    echo '<div class="knittnet-instructions-container">';
+    echo '<button type="button" class="knittnet-instructions-btn" id="knittnetViewSampleBtn">';
     echo '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">';
     echo '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>';
     echo '<path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>';
     echo '</svg>';
-    echo esc_html__('View Sample Instructions', 'mxchat');
+    echo esc_html__('View Sample Instructions', 'knittnet');
     echo '</button>';
     echo '</div>';
 
@@ -7437,25 +7437,25 @@ public function render_sample_instructions_modal() {
     if ($modal_rendered) return; // Prevent duplicate modals
     $modal_rendered = true;
 
-    echo '<div class="mxchat-instructions-modal-overlay" id="mxchatSampleModal">';
-    echo '<div class="mxchat-instructions-modal-content">';
-    echo '<div class="mxchat-instructions-modal-header">';
-    echo '<h3 class="mxchat-instructions-modal-title">';
+    echo '<div class="knittnet-instructions-modal-overlay" id="knittnetSampleModal">';
+    echo '<div class="knittnet-instructions-modal-content">';
+    echo '<div class="knittnet-instructions-modal-header">';
+    echo '<h3 class="knittnet-instructions-modal-title">';
     echo '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">';
     echo '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>';
     echo '<path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>';
     echo '</svg>';
-    echo esc_html__('Sample AI Instructions', 'mxchat');
+    echo esc_html__('Sample AI Instructions', 'knittnet');
     echo '</h3>';
-    echo '<button type="button" class="mxchat-instructions-modal-close" id="mxchatModalClose">';
+    echo '<button type="button" class="knittnet-instructions-modal-close" id="knittnetModalClose">';
     echo '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">';
     echo '<line x1="18" y1="6" x2="6" y2="18"/>';
     echo '<line x1="6" y1="6" x2="18" y2="18"/>';
     echo '</svg>';
     echo '</button>';
     echo '</div>';
-    echo '<div class="mxchat-instructions-modal-body">';
-    echo '<div class="mxchat-instructions-content">';
+    echo '<div class="knittnet-instructions-modal-body">';
+    echo '<div class="knittnet-instructions-content">';
     echo esc_html('You are an AI Chatbot assistant for this website. Your main goal is to assist visitors with questions and provide helpful information. Here are your key guidelines:
 
 # Response Style - CRITICALLY IMPORTANT
@@ -7476,30 +7476,30 @@ public function render_sample_instructions_modal() {
 - When knowledge base information is unclear or contradictory, acknowledge the limitation rather than guessing
 - Better to admit insufficient information than provide inaccurate answers');
     echo '</div>';
-    echo '<button type="button" class="mxchat-instructions-copy-btn" id="mxchatCopyBtn">';
+    echo '<button type="button" class="knittnet-instructions-copy-btn" id="knittnetCopyBtn">';
     echo '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">';
     echo '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>';
     echo '<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>';
     echo '</svg>';
-    echo esc_html__('Copy Instructions', 'mxchat');
+    echo esc_html__('Copy Instructions', 'knittnet');
     echo '</button>';
     echo '</div>';
-    echo '<div class="mxchat-instructions-modal-footer">';
-    echo '<button type="button" class="mxchat-instructions-btn-secondary" id="mxchatCloseBtn">' . esc_html__('Close', 'mxchat') . '</button>';
+    echo '<div class="knittnet-instructions-modal-footer">';
+    echo '<button type="button" class="knittnet-instructions-btn-secondary" id="knittnetCloseBtn">' . esc_html__('Close', 'knittnet') . '</button>';
     echo '</div>';
     echo '</div>';
     echo '</div>';
 }
 
 
-public function mxchat_model_callback() {
+public function knittnet_model_callback() {
     // Catalog refactor (plan-d14e89): single source of truth lives in
-    // includes/class-mxchat-model-catalog.php. Dropdown groups are the
+    // includes/class-knittnet-model-catalog.php. Dropdown groups are the
     // provider labels; each group maps model_id => "Label" strings.
-    if (!class_exists('MxChat_Model_Catalog')) {
-        require_once plugin_dir_path(__FILE__) . 'class-mxchat-model-catalog.php';
+    if (!class_exists('KnittNet_Model_Catalog')) {
+        require_once plugin_dir_path(__FILE__) . 'class-knittnet-model-catalog.php';
     }
-    $models = MxChat_Model_Catalog::settings_dropdown_groups();
+    $models = KnittNet_Model_Catalog::settings_dropdown_groups();
 
     // Retrieve the currently selected model from saved options
     $selected_model = isset($this->options['model']) ? esc_attr($this->options['model']) : 'gpt-5.1-chat-latest';
@@ -7523,7 +7523,7 @@ public function mxchat_model_callback() {
     // Add a note for OpenRouter
     echo '<p class="description" id="openrouter-model-note" style="display:none; color: #d63638; font-weight: 500;">';
     echo '<span class="dashicons dashicons-info" style="font-size: 16px; vertical-align: middle;"></span> ';
-    echo esc_html__('After entering your OpenRouter API key above, click the button below to load available models.', 'mxchat');
+    echo esc_html__('After entering your OpenRouter API key above, click the button below to load available models.', 'knittnet');
     echo '</p>';
 
     // API Key Status Messages (hidden by default, shown by JS based on selected model)
@@ -7535,56 +7535,56 @@ public function mxchat_model_callback() {
     $has_openrouter_key = !empty($this->options['openrouter_api_key']);
 
     // OpenAI/GPT models
-    echo '<p class="mxchat-api-status" data-provider="openai" style="display:none;">';
+    echo '<p class="knittnet-api-status" data-provider="openai" style="display:none;">';
     if ($has_openai_key) {
-        echo '<span style="color: #00a32a;">✓ ' . esc_html__('API key for OpenAI detected', 'mxchat') . '</span>';
+        echo '<span style="color: #00a32a;">✓ ' . esc_html__('API key for OpenAI detected', 'knittnet') . '</span>';
     } else {
-        echo '<span style="color: #d63638;">⚠ ' . esc_html__('No API key for OpenAI detected. Please enter API key in API Keys tab.', 'mxchat') . '</span>';
+        echo '<span style="color: #d63638;">⚠ ' . esc_html__('No API key for OpenAI detected. Please enter API key in API Keys tab.', 'knittnet') . '</span>';
     }
     echo '</p>';
 
     // Claude models
-    echo '<p class="mxchat-api-status" data-provider="claude" style="display:none;">';
+    echo '<p class="knittnet-api-status" data-provider="claude" style="display:none;">';
     if ($has_claude_key) {
-        echo '<span style="color: #00a32a;">✓ ' . esc_html__('API key for Anthropic (Claude) detected', 'mxchat') . '</span>';
+        echo '<span style="color: #00a32a;">✓ ' . esc_html__('API key for Anthropic (Claude) detected', 'knittnet') . '</span>';
     } else {
-        echo '<span style="color: #d63638;">⚠ ' . esc_html__('No API key for Anthropic (Claude) detected. Please enter API key in API Keys tab.', 'mxchat') . '</span>';
+        echo '<span style="color: #d63638;">⚠ ' . esc_html__('No API key for Anthropic (Claude) detected. Please enter API key in API Keys tab.', 'knittnet') . '</span>';
     }
     echo '</p>';
 
     // X.AI models
-    echo '<p class="mxchat-api-status" data-provider="xai" style="display:none;">';
+    echo '<p class="knittnet-api-status" data-provider="xai" style="display:none;">';
     if ($has_xai_key) {
-        echo '<span style="color: #00a32a;">✓ ' . esc_html__('API key for X.AI (Grok) detected', 'mxchat') . '</span>';
+        echo '<span style="color: #00a32a;">✓ ' . esc_html__('API key for X.AI (Grok) detected', 'knittnet') . '</span>';
     } else {
-        echo '<span style="color: #d63638;">⚠ ' . esc_html__('No API key for X.AI (Grok) detected. Please enter API key in API Keys tab.', 'mxchat') . '</span>';
+        echo '<span style="color: #d63638;">⚠ ' . esc_html__('No API key for X.AI (Grok) detected. Please enter API key in API Keys tab.', 'knittnet') . '</span>';
     }
     echo '</p>';
 
     // DeepSeek models
-    echo '<p class="mxchat-api-status" data-provider="deepseek" style="display:none;">';
+    echo '<p class="knittnet-api-status" data-provider="deepseek" style="display:none;">';
     if ($has_deepseek_key) {
-        echo '<span style="color: #00a32a;">✓ ' . esc_html__('API key for DeepSeek detected', 'mxchat') . '</span>';
+        echo '<span style="color: #00a32a;">✓ ' . esc_html__('API key for DeepSeek detected', 'knittnet') . '</span>';
     } else {
-        echo '<span style="color: #d63638;">⚠ ' . esc_html__('No API key for DeepSeek detected. Please enter API key in API Keys tab.', 'mxchat') . '</span>';
+        echo '<span style="color: #d63638;">⚠ ' . esc_html__('No API key for DeepSeek detected. Please enter API key in API Keys tab.', 'knittnet') . '</span>';
     }
     echo '</p>';
 
     // Gemini models
-    echo '<p class="mxchat-api-status" data-provider="gemini" style="display:none;">';
+    echo '<p class="knittnet-api-status" data-provider="gemini" style="display:none;">';
     if ($has_gemini_key) {
-        echo '<span style="color: #00a32a;">✓ ' . esc_html__('API key for Google Gemini detected', 'mxchat') . '</span>';
+        echo '<span style="color: #00a32a;">✓ ' . esc_html__('API key for Google Gemini detected', 'knittnet') . '</span>';
     } else {
-        echo '<span style="color: #d63638;">⚠ ' . esc_html__('No API key for Google Gemini detected. Please enter API key in API Keys tab.', 'mxchat') . '</span>';
+        echo '<span style="color: #d63638;">⚠ ' . esc_html__('No API key for Google Gemini detected. Please enter API key in API Keys tab.', 'knittnet') . '</span>';
     }
     echo '</p>';
 
     // OpenRouter models
-    echo '<p class="mxchat-api-status" data-provider="openrouter" style="display:none;">';
+    echo '<p class="knittnet-api-status" data-provider="openrouter" style="display:none;">';
     if ($has_openrouter_key) {
-        echo '<span style="color: #00a32a;">✓ ' . esc_html__('API key for OpenRouter detected', 'mxchat') . '</span>';
+        echo '<span style="color: #00a32a;">✓ ' . esc_html__('API key for OpenRouter detected', 'knittnet') . '</span>';
     } else {
-        echo '<span style="color: #d63638;">⚠ ' . esc_html__('No API key for OpenRouter detected. Please enter API key in API Keys tab.', 'mxchat') . '</span>';
+        echo '<span style="color: #d63638;">⚠ ' . esc_html__('No API key for OpenRouter detected. Please enter API key in API Keys tab.', 'knittnet') . '</span>';
     }
     echo '</p>';
 
@@ -7612,11 +7612,11 @@ public function enable_streaming_toggle_callback() {
 
     // Test button — branded .mxch-btn with inline SVG (IDs preserved for AJAX binding)
     echo '<div class="mxch-streaming-test-row">';
-    echo '<button type="button" id="mxchat-test-streaming-btn" class="mxch-btn mxch-btn-secondary">';
+    echo '<button type="button" id="knittnet-test-streaming-btn" class="mxch-btn mxch-btn-secondary">';
     echo '<svg class="mxch-streaming-test-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>';
-    echo esc_html__('Test Streaming Compatibility', 'mxchat');
+    echo esc_html__('Test Streaming Compatibility', 'knittnet');
     echo '</button>';
-    echo '<p id="mxchat-test-streaming-result" class="mxch-streaming-test-result"></p>';
+    echo '<p id="knittnet-test-streaming-result" class="mxch-streaming-test-result"></p>';
     echo '</div>';
 }
 
@@ -7635,16 +7635,16 @@ public function enable_web_search_toggle_callback() {
     $unsupported_models = array('gpt-4.1-nano');
 
     // Web-search-capable chat-model allowlists, derived from the central model catalog
-    // (class-mxchat-model-catalog.php). When a new OpenAI/Gemini chat model is added there,
+    // (class-knittnet-model-catalog.php). When a new OpenAI/Gemini chat model is added there,
     // the Web Search toggle picks it up automatically — no edit here.
     // OpenAI grounds via the Responses-API web_search tool; Gemini grounds natively via the
     // Google Search tool (plan 46b9ea wired the Gemini dispatch — every shipped Gemini chat
     // model is 2.x/3.x and grounds, matching that path's empty opt-out list, so all catalog
     // Gemini models are supported here).
-    if (!class_exists('MxChat_Model_Catalog')) {
-        require_once plugin_dir_path(__FILE__) . 'class-mxchat-model-catalog.php';
+    if (!class_exists('KnittNet_Model_Catalog')) {
+        require_once plugin_dir_path(__FILE__) . 'class-knittnet-model-catalog.php';
     }
-    $chat_catalog = MxChat_Model_Catalog::chat_models();
+    $chat_catalog = KnittNet_Model_Catalog::chat_models();
     $openai_models = (isset($chat_catalog['openai']['models']) && is_array($chat_catalog['openai']['models']))
         ? array_keys($chat_catalog['openai']['models'])
         : array();
@@ -7672,13 +7672,13 @@ public function enable_web_search_toggle_callback() {
     // Message shown when a model that can't ground (Claude, Grok, DeepSeek, OpenRouter, etc.) is selected
     echo '<p id="web-search-unavailable-message" class="description" style="color: #666;' . ($is_supported ? ' display:none;' : '') . '">';
     echo '<span class="dashicons dashicons-info" style="font-size: 16px; vertical-align: middle; margin-right: 4px;"></span>';
-    echo esc_html__('Web search is only available for OpenAI and Gemini models.', 'mxchat');
+    echo esc_html__('Web search is only available for OpenAI and Gemini models.', 'knittnet');
     echo '</p>';
 }
 
 // AJAX handler to fetch OpenRouter models
 public function fetch_openrouter_models() {
-    check_ajax_referer('mxchat_fetch_openrouter_models', 'nonce');
+    check_ajax_referer('knittnet_fetch_openrouter_models', 'nonce');
     
     $api_key = isset($_POST['api_key']) ? sanitize_text_field($_POST['api_key']) : '';
     
@@ -7725,16 +7725,16 @@ public function fetch_openrouter_models() {
 // Callback function for embedding model selection
 public function embedding_model_callback() {
     $models = array(
-        esc_html__('OpenAI Embeddings', 'mxchat') => array(
-            'text-embedding-3-small' => esc_html__('TE3 Small (1536, Efficient)', 'mxchat'),
-            'text-embedding-ada-002' => esc_html__('Ada 2 (1536, Recommended)', 'mxchat'),
-            'text-embedding-3-large' => esc_html__('TE3 Large (3072, Powerful)', 'mxchat'),
+        esc_html__('OpenAI Embeddings', 'knittnet') => array(
+            'text-embedding-3-small' => esc_html__('TE3 Small (1536, Efficient)', 'knittnet'),
+            'text-embedding-ada-002' => esc_html__('Ada 2 (1536, Recommended)', 'knittnet'),
+            'text-embedding-3-large' => esc_html__('TE3 Large (3072, Powerful)', 'knittnet'),
         ),
-        esc_html__('Voyage AI Embeddings', 'mxchat') => array(
-            'voyage-3-large' => esc_html__('Voyage-3 Large (2048, Most Capable)', 'mxchat'),
+        esc_html__('Voyage AI Embeddings', 'knittnet') => array(
+            'voyage-3-large' => esc_html__('Voyage-3 Large (2048, Most Capable)', 'knittnet'),
         ),
-        esc_html__('Google Gemini Embeddings', 'mxchat') => array(
-            'gemini-embedding-001' => esc_html__('Gemini Embedding (1536, Stable)', 'mxchat'),
+        esc_html__('Google Gemini Embeddings', 'knittnet') => array(
+            'gemini-embedding-001' => esc_html__('Gemini Embedding (1536, Stable)', 'knittnet'),
         )
     );
     $selected_model = isset($this->options['embedding_model']) ? esc_attr($this->options['embedding_model']) : 'text-embedding-ada-002';
@@ -7754,43 +7754,43 @@ public function embedding_model_callback() {
     $has_gemini_key = !empty($this->options['gemini_api_key']);
 
     // OpenAI Embeddings
-    echo '<p class="mxchat-embedding-api-status" data-provider="openai" style="display:none;">';
+    echo '<p class="knittnet-embedding-api-status" data-provider="openai" style="display:none;">';
     if ($has_openai_key) {
-        echo '<span style="color: #00a32a;">✓ ' . esc_html__('API key for OpenAI detected', 'mxchat') . '</span>';
+        echo '<span style="color: #00a32a;">✓ ' . esc_html__('API key for OpenAI detected', 'knittnet') . '</span>';
     } else {
-        echo '<span style="color: #d63638;">⚠ ' . esc_html__('No API key for OpenAI detected. Please enter API key in API Keys tab.', 'mxchat') . '</span>';
+        echo '<span style="color: #d63638;">⚠ ' . esc_html__('No API key for OpenAI detected. Please enter API key in API Keys tab.', 'knittnet') . '</span>';
     }
     echo '</p>';
 
     // Voyage AI Embeddings
-    echo '<p class="mxchat-embedding-api-status" data-provider="voyage" style="display:none;">';
+    echo '<p class="knittnet-embedding-api-status" data-provider="voyage" style="display:none;">';
     if ($has_voyage_key) {
-        echo '<span style="color: #00a32a;">✓ ' . esc_html__('API key for Voyage AI detected', 'mxchat') . '</span>';
+        echo '<span style="color: #00a32a;">✓ ' . esc_html__('API key for Voyage AI detected', 'knittnet') . '</span>';
     } else {
-        echo '<span style="color: #d63638;">⚠ ' . esc_html__('No API key for Voyage AI detected. Please enter API key in API Keys tab.', 'mxchat') . '</span>';
+        echo '<span style="color: #d63638;">⚠ ' . esc_html__('No API key for Voyage AI detected. Please enter API key in API Keys tab.', 'knittnet') . '</span>';
     }
     echo '</p>';
 
     // Gemini Embeddings
-    echo '<p class="mxchat-embedding-api-status" data-provider="gemini" style="display:none;">';
+    echo '<p class="knittnet-embedding-api-status" data-provider="gemini" style="display:none;">';
     if ($has_gemini_key) {
-        echo '<span style="color: #00a32a;">✓ ' . esc_html__('API key for Google Gemini detected', 'mxchat') . '</span>';
+        echo '<span style="color: #00a32a;">✓ ' . esc_html__('API key for Google Gemini detected', 'knittnet') . '</span>';
     } else {
-        echo '<span style="color: #d63638;">⚠ ' . esc_html__('No API key for Google Gemini detected. Please enter API key in API Keys tab.', 'mxchat') . '</span>';
+        echo '<span style="color: #d63638;">⚠ ' . esc_html__('No API key for Google Gemini detected. Please enter API key in API Keys tab.', 'knittnet') . '</span>';
     }
     echo '</p>';
 
 }
 
 
-public function mxchat_top_bar_title_callback() {
+public function knittnet_top_bar_title_callback() {
     // Retrieve the current value of the top bar title from saved options
     $top_bar_title = isset($this->options['top_bar_title']) ? esc_attr($this->options['top_bar_title']) : '';
 
     // Render the input field
     echo '<input type="text" id="top_bar_title" name="top_bar_title" value="' . $top_bar_title . '" />';
 }
-public function mxchat_ai_agent_text_callback() {
+public function knittnet_ai_agent_text_callback() {
     // Retrieve the current value of the AI agent text from saved options
     $ai_agent_text = isset($this->options['ai_agent_text']) ? esc_attr($this->options['ai_agent_text']) : '';
     // Render the input field
@@ -7800,7 +7800,7 @@ public function mxchat_ai_agent_text_callback() {
 
 public function enable_email_block_callback() {
     // Load full plugin options array
-    $all_options = get_option('mxchat_options', []);
+    $all_options = get_option('knittnet_options', []);
 
     // Get the value, default to 'off'
     $enable_email_block = isset($all_options['enable_email_block']) ? $all_options['enable_email_block'] : 'off';
@@ -7818,8 +7818,8 @@ public function enable_email_block_callback() {
 }
 
 public function email_blocker_header_content_callback() {
-    // Load the entire 'mxchat_options' array
-    $all_options = get_option('mxchat_options', []);
+    // Load the entire 'knittnet_options' array
+    $all_options = get_option('knittnet_options', []);
 
     // Retrieve the saved content or default to empty
     $content = isset($all_options['email_blocker_header_content'])
@@ -7837,8 +7837,8 @@ public function email_blocker_header_content_callback() {
 }
 
 public function email_blocker_button_text_callback() {
-    // Load the entire 'mxchat_options' array
-    $all_options = get_option('mxchat_options', []);
+    // Load the entire 'knittnet_options' array
+    $all_options = get_option('knittnet_options', []);
 
     // Retrieve the saved button text or default to empty
     $button_text = isset($all_options['email_blocker_button_text'])
@@ -7852,7 +7852,7 @@ public function email_blocker_button_text_callback() {
 //Enable name field callback
 public function enable_name_field_callback() {
     // Load full plugin options array
-    $all_options = get_option('mxchat_options', []);
+    $all_options = get_option('knittnet_options', []);
     // Get the value, default to 'off'
     $enable_name_field = isset($all_options['enable_name_field']) ? $all_options['enable_name_field'] : 'off';
     // Check if it's 'on'
@@ -7867,53 +7867,53 @@ public function enable_name_field_callback() {
 }
 //Name field placeholder callback
 public function name_field_placeholder_callback() {
-    $all_options = get_option('mxchat_options', []);
+    $all_options = get_option('knittnet_options', []);
     $placeholder = isset($all_options['name_field_placeholder'])
         ? $all_options['name_field_placeholder']
-        : esc_html__('Enter your name', 'mxchat');
+        : esc_html__('Enter your name', 'knittnet');
 
     echo '<input type="text" id="name_field_placeholder" name="name_field_placeholder" value="' . esc_attr($placeholder) . '" style="width: 300px;" />';
 }
 
 
 
-public function mxchat_intro_message_callback() {
-    // Load the entire 'mxchat_options' array
-    $all_options = get_option('mxchat_options', []);
+public function knittnet_intro_message_callback() {
+    // Load the entire 'knittnet_options' array
+    $all_options = get_option('knittnet_options', []);
     // Retrieve the saved intro message or use the default
-    $default_message = __('Hello! How can I assist you today?', 'mxchat');
+    $default_message = __('Hello! How can I assist you today?', 'knittnet');
     $saved_message = isset($all_options['intro_message']) ? $all_options['intro_message'] : $default_message;
     // Escape on output (esc_textarea) — neutralizes any payload already stored before the
     // Wordfence Stored-XSS fix (CWE-79, plan-3f8158) and prevents </textarea> context-breakout.
     ?>
     <textarea id="intro_message" name="intro_message" rows="5" cols="50"><?php echo esc_textarea( $saved_message ); ?></textarea>
     <p class="description" style="margin-top: 8px;">
-        <?php esc_html_e('Use {visitor_name} to personalize greetings when lead capture is enabled.', 'mxchat'); ?><br>
-        <code style="font-size: 12px;"><?php esc_html_e('Example: Hello {visitor_name}! How can I help you today?', 'mxchat'); ?></code>
+        <?php esc_html_e('Use {visitor_name} to personalize greetings when lead capture is enabled.', 'knittnet'); ?><br>
+        <code style="font-size: 12px;"><?php esc_html_e('Example: Hello {visitor_name}! How can I help you today?', 'knittnet'); ?></code>
     </p>
     <?php
 }
 
-public function mxchat_input_copy_callback() {
-    // Load the entire 'mxchat_options' array
-    $all_options = get_option('mxchat_options', []);
+public function knittnet_input_copy_callback() {
+    // Load the entire 'knittnet_options' array
+    $all_options = get_option('knittnet_options', []);
 
     // Retrieve the saved input copy or use the default value
-    $default_copy = __('How can I assist?', 'mxchat');
+    $default_copy = __('How can I assist?', 'knittnet');
     $input_copy = isset($all_options['input_copy']) ? $all_options['input_copy'] : $default_copy;
 
     // Output the input field with the saved value
     printf(
         '<input type="text" id="input_copy" name="input_copy" value="%s" placeholder="%s" />',
         esc_attr($input_copy),
-        esc_attr__('How can I assist?', 'mxchat')
+        esc_attr__('How can I assist?', 'knittnet')
     );
 }
 
 
-public function mxchat_append_to_body_callback() {
+public function knittnet_append_to_body_callback() {
     // Fetch fresh options to ensure we have the latest saved values
-    $options = get_option('mxchat_options', array());
+    $options = get_option('knittnet_options', array());
 
     // Get value from options array, default to 'off'
     $append_to_body = isset($options['append_to_body']) ? $options['append_to_body'] : 'off';
@@ -7926,7 +7926,7 @@ public function mxchat_append_to_body_callback() {
         $visibility_list = array();
     }
 
-    echo '<div class="mxchat-autosave-section">';
+    echo '<div class="knittnet-autosave-section">';
 
     // Main toggle
     echo '<label class="toggle-switch">';
@@ -7939,35 +7939,35 @@ public function mxchat_append_to_body_callback() {
 
     // Post Type Visibility Options (only visible when auto-display is ON)
     $display_style = ($append_to_body === 'on') ? '' : 'display: none;';
-    echo '<div id="post-type-visibility-options" class="mxchat-sub-options" style="' . esc_attr($display_style) . '">';
+    echo '<div id="post-type-visibility-options" class="knittnet-sub-options" style="' . esc_attr($display_style) . '">';
 
-    echo '<div class="mxchat-post-type-visibility-header">';
-    echo '<h4>' . esc_html__('Post Type Visibility', 'mxchat') . '</h4>';
+    echo '<div class="knittnet-post-type-visibility-header">';
+    echo '<h4>' . esc_html__('Post Type Visibility', 'knittnet') . '</h4>';
     echo '</div>';
 
     // Mode selector (radio buttons)
-    echo '<div class="mxchat-visibility-mode">';
+    echo '<div class="knittnet-visibility-mode">';
 
-    echo '<label class="mxchat-radio-label">';
+    echo '<label class="knittnet-radio-label">';
     echo '<input type="radio" name="post_type_visibility_mode" value="all" ' . checked($visibility_mode, 'all', false) . ' />';
-    echo '<span>' . esc_html__('Show on all post types', 'mxchat') . '</span>';
+    echo '<span>' . esc_html__('Show on all post types', 'knittnet') . '</span>';
     echo '</label>';
 
-    echo '<label class="mxchat-radio-label">';
+    echo '<label class="knittnet-radio-label">';
     echo '<input type="radio" name="post_type_visibility_mode" value="include" ' . checked($visibility_mode, 'include', false) . ' />';
-    echo '<span>' . esc_html__('Only show on selected post types', 'mxchat') . '</span>';
+    echo '<span>' . esc_html__('Only show on selected post types', 'knittnet') . '</span>';
     echo '</label>';
 
-    echo '<label class="mxchat-radio-label">';
+    echo '<label class="knittnet-radio-label">';
     echo '<input type="radio" name="post_type_visibility_mode" value="exclude" ' . checked($visibility_mode, 'exclude', false) . ' />';
-    echo '<span>' . esc_html__('Hide on selected post types', 'mxchat') . '</span>';
+    echo '<span>' . esc_html__('Hide on selected post types', 'knittnet') . '</span>';
     echo '</label>';
 
     echo '</div>';
 
     // Post type checkboxes (only visible when mode is include or exclude)
     $list_display = ($visibility_mode !== 'all') ? '' : 'display: none;';
-    echo '<div id="post-type-list" class="mxchat-post-type-list" style="' . esc_attr($list_display) . '">';
+    echo '<div id="post-type-list" class="knittnet-post-type-list" style="' . esc_attr($list_display) . '">';
 
     // Get all public post types
     $post_types = get_post_types(array('public' => true), 'objects');
@@ -7980,7 +7980,7 @@ public function mxchat_append_to_body_callback() {
 
         $is_checked = in_array($post_type->name, $visibility_list) ? 'checked' : '';
 
-        echo '<label class="mxchat-checkbox-label">';
+        echo '<label class="knittnet-checkbox-label">';
         echo '<input type="checkbox" name="post_type_visibility_list[]" value="' . esc_attr($post_type->name) . '" ' . $is_checked . ' />';
         echo '<span>' . esc_html($post_type->label) . '</span>';
         echo '</label>';
@@ -7988,10 +7988,10 @@ public function mxchat_append_to_body_callback() {
 
     echo '</div>'; // End post-type-list
     echo '</div>'; // End post-type-visibility-options
-    echo '</div>'; // End mxchat-autosave-section
+    echo '</div>'; // End knittnet-autosave-section
 }
 
-public function mxchat_contextual_awareness_callback() {
+public function knittnet_contextual_awareness_callback() {
     // Get value from options array, default to 'off'
     $contextual_awareness = isset($this->options['contextual_awareness_toggle']) ? $this->options['contextual_awareness_toggle'] : 'off';
     $checked = ($contextual_awareness === 'on') ? 'checked' : '';
@@ -8004,7 +8004,7 @@ public function mxchat_contextual_awareness_callback() {
     echo '</label>';
 }
 
-public function mxchat_citation_links_toggle_callback() {
+public function knittnet_citation_links_toggle_callback() {
     // Get value from options array, default to 'on' (enabled by default)
     $citation_links = isset($this->options['citation_links_toggle']) ? $this->options['citation_links_toggle'] : 'on';
     $checked = ($citation_links === 'on') ? 'checked' : '';
@@ -8020,18 +8020,18 @@ public function mxchat_citation_links_toggle_callback() {
 /**
  * Toggle for the end-of-session satisfaction rating prompt (plan-a5b006).
  * Default ON. The widget reads this through the localized object; the
- * mxchat_satisfaction_rating_enabled filter still lets developers force
+ * knittnet_satisfaction_rating_enabled filter still lets developers force
  * the value site-wide.
  *
  * The 5 customization fields (idle/question/thanks/placeholder/saved) are
  * rendered inline here inside a single wrapper div whose initial display
  * is set server-side from the toggle value (plan-29caac). Mirrors the
- * auto-display chatbot pattern at mxchat_append_to_body_callback — no
+ * auto-display chatbot pattern at knittnet_append_to_body_callback — no
  * DOMContentLoaded race because rows exist as direct children of this
  * callback's output, and the wrapper's display: none is inline at render
  * time so refresh shows the correct state with no flash.
  */
-public function mxchat_satisfaction_rating_toggle_callback() {
+public function knittnet_satisfaction_rating_toggle_callback() {
     $options = $this->options;
     $value   = isset($options['satisfaction_rating_enabled']) ? $options['satisfaction_rating_enabled'] : 'off';
     $checked = ($value === 'on') ? 'checked' : '';
@@ -8043,7 +8043,7 @@ public function mxchat_satisfaction_rating_toggle_callback() {
     $placeholder = isset($options['satisfaction_rating_placeholder']) ? $options['satisfaction_rating_placeholder'] : '';
     $saved       = isset($options['satisfaction_rating_saved'])       ? $options['satisfaction_rating_saved']       : '';
 
-    echo '<div class="mxchat-autosave-section">';
+    echo '<div class="knittnet-autosave-section">';
 
     echo '<label class="toggle-switch">';
     echo sprintf(
@@ -8055,68 +8055,68 @@ public function mxchat_satisfaction_rating_toggle_callback() {
 
     ?>
     <style>
-        .mxchat-sub-options-field { margin: 12px 0; }
-        .mxchat-sub-options-field label { display: inline-block; margin-bottom: 4px; }
+        .knittnet-sub-options-field { margin: 12px 0; }
+        .knittnet-sub-options-field label { display: inline-block; margin-bottom: 4px; }
         #satisfaction-rating-sub-options h4 { margin: 16px 0 8px; }
     </style>
     <?php
 
     $display_style = ($value === 'on') ? '' : 'display: none;';
-    echo '<div id="satisfaction-rating-sub-options" class="mxchat-sub-options" style="' . esc_attr($display_style) . '">';
+    echo '<div id="satisfaction-rating-sub-options" class="knittnet-sub-options" style="' . esc_attr($display_style) . '">';
 
-    echo '<h4>' . esc_html__('Customize the prompt (optional)', 'mxchat') . '</h4>';
+    echo '<h4>' . esc_html__('Customize the prompt (optional)', 'knittnet') . '</h4>';
 
-    echo '<div class="mxchat-sub-options-field">';
-    echo '<label for="satisfaction_rating_idle_seconds"><strong>' . esc_html__('Idle Timeout', 'mxchat') . '</strong></label><br />';
+    echo '<div class="knittnet-sub-options-field">';
+    echo '<label for="satisfaction_rating_idle_seconds"><strong>' . esc_html__('Idle Timeout', 'knittnet') . '</strong></label><br />';
     printf(
         '<input type="number" id="satisfaction_rating_idle_seconds" name="satisfaction_rating_idle_seconds" value="%d" min="5" max="600" step="1" class="small-text" /> <span class="description">%s</span>',
         (int) $idle,
-        esc_html__('seconds of user inactivity before the prompt appears (5-600)', 'mxchat')
+        esc_html__('seconds of user inactivity before the prompt appears (5-600)', 'knittnet')
     );
     echo '</div>';
 
-    echo '<div class="mxchat-sub-options-field">';
-    echo '<label for="satisfaction_rating_question"><strong>' . esc_html__('Prompt Question', 'mxchat') . '</strong></label><br />';
+    echo '<div class="knittnet-sub-options-field">';
+    echo '<label for="satisfaction_rating_question"><strong>' . esc_html__('Prompt Question', 'knittnet') . '</strong></label><br />';
     printf(
         '<input type="text" id="satisfaction_rating_question" name="satisfaction_rating_question" value="%s" maxlength="200" class="regular-text" placeholder="%s" />',
         esc_attr($question),
-        esc_attr__('Was this helpful?', 'mxchat')
+        esc_attr__('Was this helpful?', 'knittnet')
     );
-    echo '<p class="description">' . esc_html__('Leave blank for the default. Shown above the thumbs up/down.', 'mxchat') . '</p>';
+    echo '<p class="description">' . esc_html__('Leave blank for the default. Shown above the thumbs up/down.', 'knittnet') . '</p>';
     echo '</div>';
 
-    echo '<div class="mxchat-sub-options-field">';
-    echo '<label for="satisfaction_rating_thanks"><strong>' . esc_html__('Thank-You Message', 'mxchat') . '</strong></label><br />';
+    echo '<div class="knittnet-sub-options-field">';
+    echo '<label for="satisfaction_rating_thanks"><strong>' . esc_html__('Thank-You Message', 'knittnet') . '</strong></label><br />';
     printf(
         '<input type="text" id="satisfaction_rating_thanks" name="satisfaction_rating_thanks" value="%s" maxlength="300" class="regular-text" placeholder="%s" />',
         esc_attr($thanks),
-        esc_attr__('Thanks! Anything we should improve? (optional)', 'mxchat')
+        esc_attr__('Thanks! Anything we should improve? (optional)', 'knittnet')
     );
-    echo '<p class="description">' . esc_html__('Leave blank for the default. Shown after the user clicks a thumb.', 'mxchat') . '</p>';
+    echo '<p class="description">' . esc_html__('Leave blank for the default. Shown after the user clicks a thumb.', 'knittnet') . '</p>';
     echo '</div>';
 
-    echo '<div class="mxchat-sub-options-field">';
-    echo '<label for="satisfaction_rating_placeholder"><strong>' . esc_html__('Feedback Placeholder', 'mxchat') . '</strong></label><br />';
+    echo '<div class="knittnet-sub-options-field">';
+    echo '<label for="satisfaction_rating_placeholder"><strong>' . esc_html__('Feedback Placeholder', 'knittnet') . '</strong></label><br />';
     printf(
         '<input type="text" id="satisfaction_rating_placeholder" name="satisfaction_rating_placeholder" value="%s" maxlength="200" class="regular-text" placeholder="%s" />',
         esc_attr($placeholder),
-        esc_attr__('Tell us what could be better…', 'mxchat')
+        esc_attr__('Tell us what could be better…', 'knittnet')
     );
-    echo '<p class="description">' . esc_html__('Leave blank for the default. Placeholder text inside the feedback textarea.', 'mxchat') . '</p>';
+    echo '<p class="description">' . esc_html__('Leave blank for the default. Placeholder text inside the feedback textarea.', 'knittnet') . '</p>';
     echo '</div>';
 
-    echo '<div class="mxchat-sub-options-field">';
-    echo '<label for="satisfaction_rating_saved"><strong>' . esc_html__('Saved Confirmation', 'mxchat') . '</strong></label><br />';
+    echo '<div class="knittnet-sub-options-field">';
+    echo '<label for="satisfaction_rating_saved"><strong>' . esc_html__('Saved Confirmation', 'knittnet') . '</strong></label><br />';
     printf(
         '<input type="text" id="satisfaction_rating_saved" name="satisfaction_rating_saved" value="%s" maxlength="200" class="regular-text" placeholder="%s" />',
         esc_attr($saved),
-        esc_attr__('Thanks for the feedback.', 'mxchat')
+        esc_attr__('Thanks for the feedback.', 'knittnet')
     );
-    echo '<p class="description">' . esc_html__('Leave blank for the default. Shown after the feedback is sent.', 'mxchat') . '</p>';
+    echo '<p class="description">' . esc_html__('Leave blank for the default. Shown after the feedback is sent.', 'knittnet') . '</p>';
     echo '</div>';
 
     echo '</div>'; // #satisfaction-rating-sub-options
-    echo '</div>'; // .mxchat-autosave-section
+    echo '</div>'; // .knittnet-autosave-section
 
     ?>
     <script>
@@ -8134,9 +8134,9 @@ public function mxchat_satisfaction_rating_toggle_callback() {
     <?php
 }
 
-public function mxchat_privacy_toggle_callback() {
-    // Load from mxchat_options array
-    $options = get_option('mxchat_options', []);
+public function knittnet_privacy_toggle_callback() {
+    // Load from knittnet_options array
+    $options = get_option('knittnet_options', []);
 
     // Get privacy toggle value with fallback
     $privacy_toggle = isset($options['privacy_toggle']) ? $options['privacy_toggle'] : 'off';
@@ -8145,7 +8145,7 @@ public function mxchat_privacy_toggle_callback() {
     // Get privacy text with fallback
     $privacy_text = isset($options['privacy_text'])
         ? $options['privacy_text']
-        : __('By chatting, you agree to our <a href="https://example.com/privacy-policy" target="_blank">privacy policy</a>.', 'mxchat');
+        : __('By chatting, you agree to our <a href="https://example.com/privacy-policy" target="_blank">privacy policy</a>.', 'knittnet');
 
     // Output the toggle switch
     echo '<label class="toggle-switch">';
@@ -8164,9 +8164,9 @@ public function mxchat_privacy_toggle_callback() {
 }
 
 
-public function mxchat_complianz_toggle_callback() {
-    // Load from mxchat_options array
-    $options = get_option('mxchat_options', []);
+public function knittnet_complianz_toggle_callback() {
+    // Load from knittnet_options array
+    $options = get_option('knittnet_options', []);
 
     // Get complianz toggle value with fallback
     $complianz_toggle = isset($options['complianz_toggle']) ? $options['complianz_toggle'] : 'off';
@@ -8182,9 +8182,9 @@ public function mxchat_complianz_toggle_callback() {
     echo '</label>';
 }
 
-public function mxchat_link_target_toggle_callback() {
-    // Load from mxchat_options array
-    $options = get_option('mxchat_options', []);
+public function knittnet_link_target_toggle_callback() {
+    // Load from knittnet_options array
+    $options = get_option('knittnet_options', []);
 
     // Get link target toggle value with fallback
     $link_target_toggle = isset($options['link_target_toggle']) ? $options['link_target_toggle'] : 'off';
@@ -8200,9 +8200,9 @@ public function mxchat_link_target_toggle_callback() {
     echo '</label>';
 }
 
-public function mxchat_chat_persistence_toggle_callback() {
-    // Load from mxchat_options array
-    $options = get_option('mxchat_options', []);
+public function knittnet_chat_persistence_toggle_callback() {
+    // Load from knittnet_options array
+    $options = get_option('knittnet_options', []);
 
     // Get chat persistence toggle value with fallback
     $chat_persistence_toggle = isset($options['chat_persistence_toggle']) ? $options['chat_persistence_toggle'] : 'off';
@@ -8218,9 +8218,9 @@ public function mxchat_chat_persistence_toggle_callback() {
     echo '</label>';
 }
 
-public function mxchat_print_button_toggle_callback() {
-    // Load from mxchat_options array
-    $options = get_option('mxchat_options', []);
+public function knittnet_print_button_toggle_callback() {
+    // Load from knittnet_options array
+    $options = get_option('knittnet_options', []);
 
     // Default ON — the option was previously unexposed and the button always showed.
     $print_button_enabled = isset($options['print_button_enabled']) ? $options['print_button_enabled'] : 'on';
@@ -8236,9 +8236,9 @@ public function mxchat_print_button_toggle_callback() {
     echo '</label>';
 }
 
-public function mxchat_reset_chat_toggle_callback() {
-    // Load from mxchat_options array. plan ac2e81 — default OFF (new, opt-in).
-    $options = get_option('mxchat_options', []);
+public function knittnet_reset_chat_toggle_callback() {
+    // Load from knittnet_options array. plan ac2e81 — default OFF (new, opt-in).
+    $options = get_option('knittnet_options', []);
     $reset_chat_enabled = isset($options['reset_chat_enabled']) ? $options['reset_chat_enabled'] : 'off';
     $checked = ($reset_chat_enabled === 'on') ? 'checked' : '';
 
@@ -8251,21 +8251,21 @@ public function mxchat_reset_chat_toggle_callback() {
     echo '</label>';
 }
 
-public function mxchat_reset_chat_label_callback() {
+public function knittnet_reset_chat_label_callback() {
     // Editable label for the "Start new chat" menu item. plan ac2e81.
-    $options = get_option('mxchat_options', []);
+    $options = get_option('knittnet_options', []);
     $reset_chat_label = isset($options['reset_chat_label']) ? $options['reset_chat_label'] : '';
 
     printf(
         '<input type="text" id="reset_chat_label" name="reset_chat_label" value="%s" placeholder="%s" class="regular-text" />',
         esc_attr($reset_chat_label),
-        esc_attr__('Start new chat', 'mxchat')
+        esc_attr__('Start new chat', 'knittnet')
     );
 }
 
-public function mxchat_popular_question_1_callback() {
+public function knittnet_popular_question_1_callback() {
     // Load the full plugin options array
-    $all_options = get_option('mxchat_options', []);
+    $all_options = get_option('knittnet_options', []);
 
     // Retrieve the specific option for popular_question_1
     $popular_question_1 = isset($all_options['popular_question_1']) ? $all_options['popular_question_1'] : '';
@@ -8274,14 +8274,14 @@ public function mxchat_popular_question_1_callback() {
     printf(
         '<input type="text" id="popular_question_1" name="popular_question_1" value="%s" placeholder="%s" class="regular-text" />',
         esc_attr($popular_question_1),
-        esc_attr__('Enter Quick Question 1', 'mxchat')
+        esc_attr__('Enter Quick Question 1', 'knittnet')
     );
 }
 
 
-public function mxchat_popular_question_2_callback() {
+public function knittnet_popular_question_2_callback() {
     // Load the full plugin options array
-    $all_options = get_option('mxchat_options', []);
+    $all_options = get_option('knittnet_options', []);
 
     // Retrieve the specific option for popular_question_2
     $popular_question_2 = isset($all_options['popular_question_2']) ? $all_options['popular_question_2'] : '';
@@ -8290,14 +8290,14 @@ public function mxchat_popular_question_2_callback() {
     printf(
         '<input type="text" id="popular_question_2" name="popular_question_2" value="%s" placeholder="%s" class="regular-text" />',
         esc_attr($popular_question_2),
-        esc_attr__('Enter Quick Question 2', 'mxchat')
+        esc_attr__('Enter Quick Question 2', 'knittnet')
     );
 }
 
 
-public function mxchat_popular_question_3_callback() {
+public function knittnet_popular_question_3_callback() {
    // Load the full plugin options array
-   $all_options = get_option('mxchat_options', []);
+   $all_options = get_option('knittnet_options', []);
 
    // Retrieve the specific option for popular_question_3
    $popular_question_3 = isset($all_options['popular_question_3']) ? $all_options['popular_question_3'] : '';
@@ -8306,166 +8306,166 @@ public function mxchat_popular_question_3_callback() {
    printf(
        '<input type="text" id="popular_question_3" name="popular_question_3" value="%s" placeholder="%s" class="regular-text" />',
        esc_attr($popular_question_3),
-       esc_attr(__('Enter Quick Question 3', 'mxchat'))
+       esc_attr(__('Enter Quick Question 3', 'knittnet'))
    );
 }
 
-public function mxchat_additional_popular_questions_callback() {
-    $options = get_option('mxchat_options', []);
+public function knittnet_additional_popular_questions_callback() {
+    $options = get_option('knittnet_options', []);
     $additional_questions = isset($options['additional_popular_questions'])
         ? $options['additional_popular_questions']
         : get_option('additional_popular_questions', array());
 
-    echo '<div id="mxchat-additional-questions-container">';
+    echo '<div id="knittnet-additional-questions-container">';
     if (!empty($additional_questions)) {
         foreach ($additional_questions as $index => $question) {
             printf(
-                '<div class="mxchat-question-row">
+                '<div class="knittnet-question-row">
                     <input type="text" name="additional_popular_questions[]"
                            value="%s"
                            placeholder="%s"
-                           class="regular-text mxchat-question-input"
+                           class="regular-text knittnet-question-input"
                            data-question-index="%d" />
-                    <button type="button" class="button mxchat-remove-question"
+                    <button type="button" class="button knittnet-remove-question"
                             aria-label="%s">%s</button>
                 </div>',
                 esc_attr($question),
-                esc_attr(sprintf(__('Enter Additional Quick Question %d', 'mxchat'), $index + 4)),
+                esc_attr(sprintf(__('Enter Additional Quick Question %d', 'knittnet'), $index + 4)),
                 $index,
-                esc_attr(__('Remove question', 'mxchat')),
-                esc_html__('Remove', 'mxchat')
+                esc_attr(__('Remove question', 'knittnet')),
+                esc_html__('Remove', 'knittnet')
             );
         }
     } else {
         printf(
-            '<div class="mxchat-question-row">
+            '<div class="knittnet-question-row">
                 <input type="text" name="additional_popular_questions[]"
                        value=""
                        placeholder="%s"
-                       class="regular-text mxchat-question-input"
+                       class="regular-text knittnet-question-input"
                        data-question-index="0" />
-                <button type="button" class="button mxchat-remove-question"
+                <button type="button" class="button knittnet-remove-question"
                         aria-label="%s">%s</button>
             </div>',
-            esc_attr(__('Enter Additional Quick Question 4', 'mxchat')),
-            esc_attr(__('Remove question', 'mxchat')),
-            esc_html__('Remove', 'mxchat')
+            esc_attr(__('Enter Additional Quick Question 4', 'knittnet')),
+            esc_attr(__('Remove question', 'knittnet')),
+            esc_html__('Remove', 'knittnet')
         );
     }
     echo '</div>';
     printf(
-        '<button type="button" class="button mxchat-add-question" aria-label="%s">%s</button>',
-        esc_attr(__('Add question', 'mxchat')),
-        esc_html__('Add Question', 'mxchat')
+        '<button type="button" class="button knittnet-add-question" aria-label="%s">%s</button>',
+        esc_attr(__('Add question', 'knittnet')),
+        esc_html__('Add Question', 'knittnet')
     );
 }
 
-public function mxchat_brave_api_key_callback() {
+public function knittnet_brave_api_key_callback() {
     $brave_api_key = isset($this->options['brave_api_key']) ? esc_attr($this->options['brave_api_key']) : '';
-    $nonce = wp_create_nonce('mxchat_autosave_nonce');
+    $nonce = wp_create_nonce('knittnet_autosave_nonce');
 
     echo '<div class="api-key-wrapper">';
     echo sprintf(
-        '<input type="text" id="brave_api_key" name="brave_api_key" value="%s" class="regular-text mxchat-autosave-field mxchat-api-key-field" autocomplete="new-password" data-lpignore="true" data-form-type="other" data-nonce="%s" />',
+        '<input type="text" id="brave_api_key" name="brave_api_key" value="%s" class="regular-text knittnet-autosave-field knittnet-api-key-field" autocomplete="new-password" data-lpignore="true" data-form-type="other" data-nonce="%s" />',
         $brave_api_key,
         $nonce
     );
-    echo '<button type="button" id="toggleBraveApiKeyVisibility">' . esc_html__('Show', 'mxchat') . '</button>';
+    echo '<button type="button" id="toggleBraveApiKeyVisibility">' . esc_html__('Show', 'knittnet') . '</button>';
     echo '</div>';
-    echo '<p class="description">' . __('Required for Brave Search integration. Get your API key from Brave Search API.', 'mxchat') . '</p>';
+    echo '<p class="description">' . __('Required for Brave Search integration. Get your API key from Brave Search API.', 'knittnet') . '</p>';
 }
 
-public function mxchat_brave_image_count_callback() {
+public function knittnet_brave_image_count_callback() {
     $brave_image_count = isset($this->options['brave_image_count'])
         ? intval($this->options['brave_image_count'])
         : 4;
-    $nonce = wp_create_nonce('mxchat_autosave_nonce');
+    $nonce = wp_create_nonce('knittnet_autosave_nonce');
 
-    echo '<div class="mxchat-field-wrapper">';
+    echo '<div class="knittnet-field-wrapper">';
     echo sprintf(
         '<input type="number" id="brave_image_count" name="brave_image_count"
-               value="%d" min="1" max="6" class="small-text mxchat-autosave-field" data-nonce="%s" />',
+               value="%d" min="1" max="6" class="small-text knittnet-autosave-field" data-nonce="%s" />',
         $brave_image_count,
         $nonce
     );
     echo '</div>';
-    echo '<p class="description">' . __('Select the number of images to return (1-6).', 'mxchat') . '</p>';
+    echo '<p class="description">' . __('Select the number of images to return (1-6).', 'knittnet') . '</p>';
 }
 
-public function mxchat_brave_safe_search_callback() {
+public function knittnet_brave_safe_search_callback() {
     $brave_safe_search = isset($this->options['brave_safe_search'])
         ? esc_attr($this->options['brave_safe_search'])
         : 'strict';
-    $nonce = wp_create_nonce('mxchat_autosave_nonce');
+    $nonce = wp_create_nonce('knittnet_autosave_nonce');
 
-    echo '<div class="mxchat-field-wrapper">';
-    echo '<select id="brave_safe_search" name="brave_safe_search" class="mxchat-autosave-field" data-nonce="' . $nonce . '">';
+    echo '<div class="knittnet-field-wrapper">';
+    echo '<select id="brave_safe_search" name="brave_safe_search" class="knittnet-autosave-field" data-nonce="' . $nonce . '">';
     echo sprintf(
         '<option value="strict" %s>%s</option>',
         selected($brave_safe_search, 'strict', false),
-        __('Strict', 'mxchat')
+        __('Strict', 'knittnet')
     );
     echo sprintf(
         '<option value="off" %s>%s</option>',
         selected($brave_safe_search, 'off', false),
-        __('Off', 'mxchat')
+        __('Off', 'knittnet')
     );
     echo '</select>';
     echo '</div>';
     echo '<p class="description">' .
-         esc_html__('Set the Safe Search level for image searches. Brave Search only supports "Strict" and "Off" options.', 'mxchat') .
+         esc_html__('Set the Safe Search level for image searches. Brave Search only supports "Strict" and "Off" options.', 'knittnet') .
          '</p>';
 }
 
-public function mxchat_brave_news_count_callback() {
+public function knittnet_brave_news_count_callback() {
     $brave_news_count = isset($this->options['brave_news_count'])
         ? intval($this->options['brave_news_count'])
         : 3;
-    $nonce = wp_create_nonce('mxchat_autosave_nonce');
+    $nonce = wp_create_nonce('knittnet_autosave_nonce');
 
-    echo '<div class="mxchat-field-wrapper">';
+    echo '<div class="knittnet-field-wrapper">';
     echo sprintf(
         '<input type="number" id="brave_news_count" name="brave_news_count"
-               value="%d" min="1" max="10" class="small-text mxchat-autosave-field" data-nonce="%s" />',
+               value="%d" min="1" max="10" class="small-text knittnet-autosave-field" data-nonce="%s" />',
         $brave_news_count,
         $nonce
     );
     echo '</div>';
-    echo '<p class="description">' . esc_html__('Select the number of news articles to retrieve (1-10).', 'mxchat') . '</p>';
+    echo '<p class="description">' . esc_html__('Select the number of news articles to retrieve (1-10).', 'knittnet') . '</p>';
 }
 
-public function mxchat_brave_country_callback() {
+public function knittnet_brave_country_callback() {
     $brave_country = isset($this->options['brave_country'])
         ? esc_attr($this->options['brave_country'])
         : 'us';
-    $nonce = wp_create_nonce('mxchat_autosave_nonce');
+    $nonce = wp_create_nonce('knittnet_autosave_nonce');
 
-    echo '<div class="mxchat-field-wrapper">';
+    echo '<div class="knittnet-field-wrapper">';
     echo sprintf(
         '<input type="text" id="brave_country" name="brave_country"
-               value="%s" maxlength="2" class="small-text mxchat-autosave-field" data-nonce="%s" />',
+               value="%s" maxlength="2" class="small-text knittnet-autosave-field" data-nonce="%s" />',
         $brave_country,
         $nonce
     );
     echo '</div>';
-    echo '<p class="description">' . esc_html__('Enter the country code (e.g., "us" for United States).', 'mxchat') . '</p>';
+    echo '<p class="description">' . esc_html__('Enter the country code (e.g., "us" for United States).', 'knittnet') . '</p>';
 }
 
-public function mxchat_brave_language_callback() {
+public function knittnet_brave_language_callback() {
     $brave_language = isset($this->options['brave_language'])
         ? esc_attr($this->options['brave_language'])
         : 'en';
-    $nonce = wp_create_nonce('mxchat_autosave_nonce');
+    $nonce = wp_create_nonce('knittnet_autosave_nonce');
 
-    echo '<div class="mxchat-field-wrapper">';
+    echo '<div class="knittnet-field-wrapper">';
     echo sprintf(
         '<input type="text" id="brave_language" name="brave_language"
-               value="%s" maxlength="2" class="small-text mxchat-autosave-field" data-nonce="%s" />',
+               value="%s" maxlength="2" class="small-text knittnet-autosave-field" data-nonce="%s" />',
         $brave_language,
         $nonce
     );
     echo '</div>';
-    echo '<p class="description">' . esc_html__('Enter the language code (e.g., "en" for English).', 'mxchat') . '</p>';
+    echo '<p class="description">' . esc_html__('Enter the language code (e.g., "en" for English).', 'knittnet') . '</p>';
 }
 
 
@@ -8473,11 +8473,11 @@ public function mxchat_brave_language_callback() {
 
 
 // Section Callback
-public function mxchat_pdf_intent_section_callback() {
-    echo '<p>' . esc_html__('Configure the intent settings for the Chat with PDF feature.', 'mxchat') . '</p>';
+public function knittnet_pdf_intent_section_callback() {
+    echo '<p>' . esc_html__('Configure the intent settings for the Chat with PDF feature.', 'knittnet') . '</p>';
 }
 
-public function mxchat_chat_toolbar_toggle_callback() {
+public function knittnet_chat_toolbar_toggle_callback() {
     // Get chat toolbar toggle value with fallback
     $chat_toolbar_toggle = isset($this->options['chat_toolbar_toggle']) ? $this->options['chat_toolbar_toggle'] : 'off';
     $checked = ($chat_toolbar_toggle === 'on') ? 'checked' : '';
@@ -8491,13 +8491,13 @@ public function mxchat_chat_toolbar_toggle_callback() {
     echo '<span class="slider"></span>';
     echo '</label>';
 
-    echo '<p class="description">' . esc_html__('Enable to display the chat toolbar, adding two icons below the chatbot input field for uploading PDF and Word documents (default is hidden).', 'mxchat') . '</p>';
+    echo '<p class="description">' . esc_html__('Enable to display the chat toolbar, adding two icons below the chatbot input field for uploading PDF and Word documents (default is hidden).', 'knittnet') . '</p>';
 }
 
 /**
  * Callback for PDF upload button toggle setting
  */
-public function mxchat_show_pdf_upload_button_callback() {
+public function knittnet_show_pdf_upload_button_callback() {
     // Get toggle value with fallback
     $show_pdf_button = isset($this->options['show_pdf_upload_button']) ? $this->options['show_pdf_upload_button'] : 'on';
     $checked = ($show_pdf_button === 'on') ? 'checked' : '';
@@ -8511,13 +8511,13 @@ public function mxchat_show_pdf_upload_button_callback() {
     echo '<span class="slider"></span>';
     echo '</label>';
 
-    echo '<p class="description">' . esc_html__('Enable to show the PDF upload button in the chatbot toolbar. Disable to hide it.', 'mxchat') . '</p>';
+    echo '<p class="description">' . esc_html__('Enable to show the PDF upload button in the chatbot toolbar. Disable to hide it.', 'knittnet') . '</p>';
 }
 
 /**
  * Callback for Word upload button toggle setting
  */
-public function mxchat_show_word_upload_button_callback() {
+public function knittnet_show_word_upload_button_callback() {
     // Get toggle value with fallback
     $show_word_button = isset($this->options['show_word_upload_button']) ? $this->options['show_word_upload_button'] : 'on';
     $checked = ($show_word_button === 'on') ? 'checked' : '';
@@ -8531,11 +8531,11 @@ public function mxchat_show_word_upload_button_callback() {
     echo '<span class="slider"></span>';
     echo '</label>';
 
-    echo '<p class="description">' . esc_html__('Enable to show the Word document upload button in the chatbot toolbar. Disable to hide it.', 'mxchat') . '</p>';
+    echo '<p class="description">' . esc_html__('Enable to show the Word document upload button in the chatbot toolbar. Disable to hide it.', 'knittnet') . '</p>';
 }
 
-public function mxchat_pdf_intent_trigger_text_callback() {
-    $default_text = __("Please provide the URL to the PDF you'd like to discuss.", 'mxchat');
+public function knittnet_pdf_intent_trigger_text_callback() {
+    $default_text = __("Please provide the URL to the PDF you'd like to discuss.", 'knittnet');
 
     echo sprintf(
         '<textarea id="pdf_intent_trigger_text"
@@ -8543,16 +8543,16 @@ public function mxchat_pdf_intent_trigger_text_callback() {
                   rows="3"
                   cols="50"
                   placeholder="%s">%s</textarea>',
-        esc_attr__('Enter trigger text', 'mxchat'),
+        esc_attr__('Enter trigger text', 'knittnet'),
         isset($this->options['pdf_intent_trigger_text'])
             ? esc_textarea($this->options['pdf_intent_trigger_text'])
             : esc_textarea($default_text)
     );
-    echo '<p class="description">' . esc_html__('Text displayed when the intent is triggered.', 'mxchat') . '</p>';
+    echo '<p class="description">' . esc_html__('Text displayed when the intent is triggered.', 'knittnet') . '</p>';
 }
 
-public function mxchat_pdf_intent_success_text_callback() {
-    $default_text = __("I've processed the PDF. What questions do you have about it?", 'mxchat');
+public function knittnet_pdf_intent_success_text_callback() {
+    $default_text = __("I've processed the PDF. What questions do you have about it?", 'knittnet');
 
     echo sprintf(
         '<textarea id="pdf_intent_success_text"
@@ -8560,16 +8560,16 @@ public function mxchat_pdf_intent_success_text_callback() {
                   rows="3"
                   cols="50"
                   placeholder="%s">%s</textarea>',
-        esc_attr__('Enter success text', 'mxchat'),
+        esc_attr__('Enter success text', 'knittnet'),
         isset($this->options['pdf_intent_success_text'])
             ? esc_textarea($this->options['pdf_intent_success_text'])
             : esc_textarea($default_text)
     );
-    echo '<p class="description">' . esc_html__('Text displayed when the intent is successful.', 'mxchat') . '</p>';
+    echo '<p class="description">' . esc_html__('Text displayed when the intent is successful.', 'knittnet') . '</p>';
 }
 
-public function mxchat_pdf_intent_error_text_callback() {
-    $default_text = __("Sorry, I couldn't process the PDF. Please ensure it's a valid file.", 'mxchat');
+public function knittnet_pdf_intent_error_text_callback() {
+    $default_text = __("Sorry, I couldn't process the PDF. Please ensure it's a valid file.", 'knittnet');
 
     echo sprintf(
         '<textarea id="pdf_intent_error_text"
@@ -8577,15 +8577,15 @@ public function mxchat_pdf_intent_error_text_callback() {
                   rows="3"
                   cols="50"
                   placeholder="%s">%s</textarea>',
-        esc_attr__('Enter error text', 'mxchat'),
+        esc_attr__('Enter error text', 'knittnet'),
         isset($this->options['pdf_intent_error_text'])
             ? esc_textarea($this->options['pdf_intent_error_text'])
             : esc_textarea($default_text)
     );
-    echo '<p class="description">' . esc_html__('Text displayed when an error occurs during the intent.', 'mxchat') . '</p>';
+    echo '<p class="description">' . esc_html__('Text displayed when an error occurs during the intent.', 'knittnet') . '</p>';
 }
 
-public function mxchat_pdf_max_pages_callback() {
+public function knittnet_pdf_max_pages_callback() {
     $max_pages = isset($this->options['pdf_max_pages']) ? intval($this->options['pdf_max_pages']) : 69;
 
     echo sprintf(
@@ -8599,12 +8599,12 @@ public function mxchat_pdf_max_pages_callback() {
         esc_attr($max_pages)
     );
     echo '<span id="pdf_max_pages_output">' . esc_html($max_pages) . '</span>';
-    echo '<p class="description">' . esc_html__('Set the maximum number of document pages users can upload for processing. (1-69 pages)', 'mxchat') . '</p>';
+    echo '<p class="description">' . esc_html__('Set the maximum number of document pages users can upload for processing. (1-69 pages)', 'knittnet') . '</p>';
 }
 
-public function mxchat_live_agent_status_callback() {
+public function knittnet_live_agent_status_callback() {
     // Always get fresh options instead of using cached $this->options
-    $fresh_options = get_option('mxchat_options');
+    $fresh_options = get_option('knittnet_options');
     $status = isset($fresh_options['live_agent_status']) ? $fresh_options['live_agent_status'] : 'off';
 
     echo '<label class="toggle-switch">';
@@ -8614,36 +8614,36 @@ public function mxchat_live_agent_status_callback() {
     );
     echo '<span class="slider"></span>';
     echo '</label>';
-    echo '<label for="live_agent_status" class="mxchat-status-label">';
-    echo '<span class="status-text">' . ($status === 'on' ? esc_html__('Online', 'mxchat') : esc_html__('Offline', 'mxchat')) . '</span>';
+    echo '<label for="live_agent_status" class="knittnet-status-label">';
+    echo '<span class="status-text">' . ($status === 'on' ? esc_html__('Online', 'knittnet') : esc_html__('Offline', 'knittnet')) . '</span>';
     echo '</label>';
 }
 
-public function mxchat_live_agent_away_message_callback() {
+public function knittnet_live_agent_away_message_callback() {
     $message = isset($this->options['live_agent_away_message'])
         ? $this->options['live_agent_away_message']
-        : __('Sorry, live agents are currently unavailable. I can continue helping you as an AI assistant.', 'mxchat');
+        : __('Sorry, live agents are currently unavailable. I can continue helping you as an AI assistant.', 'knittnet');
 
     printf(
         '<textarea id="live_agent_away_message" name="live_agent_away_message" rows="3" cols="50">%s</textarea>',
         esc_textarea($message)
     );
-    echo '<p class="description">' . esc_html__('Message shown when live agents are offline.', 'mxchat') . '</p>';
+    echo '<p class="description">' . esc_html__('Message shown when live agents are offline.', 'knittnet') . '</p>';
 }
 
-public function mxchat_live_agent_notification_message_callback() {
+public function knittnet_live_agent_notification_message_callback() {
     $message = isset($this->options['live_agent_notification_message'])
         ? $this->options['live_agent_notification_message']
-        : __('Live agent has been notified.', 'mxchat');
+        : __('Live agent has been notified.', 'knittnet');
 
     printf(
         '<textarea id="live_agent_notification_message" name="live_agent_notification_message" rows="3" cols="50">%s</textarea>',
         esc_textarea($message)
     );
-    echo '<p class="description">' . esc_html__('Message shown when live transfer activated.', 'mxchat') . '</p>';
+    echo '<p class="description">' . esc_html__('Message shown when live transfer activated.', 'knittnet') . '</p>';
 }
 
-public function mxchat_live_agent_webhook_url_callback() {
+public function knittnet_live_agent_webhook_url_callback() {
     $webhook_url = isset($this->options['live_agent_webhook_url'])
         ? esc_url($this->options['live_agent_webhook_url'])
         : esc_url(get_option('live_agent_webhook_url', ''));
@@ -8652,29 +8652,29 @@ public function mxchat_live_agent_webhook_url_callback() {
         '<input type="password" id="live_agent_webhook_url" name="live_agent_webhook_url" value="%s" class="regular-text" />',
         $webhook_url
     );
-    echo '<button type="button" id="toggleWebhookUrlVisibility">' . esc_html__('Show', 'mxchat') . '</button>';
-    echo '<p class="description">' . esc_html__('Enter your Slack webhook URL for live agent notifications.', 'mxchat') . '</p>';
+    echo '<button type="button" id="toggleWebhookUrlVisibility">' . esc_html__('Show', 'knittnet') . '</button>';
+    echo '<p class="description">' . esc_html__('Enter your Slack webhook URL for live agent notifications.', 'knittnet') . '</p>';
 }
 
-public function mxchat_live_agent_secret_key_callback() {
+public function knittnet_live_agent_secret_key_callback() {
     printf(
         '<input type="password" id="live_agent_secret_key" name="live_agent_secret_key" value="%s" class="regular-text" />',
         isset($this->options['live_agent_secret_key']) ? esc_attr($this->options['live_agent_secret_key']) : ''
     );
-    echo '<button type="button" id="toggleSecretKeyVisibility">' . esc_html__('Show', 'mxchat') . '</button>';
-    echo '<p class="description">' . esc_html__('Secret key for validating Slack requests. Keep this secure.', 'mxchat') . '</p>';
+    echo '<button type="button" id="toggleSecretKeyVisibility">' . esc_html__('Show', 'knittnet') . '</button>';
+    echo '<p class="description">' . esc_html__('Secret key for validating Slack requests. Keep this secure.', 'knittnet') . '</p>';
 }
 
-public function mxchat_live_agent_bot_token_callback() {
+public function knittnet_live_agent_bot_token_callback() {
     printf(
         '<input type="password" id="live_agent_bot_token" name="live_agent_bot_token" value="%s" class="regular-text" />',
         isset($this->options['live_agent_bot_token']) ? esc_attr($this->options['live_agent_bot_token']) : ''
     );
-    echo '<button type="button" id="toggleBotTokenVisibility">' . esc_html__('Show', 'mxchat') . '</button>';
-    echo '<p class="description">' . esc_html__('Your Slack Bot OAuth Token (starts with xoxb-). Keep this secure.', 'mxchat') . '</p>';
+    echo '<button type="button" id="toggleBotTokenVisibility">' . esc_html__('Show', 'knittnet') . '</button>';
+    echo '<p class="description">' . esc_html__('Your Slack Bot OAuth Token (starts with xoxb-). Keep this secure.', 'knittnet') . '</p>';
 }
 
-public function mxchat_live_agent_user_ids_callback() {
+public function knittnet_live_agent_user_ids_callback() {
     $user_ids = isset($this->options['live_agent_user_ids'])
         ? esc_textarea($this->options['live_agent_user_ids'])
         : '';
@@ -8683,18 +8683,18 @@ public function mxchat_live_agent_user_ids_callback() {
         '<textarea id="live_agent_user_ids" name="live_agent_user_ids" rows="4" class="large-text">%s</textarea>',
         $user_ids
     );
-    echo '<p class="description">' . esc_html__('Enter Slack User IDs of agents who should be automatically invited to chat channels (one per line). Find user IDs in Slack profiles under "More" → "Copy member ID". Example: U1234567890', 'mxchat') . '</p>';
+    echo '<p class="description">' . esc_html__('Enter Slack User IDs of agents who should be automatically invited to chat channels (one per line). Find user IDs in Slack profiles under "More" → "Copy member ID". Example: U1234567890', 'knittnet') . '</p>';
 }
 
 /**
  * Telegram Integration Callbacks
  */
-public function mxchat_telegram_section_callback() {
-    echo '<p>' . esc_html__('Configure Telegram integration for live agent support.', 'mxchat') . '</p>';
+public function knittnet_telegram_section_callback() {
+    echo '<p>' . esc_html__('Configure Telegram integration for live agent support.', 'knittnet') . '</p>';
 }
 
-public function mxchat_telegram_status_callback() {
-    $fresh_options = get_option('mxchat_options');
+public function knittnet_telegram_status_callback() {
+    $fresh_options = get_option('knittnet_options');
     $status = isset($fresh_options['telegram_status']) ? $fresh_options['telegram_status'] : 'off';
 
     echo '<label class="toggle-switch">';
@@ -8704,61 +8704,61 @@ public function mxchat_telegram_status_callback() {
     );
     echo '<span class="slider"></span>';
     echo '</label>';
-    echo '<label for="telegram_status" class="mxchat-status-label">';
-    echo '<span class="status-text">' . ($status === 'on' ? esc_html__('Online', 'mxchat') : esc_html__('Offline', 'mxchat')) . '</span>';
+    echo '<label for="telegram_status" class="knittnet-status-label">';
+    echo '<span class="status-text">' . ($status === 'on' ? esc_html__('Online', 'knittnet') : esc_html__('Offline', 'knittnet')) . '</span>';
     echo '</label>';
 }
 
-public function mxchat_telegram_notification_message_callback() {
+public function knittnet_telegram_notification_message_callback() {
     $message = isset($this->options['telegram_notification_message'])
         ? $this->options['telegram_notification_message']
-        : __("I've notified a support agent. Please allow a moment for them to respond.", 'mxchat');
+        : __("I've notified a support agent. Please allow a moment for them to respond.", 'knittnet');
 
     printf(
         '<textarea id="telegram_notification_message" name="telegram_notification_message" rows="3" cols="50">%s</textarea>',
         esc_textarea($message)
     );
-    echo '<p class="description">' . esc_html__('Message shown when live transfer activated.', 'mxchat') . '</p>';
+    echo '<p class="description">' . esc_html__('Message shown when live transfer activated.', 'knittnet') . '</p>';
 }
 
-public function mxchat_telegram_away_message_callback() {
+public function knittnet_telegram_away_message_callback() {
     $message = isset($this->options['telegram_away_message'])
         ? $this->options['telegram_away_message']
-        : __('Sorry, live agents are currently unavailable. I can continue helping you as an AI assistant.', 'mxchat');
+        : __('Sorry, live agents are currently unavailable. I can continue helping you as an AI assistant.', 'knittnet');
 
     printf(
         '<textarea id="telegram_away_message" name="telegram_away_message" rows="3" cols="50">%s</textarea>',
         esc_textarea($message)
     );
-    echo '<p class="description">' . esc_html__('Message shown when live agents are offline.', 'mxchat') . '</p>';
+    echo '<p class="description">' . esc_html__('Message shown when live agents are offline.', 'knittnet') . '</p>';
 }
 
-public function mxchat_telegram_bot_token_callback() {
+public function knittnet_telegram_bot_token_callback() {
     printf(
         '<input type="password" id="telegram_bot_token" name="telegram_bot_token" value="%s" class="regular-text" />',
         isset($this->options['telegram_bot_token']) ? esc_attr($this->options['telegram_bot_token']) : ''
     );
-    echo '<button type="button" class="button button-secondary" onclick="var f=document.getElementById(\'telegram_bot_token\'); if(f.type===\'password\'){f.type=\'text\';this.textContent=\'' . esc_js(__('Hide', 'mxchat')) . '\';}else{f.type=\'password\';this.textContent=\'' . esc_js(__('Show', 'mxchat')) . '\';}">' . esc_html__('Show', 'mxchat') . '</button>';
-    echo '<p class="description">' . esc_html__('Your Telegram Bot Token from @BotFather (e.g., 123456789:ABCdefGhIJKlmNoPQRsTUVwxyZ).', 'mxchat') . '</p>';
+    echo '<button type="button" class="button button-secondary" onclick="var f=document.getElementById(\'telegram_bot_token\'); if(f.type===\'password\'){f.type=\'text\';this.textContent=\'' . esc_js(__('Hide', 'knittnet')) . '\';}else{f.type=\'password\';this.textContent=\'' . esc_js(__('Show', 'knittnet')) . '\';}">' . esc_html__('Show', 'knittnet') . '</button>';
+    echo '<p class="description">' . esc_html__('Your Telegram Bot Token from @BotFather (e.g., 123456789:ABCdefGhIJKlmNoPQRsTUVwxyZ).', 'knittnet') . '</p>';
 }
 
-public function mxchat_telegram_group_id_callback() {
+public function knittnet_telegram_group_id_callback() {
     printf(
         '<input type="text" id="telegram_group_id" name="telegram_group_id" value="%s" class="regular-text" />',
         isset($this->options['telegram_group_id']) ? esc_attr($this->options['telegram_group_id']) : ''
     );
-    echo '<p class="description">' . esc_html__('Your Telegram supergroup ID (starts with -100). The group must have forum topics enabled.', 'mxchat') . '</p>';
+    echo '<p class="description">' . esc_html__('Your Telegram supergroup ID (starts with -100). The group must have forum topics enabled.', 'knittnet') . '</p>';
 }
 
-public function mxchat_telegram_webhook_secret_callback() {
+public function knittnet_telegram_webhook_secret_callback() {
     $secret = isset($this->options['telegram_webhook_secret']) ? $this->options['telegram_webhook_secret'] : '';
 
     // Auto-generate secret if empty
     if (empty($secret)) {
         $secret = wp_generate_password(64, false, false);
-        $options = get_option('mxchat_options', []);
+        $options = get_option('knittnet_options', []);
         $options['telegram_webhook_secret'] = $secret;
-        update_option('mxchat_options', $options);
+        update_option('knittnet_options', $options);
         $this->options['telegram_webhook_secret'] = $secret;
     }
 
@@ -8766,13 +8766,13 @@ public function mxchat_telegram_webhook_secret_callback() {
         '<input type="password" id="telegram_webhook_secret" name="telegram_webhook_secret" value="%s" class="regular-text" />',
         esc_attr($secret)
     );
-    echo '<button type="button" class="button button-secondary" onclick="var f=document.getElementById(\'telegram_webhook_secret\'); if(f.type===\'password\'){f.type=\'text\';this.textContent=\'' . esc_js(__('Hide', 'mxchat')) . '\';}else{f.type=\'password\';this.textContent=\'' . esc_js(__('Show', 'mxchat')) . '\';}">' . esc_html__('Show', 'mxchat') . '</button>';
-    echo '<p class="description">' . esc_html__('Secret token for webhook verification. Use this when setting up your Telegram webhook with the secret_token parameter.', 'mxchat') . '</p>';
+    echo '<button type="button" class="button button-secondary" onclick="var f=document.getElementById(\'telegram_webhook_secret\'); if(f.type===\'password\'){f.type=\'text\';this.textContent=\'' . esc_js(__('Hide', 'knittnet')) . '\';}else{f.type=\'password\';this.textContent=\'' . esc_js(__('Show', 'knittnet')) . '\';}">' . esc_html__('Show', 'knittnet') . '</button>';
+    echo '<p class="description">' . esc_html__('Secret token for webhook verification. Use this when setting up your Telegram webhook with the secret_token parameter.', 'knittnet') . '</p>';
 }
 
-public function mxchat_similarity_threshold_callback() {
-    // Load from mxchat_options array
-    $options = get_option('mxchat_options', []);
+public function knittnet_similarity_threshold_callback() {
+    // Load from knittnet_options array
+    $options = get_option('knittnet_options', []);
 
     // Get value from options array with default of 35
     $threshold = isset($options['similarity_threshold']) ? $options['similarity_threshold'] : 35;
@@ -8796,9 +8796,9 @@ public function mxchat_similarity_threshold_callback() {
     echo '</div>';
 }
 
-public function mxchat_max_input_length_callback() {
-    // Load from mxchat_options array (plan a3fae2 part C).
-    $options = get_option('mxchat_options', []);
+public function knittnet_max_input_length_callback() {
+    // Load from knittnet_options array (plan a3fae2 part C).
+    $options = get_option('knittnet_options', []);
 
     // 0 = unlimited (default — preserves current behavior, no cap).
     $max_input_length = isset($options['max_input_length']) ? intval($options['max_input_length']) : 0;
@@ -8817,9 +8817,9 @@ public function mxchat_max_input_length_callback() {
     );
 }
 
-public function mxchat_rag_sources_limit_callback() {
-    // Load from mxchat_options array
-    $options = get_option('mxchat_options', []);
+public function knittnet_rag_sources_limit_callback() {
+    // Load from knittnet_options array
+    $options = get_option('knittnet_options', []);
 
     // Get value from options array with default of 3
     $rag_sources_limit = isset($options['rag_sources_limit']) ? intval($options['rag_sources_limit']) : 3;
@@ -8843,9 +8843,9 @@ public function mxchat_rag_sources_limit_callback() {
     echo '</div>';
 }
 
-public function mxchat_rag_chunks_limit_callback() {
-    // Load from mxchat_options array
-    $options = get_option('mxchat_options', []);
+public function knittnet_rag_chunks_limit_callback() {
+    // Load from knittnet_options array
+    $options = get_option('knittnet_options', []);
 
     // Get value from options array with default of 15
     $rag_chunks_limit = isset($options['rag_chunks_limit']) ? intval($options['rag_chunks_limit']) : 15;
@@ -8872,189 +8872,189 @@ public function mxchat_rag_chunks_limit_callback() {
 /**
  * Add body class on the Onboarding wizard page so CSS-only chrome surgery
  * (collapsing the WP admin sidebar) only applies on this page.
- * Plan: plan-mxchat-20260527-905439.
+ * Plan: plan-knittnet-20260527-905439.
  */
-public function mxchat_add_onboarding_body_class($classes) {
-    if (isset($_GET['page']) && $_GET['page'] === 'mxchat-onboarding') {
-        $classes .= ' mxchat-onboarding-focused';
+public function knittnet_add_onboarding_body_class($classes) {
+    if (isset($_GET['page']) && $_GET['page'] === 'knittnet-onboarding') {
+        $classes .= ' knittnet-onboarding-focused';
     }
     return $classes;
 }
 
-public function mxchat_enqueue_admin_assets() {
+public function knittnet_enqueue_admin_assets() {
     // Get plugin version
-    $version = MXCHAT_VERSION;
+    $version = KNITTNET_VERSION;
 
     // Use file modification time for development (remove in production)
     if (defined('WP_DEBUG') && WP_DEBUG) {
-        $version = filemtime(plugin_dir_path(__FILE__) . '../mxchat-basic.php');
+        $version = filemtime(plugin_dir_path(__FILE__) . '../knittnet-basic.php');
     }
 
     $current_page = isset($_GET['page']) ? $_GET['page'] : '';
     $plugin_url = plugin_dir_url(__FILE__) . '../';
 
-    // Only load on MxChat pages
-    if (strpos($current_page, 'mxchat') === false) {
+    // Only load on KnittNet pages
+    if (strpos($current_page, 'knittnet') === false) {
         return;
     }
 
-    // Always load these on all MxChat pages
+    // Always load these on all KnittNet pages
     $this->enqueue_core_admin_assets($plugin_url, $version);
     $this->enqueue_page_specific_assets($current_page, $plugin_url, $version);
     $this->localize_admin_scripts($current_page);
 }
 private function enqueue_core_admin_assets($plugin_url, $version) {
     // Core admin styles
-    wp_enqueue_style('mxchat-admin-css', $plugin_url . 'css/admin-style.css', array(), $version);
-    wp_enqueue_style('mxchat-knowledge-css', $plugin_url . 'css/knowledge-style.css', array(), $version);
+    wp_enqueue_style('knittnet-admin-css', $plugin_url . 'css/admin-style.css', array(), $version);
+    wp_enqueue_style('knittnet-knowledge-css', $plugin_url . 'css/knowledge-style.css', array(), $version);
 
     // New sidebar navigation styles (for main settings page)
-    wp_enqueue_style('mxchat-admin-sidebar-css', $plugin_url . 'css/admin-sidebar.css', array(), $version);
+    wp_enqueue_style('knittnet-admin-sidebar-css', $plugin_url . 'css/admin-sidebar.css', array(), $version);
 
     // Core admin scripts
-    wp_enqueue_script('mxchat-admin-js', $plugin_url . 'js/mxchat-admin.js', array('jquery'), $version, true);
+    wp_enqueue_script('knittnet-admin-js', $plugin_url . 'js/knittnet-admin.js', array('jquery'), $version, true);
 }
 private function enqueue_page_specific_assets($current_page, $plugin_url, $version) {
     switch ($current_page) {
-        case 'mxchat-prompts':
+        case 'knittnet-prompts':
             // Knowledge processing page assets
-            wp_enqueue_style('mxchat-content-selector-css', $plugin_url . 'css/content-selector.css', array(), $version);
-            wp_enqueue_script('mxchat-content-selector-js', $plugin_url . 'js/content-selector.js', array('jquery'), $version, true);
+            wp_enqueue_style('knittnet-content-selector-css', $plugin_url . 'css/content-selector.css', array(), $version);
+            wp_enqueue_script('knittnet-content-selector-js', $plugin_url . 'js/content-selector.js', array('jquery'), $version, true);
             //  Add the knowledge processing script (common script needed for WordPress dismiss functionality)
-            wp_enqueue_script('mxchat-knowledge-processing', $plugin_url . 'js/knowledge-processing.js', array('jquery', 'common'), $version, true);
+            wp_enqueue_script('knittnet-knowledge-processing', $plugin_url . 'js/knowledge-processing.js', array('jquery', 'common'), $version, true);
             // Per-entry "View indexed content" inspector (plan-d8cb4b) reuses the
             // Testing tab's match-card / chunk-detail components, which are scoped
             // under .mxch-testing-results. Load that stylesheet here so the inspector
             // modal renders identically to the Testing tab.
-            wp_enqueue_style('mxchat-admin-testing-css', $plugin_url . 'css/admin-testing-tab.css', array('mxchat-admin-sidebar-css'), $version);
+            wp_enqueue_style('knittnet-admin-testing-css', $plugin_url . 'css/admin-testing-tab.css', array('knittnet-admin-sidebar-css'), $version);
             break;
 
-        case 'mxchat-transcripts':
+        case 'knittnet-transcripts':
             // Load admin sidebar CSS first (shared styles for sidebar navigation)
-            wp_enqueue_style('mxchat-admin-sidebar-css', $plugin_url . 'css/admin-sidebar.css', array(), $version);
+            wp_enqueue_style('knittnet-admin-sidebar-css', $plugin_url . 'css/admin-sidebar.css', array(), $version);
             // Load transcripts-specific styles
-            wp_enqueue_style('mxchat-chat-transcripts-css', $plugin_url . 'css/chat-transcripts.css', array('mxchat-admin-sidebar-css'), $version);
-            wp_enqueue_script('mxchat-transcripts-js', $plugin_url . 'js/mxchat_transcripts.js', array('jquery'), $version, true);
+            wp_enqueue_style('knittnet-chat-transcripts-css', $plugin_url . 'css/chat-transcripts.css', array('knittnet-admin-sidebar-css'), $version);
+            wp_enqueue_script('knittnet-transcripts-js', $plugin_url . 'js/knittnet_transcripts.js', array('jquery'), $version, true);
             break;
 
-        case 'mxchat-actions':
+        case 'knittnet-actions':
             // Load admin sidebar CSS first (shared styles for sidebar navigation)
-            wp_enqueue_style('mxchat-admin-sidebar-css', $plugin_url . 'css/admin-sidebar.css', array(), $version);
+            wp_enqueue_style('knittnet-admin-sidebar-css', $plugin_url . 'css/admin-sidebar.css', array(), $version);
             // Load actions-specific styles
-            wp_enqueue_style('mxchat-actions-css', $plugin_url . 'css/actions.css', array('mxchat-admin-sidebar-css'), $version);
-            wp_enqueue_script('mxchat-actions-js', $plugin_url . 'js/mxchat_actions.js', array('jquery'), $version, true);
+            wp_enqueue_style('knittnet-actions-css', $plugin_url . 'css/actions.css', array('knittnet-admin-sidebar-css'), $version);
+            wp_enqueue_script('knittnet-actions-js', $plugin_url . 'js/knittnet_actions.js', array('jquery'), $version, true);
 
             // Localize script data for actions page
-            $is_activated = get_option('mxchat_pro_license_status') === 'active';
-            wp_localize_script('mxchat-actions-js', 'mxchActionsData', array(
+            $is_activated = get_option('knittnet_pro_license_status') === 'active';
+            wp_localize_script('knittnet-actions-js', 'mxchActionsData', array(
                 'ajaxUrl' => admin_url('admin-ajax.php'),
-                'nonce' => wp_create_nonce('mxchat_actions_nonce'),
-                'addNonce' => wp_create_nonce('mxchat_add_intent_nonce'),
-                'editNonce' => wp_create_nonce('mxchat_edit_intent'),
-                'deleteNonce' => wp_create_nonce('mxchat_delete_intent_nonce'),
-                'toggleNonce' => wp_create_nonce('mxchat_actions_nonce'),
-                'addPhraseNonce' => wp_create_nonce('mxchat_add_phrase_nonce'),
-                'deletePhraseNonce' => wp_create_nonce('mxchat_delete_phrase_nonce'),
-                'getPhrasesNonce' => wp_create_nonce('mxchat_get_phrases_nonce'),
-                'deleteLegacyNonce' => wp_create_nonce('mxchat_delete_legacy_nonce'),
+                'nonce' => wp_create_nonce('knittnet_actions_nonce'),
+                'addNonce' => wp_create_nonce('knittnet_add_intent_nonce'),
+                'editNonce' => wp_create_nonce('knittnet_edit_intent'),
+                'deleteNonce' => wp_create_nonce('knittnet_delete_intent_nonce'),
+                'toggleNonce' => wp_create_nonce('knittnet_actions_nonce'),
+                'addPhraseNonce' => wp_create_nonce('knittnet_add_phrase_nonce'),
+                'deletePhraseNonce' => wp_create_nonce('knittnet_delete_phrase_nonce'),
+                'getPhrasesNonce' => wp_create_nonce('knittnet_get_phrases_nonce'),
+                'deleteLegacyNonce' => wp_create_nonce('knittnet_delete_legacy_nonce'),
                 'isActivated' => $is_activated,
                 'i18n' => array(
-                    'confirmDelete' => __('Are you sure you want to delete this trigger phrase?', 'mxchat'),
-                    'confirmBulkDelete' => __('Are you sure you want to delete the selected trigger phrases?', 'mxchat'),
-                    'saving' => __('Saving...', 'mxchat'),
-                    'saved' => __('Saved successfully!', 'mxchat'),
-                    'error' => __('An error occurred. Please try again.', 'mxchat'),
-                    'proRequired' => __('This feature requires MxChat Pro.', 'mxchat'),
-                    'addonRequired' => __('This feature requires an add-on.', 'mxchat')
+                    'confirmDelete' => __('Are you sure you want to delete this trigger phrase?', 'knittnet'),
+                    'confirmBulkDelete' => __('Are you sure you want to delete the selected trigger phrases?', 'knittnet'),
+                    'saving' => __('Saving...', 'knittnet'),
+                    'saved' => __('Saved successfully!', 'knittnet'),
+                    'error' => __('An error occurred. Please try again.', 'knittnet'),
+                    'proRequired' => __('This feature requires KnittNet Pro.', 'knittnet'),
+                    'addonRequired' => __('This feature requires an add-on.', 'knittnet')
                 )
             ));
             break;
 
-        case 'mxchat-activation':
+        case 'knittnet-activation':
             // Load admin sidebar CSS first (shared styles for sidebar navigation)
-            wp_enqueue_style('mxchat-admin-sidebar-css', $plugin_url . 'css/admin-sidebar.css', array(), $version);
+            wp_enqueue_style('knittnet-admin-sidebar-css', $plugin_url . 'css/admin-sidebar.css', array(), $version);
             // Load pro page-specific styles
-            wp_enqueue_style('mxchat-pro-css', $plugin_url . 'css/admin-pro.css', array('mxchat-admin-sidebar-css'), $version);
+            wp_enqueue_style('knittnet-pro-css', $plugin_url . 'css/admin-pro.css', array('knittnet-admin-sidebar-css'), $version);
             // Load pro page JavaScript
-            wp_enqueue_script('mxchat-pro-js', $plugin_url . 'js/mxchat_pro.js', array('jquery'), $version, true);
+            wp_enqueue_script('knittnet-pro-js', $plugin_url . 'js/knittnet_pro.js', array('jquery'), $version, true);
             // Load activation script for license activation/deactivation
-            wp_enqueue_script('mxchat-activation-js', $plugin_url . 'js/activation-script.js', array('jquery'), $version, true);
+            wp_enqueue_script('knittnet-activation-js', $plugin_url . 'js/activation-script.js', array('jquery'), $version, true);
             break;
 
-        case 'mxchat-content':
+        case 'knittnet-content':
             // Load admin sidebar CSS (shared styles for sidebar navigation)
-            wp_enqueue_style('mxchat-admin-sidebar-css', $plugin_url . 'css/admin-sidebar.css', array(), $version);
+            wp_enqueue_style('knittnet-admin-sidebar-css', $plugin_url . 'css/admin-sidebar.css', array(), $version);
             // Load content page-specific styles
-            wp_enqueue_style('mxchat-content-css', $plugin_url . 'css/admin-content.css', array('mxchat-admin-sidebar-css'), $version);
+            wp_enqueue_style('knittnet-content-css', $plugin_url . 'css/admin-content.css', array('knittnet-admin-sidebar-css'), $version);
             // Load content page JavaScript
-            wp_enqueue_script('mxchat-content-js', $plugin_url . 'js/mxchat-content.js', array('jquery'), $version, true);
+            wp_enqueue_script('knittnet-content-js', $plugin_url . 'js/knittnet-content.js', array('jquery'), $version, true);
             break;
 
-        case 'mxchat-api-access':
+        case 'knittnet-api-access':
             // Shared sidebar shell (CSS + JS for tab switching / mobile menu / copy buttons).
-            wp_enqueue_style('mxchat-admin-sidebar-css', $plugin_url . 'css/admin-sidebar.css', array(), $version);
-            wp_enqueue_script('mxchat-admin-sidebar-js', $plugin_url . 'js/admin-sidebar.js', array(), $version, true);
-            wp_localize_script('mxchat-admin-sidebar-js', 'MxChatAdminSidebarI18n', array(
-                'copied' => __('Copied', 'mxchat'),
+            wp_enqueue_style('knittnet-admin-sidebar-css', $plugin_url . 'css/admin-sidebar.css', array(), $version);
+            wp_enqueue_script('knittnet-admin-sidebar-js', $plugin_url . 'js/admin-sidebar.js', array(), $version, true);
+            wp_localize_script('knittnet-admin-sidebar-js', 'KnittNetAdminSidebarI18n', array(
+                'copied' => __('Copied', 'knittnet'),
             ));
             break;
 
-        case 'mxchat-max':
-        case 'mxchat-onboarding':
+        case 'knittnet-max':
+        case 'knittnet-onboarding':
             // Onboarding page — uses the shared admin shell PLUS the wizard
             // overlay (plan-905439). admin-onboarding-wizard.css scopes the
-            // WP-chrome surgery to body.mxchat-onboarding-focused so it only
+            // WP-chrome surgery to body.knittnet-onboarding-focused so it only
             // applies on THIS page. The body class is added below via the
             // admin_body_class filter.
-            wp_enqueue_style('mxchat-admin-sidebar-css', $plugin_url . 'css/admin-sidebar.css', array(), $version);
-            wp_enqueue_script('mxchat-admin-sidebar-js', $plugin_url . 'js/admin-sidebar.js', array(), $version, true);
-            wp_localize_script('mxchat-admin-sidebar-js', 'MxChatAdminSidebarI18n', array(
-                'copied' => __('Copied', 'mxchat'),
+            wp_enqueue_style('knittnet-admin-sidebar-css', $plugin_url . 'css/admin-sidebar.css', array(), $version);
+            wp_enqueue_script('knittnet-admin-sidebar-js', $plugin_url . 'js/admin-sidebar.js', array(), $version, true);
+            wp_localize_script('knittnet-admin-sidebar-js', 'KnittNetAdminSidebarI18n', array(
+                'copied' => __('Copied', 'knittnet'),
             ));
-            // admin-style.css provides the .mxchat-instructions-modal-* classes
+            // admin-style.css provides the .knittnet-instructions-modal-* classes
             // the new Behavior step's "View Sample Instructions" modal needs.
             // Enqueued AFTER admin-sidebar.css but BEFORE the wizard overlay
             // so the wizard's own rules win where they collide. plan-a2e4d6.
-            wp_enqueue_style('mxchat-admin-style-css', $plugin_url . 'css/admin-style.css', array('mxchat-admin-sidebar-css'), $version);
-            wp_enqueue_style('mxchat-admin-onboarding-wizard-css', $plugin_url . 'css/admin-onboarding-wizard.css', array('mxchat-admin-sidebar-css', 'mxchat-admin-style-css'), $version);
-            wp_enqueue_script('mxchat-admin-onboarding-wizard-js', $plugin_url . 'js/admin-onboarding-wizard.js', array(), $version, true);
+            wp_enqueue_style('knittnet-admin-style-css', $plugin_url . 'css/admin-style.css', array('knittnet-admin-sidebar-css'), $version);
+            wp_enqueue_style('knittnet-admin-onboarding-wizard-css', $plugin_url . 'css/admin-onboarding-wizard.css', array('knittnet-admin-sidebar-css', 'knittnet-admin-style-css'), $version);
+            wp_enqueue_script('knittnet-admin-onboarding-wizard-js', $plugin_url . 'js/admin-onboarding-wizard.js', array(), $version, true);
             break;
        default:
             wp_enqueue_script(
-                'mxchat-test-streaming-js',
-                $plugin_url . 'js/mxchat-test-streaming.js',
+                'knittnet-test-streaming-js',
+                $plugin_url . 'js/knittnet-test-streaming.js',
                 ['jquery'],
                 $version,
                 true
             );
 
-            wp_localize_script('mxchat-test-streaming-js', 'mxchatTestStreamingAjax', [
+            wp_localize_script('knittnet-test-streaming-js', 'knittnetTestStreamingAjax', [
                 'ajax_url' => admin_url('admin-ajax.php'),
-                'nonce' => wp_create_nonce('mxchat_test_streaming_nonce'),
-                'settings_nonce' => wp_create_nonce('mxchat_save_setting_nonce')
+                'nonce' => wp_create_nonce('knittnet_test_streaming_nonce'),
+                'settings_nonce' => wp_create_nonce('knittnet_save_setting_nonce')
             ]);
 
             // Testing Tab: Load chatbot assets for the embedded testing chatbot
-            wp_enqueue_style('mxchat-chat-css', $plugin_url . 'css/chat-style.css', array(), $version);
-            wp_enqueue_style('mxchat-admin-testing-css', $plugin_url . 'css/admin-testing-tab.css', array('mxchat-admin-sidebar-css', 'mxchat-chat-css'), $version);
+            wp_enqueue_style('knittnet-chat-css', $plugin_url . 'css/chat-style.css', array(), $version);
+            wp_enqueue_style('knittnet-admin-testing-css', $plugin_url . 'css/admin-testing-tab.css', array('knittnet-admin-sidebar-css', 'knittnet-chat-css'), $version);
 
-            wp_enqueue_script('mxchat-chat-js', $plugin_url . 'js/chat-script.js', array('jquery'), $version, true);
-            wp_enqueue_script('mxchat-admin-testing-js', $plugin_url . 'js/admin-testing-tab.js', array('jquery', 'mxchat-chat-js'), $version, true);
+            wp_enqueue_script('knittnet-chat-js', $plugin_url . 'js/chat-script.js', array('jquery'), $version, true);
+            wp_enqueue_script('knittnet-admin-testing-js', $plugin_url . 'js/admin-testing-tab.js', array('jquery', 'knittnet-chat-js'), $version, true);
 
             // Allow add-ons to enqueue their public CSS/JS for the testing chatbot
-            do_action('mxchat_enqueue_testing_tab_assets');
+            do_action('knittnet_enqueue_testing_tab_assets');
 
-            // Localize mxchatChat for the chatbot JS (same settings as frontend)
-            $options = get_option('mxchat_options', array());
-            $prompts_options = get_option('mxchat_prompts_options', array());
-            $theme_options = get_option('mxchat_theme_options', array());
+            // Localize knittnetChat for the chatbot JS (same settings as frontend)
+            $options = get_option('knittnet_options', array());
+            $prompts_options = get_option('knittnet_prompts_options', array());
+            $theme_options = get_option('knittnet_theme_options', array());
             $ai_theme_active = !empty($theme_options['active_ai_theme_css']);
             $has_bot_theme_assignments = !empty($theme_options['bot_theme_assignments']);
             $skip_inline_colors = $ai_theme_active || $has_bot_theme_assignments;
 
-            wp_localize_script('mxchat-chat-js', 'mxchatChat', array(
+            wp_localize_script('knittnet-chat-js', 'knittnetChat', array(
                 'ajax_url' => admin_url('admin-ajax.php'),
-                'nonce' => wp_create_nonce('mxchat_chat_nonce'),
+                'nonce' => wp_create_nonce('knittnet_chat_nonce'),
                 'model' => isset($options['model']) ? $options['model'] : 'gpt-5.1-chat-latest',
                 'enable_streaming_toggle' => isset($options['enable_streaming_toggle']) ? $options['enable_streaming_toggle'] : 'on',
                 'contextual_awareness_toggle' => isset($options['contextual_awareness_toggle']) ? $options['contextual_awareness_toggle'] : 'off',
@@ -9080,26 +9080,26 @@ private function enqueue_page_specific_assets($current_page, $plugin_url, $versi
                 'mode_indicator_bg_color' => $options['mode_indicator_bg_color'] ?? '#767676',
                 'mode_indicator_font_color' => $options['mode_indicator_font_color'] ?? '#ffffff',
                 'toolbar_icon_color' => $options['toolbar_icon_color'] ?? '#212121',
-                'use_pinecone' => $prompts_options['mxchat_use_pinecone'] ?? '0',
+                'use_pinecone' => $prompts_options['knittnet_use_pinecone'] ?? '0',
                 'email_collection_enabled' => 'off', // No email collection in testing
                 'initial_email_state' => null,
                 'skip_email_check' => true,
-                'pinecone_enabled' => isset($prompts_options['mxchat_use_pinecone']) && $prompts_options['mxchat_use_pinecone'] === '1',
+                'pinecone_enabled' => isset($prompts_options['knittnet_use_pinecone']) && $prompts_options['knittnet_use_pinecone'] === '1',
                 'skip_inline_colors' => $skip_inline_colors,
                 'bot_theme_assignments' => $theme_options['bot_theme_assignments'] ?? array()
             ));
 
             // Localize testing tab script data
-            wp_localize_script('mxchat-admin-testing-js', 'mxchatAdminTestData', array(
+            wp_localize_script('knittnet-admin-testing-js', 'knittnetAdminTestData', array(
                 'ajaxUrl' => admin_url('admin-ajax.php'),
-                'nonce' => wp_create_nonce('mxchat_test_nonce'),
+                'nonce' => wp_create_nonce('knittnet_test_nonce'),
                 'isAdmin' => true,
                 'testingEnabled' => true
             ));
 
             // Add testing enabled flag for the chatbot to return debug data
             add_action('admin_footer', function() {
-                echo '<script>window.mxchatTestingEnabled = true;</script>';
+                echo '<script>window.knittnetTestingEnabled = true;</script>';
             });
 
             break;
@@ -9109,76 +9109,76 @@ private function localize_admin_scripts($current_page) {
     // Base localization data for main admin script
     $base_data = array(
         'ajax_url' => admin_url('admin-ajax.php'),
-        'nonce' => wp_create_nonce('mxchat_admin_nonce'),
+        'nonce' => wp_create_nonce('knittnet_admin_nonce'),
         'admin_url' => admin_url(),
-        'license_nonce' => wp_create_nonce('mxchat_activate_license_nonce'),
-        'inline_edit_nonce' => wp_create_nonce('mxchat_save_inline_nonce'),
-        'setting_nonce' => wp_create_nonce('mxchat_save_setting_nonce'),
-        'export_nonce' => wp_create_nonce('mxchat_export_transcripts'),
-        'actions_nonce' => wp_create_nonce('mxchat_actions_nonce'),
-        'add_intent_nonce' => wp_create_nonce('mxchat_add_intent_nonce'),
-        'edit_intent_nonce' => wp_create_nonce('mxchat_edit_intent'),
-        'add_phrase_nonce' => wp_create_nonce('mxchat_add_phrase_nonce'),
-        'delete_phrase_nonce' => wp_create_nonce('mxchat_delete_phrase_nonce'),
-        'get_phrases_nonce' => wp_create_nonce('mxchat_get_phrases_nonce'),
-        'delete_legacy_nonce' => wp_create_nonce('mxchat_delete_legacy_nonce'),
-        'toggle_action_nonce' => wp_create_nonce('mxchat_actions_nonce'),
-        'fetch_openrouter_models_nonce' => wp_create_nonce('mxchat_fetch_openrouter_models'),
+        'license_nonce' => wp_create_nonce('knittnet_activate_license_nonce'),
+        'inline_edit_nonce' => wp_create_nonce('knittnet_save_inline_nonce'),
+        'setting_nonce' => wp_create_nonce('knittnet_save_setting_nonce'),
+        'export_nonce' => wp_create_nonce('knittnet_export_transcripts'),
+        'actions_nonce' => wp_create_nonce('knittnet_actions_nonce'),
+        'add_intent_nonce' => wp_create_nonce('knittnet_add_intent_nonce'),
+        'edit_intent_nonce' => wp_create_nonce('knittnet_edit_intent'),
+        'add_phrase_nonce' => wp_create_nonce('knittnet_add_phrase_nonce'),
+        'delete_phrase_nonce' => wp_create_nonce('knittnet_delete_phrase_nonce'),
+        'get_phrases_nonce' => wp_create_nonce('knittnet_get_phrases_nonce'),
+        'delete_legacy_nonce' => wp_create_nonce('knittnet_delete_legacy_nonce'),
+        'toggle_action_nonce' => wp_create_nonce('knittnet_actions_nonce'),
+        'fetch_openrouter_models_nonce' => wp_create_nonce('knittnet_fetch_openrouter_models'),
         'is_activated' => $this->is_activated ? '1' : '0',
         'status_refresh_interval' => 5000,
-        'prompts_setting_nonce' => wp_create_nonce('mxchat_prompts_setting_nonce'),
+        'prompts_setting_nonce' => wp_create_nonce('knittnet_prompts_setting_nonce'),
         'ajaxurl' => admin_url('admin-ajax.php')
     );
 
     // Localize main admin script with base data
-    wp_localize_script('mxchat-admin-js', 'mxchatAdmin', $base_data);
+    wp_localize_script('knittnet-admin-js', 'knittnetAdmin', $base_data);
 
     // Canonical chat-model catalog for the modal picker grid
-    // (plan-d14e89). Adding a model in class-mxchat-model-catalog.php
+    // (plan-d14e89). Adding a model in class-knittnet-model-catalog.php
     // automatically appears here.
-    if (!class_exists('MxChat_Model_Catalog')) {
-        require_once plugin_dir_path(__FILE__) . 'class-mxchat-model-catalog.php';
+    if (!class_exists('KnittNet_Model_Catalog')) {
+        require_once plugin_dir_path(__FILE__) . 'class-knittnet-model-catalog.php';
     }
-    wp_localize_script('mxchat-admin-js', 'mxchatChatModelCatalog', MxChat_Model_Catalog::js_picker_shape());
+    wp_localize_script('knittnet-admin-js', 'knittnetChatModelCatalog', KnittNet_Model_Catalog::js_picker_shape());
 
     // Page-specific localizations
     $this->localize_page_specific_scripts($current_page);
 }
 private function localize_page_specific_scripts($current_page) {
     switch ($current_page) {
-        case 'mxchat-prompts':
+        case 'knittnet-prompts':
             // Status updater localization
-            wp_localize_script('mxchat-status-updater', 'mxchat_status_data', array(
+            wp_localize_script('knittnet-status-updater', 'knittnet_status_data', array(
                 'ajax_url' => admin_url('admin-ajax.php'),
-                'nonce' => wp_create_nonce('mxchat_status_nonce')
+                'nonce' => wp_create_nonce('knittnet_status_nonce')
             ));
 
             // Content selector localization
-            $mxchat_options_for_selector = get_option('mxchat_options', array());
-            $acf_pdf_extract_default = !empty($mxchat_options_for_selector['acf_pdf_extract_default']);
-            wp_localize_script('mxchat-content-selector-js', 'mxchatSelector', array(
+            $knittnet_options_for_selector = get_option('knittnet_options', array());
+            $acf_pdf_extract_default = !empty($knittnet_options_for_selector['acf_pdf_extract_default']);
+            wp_localize_script('knittnet-content-selector-js', 'knittnetSelector', array(
                 'ajaxurl' => admin_url('admin-ajax.php'),
-                'nonce' => wp_create_nonce('mxchat_content_selector_nonce'),
+                'nonce' => wp_create_nonce('knittnet_content_selector_nonce'),
                 'acfPdfExtractDefault' => $acf_pdf_extract_default ? 1 : 0,
                 'i18n' => array(
-                    'searchPlaceholder' => __('Search posts and pages...', 'mxchat'),
-                    'selectAll' => __('Select All', 'mxchat'),
-                    'process' => __('Process Selected', 'mxchat'),
-                    'cancel' => __('Cancel', 'mxchat'),
-                    'noResults' => __('No content found.', 'mxchat'),
-                    'extractingPdfs' => __('extracting %d PDF(s)...', 'mxchat'),
-                    'pdfExtractedSuffix' => __(' (%d PDF(s) extracted)', 'mxchat')
+                    'searchPlaceholder' => __('Search posts and pages...', 'knittnet'),
+                    'selectAll' => __('Select All', 'knittnet'),
+                    'process' => __('Process Selected', 'knittnet'),
+                    'cancel' => __('Cancel', 'knittnet'),
+                    'noResults' => __('No content found.', 'knittnet'),
+                    'extractingPdfs' => __('extracting %d PDF(s)...', 'knittnet'),
+                    'pdfExtractedSuffix' => __(' (%d PDF(s) extracted)', 'knittnet')
                 )
             ));
 
-            wp_localize_script('mxchat-knowledge-processing', 'mxchatAdmin', array(
+            wp_localize_script('knittnet-knowledge-processing', 'knittnetAdmin', array(
                 'ajax_url' => admin_url('admin-ajax.php'),
-                'status_nonce' => wp_create_nonce('mxchat_status_nonce'),
-                'queue_nonce' => wp_create_nonce('mxchat_queue_nonce'),
-                'stop_nonce' => wp_create_nonce('mxchat_stop_processing_action'),
-                'settings_nonce' => wp_create_nonce('mxchat_prompts_setting_nonce'),
-                'setting_nonce' => wp_create_nonce('mxchat_save_setting_nonce'),
-                'entries_nonce' => wp_create_nonce('mxchat_entries_nonce'),
+                'status_nonce' => wp_create_nonce('knittnet_status_nonce'),
+                'queue_nonce' => wp_create_nonce('knittnet_queue_nonce'),
+                'stop_nonce' => wp_create_nonce('knittnet_stop_processing_action'),
+                'settings_nonce' => wp_create_nonce('knittnet_prompts_setting_nonce'),
+                'setting_nonce' => wp_create_nonce('knittnet_save_setting_nonce'),
+                'entries_nonce' => wp_create_nonce('knittnet_entries_nonce'),
                 'admin_url' => admin_url(),
                 'ajaxurl' => admin_url('admin-ajax.php'),
                 'status_refresh_interval' => 2000,
@@ -9186,22 +9186,22 @@ private function localize_page_specific_scripts($current_page) {
             ));
             break;
 
-        case 'mxchat-activation':
-            wp_localize_script('mxchat-activation-js', 'mxchatAdmin', array(
+        case 'knittnet-activation':
+            wp_localize_script('knittnet-activation-js', 'knittnetAdmin', array(
                 'ajax_url' => admin_url('admin-ajax.php'),
-                'license_nonce' => wp_create_nonce('mxchat_activate_license_nonce')
+                'license_nonce' => wp_create_nonce('knittnet_activate_license_nonce')
             ));
             break;
 
-        case 'mxchat-content':
-            wp_localize_script('mxchat-content-js', 'mxchatContent', array(
+        case 'knittnet-content':
+            wp_localize_script('knittnet-content-js', 'knittnetContent', array(
                 'ajaxUrl'      => admin_url('admin-ajax.php'),
-                'nonce'        => wp_create_nonce('mxchat_content_nonce'),
-                'settingNonce' => wp_create_nonce('mxchat_save_setting_nonce'),
+                'nonce'        => wp_create_nonce('knittnet_content_nonce'),
+                'settingNonce' => wp_create_nonce('knittnet_save_setting_nonce'),
                 'previewUrl'   => home_url('/?p='),
                 'isActivated'  => $this->is_activated(),
-                'hasAdvancedContent' => apply_filters('mxchat_content_pro_feature', false, 'seo_readability'),
-                'hasGSC'             => apply_filters('mxchat_content_pro_feature', false, 'gsc_integration'),
+                'hasAdvancedContent' => apply_filters('knittnet_content_pro_feature', false, 'seo_readability'),
+                'hasGSC'             => apply_filters('knittnet_content_pro_feature', false, 'gsc_integration'),
                 'seoOptimize'  => array(
                     'meta_description' => ($options['seo_optimize_meta_desc'] ?? 'on') === 'on',
                     'seo_title'        => ($options['seo_optimize_seo_title'] ?? 'on') === 'on',
@@ -9212,43 +9212,43 @@ private function localize_page_specific_scripts($current_page) {
                     'featured_img'     => ($options['seo_optimize_featured_img'] ?? 'on') === 'on',
                 ),
                 'i18n'         => array(
-                    'generating'    => __('Generating...', 'mxchat'),
-                    'planning'      => __('Planning content structure...', 'mxchat'),
-                    'images'        => __('Generating images...', 'mxchat'),
-                    'writing'       => __('Writing full content...', 'mxchat'),
-                    'creating'      => __('Creating WordPress post...', 'mxchat'),
-                    'done'          => __('Content generated successfully!', 'mxchat'),
-                    'error'         => __('An error occurred. Please try again.', 'mxchat'),
-                    'editSuccess'   => __('Content updated successfully.', 'mxchat'),
-                    'promptEmpty'   => __('Please enter a prompt.', 'mxchat'),
+                    'generating'    => __('Generating...', 'knittnet'),
+                    'planning'      => __('Planning content structure...', 'knittnet'),
+                    'images'        => __('Generating images...', 'knittnet'),
+                    'writing'       => __('Writing full content...', 'knittnet'),
+                    'creating'      => __('Creating WordPress post...', 'knittnet'),
+                    'done'          => __('Content generated successfully!', 'knittnet'),
+                    'error'         => __('An error occurred. Please try again.', 'knittnet'),
+                    'editSuccess'   => __('Content updated successfully.', 'knittnet'),
+                    'promptEmpty'   => __('Please enter a prompt.', 'knittnet'),
                 )
             ));
             break;
 
-        case 'mxchat-transcripts':
+        case 'knittnet-transcripts':
             // Get chart data for localization
             $chart_data = $this->get_transcripts_chart_data();
 
-            wp_localize_script('mxchat-transcripts-js', 'mxchatAdmin', array(
+            wp_localize_script('knittnet-transcripts-js', 'knittnetAdmin', array(
                 'ajax_url' => admin_url('admin-ajax.php'),
-                'export_nonce' => wp_create_nonce('mxchat_export_transcripts'),
-                'delete_nonce' => wp_create_nonce('mxchat_delete_chat_history'),
-                'setting_nonce' => wp_create_nonce('mxchat_save_setting_nonce'),
-                'translate_nonce' => wp_create_nonce('mxchat_translate_messages')
+                'export_nonce' => wp_create_nonce('knittnet_export_transcripts'),
+                'delete_nonce' => wp_create_nonce('knittnet_delete_chat_history'),
+                'setting_nonce' => wp_create_nonce('knittnet_save_setting_nonce'),
+                'translate_nonce' => wp_create_nonce('knittnet_translate_messages')
             ));
 
             // Localize chart data separately - use array_values to ensure proper JSON array encoding
-            wp_localize_script('mxchat-transcripts-js', 'mxchatChartData', array(
+            wp_localize_script('knittnet-transcripts-js', 'knittnetChartData', array(
                 'labels' => array_values($chart_data['labels']),
                 'chats' => array_values($chart_data['chats']),
                 'messages' => array_values($chart_data['messages'])
             ));
             break;
 
-        case 'mxchat-settings':
+        case 'knittnet-settings':
         default:
             // Color picker and settings localization
-            wp_localize_script('mxchat-color-picker', 'mxchatStyleSettings', array(
+            wp_localize_script('knittnet-color-picker', 'knittnetStyleSettings', array(
                 'ajax_url' => admin_url('admin-ajax.php'),
                 'link_target_toggle' => $this->options['link_target_toggle'] ?? 'off',
                 'user_message_bg_color' => $this->options['user_message_bg_color'] ?? '#fff',
@@ -9261,15 +9261,15 @@ private function localize_page_specific_scripts($current_page) {
                 'chatbot_background_color' => $this->options['chatbot_background_color'] ?? '#212121',
                 'icon_color' => $this->options['icon_color'] ?? '#fff',
                 'chat_input_font_color' => $this->options['chat_input_font_color'] ?? '#212121',
-                'pre_chat_message' => $this->options['pre_chat_message'] ?? esc_html__('Hey there! Ask me anything!', 'mxchat'),
-                'rate_limit_message' => $this->options['rate_limit_message'] ?? esc_html__('Rate limit exceeded. Please try again later.', 'mxchat'),
+                'pre_chat_message' => $this->options['pre_chat_message'] ?? esc_html__('Hey there! Ask me anything!', 'knittnet'),
+                'rate_limit_message' => $this->options['rate_limit_message'] ?? esc_html__('Rate limit exceeded. Please try again later.', 'knittnet'),
                 'loops_api_key' => $this->options['loops_api_key'] ?? '',
                 'loops_mailing_list' => $this->options['loops_mailing_list'] ?? '',
-                'triggered_phrase_response' => $this->options['triggered_phrase_response'] ?? esc_html__('Would you like to join our mailing list? Please provide your email below.', 'mxchat'),
-                'email_capture_response' => $this->options['email_capture_response'] ?? esc_html__('Thank you for providing your email! You\'ve been added to our list.', 'mxchat'),
-                'pdf_intent_trigger_text' => $this->options['pdf_intent_trigger_text'] ?? esc_html__("Please provide the URL to the PDF you'd like to discuss.", 'mxchat'),
-                'pdf_intent_success_text' => $this->options['pdf_intent_success_text'] ?? esc_html__("I've processed the PDF. What questions do you have about it?", 'mxchat'),
-                'pdf_intent_error_text' => $this->options['pdf_intent_error_text'] ?? esc_html__("Sorry, I couldn't process the PDF. Please ensure it's a valid file.", 'mxchat'),
+                'triggered_phrase_response' => $this->options['triggered_phrase_response'] ?? esc_html__('Would you like to join our mailing list? Please provide your email below.', 'knittnet'),
+                'email_capture_response' => $this->options['email_capture_response'] ?? esc_html__('Thank you for providing your email! You\'ve been added to our list.', 'knittnet'),
+                'pdf_intent_trigger_text' => $this->options['pdf_intent_trigger_text'] ?? esc_html__("Please provide the URL to the PDF you'd like to discuss.", 'knittnet'),
+                'pdf_intent_success_text' => $this->options['pdf_intent_success_text'] ?? esc_html__("I've processed the PDF. What questions do you have about it?", 'knittnet'),
+                'pdf_intent_error_text' => $this->options['pdf_intent_error_text'] ?? esc_html__("Sorry, I couldn't process the PDF. Please ensure it's a valid file.", 'knittnet'),
                 'pdf_max_pages' => $this->options['pdf_max_pages'] ?? 69,
                 'live_agent_webhook_url' => $this->options['live_agent_webhook_url'] ?? '',
                 'live_agent_secret_key' => $this->options['live_agent_secret_key'] ?? '',
@@ -9287,13 +9287,13 @@ private function localize_page_specific_scripts($current_page) {
     }
 
     // Additional localization that was in the original code
-    wp_localize_script('mxchat-admin-js', 'mxchatPromptsAdmin', array(
+    wp_localize_script('knittnet-admin-js', 'knittnetPromptsAdmin', array(
         'ajax_url' => admin_url('admin-ajax.php'),
-        'prompts_setting_nonce' => wp_create_nonce('mxchat_prompts_setting_nonce'),
+        'prompts_setting_nonce' => wp_create_nonce('knittnet_prompts_setting_nonce'),
     ));
 }
 
-public function mxchat_sanitize($input) {
+public function knittnet_sanitize($input) {
     $new_input = array();
 
     if (isset($input['api_key'])) {
@@ -9367,12 +9367,12 @@ public function mxchat_sanitize($input) {
         $new_input['system_prompt_instructions'] = sanitize_textarea_field($input['system_prompt_instructions']);
     }
 
-    if (isset($input['mxchat_pro_email'])) {
-        $new_input['mxchat_pro_email'] = sanitize_email($input['mxchat_pro_email']);
+    if (isset($input['knittnet_pro_email'])) {
+        $new_input['knittnet_pro_email'] = sanitize_email($input['knittnet_pro_email']);
     }
 
-    if (isset($input['mxchat_activation_key'])) {
-        $new_input['mxchat_activation_key'] = sanitize_text_field($input['mxchat_activation_key']);
+    if (isset($input['knittnet_activation_key'])) {
+        $new_input['knittnet_activation_key'] = sanitize_text_field($input['knittnet_activation_key']);
     }
 
     if (isset($input['append_to_body'])) {
@@ -9420,7 +9420,7 @@ public function mxchat_sanitize($input) {
 
     // Max input length in characters (plan a3fae2 part C). 0 = unlimited (default,
     // preserves current behavior). Clamp to a sane ceiling so a typo can't lock out
-    // all input. REQUIRED here — mxchat_sanitize() rebuilds the array from a whitelist,
+    // all input. REQUIRED here — knittnet_sanitize() rebuilds the array from a whitelist,
     // so without this isset-handler the key is stripped on the next save of ANY field
     // (the 2c02ea global-rate-limit footgun).
     if (array_key_exists('max_input_length', $input)) {
@@ -9525,7 +9525,7 @@ if (isset($input['rate_limits']) && is_array($input['rate_limits'])) {
     }
 }
 
-// Handle the whole-chatbot global rate limit (plan-mxchat-20260603-2c02ea).
+// Handle the whole-chatbot global rate limit (plan-knittnet-20260603-2c02ea).
 // Mirrors the per-role block above, adapted to the single global shape. Without
 // this branch the whitelist-rebuild dropped rate_limits_global entirely on every
 // save, so the global cap silently fell back to its 'unlimited' default.
@@ -9574,11 +9574,11 @@ if (isset($input['rate_limits_global']) && is_array($input['rate_limits_global']
     // Add to your sanitize function
     if (isset($input['embedding_model'])) {
         // Catalog refactor (plan-d14e89): allowlist derived from the canonical
-        // catalog in includes/class-mxchat-model-catalog.php.
-        if (!class_exists('MxChat_Model_Catalog')) {
-            require_once plugin_dir_path(__FILE__) . 'class-mxchat-model-catalog.php';
+        // catalog in includes/class-knittnet-model-catalog.php.
+        if (!class_exists('KnittNet_Model_Catalog')) {
+            require_once plugin_dir_path(__FILE__) . 'class-knittnet-model-catalog.php';
         }
-        $allowed_models = MxChat_Model_Catalog::embedding_model_ids();
+        $allowed_models = KnittNet_Model_Catalog::embedding_model_ids();
         if (in_array($input['embedding_model'], $allowed_models)) {
             $new_input['embedding_model'] = sanitize_text_field($input['embedding_model']);
         }
@@ -9588,10 +9588,10 @@ if (isset($input['model'])) {
     if ($input['model'] === 'openrouter') {
         $new_input['model'] = 'openrouter';
     } else {
-        if (!class_exists('MxChat_Model_Catalog')) {
-            require_once plugin_dir_path(__FILE__) . 'class-mxchat-model-catalog.php';
+        if (!class_exists('KnittNet_Model_Catalog')) {
+            require_once plugin_dir_path(__FILE__) . 'class-knittnet-model-catalog.php';
         }
-        $allowed_models = MxChat_Model_Catalog::chat_model_ids();
+        $allowed_models = KnittNet_Model_Catalog::chat_model_ids();
 
         if (in_array($input['model'], $allowed_models)) {
             $new_input['model'] = sanitize_text_field($input['model']);
@@ -9874,7 +9874,7 @@ if (isset($input['openrouter_selected_model_name'])) {
 
     // Preserve content generator settings when saving from main settings page
     // (where content fields are not in the form submission)
-    $existing = get_option('mxchat_options', array());
+    $existing = get_option('knittnet_options', array());
     foreach (array('content_model', 'content_image_model', 'content_image_quality', 'content_image_count', 'content_enable_images', 'content_use_placeholders', 'content_internal_linking', 'content_tool_use', 'seo_optimize_meta_desc', 'seo_optimize_seo_title', 'seo_optimize_slug', 'seo_optimize_readability', 'seo_optimize_internal_links', 'seo_optimize_img_alt', 'seo_optimize_featured_img') as $key) {
         if (!isset($new_input[$key]) && isset($existing[$key])) {
             $new_input[$key] = $existing[$key];
@@ -9892,8 +9892,8 @@ if (isset($input['openrouter_selected_model_name'])) {
  * @param array  $data    Optional additional data to log
  * @return bool Whether the message was logged
  */
-public static function mxchat_log_debug( $type, $message, $data = array() ) {
-    $options = get_option( 'mxchat_options', array() );
+public static function knittnet_log_debug( $type, $message, $data = array() ) {
+    $options = get_option( 'knittnet_options', array() );
 
     // Check if debug mode is enabled
     if ( ! isset( $options['debug_mode'] ) || $options['debug_mode'] !== 'on' ) {
@@ -9901,7 +9901,7 @@ public static function mxchat_log_debug( $type, $message, $data = array() ) {
     }
 
     // Get current log
-    $log = get_option( 'mxchat_debug_log', array() );
+    $log = get_option( 'knittnet_debug_log', array() );
     if ( ! is_array( $log ) ) {
         $log = array();
     }
@@ -9926,7 +9926,7 @@ public static function mxchat_log_debug( $type, $message, $data = array() ) {
     }
 
     // Save log
-    update_option( 'mxchat_debug_log', $log, false );
+    update_option( 'knittnet_debug_log', $log, false );
 
     return true;
 }
@@ -9936,8 +9936,8 @@ public static function mxchat_log_debug( $type, $message, $data = array() ) {
  *
  * @return array The debug log entries
  */
-public static function mxchat_get_debug_log() {
-    $log = get_option( 'mxchat_debug_log', array() );
+public static function knittnet_get_debug_log() {
+    $log = get_option( 'knittnet_debug_log', array() );
     return is_array( $log ) ? $log : array();
 }
 
@@ -9946,8 +9946,8 @@ public static function mxchat_get_debug_log() {
  *
  * @return bool Whether the log was cleared
  */
-public static function mxchat_clear_debug_log() {
-    return delete_option( 'mxchat_debug_log' );
+public static function knittnet_clear_debug_log() {
+    return delete_option( 'knittnet_debug_log' );
 }
 
 /**
@@ -9955,8 +9955,8 @@ public static function mxchat_clear_debug_log() {
  *
  * @return array The sanitized settings array
  */
-public static function mxchat_export_settings() {
-    $options = get_option( 'mxchat_options', array() );
+public static function knittnet_export_settings() {
+    $options = get_option( 'knittnet_options', array() );
 
     if ( ! is_array( $options ) ) {
         return array();
@@ -9995,7 +9995,7 @@ public static function mxchat_export_settings() {
 
     // Add metadata
     $export = array(
-        'plugin_version' => defined( 'MXCHAT_VERSION' ) ? MXCHAT_VERSION : 'unknown',
+        'plugin_version' => defined( 'KNITTNET_VERSION' ) ? KNITTNET_VERSION : 'unknown',
         'export_date'    => current_time( 'Y-m-d H:i:s' ),
         'wordpress_version' => get_bloginfo( 'version' ),
         'php_version'    => phpversion(),
@@ -10010,31 +10010,31 @@ public static function mxchat_export_settings() {
  *
  * @return bool Whether the reset was successful
  */
-public static function mxchat_reset_all_settings() {
+public static function knittnet_reset_all_settings() {
     // Delete main options
-    $deleted = delete_option( 'mxchat_options' );
+    $deleted = delete_option( 'knittnet_options' );
 
     // Also clear the debug log
-    delete_option( 'mxchat_debug_log' );
+    delete_option( 'knittnet_debug_log' );
 
     // Log the reset (will create new log since we just cleared it)
     // We need to temporarily enable debug mode to log this
     $temp_options = array( 'debug_mode' => 'on' );
-    update_option( 'mxchat_options', $temp_options );
+    update_option( 'knittnet_options', $temp_options );
 
-    self::mxchat_log_debug( 'reset', 'All settings have been reset to defaults' );
+    self::knittnet_log_debug( 'reset', 'All settings have been reset to defaults' );
 
     // Now delete again to trigger re-initialization
-    delete_option( 'mxchat_options' );
+    delete_option( 'knittnet_options' );
 
     return $deleted;
 }
 
     // Method to append the chatbot to the body
-    public function mxchat_append_chatbot_to_body() {
-        $options = get_option('mxchat_options');
+    public function knittnet_append_chatbot_to_body() {
+        $options = get_option('knittnet_options');
         if (isset($options['append_to_body']) && $options['append_to_body'] === 'on') {
-            echo do_shortcode('[mxchat_chatbot floating="yes"]');
+            echo do_shortcode('[knittnet_chatbot floating="yes"]');
         }
     }
 
@@ -10042,7 +10042,7 @@ public static function mxchat_reset_all_settings() {
 
 
 
-private function mxchat_fetch_loops_mailing_lists($api_key) {
+private function knittnet_fetch_loops_mailing_lists($api_key) {
     $url = 'https://app.loops.so/api/v1/lists';
     $response = wp_remote_get($url, array(
         'headers' => array(
@@ -10061,7 +10061,7 @@ private function mxchat_fetch_loops_mailing_lists($api_key) {
     return isset($lists) && is_array($lists) ? $lists : array();
 }
 
-function mxchat_calculate_cosine_similarity($vec1, $vec2) {
+function knittnet_calculate_cosine_similarity($vec1, $vec2) {
     if (empty($vec1) || empty($vec2)) {
         return 0.0;
     }
@@ -10086,19 +10086,19 @@ function mxchat_calculate_cosine_similarity($vec1, $vec2) {
 /**
  * Validates nonce and deletes all chat prompts
  */
-public function mxchat_handle_delete_all_prompts() {
+public function knittnet_handle_delete_all_prompts() {
     //error_log('=== DELETE ALL DEBUG START ===');
     
     // Verify nonce
-    if (!isset($_POST['mxchat_delete_all_prompts_nonce']) || !wp_verify_nonce($_POST['mxchat_delete_all_prompts_nonce'], 'mxchat_delete_all_prompts_action')) {
+    if (!isset($_POST['knittnet_delete_all_prompts_nonce']) || !wp_verify_nonce($_POST['knittnet_delete_all_prompts_nonce'], 'knittnet_delete_all_prompts_action')) {
         //error_log('DEBUG: Nonce verification failed');
-        wp_die(__('Nonce verification failed.', 'mxchat'));
+        wp_die(__('Nonce verification failed.', 'knittnet'));
     }
     
     // Check permissions
     if (!current_user_can('manage_options')) {
         //error_log('DEBUG: Permission check failed');
-        wp_die(__('You do not have sufficient permissions to delete all prompts.', 'mxchat'));
+        wp_die(__('You do not have sufficient permissions to delete all prompts.', 'knittnet'));
     }
     
     // Get bot_id and content type filter from POST data
@@ -10109,14 +10109,14 @@ public function mxchat_handle_delete_all_prompts() {
     $error_messages = array();
 
     // Get bot-specific Pinecone configuration
-    $pinecone_manager = MxChat_Pinecone_Manager::get_instance();
-    $pinecone_options = $pinecone_manager->mxchat_get_bot_pinecone_options($bot_id);
+    $pinecone_manager = KnittNet_Pinecone_Manager::get_instance();
+    $pinecone_options = $pinecone_manager->knittnet_get_bot_pinecone_options($bot_id);
 
-    $use_pinecone = ($pinecone_options['mxchat_use_pinecone'] ?? '0') === '1';
+    $use_pinecone = ($pinecone_options['knittnet_use_pinecone'] ?? '0') === '1';
 
-    if ($use_pinecone && !empty($pinecone_options['mxchat_pinecone_api_key'])) {
+    if ($use_pinecone && !empty($pinecone_options['knittnet_pinecone_api_key'])) {
         // Delete from Pinecone (with optional content type filter)
-        $result = $pinecone_manager->mxchat_delete_all_from_pinecone($pinecone_options, $content_type_filter);
+        $result = $pinecone_manager->knittnet_delete_all_from_pinecone($pinecone_options, $content_type_filter);
 
         if (!$result['success']) {
             $success = false;
@@ -10126,14 +10126,14 @@ public function mxchat_handle_delete_all_prompts() {
     } else {
         // Delete from WordPress database
         global $wpdb;
-        $table_name = $wpdb->prefix . 'mxchat_system_prompt_content';
+        $table_name = $wpdb->prefix . 'knittnet_system_prompt_content';
 
         // Build WHERE conditions
         $where_clauses = array();
         $where_values = array();
 
         // Bot filter
-        if ($bot_id !== 'default' && class_exists('MxChat_Multi_Bot_Manager')) {
+        if ($bot_id !== 'default' && class_exists('KnittNet_Multi_Bot_Manager')) {
             $where_clauses[] = 'bot_id = %s';
             $where_values[] = $bot_id;
         }
@@ -10160,7 +10160,7 @@ public function mxchat_handle_delete_all_prompts() {
 
     // Redirect back with a success message and bot_id
     $redirect_url = add_query_arg(array(
-        'page' => 'mxchat-prompts',
+        'page' => 'knittnet-prompts',
         'bot_id' => $bot_id,
         'all_deleted' => $success ? 'true' : 'false'
     ), admin_url('admin.php'));
@@ -10174,16 +10174,16 @@ public function mxchat_handle_delete_all_prompts() {
     /**
      * Handles deletion prompt with nonce validation
      */
-     public function mxchat_handle_delete_prompt() {
+     public function knittnet_handle_delete_prompt() {
          // Sanitize and validate nonce
          $nonce = isset($_GET['_wpnonce']) ? sanitize_text_field(wp_unslash($_GET['_wpnonce'])) : '';
-         if (empty($nonce) || !wp_verify_nonce($nonce, 'mxchat_delete_prompt_nonce')) {
-             wp_die(esc_html__('Nonce verification failed.', 'mxchat'));
+         if (empty($nonce) || !wp_verify_nonce($nonce, 'knittnet_delete_prompt_nonce')) {
+             wp_die(esc_html__('Nonce verification failed.', 'knittnet'));
          }
 
          // Check permissions
          if (!current_user_can('manage_options')) {
-             wp_die(esc_html__('You do not have sufficient permissions to delete prompts.', 'mxchat'));
+             wp_die(esc_html__('You do not have sufficient permissions to delete prompts.', 'knittnet'));
          }
 
          // Get ID and source parameters
@@ -10191,15 +10191,15 @@ public function mxchat_handle_delete_all_prompts() {
          $source = isset($_GET['source']) ? sanitize_text_field($_GET['source']) : '';
 
          if (empty($id)) {
-             wp_die(esc_html__('Invalid prompt ID.', 'mxchat'));
+             wp_die(esc_html__('Invalid prompt ID.', 'knittnet'));
          }
 
          $success = false;
          $error_message = '';
 
          // Check if Pinecone is enabled and determine source automatically if not specified
-         $pinecone_options = get_option('mxchat_pinecone_addon_options', array());
-         $use_pinecone = ($pinecone_options['mxchat_use_pinecone'] ?? '0') === '1';
+         $pinecone_options = get_option('knittnet_pinecone_addon_options', array());
+         $use_pinecone = ($pinecone_options['knittnet_use_pinecone'] ?? '0') === '1';
 
          // If source is not specified, determine based on Pinecone configuration
          if (empty($source)) {
@@ -10207,44 +10207,44 @@ public function mxchat_handle_delete_all_prompts() {
          }
 
          if ($source === 'pinecone' || $use_pinecone) {
-             //error_log('[MXCHAT-DELETE] Deleting from Pinecone, ID: ' . $id);
+             //error_log('[KNITTNET-DELETE] Deleting from Pinecone, ID: ' . $id);
 
              // Handle Pinecone deletion
-             if (empty($pinecone_options['mxchat_pinecone_host']) ||
-                 empty($pinecone_options['mxchat_pinecone_api_key'])) {
-                 wp_die(esc_html__('Pinecone configuration is missing.', 'mxchat'));
+             if (empty($pinecone_options['knittnet_pinecone_host']) ||
+                 empty($pinecone_options['knittnet_pinecone_api_key'])) {
+                 wp_die(esc_html__('Pinecone configuration is missing.', 'knittnet'));
              }
 
              // Delete from Pinecone using the vector ID directly
-                $pinecone_manager = MxChat_Pinecone_Manager::get_instance();
-                $result = $pinecone_manager->mxchat_delete_from_pinecone_by_vector_id(
+                $pinecone_manager = KnittNet_Pinecone_Manager::get_instance();
+                $result = $pinecone_manager->knittnet_delete_from_pinecone_by_vector_id(
                     $id,
-                    $pinecone_options['mxchat_pinecone_api_key'],
-                    $pinecone_options['mxchat_pinecone_host']
+                    $pinecone_options['knittnet_pinecone_api_key'],
+                    $pinecone_options['knittnet_pinecone_host']
                 );
              if ($result['success']) {
                  $success = true;
 
                  // Remove from vector cache
-                    $pinecone_manager->mxchat_remove_from_pinecone_vector_cache($id);
-                    $pinecone_manager->mxchat_remove_from_processed_content_caches($id);
+                    $pinecone_manager->knittnet_remove_from_pinecone_vector_cache($id);
+                    $pinecone_manager->knittnet_remove_from_processed_content_caches($id);
 
-                 set_transient('mxchat_admin_notice_success',
-                     esc_html__('Vector deleted successfully from Pinecone.', 'mxchat'), 30);
+                 set_transient('knittnet_admin_notice_success',
+                     esc_html__('Vector deleted successfully from Pinecone.', 'knittnet'), 30);
              } else {
                  $error_message = $result['message'];
-                 set_transient('mxchat_admin_notice_error',
-                     esc_html__('Failed to delete from Pinecone: ', 'mxchat') . esc_html($error_message), 30);
+                 set_transient('knittnet_admin_notice_error',
+                     esc_html__('Failed to delete from Pinecone: ', 'knittnet') . esc_html($error_message), 30);
              }
          } else {
-             //error_log('[MXCHAT-DELETE] Deleting from WordPress database, ID: ' . $id);
+             //error_log('[KNITTNET-DELETE] Deleting from WordPress database, ID: ' . $id);
 
              // Handle WordPress database deletion
              global $wpdb;
-             $table_name = $wpdb->prefix . 'mxchat_system_prompt_content';
+             $table_name = $wpdb->prefix . 'knittnet_system_prompt_content';
 
              // Clear cache and delete prompt
-             wp_cache_delete('prompt_' . $id, 'mxchat_prompts');
+             wp_cache_delete('prompt_' . $id, 'knittnet_prompts');
 
              $result = $wpdb->delete(
                  $table_name,
@@ -10254,18 +10254,18 @@ public function mxchat_handle_delete_all_prompts() {
 
              if ($result !== false) {
                  $success = true;
-                 set_transient('mxchat_admin_notice_success',
-                     esc_html__('Entry deleted successfully.', 'mxchat'), 30);
+                 set_transient('knittnet_admin_notice_success',
+                     esc_html__('Entry deleted successfully.', 'knittnet'), 30);
              } else {
-                 set_transient('mxchat_admin_notice_error',
-                     esc_html__('Failed to delete entry from database.', 'mxchat'), 30);
+                 set_transient('knittnet_admin_notice_error',
+                     esc_html__('Failed to delete entry from database.', 'knittnet'), 30);
              }
          }
 
          // Redirect back to the prompts page
          wp_safe_redirect(add_query_arg(
              array(
-                 'page' => 'mxchat-prompts',
+                 'page' => 'knittnet-prompts',
                  'deleted' => $success ? 'true' : 'false'
              ),
              admin_url('admin.php')
@@ -10279,7 +10279,7 @@ public function mxchat_handle_delete_all_prompts() {
         /**
      * Averages multiple vectors into a single vector
      */
-     private function mxchat_average_vectors($vectors) {
+     private function knittnet_average_vectors($vectors) {
          $vector_length = count($vectors[0]);
          $sum_vector = array_fill(0, $vector_length, 0);
 
@@ -10302,49 +10302,49 @@ public function mxchat_handle_delete_all_prompts() {
 
 
          /**
-     * Generates embeddings from input text for MXChat
+     * Generates embeddings from input text for KnittNet
      */
-     public function mxchat_generate_embedding($text) {
+     public function knittnet_generate_embedding($text) {
          // Enable detailed logging for debugging
-         //error_log('[MXCHAT-EMBED] Starting embedding generation. Text length: ' . strlen($text) . ' bytes');
-         //error_log('[MXCHAT-EMBED] Text preview: ' . substr($text, 0, 100) . '...');
+         //error_log('[KNITTNET-EMBED] Starting embedding generation. Text length: ' . strlen($text) . ' bytes');
+         //error_log('[KNITTNET-EMBED] Text preview: ' . substr($text, 0, 100) . '...');
 
-         $options = get_option('mxchat_options');
+         $options = get_option('knittnet_options');
          $selected_model = $options['embedding_model'] ?? 'text-embedding-ada-002';
-         //error_log('[MXCHAT-EMBED] Selected embedding model: ' . $selected_model);
+         //error_log('[KNITTNET-EMBED] Selected embedding model: ' . $selected_model);
 
          // Determine provider and endpoint
          if (strpos($selected_model, 'voyage') === 0) {
              $api_key = $options['voyage_api_key'] ?? '';
              $endpoint = 'https://api.voyageai.com/v1/embeddings';
              $provider_name = 'Voyage AI';
-             //error_log('[MXCHAT-EMBED] Using Voyage AI API');
+             //error_log('[KNITTNET-EMBED] Using Voyage AI API');
          } elseif (strpos($selected_model, 'gemini-embedding') === 0) {
              $api_key = $options['gemini_api_key'] ?? '';
              $endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/' . $selected_model . ':embedContent';
              $provider_name = 'Google Gemini';
-             //error_log('[MXCHAT-EMBED] Using Google Gemini API');
+             //error_log('[KNITTNET-EMBED] Using Google Gemini API');
          } else {
              $api_key = $options['api_key'] ?? '';
              $endpoint = 'https://api.openai.com/v1/embeddings';
              $provider_name = 'OpenAI';
-             //error_log('[MXCHAT-EMBED] Using OpenAI API');
+             //error_log('[KNITTNET-EMBED] Using OpenAI API');
          }
 
-         //error_log('[MXCHAT-EMBED] Using endpoint: ' . $endpoint);
+         //error_log('[KNITTNET-EMBED] Using endpoint: ' . $endpoint);
 
          if (empty($api_key)) {
-             $error_message = sprintf('Missing %s API key. Please configure your API key in the MxChat settings.', $provider_name);
-             //error_log('[MXCHAT-EMBED] Error: ' . $error_message);
+             $error_message = sprintf('Missing %s API key. Please configure your API key in the KnittNet settings.', $provider_name);
+             //error_log('[KNITTNET-EMBED] Error: ' . $error_message);
              return $error_message;
          }
 
          // Check if text is too long (for OpenAI, roughly estimate tokens as words/0.75)
          $estimated_tokens = ceil(str_word_count($text) / 0.75);
-         //error_log('[MXCHAT-EMBED] Estimated token count: ~' . $estimated_tokens);
+         //error_log('[KNITTNET-EMBED] Estimated token count: ~' . $estimated_tokens);
 
          if ($estimated_tokens > 8000 && strpos($selected_model, 'voyage') === false && strpos($selected_model, 'gemini-embedding') === false) {
-             //error_log('[MXCHAT-EMBED] Warning: Text may exceed OpenAI token limits (8K for most models)');
+             //error_log('[KNITTNET-EMBED] Warning: Text may exceed OpenAI token limits (8K for most models)');
              // Consider truncating text here
          }
 
@@ -10375,7 +10375,7 @@ public function mxchat_handle_delete_all_prompts() {
              }
          }
 
-         //error_log('[MXCHAT-EMBED] Request prepared with model: ' . $selected_model);
+         //error_log('[KNITTNET-EMBED] Request prepared with model: ' . $selected_model);
 
          // Prepare headers based on provider
          if (strpos($selected_model, 'gemini-embedding') === 0) {
@@ -10393,7 +10393,7 @@ public function mxchat_handle_delete_all_prompts() {
          }
 
          // Make API request
-         //error_log('[MXCHAT-EMBED] Sending API request to: ' . $endpoint);
+         //error_log('[KNITTNET-EMBED] Sending API request to: ' . $endpoint);
          $response = wp_remote_post($endpoint, array(
              'body' => wp_json_encode($request_body),
              'headers' => $headers,
@@ -10403,52 +10403,52 @@ public function mxchat_handle_delete_all_prompts() {
          // Handle wp_remote_post errors
          if (is_wp_error($response)) {
              $error_message = $response->get_error_message();
-             //error_log('[MXCHAT-EMBED] WP Remote Post Error: ' . $error_message);
+             //error_log('[KNITTNET-EMBED] WP Remote Post Error: ' . $error_message);
              return 'Connection error: ' . $error_message;
          }
 
          // Get and check HTTP response code
          $http_code = wp_remote_retrieve_response_code($response);
-         //error_log('[MXCHAT-EMBED] API Response Code: ' . $http_code);
+         //error_log('[KNITTNET-EMBED] API Response Code: ' . $http_code);
 
          if ($http_code !== 200) {
              $error_body = wp_remote_retrieve_body($response);
-             //error_log('[MXCHAT-EMBED] API Error Response Body: ' . $error_body);
+             //error_log('[KNITTNET-EMBED] API Error Response Body: ' . $error_body);
 
              // Try to parse error for more details
              $error_json = json_decode($error_body, true);
              if (json_last_error() === JSON_ERROR_NONE && isset($error_json['error'])) {
                  $error_type = $error_json['error']['type'] ?? 'unknown';
                  $error_message = $error_json['error']['message'] ?? 'No message';
-                 //error_log('[MXCHAT-EMBED] API Error Type: ' . $error_type);
-                 //error_log('[MXCHAT-EMBED] API Error Message: ' . $error_message);
+                 //error_log('[KNITTNET-EMBED] API Error Type: ' . $error_type);
+                 //error_log('[KNITTNET-EMBED] API Error Message: ' . $error_message);
 
                  // Customize error message for common API errors
                  if ($error_type === 'invalid_request_error' && strpos($error_message, 'API key') !== false) {
-                     $error_message = sprintf('Invalid %s API key. Please check your API key in the MxChat settings.', $provider_name);
+                     $error_message = sprintf('Invalid %s API key. Please check your API key in the KnittNet settings.', $provider_name);
                  } elseif ($error_type === 'authentication_error') {
-                     $error_message = sprintf('%s authentication failed. Please verify your API key in the MxChat settings.', $provider_name);
+                     $error_message = sprintf('%s authentication failed. Please verify your API key in the KnittNet settings.', $provider_name);
                  }
 
-                 //error_log('[MXCHAT-EMBED] Returning error: ' . $error_message);
+                 //error_log('[KNITTNET-EMBED] Returning error: ' . $error_message);
                  return $error_message;
              }
 
              $error_message = sprintf("API Error (HTTP %d): Unable to generate embedding", $http_code);
-             //error_log('[MXCHAT-EMBED] Returning error: ' . $error_message);
+             //error_log('[KNITTNET-EMBED] Returning error: ' . $error_message);
              return $error_message;
          }
 
          // Parse response body
          $response_body = wp_remote_retrieve_body($response);
-         //error_log('[MXCHAT-EMBED] Received response length: ' . strlen($response_body) . ' bytes');
+         //error_log('[KNITTNET-EMBED] Received response length: ' . strlen($response_body) . ' bytes');
 
          $response_data = json_decode($response_body, true);
 
          if (json_last_error() !== JSON_ERROR_NONE) {
              $error = json_last_error_msg();
-             //error_log('[MXCHAT-EMBED] JSON Parse Error: ' . $error);
-             //error_log('[MXCHAT-EMBED] Response preview: ' . substr($response_body, 0, 200));
+             //error_log('[KNITTNET-EMBED] JSON Parse Error: ' . $error);
+             //error_log('[KNITTNET-EMBED] Response preview: ' . substr($response_body, 0, 200));
              return "Failed to parse API response: $error";
          }
 
@@ -10457,55 +10457,55 @@ public function mxchat_handle_delete_all_prompts() {
              // Gemini API response format
              if (isset($response_data['embedding']['values'])) {
                  $embedding_dimensions = count($response_data['embedding']['values']);
-                 //error_log('[MXCHAT-EMBED] Successfully extracted Gemini embedding with ' . $embedding_dimensions . ' dimensions');
+                 //error_log('[KNITTNET-EMBED] Successfully extracted Gemini embedding with ' . $embedding_dimensions . ' dimensions');
 
                  // Check if embedding dimensions are as expected (should be 1536)
                  if ($embedding_dimensions !== 1536) {
-                     //error_log('[MXCHAT-EMBED] Warning: Unexpected Gemini embedding dimensions: ' . $embedding_dimensions);
+                     //error_log('[KNITTNET-EMBED] Warning: Unexpected Gemini embedding dimensions: ' . $embedding_dimensions);
                  }
 
-                 MxChat_Utils::stamp_active_embedding_model($selected_model);
+                 KnittNet_Utils::stamp_active_embedding_model($selected_model);
                  return $response_data['embedding']['values'];
              } else {
-                 //error_log('[MXCHAT-EMBED] Error: No embedding found in Gemini response');
-                 //error_log('[MXCHAT-EMBED] Response structure: ' . wp_json_encode(array_keys($response_data)));
+                 //error_log('[KNITTNET-EMBED] Error: No embedding found in Gemini response');
+                 //error_log('[KNITTNET-EMBED] Response structure: ' . wp_json_encode(array_keys($response_data)));
 
                  if (isset($response_data['error'])) {
                      $error_message = "Gemini API Error in response: " . wp_json_encode($response_data['error']);
-                     //error_log('[MXCHAT-EMBED] ' . $error_message);
+                     //error_log('[KNITTNET-EMBED] ' . $error_message);
                      return $error_message;
                  }
 
                  $error_message = "Invalid Gemini API response format: No embedding found";
-                 //error_log('[MXCHAT-EMBED] ' . $error_message);
+                 //error_log('[KNITTNET-EMBED] ' . $error_message);
                  return $error_message;
              }
          } else {
              // OpenAI/Voyage API response format
              if (isset($response_data['data'][0]['embedding'])) {
                  $embedding_dimensions = count($response_data['data'][0]['embedding']);
-                 //error_log('[MXCHAT-EMBED] Successfully extracted embedding with ' . $embedding_dimensions . ' dimensions');
+                 //error_log('[KNITTNET-EMBED] Successfully extracted embedding with ' . $embedding_dimensions . ' dimensions');
 
                  // Check if embedding dimensions are as expected
                  if (($selected_model === 'text-embedding-ada-002' && $embedding_dimensions !== 1536) ||
                      ($selected_model === 'voyage-3-large' && $embedding_dimensions !== 2048)) {
-                     //error_log('[MXCHAT-EMBED] Warning: Unexpected embedding dimensions');
+                     //error_log('[KNITTNET-EMBED] Warning: Unexpected embedding dimensions');
                  }
 
-                 MxChat_Utils::stamp_active_embedding_model($selected_model);
+                 KnittNet_Utils::stamp_active_embedding_model($selected_model);
                  return $response_data['data'][0]['embedding'];
              } else {
-                 //error_log('[MXCHAT-EMBED] Error: No embedding found in response');
-                 //error_log('[MXCHAT-EMBED] Response structure: ' . wp_json_encode(array_keys($response_data)));
+                 //error_log('[KNITTNET-EMBED] Error: No embedding found in response');
+                 //error_log('[KNITTNET-EMBED] Response structure: ' . wp_json_encode(array_keys($response_data)));
 
                  if (isset($response_data['error'])) {
                      $error_message = "API Error in response: " . wp_json_encode($response_data['error']);
-                     //error_log('[MXCHAT-EMBED] ' . $error_message);
+                     //error_log('[KNITTNET-EMBED] ' . $error_message);
                      return $error_message;
                  }
 
                  $error_message = "Invalid API response format: No embedding found";
-                 //error_log('[MXCHAT-EMBED] ' . $error_message);
+                 //error_log('[KNITTNET-EMBED] ' . $error_message);
                  return $error_message;
              }
          }

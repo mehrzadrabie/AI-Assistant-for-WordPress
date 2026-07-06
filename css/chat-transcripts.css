@@ -1,5 +1,5 @@
 /* ==========================================================================
-   MxChat Transcripts Page Styles - v2.0
+   KnittNet Transcripts Page Styles - v2.0
    Uses admin-sidebar.css for core layout/navigation styles
    ========================================================================== */
 
@@ -266,7 +266,7 @@
     border: 1px solid #e5e7eb;
 }
 
-#mxchat-activity-chart {
+#knittnet-activity-chart {
     max-height: 280px;
     width: 100% !important;
     height: 280px !important;
@@ -1992,7 +1992,7 @@
         margin-top: var(--mxch-spacing-xs);
     }
 
-    #mxchat-activity-chart {
+    #knittnet-activity-chart {
         height: 220px !important;
     }
 }
@@ -2018,7 +2018,7 @@
 }
 
 /* Product Card in Transcripts */
-.mxch-message-bubble .mxchat-product-card {
+.mxch-message-bubble .knittnet-product-card {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -2030,7 +2030,7 @@
     max-width: 280px;
 }
 
-.mxch-message-bubble .mxchat-product-card a.mxchat-product-link {
+.mxch-message-bubble .knittnet-product-card a.knittnet-product-link {
     text-decoration: none;
     color: inherit;
     display: flex;
@@ -2038,7 +2038,7 @@
     align-items: center;
 }
 
-.mxch-message-bubble .mxchat-product-card img.mxchat-product-image {
+.mxch-message-bubble .knittnet-product-card img.knittnet-product-image {
     max-width: 100%;
     height: auto;
     max-height: 180px;
@@ -2047,7 +2047,7 @@
     border-radius: 6px;
 }
 
-.mxch-message-bubble .mxchat-product-card h3.mxchat-product-name {
+.mxch-message-bubble .knittnet-product-card h3.knittnet-product-name {
     font-size: 14px;
     font-weight: 600;
     margin: 4px 0;
@@ -2055,14 +2055,14 @@
     color: #1a1a1a;
 }
 
-.mxch-message-bubble .mxchat-product-card .mxchat-product-price {
+.mxch-message-bubble .knittnet-product-card .knittnet-product-price {
     color: #2e7d32;
     font-weight: 600;
     font-size: 15px;
     margin: 4px 0 8px;
 }
 
-.mxch-message-bubble .mxchat-product-card .mxchat-add-to-cart-button {
+.mxch-message-bubble .knittnet-product-card .knittnet-add-to-cart-button {
     background-color: #212121;
     color: #fff;
     padding: 7px 16px;
@@ -2073,7 +2073,7 @@
     opacity: 0.6;
 }
 
-.mxch-message-bubble .mxchat-product-card select {
+.mxch-message-bubble .knittnet-product-card select {
     width: 100%;
     padding: 6px 8px;
     margin: 4px 0;
@@ -2083,7 +2083,7 @@
 }
 
 /* Featured Products in Transcripts */
-.mxch-message-bubble .mxchat-featured-products {
+.mxch-message-bubble .knittnet-featured-products {
     margin: 8px 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     line-height: 1.4;
@@ -2093,22 +2093,22 @@
     padding: 0;
 }
 
-.mxch-message-bubble .mxchat-featured-item {
+.mxch-message-bubble .knittnet-featured-item {
     padding: 10px 0;
     border-bottom: 1px solid #e5e5e5;
     margin: 0;
 }
 
-.mxch-message-bubble .mxchat-featured-item:last-child {
+.mxch-message-bubble .knittnet-featured-item:last-child {
     border-bottom: none;
     padding-bottom: 0;
 }
 
-.mxch-message-bubble .mxchat-featured-item:first-child {
+.mxch-message-bubble .knittnet-featured-item:first-child {
     padding-top: 0;
 }
 
-.mxch-message-bubble .mxchat-featured-item-top {
+.mxch-message-bubble .knittnet-featured-item-top {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -2116,7 +2116,7 @@
     margin-bottom: 8px;
 }
 
-.mxch-message-bubble .mxchat-featured-item-image {
+.mxch-message-bubble .knittnet-featured-item-image {
     flex-shrink: 0;
     width: 70px;
     height: 70px;
@@ -2125,14 +2125,14 @@
     background: #f1f1f1;
 }
 
-.mxch-message-bubble .mxchat-featured-item-image a {
+.mxch-message-bubble .knittnet-featured-item-image a {
     display: block;
     width: 70px;
     height: 70px;
     text-decoration: none;
 }
 
-.mxch-message-bubble .mxchat-featured-item-image img {
+.mxch-message-bubble .knittnet-featured-item-image img {
     width: 70px;
     height: 70px;
     object-fit: cover;
@@ -2140,7 +2140,7 @@
     display: block;
 }
 
-.mxch-message-bubble .mxchat-featured-item-info {
+.mxch-message-bubble .knittnet-featured-item-info {
     flex: 1;
     min-width: 0;
     display: flex;
@@ -2149,8 +2149,8 @@
     justify-content: center;
 }
 
-.mxch-message-bubble .mxchat-featured-item-title,
-.mxch-message-bubble a.mxchat-featured-item-title {
+.mxch-message-bubble .knittnet-featured-item-title,
+.mxch-message-bubble a.knittnet-featured-item-title {
     font-size: 13px;
     font-weight: 600;
     color: #1a1a1a;
@@ -2164,30 +2164,30 @@
     padding: 0;
 }
 
-.mxch-message-bubble a.mxchat-featured-item-title:hover {
+.mxch-message-bubble a.knittnet-featured-item-title:hover {
     opacity: 0.8;
 }
 
-.mxch-message-bubble .mxchat-featured-item-price {
+.mxch-message-bubble .knittnet-featured-item-price {
     font-weight: 700;
     font-size: 13px;
     color: #2e7d32;
     margin: 0;
 }
 
-.mxch-message-bubble .mxchat-featured-item-price del {
+.mxch-message-bubble .knittnet-featured-item-price del {
     opacity: 0.6;
     font-weight: 400;
     font-size: 0.85em;
     margin-right: 4px;
 }
 
-.mxch-message-bubble .mxchat-featured-item-price ins {
+.mxch-message-bubble .knittnet-featured-item-price ins {
     text-decoration: none;
     background: none;
 }
 
-.mxch-message-bubble .mxchat-featured-item-actions {
+.mxch-message-bubble .knittnet-featured-item-actions {
     display: flex;
     flex-direction: row;
     gap: 8px;
@@ -2195,8 +2195,8 @@
     padding: 0;
 }
 
-.mxch-message-bubble .mxchat-featured-btn-details,
-.mxch-message-bubble a.mxchat-featured-btn-details {
+.mxch-message-bubble .knittnet-featured-btn-details,
+.mxch-message-bubble a.knittnet-featured-btn-details {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2213,8 +2213,8 @@
     line-height: 1.2;
 }
 
-.mxch-message-bubble .mxchat-featured-btn-cart,
-.mxch-message-bubble button.mxchat-featured-btn-cart {
+.mxch-message-bubble .knittnet-featured-btn-cart,
+.mxch-message-bubble button.knittnet-featured-btn-cart {
     display: flex;
     align-items: center;
     justify-content: center;

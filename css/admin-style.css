@@ -9,11 +9,11 @@
     color: red;
 }
 
-.mxchat-form-intent {
+.knittnet-form-intent {
     background-color: rgba(240, 240, 245, 0.5);
 }
 /* Style the Add Ons submenu item with subtle gradient */
-#adminmenu a[href="admin.php?page=mxchat-addons"] {
+#adminmenu a[href="admin.php?page=knittnet-addons"] {
     position: relative;
     border-left: 3px solid #fa73e6;
     font-weight: 600;
@@ -21,16 +21,16 @@
 }
 
 /* Make the text stand out a bit more when active */
-#adminmenu .current a[href="admin.php?page=mxchat-addons"] {
+#adminmenu .current a[href="admin.php?page=knittnet-addons"] {
     color: white !important;
 }
 
 /* Add hover effect with smooth transition */
-#adminmenu a[href="admin.php?page=mxchat-addons"]:hover {
+#adminmenu a[href="admin.php?page=knittnet-addons"]:hover {
     background-color: rgba(120, 115, 245, 0.12) !important;
     color: white !important;
 }
-.mxchat-badge {
+.knittnet-badge {
     display: inline-block;
     padding: 2px 8px;
     border-radius: 12px;
@@ -40,14 +40,14 @@
     margin-left: 8px;
 }
 
-.mxchat-threshold-readonly {
+.knittnet-threshold-readonly {
     padding: 8px;
     background: rgba(120, 115, 245, 0.1);
     border-radius: 4px;
     text-align: center;
 }
 
-.mxchat-form-intent .mxchat-button-secondary {
+.knittnet-form-intent .knittnet-button-secondary {
     background: #7873f5;
     color: white;
     border: none;
@@ -57,24 +57,24 @@
     display: inline-block;
 }
 
-.mxchat-form-intent .mxchat-button-secondary:hover {
+.knittnet-form-intent .knittnet-button-secondary:hover {
     background: #6863e5;
 }
 
 /* Tab Navigation */
-.mxchat-tabs {
+.knittnet-tabs {
     border-bottom: 1px solid #ccc;
     margin-bottom: 20px;
     padding-bottom: 0;
 }
 
-.mxchat-default-db-h2 {
+.knittnet-default-db-h2 {
     text-align: center;
     margin: 0px;
     padding: 0px;
 }
 
-.mxchat-tab-button {
+.knittnet-tab-button {
     background: #f1f1f1;
     border: 1px solid #ccc;
     border-bottom: none;
@@ -86,19 +86,19 @@
     transition: all 0.3s ease;
 }
 
-.mxchat-tab-button.active {
+.knittnet-tab-button.active {
     background: #fff;
     border-bottom: 1px solid #fff;
     color: #000;
 }
 
-#default-db.mxchat-tab-content, #pinecone-db.mxchat-tab-content {
+#default-db.knittnet-tab-content, #pinecone-db.knittnet-tab-content {
     border: none;
     box-shadow: none;
     padding: 0px;
 }
 
-.mxchat-tab-content.active {
+.knittnet-tab-content.active {
     display: block;
 }
 
@@ -107,51 +107,51 @@
     to { opacity: 1; }
 }
 
-.mxchat-tab-content.active {
+.knittnet-tab-content.active {
     display: block;
 }
 
 /* Pinecone Settings Styling */
-.mxchat-input-group {
+.knittnet-input-group {
     margin-bottom: 20px;
 }
 
-.mxchat-input-group label {
+.knittnet-input-group label {
     display: block;
     font-weight: 600;
     margin-bottom: 5px;
 }
 
-.mxchat-input-group .description {
+.knittnet-input-group .description {
     color: #666;
     font-style: italic;
     margin-top: 5px;
 }
 
 
-.mxchat-sync-settings {
+.knittnet-sync-settings {
     background: #fff;
     border-radius: 5px;
 }
 
-.mxchat-toggle-container {
+.knittnet-toggle-container {
     margin-bottom: 15px;
 }
 
-.mxchat-toggle-switch {
+.knittnet-toggle-switch {
     position: relative;
     display: inline-block;
     width: 60px;
     height: 34px;
 }
 
-.mxchat-toggle-switch input {
+.knittnet-toggle-switch input {
     opacity: 0;
     width: 0;
     height: 0;
 }
 
-.mxchat-toggle-slider {
+.knittnet-toggle-slider {
     position: absolute;
     cursor: pointer;
     top: 0;
@@ -163,7 +163,7 @@
     border-radius: 34px;
 }
 
-.mxchat-toggle-slider:before {
+.knittnet-toggle-slider:before {
     position: absolute;
     content: "";
     height: 26px;
@@ -175,19 +175,19 @@
     border-radius: 50%;
 }
 
-input:checked + .mxchat-toggle-slider {
+input:checked + .knittnet-toggle-slider {
     background-color: #2196F3;
 }
 
-input:checked + .mxchat-toggle-slider:before {
+input:checked + .knittnet-toggle-slider:before {
     transform: translateX(26px);
 }
 
-.mxchat-toggle-label {
+.knittnet-toggle-label {
     vertical-align: super;
     font-weight: 500;
 }
-.mxchat-knowledge-container {
+.knittnet-knowledge-container {
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -200,7 +200,7 @@ input:checked + .mxchat-toggle-slider:before {
 }
 
 /* Left Column */
-.mxchat-knowledge-controls {
+.knittnet-knowledge-controls {
     flex: 1;
     display: flex;
     gap: 1rem;
@@ -208,7 +208,7 @@ input:checked + .mxchat-toggle-slider:before {
     align-items: center;
 }
 
-.mxchat-controls-header {
+.knittnet-controls-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -219,17 +219,17 @@ input:checked + .mxchat-toggle-slider:before {
     font-size: 0.9rem;
 }
 
-.mxchat-delete-all {
+.knittnet-delete-all {
     color: #dc3545;
     border-color: #dc3545;
 }
 
-.mxchat-delete-all:hover {
+.knittnet-delete-all:hover {
     background: #dc3545;
     color: #fff;
 }
 
-.mxchat-pagination .page-numbers {
+.knittnet-pagination .page-numbers {
     padding: 0.25rem 0.5rem;
     margin: 0 0.25rem;
     border: 1px solid #ddd;
@@ -237,14 +237,14 @@ input:checked + .mxchat-toggle-slider:before {
     text-decoration: none;
 }
 
-.mxchat-pagination .current {
+.knittnet-pagination .current {
     background: #2271b1;
     color: #fff;
     border-color: #2271b1;
 }
 
 /* Right Column */
-.mxchat-knowledge-search {
+.knittnet-knowledge-search {
     flex: 1;
 }
 .search-input {
@@ -263,30 +263,30 @@ input:checked + .mxchat-toggle-slider:before {
 
 /* Mobile Responsiveness */
 @media screen and (max-width: 782px) {
-    .mxchat-pro-notification ul {
+    .knittnet-pro-notification ul {
         padding-left: 1.2em; /* Add left padding so bullets appear nicely */
         margin: 0.5em 0;
         text-align: left;
         list-style: disc; /* or 'none' if you don’t want bullets */
     }
     
-    .mxchat-pro-notification ul li {
+    .knittnet-pro-notification ul li {
         text-align: left;
         margin-bottom: 0.3em;
     }
 
-    .mxchat-pro-content p {
+    .knittnet-pro-content p {
         text-align: left;
     }
-    .mxchat-knowledge-controls {
+    .knittnet-knowledge-controls {
         flex-direction: column;
     }
     
-    .mxchat-addon-notice-buttons {
+    .knittnet-addon-notice-buttons {
         flex-direction: column;
     }
     
-    .mxchat-grid-container {
+    .knittnet-grid-container {
         display: grid;
         /* Add these properties */
         max-width: 100%; /* Constrain to parent width */
@@ -296,13 +296,13 @@ input:checked + .mxchat-toggle-slider:before {
         grid-gap: 20px;
     }
 
-    .mxchat-controls-header {
+    .knittnet-controls-header {
         flex-direction: column;
         gap: 1rem;
         align-items: flex-start;
     }
 
-    .mxchat-search-group {
+    .knittnet-search-group {
         flex-direction: column;
     }
 
@@ -317,7 +317,7 @@ input:checked + .mxchat-toggle-slider:before {
 
 
 
-.mxchat-modal {
+.knittnet-modal {
     display: none;
     position: fixed;
     z-index: 1000;
@@ -328,7 +328,7 @@ input:checked + .mxchat-toggle-slider:before {
     background-color: rgba(0,0,0,0.4);
 }
 
-.mxchat-modal-content {
+.knittnet-modal-content {
     background-color: #fefefe;
     margin: 15% auto;
     padding: 20px;
@@ -338,7 +338,7 @@ input:checked + .mxchat-toggle-slider:before {
     border-radius: 4px;
 }
 
-.mxchat-modal-close {
+.knittnet-modal-close {
     color: #aaa;
     float: right;
     font-size: 28px;
@@ -346,14 +346,14 @@ input:checked + .mxchat-toggle-slider:before {
     cursor: pointer;
 }
 
-.mxchat-modal-close:hover {
+.knittnet-modal-close:hover {
     color: black;
 }
 
 
 
 
-.mxchat-admin .button.button-secondary.mxchat-edit-button {
+.knittnet-admin .button.button-secondary.knittnet-edit-button {
     background: #3498db;
     color: #fff;
     border-radius: 20px;
@@ -372,16 +372,16 @@ input:checked + .mxchat-toggle-slider:before {
 }
 
 
-.mxchat-admin .mxchat-intents-table .mxchat-delete-all {
+.knittnet-admin .knittnet-intents-table .knittnet-delete-all {
     width: 100%;
 }
 
-.mxchat-admin .mxchat-intents-table .mxchat-save-button {
+.knittnet-admin .knittnet-intents-table .knittnet-save-button {
     max-width: 100% !important;
     width: 100% !important;
 }
 
-.mxchat-agents-banner {
+.knittnet-agents-banner {
   background-color: #fff;
   margin-bottom: 20px;
   border-radius: 4px;
@@ -392,7 +392,7 @@ input:checked + .mxchat-toggle-slider:before {
   padding: 0px 15px;
 }
 
-.mxchat-agents-banner::before {
+.knittnet-agents-banner::before {
     content: '';
     position: absolute;
     top: 0;
@@ -403,7 +403,7 @@ input:checked + .mxchat-toggle-slider:before {
     border-radius: 4px 0 0 4px; /* Match overall border radius */
 }
 
-.mxchat-agents-banner p {
+.knittnet-agents-banner p {
     font-size: 14px;
     line-height: 1.6;
     color: #444; /* Dark gray text */
@@ -411,7 +411,7 @@ input:checked + .mxchat-toggle-slider:before {
     padding: 15px 10px;
 }
 
-.mxchat-agents-banner a {
+.knittnet-agents-banner a {
     background: linear-gradient(135deg, #fa73e6, #7873f5, #3ac9d1); /* Gradient text */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent; /* Makes gradient visible */
@@ -420,29 +420,29 @@ input:checked + .mxchat-toggle-slider:before {
     transition: opacity 0.2s ease;
 }
 
-.mxchat-agents-banner a:hover {
+.knittnet-agents-banner a:hover {
     opacity: 0.8; /* Subtle fade on hover */
     text-decoration: underline; /* Underline for accessibility */
 }
 
 
 
-.mxchat-timestamp {
+.knittnet-timestamp {
     font-size: 10px;
     color: #8c8f94;
     margin-top: 2px;
     padding: 0 8px;
 }
 
-.mxchat-messages::-webkit-scrollbar {
+.knittnet-messages::-webkit-scrollbar {
     width: 6px;
 }
 
-.mxchat-messages::-webkit-scrollbar-track {
+.knittnet-messages::-webkit-scrollbar-track {
     background: #f1f1f1;
 }
 
-.mxchat-messages::-webkit-scrollbar-thumb {
+.knittnet-messages::-webkit-scrollbar-thumb {
     background: #888;
     border-radius: 3px;
 }
@@ -455,7 +455,7 @@ input:checked + .mxchat-toggle-slider:before {
 
 
 
-.mxchat-process-status {
+.knittnet-process-status {
     margin-top: 20px;
     padding: 15px;
     background: #fff;
@@ -464,25 +464,25 @@ input:checked + .mxchat-toggle-slider:before {
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-.mxchat-process-status h3 {
+.knittnet-process-status h3 {
     margin: 0 0 15px 0;
     color: #23282d;
     font-size: 14px;
     font-weight: 600;
 }
 
-.mxchat-process-status p {
+.knittnet-process-status p {
     margin: 8px 0;
     color: #555;
     font-size: 13px;
 }
 
-.mxchat-process-status .status-complete {
+.knittnet-process-status .status-complete {
     color: #46b450;
     font-weight: 500;
 }
 
-.mxchat-process-status.complete {
+.knittnet-process-status.complete {
     border-color: #46b450;
 }
 
@@ -491,7 +491,7 @@ input:checked + .mxchat-toggle-slider:before {
 
 
 /* Toggle Switch Styles */
-.mxchat-switch {
+.knittnet-switch {
     position: relative;
     display: inline-block;
     width: 60px;
@@ -499,13 +499,13 @@ input:checked + .mxchat-toggle-slider:before {
     margin-right: 10px;
 }
 
-.mxchat-switch input {
+.knittnet-switch input {
     opacity: 0;
     width: 0;
     height: 0;
 }
 
-.mxchat-slider {
+.knittnet-slider {
     position: absolute;
     cursor: pointer;
     top: 0;
@@ -517,7 +517,7 @@ input:checked + .mxchat-toggle-slider:before {
     border-radius: 34px;
 }
 
-.mxchat-slider:before {
+.knittnet-slider:before {
     position: absolute;
     content: "";
     height: 26px;
@@ -529,20 +529,20 @@ input:checked + .mxchat-toggle-slider:before {
     border-radius: 50%;
 }
 
-input:checked + .mxchat-slider {
+input:checked + .knittnet-slider {
     background-color: #2196F3;
 }
 
-input:disabled + .mxchat-slider {
+input:disabled + .knittnet-slider {
     opacity: 0.5;
     cursor: not-allowed;
 }
 
-input:checked + .mxchat-slider:before {
+input:checked + .knittnet-slider:before {
     transform: translateX(26px);
 }
 
-.mxchat-status-label {
+.knittnet-status-label {
     display: inline-block;
     vertical-align: middle;
     margin-left: 10px;
@@ -555,33 +555,33 @@ input:checked + .mxchat-slider:before {
 
 
 
-.mxchat-question-row {
+.knittnet-question-row {
     margin-bottom: 10px;
 }
 
-.mxchat-similarity-threshold .mxchat-slider-container {
+.knittnet-similarity-threshold .knittnet-slider-container {
     display: flex;
     align-items: center;
     gap: 15px;
     margin-top: 10px;
 }
 
-.mxchat-similarity-threshold input[type="range"] {
+.knittnet-similarity-threshold input[type="range"] {
     flex: 1;
     margin: 0;
 }
 
-.mxchat-similarity-threshold .button-primary {
+.knittnet-similarity-threshold .button-primary {
     white-space: nowrap;
 }
 
-.mxchat-similarity-threshold label {
+.knittnet-similarity-threshold label {
     font-weight: bold;
     display: block;
     margin-bottom: 5px;
 }
 
-.mxchat-similarity-threshold {
+.knittnet-similarity-threshold {
     max-width: 600px;
 }
 
@@ -591,22 +591,22 @@ input:checked + .mxchat-slider:before {
     color: #0073aa;
 }
 
-.mxchat-form-group {
+.knittnet-form-group {
     margin-bottom: 20px;
 }
 
-.mxchat-form-group input[type="range"] {
+.knittnet-form-group input[type="range"] {
     width: 100%;
     margin-top: 10px;
 }
 
-.mxchat-form-group label {
+.knittnet-form-group label {
     font-weight: bold;
     display: block;
     margin-bottom: 5px;
 }
 
-.mxchat-form-group .description {
+.knittnet-form-group .description {
     font-size: 0.9em;
     color: #666;
 }
@@ -620,7 +620,7 @@ input:checked + .mxchat-slider:before {
 
 
 
-.mxchat-product-image, .mxchat-generated-image, .mxchat-image-thumbnail {
+.knittnet-product-image, .knittnet-generated-image, .knittnet-image-thumbnail {
     max-width: 100%;
 }
 .description {
@@ -635,7 +635,7 @@ input:checked + .mxchat-slider:before {
 }
 
 /* General Styles */
-.mxchat-admin body, .mxchat-admin html {
+.knittnet-admin body, .knittnet-admin html {
     font-family: Arial, sans-serif;
     background-color: #fff;
     color: #212121;
@@ -644,7 +644,7 @@ input:checked + .mxchat-slider:before {
 }
 
 /* Main Wrapper */
-.mxchat-admin .wrap {
+.knittnet-admin .wrap {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
@@ -652,14 +652,14 @@ input:checked + .mxchat-slider:before {
     box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
 }
 /* Header */
-.mxchat-admin .wrap h2 {
+.knittnet-admin .wrap h2 {
     border-bottom: 2px solid #ddd;
     padding-bottom: 10px;
     margin-bottom: 20px;
     color: #212121;
 }
 
-.wrap.mxchat-admin .admin-title {
+.wrap.knittnet-admin .admin-title {
     text-shadow: 0 2px 0 #c6c6c6;
     font-weight: bold;
     letter-spacing: 5px;
@@ -667,7 +667,7 @@ input:checked + .mxchat-slider:before {
     font-size: 2.5rem;
 }
 
-.mxchat-admin .admin-emphasis {
+.knittnet-admin .admin-emphasis {
     color: white;
     text-shadow: 2px 1px 0 #000, -1px -1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, 0px 0 0 #000, 4px 0 0 #000, 0 0px 0 #000, 0 0px 0 #000;
     font-weight: bold;
@@ -675,13 +675,13 @@ input:checked + .mxchat-slider:before {
     font-size: 2.5rem;
 }
 /* Grid Layout */
-.mxchat-admin .mxchat-grid-container {
+.knittnet-admin .knittnet-grid-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 20px;
 }
 
-.mxchat-admin .mxchat-grid-item {
+.knittnet-admin .knittnet-grid-item {
     background: #fff;
     border: 1px solid #ddd;
     box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
@@ -690,27 +690,27 @@ input:checked + .mxchat-slider:before {
 }
 
 /* Full Width for Submit Content */
-.mxchat-admin .mxchat-grid-item.full-width {
+.knittnet-admin .knittnet-grid-item.full-width {
     grid-column: span 2;
 }
 
 /* Form Styles */
-.mxchat-admin .mxchat-form-group {
+.knittnet-admin .knittnet-form-group {
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
 }
 
-.mxchat-admin .mxchat-form-group label {
+.knittnet-admin .knittnet-form-group label {
     margin-bottom: 10px;
     font-weight: bold;
     color: #212121;
 }
 
-.mxchat-admin .mxchat-form-group input[type="url"],
-.mxchat-admin .mxchat-form-group input[type="text"],
-.mxchat-admin .mxchat-form-group input[type="password"],
-.mxchat-admin .mxchat-form-group textarea {
+.knittnet-admin .knittnet-form-group input[type="url"],
+.knittnet-admin .knittnet-form-group input[type="text"],
+.knittnet-admin .knittnet-form-group input[type="password"],
+.knittnet-admin .knittnet-form-group textarea {
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -720,12 +720,12 @@ input:checked + .mxchat-slider:before {
 }
 
 /* Larger Textarea for Content Submission */
-.mxchat-admin .mxchat-form-group textarea {
+.knittnet-admin .knittnet-form-group textarea {
     min-height: 200px;
 }
 
 /* Button Styles */
-.mxchat-admin .button.button-primary {
+.knittnet-admin .button.button-primary {
     color: #fff;
     background: #212121;
     border-radius: 20px;
@@ -744,19 +744,19 @@ input:checked + .mxchat-slider:before {
     cursor: pointer;
 }
 
-.mxchat-search-group .button.button-primary.search-button {
+.knittnet-search-group .button.button-primary.search-button {
     box-shadow: none;
     border-radius: 0px 20px 20px 0px;
     margin-bottom: 0px;
     padding: 0px 15px;
 }
 
-.mxchat-search-group .button.button-primary.search-button:hover {
+.knittnet-search-group .button.button-primary.search-button:hover {
     opacity: .8px;
 }
 
-.mxchat-admin .button.button-primary:hover,
-.mxchat-admin .button.button-primary:active {
+.knittnet-admin .button.button-primary:hover,
+.knittnet-admin .button.button-primary:active {
     background: #444;
 }
 
@@ -765,7 +765,7 @@ input:checked + .mxchat-slider:before {
 }
 
 /* Search and Sitemap Group */
-.mxchat-admin .mxchat-search-group {
+.knittnet-admin .knittnet-search-group {
     display: flex;
     gap: 0px;
     max-width: 800px;
@@ -775,18 +775,18 @@ input:checked + .mxchat-slider:before {
     flex-direction: row;
 }
 
-.mxchat-admin .mxchat-search-group input[type="text"],
-.mxchat-admin .mxchat-search-group input[type="url"] {
+.knittnet-admin .knittnet-search-group input[type="text"],
+.knittnet-admin .knittnet-search-group input[type="url"] {
     flex-grow: 1;
     border-radius: 20px 0px 0px 20px;
     padding: 8px;
 }
 
-.mxchat-search-group #mxchat-intent-search {
+.knittnet-search-group #knittnet-intent-search {
     border-radius: 0px 0px 0px 0px;
 }
 
-.mxchat-admin .mxchat-search-group input[type="submit"] {
+.knittnet-admin .knittnet-search-group input[type="submit"] {
     background: #212121;
     color: #fff;
     border-radius: 20px;
@@ -799,11 +799,11 @@ input:checked + .mxchat-slider:before {
     cursor: pointer;
 }
 
-.mxchat-admin .mxchat-search-group input[type="submit"]:hover {
+.knittnet-admin .knittnet-search-group input[type="submit"]:hover {
     background-color: #444;
 }
 
-.mxchat-admin .mxchat-delete-all, .button.button-link-delete.mxchat-delete-all {
+.knittnet-admin .knittnet-delete-all, .button.button-link-delete.knittnet-delete-all {
     background: #e74c3c;
     color: #fff;
     border-radius: 20px;
@@ -820,13 +820,13 @@ input:checked + .mxchat-slider:before {
     border: none;
 }
 
-.mxchat-admin .mxchat-delete-all:hover {
+.knittnet-admin .knittnet-delete-all:hover {
     color: #fff;
     background-color: #c0392b;
     box-shadow: 4px 4px #a93226
 }
 
-.mxchat-admin .mxchat-intents-table .mxchat-delete-all {
+.knittnet-admin .knittnet-intents-table .knittnet-delete-all {
     background: #e74c3c;
     color: #fff;
     border-radius: 20px;
@@ -843,7 +843,7 @@ input:checked + .mxchat-slider:before {
     border: none;
 }
 
-.mxchat-admin .mxchat-intents-table .mxchat-delete-all:hover {
+.knittnet-admin .knittnet-intents-table .knittnet-delete-all:hover {
     color: #fff;
     background-color: #c0392b;
     box-shadow: 4px 4px #a93226;
@@ -852,7 +852,7 @@ input:checked + .mxchat-slider:before {
 
 
 /* Table Styles */
-.mxchat-admin .wp-list-table {
+.knittnet-admin .wp-list-table {
     width: 100%;
     margin-top: 20px;
     border-collapse: collapse;
@@ -860,23 +860,23 @@ input:checked + .mxchat-slider:before {
     box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
 }
 
-.mxchat-admin .wp-list-table th,
-.mxchat-admin .wp-list-table td {
+.knittnet-admin .wp-list-table th,
+.knittnet-admin .wp-list-table td {
     padding: 15px;
     border-bottom: 1px solid #ddd;
     text-align: left;
 }
 
-.mxchat-admin .wp-list-table th {
+.knittnet-admin .wp-list-table th {
     background: #f0f2f5;
     color: #212121;
 }
 
-.mxchat-admin .wp-list-table tr:nth-child(even) {
+.knittnet-admin .wp-list-table tr:nth-child(even) {
     background: #f9f9f9;
 }
 
-.mxchat-admin .mxchat-pro-banner {
+.knittnet-admin .knittnet-pro-banner {
     background-color: #fff;
     padding: 0px 15px;
     margin-bottom: 20px;
@@ -884,7 +884,7 @@ input:checked + .mxchat-slider:before {
     position: relative; /* Required for the ::before pseudo-element */
 }
 
-.mxchat-admin .mxchat-pro-banner::before {
+.knittnet-admin .knittnet-pro-banner::before {
     content: '';
     position: absolute;
     top: 0;
@@ -896,38 +896,38 @@ input:checked + .mxchat-slider:before {
 }
 
 
-.mxchat-admin .mxchat-pro-banner p {
+.knittnet-admin .knittnet-pro-banner p {
     margin: 0;
     font-size: 16px;
     color: #212121;
     padding: 15px 10px;
     }
 
-.mxchat-admin .mxchat-pro-banner a {
+.knittnet-admin .knittnet-pro-banner a {
     color: #212121;
     text-decoration: none;
     font-weight: bold;
 }
 
-.mxchat-admin .mxchat-pro-banner a:hover {
+.knittnet-admin .knittnet-pro-banner a:hover {
     text-decoration: underline;
 }
 
 /* Toggle Switch Styles */
-.mxchat-admin .toggle-switch {
+.knittnet-admin .toggle-switch {
     position: relative;
     display: inline-block;
     width: 60px;
     height: 34px;
 }
 
-.mxchat-admin .toggle-switch input {
+.knittnet-admin .toggle-switch input {
     opacity: 0;
     width: 0;
     height: 0;
 }
 
-.mxchat-admin .slider {
+.knittnet-admin .slider {
     position: absolute;
     cursor: pointer;
     top: 0;
@@ -939,7 +939,7 @@ input:checked + .mxchat-slider:before {
     border-radius: 34px;
 }
 
-.mxchat-admin .slider:before {
+.knittnet-admin .slider:before {
     position: absolute;
     content: "";
     height: 26px;
@@ -951,16 +951,16 @@ input:checked + .mxchat-slider:before {
     border-radius: 50%;
 }
 
-.mxchat-admin input:checked + .slider {
+.knittnet-admin input:checked + .slider {
     background-color: #212121;
 }
 
-.mxchat-admin input:checked + .slider:before {
+.knittnet-admin input:checked + .slider:before {
     transform: translateX(26px);
 }
 
 /* Toggle Switch Label */
-.mxchat-admin .toggle-switch-label {
+.knittnet-admin .toggle-switch-label {
     display: flex;
     align-items: center;
     font-weight: 600;
@@ -968,56 +968,56 @@ input:checked + .mxchat-slider:before {
     margin-bottom: 20px;
 }
 
-.mxchat-loading-text {
+.knittnet-loading-text {
     display: none;
     margin-top: 10px;
     color: #333;
 }
 
-.mxchat-spinner {
+.knittnet-spinner {
     border: 8px solid #f3f3f3;
     border-top: 8px solid #333;
     border-radius: 50%;
     width: 30px;
     height: 30px;
-    animation: mxchat-spin 1s linear infinite;
+    animation: knittnet-spin 1s linear infinite;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-#mxchat-content-loading-text {
+#knittnet-content-loading-text {
     display: none;
     margin-top: 10px;
     color: #333;
 }
 
-.mxchat-content-spinner {
+.knittnet-content-spinner {
     border: 8px solid #f3f3f3;
     border-top: 8px solid #333;
     border-radius: 50%;
     width: 30px;
     height: 30px;
-    animation: mxchat-spin 1s linear infinite;
+    animation: knittnet-spin 1s linear infinite;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 
-#mxchat-activation-spinner {
+#knittnet-activation-spinner {
     border: 4px solid #f3f3f3;
     border-top: 4px solid #007cba; /* Match the WordPress primary button color */
     border-radius: 50%;
     width: 20px;
     height: 20px;
-    animation: mxchat-spin 1s linear infinite;
+    animation: knittnet-spin 1s linear infinite;
     display: inline-block;
     vertical-align: middle;
     margin-left: 10px;
 }
 
-@keyframes mxchat-spin {
+@keyframes knittnet-spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
@@ -1062,7 +1062,7 @@ input:checked + .mxchat-slider:before {
 }
 
 
-.mxchat-admin .chat-session {
+.knittnet-admin .chat-session {
     border: 1px solid #ddd;
     padding: 15px;
     width: calc(33.333% - 20px);
@@ -1074,35 +1074,35 @@ input:checked + .mxchat-slider:before {
     overflow: auto;
 }
 
-.mxchat-admin .chat-message {
+.knittnet-admin .chat-message {
     border-bottom: 1px solid #eee;
     padding-bottom: 10px;
     margin-bottom: 10px;
 }
 
-.mxchat-admin .chat-session h4 {
+.knittnet-admin .chat-session h4 {
     margin-bottom: 15px;
     font-size: 1.1em;
     font-weight: 700;
 }
 
-.mxchat-controls {
+.knittnet-controls {
     display: flex;
     align-items: center;
     margin-bottom: 15px;
 }
 
-.mxchat-select-all-label {
+.knittnet-select-all-label {
     margin-right: 15px;
     display: flex;
     align-items: center;
 }
 
-.mxchat-select-all-label input[type="checkbox"] {
+.knittnet-select-all-label input[type="checkbox"] {
     margin-right: 5px;
 }
 
-.mxchat-controls .delete-chats-button.button {
+.knittnet-controls .delete-chats-button.button {
     padding: 6px 12px;
     font-size: 14px;
     background: #e74c3c;
@@ -1119,30 +1119,30 @@ input:checked + .mxchat-slider:before {
 }
 
 
-.mxchat-controls .delete-chats-button.button:hover {
+.knittnet-controls .delete-chats-button.button:hover {
     color: #fff;
     background-color: #c0392b;
     box-shadow: 4px 4px #a93226
 }
 
 
-.mxchat-license-status.active {
+.knittnet-license-status.active {
     color: green;
     font-weight: bold;
 }
 
-.mxchat-license-status.inactive {
+.knittnet-license-status.inactive {
     color: red;
     font-weight: bold;
 }
-.mxchat-nav-tab-wrapper {
+.knittnet-nav-tab-wrapper {
     margin: 0px 0px;
     padding: 0px 0px;
     display: flex;
     padding-left: 20px;
 }
 
-.mxchat-nav-tab {
+.knittnet-nav-tab {
     font-size: 14px;
     padding: 10px 20px;
     margin-right: 10px;
@@ -1155,13 +1155,13 @@ input:checked + .mxchat-slider:before {
     text-decoration: none;
 }
 
-.mxchat-nav-tab:hover, .mxchat-nav-tab:focus {
+.knittnet-nav-tab:hover, .knittnet-nav-tab:focus {
      background: #fff;
     color: #0073aa;
     box-shadow: none;
 }
 
-.mxchat-nav-tab-active {
+.knittnet-nav-tab-active {
     background: #fff;
     border-bottom: 1px solid #fff;
     color: #0073aa;
@@ -1169,16 +1169,16 @@ input:checked + .mxchat-slider:before {
 
 
 
-.mxchat-tab-content.active {
+.knittnet-tab-content.active {
     display: block;
 }
 
 
-.mxchat-settings-section {
+.knittnet-settings-section {
     padding: 20px 0;
 }
 
-.mxchat-settings-section h2 {
+.knittnet-settings-section h2 {
     font-size: 1.2em;
     margin-bottom: 10px;
     color: #333;
@@ -1206,7 +1206,7 @@ input:checked + .mxchat-slider:before {
 
 
 
-.mxchat-table {
+.knittnet-table {
     width: 100%;
     table-layout: fixed;
     border-collapse: collapse;
@@ -1214,7 +1214,7 @@ input:checked + .mxchat-slider:before {
 }
 
 /* Header styling to match theme */
-.mxchat-table th {
+.knittnet-table th {
     background-color: #212121; /* Dark gray/black background */
     color: #fff; /* White text */
     font-weight: bold;
@@ -1223,7 +1223,7 @@ input:checked + .mxchat-slider:before {
 }
 
 /* General cell styling */
-.mxchat-table th, .mxchat-table td {
+.knittnet-table th, .knittnet-table td {
     padding: 8px 10px;
     text-align: left;
     vertical-align: top; /* Aligns content to the top of the cell */
@@ -1231,30 +1231,30 @@ input:checked + .mxchat-slider:before {
 }
 
 /* Alternate row background for better readability */
-.mxchat-table tbody tr:nth-child(odd) {
+.knittnet-table tbody tr:nth-child(odd) {
     background-color: #f9f9f9;
 }
 
-.mxchat-table tbody tr:nth-child(even) {
+.knittnet-table tbody tr:nth-child(even) {
     background-color: #fff;
 }
 
 /* ID column should be small */
-.mxchat-table td:nth-child(1),
-.mxchat-table th:nth-child(1) {
+.knittnet-table td:nth-child(1),
+.knittnet-table th:nth-child(1) {
     width: 15%; /* ID column */
     text-align: center;
 }
 
 /* Content column should be wide */
-.mxchat-table td:nth-child(2),
-.mxchat-table th:nth-child(2) {
+.knittnet-table td:nth-child(2),
+.knittnet-table th:nth-child(2) {
     width: 50%; /* Content column */
 }
 
 /* URL column */
-.mxchat-table td:nth-child(3),
-.mxchat-table th:nth-child(3) {
+.knittnet-table td:nth-child(3),
+.knittnet-table th:nth-child(3) {
     width: 20%; /* URL column */
     text-align: left;
     overflow-x: auto; /* Allow the URL to scroll horizontally if it's too long */
@@ -1262,20 +1262,20 @@ input:checked + .mxchat-slider:before {
 }
 
 /* Actions column */
-.mxchat-table td:nth-child(4),
-.mxchat-table th:nth-child(4) {
+.knittnet-table td:nth-child(4),
+.knittnet-table th:nth-child(4) {
     width: 15%; /* Edit/Delete column */
     text-align: center;
 }
 
-.mxchat-intents-table {
+.knittnet-intents-table {
     width: 100%;
     table-layout: fixed;
     border-collapse: collapse;
     border: 1px solid #ccc;
 }
 
-.mxchat-intents-table th {
+.knittnet-intents-table th {
     background-color: #212121;
     color: #fff;
     font-weight: bold;
@@ -1283,62 +1283,62 @@ input:checked + .mxchat-slider:before {
     border-bottom: 3px solid #ccc;
 }
 
-.mxchat-intents-table th,
-.mxchat-intents-table td {
+.knittnet-intents-table th,
+.knittnet-intents-table td {
     padding: 8px 10px;
     text-align: left;
     vertical-align: top;
     border-bottom: 2px solid #ddd;
 }
 
-.mxchat-intents-table tbody tr:nth-child(odd) {
+.knittnet-intents-table tbody tr:nth-child(odd) {
     background-color: #f9f9f9;
 }
 
-.mxchat-intents-table tbody tr:nth-child(even) {
+.knittnet-intents-table tbody tr:nth-child(even) {
     background-color: #fff;
 }
 
 /* Intent Label column */
-.mxchat-intents-table td:nth-child(1),
-.mxchat-intents-table th:nth-child(1) {
+.knittnet-intents-table td:nth-child(1),
+.knittnet-intents-table th:nth-child(1) {
     width: 20%;
 }
 
 /* Phrases column */
-.mxchat-intents-table td:nth-child(2),
-.mxchat-intents-table th:nth-child(2) {
+.knittnet-intents-table td:nth-child(2),
+.knittnet-intents-table th:nth-child(2) {
     width: 30%;
     overflow-x: auto;
 }
 
 /* Callback Function column */
-.mxchat-intents-table td:nth-child(3),
-.mxchat-intents-table th:nth-child(3) {
+.knittnet-intents-table td:nth-child(3),
+.knittnet-intents-table th:nth-child(3) {
     width: 20%;
 }
 
 /* Similarity Threshold column */
-.mxchat-intents-table td:nth-child(4),
-.mxchat-intents-table th:nth-child(4) {
+.knittnet-intents-table td:nth-child(4),
+.knittnet-intents-table th:nth-child(4) {
     width: 15%;
     text-align: center;
 }
 
 /* Actions column */
-.mxchat-intents-table td:nth-child(5),
-.mxchat-intents-table th:nth-child(5) {
+.knittnet-intents-table td:nth-child(5),
+.knittnet-intents-table th:nth-child(5) {
     width: 15%;
     text-align: center;
 }
 
 /* Style the threshold range slider */
-.mxchat-intents-threshold-form input[type="range"] {
+.knittnet-intents-threshold-form input[type="range"] {
     width: 100%;
     margin: 5px 0;
 }
 
-.mxchat-intents-threshold-form button {
+.knittnet-intents-threshold-form button {
     margin-top: 5px;
 }
 
@@ -1352,7 +1352,7 @@ input:checked + .mxchat-slider:before {
 }
 
 /* Button styling to match theme */
-.mxchat-table td .button {
+.knittnet-table td .button {
 display: inline-block;
     margin-right: 5px;
     background-color: #212121;
@@ -1366,7 +1366,7 @@ display: inline-block;
 }
 
 /* Hover state */
-.mxchat-table td .button:hover {
+.knittnet-table td .button:hover {
     display: inline-block;
     margin-right: 5px;
     background-color: #444;
@@ -1380,7 +1380,7 @@ display: inline-block;
 }
 
 /* Active state */
-.mxchat-table td .button:active {
+.knittnet-table td .button:active {
     display: inline-block;
     margin-right: 5px;
     background-color: #444;
@@ -1394,7 +1394,7 @@ display: inline-block;
 }
 
 /* Focus state */
-.mxchat-table td .button:focus {
+.knittnet-table td .button:focus {
     display: inline-block;
     margin-right: 5px;
     background-color: #444;
@@ -1412,38 +1412,38 @@ display: inline-block;
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-    .mxchat-admin .mxchat-grid-container {
+    .knittnet-admin .knittnet-grid-container {
         grid-template-columns: 1fr;
     }
 
-    .mxchat-admin .mxchat-grid-item.full-width {
+    .knittnet-admin .knittnet-grid-item.full-width {
         grid-column: span 1;
     }
 
-    .mxchat-admin .chat-session {
+    .knittnet-admin .chat-session {
         width: calc(100% - 0px);
     }
 
-    .mxchat-nav-tab {
+    .knittnet-nav-tab {
         padding: 10px 12px;
     }
 
-    .mxchat-admin .mxchat-nav-tab-wrapper,
-    .mxchat-admin .wrap h2.mxchat-nav-tab-wrapper,
-    .mxchat-admin h1.mxchat-nav-tab-wrapper {
+    .knittnet-admin .knittnet-nav-tab-wrapper,
+    .knittnet-admin .wrap h2.knittnet-nav-tab-wrapper,
+    .knittnet-admin h1.knittnet-nav-tab-wrapper {
         border-bottom: 0;
         justify-content: space-evenly;
         display: flex;
     }
 
-    .mxchat-admin .mxchat-nav-tab-wrapper .mxchat-nav-tab {
+    .knittnet-admin .knittnet-nav-tab-wrapper .knittnet-nav-tab {
         margin: 0;
     }
-    .mxchat-nav-tab-wrapper {
+    .knittnet-nav-tab-wrapper {
         padding-left: 0px;
     }
 
-    .mxchat-session {
+    .knittnet-session {
         width: 100%;
     }
 
@@ -1453,23 +1453,23 @@ display: inline-block;
 
 /* Basic responsive table styles */
 @media screen and (max-width: 782px) {
-    .mxchat-intents-table {
+    .knittnet-intents-table {
         display: block;
         width: 100%;
     }
 
-    .mxchat-intents-table thead {
+    .knittnet-intents-table thead {
         display: none; /* Hide header on mobile */
     }
 
-    .mxchat-intents-table tbody,
-    .mxchat-intents-table tr,
-    .mxchat-intents-table td {
+    .knittnet-intents-table tbody,
+    .knittnet-intents-table tr,
+    .knittnet-intents-table td {
         display: block;
         width: 100%;
     }
 
-    .mxchat-intents-table tr {
+    .knittnet-intents-table tr {
         margin-bottom: 1.5rem;
         background: #fff;
         padding: 1rem;
@@ -1479,7 +1479,7 @@ display: inline-block;
     }
 
     /* Add labels before content */
-    .mxchat-intents-table td:before {
+    .knittnet-intents-table td:before {
         content: attr(data-label);
         font-weight: 600;
         display: block;
@@ -1488,24 +1488,24 @@ display: inline-block;
     }
 
     /* Spacing between cells */
-    .mxchat-intents-table td {
+    .knittnet-intents-table td {
         padding: 0.5rem 0;
         border: none;
     }
 
     /* Handle the slider container */
-    .mxchat-intents-table td:nth-child(4) {
+    .knittnet-intents-table td:nth-child(4) {
         margin: 1rem 0;
     }
 
     /* Style the range input */
-    .mxchat-intents-table input[type="range"] {
+    .knittnet-intents-table input[type="range"] {
         width: 100%;
         margin: 0.5rem 0;
     }
 
     /* Style the actions column */
-    .mxchat-intents-table td:last-child {
+    .knittnet-intents-table td:last-child {
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
@@ -1513,28 +1513,28 @@ display: inline-block;
     }
 
     /* Make buttons full width on mobile */
-    .mxchat-intents-table .mxchat-save-button,
-    .mxchat-intents-table .mxchat-edit-button,
-    .mxchat-intents-table .mxchat-delete-all {
+    .knittnet-intents-table .knittnet-save-button,
+    .knittnet-intents-table .knittnet-edit-button,
+    .knittnet-intents-table .knittnet-delete-all {
         width: 100%;
         margin: 0;
     }
 
     /* Adjust output display */
-    .mxchat-intents-table output {
+    .knittnet-intents-table output {
         display: block;
         text-align: center;
         margin-top: 0.25rem;
     }
 
     /* Additional spacing for forms */
-    .mxchat-intents-table form {
+    .knittnet-intents-table form {
         margin: 0;
     }
 }
 
 /* Stats Grid */
-.mxchat-stats-grid {
+.knittnet-stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
@@ -1542,7 +1542,7 @@ display: inline-block;
     margin-top: 20px;
 }
 
-.mxchat-stat-card {
+.knittnet-stat-card {
     background: white;
     padding: 20px;
     border-radius: 10px;
@@ -1580,7 +1580,7 @@ display: inline-block;
 }
 
 /* Controls Section */
-.mxchat-controls-wrapper {
+.knittnet-controls-wrapper {
     background: white;
     padding: 20px;
     border-radius: 10px;
@@ -1593,13 +1593,13 @@ display: inline-block;
     gap: 15px;
 }
 
-.mxchat-controls {
+.knittnet-controls {
     display: flex;
     gap: 15px;
     align-items: center;
 }
 
-.mxchat-search-box input {
+.knittnet-search-box input {
     padding: 8px 12px;
     border-radius: 5px;
     border: 1px solid #dcdcde;
@@ -1607,7 +1607,7 @@ display: inline-block;
 }
 
 /* Select/Delete Buttons */
-.mxchat-select-button {
+.knittnet-select-button {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -1620,23 +1620,23 @@ display: inline-block;
     transition: all 0.2s ease;
 }
 
-.mxchat-select-button:hover {
+.knittnet-select-button:hover {
     background: #f0f7ff;
 }
 
-.mxchat-select-button.selected {
+.knittnet-select-button.selected {
     background: #0073aa;
     color: #fff;
 }
 
-.mxchat-select-button .dashicons {
+.knittnet-select-button .dashicons {
     font-size: 18px;
     width: 18px;
     height: 18px;
     transition: transform 0.2s ease;
 }
 
-.mxchat-select-button.selected .dashicons {
+.knittnet-select-button.selected .dashicons {
     transform: scale(1.2);
 }
 
@@ -1664,14 +1664,14 @@ display: inline-block;
 }
 
 /* Transcript Grid */
-.mxchat-transcript {
+.knittnet-transcript {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
 }
 
 /* Session Cards */
-.mxchat-session {
+.knittnet-session {
     background: white;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -1681,13 +1681,13 @@ display: inline-block;
     flex-direction: column;
 }
 
-.mxchat-session-header {
+.knittnet-session-header {
     background: #f0f0f1;
     padding: 15px;
     border-bottom: 1px solid #dcdcde;
 }
 
-.mxchat-messages {
+.knittnet-messages {
     padding: 15px;
     max-height: 400px;
     overflow-y: auto;
@@ -1696,58 +1696,58 @@ display: inline-block;
 }
 
 /* Message Styling */
-.mxchat-message {
+.knittnet-message {
     margin-bottom: 15px;
     max-width: 85%;
 }
 
-.mxchat-message.user-message {
+.knittnet-message.user-message {
     margin-left: auto;
 }
 
-.mxchat-message-content {
+.knittnet-message-content {
     padding: 10px 15px;
     border-radius: 15px;
     margin: 5px 0;
 }
 
-.user-message .mxchat-message-content {
+.user-message .knittnet-message-content {
   background: #0073aa;
   color: white;
   border-radius: 18px 0 18px 18px;
 }
 
-.bot-message .mxchat-message-content {
+.bot-message .knittnet-message-content {
   background: #f0f0f1;
   border-radius: 0 18px 18px;
 }
 
-.mxchat-timestamp {
+.knittnet-timestamp {
     font-size: 12px;
     color: #50575e;
 }
 
 /* Responsive Design */
 @media (max-width: 782px) {
-    .mxchat-controls-wrapper {
+    .knittnet-controls-wrapper {
         flex-direction: column;
         align-items: stretch;
     }
 
-    .mxchat-controls {
+    .knittnet-controls {
         flex-direction: column;
         width: 100%;
     }
 
-    .mxchat-search-box input {
+    .knittnet-search-box input {
         width: 100%;
     }
 
-    .mxchat-transcript {
+    .knittnet-transcript {
         grid-template-columns: 1fr;
     }
 
-    .mxchat-select-button,
+    .knittnet-select-button,
     .delete-chats-button {
         width: 100%;
         justify-content: center;
@@ -1837,7 +1837,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
     transform: scale(1.1);
 }
 
-#mxchat_threshold_value {
+#knittnet_threshold_value {
     display: inline-block;
     padding: 4px 8px;
     background: #2271b1;
@@ -1923,30 +1923,30 @@ button[id^="toggleClaudeKey"]:hover {
 }
 
 /* Additional Questions Section */
-.mxchat-question-row {
+.knittnet-question-row {
     display: flex;
     gap: 10px;
     margin-bottom: 10px;
     align-items: center;
 }
 
-.mxchat-question-row input {
+.knittnet-question-row input {
     flex: 1;
 }
 
-.mxchat-remove-question,
-.mxchat-add-question {
+.knittnet-remove-question,
+.knittnet-add-question {
     padding: 4px 12px !important;
     height: auto !important;
 }
 
-.mxchat-remove-question {
+.knittnet-remove-question {
     background: #dc3232 !important;
     color: white !important;
     border: none !important;
 }
 
-.mxchat-add-question {
+.knittnet-add-question {
     background: #2271b1 !important;
     color: white !important;
     border: none !important;
@@ -1979,7 +1979,7 @@ button[id^="toggleClaudeKey"]:hover {
         padding-bottom: 5px;
     }
 
-    .mxchat-question-row {
+    .knittnet-question-row {
         flex-direction: column;
         gap: 5px;
     }
@@ -1991,7 +1991,7 @@ button[id^="toggleClaudeKey"]:hover {
 }
 
 /* Section Headers */
-.mxchat-tab-content h2 {
+.knittnet-tab-content h2 {
     font-size: 1.5em;
     padding-bottom: 15px;
     margin-bottom: 25px;
@@ -2071,7 +2071,7 @@ button[id^="toggle"]:active {
        margin-left: 0;
        margin-top: 10px;
    }
-   .mxchat-remove-question {
+   .knittnet-remove-question {
        width: 100%;
    }
 }
@@ -2086,37 +2086,37 @@ button[id^="toggle"]:active {
 
 
 
-.mxchat-flex-section h2 {
+.knittnet-flex-section h2 {
     margin: 0 0 1rem;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid #eee;
 }
 
-.mxchat-sync-settings,
-.mxchat-import-section {
+.knittnet-sync-settings,
+.knittnet-import-section {
     flex: 1;
 }
 
-.mxchat-toggle-group {
+.knittnet-toggle-group {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
 }
 
-.mxchat-toggle-container {
+.knittnet-toggle-container {
     display: flex;
     align-items: center;
     gap: 0.75rem;
 }
 
-.mxchat-toggle-switch {
+.knittnet-toggle-switch {
     position: relative;
     display: inline-block;
     width: 44px;
     height: 22px;
 }
 
-.mxchat-toggle-slider {
+.knittnet-toggle-slider {
     position: absolute;
     cursor: pointer;
     top: 0;
@@ -2128,7 +2128,7 @@ button[id^="toggle"]:active {
     border-radius: 22px;
 }
 
-.mxchat-toggle-slider:before {
+.knittnet-toggle-slider:before {
     position: absolute;
     content: "";
     height: 18px;
@@ -2140,30 +2140,30 @@ button[id^="toggle"]:active {
     border-radius: 50%;
 }
 
-input:checked + .mxchat-toggle-slider {
+input:checked + .knittnet-toggle-slider {
     background-color: #2196F3;
 }
 
-input:checked + .mxchat-toggle-slider:before {
+input:checked + .knittnet-toggle-slider:before {
     transform: translateX(22px);
 }
 
-.mxchat-url-input-group {
+.knittnet-url-input-group {
     display: flex;
     gap: 0.5rem;
 }
 
-.mxchat-url-input-group input[type="url"] {
+.knittnet-url-input-group input[type="url"] {
     flex: 1;
 }
 
-.mxchat-status-section {
+.knittnet-status-section {
     margin-top: 1rem;
     padding-top: 1rem;
     border-top: 1px solid #eee;
 }
 
-.mxchat-process-status {
+.knittnet-process-status {
     background: #f8f9fa;
     border-radius: 4px;
     padding: 1rem;
@@ -2218,7 +2218,7 @@ input:checked + .mxchat-toggle-slider:before {
     margin-bottom: 10px !important;
 }
 
-.mxchat-import-description {
+.knittnet-import-description {
     margin-bottom: 1rem;
 }
 
@@ -2248,10 +2248,10 @@ input:checked + .mxchat-toggle-slider:before {
 
 /* Mobile Responsiveness */
 @media screen and (max-width: 782px) {
-    .mxchat-settings-row {
+    .knittnet-settings-row {
         flex-direction: column;
     }
-    .mxchat-url-input-group input[type="submit"] {
+    .knittnet-url-input-group input[type="submit"] {
         width: 100%;
     }
 }
@@ -2366,7 +2366,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 
 /* Container Styles */
-.mxchat-import-container {
+.knittnet-import-container {
   background: #fff;
   padding: 20px;
   border: 1px solid #e1e1e1;
@@ -2377,12 +2377,12 @@ input[type="range"]::-webkit-slider-thumb {
 
 
 /* Tabs Navigation */
-.mxchat-tabs {
+.knittnet-tabs {
   display: flex;
   border-bottom: 2px solid #e1e1e1;
   margin-bottom: 20px;
 }
-.mxchat-tab-button {
+.knittnet-tab-button {
   padding: 10px 20px;
   cursor: pointer;
   background: transparent;
@@ -2392,11 +2392,11 @@ input[type="range"]::-webkit-slider-thumb {
   font-size: 16px;
   color: #333;
 }
-.mxchat-tab-button:hover,
-.mxchat-tab-button:focus {
+.knittnet-tab-button:hover,
+.knittnet-tab-button:focus {
   background: #f9f9f9;
 }
-.mxchat-tab-button.active {
+.knittnet-tab-button.active {
   border-bottom: 2px solid #0073aa;
   font-weight: bold;
   color: #0073aa;
@@ -2405,48 +2405,48 @@ input[type="range"]::-webkit-slider-thumb {
 
 
 /* Flex Container for Default DB Tab */
-.mxchat-flex-container {
+.knittnet-flex-container {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
 }
-.mxchat-sync-column,
-.mxchat-import-column {
+.knittnet-sync-column,
+.knittnet-import-column {
   flex: 1;
   min-width: 300px;
 }
 
 /* Section Headings and Descriptions */
-.mxchat-section h3 {
+.knittnet-section h3 {
   font-size: 18px;
   margin-bottom: 10px;
   color: #0073aa;
 }
-.mxchat-description {
+.knittnet-description {
   font-size: 14px;
   margin-bottom: 15px;
   color: #555;
 }
 
 /* Toggle Switches */
-.mxchat-toggle-container {
+.knittnet-toggle-container {
   display: flex;
   align-items: center;
   margin-bottom: 15px;
 }
-.mxchat-toggle-switch {
+.knittnet-toggle-switch {
   position: relative;
   display: inline-block;
   width: 50px;
   height: 24px;
   margin-right: 10px;
 }
-.mxchat-toggle-switch input {
+.knittnet-toggle-switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
-.mxchat-toggle-slider {
+.knittnet-toggle-slider {
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -2457,10 +2457,10 @@ input[type="range"]::-webkit-slider-thumb {
   transition: 0.4s;
   border-radius: 24px;
 }
-.mxchat-toggle-switch input:checked + .mxchat-toggle-slider {
+.knittnet-toggle-switch input:checked + .knittnet-toggle-slider {
   background-color: #212121;
 }
-.mxchat-toggle-slider:before {
+.knittnet-toggle-slider:before {
   position: absolute;
   content: "";
   height: 18px;
@@ -2471,46 +2471,46 @@ input[type="range"]::-webkit-slider-thumb {
   transition: 0.4s;
   border-radius: 50%;
 }
-.mxchat-toggle-switch input:checked + .mxchat-toggle-slider:before {
+.knittnet-toggle-switch input:checked + .knittnet-toggle-slider:before {
   transform: translateX(26px);
 }
-.mxchat-toggle-label {
+.knittnet-toggle-label {
   font-size: 14px;
   color: #333;
 }
 
 /* Form Groups */
-.mxchat-form-group {
+.knittnet-form-group {
   margin-bottom: 15px;
 }
-.mxchat-form-group label {
+.knittnet-form-group label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
   color: #333;
 }
 
-.mxchat-form-group .description {
+.knittnet-form-group .description {
   font-size: 12px;
   color: #777;
 }
 
 /* URL and Pinecone Input Groups */
-.mxchat-url-input-group,
-.mxchat-pinecone-input-group {
+.knittnet-url-input-group,
+.knittnet-pinecone-input-group {
   display: flex;
   gap: 0px;
   margin-bottom: 15px;
 }
-.mxchat-url-input-group input[type="url"],
-.mxchat-pinecone-input-group input[type="url"] {
+.knittnet-url-input-group input[type="url"],
+.knittnet-pinecone-input-group input[type="url"] {
   flex: 1;
   padding: 8px;
   border: 1px solid #ccc;
 border-radius: 4px 0px 0px 4px;
 }
-.mxchat-url-input-group input[type="submit"],
-.mxchat-pinecone-input-group input[type="submit"] {
+.knittnet-url-input-group input[type="submit"],
+.knittnet-pinecone-input-group input[type="submit"] {
   padding: 8px 16px;
   background-color: #0073aa;
   color: #fff;
@@ -2519,13 +2519,13 @@ border-radius: 4px 0px 0px 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-.mxchat-url-input-group input[type="submit"]:hover,
-.mxchat-pinecone-input-group input[type="submit"]:hover {
+.knittnet-url-input-group input[type="submit"]:hover,
+.knittnet-pinecone-input-group input[type="submit"]:hover {
   background-color: #005177;
 }
 
 /* Submit Wrapper */
-.mxchat-submit-wrapper {
+.knittnet-submit-wrapper {
   margin-top: 20px;
 }
 
@@ -2541,8 +2541,8 @@ border-radius: 4px 0px 0px 4px;
 }
 
 /* Spinner Styles */
-.mxchat-spinner,
-.mxchat-pinecone-spinner {
+.knittnet-spinner,
+.knittnet-pinecone-spinner {
   border: 4px solid #f3f3f3;
   border-top: 4px solid #0073aa;
   border-radius: 50%;
@@ -2557,22 +2557,22 @@ border-radius: 4px 0px 0px 4px;
 }
 
 /* Processing Status Messages */
-.mxchat-process-status,
-.mxchat-pinecone-status {
+.knittnet-process-status,
+.knittnet-pinecone-status {
   border: 1px solid #0073aa;
   background-color: #f1f8ff;
   padding: 10px;
   border-radius: 4px;
   margin-top: 15px;
 }
-.mxchat-process-status h3,
-.mxchat-pinecone-status h3 {
+.knittnet-process-status h3,
+.knittnet-pinecone-status h3 {
   margin-top: 0;
   font-size: 16px;
   color: #0073aa;
 }
-.mxchat-process-status p,
-.mxchat-pinecone-status p {
+.knittnet-process-status p,
+.knittnet-pinecone-status p {
   margin: 5px 0;
   font-size: 14px;
   color: #333;
@@ -2580,7 +2580,7 @@ border-radius: 4px 0px 0px 4px;
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
-  .mxchat-flex-container {
+  .knittnet-flex-container {
     flex-direction: column;
   }
 }
@@ -2601,7 +2601,7 @@ border-radius: 4px 0px 0px 4px;
 }
 
 /* Pro Hero Section */
-body.wp-admin .mxchat-pro-hero {
+body.wp-admin .knittnet-pro-hero {
     text-align: center;
     padding: 3.5rem 2rem;
     position: relative;
@@ -2611,7 +2611,7 @@ body.wp-admin .mxchat-pro-hero {
     border-image-slice: 1;
 }
 
-body.wp-admin .mxchat-pro-hero::before {
+body.wp-admin .knittnet-pro-hero::before {
     content: '';
     position: absolute;
     top: 0;
@@ -2627,7 +2627,7 @@ body.wp-admin .mxchat-pro-hero::before {
     z-index: 1;
 }
 
-body.wp-admin .mxchat-pro-hero::after {
+body.wp-admin .knittnet-pro-hero::after {
     content: '';
     position: absolute;
     bottom: -20px;
@@ -2673,7 +2673,7 @@ body.wp-admin .pro-subtitle {
         margin-bottom: 1rem;
     }
     
-    body.wp-admin .mxchat-pro-hero {
+    body.wp-admin .knittnet-pro-hero {
         padding: 2.5rem 1.5rem;
     }
     
@@ -2684,7 +2684,7 @@ body.wp-admin .pro-subtitle {
 
 
 /* Form Container Styles */
-body.wp-admin .wrap.mxchat-admin-activation .mxchat-pro-form-container {
+body.wp-admin .wrap.knittnet-admin-activation .knittnet-pro-form-container {
     max-width: 600px;
     margin: 2rem auto;
     background: white;
@@ -2694,13 +2694,13 @@ body.wp-admin .wrap.mxchat-admin-activation .mxchat-pro-form-container {
 }
 
 /* Form Table Styles */
-body.wp-admin .wrap.mxchat-admin-activation .mxchat-pro-form .form-table {
+body.wp-admin .wrap.knittnet-admin-activation .knittnet-pro-form .form-table {
     margin: 0;
     border-collapse: separate;
     border-spacing: 0 1rem;
 }
 
-body.wp-admin .wrap.mxchat-admin-activation .mxchat-pro-form .form-table th {
+body.wp-admin .wrap.knittnet-admin-activation .knittnet-pro-form .form-table th {
     padding: 0 1rem 0 0;
     width: 140px;
     font-weight: 600;
@@ -2710,7 +2710,7 @@ body.wp-admin .wrap.mxchat-admin-activation .mxchat-pro-form .form-table th {
 }
 
 /* Input Field Styles */
-body.wp-admin .wrap.mxchat-admin-activation .mxchat-pro-input {
+body.wp-admin .wrap.knittnet-admin-activation .knittnet-pro-input {
     width: 100%;
     padding: 10px 16px;
     border: 2px solid #e0e0e0;
@@ -2720,14 +2720,14 @@ body.wp-admin .wrap.mxchat-admin-activation .mxchat-pro-input {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
-body.wp-admin .wrap.mxchat-admin-activation .mxchat-pro-input:focus {
+body.wp-admin .wrap.knittnet-admin-activation .knittnet-pro-input:focus {
     border-color: #7873f5;
     box-shadow: 0 0 0 3px rgba(120, 115, 245, 0.1);
     outline: none;
 }
 
 /* Button Container and Button Styles */
-body.wp-admin .wrap.mxchat-admin-activation .mxchat-pro-button-container {
+body.wp-admin .wrap.knittnet-admin-activation .knittnet-pro-button-container {
     margin-top: 2rem;
     text-align: right;
     display: flex;
@@ -2736,7 +2736,7 @@ body.wp-admin .wrap.mxchat-admin-activation .mxchat-pro-button-container {
     gap: 1rem;
 }
 
-body.wp-admin .wrap.mxchat-admin-activation .mxchat-pro-button {
+body.wp-admin .wrap.knittnet-admin-activation .knittnet-pro-button {
     background: linear-gradient(135deg, #fa73e6, #7873f5);
     border: none;
     padding: 12px 24px;
@@ -2752,13 +2752,13 @@ body.wp-admin .wrap.mxchat-admin-activation .mxchat-pro-button {
     line-height: 1.4;
 }
 
-body.wp-admin .wrap.mxchat-admin-activation .mxchat-pro-button:hover {
+body.wp-admin .wrap.knittnet-admin-activation .knittnet-pro-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(120, 115, 245, 0.3);
 }
 
 /* Error Notice Styles */
-body.wp-admin .wrap.mxchat-admin-activation .error.notice {
+body.wp-admin .wrap.knittnet-admin-activation .error.notice {
     margin: 2rem auto;
     max-width: 600px;
     border-left-color: #dc3232;
@@ -2768,7 +2768,7 @@ body.wp-admin .wrap.mxchat-admin-activation .error.notice {
 }
 
 /* License Status Styles */
-body.wp-admin .wrap.mxchat-admin-activation .mxchat-pro-status {
+body.wp-admin .wrap.knittnet-admin-activation .knittnet-pro-status {
     max-width: 600px;
     margin: 2rem;
     padding: 1.5rem;
@@ -2777,7 +2777,7 @@ body.wp-admin .wrap.mxchat-admin-activation .mxchat-pro-status {
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
 }
 
-body.wp-admin .wrap.mxchat-admin-activation .mxchat-pro-status h3 {
+body.wp-admin .wrap.knittnet-admin-activation .knittnet-pro-status h3 {
     margin: 0;
     font-size: 15px;
     color: #212121;
@@ -2786,25 +2786,25 @@ body.wp-admin .wrap.mxchat-admin-activation .mxchat-pro-status h3 {
     gap: 0.5rem;
 }
 
-body.wp-admin .wrap.mxchat-admin-activation .mxchat-status-badge {
+body.wp-admin .wrap.knittnet-admin-activation .knittnet-status-badge {
     padding: 6px 12px;
     border-radius: 20px;
     font-size: 13px;
     font-weight: 600;
 }
 
-body.wp-admin .wrap.mxchat-admin-activation .mxchat-status-badge.active {
+body.wp-admin .wrap.knittnet-admin-activation .knittnet-status-badge.active {
     background: #e8f5e9;
     color: #2e7d32;
 }
 
-body.wp-admin .wrap.mxchat-admin-activation .mxchat-status-badge.inactive {
+body.wp-admin .wrap.knittnet-admin-activation .knittnet-status-badge.inactive {
     background: #fff3e0;
     color: #ef6c00;
 }
 
 /* Spinner Styles */
-body.wp-admin .wrap.mxchat-admin-activation .mxchat-activation-spinner {
+body.wp-admin .wrap.knittnet-admin-activation .knittnet-activation-spinner {
     width: 20px;
     height: 20px;
     border: 2px solid rgba(120, 115, 245, 0.3);
@@ -2821,21 +2821,21 @@ body.wp-admin .wrap.mxchat-admin-activation .mxchat-activation-spinner {
 
 /* Responsive Adjustments */
 @media (max-width: 782px) {
-    body.wp-admin .wrap.mxchat-admin-activation .mxchat-pro-form .form-table th {
+    body.wp-admin .wrap.knittnet-admin-activation .knittnet-pro-form .form-table th {
         padding-bottom: 0.5rem;
     }
     
-    body.wp-admin .wrap.mxchat-admin-activation .form-table, 
-    body.wp-admin .wrap.mxchat-admin-activation .form-table tbody, 
-    body.wp-admin .wrap.mxchat-admin-activation .form-table tr, 
-    body.wp-admin .wrap.mxchat-admin-activation .form-table th, 
-    body.wp-admin .wrap.mxchat-admin-activation .form-table td {
+    body.wp-admin .wrap.knittnet-admin-activation .form-table, 
+    body.wp-admin .wrap.knittnet-admin-activation .form-table tbody, 
+    body.wp-admin .wrap.knittnet-admin-activation .form-table tr, 
+    body.wp-admin .wrap.knittnet-admin-activation .form-table th, 
+    body.wp-admin .wrap.knittnet-admin-activation .form-table td {
         display: block;
         width: 100%;
         padding: 0;
     }
     
-    body.wp-admin .wrap.mxchat-admin-activation .form-table td {
+    body.wp-admin .wrap.knittnet-admin-activation .form-table td {
         margin-bottom: 1.5rem;
     }
 }
@@ -2975,22 +2975,22 @@ body.wp-admin .wrap.mxchat-admin-activation .mxchat-activation-spinner {
 /* Additional CSS for the main admin page */
 
 /* Pro and Add-on notice messages */
-.mxchat-pro-notice, 
-.mxchat-addon-notice {
+.knittnet-pro-notice, 
+.knittnet-addon-notice {
     margin: 0;
     line-height: 1.6;
     color: #333;
 }
 
-.mxchat-pro-notice a, 
-.mxchat-addon-notice a {
+.knittnet-pro-notice a, 
+.knittnet-addon-notice a {
     text-decoration: none;
     font-weight: 600;
     transition: color 0.2s ease;
 }
 
-.mxchat-pro-notice a:hover, 
-.mxchat-addon-notice a:hover {
+.knittnet-pro-notice a:hover, 
+.knittnet-addon-notice a:hover {
     text-decoration: underline;
     color: #fff;
 }
@@ -3092,14 +3092,14 @@ body.wp-admin .wrap.mxchat-admin-activation .mxchat-activation-spinner {
 }
 
 /* Updated tab navigation */
-.mxchat-tabs {
+.knittnet-tabs {
     display: flex;
     gap: 2px;
     margin-bottom: 20px;
     border-bottom: 1px solid rgba(120, 115, 245, 0.1);
 }
 
-.mxchat-tab-button {
+.knittnet-tab-button {
     padding: 12px 24px;
     background: none;
     border: none;
@@ -3110,21 +3110,21 @@ body.wp-admin .wrap.mxchat-admin-activation .mxchat-activation-spinner {
     transition: all 0.2s ease;
 }
 
-.mxchat-tab-button:hover {
+.knittnet-tab-button:hover {
     color: #7873f5;
 }
 
-.mxchat-tab-button.active {
+.knittnet-tab-button.active {
     color: #7873f5;
     border-bottom-color: #7873f5;
 }
 
 /* Tab content */
-.mxchat-tab-content {
+.knittnet-tab-content {
     display: none;
 }
 
-.mxchat-tab-content.active {
+.knittnet-tab-content.active {
     display: block;
 }
 
@@ -3132,7 +3132,7 @@ body.wp-admin .wrap.mxchat-admin-activation .mxchat-activation-spinner {
 
 
 /* Pro Notification Styling */
-.mxchat-pro-card {
+.knittnet-pro-card {
   background: linear-gradient(90deg, #f8f9ff 0%, #f0f4ff 100%);
   border-left: 4px solid #6366f1;
   border-radius: 8px;
@@ -3141,7 +3141,7 @@ body.wp-admin .wrap.mxchat-admin-activation .mxchat-activation-spinner {
   overflow: hidden;
 }
 
-.mxchat-pro-notification {
+.knittnet-pro-notification {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -3150,19 +3150,19 @@ body.wp-admin .wrap.mxchat-admin-activation .mxchat-activation-spinner {
 }
 
 @media (max-width: 768px) {
-  .mxchat-pro-notification {
+  .knittnet-pro-notification {
     flex-direction: column;
     text-align: center;
     gap: 15px;
   }
 }
 
-.mxchat-pro-content {
+.knittnet-pro-content {
   flex: 1;
   padding-right: 10px;
 }
 
-.mxchat-pro-content h3 {
+.knittnet-pro-content h3 {
   margin-top: 0;
   margin-bottom: 8px;
   font-size: 18px;
@@ -3170,21 +3170,21 @@ body.wp-admin .wrap.mxchat-admin-activation .mxchat-activation-spinner {
   font-weight: 600;
 }
 
-.mxchat-pro-content p {
+.knittnet-pro-content p {
   margin: 0;
   color: #4b5563;
   font-size: 14px;
   line-height: 1.5;
 }
 
-.mxchat-pro-cta {
+.knittnet-pro-cta {
   display: flex;
   flex-direction: column;
   gap: 8px;
   min-width: 180px;
 }
 
-.mxchat-button {
+.knittnet-button {
   display: inline-block;
   background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 100%);
   color: white !important;
@@ -3197,12 +3197,12 @@ body.wp-admin .wrap.mxchat-admin-activation .mxchat-activation-spinner {
   box-shadow: 0 2px 6px rgba(99, 102, 241, 0.3);
 }
 
-.mxchat-button:hover {
+.knittnet-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
 }
 
-.mxchat-link {
+.knittnet-link {
   color: #6366f1 !important;
   text-decoration: none !important;
   text-align: center;
@@ -3210,7 +3210,7 @@ body.wp-admin .wrap.mxchat-admin-activation .mxchat-activation-spinner {
   padding: 4px;
 }
 
-.mxchat-link:hover {
+.knittnet-link:hover {
   text-decoration: underline !important;
 }
 
@@ -3243,12 +3243,12 @@ body.wp-admin .wrap.mxchat-admin-activation .mxchat-activation-spinner {
 }
 
 /* Generic field wrapper for save indicator positioning */
-.mxchat-field-wrapper {
+.knittnet-field-wrapper {
    position: relative;
    display: inline-block;
 }
 
-.mxchat-field-wrapper .feedback-container {
+.knittnet-field-wrapper .feedback-container {
    position: relative;
    display: inline-flex;
    vertical-align: middle;
@@ -3259,12 +3259,12 @@ body.wp-admin .wrap.mxchat-admin-activation .mxchat-activation-spinner {
 }
 
 /* Row-level visibility handling */
-tr.mxchat-setting-row {
+tr.knittnet-setting-row {
    display: table-row;
    transition: all 0.3s ease;
 }
 
-tr.mxchat-setting-row.highlighted {
+tr.knittnet-setting-row.highlighted {
    animation: highlight-row 1.5s ease;
 }
 
@@ -3349,7 +3349,7 @@ tr.mxchat-setting-row.highlighted {
 
 
 /* Add-on styling */
-.mxchat-addon-badge {
+.knittnet-addon-badge {
     display: inline-block;
     background: linear-gradient(135deg, #FF8C00, #FFA500);
     color: white;
@@ -3361,7 +3361,7 @@ tr.mxchat-setting-row.highlighted {
     margin-left: 6px;
 }
 
-.mxchat-addon-info {
+.knittnet-addon-info {
     font-size: 11px;
     color: #666;
     margin-top: 8px;
@@ -3371,43 +3371,43 @@ tr.mxchat-setting-row.highlighted {
     display: inline-block;
 }
 
-.mxchat-action-type-card.not-installed {
+.knittnet-action-type-card.not-installed {
     opacity: 0.8;
     border-style: dashed;
     background: rgba(255, 255, 255, 0.8);
 }
 
-.mxchat-action-type-card.not-installed:hover {
+.knittnet-action-type-card.not-installed:hover {
     opacity: 1;
     border-color: #FF8C00;
     box-shadow: 0 4px 12px rgba(255, 140, 0, 0.1);
 }
 
-.mxchat-action-type-card.mxchat-promo-card {
+.knittnet-action-type-card.knittnet-promo-card {
     cursor: default;
     opacity: 0.7;
     border-style: dashed;
     background: rgba(255, 255, 255, 0.6);
 }
 
-.mxchat-action-type-card.mxchat-promo-card:hover {
+.knittnet-action-type-card.knittnet-promo-card:hover {
     cursor: pointer;
     opacity: 0.9;
     border-color: #FF8C00;
 }
 
-.mxchat-addon-info a {
+.knittnet-addon-info a {
     color: #FF8C00;
     text-decoration: none;
     font-weight: 600;
 }
 
-.mxchat-addon-info a:hover {
+.knittnet-addon-info a:hover {
     text-decoration: underline;
 }
 
 /* Add-on Notice */
-.mxchat-addon-notice {
+.knittnet-addon-notice {
     position: fixed;
     top: 0;
     left: 0;
@@ -3423,12 +3423,12 @@ tr.mxchat-setting-row.highlighted {
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-.mxchat-addon-notice.active {
+.knittnet-addon-notice.active {
     opacity: 1;
     visibility: visible;
 }
 
-.mxchat-addon-notice-content {
+.knittnet-addon-notice-content {
     background: white;
     padding: 30px;
     border-radius: 16px;
@@ -3439,17 +3439,17 @@ tr.mxchat-setting-row.highlighted {
     transition: transform 0.3s ease;
 }
 
-.mxchat-addon-notice.active .mxchat-addon-notice-content {
+.knittnet-addon-notice.active .knittnet-addon-notice-content {
     transform: translateY(0);
 }
 
-.mxchat-addon-notice-icon {
+.knittnet-addon-notice-icon {
     font-size: 36px;
     margin-bottom: 15px;
     display: block;
 }
 
-.mxchat-addon-notice h3 {
+.knittnet-addon-notice h3 {
     margin: 0 0 10px 0;
     font-size: 20px;
     background: linear-gradient(135deg, #FF8C00, #FFA500);
@@ -3459,12 +3459,12 @@ tr.mxchat-setting-row.highlighted {
     display: inline-block;
 }
 
-.mxchat-addon-notice p {
+.knittnet-addon-notice p {
     margin: 0 0 20px 0;
     color: #666;
 }
 
-.mxchat-addon-notice-buttons {
+.knittnet-addon-notice-buttons {
     display: flex;
     gap: 10px;
     justify-content: center;
@@ -3475,18 +3475,18 @@ tr.mxchat-setting-row.highlighted {
 
 
 /* CSS for the custom post types accordion */
-.mxchat-settings-accordion {
+.knittnet-settings-accordion {
     margin: 15px 0;
     border-radius: 4px;
     overflow: hidden;
     border: 1px solid #e0e0e5;
 }
 
-.mxchat-accordion-header {
+.knittnet-accordion-header {
     border-bottom: none;
 }
 
-.mxchat-accordion-button {
+.knittnet-accordion-button {
     background-color: #f7f7f9;
     border: none;
     color: #444;
@@ -3503,40 +3503,40 @@ tr.mxchat-setting-row.highlighted {
     outline: none;
 }
 
-.mxchat-accordion-button:hover {
+.knittnet-accordion-button:hover {
     background-color: #f0f0f5;
 }
 
-.mxchat-accordion-icon {
+.knittnet-accordion-icon {
     font-size: 12px;
     color: #666;
     transition: transform 0.3s ease;
 }
 
-.mxchat-accordion-content {
+.knittnet-accordion-content {
     border-top: 1px solid #e0e0e5;
     transition: all 0.3s ease;
 }
 
-.mxchat-accordion-inner {
+.knittnet-accordion-inner {
     padding: 16px 20px;
     background-color: #fff;
 }
 
 /* Make the custom post types look nicer */
-.mxchat-custom-post-types {
+.knittnet-custom-post-types {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 10px;
     margin-top: 10px;
 }
 
-.mxchat-description {
+.knittnet-description {
     margin-bottom: 15px;
     color: #666;
 }
 
-.mxchat-empty-notice {
+.knittnet-empty-notice {
     color: #888;
     font-style: italic;
 }
@@ -3544,12 +3544,12 @@ tr.mxchat-setting-row.highlighted {
 
 
 /* Model Selector Button Styles */
-.mxchat-model-selector-wrapper {
+.knittnet-model-selector-wrapper {
     width: 100%;
     position: relative;
 }
 
-.mxchat-model-selector-display {
+.knittnet-model-selector-display {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -3564,46 +3564,46 @@ tr.mxchat-setting-row.highlighted {
     transition: border-color 0.2s;
 }
 
-.mxchat-model-selector-display:hover {
+.knittnet-model-selector-display:hover {
     border-color: #2271b1;
 }
 
-.mxchat-model-selected-name {
+.knittnet-model-selected-name {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     flex: 1;
 }
 
-.mxchat-model-selector-arrow {
+.knittnet-model-selector-arrow {
     margin-left: 8px;
     font-size: 10px;
     color: #555;
 }
 
 /* Provider-specific border colors */
-.mxchat-model-provider-gemini {
+.knittnet-model-provider-gemini {
     border-left: 3px solid #4285F4;
 }
 
-.mxchat-model-provider-openai {
+.knittnet-model-provider-openai {
     border-left: 3px solid #10A37F;
 }
 
-.mxchat-model-provider-claude {
+.knittnet-model-provider-claude {
     border-left: 3px solid #965de9;
 }
 
-.mxchat-model-provider-xai {
+.knittnet-model-provider-xai {
     border-left: 3px solid #000000;
 }
 
-.mxchat-model-provider-deepseek {
+.knittnet-model-provider-deepseek {
     border-left: 3px solid #0066cc;
 }
 
 /* Modal Styles */
-.mxchat-model-selector-modal {
+.knittnet-model-selector-modal {
     display: none;
     position: fixed;
     z-index: 9999;
@@ -3615,22 +3615,22 @@ tr.mxchat-setting-row.highlighted {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.mxchat-model-selector-modal .mxchat-model-selector-modal-content {
+.knittnet-model-selector-modal .knittnet-model-selector-modal-content {
     background-color: #fff;
     margin: 5% auto;
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     width: 80%;
     max-width: 800px;
-    animation: mxchatModalFade 0.3s;
+    animation: knittnetModalFade 0.3s;
 }
 
-@keyframes mxchatModalFade {
+@keyframes knittnetModalFade {
     from {opacity: 0; transform: translateY(-20px);}
     to {opacity: 1; transform: translateY(0);}
 }
 
-.mxchat-model-selector-modal .mxchat-model-selector-modal-header {
+.knittnet-model-selector-modal .knittnet-model-selector-modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -3638,40 +3638,40 @@ tr.mxchat-setting-row.highlighted {
     border-bottom: 1px solid #eee;
 }
 
-.mxchat-model-selector-modal .mxchat-model-selector-modal-header h3 {
+.knittnet-model-selector-modal .knittnet-model-selector-modal-header h3 {
     margin: 0;
     color: #6750A4;
     font-size: 20px;
 }
 
-.mxchat-model-selector-modal .mxchat-model-selector-modal-close {
+.knittnet-model-selector-modal .knittnet-model-selector-modal-close {
     font-size: 24px;
     cursor: pointer;
     color: #888;
 }
 
-.mxchat-model-selector-modal .mxchat-model-selector-modal-close:hover {
+.knittnet-model-selector-modal .knittnet-model-selector-modal-close:hover {
     color: #333;
 }
 
-.mxchat-model-selector-modal .mxchat-model-selector-modal-body {
+.knittnet-model-selector-modal .knittnet-model-selector-modal-body {
     padding: 24px;
     max-height: 60vh;
     overflow-y: auto;
 }
 
-.mxchat-model-selector-modal .mxchat-model-selector-modal-footer {
+.knittnet-model-selector-modal .knittnet-model-selector-modal-footer {
     padding: 16px 24px;
     border-top: 1px solid #eee;
     text-align: right;
 }
 
 /* Search and Category Styles */
-.mxchat-model-selector-modal .mxchat-model-selector-search-container {
+.knittnet-model-selector-modal .knittnet-model-selector-search-container {
     margin-bottom: 20px;
 }
 
-.mxchat-model-selector-modal .mxchat-model-search-input {
+.knittnet-model-selector-modal .knittnet-model-search-input {
     width: 100%;
     padding: 10px 15px;
     border: 1px solid #ddd;
@@ -3679,14 +3679,14 @@ tr.mxchat-setting-row.highlighted {
     font-size: 16px;
 }
 
-.mxchat-model-selector-modal .mxchat-model-selector-categories {
+.knittnet-model-selector-modal .knittnet-model-selector-categories {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     margin-bottom: 20px;
 }
 
-.mxchat-model-selector-modal .mxchat-model-category-btn {
+.knittnet-model-selector-modal .knittnet-model-category-btn {
     background-color: #f5f5f5;
     border: 1px solid #ddd;
     padding: 8px 16px;
@@ -3695,21 +3695,21 @@ tr.mxchat-setting-row.highlighted {
     transition: all 0.2s;
 }
 
-.mxchat-model-selector-modal .mxchat-model-category-btn.active {
+.knittnet-model-selector-modal .knittnet-model-category-btn.active {
     background-color: #6750A4;
     color: white;
     border-color: #6750A4;
 }
 
 /* Model Grid Styles */
-.mxchat-model-selector-modal .mxchat-model-selector-grid {
+.knittnet-model-selector-modal .knittnet-model-selector-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 16px;
 }
 
-.mxchat-model-selector-modal .mxchat-model-selector-card,
-.mxchat-model-selector-modal .mxchat-openrouter-card {
+.knittnet-model-selector-modal .knittnet-model-selector-card,
+.knittnet-model-selector-modal .knittnet-openrouter-card {
     display: flex;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -3719,40 +3719,40 @@ tr.mxchat-setting-row.highlighted {
     position: relative;
 }
 
-.mxchat-model-selector-modal .mxchat-model-selector-card:hover,
-.mxchat-model-selector-modal .mxchat-openrouter-card:hover {
+.knittnet-model-selector-modal .knittnet-model-selector-card:hover,
+.knittnet-model-selector-modal .knittnet-openrouter-card:hover {
     border-color: #6750A4;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.mxchat-model-selector-modal .mxchat-model-selector-card.mxchat-model-selected,
-.mxchat-model-selector-modal .mxchat-openrouter-card.mxchat-model-selected {
+.knittnet-model-selector-modal .knittnet-model-selector-card.knittnet-model-selected,
+.knittnet-model-selector-modal .knittnet-openrouter-card.knittnet-model-selected {
     border-color: #6750A4;
     background-color: rgba(103, 80, 164, 0.05);
 }
 
 /* Provider-specific styles for cards */
-.mxchat-model-selector-modal .mxchat-model-selector-card.mxchat-model-provider-gemini {
+.knittnet-model-selector-modal .knittnet-model-selector-card.knittnet-model-provider-gemini {
     border-left: 4px solid #4285F4;
 }
 
-.mxchat-model-selector-modal .mxchat-model-selector-card.mxchat-model-provider-openai {
+.knittnet-model-selector-modal .knittnet-model-selector-card.knittnet-model-provider-openai {
     border-left: 4px solid #10A37F;
 }
 
-.mxchat-model-selector-modal .mxchat-model-selector-card.mxchat-model-provider-claude {
+.knittnet-model-selector-modal .knittnet-model-selector-card.knittnet-model-provider-claude {
     border-left: 4px solid #965de9;
 }
 
-.mxchat-model-selector-modal .mxchat-model-selector-card.mxchat-model-provider-xai {
+.knittnet-model-selector-modal .knittnet-model-selector-card.knittnet-model-provider-xai {
     border-left: 4px solid #000000;
 }
 
-.mxchat-model-selector-modal .mxchat-model-selector-card.mxchat-model-provider-deepseek {
+.knittnet-model-selector-modal .knittnet-model-selector-card.knittnet-model-provider-deepseek {
     border-left: 4px solid #0066cc;
 }
 
-.mxchat-model-selector-modal .mxchat-model-selector-icon {
+.knittnet-model-selector-modal .knittnet-model-selector-icon {
     margin-right: 12px;
     font-size: 24px;
     display: flex;
@@ -3761,42 +3761,42 @@ tr.mxchat-setting-row.highlighted {
     height: 45px;
 }
 
-.mxchat-model-selector-modal .mxchat-model-icon-gemini {
+.knittnet-model-selector-modal .knittnet-model-icon-gemini {
     color: #4285F4;
 }
 
-.mxchat-model-selector-modal .mxchat-model-icon-openai {
+.knittnet-model-selector-modal .knittnet-model-icon-openai {
     color: #10A37F;
 }
 
-.mxchat-model-selector-modal .mxchat-model-icon-claude {
+.knittnet-model-selector-modal .knittnet-model-icon-claude {
     color: #965de9;
 }
 
-.mxchat-model-selector-modal .mxchat-model-icon-xai {
+.knittnet-model-selector-modal .knittnet-model-icon-xai {
     color: #000000;
 }
 
-.mxchat-model-selector-modal .mxchat-model-icon-deepseek {
+.knittnet-model-selector-modal .knittnet-model-icon-deepseek {
     color: #0066cc;
 }
 
-.mxchat-model-selector-modal .mxchat-model-selector-info {
+.knittnet-model-selector-modal .knittnet-model-selector-info {
     flex: 1;
 }
 
-.mxchat-model-selector-modal .mxchat-model-selector-title {
+.knittnet-model-selector-modal .knittnet-model-selector-title {
     margin: 0 0 6px 0;
     font-size: 16px;
 }
 
-.mxchat-model-selector-modal .mxchat-model-selector-description {
+.knittnet-model-selector-modal .knittnet-model-selector-description {
     margin: 0;
     font-size: 14px;
     color: #666;
 }
 
-.mxchat-model-selector-modal .mxchat-model-selector-checkmark {
+.knittnet-model-selector-modal .knittnet-model-selector-checkmark {
     position: absolute;
     top: 8px;
     right: 8px;
@@ -3813,16 +3813,16 @@ tr.mxchat-setting-row.highlighted {
 
 /* Media queries for responsive design */
 @media screen and (max-width: 782px) {
-    .mxchat-model-selector-modal .mxchat-model-selector-modal-content {
+    .knittnet-model-selector-modal .knittnet-model-selector-modal-content {
         width: 95%;
         margin: 10% auto;
     }
     
-    .mxchat-model-selector-modal .mxchat-model-selector-grid {
+    .knittnet-model-selector-modal .knittnet-model-selector-grid {
         grid-template-columns: 1fr;
     }
     
-    .mxchat-model-selector-modal .mxchat-model-selector-categories {
+    .knittnet-model-selector-modal .knittnet-model-selector-categories {
         overflow-x: auto;
         padding-bottom: 10px;
     }
@@ -3830,7 +3830,7 @@ tr.mxchat-setting-row.highlighted {
 
 
 /* Improved styling for the model selector button */
-#mxchat_model_selector_btn.mxchat-model-selector-btn {
+#knittnet_model_selector_btn.knittnet-model-selector-btn {
     width: 100%;
     max-width: 400px;
     text-align: left;
@@ -3850,7 +3850,7 @@ tr.mxchat-setting-row.highlighted {
     justify-content: space-between;
 }
 
-#mxchat_model_selector_btn.mxchat-model-selector-btn:after {
+#knittnet_model_selector_btn.knittnet-model-selector-btn:after {
     content: "\f140";
     font-family: dashicons;
     position: absolute;
@@ -3859,18 +3859,18 @@ tr.mxchat-setting-row.highlighted {
     color: #666;
 }
 
-#mxchat_model_selector_btn.mxchat-model-selector-btn:hover {
+#knittnet_model_selector_btn.knittnet-model-selector-btn:hover {
     border-color: #2271b1;
     color: #2271b1;
 }
 
-#mxchat_model_selector_btn.mxchat-model-selector-btn:focus {
+#knittnet_model_selector_btn.knittnet-model-selector-btn:focus {
     box-shadow: 0 0 0 1px #2271b1;
     outline: none;
 }
 
 /* Embedding Model Selector - completely separate styling to avoid conflicts */
-.mxchat-embedding-model-selector-btn {
+.knittnet-embedding-model-selector-btn {
     width: 100%;
     max-width: 400px;
     text-align: left;
@@ -3890,7 +3890,7 @@ tr.mxchat-setting-row.highlighted {
     justify-content: space-between;
 }
 
-.mxchat-embedding-model-selector-btn:after {
+.knittnet-embedding-model-selector-btn:after {
     content: "\f140";
     font-family: dashicons;
     position: absolute;
@@ -3899,18 +3899,18 @@ tr.mxchat-setting-row.highlighted {
     color: #666;
 }
 
-.mxchat-embedding-model-selector-btn:hover {
+.knittnet-embedding-model-selector-btn:hover {
     border-color: #2271b1;
     color: #2271b1;
 }
 
-.mxchat-embedding-model-selector-btn:focus {
+.knittnet-embedding-model-selector-btn:focus {
     box-shadow: 0 0 0 1px #2271b1;
     outline: none;
 }
 
 /* Modal Styles */
-.mxchat-embedding-model-selector-modal {
+.knittnet-embedding-model-selector-modal {
     display: none;
     position: fixed;
     z-index: 9999;
@@ -3922,22 +3922,22 @@ tr.mxchat-setting-row.highlighted {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.mxchat-embedding-model-selector-modal-content {
+.knittnet-embedding-model-selector-modal-content {
     background-color: #fff;
     margin: 5% auto;
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     width: 80%;
     max-width: 800px;
-    animation: mxchatEmbeddingModalFade 0.3s;
+    animation: knittnetEmbeddingModalFade 0.3s;
 }
 
-@keyframes mxchatEmbeddingModalFade {
+@keyframes knittnetEmbeddingModalFade {
     from {opacity: 0; transform: translateY(-20px);}
     to {opacity: 1; transform: translateY(0);}
 }
 
-.mxchat-embedding-model-selector-modal-header {
+.knittnet-embedding-model-selector-modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -3945,40 +3945,40 @@ tr.mxchat-setting-row.highlighted {
     border-bottom: 1px solid #eee;
 }
 
-.mxchat-embedding-model-selector-modal-header h3 {
+.knittnet-embedding-model-selector-modal-header h3 {
     margin: 0;
     color: #6750A4;
     font-size: 20px;
 }
 
-.mxchat-embedding-model-selector-modal-close {
+.knittnet-embedding-model-selector-modal-close {
     font-size: 24px;
     cursor: pointer;
     color: #888;
 }
 
-.mxchat-embedding-model-selector-modal-close:hover {
+.knittnet-embedding-model-selector-modal-close:hover {
     color: #333;
 }
 
-.mxchat-embedding-model-selector-modal-body {
+.knittnet-embedding-model-selector-modal-body {
     padding: 24px;
     max-height: 60vh;
     overflow-y: auto;
 }
 
-.mxchat-embedding-model-selector-modal-footer {
+.knittnet-embedding-model-selector-modal-footer {
     padding: 16px 24px;
     border-top: 1px solid #eee;
     text-align: right;
 }
 
 /* Search and Category Styles */
-.mxchat-embedding-model-selector-search-container {
+.knittnet-embedding-model-selector-search-container {
     margin-bottom: 20px;
 }
 
-.mxchat-embedding-model-search-input {
+.knittnet-embedding-model-search-input {
     width: 100%;
     padding: 10px 15px;
     border: 1px solid #ddd;
@@ -3986,14 +3986,14 @@ tr.mxchat-setting-row.highlighted {
     font-size: 16px;
 }
 
-.mxchat-embedding-model-selector-categories {
+.knittnet-embedding-model-selector-categories {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     margin-bottom: 20px;
 }
 
-.mxchat-embedding-model-category-btn {
+.knittnet-embedding-model-category-btn {
     background-color: #f5f5f5;
     border: 1px solid #ddd;
     padding: 8px 16px;
@@ -4002,20 +4002,20 @@ tr.mxchat-setting-row.highlighted {
     transition: all 0.2s;
 }
 
-.mxchat-embedding-model-category-btn.active {
+.knittnet-embedding-model-category-btn.active {
     background-color: #6750A4;
     color: white;
     border-color: #6750A4;
 }
 
 /* Model Grid Styles */
-.mxchat-embedding-model-selector-grid {
+.knittnet-embedding-model-selector-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 16px;
 }
 
-.mxchat-embedding-model-selector-card {
+.knittnet-embedding-model-selector-card {
     display: flex;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -4025,36 +4025,36 @@ tr.mxchat-setting-row.highlighted {
     position: relative;
 }
 
-.mxchat-embedding-model-selector-card:hover {
+.knittnet-embedding-model-selector-card:hover {
     border-color: #6750A4;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.mxchat-embedding-model-selector-card.mxchat-embedding-model-selected {
+.knittnet-embedding-model-selector-card.knittnet-embedding-model-selected {
     border-color: #6750A4;
     background-color: rgba(103, 80, 164, 0.05);
 }
 
 /* Provider-specific styles */
-.mxchat-embedding-model-provider-openai {
+.knittnet-embedding-model-provider-openai {
     border-left: 4px solid #10A37F;
 }
 
-.mxchat-embedding-model-provider-voyage {
+.knittnet-embedding-model-provider-voyage {
     border-left: 4px solid #0055D4;
 }
 
 /* Provider-specific border color for Gemini */
-.mxchat-embedding-model-provider-gemini {
+.knittnet-embedding-model-provider-gemini {
     border-left: 4px solid #4285F4;
 }
 
 /* Icon color for Gemini */
-.mxchat-embedding-model-icon-gemini {
+.knittnet-embedding-model-icon-gemini {
     color: #4285F4;
 }
 
-.mxchat-embedding-model-selector-icon {
+.knittnet-embedding-model-selector-icon {
     margin-right: 12px;
     font-size: 24px;
     display: flex;
@@ -4063,30 +4063,30 @@ tr.mxchat-setting-row.highlighted {
     height: 45px;
 }
 
-.mxchat-embedding-model-icon-openai {
+.knittnet-embedding-model-icon-openai {
     color: #10A37F;
 }
 
-.mxchat-embedding-model-icon-voyage {
+.knittnet-embedding-model-icon-voyage {
     color: #0055D4;
 }
 
-.mxchat-embedding-model-selector-info {
+.knittnet-embedding-model-selector-info {
     flex: 1;
 }
 
-.mxchat-embedding-model-selector-title {
+.knittnet-embedding-model-selector-title {
     margin: 0 0 6px 0;
     font-size: 16px;
 }
 
-.mxchat-embedding-model-selector-description {
+.knittnet-embedding-model-selector-description {
     margin: 0;
     font-size: 14px;
     color: #666;
 }
 
-.mxchat-embedding-model-selector-checkmark {
+.knittnet-embedding-model-selector-checkmark {
     position: absolute;
     top: 8px;
     right: 8px;
@@ -4103,16 +4103,16 @@ tr.mxchat-setting-row.highlighted {
 
 /* Media queries for responsive design */
 @media screen and (max-width: 782px) {
-    .mxchat-embedding-model-selector-modal-content {
+    .knittnet-embedding-model-selector-modal-content {
         width: 95%;
         margin: 10% auto;
     }
     
-    .mxchat-embedding-model-selector-grid {
+    .knittnet-embedding-model-selector-grid {
         grid-template-columns: 1fr;
     }
     
-    .mxchat-embedding-model-selector-categories {
+    .knittnet-embedding-model-selector-categories {
         overflow-x: auto;
         padding-bottom: 10px;
     }
@@ -4120,7 +4120,7 @@ tr.mxchat-setting-row.highlighted {
 
 
 /* Embedding Model Selector Button Styles */
-#mxchat_embedding_model_selector_btn.mxchat-embedding-model-selector-btn {
+#knittnet_embedding_model_selector_btn.knittnet-embedding-model-selector-btn {
     width: 100%;
     max-width: 400px;
     text-align: left;
@@ -4140,7 +4140,7 @@ tr.mxchat-setting-row.highlighted {
     justify-content: space-between;
 }
 
-#mxchat_embedding_model_selector_btn.mxchat-embedding-model-selector-btn:after {
+#knittnet_embedding_model_selector_btn.knittnet-embedding-model-selector-btn:after {
     content: "\f140";
     font-family: dashicons;
     position: absolute;
@@ -4149,44 +4149,44 @@ tr.mxchat-setting-row.highlighted {
     color: #666;
 }
 
-#mxchat_embedding_model_selector_btn.mxchat-embedding-model-selector-btn:hover {
+#knittnet_embedding_model_selector_btn.knittnet-embedding-model-selector-btn:hover {
     border-color: #2271b1;
     color: #2271b1;
 }
 
-#mxchat_embedding_model_selector_btn.mxchat-embedding-model-selector-btn:focus {
+#knittnet_embedding_model_selector_btn.knittnet-embedding-model-selector-btn:focus {
     box-shadow: 0 0 0 1px #2271b1;
     outline: none;
 }
 
-.mxchat-failed-urls-container {
+.knittnet-failed-urls-container {
     margin-top: 15px;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     padding-top: 10px;
 }
 
-.mxchat-failed-urls-container h4 {
+.knittnet-failed-urls-container h4 {
     margin: 0 0 8px 0;
     font-size: 14px;
     color: #d63638;
 }
 
-.mxchat-failed-urls-container details {
+.knittnet-failed-urls-container details {
     margin-bottom: 10px;
 }
 
-.mxchat-failed-urls-container summary {
+.knittnet-failed-urls-container summary {
     cursor: pointer;
     font-weight: 500;
     padding: 5px 0;
     color: #3c434a;
 }
 
-.mxchat-failed-urls-container summary:hover {
+.knittnet-failed-urls-container summary:hover {
     color: #2271b1;
 }
 
-.mxchat-failed-urls-list {
+.knittnet-failed-urls-list {
     margin-top: 10px;
     max-height: 300px;
     overflow-y: auto;
@@ -4195,7 +4195,7 @@ tr.mxchat-setting-row.highlighted {
     background: #f8f9fa;
 }
 
-.mxchat-failed-url-item {
+.knittnet-failed-url-item {
     padding: 8px 12px;
     border-bottom: 1px solid #dcdcde;
     display: grid;
@@ -4204,35 +4204,35 @@ tr.mxchat-setting-row.highlighted {
     font-size: 12px;
 }
 
-.mxchat-failed-url-item:last-child {
+.knittnet-failed-url-item:last-child {
     border-bottom: none;
 }
 
-.mxchat-failed-url-address {
+.knittnet-failed-url-address {
     font-weight: 500;
     word-break: break-all;
 }
 
-.mxchat-failed-url-address a {
+.knittnet-failed-url-address a {
     color: #2271b1;
     text-decoration: none;
 }
 
-.mxchat-failed-url-address a:hover {
+.knittnet-failed-url-address a:hover {
     text-decoration: underline;
 }
 
-.mxchat-failed-url-error {
+.knittnet-failed-url-error {
     color: #d63638;
 }
 
-.mxchat-failed-url-time {
+.knittnet-failed-url-time {
     color: #50575e;
     font-style: italic;
     font-size: 11px;
 }
 
-.mxchat-failed-urls-more {
+.knittnet-failed-urls-more {
     text-align: center;
     padding: 8px;
     background: #f0f0f1;
@@ -4244,7 +4244,7 @@ tr.mxchat-setting-row.highlighted {
 
 /* Responsive design for larger screens */
 @media screen and (min-width: 783px) {
-    .mxchat-failed-url-item {
+    .knittnet-failed-url-item {
         grid-template-columns: 2fr 3fr 1fr;
         align-items: center;
     }
@@ -4264,10 +4264,10 @@ select option:disabled {
     font-style: italic;
 }
 
-        .mxchat-rate-limits-container {
+        .knittnet-rate-limits-container {
             max-width: 900px;
         }
-        .mxchat-rate-limit-row {
+        .knittnet-rate-limit-row {
             display: flex;
             flex-wrap: wrap;
             align-items: flex-start;
@@ -4279,11 +4279,11 @@ select option:disabled {
             box-shadow: 0 2px 4px rgba(0,0,0,0.04);
             transition: all 0.2s ease;
         }
-        .mxchat-rate-limit-row:hover {
+        .knittnet-rate-limit-row:hover {
             box-shadow: 0 4px 8px rgba(0,0,0,0.08);
             border-color: #c7c7c7;
         }
-        .mxchat-rate-limit-role {
+        .knittnet-rate-limit-role {
             width: 160px;
             font-weight: 600;
             font-size: 15px;
@@ -4291,36 +4291,36 @@ select option:disabled {
             padding-top: 4px;
             color: #23282d;
         }
-        .mxchat-rate-limit-controls-wrapper {
+        .knittnet-rate-limit-controls-wrapper {
             flex: 1;
         }
-        .mxchat-rate-limit-controls {
+        .knittnet-rate-limit-controls {
             display: flex;
             flex-wrap: wrap;
             gap: 15px;
             align-items: center;
             margin-bottom: 15px;
         }
-        .mxchat-rate-limit-controls > div {
+        .knittnet-rate-limit-controls > div {
             margin-bottom: 5px;
         }
-        .mxchat-rate-limit-controls label {
+        .knittnet-rate-limit-controls label {
             display: block;
             margin-bottom: 5px;
             font-weight: 500;
             color: #50575e;
         }
-        .mxchat-rate-limit-message {
+        .knittnet-rate-limit-message {
             width: 100%;
             margin-top: 15px;
         }
-        .mxchat-rate-limit-message label {
+        .knittnet-rate-limit-message label {
             display: block;
             margin-bottom: 5px;
             font-weight: 500;
             color: #50575e;
         }
-        .mxchat-rate-limit-message textarea {
+        .knittnet-rate-limit-message textarea {
             width: 100%;
             min-height: 70px;
             padding: 8px 12px;
@@ -4328,28 +4328,28 @@ select option:disabled {
             resize: vertical;
             font-size: 14px;
         }
-        .mxchat-rate-limit-controls select {
+        .knittnet-rate-limit-controls select {
             min-width: 120px;
             padding: 6px 24px 6px 10px;
         }
         @media (max-width: 782px) {
-            .mxchat-rate-limit-row {
+            .knittnet-rate-limit-row {
                 flex-direction: column;
             }
-            .mxchat-rate-limit-role {
+            .knittnet-rate-limit-role {
                 margin-bottom: 15px;
                 width: 100%;
                 font-size: 16px;
             }
-            .mxchat-rate-limit-controls {
+            .knittnet-rate-limit-controls {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 12px;
             }
-            .mxchat-rate-limit-controls > div {
+            .knittnet-rate-limit-controls > div {
                 width: 100%;
             }
-            .mxchat-rate-limit-controls select {
+            .knittnet-rate-limit-controls select {
                 width: 100%;
             }
         }
@@ -4470,11 +4470,11 @@ select option:disabled {
             }
         }
 /* Sample instructions button styles */
-.mxchat-instructions-container {
+.knittnet-instructions-container {
     margin-top: 8px;
 }
 
-.mxchat-instructions-btn {
+.knittnet-instructions-btn {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -4491,23 +4491,23 @@ select option:disabled {
     box-shadow: 0 2px 4px rgba(102, 126, 234, 0.2);
 }
 
-.mxchat-instructions-btn:hover {
+.knittnet-instructions-btn:hover {
     background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
 }
 
-.mxchat-instructions-btn:active {
+.knittnet-instructions-btn:active {
     transform: translateY(0);
 }
 
-.mxchat-instructions-btn svg {
+.knittnet-instructions-btn svg {
     width: 14px;
     height: 14px;
 }
 
 /* Modal styles - Positioned relative to viewport */
-.mxchat-instructions-modal-overlay {
+.knittnet-instructions-modal-overlay {
     display: none;
     position: fixed;
     top: 0;
@@ -4518,14 +4518,14 @@ select option:disabled {
     z-index: 999999;
 }
 
-.mxchat-instructions-modal-overlay.mxchat-instructions-show {
+.knittnet-instructions-modal-overlay.knittnet-instructions-show {
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
 }
 
-.mxchat-instructions-modal-content {
+.knittnet-instructions-modal-content {
     background: white;
     border-radius: 12px;
     max-width: 700px;
@@ -4535,7 +4535,7 @@ select option:disabled {
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
-.mxchat-instructions-modal-header {
+.knittnet-instructions-modal-header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     padding: 20px 24px;
@@ -4544,7 +4544,7 @@ select option:disabled {
     justify-content: space-between;
 }
 
-.mxchat-instructions-modal-title {
+.knittnet-instructions-modal-title {
     font-size: 18px;
     font-weight: 600;
     margin: 0;
@@ -4553,7 +4553,7 @@ select option:disabled {
     gap: 10px;
 }
 
-.mxchat-instructions-modal-close {
+.knittnet-instructions-modal-close {
     background: rgba(255, 255, 255, 0.2);
     border: none;
     color: white;
@@ -4567,17 +4567,17 @@ select option:disabled {
     transition: background 0.2s ease;
 }
 
-.mxchat-instructions-modal-close:hover {
+.knittnet-instructions-modal-close:hover {
     background: rgba(255, 255, 255, 0.3);
 }
 
-.mxchat-instructions-modal-body {
+.knittnet-instructions-modal-body {
     padding: 24px;
     overflow-y: auto;
     max-height: calc(90vh - 140px);
 }
 
-.mxchat-instructions-content {
+.knittnet-instructions-content {
     background: #f8fafc;
     border: 2px solid #e2e8f0;
     border-radius: 8px;
@@ -4590,7 +4590,7 @@ select option:disabled {
     word-wrap: break-word;
 }
 
-.mxchat-instructions-copy-btn {
+.knittnet-instructions-copy-btn {
     margin-top: 16px;
     background: #48bb78;
     color: white;
@@ -4606,24 +4606,24 @@ select option:disabled {
     transition: all 0.2s ease;
 }
 
-.mxchat-instructions-copy-btn:hover {
+.knittnet-instructions-copy-btn:hover {
     background: #38a169;
     transform: translateY(-1px);
 }
 
-.mxchat-instructions-copy-btn svg {
+.knittnet-instructions-copy-btn svg {
     width: 16px;
     height: 16px;
 }
 
-.mxchat-instructions-modal-footer {
+.knittnet-instructions-modal-footer {
     padding: 16px 24px;
     background: #f7fafc;
     border-top: 1px solid #e2e8f0;
     text-align: right;
 }
 
-.mxchat-instructions-btn-secondary {
+.knittnet-instructions-btn-secondary {
     background: #e2e8f0;
     color: #4a5568;
     border: none;
@@ -4634,30 +4634,30 @@ select option:disabled {
     transition: background 0.2s ease;
 }
 
-.mxchat-instructions-btn-secondary:hover {
+.knittnet-instructions-btn-secondary:hover {
     background: #cbd5e0;
 }
 
 /* Responsive design */
 @media (max-width: 782px) {
-    .mxchat-instructions-modal-overlay.mxchat-instructions-show {
+    .knittnet-instructions-modal-overlay.knittnet-instructions-show {
         padding: 10px;
     }
     
-    .mxchat-instructions-modal-content {
+    .knittnet-instructions-modal-content {
         max-height: 95vh;
     }
     
-    .mxchat-instructions-modal-header {
+    .knittnet-instructions-modal-header {
         padding: 16px 20px;
     }
     
-    .mxchat-instructions-modal-body {
+    .knittnet-instructions-modal-body {
         padding: 20px;
         max-height: calc(95vh - 120px);
     }
     
-    .mxchat-instructions-content {
+    .knittnet-instructions-content {
         font-size: 12px;
         padding: 16px;
     }
@@ -4668,7 +4668,7 @@ select option:disabled {
 
 
 /* Completion Card - Modern Theme */
-.mxchat-completion-card {
+.knittnet-completion-card {
     margin: 20px 0;
     background: #ffffff;
     border-radius: 12px;
@@ -4678,12 +4678,12 @@ select option:disabled {
     border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
-.mxchat-completion-card:hover {
+.knittnet-completion-card:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.08);
 }
 
 /* Header Section */
-.mxchat-completion-header {
+.knittnet-completion-header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     padding: 24px;
     display: flex;
@@ -4691,7 +4691,7 @@ select option:disabled {
     gap: 16px;
 }
 
-.mxchat-completion-icon {
+.knittnet-completion-icon {
     width: 48px;
     height: 48px;
     background: rgba(255, 255, 255, 0.2);
@@ -4702,13 +4702,13 @@ select option:disabled {
     flex-shrink: 0;
 }
 
-.mxchat-completion-icon svg {
+.knittnet-completion-icon svg {
     color: #ffffff;
     width: 28px;
     height: 28px;
 }
 
-.mxchat-completion-title h3 {
+.knittnet-completion-title h3 {
     margin: 0;
     color: #ffffff;
     font-size: 20px;
@@ -4716,32 +4716,32 @@ select option:disabled {
     letter-spacing: -0.02em;
 }
 
-.mxchat-completion-time {
+.knittnet-completion-time {
     margin: 4px 0 0 0;
     color: rgba(255, 255, 255, 0.8);
     font-size: 14px;
 }
 
 /* Summary Section */
-.mxchat-completion-summary {
+.knittnet-completion-summary {
     padding: 24px;
     border-bottom: 1px solid #f0f0f1;
 }
 
-.mxchat-completion-summary h4 {
+.knittnet-completion-summary h4 {
     margin: 0 0 16px 0;
     color: #1d2327;
     font-size: 16px;
     font-weight: 600;
 }
 
-.mxchat-summary-stats {
+.knittnet-summary-stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 12px;
 }
 
-.mxchat-stat-card {
+.knittnet-stat-card {
     padding: 20px;
     border-radius: 12px;
     display: flex;
@@ -4750,23 +4750,23 @@ select option:disabled {
     transition: all 0.2s ease;
 }
 
-.mxchat-stat-card:hover {
+.knittnet-stat-card:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-.mxchat-stat-card .stat-icon {
+.knittnet-stat-card .stat-icon {
     font-size: 32px;
     line-height: 1;
     opacity: 0.9;
 }
 
-.mxchat-stat-card .stat-content {
+.knittnet-stat-card .stat-content {
     flex: 1;
     text-align: left;
 }
 
-.mxchat-stat-label {
+.knittnet-stat-label {
     display: block;
     font-size: 12px;
     color: #646970;
@@ -4776,7 +4776,7 @@ select option:disabled {
     margin-bottom: 4px;
 }
 
-.mxchat-stat-value {
+.knittnet-stat-value {
     display: block;
     font-size: 28px;
     font-weight: 700;
@@ -4784,7 +4784,7 @@ select option:disabled {
     line-height: 1.2;
 }
 
-.mxchat-stat-sublabel {
+.knittnet-stat-sublabel {
     display: block;
     font-size: 11px;
     color: #8c8f94;
@@ -4792,40 +4792,40 @@ select option:disabled {
 }
 
 /* Stat Card Variants */
-.mxchat-stat-primary {
+.knittnet-stat-primary {
     background: linear-gradient(135deg, #f6f7f7 0%, #ffffff 100%);
     border: 1px solid #e5e7eb;
 }
 
-.mxchat-stat-accent {
+.knittnet-stat-accent {
     border: 1px solid #e9d5ff;
 }
 
-.mxchat-stat-accent .stat-value {
+.knittnet-stat-accent .stat-value {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
 
-.mxchat-stat-success {
+.knittnet-stat-success {
     background: #e6f5e6;
 }
 
-.mxchat-stat-success .mxchat-stat-value {
+.knittnet-stat-success .knittnet-stat-value {
     color: #00a32a;
 }
 
-.mxchat-stat-failed {
+.knittnet-stat-failed {
     background: #fef1f1;
 }
 
-.mxchat-stat-failed .mxchat-stat-value {
+.knittnet-stat-failed .knittnet-stat-value {
     color: #d63638;
 }
 
 /* Metrics Dashboard */
-.mxchat-metrics-dashboard {
+.knittnet-metrics-dashboard {
     background: #ffffff;
     border-radius: 16px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
@@ -4833,7 +4833,7 @@ select option:disabled {
     overflow: hidden;
 }
 
-.mxchat-metrics-tabs {
+.knittnet-metrics-tabs {
     display: flex;
     gap: 0;
     background: #f6f7f7;
@@ -4841,7 +4841,7 @@ select option:disabled {
     padding: 0;
 }
 
-.mxchat-metrics-tab {
+.knittnet-metrics-tab {
     flex: 1;
     display: flex;
     align-items: center;
@@ -4859,41 +4859,41 @@ select option:disabled {
     position: relative;
 }
 
-.mxchat-metrics-tab:hover {
+.knittnet-metrics-tab:hover {
     background: rgba(255, 255, 255, 0.5);
     color: #1d2327;
 }
 
-.mxchat-metrics-tab.active {
+.knittnet-metrics-tab.active {
     background: #ffffff;
     color: #1d2327;
     border-bottom-color: #667eea;
 }
 
-.mxchat-metrics-tab .tab-icon {
+.knittnet-metrics-tab .tab-icon {
     font-size: 18px;
     line-height: 1;
 }
 
-.mxchat-metrics-tab .tab-label {
+.knittnet-metrics-tab .tab-label {
     font-weight: 600;
 }
 
-.mxchat-metrics-content {
+.knittnet-metrics-content {
     position: relative;
 }
 
-.mxchat-metrics-panel {
+.knittnet-metrics-panel {
     display: none;
     padding: 24px;
-    animation: mxchat-fadeIn 0.3s ease;
+    animation: knittnet-fadeIn 0.3s ease;
 }
 
-.mxchat-metrics-panel.active {
+.knittnet-metrics-panel.active {
     display: block;
 }
 
-@keyframes mxchat-fadeIn {
+@keyframes knittnet-fadeIn {
     from {
         opacity: 0;
         transform: translateY(10px);
@@ -4905,26 +4905,26 @@ select option:disabled {
 }
 
 /* Activity Layout */
-.mxchat-activity-layout {
+.knittnet-activity-layout {
     display: grid;
     gap: 24px;
 }
 
-.mxchat-activity-stats {
+.knittnet-activity-stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 16px;
 }
 
 /* Chart Container */
-.mxchat-chart-container {
+.knittnet-chart-container {
     background: #f9fafb;
     border-radius: 12px;
     padding: 24px;
     border: 1px solid #e5e7eb;
 }
 
-.mxchat-chart-title {
+.knittnet-chart-title {
     margin: 0 0 20px 0;
     font-size: 16px;
     font-weight: 600;
@@ -4934,20 +4934,20 @@ select option:disabled {
     gap: 8px;
 }
 
-#mxchat-activity-chart {
+#knittnet-activity-chart {
     max-height: 300px;
     width: 100% !important;
     height: auto !important;
 }
 
 /* Insights Grid */
-.mxchat-insights-grid {
+.knittnet-insights-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 20px;
 }
 
-.mxchat-insight-card {
+.knittnet-insight-card {
     background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
     border: 1px solid #e5e7eb;
     border-radius: 12px;
@@ -4955,7 +4955,7 @@ select option:disabled {
     transition: all 0.2s ease;
 }
 
-.mxchat-insight-card:hover {
+.knittnet-insight-card:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     border-color: #d1d5db;
@@ -5078,38 +5078,38 @@ select option:disabled {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .mxchat-metrics-tabs {
+    .knittnet-metrics-tabs {
         flex-direction: column;
     }
     
-    .mxchat-metrics-tab {
+    .knittnet-metrics-tab {
         border-bottom: none;
         border-left: 3px solid transparent;
     }
     
-    .mxchat-metrics-tab.active {
+    .knittnet-metrics-tab.active {
         border-bottom: none;
         border-left-color: #667eea;
     }
     
-    .mxchat-activity-stats,
-    .mxchat-insights-grid {
+    .knittnet-activity-stats,
+    .knittnet-insights-grid {
         grid-template-columns: 1fr;
     }
     
-    .mxchat-stats-grid {
+    .knittnet-stats-grid {
         grid-template-columns: 1fr;
     }
 }
 
 /* Failed URLs Section */
-.mxchat-failed-urls-section {
+.knittnet-failed-urls-section {
     padding: 24px;
     background: #fafafa;
     border-top: 1px solid #f0f0f1;
 }
 
-.mxchat-failed-urls-section h4 {
+.knittnet-failed-urls-section h4 {
     margin: 0 0 16px 0;
     color: #d63638;
     font-size: 16px;
@@ -5119,11 +5119,11 @@ select option:disabled {
     gap: 8px;
 }
 
-.mxchat-icon-warning {
+.knittnet-icon-warning {
     flex-shrink: 0;
 }
 
-.mxchat-failed-urls-table-wrapper {
+.knittnet-failed-urls-table-wrapper {
     max-height: 300px;
     overflow-y: auto;
     background: #ffffff;
@@ -5131,19 +5131,19 @@ select option:disabled {
     border: 1px solid #e0e0e0;
 }
 
-.mxchat-failed-urls-table {
+.knittnet-failed-urls-table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.mxchat-failed-urls-table thead {
+.knittnet-failed-urls-table thead {
     position: sticky;
     top: 0;
     background: #f6f7f7;
     z-index: 1;
 }
 
-.mxchat-failed-urls-table th {
+.knittnet-failed-urls-table th {
     text-align: left;
     padding: 12px 16px;
     font-weight: 600;
@@ -5154,46 +5154,46 @@ select option:disabled {
     border-bottom: 2px solid #e0e0e0;
 }
 
-.mxchat-failed-urls-table tbody tr {
+.knittnet-failed-urls-table tbody tr {
     transition: background-color 0.2s ease;
 }
 
-.mxchat-failed-urls-table tbody tr:hover {
+.knittnet-failed-urls-table tbody tr:hover {
     background-color: #f6f7f7;
 }
 
-.mxchat-failed-urls-table td {
+.knittnet-failed-urls-table td {
     padding: 12px 16px;
     border-bottom: 1px solid #f0f0f1;
     font-size: 14px;
 }
 
-.mxchat-url-cell {
+.knittnet-url-cell {
     word-break: break-all;
 }
 
-.mxchat-url-cell a {
+.knittnet-url-cell a {
     color: #667eea;
     text-decoration: none;
     transition: color 0.2s ease;
 }
 
-.mxchat-url-cell a:hover {
+.knittnet-url-cell a:hover {
     color: #764ba2;
     text-decoration: underline;
 }
 
-.mxchat-error-cell {
+.knittnet-error-cell {
     color: #d63638;
 }
 
-.mxchat-time-cell {
+.knittnet-time-cell {
     color: #646970;
     white-space: nowrap;
 }
 
 /* Action Buttons */
-.mxchat-completion-actions {
+.knittnet-completion-actions {
     padding: 24px;
     display: flex;
     gap: 12px;
@@ -5201,7 +5201,7 @@ select option:disabled {
     background: #fafafa;
 }
 
-.mxchat-btn {
+.knittnet-btn {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -5215,85 +5215,85 @@ select option:disabled {
     text-decoration: none;
 }
 
-.mxchat-btn svg {
+.knittnet-btn svg {
     width: 16px;
     height: 16px;
 }
 
-.mxchat-btn-primary {
+.knittnet-btn-primary {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: #ffffff;
 }
 
-.mxchat-btn-primary:hover {
+.knittnet-btn-primary:hover {
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
 
-.mxchat-btn-secondary {
+.knittnet-btn-secondary {
     background: #ffffff;
     color: #667eea;
     border: 1px solid #667eea;
 }
 
-.mxchat-btn-secondary:hover {
+.knittnet-btn-secondary:hover {
     background: #f6f7ff;
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
 }
 
-.mxchat-btn:disabled {
+.knittnet-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
 
-.mxchat-btn:disabled:hover {
+.knittnet-btn:disabled:hover {
     transform: none;
     box-shadow: none;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-    .mxchat-summary-stats {
+    .knittnet-summary-stats {
         grid-template-columns: 1fr;
     }
     
-    .mxchat-completion-actions {
+    .knittnet-completion-actions {
         flex-direction: column;
     }
     
-    .mxchat-btn {
+    .knittnet-btn {
         width: 100%;
         justify-content: center;
     }
 }
 
 /* Scrollbar styling for failed URLs table */
-.mxchat-failed-urls-table-wrapper::-webkit-scrollbar {
+.knittnet-failed-urls-table-wrapper::-webkit-scrollbar {
     width: 8px;
 }
 
-.mxchat-failed-urls-table-wrapper::-webkit-scrollbar-track {
+.knittnet-failed-urls-table-wrapper::-webkit-scrollbar-track {
     background: #f0f0f1;
     border-radius: 4px;
 }
 
-.mxchat-failed-urls-table-wrapper::-webkit-scrollbar-thumb {
+.knittnet-failed-urls-table-wrapper::-webkit-scrollbar-thumb {
     background: #c3c4c7;
     border-radius: 4px;
 }
 
-.mxchat-failed-urls-table-wrapper::-webkit-scrollbar-thumb:hover {
+.knittnet-failed-urls-table-wrapper::-webkit-scrollbar-thumb:hover {
     background: #a7aaad;
 }
 
 
 /* Live Agent Disabled Notice Styles - Enhanced design */
-.mxchat-live-agent-disabled-notice {
+.knittnet-live-agent-disabled-notice {
     margin-bottom: 20px;
 }
 
-.mxchat-live-agent-disabled-notice .mxchat-pro-notification {
+.knittnet-live-agent-disabled-notice .knittnet-pro-notification {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border-radius: 12px;
     padding: 24px 24px 24px 24px;
@@ -5303,7 +5303,7 @@ select option:disabled {
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.mxchat-dismiss-btn {
+.knittnet-dismiss-btn {
     position: absolute;
     top: 16px;
     right: 16px;
@@ -5320,21 +5320,21 @@ select option:disabled {
     backdrop-filter: blur(10px);
 }
 
-.mxchat-dismiss-btn:hover {
+.knittnet-dismiss-btn:hover {
     background: rgba(255, 255, 255, 0.2);
     color: white;
     transform: scale(1.05);
 }
 
-.mxchat-dismiss-btn:active {
+.knittnet-dismiss-btn:active {
     transform: scale(0.95);
 }
 
-.mxchat-live-agent-content {
+.knittnet-live-agent-content {
     padding-right: 60px; /* Space for dismiss button */
 }
 
-.mxchat-live-agent-content h3 {
+.knittnet-live-agent-content h3 {
     margin: 0 0 16px 0;
     font-size: 20px;
     font-weight: 600;
@@ -5344,7 +5344,7 @@ select option:disabled {
     gap: 8px;
 }
 
-.mxchat-live-agent-content p {
+.knittnet-live-agent-content p {
     margin: 0;
     font-size: 15px;
     line-height: 1.6;
@@ -5352,7 +5352,7 @@ select option:disabled {
     color: rgba(255, 255, 255, 0.95);
 }
 
-.mxchat-live-agent-content strong {
+.knittnet-live-agent-content strong {
     color: #fff;
     font-weight: 600;
     background: rgba(255, 255, 255, 0.1);
@@ -5362,11 +5362,11 @@ select option:disabled {
 }
 
 /* Theme Migration Notice Styles */
-.mxchat-theme-migration-notice {
+.knittnet-theme-migration-notice {
     margin-bottom: 20px;
 }
 
-.mxchat-theme-migration-notice .mxchat-pro-notification {
+.knittnet-theme-migration-notice .knittnet-pro-notification {
     background: linear-gradient(135deg, #f472b6 0%, #a855f7 50%, #6366f1 100%);
     border-radius: 12px;
     padding: 24px 24px 24px 24px;
@@ -5376,11 +5376,11 @@ select option:disabled {
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.mxchat-theme-migration-content {
+.knittnet-theme-migration-content {
     padding-right: 60px; /* Space for dismiss button */
 }
 
-.mxchat-theme-migration-content h3 {
+.knittnet-theme-migration-content h3 {
     margin: 0 0 16px 0;
     font-size: 20px;
     font-weight: 600;
@@ -5390,7 +5390,7 @@ select option:disabled {
     gap: 8px;
 }
 
-.mxchat-theme-migration-content p {
+.knittnet-theme-migration-content p {
     margin: 0;
     font-size: 15px;
     line-height: 1.6;
@@ -5398,7 +5398,7 @@ select option:disabled {
     color: rgba(255, 255, 255, 0.95);
 }
 
-.mxchat-theme-migration-content strong {
+.knittnet-theme-migration-content strong {
     color: #fff;
     font-weight: 600;
     background: rgba(255, 255, 255, 0.15);
@@ -5407,14 +5407,14 @@ select option:disabled {
     font-size: 14px;
 }
 
-.mxchat-processing-controls {
+.knittnet-processing-controls {
     display: flex; 
     gap: 10px; 
     align-items: center;
 }
 
 /* Status Card Container */
-.mxchat-status-card {
+.knittnet-status-card {
     background: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -5425,7 +5425,7 @@ select option:disabled {
 }
 
 /* Status Header */
-.mxchat-status-header {
+.knittnet-status-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -5434,14 +5434,14 @@ select option:disabled {
     gap: 10px;
 }
 
-.mxchat-status-header h4 {
+.knittnet-status-header h4 {
     margin: 0;
     font-size: 18px;
     font-weight: 600;
     color: #333;
 }
 
-.mxchat-status-header h5 {
+.knittnet-status-header h5 {
     margin: 0 0 10px 0;
     font-size: 16px;
     font-weight: 600;
@@ -5449,7 +5449,7 @@ select option:disabled {
 }
 
 /* Dismiss Button */
-.mxchat-dismiss-button {
+.knittnet-dismiss-button {
     padding: 6px 12px;
     background: #dc3545;
     color: white;
@@ -5461,16 +5461,16 @@ select option:disabled {
     transition: background-color 0.2s ease;
 }
 
-.mxchat-dismiss-button:hover {
+.knittnet-dismiss-button:hover {
     background: #c82333;
 }
 
-.mxchat-dismiss-button:active {
+.knittnet-dismiss-button:active {
     transform: translateY(1px);
 }
 
 /* Process Batch Button */
-.mxchat-manual-batch-btn {
+.knittnet-manual-batch-btn {
     padding: 8px 16px;
     background: #007cba;
     color: white;
@@ -5484,17 +5484,17 @@ select option:disabled {
     display: inline-block;
 }
 
-.mxchat-manual-batch-btn:hover {
+.knittnet-manual-batch-btn:hover {
     background: #005a87;
     color: white;
     text-decoration: none;
 }
 
-.mxchat-manual-batch-btn:active {
+.knittnet-manual-batch-btn:active {
     transform: translateY(1px);
 }
 
-.mxchat-manual-batch-btn:focus {
+.knittnet-manual-batch-btn:focus {
     outline: 2px solid #007cba;
     outline-offset: 2px;
 }
@@ -5503,9 +5503,9 @@ select option:disabled {
 
 
 
-/* MxChat Plugin Activation Page Styles */
+/* KnittNet Plugin Activation Page Styles */
 
-.mxchat-license-details {
+.knittnet-license-details {
     background: #f9f9f9;
     padding: 15px;
     border-radius: 5px;
@@ -5513,20 +5513,20 @@ select option:disabled {
     border-left: 4px solid #2271b1;
 }
 
-.mxchat-license-details p {
+.knittnet-license-details p {
     margin: 8px 0;
 }
 
-.mxchat-license-details small {
+.knittnet-license-details small {
     color: #666;
 }
 
-.mxchat-license-details a {
+.knittnet-license-details a {
     color: #2271b1;
     text-decoration: none;
 }
 
-.mxchat-license-details a:hover {
+.knittnet-license-details a:hover {
     text-decoration: underline;
 }
 
@@ -5556,7 +5556,7 @@ select option:disabled {
 }
 
 /* Status badges */
-.mxchat-status-badge.active {
+.knittnet-status-badge.active {
     color: #2d8f47;
     background: #d4edda;
     padding: 4px 8px;
@@ -5565,7 +5565,7 @@ select option:disabled {
     font-weight: 600;
 }
 
-.mxchat-status-badge.inactive {
+.knittnet-status-badge.inactive {
     color: #842029;
     background: #f8d7da;
     padding: 4px 8px;
@@ -5612,27 +5612,27 @@ select option:disabled {
 
 
 
-.mxchat-pro-notification .old-price {
+.knittnet-pro-notification .old-price {
     text-decoration: line-through;
     color: #888;
 }
-.mxchat-pro-notification .new-price {
+.knittnet-pro-notification .new-price {
     font-weight: bold;
     color: #d9534f; /* red for urgency */
 }
 
 
 
-    #mxchat-test-streaming-btn:disabled {
+    #knittnet-test-streaming-btn:disabled {
         opacity: 0.6;
         cursor: not-allowed;
     }
-    #mxchat-test-streaming-result {
+    #knittnet-test-streaming-result {
         padding: 8px 12px;
         border-radius: 4px;
         display: none;
     }
-    #mxchat-test-streaming-result:not(:empty) {
+    #knittnet-test-streaming-result:not(:empty) {
         display: block;
         background: #f0f0f1;
         border-left: 4px solid #72aee6;
@@ -5670,11 +5670,11 @@ body.email-block-enabled tr:has(#name_field_placeholder) {
 
 
 /* NEW: Role restriction styles */
-.mxchat-role-restriction-container {
+.knittnet-role-restriction-container {
     margin-bottom: 8px;
 }
 
-.mxchat-role-select {
+.knittnet-role-select {
     width: 100%;
     max-width: 180px;
     padding: 4px 8px;
@@ -5684,30 +5684,30 @@ body.email-block-enabled tr:has(#name_field_placeholder) {
     background: white;
 }
 
-.mxchat-role-select.updating {
+.knittnet-role-select.updating {
     opacity: 0.6;
     pointer-events: none;
 }
 
-.mxchat-role-select.updated {
+.knittnet-role-select.updated {
     border-color: #46b450;
     box-shadow: 0 0 0 1px #46b450;
 }
 
-.mxchat-action-buttons {
+.knittnet-action-buttons {
     display: flex;
     gap: 4px;
     justify-content: center;
 }
 
-.mxchat-actions-cell {
+.knittnet-actions-cell {
     min-width: 200px;
     text-align: center;
 }
 
 
 
-.mxchat-bot-selector {
+.knittnet-bot-selector {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -5719,12 +5719,12 @@ body.email-block-enabled tr:has(#name_field_placeholder) {
     background: #f9f9f9;
 }
 
-.mxchat-bot-option {
+.knittnet-bot-option {
     display: flex;
     align-items: center;
 }
 
-.mxchat-checkbox-label {
+.knittnet-checkbox-label {
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -5732,22 +5732,22 @@ body.email-block-enabled tr:has(#name_field_placeholder) {
     gap: 8px;
 }
 
-.mxchat-checkbox-label input[type="checkbox"] {
+.knittnet-checkbox-label input[type="checkbox"] {
     margin: 0;
 }
 
-.mxchat-checkmark {
+.knittnet-checkmark {
     display: inline-block;
 }
 
 
-.mxchat-card-bots {
+.knittnet-card-bots {
     margin-top: 12px;
     padding-top: 12px;
     border-top: 1px solid #e5e7eb;
 }
 
-.mxchat-card-bots strong {
+.knittnet-card-bots strong {
     display: block;
     margin-bottom: 6px;
     color: #374151;
@@ -5755,13 +5755,13 @@ body.email-block-enabled tr:has(#name_field_placeholder) {
     font-weight: 600;
 }
 
-.mxchat-bot-badges {
+.knittnet-bot-badges {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
 }
 
-.mxchat-bot-badge {
+.knittnet-bot-badge {
     display: inline-flex;
     align-items: center;
     padding: 3px 8px;
@@ -5775,7 +5775,7 @@ body.email-block-enabled tr:has(#name_field_placeholder) {
     white-space: nowrap;
 }
 
-.mxchat-bot-badge:first-child {
+.knittnet-bot-badge:first-child {
     background-color: #dbeafe;
     border-color: #93c5fd;
     color: #1e40af;
@@ -5783,22 +5783,22 @@ body.email-block-enabled tr:has(#name_field_placeholder) {
 
 
 /* Always show OpenRouter API key field */
-tr.mxchat-setting-row[data-provider="openrouter"],
-.mxchat-openrouter-wrapper {
+tr.knittnet-setting-row[data-provider="openrouter"],
+.knittnet-openrouter-wrapper {
     display: table-row !important;
 }
 
 /* ========== RAG Context Modal Styles ========== */
 
 /* Message header with role and sources link */
-.mxchat-message .mxchat-message-header {
+.knittnet-message .knittnet-message-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 6px;
 }
 
-.mxchat-message .mxchat-role-label {
+.knittnet-message .knittnet-role-label {
     font-weight: 600;
     font-size: 12px;
     text-transform: uppercase;
@@ -5806,7 +5806,7 @@ tr.mxchat-setting-row[data-provider="openrouter"],
 }
 
 /* Sources link - clean, professional style */
-.mxchat-rag-link {
+.knittnet-rag-link {
     font-size: 11px;
     color: #64748b;
     cursor: pointer;
@@ -5815,21 +5815,21 @@ tr.mxchat-setting-row[data-provider="openrouter"],
     letter-spacing: 0.01em;
 }
 
-.mxchat-rag-link:hover {
+.knittnet-rag-link:hover {
     color: #3b82f6;
 }
 
 /* Transcript message content styling */
-.mxchat-message-content a {
+.knittnet-message-content a {
     color: #3b82f6;
     text-decoration: none;
 }
 
-.mxchat-message-content a:hover {
+.knittnet-message-content a:hover {
     text-decoration: underline;
 }
 
-.mxchat-message-content code {
+.knittnet-message-content code {
     background: rgba(0, 0, 0, 0.06);
     padding: 2px 5px;
     border-radius: 3px;
@@ -5837,7 +5837,7 @@ tr.mxchat-setting-row[data-provider="openrouter"],
     font-size: 0.9em;
 }
 
-.mxchat-message-content pre {
+.knittnet-message-content pre {
     background: #1e293b;
     color: #e2e8f0;
     padding: 12px 16px;
@@ -5846,36 +5846,36 @@ tr.mxchat-setting-row[data-provider="openrouter"],
     margin: 8px 0;
 }
 
-.mxchat-message-content pre code {
+.knittnet-message-content pre code {
     background: none;
     padding: 0;
     color: inherit;
 }
 
-.mxchat-message-content strong {
+.knittnet-message-content strong {
     font-weight: 600;
 }
 
-.mxchat-message-content h1,
-.mxchat-message-content h2,
-.mxchat-message-content h3,
-.mxchat-message-content h4,
-.mxchat-message-content h5,
-.mxchat-message-content h6 {
+.knittnet-message-content h1,
+.knittnet-message-content h2,
+.knittnet-message-content h3,
+.knittnet-message-content h4,
+.knittnet-message-content h5,
+.knittnet-message-content h6 {
     margin: 12px 0 8px 0;
     font-weight: 600;
     line-height: 1.3;
 }
 
-.mxchat-message-content h1 { font-size: 1.4em; }
-.mxchat-message-content h2 { font-size: 1.3em; }
-.mxchat-message-content h3 { font-size: 1.2em; }
-.mxchat-message-content h4 { font-size: 1.1em; }
-.mxchat-message-content h5 { font-size: 1em; }
-.mxchat-message-content h6 { font-size: 0.95em; }
+.knittnet-message-content h1 { font-size: 1.4em; }
+.knittnet-message-content h2 { font-size: 1.3em; }
+.knittnet-message-content h3 { font-size: 1.2em; }
+.knittnet-message-content h4 { font-size: 1.1em; }
+.knittnet-message-content h5 { font-size: 1em; }
+.knittnet-message-content h6 { font-size: 0.95em; }
 
 /* RAG Modal Overlay */
-.mxchat-rag-modal-overlay {
+.knittnet-rag-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -5892,7 +5892,7 @@ tr.mxchat-setting-row[data-provider="openrouter"],
 }
 
 /* RAG Modal Content */
-.mxchat-rag-modal-content {
+.knittnet-rag-modal-content {
     background: #fff;
     border-radius: 16px;
     width: 100%;
@@ -5901,11 +5901,11 @@ tr.mxchat-setting-row[data-provider="openrouter"],
     display: flex;
     flex-direction: column;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    animation: mxchat-modal-appear 0.2s ease-out;
+    animation: knittnet-modal-appear 0.2s ease-out;
     overflow: hidden;
 }
 
-@keyframes mxchat-modal-appear {
+@keyframes knittnet-modal-appear {
     from {
         opacity: 0;
         transform: scale(0.96) translateY(8px);
@@ -5917,7 +5917,7 @@ tr.mxchat-setting-row[data-provider="openrouter"],
 }
 
 /* RAG Modal Header */
-.mxchat-rag-modal-header {
+.knittnet-rag-modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -5927,7 +5927,7 @@ tr.mxchat-setting-row[data-provider="openrouter"],
     flex-shrink: 0;
 }
 
-.mxchat-rag-modal-header h2 {
+.knittnet-rag-modal-header h2 {
     margin: 0;
     font-size: 1.125rem;
     font-weight: 600;
@@ -5935,7 +5935,7 @@ tr.mxchat-setting-row[data-provider="openrouter"],
     letter-spacing: -0.01em;
 }
 
-.mxchat-rag-modal-close {
+.knittnet-rag-modal-close {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -5951,20 +5951,20 @@ tr.mxchat-setting-row[data-provider="openrouter"],
     line-height: 1;
 }
 
-.mxchat-rag-modal-close:hover {
+.knittnet-rag-modal-close:hover {
     background: #f1f5f9;
     color: #0f172a;
 }
 
 /* RAG Modal Body */
-.mxchat-rag-modal-body {
+.knittnet-rag-modal-body {
     padding: 24px;
     overflow-y: auto;
     flex: 1;
 }
 
 /* Loading State */
-.mxchat-rag-loading {
+.knittnet-rag-loading {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -5974,13 +5974,13 @@ tr.mxchat-setting-row[data-provider="openrouter"],
     font-size: 0.875rem;
 }
 
-.mxchat-rag-loading .spinner {
+.knittnet-rag-loading .spinner {
     float: none;
     margin: 0;
 }
 
 /* Error State */
-.mxchat-rag-error {
+.knittnet-rag-error {
     text-align: center;
     padding: 48px 24px;
     color: #dc2626;
@@ -5988,7 +5988,7 @@ tr.mxchat-setting-row[data-provider="openrouter"],
 }
 
 /* Summary Section */
-.mxchat-rag-summary {
+.knittnet-rag-summary {
     display: flex;
     gap: 32px;
     padding: 0;
@@ -5997,13 +5997,13 @@ tr.mxchat-setting-row[data-provider="openrouter"],
     border: none;
 }
 
-.mxchat-rag-summary-item {
+.knittnet-rag-summary-item {
     display: flex;
     flex-direction: column;
     gap: 4px;
 }
 
-.mxchat-rag-label {
+.knittnet-rag-label {
     color: #94a3b8;
     font-size: 0.6875rem;
     font-weight: 500;
@@ -6011,14 +6011,14 @@ tr.mxchat-setting-row[data-provider="openrouter"],
     letter-spacing: 0.05em;
 }
 
-.mxchat-rag-value {
+.knittnet-rag-value {
     font-weight: 600;
     font-size: 0.9375rem;
     color: #0f172a;
 }
 
 /* Matches Section */
-.mxchat-rag-matches h3 {
+.knittnet-rag-matches h3 {
     margin: 0 0 12px 0;
     font-size: 0.6875rem;
     color: #94a3b8;
@@ -6028,7 +6028,7 @@ tr.mxchat-setting-row[data-provider="openrouter"],
 }
 
 /* Match Card */
-.mxchat-rag-match-card {
+.knittnet-rag-match-card {
     border: 1px solid #e2e8f0;
     border-radius: 12px;
     padding: 16px;
@@ -6037,47 +6037,47 @@ tr.mxchat-setting-row[data-provider="openrouter"],
     background: #fff;
 }
 
-.mxchat-rag-match-card:hover {
+.knittnet-rag-match-card:hover {
     border-color: #cbd5e1;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
-.mxchat-rag-match-card:last-child {
+.knittnet-rag-match-card:last-child {
     margin-bottom: 0;
 }
 
 /* Match card variants */
-.mxchat-rag-match-used {
+.knittnet-rag-match-used {
     border-color: #86efac;
     background: #fafff9;
 }
 
-.mxchat-rag-match-used:hover {
+.knittnet-rag-match-used:hover {
     border-color: #4ade80;
 }
 
-.mxchat-rag-match-above {
+.knittnet-rag-match-above {
     border-color: #fde047;
     background: #fffef5;
 }
 
-.mxchat-rag-match-above:hover {
+.knittnet-rag-match-above:hover {
     border-color: #facc15;
 }
 
-.mxchat-rag-match-below {
+.knittnet-rag-match-below {
     opacity: 0.5;
 }
 
 /* Match Header */
-.mxchat-rag-match-header {
+.knittnet-rag-match-header {
     display: flex;
     align-items: center;
     gap: 12px;
     margin-bottom: 10px;
 }
 
-.mxchat-rag-match-rank {
+.knittnet-rag-match-rank {
     background: #0f172a;
     color: #fff;
     font-size: 0.625rem;
@@ -6087,14 +6087,14 @@ tr.mxchat-setting-row[data-provider="openrouter"],
     letter-spacing: 0.02em;
 }
 
-.mxchat-rag-match-score {
+.knittnet-rag-match-score {
     font-size: 1rem;
     font-weight: 700;
     color: #0f172a;
     font-variant-numeric: tabular-nums;
 }
 
-.mxchat-rag-match-status {
+.knittnet-rag-match-status {
     font-size: 0.625rem;
     padding: 4px 8px;
     border-radius: 6px;
@@ -6104,40 +6104,40 @@ tr.mxchat-setting-row[data-provider="openrouter"],
     margin-left: auto;
 }
 
-.mxchat-rag-match-status.status-used {
+.knittnet-rag-match-status.status-used {
     background: #dcfce7;
     color: #166534;
 }
 
-.mxchat-rag-match-status.status-above {
+.knittnet-rag-match-status.status-above {
     background: #fef9c3;
     color: #854d0e;
 }
 
-.mxchat-rag-match-status.status-below {
+.knittnet-rag-match-status.status-below {
     background: #f1f5f9;
     color: #64748b;
 }
 
 /* Match Source */
-.mxchat-rag-match-source {
+.knittnet-rag-match-source {
     margin-bottom: 8px;
     font-size: 0.8125rem;
     color: #475569;
     word-break: break-word;
 }
 
-.mxchat-rag-match-source a {
+.knittnet-rag-match-source a {
     color: #2563eb;
     text-decoration: none;
 }
 
-.mxchat-rag-match-source a:hover {
+.knittnet-rag-match-source a:hover {
     text-decoration: underline;
 }
 
 /* Match Preview */
-.mxchat-rag-match-preview {
+.knittnet-rag-match-preview {
     font-size: 0.8125rem;
     color: #64748b;
     background: #f8fafc;
@@ -6149,11 +6149,11 @@ tr.mxchat-setting-row[data-provider="openrouter"],
 }
 
 /* Match Meta */
-.mxchat-rag-match-meta {
+.knittnet-rag-match-meta {
     margin-top: 10px;
 }
 
-.mxchat-rag-role-badge {
+.knittnet-rag-role-badge {
     display: inline-block;
     font-size: 0.625rem;
     padding: 3px 8px;
@@ -6164,7 +6164,7 @@ tr.mxchat-setting-row[data-provider="openrouter"],
 }
 
 /* Matches Summary */
-.mxchat-rag-matches-summary {
+.knittnet-rag-matches-summary {
     margin: 0 0 16px 0;
     font-size: 0.875rem;
     color: #334155;
@@ -6172,7 +6172,7 @@ tr.mxchat-setting-row[data-provider="openrouter"],
 }
 
 /* Chunk Badge */
-.mxchat-rag-chunk-badge {
+.knittnet-rag-chunk-badge {
     display: inline-block;
     padding: 3px 8px;
     font-size: 0.6875rem;
@@ -6185,7 +6185,7 @@ tr.mxchat-setting-row[data-provider="openrouter"],
 }
 
 /* Chunk Toggle */
-.mxchat-rag-chunk-toggle {
+.knittnet-rag-chunk-toggle {
     display: block;
     padding: 10px 0;
     font-size: 0.75rem;
@@ -6197,18 +6197,18 @@ tr.mxchat-setting-row[data-provider="openrouter"],
     transition: color 0.15s ease;
 }
 
-.mxchat-rag-chunk-toggle:hover {
+.knittnet-rag-chunk-toggle:hover {
     color: #4f46e5;
 }
 
 /* Chunk Details */
-.mxchat-rag-chunk-details {
+.knittnet-rag-chunk-details {
     display: none;
     padding: 8px 0 0 0;
 }
 
 /* Chunk Row */
-.mxchat-rag-chunk-row {
+.knittnet-rag-chunk-row {
     display: flex;
     align-items: center;
     padding: 8px 10px;
@@ -6218,42 +6218,42 @@ tr.mxchat-setting-row[data-provider="openrouter"],
     gap: 10px;
 }
 
-.mxchat-rag-chunk-row.chunk-used {
+.knittnet-rag-chunk-row.chunk-used {
     background: rgba(16, 185, 129, 0.1);
 }
 
-.mxchat-rag-chunk-row.chunk-not-used {
+.knittnet-rag-chunk-row.chunk-not-used {
     background: rgba(100, 116, 139, 0.08);
 }
 
-.mxchat-rag-chunk-icon {
+.knittnet-rag-chunk-icon {
     font-size: 0.875rem;
     width: 18px;
     text-align: center;
 }
 
-.chunk-used .mxchat-rag-chunk-icon {
+.chunk-used .knittnet-rag-chunk-icon {
     color: #10b981;
 }
 
-.chunk-not-used .mxchat-rag-chunk-icon {
+.chunk-not-used .knittnet-rag-chunk-icon {
     color: #94a3b8;
 }
 
-.mxchat-rag-chunk-num {
+.knittnet-rag-chunk-num {
     font-weight: 600;
     color: #334155;
     flex: 1;
 }
 
-.mxchat-rag-chunk-score {
+.knittnet-rag-chunk-score {
     font-weight: 600;
     color: #64748b;
     font-variant-numeric: tabular-nums;
 }
 
 /* No Matches */
-.mxchat-rag-no-matches {
+.knittnet-rag-no-matches {
     text-align: center;
     padding: 48px 24px;
     color: #64748b;
@@ -6261,13 +6261,13 @@ tr.mxchat-setting-row[data-provider="openrouter"],
 }
 
 /* Approved URLs Section */
-.mxchat-rag-urls {
+.knittnet-rag-urls {
     margin-top: 28px;
     padding-top: 20px;
     border-top: 1px solid #e2e8f0;
 }
 
-.mxchat-rag-urls h3 {
+.knittnet-rag-urls h3 {
     margin: 0 0 12px 0;
     font-size: 0.6875rem;
     color: #94a3b8;
@@ -6276,13 +6276,13 @@ tr.mxchat-setting-row[data-provider="openrouter"],
     letter-spacing: 0.05em;
 }
 
-.mxchat-rag-url-list {
+.knittnet-rag-url-list {
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-.mxchat-rag-url-list li {
+.knittnet-rag-url-list li {
     padding: 10px 14px;
     background: #f8fafc;
     border-radius: 8px;
@@ -6291,48 +6291,48 @@ tr.mxchat-setting-row[data-provider="openrouter"],
     word-break: break-all;
 }
 
-.mxchat-rag-url-list li:last-child {
+.knittnet-rag-url-list li:last-child {
     margin-bottom: 0;
 }
 
-.mxchat-rag-url-list a {
+.knittnet-rag-url-list a {
     color: #2563eb;
     text-decoration: none;
 }
 
-.mxchat-rag-url-list a:hover {
+.knittnet-rag-url-list a:hover {
     text-decoration: underline;
 }
 
 /* Responsive adjustments */
 @media (max-width: 640px) {
-    .mxchat-rag-modal-overlay {
+    .knittnet-rag-modal-overlay {
         padding: 16px;
     }
 
-    .mxchat-rag-modal-content {
+    .knittnet-rag-modal-content {
         max-height: calc(100vh - 32px);
         border-radius: 12px;
     }
 
-    .mxchat-rag-modal-header {
+    .knittnet-rag-modal-header {
         padding: 16px 20px;
     }
 
-    .mxchat-rag-modal-body {
+    .knittnet-rag-modal-body {
         padding: 20px;
     }
 
-    .mxchat-rag-summary {
+    .knittnet-rag-summary {
         flex-wrap: wrap;
         gap: 16px;
     }
 
-    .mxchat-rag-match-header {
+    .knittnet-rag-match-header {
         flex-wrap: wrap;
     }
 
-    .mxchat-rag-match-status {
+    .knittnet-rag-match-status {
         margin-left: 0;
         margin-top: 8px;
     }
@@ -6341,7 +6341,7 @@ tr.mxchat-setting-row[data-provider="openrouter"],
 /* ========================================
    POST TYPE VISIBILITY SETTINGS
    ======================================== */
-.mxchat-sub-options {
+.knittnet-sub-options {
     margin-top: 20px;
     padding: 20px;
     background: #f8f9fa;
@@ -6350,30 +6350,30 @@ tr.mxchat-setting-row[data-provider="openrouter"],
     transition: all 0.3s ease;
 }
 
-.mxchat-post-type-visibility-header {
+.knittnet-post-type-visibility-header {
     margin-bottom: 16px;
 }
 
-.mxchat-post-type-visibility-header h4 {
+.knittnet-post-type-visibility-header h4 {
     margin: 0 0 6px 0;
     font-size: 14px;
     font-weight: 600;
     color: #1e1e1e;
 }
 
-.mxchat-post-type-visibility-header .description {
+.knittnet-post-type-visibility-header .description {
     margin: 0;
     color: #757575;
 }
 
-.mxchat-visibility-mode {
+.knittnet-visibility-mode {
     display: flex;
     flex-direction: column;
     gap: 10px;
     margin-bottom: 16px;
 }
 
-.mxchat-radio-label {
+.knittnet-radio-label {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -6386,28 +6386,28 @@ tr.mxchat-setting-row[data-provider="openrouter"],
     font-size: 14px;
 }
 
-.mxchat-radio-label:hover {
+.knittnet-radio-label:hover {
     border-color: #2271b1;
     background: #f6f7f7;
 }
 
-.mxchat-radio-label input[type="radio"] {
+.knittnet-radio-label input[type="radio"] {
     margin: 0;
     width: 16px;
     height: 16px;
     accent-color: #2271b1;
 }
 
-.mxchat-radio-label input[type="radio"]:checked + span {
+.knittnet-radio-label input[type="radio"]:checked + span {
     font-weight: 500;
     color: #1e1e1e;
 }
 
-.mxchat-radio-label span {
+.knittnet-radio-label span {
     color: #50575e;
 }
 
-.mxchat-post-type-list {
+.knittnet-post-type-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 10px;
@@ -6419,7 +6419,7 @@ tr.mxchat-setting-row[data-provider="openrouter"],
     overflow-y: auto;
 }
 
-.mxchat-post-type-list .mxchat-checkbox-label {
+.knittnet-post-type-list .knittnet-checkbox-label {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -6432,58 +6432,58 @@ tr.mxchat-setting-row[data-provider="openrouter"],
     font-size: 13px;
 }
 
-.mxchat-post-type-list .mxchat-checkbox-label:hover {
+.knittnet-post-type-list .knittnet-checkbox-label:hover {
     border-color: #2271b1;
     background: #f0f6fc;
 }
 
-.mxchat-post-type-list .mxchat-checkbox-label input[type="checkbox"] {
+.knittnet-post-type-list .knittnet-checkbox-label input[type="checkbox"] {
     margin: 0;
     width: 16px;
     height: 16px;
     accent-color: #2271b1;
 }
 
-.mxchat-post-type-list .mxchat-checkbox-label input[type="checkbox"]:checked + span {
+.knittnet-post-type-list .knittnet-checkbox-label input[type="checkbox"]:checked + span {
     font-weight: 500;
     color: #1e1e1e;
 }
 
-.mxchat-post-type-list .mxchat-checkbox-label span {
+.knittnet-post-type-list .knittnet-checkbox-label span {
     color: #50575e;
 }
 
 /* Custom scrollbar for post type list */
-.mxchat-post-type-list::-webkit-scrollbar {
+.knittnet-post-type-list::-webkit-scrollbar {
     width: 6px;
 }
 
-.mxchat-post-type-list::-webkit-scrollbar-track {
+.knittnet-post-type-list::-webkit-scrollbar-track {
     background: #f1f1f1;
     border-radius: 3px;
 }
 
-.mxchat-post-type-list::-webkit-scrollbar-thumb {
+.knittnet-post-type-list::-webkit-scrollbar-thumb {
     background: #c1c1c1;
     border-radius: 3px;
 }
 
-.mxchat-post-type-list::-webkit-scrollbar-thumb:hover {
+.knittnet-post-type-list::-webkit-scrollbar-thumb:hover {
     background: #a1a1a1;
 }
 
 /* Responsive adjustments */
 @media (max-width: 782px) {
-    .mxchat-sub-options {
+    .knittnet-sub-options {
         padding: 16px;
     }
 
-    .mxchat-post-type-list {
+    .knittnet-post-type-list {
         grid-template-columns: 1fr;
     }
 }
 /* 3.2.3: Embedding model switch warning dialog */
-.mxchat-embed-warn-overlay {
+.knittnet-embed-warn-overlay {
     position: fixed;
     inset: 0;
     background: rgba(20, 20, 20, 0.55);
@@ -6493,7 +6493,7 @@ tr.mxchat-setting-row[data-provider="openrouter"],
     justify-content: center;
     padding: 24px;
 }
-.mxchat-embed-warn-dialog {
+.knittnet-embed-warn-dialog {
     background: #fff;
     max-width: 640px;
     width: 100%;
@@ -6503,7 +6503,7 @@ tr.mxchat-setting-row[data-provider="openrouter"],
     font-size: 14px;
     line-height: 1.5;
 }
-.mxchat-embed-warn-header {
+.knittnet-embed-warn-header {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -6511,43 +6511,43 @@ tr.mxchat-setting-row[data-provider="openrouter"],
     background: #fef6f6;
     border-bottom: 1px solid #f1d4d4;
 }
-.mxchat-embed-warn-header h3 {
+.knittnet-embed-warn-header h3 {
     margin: 0;
     font-size: 16px;
     color: #b32d2e;
 }
-.mxchat-embed-warn-icon {
+.knittnet-embed-warn-icon {
     font-size: 22px;
     line-height: 1;
 }
-.mxchat-embed-warn-body {
+.knittnet-embed-warn-body {
     padding: 18px 22px;
     color: #2c3338;
 }
-.mxchat-embed-warn-body p {
+.knittnet-embed-warn-body p {
     margin: 0 0 12px 0;
 }
-.mxchat-embed-warn-body code {
+.knittnet-embed-warn-body code {
     background: #f0f0f1;
     padding: 1px 6px;
     border-radius: 3px;
     font-size: 13px;
 }
-.mxchat-embed-warn-body ol {
+.knittnet-embed-warn-body ol {
     margin: 8px 0 0 18px;
     padding: 0;
 }
-.mxchat-embed-warn-body ol li {
+.knittnet-embed-warn-body ol li {
     margin: 4px 0;
 }
-.mxchat-embed-warn-dims {
+.knittnet-embed-warn-dims {
     margin: 12px 0;
     padding: 12px;
     background: #fff8e5;
     border-left: 3px solid #dba617;
     font-size: 13px;
 }
-.mxchat-embed-warn-footer {
+.knittnet-embed-warn-footer {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
@@ -6555,13 +6555,13 @@ tr.mxchat-setting-row[data-provider="openrouter"],
     background: #f6f7f7;
     border-top: 1px solid #dcdcde;
 }
-.mxchat-embed-warn-danger {
+.knittnet-embed-warn-danger {
     background: #b32d2e !important;
     border-color: #b32d2e !important;
     color: #fff !important;
 }
-.mxchat-embed-warn-danger:hover,
-.mxchat-embed-warn-danger:focus {
+.knittnet-embed-warn-danger:hover,
+.knittnet-embed-warn-danger:focus {
     background: #8c2122 !important;
     border-color: #8c2122 !important;
 }

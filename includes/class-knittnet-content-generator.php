@@ -1,11 +1,11 @@
 <?php
 /**
- * MxChat Content Generator
+ * KnittNet Content Generator
  *
  * Handles AI-powered blog post and landing page generation
  * with image generation, SEO metadata, and inline editing.
  *
- * @package MxChat
+ * @package KnittNet
  * @since 3.1.0
  */
 
@@ -13,32 +13,32 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class MxChat_Content_Generator {
+class KnittNet_Content_Generator {
 
     private $options;
 
     public function __construct() {
-        $this->options = get_option('mxchat_options', array());
+        $this->options = get_option('knittnet_options', array());
 
         // AJAX hooks (admin only, but wp_ajax_ prefix ensures that)
-        add_action('wp_ajax_mxchat_generate_content', array($this, 'handle_generate_content'));
-        add_action('wp_ajax_mxchat_content_edit', array($this, 'handle_content_edit'));
-        add_action('wp_ajax_mxchat_content_progress', array($this, 'handle_content_progress'));
-        add_action('wp_ajax_mxchat_save_content_setting', array($this, 'handle_save_content_setting'));
-        add_action('wp_ajax_mxchat_content_history', array($this, 'handle_content_history'));
-        add_action('wp_ajax_mxchat_load_post_for_edit', array($this, 'handle_load_post_for_edit'));
-        add_action('wp_ajax_mxchat_delete_content', array($this, 'handle_delete_content'));
-        add_action('wp_ajax_mxchat_update_post_status', array($this, 'handle_update_post_status'));
-        add_action('wp_ajax_mxchat_seo_analyze', array($this, 'handle_seo_analyze'));
-        add_action('wp_ajax_mxchat_seo_analyze_batch', array($this, 'handle_seo_analyze_batch'));
-        add_action('wp_ajax_mxchat_seo_suggest', array($this, 'handle_seo_suggest'));
-        add_action('wp_ajax_mxchat_seo_list_posts', array($this, 'handle_seo_list_posts'));
-        add_action('wp_ajax_mxchat_get_default_prompt', array($this, 'handle_get_default_prompt'));
-        add_action('wp_ajax_mxchat_save_custom_prompt', array($this, 'handle_save_custom_prompt'));
+        add_action('wp_ajax_knittnet_generate_content', array($this, 'handle_generate_content'));
+        add_action('wp_ajax_knittnet_content_edit', array($this, 'handle_content_edit'));
+        add_action('wp_ajax_knittnet_content_progress', array($this, 'handle_content_progress'));
+        add_action('wp_ajax_knittnet_save_content_setting', array($this, 'handle_save_content_setting'));
+        add_action('wp_ajax_knittnet_content_history', array($this, 'handle_content_history'));
+        add_action('wp_ajax_knittnet_load_post_for_edit', array($this, 'handle_load_post_for_edit'));
+        add_action('wp_ajax_knittnet_delete_content', array($this, 'handle_delete_content'));
+        add_action('wp_ajax_knittnet_update_post_status', array($this, 'handle_update_post_status'));
+        add_action('wp_ajax_knittnet_seo_analyze', array($this, 'handle_seo_analyze'));
+        add_action('wp_ajax_knittnet_seo_analyze_batch', array($this, 'handle_seo_analyze_batch'));
+        add_action('wp_ajax_knittnet_seo_suggest', array($this, 'handle_seo_suggest'));
+        add_action('wp_ajax_knittnet_seo_list_posts', array($this, 'handle_seo_list_posts'));
+        add_action('wp_ajax_knittnet_get_default_prompt', array($this, 'handle_get_default_prompt'));
+        add_action('wp_ajax_knittnet_save_custom_prompt', array($this, 'handle_save_custom_prompt'));
 
         // Background generation via loopback (nopriv because loopback doesn't carry cookies — auth via secret token)
-        add_action('wp_ajax_nopriv_mxchat_generate_content_background', array($this, 'handle_generate_content_background'));
-        add_action('wp_ajax_mxchat_generate_content_background', array($this, 'handle_generate_content_background'));
+        add_action('wp_ajax_nopriv_knittnet_generate_content_background', array($this, 'handle_generate_content_background'));
+        add_action('wp_ajax_knittnet_generate_content_background', array($this, 'handle_generate_content_background'));
 
         // Frontend CSS injection — outputs generated styles in <head>
         add_action('wp_head', array($this, 'inject_generated_css'));
@@ -57,7 +57,7 @@ class MxChat_Content_Generator {
     // ─── Content Filter Protection ──────────────────────────────────
 
     /**
-     * Disable wpautop and wptexturize for MxChat-generated posts.
+     * Disable wpautop and wptexturize for KnittNet-generated posts.
      *
      * WordPress applies these filters to the_content by default:
      * - wpautop: wraps text in <p> tags, breaking flex/grid layouts
@@ -73,7 +73,7 @@ class MxChat_Content_Generator {
             return $content;
         }
 
-        if (get_post_meta($post_id, '_mxchat_generated', true) !== '1') {
+        if (get_post_meta($post_id, '_knittnet_generated', true) !== '1') {
             return $content;
         }
 
@@ -105,7 +105,7 @@ class MxChat_Content_Generator {
     /**
      * Inject generated CSS into <head> on the frontend.
      * Legacy fallback for posts created before CSS was embedded in post_content.
-     * New posts (with mxchat-css CSS comment marker) skip this entirely.
+     * New posts (with knittnet-css CSS comment marker) skip this entirely.
      */
     public function inject_generated_css() {
         if (!is_singular()) {
@@ -117,21 +117,21 @@ class MxChat_Content_Generator {
             return;
         }
 
-        // Only inject on MxChat-generated posts
-        if (get_post_meta($post_id, '_mxchat_generated', true) !== '1') {
+        // Only inject on KnittNet-generated posts
+        if (get_post_meta($post_id, '_knittnet_generated', true) !== '1') {
             return;
         }
 
         // New-format posts have CSS embedded in post_content — skip injection
         $post = get_post($post_id);
-        if ($post && strpos($post->post_content, '/* mxchat-css */') !== false) {
+        if ($post && strpos($post->post_content, '/* knittnet-css */') !== false) {
             return;
         }
 
         // Legacy fallback: inject via wp_head as before
-        $ai_css    = get_post_meta($post_id, '_mxchat_content_css', true);
-        $fullwidth = get_post_meta($post_id, '_mxchat_fullwidth', true) === '1';
-        $hide_title = get_post_meta($post_id, '_mxchat_hide_title', true) === '1';
+        $ai_css    = get_post_meta($post_id, '_knittnet_content_css', true);
+        $fullwidth = get_post_meta($post_id, '_knittnet_fullwidth', true) === '1';
+        $hide_title = get_post_meta($post_id, '_knittnet_hide_title', true) === '1';
 
         echo $this->get_generated_css($fullwidth, $ai_css);
 
@@ -142,7 +142,7 @@ class MxChat_Content_Generator {
 
     /**
      * Hide the WordPress admin bar when the page is loaded inside the
-     * content generator preview iframe (?mxchat_preview=1).
+     * content generator preview iframe (?knittnet_preview=1).
      *
      * Uses the native show_admin_bar filter so WordPress never renders
      * the bar at all — no CSS hacks, no flash of the bar disappearing.
@@ -152,7 +152,7 @@ class MxChat_Content_Generator {
      */
     public function hide_admin_bar_in_preview($show) {
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only display flag, no data processing
-        if (isset($_GET['mxchat_preview'])) {
+        if (isset($_GET['knittnet_preview'])) {
             return false;
         }
         return $show;
@@ -278,10 +278,10 @@ class MxChat_Content_Generator {
      * Main content generation handler
      */
     public function handle_generate_content() {
-        check_ajax_referer('mxchat_content_nonce', 'nonce');
+        check_ajax_referer('knittnet_content_nonce', 'nonce');
 
         if (!current_user_can('manage_options')) {
-            wp_send_json_error(array('message' => __('Unauthorized', 'mxchat')));
+            wp_send_json_error(array('message' => __('Unauthorized', 'knittnet')));
         }
 
         $prompt        = sanitize_textarea_field($_POST['prompt'] ?? '');
@@ -294,7 +294,7 @@ class MxChat_Content_Generator {
         $custom_system_prompt = wp_unslash($_POST['custom_system_prompt'] ?? '');
 
         if (empty($prompt)) {
-            wp_send_json_error(array('message' => __('Please enter a prompt.', 'mxchat')));
+            wp_send_json_error(array('message' => __('Please enter a prompt.', 'knittnet')));
         }
 
         // Validate inputs
@@ -306,10 +306,10 @@ class MxChat_Content_Generator {
         }
 
         // Generate a unique progress key and secret for the background worker
-        $progress_key = 'mxchat_content_progress_' . get_current_user_id() . '_' . time();
+        $progress_key = 'knittnet_content_progress_' . get_current_user_id() . '_' . time();
         $secret = wp_generate_password(32, false);
 
-        $this->update_progress($progress_key, 'starting', __('Starting generation...', 'mxchat'), 5);
+        $this->update_progress($progress_key, 'starting', __('Starting generation...', 'knittnet'), 5);
 
         // Store generation parameters for the background worker
         $params = array(
@@ -427,7 +427,7 @@ class MxChat_Content_Generator {
         $template_mode = $params['template_mode'] ?? 'off';
         $custom_system_prompt = $params['custom_system_prompt'] ?? '';
 
-        $this->update_progress($progress_key, 'planning', __('Planning content structure...', 'mxchat'), 10);
+        $this->update_progress($progress_key, 'planning', __('Planning content structure...', 'knittnet'), 10);
 
         // Step 1: Plan the content
         $plan = $this->plan_content($prompt, $content_type);
@@ -436,12 +436,12 @@ class MxChat_Content_Generator {
             return;
         }
 
-        $this->update_progress($progress_key, 'images', __('Generating images...', 'mxchat'), 30);
+        $this->update_progress($progress_key, 'images', __('Generating images...', 'knittnet'), 30);
 
         // Step 2: Generate images
         $image_urls = $this->generate_content_images($plan, $progress_key);
 
-        $this->update_progress($progress_key, 'writing', __('Writing full content...', 'mxchat'), 60);
+        $this->update_progress($progress_key, 'writing', __('Writing full content...', 'knittnet'), 60);
 
         // Step 3: Generate full HTML content
         $html_content = $this->generate_html_content($plan, $image_urls, $content_type, $prompt, $custom_system_prompt);
@@ -450,7 +450,7 @@ class MxChat_Content_Generator {
             return;
         }
 
-        $this->update_progress($progress_key, 'creating', __('Creating WordPress post...', 'mxchat'), 85);
+        $this->update_progress($progress_key, 'creating', __('Creating WordPress post...', 'knittnet'), 85);
 
         // Step 4: Create the WordPress post/page
         // Extract AI CSS — saved to post meta for edit workflow, and embedded in post_content for portability
@@ -470,12 +470,12 @@ class MxChat_Content_Generator {
             'post_status'  => $post_status,
             'post_type'    => $content_type === 'page' ? 'page' : 'post',
             'meta_input'   => array(
-                '_mxchat_generated'      => '1',
-                '_mxchat_prompt'         => $prompt,
-                '_mxchat_fullwidth'      => ($layout === 'fullwidth') ? '1' : '0',
-                '_mxchat_hide_title'     => ($title_display === 'hide') ? '1' : '0',
-                '_mxchat_content_css'    => $ai_css,
-                '_mxchat_template_mode'  => ($template_mode === 'on') ? '1' : '0',
+                '_knittnet_generated'      => '1',
+                '_knittnet_prompt'         => $prompt,
+                '_knittnet_fullwidth'      => ($layout === 'fullwidth') ? '1' : '0',
+                '_knittnet_hide_title'     => ($title_display === 'hide') ? '1' : '0',
+                '_knittnet_content_css'    => $ai_css,
+                '_knittnet_template_mode'  => ($template_mode === 'on') ? '1' : '0',
             ),
         );
 
@@ -509,13 +509,13 @@ class MxChat_Content_Generator {
             }
         }
         if (!empty($image_ids)) {
-            update_post_meta($post_id, '_mxchat_image_ids', $image_ids);
+            update_post_meta($post_id, '_knittnet_image_ids', $image_ids);
         }
 
         // Sync the inline `<img alt="...">` text from the generated body HTML
         // into each attachment's _wp_attachment_image_alt postmeta so RankMath,
         // schema markup, and the media library all see the alt text — not just
-        // the inline body HTML. (plan-mxchat-20260510-2be2da)
+        // the inline body HTML. (plan-knittnet-20260510-2be2da)
         $this->sync_image_alts_from_content($full_content, $image_urls);
 
         // Apply fullwidth/title settings via theme-specific post meta
@@ -557,17 +557,17 @@ class MxChat_Content_Generator {
         );
 
         // Store the result in the progress transient so polling can retrieve it
-        $this->update_progress($progress_key, 'done', __('Content generated successfully!', 'mxchat'), 100, $result);
+        $this->update_progress($progress_key, 'done', __('Content generated successfully!', 'knittnet'), 100, $result);
     }
 
     /**
      * Handle content edit via mini-chat
      */
     public function handle_content_edit() {
-        check_ajax_referer('mxchat_content_nonce', 'nonce');
+        check_ajax_referer('knittnet_content_nonce', 'nonce');
 
         if (!current_user_can('manage_options')) {
-            wp_send_json_error(array('message' => __('Unauthorized', 'mxchat')));
+            wp_send_json_error(array('message' => __('Unauthorized', 'knittnet')));
         }
 
         // Extend PHP execution time for long AI calls
@@ -579,24 +579,24 @@ class MxChat_Content_Generator {
         $edit_instruction = sanitize_textarea_field($_POST['edit_instruction'] ?? '');
 
         if (!$post_id || empty($edit_instruction)) {
-            wp_send_json_error(array('message' => __('Missing post ID or edit instruction.', 'mxchat')));
+            wp_send_json_error(array('message' => __('Missing post ID or edit instruction.', 'knittnet')));
         }
 
         $post = get_post($post_id);
         if (!$post) {
-            wp_send_json_error(array('message' => __('Post not found.', 'mxchat')));
+            wp_send_json_error(array('message' => __('Post not found.', 'knittnet')));
         }
 
         $current_content = $post->post_content;
         $current_title   = $post->post_title;
-        $current_css     = get_post_meta($post_id, '_mxchat_content_css', true);
+        $current_css     = get_post_meta($post_id, '_knittnet_content_css', true);
 
         // Build the edit prompt — send both CSS and HTML so AI can edit either
         $system_prompt = "You are a content editor. You have an existing page that uses a CSS-first approach: a <style> block with mxg- prefixed classes followed by clean HTML.\n\nApply ONLY the requested change and return the complete updated output. Do not add commentary — return ONLY the updated <style> block + HTML.\n\nIMPORTANT RULES:\n- Keep the same overall structure\n- Only change what the user specifically asks for\n- Return the complete output (not just the changed part)\n- If the user asks to change the title, update the <h1> in the HTML\n- Maintain the <style> block — update CSS rules if the edit requires style changes\n- ALL class names must use the mxg- prefix\n- Do NOT add inline styles — all styling stays in the <style> block\n- Do NOT include HTML comments\n- Do NOT generate a <header>, <footer>, or <nav>";
 
         // Strip embedded boilerplate CSS from post_content (Layer 1/2 + marker)
         // so the AI only sees the clean AI CSS + HTML
-        $clean_content = preg_replace('/<style>\/\* mxchat-css \*\/.*?<\/style>\s*/is', '', $current_content);
+        $clean_content = preg_replace('/<style>\/\* knittnet-css \*\/.*?<\/style>\s*/is', '', $current_content);
 
         // Reconstruct: prepend only the AI CSS (from meta) + clean HTML
         $full_content_for_ai = '';
@@ -613,7 +613,7 @@ class MxChat_Content_Generator {
 
         // Allow add-ons to handle the edit via tool calling (str_replace, etc.)
         // Filter returns null to fall through to the default full-rewrite approach.
-        $result = apply_filters('mxchat_content_tool_edit', null, $full_content_for_ai, $edit_instruction, $current_title);
+        $result = apply_filters('knittnet_content_tool_edit', null, $full_content_for_ai, $edit_instruction, $current_title);
 
         if ($result === null) {
             // Default: AI rewrites entire page
@@ -644,8 +644,8 @@ class MxChat_Content_Generator {
         $sanitized_html = $this->sanitize_generated_html($html_without_style);
 
         // Re-embed all CSS layers into post_content
-        $fullwidth = get_post_meta($post_id, '_mxchat_fullwidth', true) === '1';
-        $hide_title = get_post_meta($post_id, '_mxchat_hide_title', true) === '1';
+        $fullwidth = get_post_meta($post_id, '_knittnet_fullwidth', true) === '1';
+        $hide_title = get_post_meta($post_id, '_knittnet_hide_title', true) === '1';
         $embedded_css = $this->build_embedded_css($ai_css, $fullwidth, $hide_title);
         $full_content = $embedded_css . $sanitized_html;
 
@@ -666,7 +666,7 @@ class MxChat_Content_Generator {
         ), true);
 
         // Keep CSS in meta for edit workflow reconstruction
-        update_post_meta($post_id, '_mxchat_content_css', $ai_css);
+        update_post_meta($post_id, '_knittnet_content_css', $ai_css);
 
         if (is_wp_error($update_result)) {
             wp_send_json_error(array('message' => $update_result->get_error_message()));
@@ -681,7 +681,7 @@ class MxChat_Content_Generator {
             'post_id'     => $post_id,
             'preview_url' => $preview_url,
             'title'       => $new_title,
-            'message'     => __('Content updated successfully.', 'mxchat'),
+            'message'     => __('Content updated successfully.', 'knittnet'),
             'images'      => $images,
             'meta'        => array(
                 'description' => $this->get_meta_description($post_id),
@@ -698,11 +698,11 @@ class MxChat_Content_Generator {
         // Prevent proxy/CDN from caching progress responses
         nocache_headers();
 
-        check_ajax_referer('mxchat_content_nonce', 'nonce');
+        check_ajax_referer('knittnet_content_nonce', 'nonce');
 
         $progress_key = sanitize_text_field($_POST['progress_key'] ?? '');
         if (empty($progress_key)) {
-            wp_send_json_error(array('message' => __('Invalid progress key.', 'mxchat')));
+            wp_send_json_error(array('message' => __('Invalid progress key.', 'knittnet')));
         }
 
         // Direct DB read — bypasses all caching layers for guaranteed freshness
@@ -710,7 +710,7 @@ class MxChat_Content_Generator {
         if (!$progress) {
             wp_send_json_success(array(
                 'step'    => 'waiting',
-                'message' => __('Waiting...', 'mxchat'),
+                'message' => __('Waiting...', 'knittnet'),
                 'percent' => 0,
             ));
             return;
@@ -734,7 +734,7 @@ class MxChat_Content_Generator {
 
         // "Images per article" control (1–5, default 3). Drives how many sections the
         // planner marks needs_image:true. When image generation is off, force zero.
-        $plan_options   = get_option('mxchat_options', array());
+        $plan_options   = get_option('knittnet_options', array());
         $images_enabled = ($plan_options['content_enable_images'] ?? 'on') === 'on';
         $image_count    = max(1, min(5, (int) ($plan_options['content_image_count'] ?? 3)));
         if ($images_enabled) {
@@ -763,12 +763,12 @@ class MxChat_Content_Generator {
         $plan = json_decode($result, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            return new WP_Error('json_parse_error', __('Failed to parse content plan. The AI response was not valid JSON.', 'mxchat'));
+            return new WP_Error('json_parse_error', __('Failed to parse content plan. The AI response was not valid JSON.', 'knittnet'));
         }
 
         // Validate required fields
         if (empty($plan['title']) || empty($plan['sections'])) {
-            return new WP_Error('invalid_plan', __('Content plan is missing required fields (title or sections).', 'mxchat'));
+            return new WP_Error('invalid_plan', __('Content plan is missing required fields (title or sections).', 'knittnet'));
         }
 
         return $plan;
@@ -782,7 +782,7 @@ class MxChat_Content_Generator {
      * then saves results to the media library sequentially.
      */
     private function generate_content_images($plan, $progress_key) {
-        $options = get_option('mxchat_options', array());
+        $options = get_option('knittnet_options', array());
         $enable_images = ($options['content_enable_images'] ?? 'on') === 'on';
 
         if (!$enable_images) {
@@ -821,7 +821,7 @@ class MxChat_Content_Generator {
         $this->update_progress(
             $progress_key,
             'images',
-            sprintf(__('Generating %d images...', 'mxchat'), $total),
+            sprintf(__('Generating %d images...', 'knittnet'), $total),
             30
         );
 
@@ -897,7 +897,7 @@ class MxChat_Content_Generator {
         $this->update_progress(
             $progress_key,
             'images',
-            __('Saving images to media library...', 'mxchat'),
+            __('Saving images to media library...', 'knittnet'),
             50
         );
 
@@ -907,7 +907,7 @@ class MxChat_Content_Generator {
             $result = $this->process_image_response($resp['body'], $image_model, $options);
             if (!is_wp_error($result)) {
                 // Store the original prompt for later regeneration by add-ons
-                update_post_meta($result['attachment_id'], '_mxchat_image_prompt', $resp['prompt']);
+                update_post_meta($result['attachment_id'], '_knittnet_image_prompt', $resp['prompt']);
                 $image_urls[] = array(
                     'section_index' => $resp['section_index'],
                     'url'           => $result['url'],
@@ -930,7 +930,7 @@ class MxChat_Content_Generator {
             $this->update_progress(
                 $progress_key,
                 'images',
-                sprintf(__('Generating image %d of %d...', 'mxchat'), $step_num, $total),
+                sprintf(__('Generating image %d of %d...', 'knittnet'), $step_num, $total),
                 30 + (int)(($step_num / $total) * 25)
             );
 
@@ -941,7 +941,7 @@ class MxChat_Content_Generator {
             }
 
             // Store the original prompt for later regeneration by add-ons
-            update_post_meta($image_result['attachment_id'], '_mxchat_image_prompt', $img['prompt']);
+            update_post_meta($image_result['attachment_id'], '_knittnet_image_prompt', $img['prompt']);
 
             $image_urls[] = array(
                 'section_index' => $img['index'],
@@ -957,7 +957,7 @@ class MxChat_Content_Generator {
      * Generate a single image using the configured image model
      */
     private function generate_single_image($prompt) {
-        $options     = get_option('mxchat_options', array());
+        $options     = get_option('knittnet_options', array());
         $image_model = $options['content_image_model'] ?? 'gpt-image-1.5';
 
         if (strpos($image_model, 'gpt-image') === 0) {
@@ -968,7 +968,7 @@ class MxChat_Content_Generator {
             return $this->generate_gemini_image($prompt, $image_model, $options);
         }
 
-        return new WP_Error('unknown_model', __('Unknown image model configured.', 'mxchat'));
+        return new WP_Error('unknown_model', __('Unknown image model configured.', 'knittnet'));
     }
 
     /**
@@ -984,7 +984,7 @@ class MxChat_Content_Generator {
         if (strpos($image_model, 'gpt-image') === 0) {
             $api_key = $options['api_key'] ?? '';
             if (empty($api_key)) {
-                return new WP_Error('no_api_key', __('OpenAI API key not configured.', 'mxchat'));
+                return new WP_Error('no_api_key', __('OpenAI API key not configured.', 'knittnet'));
             }
             return array(
                 'url'     => 'https://api.openai.com/v1/images/generations',
@@ -1006,7 +1006,7 @@ class MxChat_Content_Generator {
         if (strpos($image_model, 'grok') === 0) {
             $api_key = $options['xai_api_key'] ?? '';
             if (empty($api_key)) {
-                return new WP_Error('no_api_key', __('xAI API key not configured.', 'mxchat'));
+                return new WP_Error('no_api_key', __('xAI API key not configured.', 'knittnet'));
             }
             return array(
                 'url'     => 'https://api.x.ai/v1/images/generations',
@@ -1026,7 +1026,7 @@ class MxChat_Content_Generator {
         if (strpos($image_model, 'gemini') === 0) {
             $api_key = $options['gemini_api_key'] ?? '';
             if (empty($api_key)) {
-                return new WP_Error('no_api_key', __('Gemini API key not configured.', 'mxchat'));
+                return new WP_Error('no_api_key', __('Gemini API key not configured.', 'knittnet'));
             }
             $api_version = (strpos($image_model, 'preview') !== false) ? 'v1beta' : 'v1beta';
             return array(
@@ -1050,7 +1050,7 @@ class MxChat_Content_Generator {
             );
         }
 
-        return new WP_Error('unknown_model', __('Unknown image model.', 'mxchat'));
+        return new WP_Error('unknown_model', __('Unknown image model.', 'knittnet'));
     }
 
     /**
@@ -1065,7 +1065,7 @@ class MxChat_Content_Generator {
     private function process_image_response($response_body, $image_model, $options = array()) {
         $decoded = json_decode($response_body, true);
         if (json_last_error() !== JSON_ERROR_NONE || empty($decoded)) {
-            return new WP_Error('json_error', __('Invalid image API response.', 'mxchat'));
+            return new WP_Error('json_error', __('Invalid image API response.', 'knittnet'));
         }
 
         // OpenAI GPT Image — b64_json or url
@@ -1078,7 +1078,7 @@ class MxChat_Content_Generator {
             if (!empty($url)) {
                 return $this->save_image_url_to_media_library($url);
             }
-            return new WP_Error('no_image_data', __('No image data in OpenAI response.', 'mxchat'));
+            return new WP_Error('no_image_data', __('No image data in OpenAI response.', 'knittnet'));
         }
 
         // xAI Grok — url
@@ -1087,7 +1087,7 @@ class MxChat_Content_Generator {
             if (!empty($url)) {
                 return $this->save_image_url_to_media_library($url);
             }
-            return new WP_Error('no_image_data', __('No image data in xAI response.', 'mxchat'));
+            return new WP_Error('no_image_data', __('No image data in xAI response.', 'knittnet'));
         }
 
         // Gemini — inlineData base64
@@ -1101,10 +1101,10 @@ class MxChat_Content_Generator {
                     }
                 }
             }
-            return new WP_Error('no_image_data', __('No image data in Gemini response.', 'mxchat'));
+            return new WP_Error('no_image_data', __('No image data in Gemini response.', 'knittnet'));
         }
 
-        return new WP_Error('unknown_model', __('Unknown image model.', 'mxchat'));
+        return new WP_Error('unknown_model', __('Unknown image model.', 'knittnet'));
     }
 
     /**
@@ -1113,7 +1113,7 @@ class MxChat_Content_Generator {
     private function generate_openai_image($prompt, $options) {
         $api_key = $options['api_key'] ?? '';
         if (empty($api_key)) {
-            return new WP_Error('no_api_key', __('OpenAI API key not configured.', 'mxchat'));
+            return new WP_Error('no_api_key', __('OpenAI API key not configured.', 'knittnet'));
         }
 
         $body = array(
@@ -1142,7 +1142,7 @@ class MxChat_Content_Generator {
         $response_body = json_decode(wp_remote_retrieve_body($response), true);
 
         if ($status_code !== 200) {
-            $error_msg = $response_body['error']['message'] ?? __('OpenAI image generation failed.', 'mxchat');
+            $error_msg = $response_body['error']['message'] ?? __('OpenAI image generation failed.', 'knittnet');
             return new WP_Error('openai_image_error', $error_msg);
         }
 
@@ -1158,7 +1158,7 @@ class MxChat_Content_Generator {
             return $this->save_image_url_to_media_library($image_url);
         }
 
-        return new WP_Error('no_image_data', __('No image data in OpenAI response.', 'mxchat'));
+        return new WP_Error('no_image_data', __('No image data in OpenAI response.', 'knittnet'));
     }
 
     /**
@@ -1167,7 +1167,7 @@ class MxChat_Content_Generator {
     private function generate_xai_image($prompt, $options) {
         $api_key = $options['xai_api_key'] ?? '';
         if (empty($api_key)) {
-            return new WP_Error('no_api_key', __('xAI API key not configured.', 'mxchat'));
+            return new WP_Error('no_api_key', __('xAI API key not configured.', 'knittnet'));
         }
 
         $image_model = $options['content_image_model'] ?? 'grok-imagine-image';
@@ -1196,7 +1196,7 @@ class MxChat_Content_Generator {
         $response_body = json_decode(wp_remote_retrieve_body($response), true);
 
         if ($status_code !== 200) {
-            $error_msg = $response_body['error']['message'] ?? __('xAI image generation failed.', 'mxchat');
+            $error_msg = $response_body['error']['message'] ?? __('xAI image generation failed.', 'knittnet');
             return new WP_Error('xai_image_error', $error_msg);
         }
 
@@ -1205,7 +1205,7 @@ class MxChat_Content_Generator {
             return $this->save_image_url_to_media_library($image_url);
         }
 
-        return new WP_Error('no_image_data', __('No image data in xAI response.', 'mxchat'));
+        return new WP_Error('no_image_data', __('No image data in xAI response.', 'knittnet'));
     }
 
     /**
@@ -1214,7 +1214,7 @@ class MxChat_Content_Generator {
     private function generate_gemini_image($prompt, $model, $options) {
         $api_key = $options['gemini_api_key'] ?? '';
         if (empty($api_key)) {
-            return new WP_Error('no_api_key', __('Gemini API key not configured.', 'mxchat'));
+            return new WP_Error('no_api_key', __('Gemini API key not configured.', 'knittnet'));
         }
 
         $body = array(
@@ -1251,7 +1251,7 @@ class MxChat_Content_Generator {
         $response_body = json_decode(wp_remote_retrieve_body($response), true);
 
         if ($status_code !== 200) {
-            $error_msg = $response_body['error']['message'] ?? __('Gemini image generation failed.', 'mxchat');
+            $error_msg = $response_body['error']['message'] ?? __('Gemini image generation failed.', 'knittnet');
             return new WP_Error('gemini_image_error', $error_msg);
         }
 
@@ -1266,7 +1266,7 @@ class MxChat_Content_Generator {
             }
         }
 
-        return new WP_Error('no_image_data', __('No image data in Gemini response.', 'mxchat'));
+        return new WP_Error('no_image_data', __('No image data in Gemini response.', 'knittnet'));
     }
 
     // ─── Media Library Helpers ──────────────────────────────────────────
@@ -1281,7 +1281,7 @@ class MxChat_Content_Generator {
 
         $image_content = base64_decode($base64_data);
         if ($image_content === false) {
-            return new WP_Error('decode_failed', __('Failed to decode image data.', 'mxchat'));
+            return new WP_Error('decode_failed', __('Failed to decode image data.', 'knittnet'));
         }
 
         $extension = 'png';
@@ -1291,17 +1291,17 @@ class MxChat_Content_Generator {
             $extension = 'webp';
         }
 
-        $filename  = 'mxchat-content-' . time() . '-' . wp_generate_password(6, false) . '.' . $extension;
+        $filename  = 'knittnet-content-' . time() . '-' . wp_generate_password(6, false) . '.' . $extension;
         $temp_file = wp_tempnam($filename);
 
         if (!$temp_file) {
-            return new WP_Error('temp_file_failed', __('Could not create temporary file.', 'mxchat'));
+            return new WP_Error('temp_file_failed', __('Could not create temporary file.', 'knittnet'));
         }
 
         $bytes = file_put_contents($temp_file, $image_content);
         if ($bytes === false) {
             @unlink($temp_file);
-            return new WP_Error('write_failed', __('Could not write image file.', 'mxchat'));
+            return new WP_Error('write_failed', __('Could not write image file.', 'knittnet'));
         }
 
         $file_array = array(
@@ -1336,7 +1336,7 @@ class MxChat_Content_Generator {
             return $tmp;
         }
 
-        $filename = 'mxchat-content-' . time() . '-' . wp_generate_password(6, false) . '.jpg';
+        $filename = 'knittnet-content-' . time() . '-' . wp_generate_password(6, false) . '.jpg';
 
         $file_array = array(
             'name'     => $filename,
@@ -1404,7 +1404,7 @@ class MxChat_Content_Generator {
 
         // Check for custom prompt: passed directly, or saved in DB
         if (empty($custom_system_prompt)) {
-            $option_key = 'mxchat_custom_prompt_' . ($content_type === 'page' ? 'page' : 'post');
+            $option_key = 'knittnet_custom_prompt_' . ($content_type === 'page' ? 'page' : 'post');
             $custom_system_prompt = get_option($option_key, '');
         }
 
@@ -1417,7 +1417,7 @@ class MxChat_Content_Generator {
         }
 
         // Allow add-ons to modify the system prompt (e.g. internal linking instructions)
-        $system_prompt = apply_filters('mxchat_content_system_prompt', $system_prompt, $plan, $content_type, $template_mode);
+        $system_prompt = apply_filters('knittnet_content_system_prompt', $system_prompt, $plan, $content_type, $template_mode);
 
         // Include the original user prompt so the AI can see any specific URLs, links, or details the user mentioned
         $original_context = '';
@@ -1428,7 +1428,7 @@ class MxChat_Content_Generator {
         $user_message = "Generate the full HTML content for this {$type_label}. Here is the content plan:\n\n{$plan_json}{$image_reference}{$original_context}";
 
         // Allow add-ons to append data to the user message (e.g. internal links list)
-        $user_message = apply_filters('mxchat_content_user_message', $user_message, $plan, $content_type);
+        $user_message = apply_filters('knittnet_content_user_message', $user_message, $plan, $content_type);
 
         $messages = array(
             array('role' => 'user', 'content' => $user_message),
@@ -1455,7 +1455,7 @@ class MxChat_Content_Generator {
         }
 
         // Allow add-ons to post-process generated HTML
-        $result = apply_filters('mxchat_content_generated_html', $result, $plan, $content_type);
+        $result = apply_filters('knittnet_content_generated_html', $result, $plan, $content_type);
 
         return $result;
     }
@@ -1505,10 +1505,10 @@ class MxChat_Content_Generator {
      * AJAX handler: return the default system prompt for the given content type.
      */
     public function handle_get_default_prompt() {
-        check_ajax_referer('mxchat_content_nonce', 'nonce');
+        check_ajax_referer('knittnet_content_nonce', 'nonce');
 
         if (!current_user_can('manage_options')) {
-            wp_send_json_error(array('message' => __('Unauthorized', 'mxchat')));
+            wp_send_json_error(array('message' => __('Unauthorized', 'knittnet')));
         }
 
         $content_type = sanitize_text_field($_POST['content_type'] ?? 'post');
@@ -1519,7 +1519,7 @@ class MxChat_Content_Generator {
             $default = $this->get_blog_post_prompt(true);
         }
 
-        $option_key = 'mxchat_custom_prompt_' . ($content_type === 'page' ? 'page' : 'post');
+        $option_key = 'knittnet_custom_prompt_' . ($content_type === 'page' ? 'page' : 'post');
         $saved = get_option($option_key, '');
 
         wp_send_json_success(array(
@@ -1532,15 +1532,15 @@ class MxChat_Content_Generator {
      * AJAX handler: save or reset a custom system prompt for a content type.
      */
     public function handle_save_custom_prompt() {
-        check_ajax_referer('mxchat_content_nonce', 'nonce');
+        check_ajax_referer('knittnet_content_nonce', 'nonce');
 
         if (!current_user_can('manage_options')) {
-            wp_send_json_error(array('message' => __('Unauthorized', 'mxchat')));
+            wp_send_json_error(array('message' => __('Unauthorized', 'knittnet')));
         }
 
         $content_type = sanitize_text_field($_POST['content_type'] ?? 'post');
         $custom_prompt = wp_unslash($_POST['custom_prompt'] ?? '');
-        $option_key = 'mxchat_custom_prompt_' . ($content_type === 'page' ? 'page' : 'post');
+        $option_key = 'knittnet_custom_prompt_' . ($content_type === 'page' ? 'page' : 'post');
 
         if (empty($custom_prompt)) {
             delete_option($option_key);
@@ -1754,7 +1754,7 @@ PROMPT;
      * even if the plugin is deactivated.
      */
     private function build_embedded_css($ai_css, $fullwidth = false, $hide_title = false) {
-        $css = "<style>/* mxchat-css */\n";
+        $css = "<style>/* knittnet-css */\n";
 
         // Layer 1: Fullwidth theme resets
         if ($fullwidth) {
@@ -1769,7 +1769,7 @@ PROMPT;
         // inside the style block when the_content filter runs.
         if (!empty($ai_css)) {
             $clean_css = preg_replace('/\n\s*\n/', "\n", $ai_css);
-            $css .= "\n/* MxChat — AI Generated Styles */\n" . $clean_css . "\n";
+            $css .= "\n/* KnittNet — AI Generated Styles */\n" . $clean_css . "\n";
         }
 
         // Title hiding
@@ -1794,7 +1794,7 @@ PROMPT;
         }
         $css .= $this->get_isolation_css();
         if (!empty($ai_css)) {
-            $css .= "\n/* MxChat — AI Generated Styles */\n" . $ai_css . "\n";
+            $css .= "\n/* KnittNet — AI Generated Styles */\n" . $ai_css . "\n";
         }
         $css .= '</style>';
         return $css;
@@ -1804,7 +1804,7 @@ PROMPT;
      * Layer 1: Theme & page builder fullwidth padding resets.
      */
     private function get_fullwidth_reset_css() {
-        return '/* MxChat — Fullwidth Theme Reset */
+        return '/* KnittNet — Fullwidth Theme Reset */
 /* Generic WordPress themes */
 .entry-content-wrap,
 .entry-content,
@@ -1957,7 +1957,7 @@ article .entry-content,
      * Layer 2: CSS isolation + responsive overrides for mxg- classes.
      */
     private function get_isolation_css() {
-        return '/* MxChat — CSS Isolation & Responsive Overrides */
+        return '/* KnittNet — CSS Isolation & Responsive Overrides */
 .mxg-wrapper { box-sizing: border-box; }
 .mxg-wrapper *, .mxg-wrapper *::before, .mxg-wrapper *::after { box-sizing: inherit; }
 .mxg-wrapper img { max-width: 100%; height: auto; }
@@ -1988,7 +1988,7 @@ article .entry-content,
      * Title-hiding CSS for WordPress themes.
      */
     private function get_title_hide_css() {
-        return '/* MxChat — Hide Title */
+        return '/* KnittNet — Hide Title */
 .entry-title,
 .page-title,
 .post-title,
@@ -2173,7 +2173,7 @@ article .entry-content,
     /**
      * Write the SEO title to the active SEO plugin's title postmeta so
      * RankMath / Yoast / AIOSEO don't fall back to the bare post_title.
-     * (plan-mxchat-20260510-b89332)
+     * (plan-knittnet-20260510-b89332)
      *
      * v1: use the generated post_title as the SEO title. A future plan may
      * add a separately-generated 50-58 char SEO-optimized title.
@@ -2198,7 +2198,7 @@ article .entry-content,
      * Walk the rendered body HTML and copy the inline `<img alt="...">` text
      * for each generated image into its attachment's _wp_attachment_image_alt
      * postmeta. Matches inline images to attachments by URL.
-     * (plan-mxchat-20260510-2be2da)
+     * (plan-knittnet-20260510-2be2da)
      */
     private function sync_image_alts_from_content($content, $image_urls) {
         if (empty($content) || empty($image_urls)) {
@@ -2244,7 +2244,7 @@ article .entry-content,
      * Call the configured content model
      */
     private function call_content_model($system_prompt, $messages, $max_tokens = 4096) {
-        $options = get_option('mxchat_options', array());
+        $options = get_option('knittnet_options', array());
         $model   = $options['content_model'] ?? $options['model'] ?? 'gpt-5.1-chat-latest';
 
         // Determine provider from model name
@@ -2267,7 +2267,7 @@ article .entry-content,
      */
     private function call_openai_compatible($model, $api_key, $endpoint, $system_prompt, $messages, $max_tokens) {
         if (empty($api_key)) {
-            return new WP_Error('no_api_key', __('API key not configured for the selected content model.', 'mxchat'));
+            return new WP_Error('no_api_key', __('API key not configured for the selected content model.', 'knittnet'));
         }
 
         $formatted = array();
@@ -2329,7 +2329,7 @@ article .entry-content,
         $decoded     = json_decode(wp_remote_retrieve_body($response), true);
 
         if ($status_code !== 200) {
-            $error_msg = $decoded['error']['message'] ?? __('API request failed with status ', 'mxchat') . $status_code;
+            $error_msg = $decoded['error']['message'] ?? __('API request failed with status ', 'knittnet') . $status_code;
             return new WP_Error('api_error', $error_msg);
         }
 
@@ -2337,7 +2337,7 @@ article .entry-content,
             return trim($decoded['choices'][0]['message']['content']);
         }
 
-        return new WP_Error('unexpected_response', __('Unexpected API response format.', 'mxchat'));
+        return new WP_Error('unexpected_response', __('Unexpected API response format.', 'knittnet'));
     }
 
     /**
@@ -2349,7 +2349,7 @@ article .entry-content,
         if ($model === 'claude-opus-4-20250514') { $model = 'claude-opus-4-8'; }
         elseif ($model === 'claude-sonnet-4-20250514') { $model = 'claude-sonnet-4-6'; }
         if (empty($api_key)) {
-            return new WP_Error('no_api_key', __('Claude API key not configured.', 'mxchat'));
+            return new WP_Error('no_api_key', __('Claude API key not configured.', 'knittnet'));
         }
 
         $formatted = array();
@@ -2373,7 +2373,7 @@ article .entry-content,
         );
 
         // Anthropic removed temperature on Opus 4.7+ flagships (400 if sent) —
-        // same list as the integrator's mxchat_claude_omits_temperature().
+        // same list as the integrator's knittnet_claude_omits_temperature().
         $no_temp = array('claude-opus-4-7', 'claude-opus-4-8', 'claude-fable-5');
         if (in_array($model, $no_temp, true)) {
             unset($body['temperature']);
@@ -2399,7 +2399,7 @@ article .entry-content,
         $decoded     = json_decode(wp_remote_retrieve_body($response), true);
 
         if ($status_code !== 200) {
-            $error_msg = $decoded['error']['message'] ?? __('Claude API error ', 'mxchat') . $status_code;
+            $error_msg = $decoded['error']['message'] ?? __('Claude API error ', 'knittnet') . $status_code;
             return new WP_Error('claude_error', $error_msg);
         }
 
@@ -2413,7 +2413,7 @@ article .entry-content,
             }
         }
 
-        return new WP_Error('unexpected_response', __('Unexpected Claude response format.', 'mxchat'));
+        return new WP_Error('unexpected_response', __('Unexpected Claude response format.', 'knittnet'));
     }
 
 
@@ -2425,7 +2425,7 @@ article .entry-content,
             $model = 'gemini-3.1-pro-preview';
         }
         if (empty($api_key)) {
-            return new WP_Error('no_api_key', __('Gemini API key not configured.', 'mxchat'));
+            return new WP_Error('no_api_key', __('Gemini API key not configured.', 'knittnet'));
         }
 
         $formatted = array();
@@ -2477,7 +2477,7 @@ article .entry-content,
         $decoded     = json_decode(wp_remote_retrieve_body($response), true);
 
         if ($status_code !== 200) {
-            $error_msg = $decoded['error']['message'] ?? __('Gemini API error ', 'mxchat') . $status_code;
+            $error_msg = $decoded['error']['message'] ?? __('Gemini API error ', 'knittnet') . $status_code;
             return new WP_Error('gemini_error', $error_msg);
         }
 
@@ -2485,7 +2485,7 @@ article .entry-content,
             return trim($decoded['candidates'][0]['content']['parts'][0]['text']);
         }
 
-        return new WP_Error('unexpected_response', __('Unexpected Gemini response format.', 'mxchat'));
+        return new WP_Error('unexpected_response', __('Unexpected Gemini response format.', 'knittnet'));
     }
 
     // ─── Model Detection Helpers ────────────────────────────────────────
@@ -2513,10 +2513,10 @@ article .entry-content,
      * Bypasses the main settings handler entirely.
      */
     public function handle_save_content_setting() {
-        check_ajax_referer('mxchat_content_nonce', 'nonce');
+        check_ajax_referer('knittnet_content_nonce', 'nonce');
 
         if (!current_user_can('manage_options')) {
-            wp_send_json_error(array('message' => __('Unauthorized', 'mxchat')));
+            wp_send_json_error(array('message' => __('Unauthorized', 'knittnet')));
         }
 
         $field = sanitize_text_field($_POST['field'] ?? '');
@@ -2524,7 +2524,7 @@ article .entry-content,
 
         $allowed_fields = array('content_model', 'content_image_model', 'content_image_quality', 'content_image_count', 'content_enable_images', 'content_use_placeholders', 'content_internal_linking', 'content_tool_use', 'seo_optimize_meta_desc', 'seo_optimize_seo_title', 'seo_optimize_slug', 'seo_optimize_readability', 'seo_optimize_internal_links', 'seo_optimize_img_alt', 'seo_optimize_featured_img');
         if (!in_array($field, $allowed_fields, true)) {
-            wp_send_json_error(array('message' => __('Invalid field.', 'mxchat')));
+            wp_send_json_error(array('message' => __('Invalid field.', 'knittnet')));
         }
 
         // Toggle fields
@@ -2542,11 +2542,11 @@ article .entry-content,
             $value = (string) max(1, min(5, (int) $value));
         }
 
-        $options = get_option('mxchat_options', array());
+        $options = get_option('knittnet_options', array());
         $options[$field] = $value;
-        update_option('mxchat_options', $options);
+        update_option('knittnet_options', $options);
 
-        wp_send_json_success(array('message' => __('Setting saved.', 'mxchat')));
+        wp_send_json_success(array('message' => __('Setting saved.', 'knittnet')));
     }
 
     // ─── Progress Tracking ─────────────────────────────────────────────
@@ -2569,7 +2569,7 @@ article .entry-content,
             $data['result'] = $result;
         }
 
-        $option_name = '_mxchat_progress_' . $key;
+        $option_name = '_knittnet_progress_' . $key;
         $serialized  = maybe_serialize($data);
 
         // Direct DB write — bypasses object cache entirely
@@ -2606,7 +2606,7 @@ article .entry-content,
     private function get_progress($key) {
         global $wpdb;
 
-        $option_name = '_mxchat_progress_' . $key;
+        $option_name = '_knittnet_progress_' . $key;
 
         $value = $wpdb->get_var($wpdb->prepare(
             "SELECT option_value FROM $wpdb->options WHERE option_name = %s",
@@ -2626,7 +2626,7 @@ article .entry-content,
     private function delete_progress($key) {
         global $wpdb;
 
-        $option_name = '_mxchat_progress_' . $key;
+        $option_name = '_knittnet_progress_' . $key;
         $wpdb->delete($wpdb->options, array('option_name' => $option_name));
         wp_cache_delete($option_name, 'options');
     }
@@ -2638,10 +2638,10 @@ article .entry-content,
      * Return paginated list of AI-generated posts for the History tab.
      */
     public function handle_content_history() {
-        check_ajax_referer('mxchat_content_nonce', 'nonce');
+        check_ajax_referer('knittnet_content_nonce', 'nonce');
 
         if (!current_user_can('manage_options')) {
-            wp_send_json_error(array('message' => __('Unauthorized', 'mxchat')));
+            wp_send_json_error(array('message' => __('Unauthorized', 'knittnet')));
         }
 
         $page     = max(1, intval($_POST['page'] ?? 1));
@@ -2650,7 +2650,7 @@ article .entry-content,
         $query = new WP_Query(array(
             'post_type'      => array('post', 'page'),
             'post_status'    => array('publish', 'draft', 'future', 'pending', 'private'),
-            'meta_key'       => '_mxchat_generated',
+            'meta_key'       => '_knittnet_generated',
             'meta_value'     => '1',
             'posts_per_page' => $per_page,
             'paged'          => $page,
@@ -2684,25 +2684,25 @@ article .entry-content,
      * Move an AI-generated post to the trash.
      */
     public function handle_delete_content() {
-        check_ajax_referer('mxchat_content_nonce', 'nonce');
+        check_ajax_referer('knittnet_content_nonce', 'nonce');
 
         if (!current_user_can('manage_options')) {
-            wp_send_json_error(array('message' => __('Unauthorized', 'mxchat')));
+            wp_send_json_error(array('message' => __('Unauthorized', 'knittnet')));
         }
 
         $post_id = intval($_POST['post_id'] ?? 0);
         if (!$post_id) {
-            wp_send_json_error(array('message' => __('Invalid post ID.', 'mxchat')));
+            wp_send_json_error(array('message' => __('Invalid post ID.', 'knittnet')));
         }
 
-        // Only allow deleting MxChat-generated content
-        if (get_post_meta($post_id, '_mxchat_generated', true) !== '1') {
-            wp_send_json_error(array('message' => __('This post was not created by the content generator.', 'mxchat')));
+        // Only allow deleting KnittNet-generated content
+        if (get_post_meta($post_id, '_knittnet_generated', true) !== '1') {
+            wp_send_json_error(array('message' => __('This post was not created by the content generator.', 'knittnet')));
         }
 
         $result = wp_trash_post($post_id);
         if (!$result) {
-            wp_send_json_error(array('message' => __('Failed to delete post.', 'mxchat')));
+            wp_send_json_error(array('message' => __('Failed to delete post.', 'knittnet')));
         }
 
         wp_send_json_success(array('post_id' => $post_id));
@@ -2712,10 +2712,10 @@ article .entry-content,
      * Update the status of an AI-generated post (draft, publish, future).
      */
     public function handle_update_post_status() {
-        check_ajax_referer('mxchat_content_nonce', 'nonce');
+        check_ajax_referer('knittnet_content_nonce', 'nonce');
 
         if (!current_user_can('manage_options')) {
-            wp_send_json_error(array('message' => __('Unauthorized', 'mxchat')));
+            wp_send_json_error(array('message' => __('Unauthorized', 'knittnet')));
         }
 
         $post_id       = intval($_POST['post_id'] ?? 0);
@@ -2723,16 +2723,16 @@ article .entry-content,
         $schedule_date = sanitize_text_field($_POST['schedule_date'] ?? '');
 
         if (!$post_id) {
-            wp_send_json_error(array('message' => __('Invalid post ID.', 'mxchat')));
+            wp_send_json_error(array('message' => __('Invalid post ID.', 'knittnet')));
         }
 
-        // Only allow updating MxChat-generated content
-        if (get_post_meta($post_id, '_mxchat_generated', true) !== '1') {
-            wp_send_json_error(array('message' => __('This post was not created by the content generator.', 'mxchat')));
+        // Only allow updating KnittNet-generated content
+        if (get_post_meta($post_id, '_knittnet_generated', true) !== '1') {
+            wp_send_json_error(array('message' => __('This post was not created by the content generator.', 'knittnet')));
         }
 
         if (!in_array($new_status, array('draft', 'publish', 'future'), true)) {
-            wp_send_json_error(array('message' => __('Invalid status.', 'mxchat')));
+            wp_send_json_error(array('message' => __('Invalid status.', 'knittnet')));
         }
 
         $post_args = array('ID' => $post_id, 'post_status' => $new_status);
@@ -2740,7 +2740,7 @@ article .entry-content,
         // Scheduled: require future date
         if ($new_status === 'future') {
             if (empty($schedule_date)) {
-                wp_send_json_error(array('message' => __('A schedule date is required.', 'mxchat')));
+                wp_send_json_error(array('message' => __('A schedule date is required.', 'knittnet')));
             }
             $post_args['post_date']     = $schedule_date;
             $post_args['post_date_gmt'] = get_gmt_from_date($schedule_date);
@@ -2776,24 +2776,24 @@ article .entry-content,
      * Returns the same data shape as the generation success response.
      */
     public function handle_load_post_for_edit() {
-        check_ajax_referer('mxchat_content_nonce', 'nonce');
+        check_ajax_referer('knittnet_content_nonce', 'nonce');
 
         if (!current_user_can('manage_options')) {
-            wp_send_json_error(array('message' => __('Unauthorized', 'mxchat')));
+            wp_send_json_error(array('message' => __('Unauthorized', 'knittnet')));
         }
 
         $post_id = intval($_POST['post_id'] ?? 0);
         if (!$post_id) {
-            wp_send_json_error(array('message' => __('Invalid post ID.', 'mxchat')));
+            wp_send_json_error(array('message' => __('Invalid post ID.', 'knittnet')));
         }
 
         $post = get_post($post_id);
         if (!$post) {
-            wp_send_json_error(array('message' => __('Post not found.', 'mxchat')));
+            wp_send_json_error(array('message' => __('Post not found.', 'knittnet')));
         }
 
-        if (get_post_meta($post_id, '_mxchat_generated', true) !== '1') {
-            wp_send_json_error(array('message' => __('This post was not created by the content generator.', 'mxchat')));
+        if (get_post_meta($post_id, '_knittnet_generated', true) !== '1') {
+            wp_send_json_error(array('message' => __('This post was not created by the content generator.', 'knittnet')));
         }
 
         $preview_url = add_query_arg(array('preview' => 'true'), get_permalink($post_id));
@@ -2825,7 +2825,7 @@ article .entry-content,
      */
     private function discover_post_images($post_id) {
         $images = array();
-        $stored_ids = get_post_meta($post_id, '_mxchat_image_ids', true);
+        $stored_ids = get_post_meta($post_id, '_knittnet_image_ids', true);
 
         if (!empty($stored_ids) && is_array($stored_ids)) {
             // Primary: use stored attachment IDs
@@ -2847,7 +2847,7 @@ article .entry-content,
                 'post_mime_type' => 'image',
                 'posts_per_page' => -1,
                 'post_parent'    => $post_id,
-                'meta_key'       => '_mxchat_image_prompt',
+                'meta_key'       => '_knittnet_image_prompt',
                 'meta_compare'   => 'EXISTS',
                 'orderby'        => 'date',
                 'order'          => 'ASC',
@@ -2903,7 +2903,7 @@ article .entry-content,
             $val = get_post_meta($post_id, $keys[$plugin], true);
             if (!empty($val)) return $val;
         }
-        return get_post_meta($post_id, '_mxchat_meta_description', true);
+        return get_post_meta($post_id, '_knittnet_meta_description', true);
     }
 
     private function set_meta_description($post_id, $value) {
@@ -2917,7 +2917,7 @@ article .entry-content,
         if (isset($keys[$plugin])) {
             update_post_meta($post_id, $keys[$plugin], $value);
         } else {
-            update_post_meta($post_id, '_mxchat_meta_description', $value);
+            update_post_meta($post_id, '_knittnet_meta_description', $value);
         }
     }
 
@@ -2934,7 +2934,7 @@ article .entry-content,
                 return trim($parts[0]);
             }
         }
-        $keywords = get_post_meta($post_id, '_mxchat_keywords', true);
+        $keywords = get_post_meta($post_id, '_knittnet_keywords', true);
         if (!empty($keywords)) {
             $parts = explode(',', $keywords);
             return trim($parts[0]);
@@ -2952,7 +2952,7 @@ article .entry-content,
         if (isset($keys[$plugin])) {
             update_post_meta($post_id, $keys[$plugin], $value);
         } else {
-            update_post_meta($post_id, '_mxchat_keywords', $value);
+            update_post_meta($post_id, '_knittnet_keywords', $value);
         }
     }
 
@@ -2963,7 +2963,7 @@ article .entry-content,
      * Returns a 0-100 score with individual check results.
      */
     public function handle_seo_analyze() {
-        check_ajax_referer('mxchat_content_nonce', 'nonce');
+        check_ajax_referer('knittnet_content_nonce', 'nonce');
 
         if (!current_user_can('edit_posts')) {
             wp_send_json_error('Unauthorized');
@@ -2979,7 +2979,7 @@ article .entry-content,
     }
 
     public function handle_seo_analyze_batch() {
-        check_ajax_referer('mxchat_content_nonce', 'nonce');
+        check_ajax_referer('knittnet_content_nonce', 'nonce');
 
         if (!current_user_can('edit_posts')) {
             wp_send_json_error('Unauthorized');
@@ -3133,9 +3133,9 @@ article .entry-content,
         }
 
         // Cache results to post meta for the SEO dashboard list view
-        update_post_meta($post_id, '_mxchat_seo_score', $score);
-        update_post_meta($post_id, '_mxchat_seo_checks', $checks);
-        update_post_meta($post_id, '_mxchat_seo_analyzed', time());
+        update_post_meta($post_id, '_knittnet_seo_score', $score);
+        update_post_meta($post_id, '_knittnet_seo_checks', $checks);
+        update_post_meta($post_id, '_knittnet_seo_analyzed', time());
 
         return array(
             'score'   => $score,
@@ -3148,7 +3148,7 @@ article .entry-content,
      * AI-powered SEO suggestion for a specific field.
      */
     public function handle_seo_suggest() {
-        check_ajax_referer('mxchat_content_nonce', 'nonce');
+        check_ajax_referer('knittnet_content_nonce', 'nonce');
         if (!current_user_can('edit_posts')) { wp_send_json_error('Unauthorized'); }
 
         $post_id = intval($_POST['post_id'] ?? 0);
@@ -3185,13 +3185,13 @@ article .entry-content,
         $addon_fields = array('readability', 'internal_links', 'img_alt', 'featured_img');
         if (in_array($field, $addon_fields, true)) {
             $feature_key = 'seo_' . $field;
-            $has_addon = apply_filters('mxchat_content_pro_feature', false, $feature_key);
+            $has_addon = apply_filters('knittnet_content_pro_feature', false, $feature_key);
             if (!$has_addon) {
                 wp_send_json_error('This feature requires the Advanced Content Editor add-on.');
                 return;
             }
             // Delegate to add-on via action hook
-            do_action('mxchat_seo_optimize_' . $field, $post_id, $post, $focus_kw);
+            do_action('knittnet_seo_optimize_' . $field, $post_id, $post, $focus_kw);
             return;
         }
 
@@ -3223,7 +3223,7 @@ article .entry-content,
      * List published posts/pages with cached SEO scores for the dashboard.
      */
     public function handle_seo_list_posts() {
-        check_ajax_referer('mxchat_content_nonce', 'nonce');
+        check_ajax_referer('knittnet_content_nonce', 'nonce');
 
         $page      = max(1, intval($_POST['page'] ?? 1));
         $per_page  = 50;
@@ -3242,15 +3242,15 @@ article .entry-content,
                 break;
             case 'score':
                 $orderby = 'meta_value_num';
-                $sort_meta_key = '_mxchat_seo_score';
+                $sort_meta_key = '_knittnet_seo_score';
                 break;
             case 'clicks':
                 $orderby = 'meta_value_num';
-                $sort_meta_key = '_mxchat_gsc_clicks';
+                $sort_meta_key = '_knittnet_gsc_clicks';
                 break;
             case 'impressions':
                 $orderby = 'meta_value_num';
-                $sort_meta_key = '_mxchat_gsc_impressions';
+                $sort_meta_key = '_knittnet_gsc_impressions';
                 break;
             default:
                 $orderby = 'date';
@@ -3273,15 +3273,15 @@ article .entry-content,
         // Meta query for score-based filters
         if ($filter === 'issues') {
             $args['meta_query'] = array(
-                array('key' => '_mxchat_seo_score', 'value' => 70, 'compare' => '<', 'type' => 'NUMERIC'),
+                array('key' => '_knittnet_seo_score', 'value' => 70, 'compare' => '<', 'type' => 'NUMERIC'),
             );
         } elseif ($filter === 'good') {
             $args['meta_query'] = array(
-                array('key' => '_mxchat_seo_score', 'value' => 70, 'compare' => '>=', 'type' => 'NUMERIC'),
+                array('key' => '_knittnet_seo_score', 'value' => 70, 'compare' => '>=', 'type' => 'NUMERIC'),
             );
         } elseif ($filter === 'unscored') {
             $args['meta_query'] = array(
-                array('key' => '_mxchat_seo_score', 'compare' => 'NOT EXISTS'),
+                array('key' => '_knittnet_seo_score', 'compare' => 'NOT EXISTS'),
             );
         }
 
@@ -3309,10 +3309,10 @@ article .entry-content,
         $posts = array();
         foreach ($page_ids as $pid) {
             $p     = get_post($pid);
-            $score = get_post_meta($pid, '_mxchat_seo_score', true);
+            $score = get_post_meta($pid, '_knittnet_seo_score', true);
 
-            $gsc_clicks = get_post_meta($pid, '_mxchat_gsc_clicks', true);
-            $gsc_impr   = get_post_meta($pid, '_mxchat_gsc_impressions', true);
+            $gsc_clicks = get_post_meta($pid, '_knittnet_gsc_clicks', true);
+            $gsc_impr   = get_post_meta($pid, '_knittnet_gsc_impressions', true);
 
             $posts[] = array(
                 'id'          => $pid,
@@ -3322,7 +3322,7 @@ article .entry-content,
                 'edit_url'    => get_edit_post_link($pid, 'raw'),
                 'permalink'   => get_permalink($pid),
                 'score'       => $score !== '' ? intval($score) : null,
-                'analyzed'    => (bool) get_post_meta($pid, '_mxchat_seo_analyzed', true),
+                'analyzed'    => (bool) get_post_meta($pid, '_knittnet_seo_analyzed', true),
                 'clicks'      => $gsc_clicks !== '' ? intval($gsc_clicks) : null,
                 'impressions' => $gsc_impr !== '' ? intval($gsc_impr) : null,
             );
@@ -3335,7 +3335,7 @@ article .entry-content,
             'post_type'      => array('post', 'page'),
             'fields'         => 'ids',
             'meta_query'     => array(
-                array('key' => '_mxchat_seo_score', 'compare' => 'NOT EXISTS'),
+                array('key' => '_knittnet_seo_score', 'compare' => 'NOT EXISTS'),
             ),
         ));
         $unscored_count = count($unscored_q->posts);

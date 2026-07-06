@@ -1,4 +1,4 @@
-/* MXChat Actions Manager Styles (formerly Intents) */
+/* KnittNet Actions Manager Styles (formerly Intents) */
 #wpcontent {
     padding-left: 0px;
 }
@@ -8,7 +8,7 @@
 }
 
 /* Base Styles & Layout */
-.mxchat-wrapper {
+.knittnet-wrapper {
     width: 100%; /* Add 40px to account for left and right padding */
     padding: 0px;
     margin: 0px;
@@ -16,33 +16,33 @@
     min-height: 100vh;
 }
 
-.mxchat-hero {
+.knittnet-hero {
     text-align: center;
     margin-bottom: 40px;
     padding: 30px 0;
 }
 
-.mxchat-main-title {
+.knittnet-main-title {
     font-size: 32px;
     font-weight: 600;
     margin-bottom: 10px;
 }
 
-.mxchat-gradient-text {
+.knittnet-gradient-text {
     background: linear-gradient(90deg, #7873f5, #fa73e6);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-.mxchat-hero-subtitle {
+.knittnet-hero-subtitle {
     font-size: 16px;
     max-width: 700px;
     margin: 0 auto;
 }
 
 /* Actions Header Styles */
-.mxchat-actions-header {
+.knittnet-actions-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -50,14 +50,14 @@
     padding: 0 35px;
 }
 
-.mxchat-actions-filters {
+.knittnet-actions-filters {
     display: flex;
     gap: 15px;
     align-items: center;
     flex: 1;
 }
 
-.mxchat-search-form {
+.knittnet-search-form {
     display: flex;
     gap: 10px;
     align-items: center;
@@ -65,12 +65,12 @@
     max-width: 800px;
 }
 
-.mxchat-search-group {
+.knittnet-search-group {
     position: relative;
     flex: 1;
 }
 
-.mxchat-search-group .dashicons {
+.knittnet-search-group .dashicons {
     position: absolute;
     left: 12px;
     top: 50%;
@@ -78,14 +78,14 @@
     color: #666;
 }
 
-.mxchat-search-input {
+.knittnet-search-input {
     padding: 10px 15px 10px 40px;
     border-radius: 8px;
     border: 1px solid #ddd;
     width: 100%;
 }
 
-.mxchat-action-filter {
+.knittnet-action-filter {
     min-width: 180px;
     padding: 10px 15px;
     border-radius: 8px;
@@ -93,18 +93,18 @@
 }
 
 /* Cards Grid Layout */
-.mxchat-actions-grid {
+.knittnet-actions-grid {
     display: flex;
     flex-direction: column;
     gap: 40px;
     padding: 25px;
 }
 
-.mxchat-category-section {
+.knittnet-category-section {
     margin-bottom: 20px;
 }
 
-.mxchat-category-title {
+.knittnet-category-title {
     font-size: 18px;
     font-weight: 500;
     margin-bottom: 15px;
@@ -114,11 +114,11 @@
     gap: 8px;
 }
 
-.mxchat-category-title .dashicons {
+.knittnet-category-title .dashicons {
     color: #7873f5;
 }
 
-.mxchat-cards-container {
+.knittnet-cards-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
     gap: 20px;
@@ -126,7 +126,7 @@
 }
 
 /* Action Card Styling */
-.mxchat-action-card {
+.knittnet-action-card {
     background: white;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -136,12 +136,12 @@
     flex-direction: column;
 }
 
-.mxchat-action-card:hover {
+.knittnet-action-card:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
     transform: translateY(-2px);
 }
 
-.mxchat-card-header {
+.knittnet-card-header {
     padding: 20px;
     background: #f9f9f9;
     border-bottom: 1px solid #eee;
@@ -150,12 +150,12 @@
     align-items: center;
 }
 
-.mxchat-card-title {
+.knittnet-card-title {
     font-weight: 600;
     font-size: 16px;
 }
 
-.mxchat-card-body {
+.knittnet-card-body {
     padding: 20px;
     flex: 1;
     display: flex;
@@ -163,17 +163,17 @@
     gap: 15px;
 }
 
-.mxchat-card-description {
+.knittnet-card-description {
     font-size: 14px;
     color: #555;
     margin-bottom: 5px;
 }
 
-.mxchat-card-phrases {
+.knittnet-card-phrases {
     margin-bottom: 15px;
 }
 
-.mxchat-phrases-preview {
+.knittnet-phrases-preview {
     font-size: 13px;
     color: #666;
     margin-top: 5px;
@@ -183,7 +183,7 @@
     border-left: 3px solid #7873f5;
 }
 
-.mxchat-card-footer {
+.knittnet-card-footer {
     padding: 15px 20px;
     border-top: 1px solid #eee;
     display: flex;
@@ -192,20 +192,20 @@
 }
 
 /* Toggle Switch */
-.mxchat-switch {
+.knittnet-switch {
     position: relative;
     display: inline-block;
     width: 50px;
     height: 24px;
 }
 
-.mxchat-switch input {
+.knittnet-switch input {
     opacity: 0;
     width: 0;
     height: 0;
 }
 
-.mxchat-slider {
+.knittnet-slider {
     position: absolute;
     cursor: pointer;
     top: 0;
@@ -216,7 +216,7 @@
     transition: .4s;
 }
 
-.mxchat-slider:before {
+.knittnet-slider:before {
     position: absolute;
     content: "";
     height: 16px;
@@ -227,32 +227,32 @@
     transition: .4s;
 }
 
-.mxchat-switch input:checked + .mxchat-slider {
+.knittnet-switch input:checked + .knittnet-slider {
     background: linear-gradient(90deg, #7873f5, #fa73e6);
 }
 
-.mxchat-switch input:focus + .mxchat-slider {
+.knittnet-switch input:focus + .knittnet-slider {
     box-shadow: 0 0 1px #7873f5;
 }
 
-.mxchat-switch input:checked + .mxchat-slider:before {
+.knittnet-switch input:checked + .knittnet-slider:before {
     transform: translateX(26px);
 }
 
-.mxchat-slider.round {
+.knittnet-slider.round {
     border-radius: 34px;
 }
 
-.mxchat-slider.round:before {
+.knittnet-slider.round:before {
     border-radius: 50%;
 }
 
 /* Threshold Styling */
-.mxchat-threshold-control {
+.knittnet-threshold-control {
     margin-top: 5px;
 }
 
-.mxchat-threshold-label {
+.knittnet-threshold-label {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -260,7 +260,7 @@
     font-size: 14px;
 }
 
-.mxchat-threshold-value {
+.knittnet-threshold-value {
     background: rgba(120, 115, 245, 0.1);
     padding: 3px 8px;
     border-radius: 4px;
@@ -268,14 +268,14 @@
     font-weight: 500;
 }
 
-.mxchat-threshold-form {
+.knittnet-threshold-form {
     display: flex;
     align-items: center;
     gap: 10px;
     position: relative;
 }
 
-.mxchat-slider-group {
+.knittnet-slider-group {
     display: flex;
     align-items: center;
     gap: 15px;
@@ -283,7 +283,7 @@
     position: relative;
 }
 
-.mxchat-threshold-slider {
+.knittnet-threshold-slider {
     -webkit-appearance: none;
     width: 100%;
     height: 6px;
@@ -293,7 +293,7 @@
     margin: 10px 0;
 }
 
-.mxchat-threshold-slider::-webkit-slider-thumb {
+.knittnet-threshold-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 16px;
@@ -305,7 +305,7 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.mxchat-threshold-slider::-moz-range-thumb {
+.knittnet-threshold-slider::-moz-range-thumb {
     width: 16px;
     height: 16px;
     border-radius: 50%;
@@ -315,42 +315,42 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.mxchat-threshold-output {
+.knittnet-threshold-output {
     min-width: 60px;
     display: none;
 }
 
-.mxchat-threshold-save {
+.knittnet-threshold-save {
     background: none;
     border: none;
     cursor: pointer;
     color: #7873f5;
 }
 
-.mxchat-threshold-save:hover {
+.knittnet-threshold-save:hover {
     color: #fa73e6;
 }
 
-.mxchat-threshold-hint {
+.knittnet-threshold-hint {
     font-size: 12px;
     color: #777;
     margin-top: 5px;
 }
 
 /* New Action Card */
-.mxchat-new-action-card {
+.knittnet-new-action-card {
     background: rgba(120, 115, 245, 0.05);
     border: 2px dashed rgba(120, 115, 245, 0.2);
     box-shadow: none;
 }
 
-.mxchat-new-action-card:hover {
+.knittnet-new-action-card:hover {
     background: rgba(120, 115, 245, 0.08);
     border-color: rgba(120, 115, 245, 0.3);
     box-shadow: none;
 }
 
-.mxchat-card-new-action {
+.knittnet-card-new-action {
     height: 100%;
     display: flex;
     align-items: center;
@@ -358,7 +358,7 @@
     padding: 40px 20px;
 }
 
-.mxchat-new-action-button {
+.knittnet-new-action-button {
     background: none;
     border: none;
     display: flex;
@@ -371,11 +371,11 @@
     padding: 15px;
 }
 
-.mxchat-new-action-button:hover {
+.knittnet-new-action-button:hover {
     transform: scale(1.05);
 }
 
-.mxchat-new-action-button .dashicons {
+.knittnet-new-action-button .dashicons {
     font-size: 30px;
     width: 30px;
     height: 30px;
@@ -383,7 +383,7 @@
 }
 
 /* Buttons */
-.mxchat-button-primary {
+.knittnet-button-primary {
     background: linear-gradient(135deg, #7873f5, #fa73e6);
     color: white;
     border: none;
@@ -397,12 +397,12 @@
     gap: 8px;
 }
 
-.mxchat-button-primary:hover {
+.knittnet-button-primary:hover {
     opacity: 0.9;
     transform: translateY(-1px);
 }
 
-.mxchat-button-secondary {
+.knittnet-button-secondary {
     background: #f5f5f5;
     color: #333;
     border: 1px solid #ddd;
@@ -416,11 +416,11 @@
     gap: 8px;
 }
 
-.mxchat-button-secondary:hover {
+.knittnet-button-secondary:hover {
     background: #eee;
 }
 
-.mxchat-button-text {
+.knittnet-button-text {
     background: none;
     border: none;
     color: #666;
@@ -433,38 +433,38 @@
     gap: 6px;
 }
 
-.mxchat-button-text:hover {
+.knittnet-button-text:hover {
     background: rgba(0, 0, 0, 0.05);
     color: #333;
 }
 
-.mxchat-delete-button {
+.knittnet-delete-button {
     color: #ff4d4d;
 }
 
-.mxchat-delete-button:hover {
+.knittnet-delete-button:hover {
     background: rgba(255, 77, 77, 0.1);
     color: #ff4d4d;
 }
 
 /* Form Action Styling */
-.mxchat-form-action {
+.knittnet-form-action {
     border-left: 4px solid #4caf50;
 }
 
-.mxchat-form-action .mxchat-card-header {
+.knittnet-form-action .knittnet-card-header {
     background: rgba(76, 175, 80, 0.05);
 }
 
 
 /* Empty State */
-.mxchat-no-actions {
+.knittnet-no-actions {
     display: flex;
     justify-content: center;
     padding: 60px 0;
 }
 
-.mxchat-empty-state {
+.knittnet-empty-state {
     text-align: center;
     max-width: 500px;
     padding: 40px;
@@ -473,7 +473,7 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-.mxchat-empty-state .dashicons {
+.knittnet-empty-state .dashicons {
     font-size: 48px;
     width: 48px;
     height: 48px;
@@ -481,18 +481,18 @@
     margin-bottom: 20px;
 }
 
-.mxchat-empty-state h2 {
+.knittnet-empty-state h2 {
     margin-bottom: 15px;
     font-size: 24px;
 }
 
-.mxchat-empty-state p {
+.knittnet-empty-state p {
     margin-bottom: 25px;
     color: #666;
 }
 
 /* Loading Spinner */
-.mxchat-action-loading {
+.knittnet-action-loading {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -510,18 +510,18 @@
     text-align: center;
 }
 
-.mxchat-action-loading-spinner {
+.knittnet-action-loading-spinner {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     border: 3px solid transparent;
     border-top-color: #7873f5;
     border-right-color: #7873f5;
-    animation: mxchatActionSpin 0.8s linear infinite;
+    animation: knittnetActionSpin 0.8s linear infinite;
     margin-bottom: 15px;
 }
 
-.mxchat-action-loading-text {
+.knittnet-action-loading-text {
     color: #333;
     font-weight: 500;
     font-size: 14px;
@@ -529,27 +529,27 @@
     padding: 0;
 }
 
-@keyframes mxchatActionSpin {
+@keyframes knittnetActionSpin {
     to {
         transform: rotate(360deg);
     }
 }
 
 /* Form Elements */
-.mxchat-form-group {
+.knittnet-form-group {
     margin-bottom: 25px;
 }
 
-.mxchat-form-group label {
+.knittnet-form-group label {
     display: block;
     margin-bottom: 8px;
     font-weight: 500;
     color: #333;
 }
 
-.mxchat-intent-input,
-.mxchat-intent-select,
-.mxchat-intent-textarea {
+.knittnet-intent-input,
+.knittnet-intent-select,
+.knittnet-intent-textarea {
     width: 100%;
     padding: 12px 15px;
     border: 2px solid rgba(120, 115, 245, 0.2);
@@ -559,14 +559,14 @@
     background: white;
 }
 
-.mxchat-intent-textarea {
+.knittnet-intent-textarea {
     min-height: 120px;
     resize: vertical;
 }
 
-.mxchat-intent-input:focus,
-.mxchat-intent-select:focus,
-.mxchat-intent-textarea:focus {
+.knittnet-intent-input:focus,
+.knittnet-intent-select:focus,
+.knittnet-intent-textarea:focus {
     border-color: #7873f5;
     box-shadow: 0 0 0 3px rgba(120, 115, 245, 0.1);
     outline: none;
@@ -578,12 +578,12 @@
 }
 
 /* Pagination */
-.mxchat-pagination {
+.knittnet-pagination {
     margin-top: 30px;
     text-align: center;
 }
 
-.mxchat-pagination .page-numbers {
+.knittnet-pagination .page-numbers {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -599,69 +599,69 @@
     transition: all 0.2s ease;
 }
 
-.mxchat-pagination .page-numbers.current {
+.knittnet-pagination .page-numbers.current {
     background: #7873f5;
     color: white;
     border-color: #7873f5;
 }
 
-.mxchat-pagination .page-numbers:hover:not(.current) {
+.knittnet-pagination .page-numbers:hover:not(.current) {
     background: #f5f5f5;
 }
 
-.mxchat-pagination .prev,
-.mxchat-pagination .next {
+.knittnet-pagination .prev,
+.knittnet-pagination .next {
     width: auto;
     padding: 0 15px;
 }
 
 /* Responsive Adjustments */
 @media screen and (max-width: 782px) {
-    .mxchat-cards-container {
+    .knittnet-cards-container {
         grid-template-columns: 1fr;
     }
-    .mxchat-card-header {
+    .knittnet-card-header {
         flex-direction: row;
     }
     
-    .mxchat-actions-header {
+    .knittnet-actions-header {
         flex-direction: column;
         gap: 15px;
         align-items: flex-start;
     }
     
-    .mxchat-actions-filters,
-    .mxchat-search-form {
+    .knittnet-actions-filters,
+    .knittnet-search-form {
         width: 100%;
         flex-direction: column;
     }
     
-    .mxchat-action-filter,
-    .mxchat-search-input {
+    .knittnet-action-filter,
+    .knittnet-search-input {
         width: 100%;
     }
     
-    .mxchat-modal-actions {
+    .knittnet-modal-actions {
         flex-direction: column-reverse;
     }
     
-    .mxchat-modal-actions button {
+    .knittnet-modal-actions button {
         width: 100%;
     }
     
-    .mxchat-card-footer {
+    .knittnet-card-footer {
         flex-direction: column;
     }
     
-    .mxchat-card-footer button,
-    .mxchat-card-footer a {
+    .knittnet-card-footer button,
+    .knittnet-card-footer a {
         justify-content: center;
     }
     
-    .mxchat-search-group {
+    .knittnet-search-group {
         width: 100%;
     }
-    .mxchat-button-secondary {
+    .knittnet-button-secondary {
         width: 100%;
     }
 }
@@ -681,7 +681,7 @@
 
 
 /* Modal Styles with Improved Scrolling */
-.mxchat-modal {
+.knittnet-modal {
     display: none;
     position: fixed;
     top: 0;
@@ -695,7 +695,7 @@
     padding: 30px 0;
 }
 
-.mxchat-modal.active {
+.knittnet-modal.active {
     display: flex;
     align-items: flex-start; /* Changed from center to allow scrolling from top */
     justify-content: center;
@@ -703,7 +703,7 @@
 }
 
 /* Enhanced Modal Content with Styled Scrollbar */
-.mxchat-modal-content {
+.knittnet-modal-content {
     background: white;
     padding: 30px;
     border-radius: 16px;
@@ -744,35 +744,35 @@
 }
 
 /* When using older CSS syntax for broader compatibility */
-.mxchat-modal-content::-webkit-scrollbar {
+.knittnet-modal-content::-webkit-scrollbar {
     width: 8px;
 }
 
-.mxchat-modal-content::-webkit-scrollbar-track {
+.knittnet-modal-content::-webkit-scrollbar-track {
     background: transparent;
     margin: 4px 0;
 }
 
-.mxchat-modal-content::-webkit-scrollbar-thumb {
+.knittnet-modal-content::-webkit-scrollbar-thumb {
     background: rgba(120, 115, 245, 0.3);
     border-radius: 4px;
 }
 
-.mxchat-modal-content::-webkit-scrollbar-thumb:hover {
+.knittnet-modal-content::-webkit-scrollbar-thumb:hover {
     background: rgba(120, 115, 245, 0.5);
 }
 
-.mxchat-modal.active .mxchat-modal-content {
+.knittnet-modal.active .knittnet-modal-content {
     transform: translateY(0);
 }
 
-.mxchat-modal-header {
+.knittnet-modal-header {
     margin: -30px -30px 30px -30px;
     padding: 20px 30px;
     border-bottom: 1px solid rgba(120, 115, 245, 0.1);
 }
 
-.mxchat-modal-close {
+.knittnet-modal-close {
     position: absolute;
     right: 20px;
     top: 20px;
@@ -789,12 +789,12 @@
     z-index: 1; /* Ensure it's above other content */
 }
 
-.mxchat-modal-close:hover {
+.knittnet-modal-close:hover {
     background: rgba(120, 115, 245, 0.1);
     color: #7873f5;
 }
 
-.mxchat-modal-actions {
+.knittnet-modal-actions {
     display: flex;
     gap: 10px;
     justify-content: flex-end;
@@ -804,7 +804,7 @@
 }
 
 /* Action Types Grid - Remove fixed height */
-.mxchat-action-types-grid {
+.knittnet-action-types-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 15px;
@@ -814,24 +814,24 @@
 }
 
 /* Add these rules to your CSS */
-.mxchat-action-type-card[data-pro="false"] {
+.knittnet-action-type-card[data-pro="false"] {
     order: 1; /* Lower numbers displayed first */
 }
-.mxchat-action-type-card[data-pro="true"] {
+.knittnet-action-type-card[data-pro="true"] {
     order: 2;
 }
 
 /* Step-Based Modal Styles */
-.mxchat-action-step {
+.knittnet-action-step {
     display: none;
 }
 
-.mxchat-action-step.active {
+.knittnet-action-step.active {
     display: block;
     animation: fadeIn 0.3s ease;
 }
 
-.mxchat-step-indicator {
+.knittnet-step-indicator {
     display: flex;
     align-items: center;
     margin-bottom: 25px;
@@ -839,7 +839,7 @@
     border-bottom: 1px solid rgba(120, 115, 245, 0.1);
 }
 
-.mxchat-step-number {
+.knittnet-step-number {
     width: 30px;
     height: 30px;
     border-radius: 50%;
@@ -853,13 +853,13 @@
     font-size: 14px;
 }
 
-.mxchat-step-title {
+.knittnet-step-title {
     font-size: 16px;
     font-weight: 500;
     color: #333;
 }
 
-.mxchat-selected-action {
+.knittnet-selected-action {
     background: #f8f9ff;
     border-radius: 12px;
     padding: 15px;
@@ -867,7 +867,7 @@
     animation: fadeIn 0.3s ease;
 }
 
-.mxchat-back-button {
+.knittnet-back-button {
     background: none;
     border: none;
     color: #7873f5;
@@ -881,37 +881,37 @@
     transition: all 0.2s ease;
 }
 
-.mxchat-back-button:hover {
+.knittnet-back-button:hover {
     color: #fa73e6;
     transform: translateX(-3px);
 }
 
-.mxchat-back-button .dashicons {
+.knittnet-back-button .dashicons {
     font-size: 16px;
     width: 16px;
     height: 16px;
 }
 
-.mxchat-selected-action-info {
+.knittnet-selected-action-info {
     display: flex;
     align-items: center;
     gap: 15px;
 }
 
-.mxchat-selected-action-details h3 {
+.knittnet-selected-action-details h3 {
     margin: 0 0 5px 0;
     font-size: 16px;
     font-weight: 600;
 }
 
-.mxchat-selected-action-details p {
+.knittnet-selected-action-details p {
     margin: 0;
     font-size: 13px;
     color: #666;
 }
 
 /* Action Type Selector Styles */
-.mxchat-action-type-selector {
+.knittnet-action-type-selector {
     background: #f8f9ff;
     border-radius: 12px;
     padding: 20px;
@@ -919,12 +919,12 @@
     box-shadow: inset 0 0 0 1px rgba(120, 115, 245, 0.1);
 }
 
-.mxchat-action-type-search {
+.knittnet-action-type-search {
     position: relative;
     margin-bottom: 15px;
 }
 
-.mxchat-action-type-search .dashicons {
+.knittnet-action-type-search .dashicons {
     position: absolute;
     left: 12px;
     top: 50%;
@@ -932,7 +932,7 @@
     color: #666;
 }
 
-.mxchat-action-type-search-input {
+.knittnet-action-type-search-input {
     width: 100%;
     padding: 10px 15px 10px 40px;
     border-radius: 8px;
@@ -941,14 +941,14 @@
     padding-left: 40px !important;
 }
 
-.mxchat-action-type-categories {
+.knittnet-action-type-categories {
     display: flex;
     gap: 10px;
     margin-bottom: 20px;
     flex-wrap: wrap;
 }
 
-.mxchat-category-button {
+.knittnet-category-button {
     background: white;
     border: 1px solid #ddd;
     border-radius: 20px;
@@ -958,17 +958,17 @@
     transition: all 0.2s ease;
 }
 
-.mxchat-category-button:hover {
+.knittnet-category-button:hover {
     background: #f5f5f5;
 }
 
-.mxchat-category-button.active {
+.knittnet-category-button.active {
     background: #7873f5;
     color: white;
     border-color: #7873f5;
 }
 
-.mxchat-action-type-card {
+.knittnet-action-type-card {
     display: flex;
     background: white;
     border-radius: 8px;
@@ -980,20 +980,20 @@
     gap: 15px;
 }
 
-.mxchat-action-type-card:hover {
+.knittnet-action-type-card:hover {
     background: #f9f9ff;
     border-color: rgba(120, 115, 245, 0.3);
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
-.mxchat-action-type-card.selected {
+.knittnet-action-type-card.selected {
     background: rgba(120, 115, 245, 0.05);
     border-color: #7873f5;
     box-shadow: 0 0 0 2px rgba(120, 115, 245, 0.2);
 }
 
-.mxchat-action-type-icon {
+.knittnet-action-type-icon {
     width: 40px;
     height: 40px;
     border-radius: 8px;
@@ -1004,39 +1004,39 @@
     flex-shrink: 0;
 }
 
-.mxchat-action-type-icon .dashicons {
+.knittnet-action-type-icon .dashicons {
     color: #7873f5;
     font-size: 20px;
     width: 20px;
     height: 20px;
 }
 
-.mxchat-action-type-icon.pro-feature {
+.knittnet-action-type-icon.pro-feature {
     background: linear-gradient(135deg, #7873f5, #fa73e6);
 }
 
-.mxchat-action-type-icon.pro-feature .dashicons {
+.knittnet-action-type-icon.pro-feature .dashicons {
     color: white;
 }
 
-.mxchat-action-type-info {
+.knittnet-action-type-info {
     flex: 1;
 }
 
-.mxchat-action-type-info h4 {
+.knittnet-action-type-info h4 {
     margin: 0 0 5px 0;
     font-size: 14px;
     font-weight: 600;
 }
 
-.mxchat-action-type-info p {
+.knittnet-action-type-info p {
     margin: 0;
     font-size: 12px;
     color: #666;
     line-height: 1.4;
 }
 
-.mxchat-pro-badge {
+.knittnet-pro-badge {
     display: inline-block;
     background: linear-gradient(135deg, #7873f5, #fa73e6);
     color: white;
@@ -1071,12 +1071,12 @@
     }
 }
 
-.mxchat-action-type-card {
+.knittnet-action-type-card {
     animation: fadeInUp 0.3s ease forwards;
 }
 
 /* Pro Feature Notice */
-.mxchat-pro-notice {
+.knittnet-pro-notice {
     position: fixed;
     top: 0;
     left: 0;
@@ -1092,12 +1092,12 @@
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-.mxchat-pro-notice.active {
+.knittnet-pro-notice.active {
     opacity: 1;
     visibility: visible;
 }
 
-.mxchat-pro-notice-content {
+.knittnet-pro-notice-content {
     background: white;
     padding: 30px;
     border-radius: 16px;
@@ -1108,17 +1108,17 @@
     transition: transform 0.3s ease;
 }
 
-.mxchat-pro-notice.active .mxchat-pro-notice-content {
+.knittnet-pro-notice.active .knittnet-pro-notice-content {
     transform: translateY(0);
 }
 
-.mxchat-pro-notice-icon {
+.knittnet-pro-notice-icon {
     font-size: 36px;
     margin-bottom: 15px;
     display: block;
 }
 
-.mxchat-pro-notice h3 {
+.knittnet-pro-notice h3 {
     margin: 0 0 10px 0;
     font-size: 20px;
     background: linear-gradient(135deg, #7873f5, #fa73e6);
@@ -1128,12 +1128,12 @@
     display: inline-block;
 }
 
-.mxchat-pro-notice p {
+.knittnet-pro-notice p {
     margin: 0 0 20px 0;
     color: #666;
 }
 
-.mxchat-pro-notice-buttons {
+.knittnet-pro-notice-buttons {
     display: flex;
     gap: 10px;
     justify-content: center;
@@ -1141,25 +1141,25 @@
 
 /* Media queries for smaller screens */
 @media screen and (max-width: 782px) {
-    .mxchat-modal-content {
+    .knittnet-modal-content {
         width: 90%;
         padding: 10px;
     }
     
-    .mxchat-modal-close {
+    .knittnet-modal-close {
         top: 10px;
     }
     
-    .mxchat-modal-header {
+    .knittnet-modal-header {
         margin: -20px -20px 20px -20px;
         padding: 15px 20px;
     }
     
-    .mxchat-action-types-grid {
+    .knittnet-action-types-grid {
         grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
     }
     
-    .mxchat-action-type-categories {
+    .knittnet-action-type-categories {
         overflow-x: auto;
         padding-bottom: 10px;
         flex-wrap: nowrap;

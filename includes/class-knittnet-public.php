@@ -3,13 +3,13 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
-class MxChat_Public {
+class KnittNet_Public {
     private $options;
 
     public function __construct() {
         // Simply get the options without defining duplicated defaults
-        $this->options = get_option('mxchat_options', array());
-        add_shortcode('mxchat_chatbot', array($this, 'render_chatbot_shortcode'));
+        $this->options = get_option('knittnet_options', array());
+        add_shortcode('knittnet_chatbot', array($this, 'render_chatbot_shortcode'));
         add_action('wp_footer', array($this, 'append_chatbot_to_body'));
     }
 
@@ -27,14 +27,14 @@ private function should_hide_chatbot($context = 'auto') {
     // Allow shortcodes to work regardless of this setting
     if ($context === 'auto') {
         // Check new visibility field first
-        $visibility = get_post_meta($post->ID, '_mxchat_page_visibility', true);
+        $visibility = get_post_meta($post->ID, '_knittnet_page_visibility', true);
         if ($visibility === 'hide') {
             return true;
         }
 
         // Backward compat: check legacy field if new field not set
         if (empty($visibility)) {
-            $hide_chatbot = get_post_meta($post->ID, '_mxchat_hide_chatbot', true);
+            $hide_chatbot = get_post_meta($post->ID, '_knittnet_hide_chatbot', true);
             if ($hide_chatbot === '1') {
                 return true;
             }
@@ -81,14 +81,14 @@ public function append_chatbot_to_body() {
     // Display the appropriate chatbot (always floating for auto-append)
     if ($bot_to_show && $bot_to_show !== 'default') {
         // Show specific bot
-        echo do_shortcode('[mxchat_chatbot floating="yes" bot_id="' . esc_attr($bot_to_show) . '" has_consent="' . ($has_consent ? 'yes' : 'no') . '"]');
+        echo do_shortcode('[knittnet_chatbot floating="yes" bot_id="' . esc_attr($bot_to_show) . '" has_consent="' . ($has_consent ? 'yes' : 'no') . '"]');
     } else {
         // Show default bot
-        echo do_shortcode('[mxchat_chatbot floating="yes" has_consent="' . ($has_consent ? 'yes' : 'no') . '"]');
+        echo do_shortcode('[knittnet_chatbot floating="yes" has_consent="' . ($has_consent ? 'yes' : 'no') . '"]');
     }
 }
 
-    private function mxchat_get_user_identifier() {
+    private function knittnet_get_user_identifier() {
         return sanitize_text_field($_SERVER['REMOTE_ADDR']);
     }
 
@@ -145,7 +145,7 @@ public function render_chatbot_shortcode($atts) {
     }
     $visibility_class = $initial_visibility . $additional_class;
     
-    $theme_options = get_option('mxchat_theme_options', array());
+    $theme_options = get_option('knittnet_theme_options', array());
     $custom_send_image = isset($theme_options['custom_send_button_image']) ? esc_url($theme_options['custom_send_button_image']) : '';
     $send_width = isset($theme_options['send_button_width']) ? intval($theme_options['send_button_width']) : 24;
     $send_height = isset($theme_options['send_button_height']) ? intval($theme_options['send_button_height']) : 24;
@@ -164,28 +164,28 @@ public function render_chatbot_shortcode($atts) {
     $bot_message_font_color = $current_options['bot_message_font_color'] ?? '#fff';
     $top_bar_bg_color = $current_options['top_bar_bg_color'] ?? '#212121';
     $send_button_font_color = $current_options['send_button_font_color'] ?? '#212121';
-    $intro_message = $current_options['intro_message'] ?? esc_html__('Hello! How can I assist you today?', 'mxchat');
-    $top_bar_title = $current_options['top_bar_title'] ?? esc_html__('MxChat: Basic', 'mxchat');
+    $intro_message = $current_options['intro_message'] ?? esc_html__('Hello! How can I assist you today?', 'knittnet');
+    $top_bar_title = $current_options['top_bar_title'] ?? esc_html__('KnittNet: Basic', 'knittnet');
     $chatbot_background_color = $current_options['chatbot_background_color'] ?? '#212121';
     $icon_color = $current_options['icon_color'] ?? '#fff';
     $chat_input_font_color = $current_options['chat_input_font_color'] ?? '#212121';
     $close_button_color = $current_options['close_button_color'] ?? '#fff';
     $chatbot_bg_color = $current_options['chatbot_bg_color'] ?? '#fff';
     $pre_chat_message = isset($current_options['pre_chat_message']) ? sanitize_textarea_field(trim($current_options['pre_chat_message'])) : '';
-    $user_id = sanitize_key($this->mxchat_get_user_identifier());
+    $user_id = sanitize_key($this->knittnet_get_user_identifier());
     $email_state = $this->determine_email_collection_state();
     $show_email_form = $email_state['show_email_form'];
     $user_email = $email_state['user_email'] ?? '';
     $user_name = $email_state['user_name'] ?? '';
     // Pre-chat dismissal now handled client-side via localStorage (zero server load)
-    $input_copy = isset($current_options['input_copy']) ? esc_attr($current_options['input_copy']) : esc_attr__('How can I assist?', 'mxchat');
-    $rate_limit_message = isset($current_options['rate_limit_message']) ? esc_attr($current_options['rate_limit_message']) : esc_attr__('Rate limit exceeded. Please try again later.', 'mxchat');
+    $input_copy = isset($current_options['input_copy']) ? esc_attr($current_options['input_copy']) : esc_attr__('How can I assist?', 'knittnet');
+    $rate_limit_message = isset($current_options['rate_limit_message']) ? esc_attr($current_options['rate_limit_message']) : esc_attr__('Rate limit exceeded. Please try again later.', 'knittnet');
     $mode_indicator_bg_color = $current_options['mode_indicator_bg_color'] ?? '#212121';
     $mode_indicator_font_color = $current_options['mode_indicator_font_color'] ?? '#fff';
     $quick_questions_toggle_color = $current_options['quick_questions_toggle_color'] ?? '#212121';
 
     $privacy_toggle = isset($current_options['privacy_toggle']) && $current_options['privacy_toggle'] === 'on';
-    $privacy_text = isset($current_options['privacy_text']) ? wp_kses_post($current_options['privacy_text']) : wp_kses_post(__('By chatting, you agree to our <a href="https://example.com/privacy-policy" target="_blank">privacy policy</a>.', 'mxchat'));
+    $privacy_text = isset($current_options['privacy_text']) ? wp_kses_post($current_options['privacy_text']) : wp_kses_post(__('By chatting, you agree to our <a href="https://example.com/privacy-policy" target="_blank">privacy policy</a>.', 'knittnet'));
 
     $popular_question_1 = isset($current_options['popular_question_1']) ? esc_html($current_options['popular_question_1']) : '';
     $popular_question_2 = isset($current_options['popular_question_2']) ? esc_html($current_options['popular_question_2']) : '';
@@ -194,7 +194,7 @@ public function render_chatbot_shortcode($atts) {
     $custom_icon = isset($current_options['custom_icon']) ? esc_url($current_options['custom_icon']) : '';
     $title_icon = isset($current_options['title_icon']) ? esc_url($current_options['title_icon']) : '';
     // AI agent text - if explicitly set to empty string, hide the indicator entirely
-    $ai_agent_text = isset($current_options['ai_agent_text']) ? $current_options['ai_agent_text'] : __('AI Agent', 'mxchat');
+    $ai_agent_text = isset($current_options['ai_agent_text']) ? $current_options['ai_agent_text'] : __('AI Agent', 'knittnet');
 
     $live_agent_message_bg_color = $current_options['live_agent_message_bg_color'] ?? '#212121';
     $live_agent_message_font_color = $current_options['live_agent_message_font_color'] ?? '#fff';
@@ -206,7 +206,7 @@ public function render_chatbot_shortcode($atts) {
         ($current_options['enable_name_field'] === '1' || $current_options['enable_name_field'] === 'on');
     $name_field_placeholder = isset($current_options['name_field_placeholder']) ? 
         esc_attr($current_options['name_field_placeholder']) : 
-        esc_attr__('Enter your name', 'mxchat');
+        esc_attr__('Enter your name', 'knittnet');
 
     ob_start();
 
@@ -219,7 +219,7 @@ public function render_chatbot_shortcode($atts) {
     // data-nosnippet: keep the chat widget's UI copy (greeting, title, quick-question
     // prompts, privacy notice) out of Google search snippets. This wrapper renders in both
     // floating and inline/shortcode modes, so it covers all in-panel copy in one place.
-    echo '<div id="mxchat-chatbot-wrapper-' . esc_attr($bot_id) . '" class="mxchat-chatbot-wrapper" data-nosnippet data-bot-id="' . esc_attr($bot_id) . '">';
+    echo '<div id="knittnet-chatbot-wrapper-' . esc_attr($bot_id) . '" class="knittnet-chatbot-wrapper" data-nosnippet data-bot-id="' . esc_attr($bot_id) . '">';
   
             echo '  <div class="chatbot-top-bar" id="exit-chat-button-' . esc_attr($bot_id) . '"' . ($skip_inline_colors ? '' : ' style="background: ' . esc_attr($top_bar_bg_color) . ';"') . '>';
             echo '      <div class="chatbot-title-container">';
@@ -237,25 +237,25 @@ public function render_chatbot_shortcode($atts) {
             // Overflow menu (3-dot) trigger + dropdown container.
             // Sibling of .exit-chat, rendered to its left. JS hides the trigger
             // if no menu items are enabled; outer click + Escape close the menu.
-            echo '      <div class="mxchat-header-menu-wrap" data-bot-id="' . esc_attr($bot_id) . '"' . ($skip_inline_colors ? '' : ' style="--mxchat-menu-bg: ' . esc_attr($bot_message_bg_color) . '; --mxchat-menu-fg: ' . esc_attr($bot_message_font_color) . ';"') . '>';
-            echo '          <button class="mxchat-header-btn mxchat-menu-trigger" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="' . esc_attr__('More options', 'mxchat') . '"' . ($skip_inline_colors ? '' : ' style="color: ' . esc_attr($close_button_color) . ';"') . '>';
+            echo '      <div class="knittnet-header-menu-wrap" data-bot-id="' . esc_attr($bot_id) . '"' . ($skip_inline_colors ? '' : ' style="--knittnet-menu-bg: ' . esc_attr($bot_message_bg_color) . '; --knittnet-menu-fg: ' . esc_attr($bot_message_font_color) . ';"') . '>';
+            echo '          <button class="knittnet-header-btn knittnet-menu-trigger" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="' . esc_attr__('More options', 'knittnet') . '"' . ($skip_inline_colors ? '' : ' style="color: ' . esc_attr($close_button_color) . ';"') . '>';
             echo '              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">';
             echo '                  <circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/>';
             echo '              </svg>';
             echo '          </button>';
-            echo '          <div class="mxchat-header-menu" role="menu" aria-hidden="true" hidden></div>';
+            echo '          <div class="knittnet-header-menu" role="menu" aria-hidden="true" hidden></div>';
             echo '      </div>';
-            echo '      <button class="exit-chat" type="button" aria-label="' . esc_attr__('Close', 'mxchat') . '"' . ($skip_inline_colors ? '' : ' style="color: ' . esc_attr($close_button_color) . ';"') . '>';
+            echo '      <button class="exit-chat" type="button" aria-label="' . esc_attr__('Close', 'knittnet') . '"' . ($skip_inline_colors ? '' : ' style="color: ' . esc_attr($close_button_color) . ';"') . '>';
             echo '          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" id="ic-close" aria-hidden="true">';
             echo '              <line x1="6" y1="6" x2="18" y2="18"></line>';
             echo '              <line x1="18" y1="6" x2="6" y2="18"></line>';
             echo '          </svg>';
-            echo '          <span>' . esc_html__('Close', 'mxchat') . '</span>';
+            echo '          <span>' . esc_html__('Close', 'knittnet') . '</span>';
             echo '      </button>';
             echo '  </div>';
 
             // 3b) Main chatbot container
-            echo '  <div id="mxchat-chatbot-' . esc_attr($bot_id) . '" class="mxchat-chatbot"' . ($skip_inline_colors ? '' : ' style="background-color: ' . esc_attr($chatbot_bg_color) . ';"') . '>';
+            echo '  <div id="knittnet-chatbot-' . esc_attr($bot_id) . '" class="knittnet-chatbot"' . ($skip_inline_colors ? '' : ' style="background-color: ' . esc_attr($chatbot_bg_color) . ';"') . '>';
                 
             if ($enable_email_block) {
                 echo '<div id="email-blocker-' . esc_attr($bot_id) . '" class="email-blocker" style="' . ($show_email_form ? '' : 'display: none;') . '">';
@@ -271,24 +271,24 @@ public function render_chatbot_shortcode($atts) {
 
                 //   Add name field if enabled
                 if ($enable_name_field) {
-                    echo '        <label for="user-name-' . esc_attr($bot_id) . '" class="sr-only mxchat-name-label">' . esc_html__('Name', 'mxchat') . '</label>';
-                    echo '        <input type="text" id="user-name-' . esc_attr($bot_id) . '" name="user_name" class="mxchat-name-input" required placeholder="' . $name_field_placeholder . '" />';
+                    echo '        <label for="user-name-' . esc_attr($bot_id) . '" class="sr-only knittnet-name-label">' . esc_html__('Name', 'knittnet') . '</label>';
+                    echo '        <input type="text" id="user-name-' . esc_attr($bot_id) . '" name="user_name" class="knittnet-name-input" required placeholder="' . $name_field_placeholder . '" />';
                 }
 
-                echo '        <label for="user-email-' . esc_attr($bot_id) . '" class="sr-only">' . esc_html__('Email Address', 'mxchat') . '</label>';
-                echo '        <input type="email" id="user-email-' . esc_attr($bot_id) . '" name="user_email" class="mxchat-email-input" required placeholder="' . esc_attr__('Enter your email address', 'mxchat') . '" />';
+                echo '        <label for="user-email-' . esc_attr($bot_id) . '" class="sr-only">' . esc_html__('Email Address', 'knittnet') . '</label>';
+                echo '        <input type="email" id="user-email-' . esc_attr($bot_id) . '" name="user_email" class="knittnet-email-input" required placeholder="' . esc_attr__('Enter your email address', 'knittnet') . '" />';
                 echo '<button type="submit" id="email-submit-button-' . esc_attr($bot_id) . '" class="email-submit-button">';
                     $button_text = isset($current_options['email_blocker_button_text'])
                         ? $current_options['email_blocker_button_text']
-                        : esc_html__('Start Chat', 'mxchat');
+                        : esc_html__('Start Chat', 'knittnet');
                     echo esc_html($button_text);
                 echo '</button>';
                 echo '    </form>';
                 echo '</div>';
             }
         
-            echo '      <div id="mxchat-init-loader-' . esc_attr($bot_id) . '" class="mxchat-init-loader" style="display:none;">';
-            echo '          <div class="mxchat-init-loader-dots">';
+            echo '      <div id="knittnet-init-loader-' . esc_attr($bot_id) . '" class="knittnet-init-loader" style="display:none;">';
+            echo '          <div class="knittnet-init-loader-dots">';
             echo '              <span class="dot"></span><span class="dot"></span><span class="dot"></span>';
             echo '          </div>';
             echo '      </div>';
@@ -304,37 +304,37 @@ public function render_chatbot_shortcode($atts) {
             
             
             // Replace the existing popular questions section with this:
-            echo '          <div id="mxchat-popular-questions-' . esc_attr($bot_id) . '" class="mxchat-popular-questions">';
-            echo '              <div class="mxchat-popular-questions-container">';
+            echo '          <div id="knittnet-popular-questions-' . esc_attr($bot_id) . '" class="knittnet-popular-questions">';
+            echo '              <div class="knittnet-popular-questions-container">';
             
             // Collapse button (down arrow) - shows when open, centered at top
-            echo '                  <button class="questions-collapse-btn" aria-label="' . esc_attr__('Hide Quick Questions', 'mxchat') . '">';
+            echo '                  <button class="questions-collapse-btn" aria-label="' . esc_attr__('Hide Quick Questions', 'knittnet') . '">';
             echo '                      <svg width="25" height="25" viewBox="0 0 24 24" fill="none"' . ($skip_inline_colors ? '' : ' stroke="' . esc_attr($quick_questions_toggle_color) . '"') . ' stroke-width="2">';
             echo '                          <polyline points="6,9 12,15 18,9"></polyline>';
             echo '                      </svg>';
             echo '                  </button>';
 
             // Expand button (up arrow) - shows when collapsed
-            echo '                  <button class="questions-toggle-btn" aria-label="' . esc_attr__('Show Quick Questions', 'mxchat') . '">';
+            echo '                  <button class="questions-toggle-btn" aria-label="' . esc_attr__('Show Quick Questions', 'knittnet') . '">';
             echo '                      <svg width="25" height="25" viewBox="0 0 24 24" fill="none"' . ($skip_inline_colors ? '' : ' stroke="' . esc_attr($quick_questions_toggle_color) . '"') . ' stroke-width="2">';
             echo '                          <polyline points="18,15 12,9 6,15"></polyline>';
             echo '                      </svg>';
             echo '                  </button>';
             
             if (!empty($popular_question_1)) {
-                echo '<button class="mxchat-popular-question" dir="auto">' . esc_html($popular_question_1) . '</button>';
+                echo '<button class="knittnet-popular-question" dir="auto">' . esc_html($popular_question_1) . '</button>';
             }
             if (!empty($popular_question_2)) {
-                echo '<button class="mxchat-popular-question" dir="auto">' . esc_html($popular_question_2) . '</button>';
+                echo '<button class="knittnet-popular-question" dir="auto">' . esc_html($popular_question_2) . '</button>';
             }
             if (!empty($popular_question_3)) {
-                echo '<button class="mxchat-popular-question" dir="auto">' . esc_html($popular_question_3) . '</button>';
+                echo '<button class="knittnet-popular-question" dir="auto">' . esc_html($popular_question_3) . '</button>';
             }
             
             if (!empty($additional_questions) && is_array($additional_questions)) {
                 foreach ($additional_questions as $index => $question) {
                     if (!empty($question)) {
-                        echo '<button class="mxchat-popular-question" dir="auto">' . esc_html($question) . '</button>';
+                        echo '<button class="knittnet-popular-question" dir="auto">' . esc_html($question) . '</button>';
                     }
                 }
             }
@@ -345,20 +345,20 @@ public function render_chatbot_shortcode($atts) {
             echo '          <div id="input-container-' . esc_attr($bot_id) . '" class="input-container">';
             // Max input length (plan a3fae2 part C) — global core setting, 0 = unlimited.
             // Hard-caps typing/paste client-side; the chat handler enforces it server-side too.
-            $mxchat_max_input_length = isset($this->options['max_input_length']) ? intval($this->options['max_input_length']) : 0;
-            $mxchat_maxlength_attr = $mxchat_max_input_length > 0 ? ' maxlength="' . esc_attr($mxchat_max_input_length) . '"' : '';
-            echo '              <textarea id="chat-input-' . esc_attr($bot_id) . '" class="chat-input" dir="auto"' . $mxchat_maxlength_attr . ' placeholder="' . esc_attr($input_copy) . '"' . ($skip_inline_colors ? '' : ' style="color: ' . esc_attr($chat_input_font_color) . ';"') . '></textarea>';
+            $knittnet_max_input_length = isset($this->options['max_input_length']) ? intval($this->options['max_input_length']) : 0;
+            $knittnet_maxlength_attr = $knittnet_max_input_length > 0 ? ' maxlength="' . esc_attr($knittnet_max_input_length) . '"' : '';
+            echo '              <textarea id="chat-input-' . esc_attr($bot_id) . '" class="chat-input" dir="auto"' . $knittnet_maxlength_attr . ' placeholder="' . esc_attr($input_copy) . '"' . ($skip_inline_colors ? '' : ' style="color: ' . esc_attr($chat_input_font_color) . ';"') . '></textarea>';
             // Language-neutral character counter (plan 7091a2). Numbers only — no
             // translatable strings — so it reads correctly on every-language install.
             // Only rendered when a cap is set; hidden until ~80% of the cap, then
             // ramps neutral -> amber -> red. Decorative (aria-hidden); the textarea's
             // maxlength carries the real semantics for assistive tech.
-            if ($mxchat_max_input_length > 0) {
-                echo '              <div id="mxchat-char-counter-' . esc_attr($bot_id) . '" class="mxchat-char-counter" aria-hidden="true"><span class="mxchat-char-counter-current">0</span><span class="mxchat-char-counter-sep">/</span><span class="mxchat-char-counter-max">' . esc_html($mxchat_max_input_length) . '</span></div>';
+            if ($knittnet_max_input_length > 0) {
+                echo '              <div id="knittnet-char-counter-' . esc_attr($bot_id) . '" class="knittnet-char-counter" aria-hidden="true"><span class="knittnet-char-counter-current">0</span><span class="knittnet-char-counter-sep">/</span><span class="knittnet-char-counter-max">' . esc_html($knittnet_max_input_length) . '</span></div>';
             }
-            echo '              <button id="send-button-' . esc_attr($bot_id) . '" class="send-button" aria-label="' . esc_attr__('Send message', 'mxchat') . '">';
+            echo '              <button id="send-button-' . esc_attr($bot_id) . '" class="send-button" aria-label="' . esc_attr__('Send message', 'knittnet') . '">';
             if (!empty($custom_send_image)) {
-                echo '                  <img src="' . esc_url($custom_send_image) . '" alt="' . esc_attr__('Send', 'mxchat') . '" style="width: ' . intval($send_width) . 'px; height: ' . intval($send_height) . 'px; transform: rotate(' . intval($send_rotation) . 'deg);" />';
+                echo '                  <img src="' . esc_url($custom_send_image) . '" alt="' . esc_attr__('Send', 'knittnet') . '" style="width: ' . intval($send_width) . 'px; height: ' . intval($send_height) . 'px; transform: rotate(' . intval($send_rotation) . 'deg);" />';
             } else {
                 $send_svg_style = 'width: ' . intval($send_width) . 'px; height: ' . intval($send_height) . 'px; transform: rotate(' . intval($send_rotation) . 'deg);';
                 if (!$skip_inline_colors) {
@@ -377,7 +377,7 @@ public function render_chatbot_shortcode($atts) {
             $show_pdf_button = isset($current_options['show_pdf_upload_button']) ? $current_options['show_pdf_upload_button'] : 'on';
             if ($show_pdf_button === 'on') {
                 echo '              <input type="file" id="pdf-upload-' . esc_attr($bot_id) . '" class="pdf-upload" accept=".pdf" style="display: none;">';
-                echo '              <button id="pdf-upload-btn-' . esc_attr($bot_id) . '" class="toolbar-btn pdf-upload-btn" title="' . esc_attr__('Upload PDF', 'mxchat') . '">';
+                echo '              <button id="pdf-upload-btn-' . esc_attr($bot_id) . '" class="toolbar-btn pdf-upload-btn" title="' . esc_attr__('Upload PDF', 'knittnet') . '">';
                 echo '                  <!-- Icon from Font Awesome Free: https://fontawesome.com/license/free -->';
                 echo '                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" stroke="currentColor">';
                 echo '                      <path d="M64 464l48 0 0 48-48 0c-35.3 0-64-28.7-64-64L0 64C0 28.7 28.7 0 64 0L229.5 0c17 0 33.3 6.7 45.3 18.7l90.5 90.5c12 12 18.7 28.3 18.7 45.3L384 304l-48 0 0-144-80 0c-17.7 0-32-14.3-32-32l0-80L64 48c-8.8 0-16 7.2-16 16l0 384c0 8.8 7.2 16 16 16zM176 352l32 0c30.9 0 56 25.1 56 56s-25.1 56-56 56l-16 0 0 32c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-48 0-80c0-8.8 7.2-16 16-16zm32 80c13.3 0 24-10.7 24-24s-10.7-24-24-24l-16 0 0 48 16 0zm96-80l32 0c26.5 0 48 21.5 48 48l0 64c0 26.5-21.5 48-48 48l-32 0c-8.8 0-16-7.2-16-16l0-128c0-8.8 7.2-16 16-16zm32 128c8.8 0 16-7.2 16-16l0-64c0-8.8-7.2-16-16-16l-16 0 0 96 16 0zm80-112c0-8.8 7.2-16 16-16l48 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-32 0 0 32 32 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-32 0 0 48c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-64 0-64z"></path>';
@@ -389,7 +389,7 @@ public function render_chatbot_shortcode($atts) {
             $show_word_button = isset($current_options['show_word_upload_button']) ? $current_options['show_word_upload_button'] : 'on';
             if ($show_word_button === 'on') {
                 echo '              <input type="file" id="word-upload-' . esc_attr($bot_id) . '" class="word-upload" accept=".docx" style="display: none;">';
-                echo '              <button id="word-upload-btn-' . esc_attr($bot_id) . '" class="toolbar-btn word-upload-btn" title="' . esc_attr__('Upload Word Document', 'mxchat') . '">';
+                echo '              <button id="word-upload-btn-' . esc_attr($bot_id) . '" class="toolbar-btn word-upload-btn" title="' . esc_attr__('Upload Word Document', 'knittnet') . '">';
                 echo '                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" stroke="currentColor">';
                 echo '                      <path d="M48 448L48 64c0-8.8 7.2-16 16-16l160 0 0 80c0 17.7 14.3 32 32 32l80 0 0 288c0 8.8-7.2 16-16 16L64 464c-8.8 0-16-7.2-16-16zM64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-293.5c0-17-6.7-33.3-18.7-45.3L274.7 18.7C262.7 6.7 246.5 0 229.5 0L64 0zm55 241.1c-3.8-12.7-17.2-19.9-29.9-16.1s-19.9 17.2-16.1 29.9l48 160c3 10.2 12.4 17.1 23 17.1s19.9-7 23-17.1l25-83.4 25 83.4c3 10.2 12.4 17.1 23 17.1s19.9-7 23-17.1l48-160c3.8-12.7-3.4-26.1-16.1-29.9s-26.1 3.4-29.9 16.1l-25 83.4-25-83.4c-3-10.2-12.4-17.1-23-17.1s-19.9 7-23 17.1l-25 83.4-25-83.4z"/></svg>';
                 echo '              </button>';
@@ -398,7 +398,7 @@ public function render_chatbot_shortcode($atts) {
             // File containers
             echo '              <div id="active-pdf-container-' . esc_attr($bot_id) . '" class="active-pdf-container" style="display: none;">';
             echo '                  <span id="active-pdf-name-' . esc_attr($bot_id) . '" class="active-pdf-name"></span>';
-            echo '                  <button id="remove-pdf-btn-' . esc_attr($bot_id) . '" class="remove-pdf-btn" title="' . esc_attr__('Remove PDF', 'mxchat') . '">';
+            echo '                  <button id="remove-pdf-btn-' . esc_attr($bot_id) . '" class="remove-pdf-btn" title="' . esc_attr__('Remove PDF', 'knittnet') . '">';
             echo '                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">';
             echo '                          <line x1="18" y1="6" x2="6" y2="18"></line>';
             echo '                          <line x1="6" y1="6" x2="18" y2="18"></line>';
@@ -408,7 +408,7 @@ public function render_chatbot_shortcode($atts) {
 
             echo '              <div id="active-word-container-' . esc_attr($bot_id) . '" class="active-word-container" style="display: none;">';
             echo '                  <span id="active-word-name-' . esc_attr($bot_id) . '" class="active-word-name"></span>';
-            echo '                  <button id="remove-word-btn-' . esc_attr($bot_id) . '" class="remove-word-btn" title="' . esc_attr__('Remove Word Document', 'mxchat') . '">';
+            echo '                  <button id="remove-word-btn-' . esc_attr($bot_id) . '" class="remove-word-btn" title="' . esc_attr__('Remove Word Document', 'knittnet') . '">';
             echo '                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">';
             echo '                          <line x1="18" y1="6" x2="6" y2="18"></line>';
             echo '                          <line x1="6" y1="6" x2="18" y2="18"></line>';
@@ -417,8 +417,8 @@ public function render_chatbot_shortcode($atts) {
             echo '              </div>';
             
             // Perplexity Button
-            if (apply_filters('mxchat_perplexity_should_show_logo', true)) {
-                echo '              <button id="perplexity-search-btn-' . esc_attr($bot_id) . '" class="toolbar-btn perplexity-search-btn" title="' . esc_attr__('Search with Perplexity', 'mxchat-perplexity') . '">';
+            if (apply_filters('knittnet_perplexity_should_show_logo', true)) {
+                echo '              <button id="perplexity-search-btn-' . esc_attr($bot_id) . '" class="toolbar-btn perplexity-search-btn" title="' . esc_attr__('Search with Perplexity', 'knittnet-perplexity') . '">';
                 echo '                  <svg fill="currentColor" height="1em" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg">';
                 echo '                      <path d="M19.785 0v7.272H22.5V17.62h-2.935V24l-7.037-6.194v6.145h-1.091v-6.152L4.392 24v-6.465H1.5V7.188h2.884V0l7.053 6.494V.19h1.09v6.49L19.786 0zm-7.257 9.044v7.319l5.946 5.234V14.44l-5.946-5.397zm-1.099-.08l-5.946 5.398v7.235l5.946-5.234V8.965zm8.136 7.58h1.844V8.349H13.46l6.105 5.54v2.655zm-8.982-8.28H2.59v8.195h1.8v-2.576l6.192-5.62zM5.475 2.476v4.71h5.115l-5.115-4.71zm13.219 0l-5.115 4.71h5.115v-4.71z"></path>';
                 echo '                  </svg>';
@@ -426,9 +426,9 @@ public function render_chatbot_shortcode($atts) {
             }
             
                     
-            // Image Analysis Button - hidden by default, controlled by MxChat Vision add-on
+            // Image Analysis Button - hidden by default, controlled by KnittNet Vision add-on
             echo '              <input type="file" id="image-upload-' . esc_attr($bot_id) . '" class="image-upload" accept="image/*" style="display: none;" multiple>';
-            echo '              <button id="image-upload-btn-' . esc_attr($bot_id) . '" class="toolbar-btn image-upload-btn" title="' . esc_attr__('Upload Image for Analysis', 'mxchat') . '" style="display: none;">';
+            echo '              <button id="image-upload-btn-' . esc_attr($bot_id) . '" class="toolbar-btn image-upload-btn" title="' . esc_attr__('Upload Image for Analysis', 'knittnet') . '" style="display: none;">';
             echo '                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="fill: none !important;">';
             echo '                      <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" style="fill: none !important;"/>';
             echo '                      <circle cx="12" cy="13" r="3" style="fill: none !important;"/>';
@@ -456,20 +456,20 @@ public function render_chatbot_shortcode($atts) {
                 if (!empty($pre_chat_message)) {
                     // Rendered hidden by default — JS checkPreChatDismissal() handles show/hide via localStorage
                     // data-nosnippet: the pre-chat teaser bubble is a sibling outside
-                    // .mxchat-chatbot-wrapper, so it needs its own marker to stay out of snippets.
+                    // .knittnet-chatbot-wrapper, so it needs its own marker to stay out of snippets.
                     echo '<div id="pre-chat-message-' . esc_attr($bot_id) . '" class="pre-chat-message" data-nosnippet style="display:none;">';
                     echo nl2br(esc_html($pre_chat_message));
-                    echo '<button class="close-pre-chat-message" aria-label="' . esc_attr__('Close', 'mxchat') . '">&times;</button>';
+                    echo '<button class="close-pre-chat-message" aria-label="' . esc_attr__('Close', 'knittnet') . '">&times;</button>';
                     echo '</div>';
                 }
 
                 $is_initially_hidden = (strpos($visibility_class, 'hidden') !== false);
                 $aria_expanded = $is_initially_hidden ? 'false' : 'true';
-                echo '<div class="floating-chatbot-button ' . esc_attr($visibility_class) . '" id="floating-chatbot-button-' . esc_attr($bot_id) . '" role="button" tabindex="0" aria-label="' . esc_attr__('Open chat', 'mxchat') . '" aria-expanded="' . esc_attr($aria_expanded) . '" aria-controls="floating-chatbot-' . esc_attr($bot_id) . '"' . ($skip_inline_colors ? '' : ' style="background: ' . esc_attr($chatbot_background_color) . '; color: ' . esc_attr($send_button_font_color) . ';"') . '>';
+                echo '<div class="floating-chatbot-button ' . esc_attr($visibility_class) . '" id="floating-chatbot-button-' . esc_attr($bot_id) . '" role="button" tabindex="0" aria-label="' . esc_attr__('Open chat', 'knittnet') . '" aria-expanded="' . esc_attr($aria_expanded) . '" aria-controls="floating-chatbot-' . esc_attr($bot_id) . '"' . ($skip_inline_colors ? '' : ' style="background: ' . esc_attr($chatbot_background_color) . '; color: ' . esc_attr($send_button_font_color) . ';"') . '>';
                 echo '<div id="chat-notification-badge-' . esc_attr($bot_id) . '" class="chat-notification-badge" style="display: none; position: absolute; top: -8px; right: -8px; background-color: #ff4444; color: white; border-radius: 50%; padding: 4px 8px; font-size: 12px; font-weight: bold; z-index: 10001;">1</div>';
 
                 if (!empty($custom_icon)) {
-                    echo '<img src="' . $custom_icon . '" alt="' . esc_attr__('Chatbot Icon', 'mxchat') . '" style="height: 48px; width: 48px; object-fit: contain;" />';
+                    echo '<img src="' . $custom_icon . '" alt="' . esc_attr__('Chatbot Icon', 'knittnet') . '" style="height: 48px; width: 48px; object-fit: contain;" />';
                 } else {
                     $widget_icon_style = 'height: 48px; width: 48px;';
                     if (!$skip_inline_colors) {
@@ -492,12 +492,12 @@ public function render_chatbot_shortcode($atts) {
      */
     private function get_bot_options($bot_id = 'default') {
         // If default bot or multi-bot add-on not active, return empty (use default options)
-        if ($bot_id === 'default' || !class_exists('MxChat_Multi_Bot_Manager')) {
+        if ($bot_id === 'default' || !class_exists('KnittNet_Multi_Bot_Manager')) {
             return array();
         }
         
         //Hook for multi-bot add-on to provide bot-specific options
-        $bot_options = apply_filters('mxchat_get_bot_options', array(), $bot_id);
+        $bot_options = apply_filters('knittnet_get_bot_options', array(), $bot_id);
         
         return is_array($bot_options) ? $bot_options : array();
     }
@@ -508,18 +508,18 @@ public function render_chatbot_shortcode($atts) {
      */
     private function get_bot_pinecone_config($bot_id = 'default') {
         // If default bot or multi-bot add-on not active, use default Pinecone config
-        if ($bot_id === 'default' || !class_exists('MxChat_Multi_Bot_Manager')) {
-            $addon_options = get_option('mxchat_pinecone_addon_options', array());
+        if ($bot_id === 'default' || !class_exists('KnittNet_Multi_Bot_Manager')) {
+            $addon_options = get_option('knittnet_pinecone_addon_options', array());
             return array(
-                'use_pinecone' => (isset($addon_options['mxchat_use_pinecone']) && $addon_options['mxchat_use_pinecone'] === '1'),
-                'api_key' => $addon_options['mxchat_pinecone_api_key'] ?? '',
-                'host' => $addon_options['mxchat_pinecone_host'] ?? '',
-                'namespace' => $addon_options['mxchat_pinecone_namespace'] ?? ''
+                'use_pinecone' => (isset($addon_options['knittnet_use_pinecone']) && $addon_options['knittnet_use_pinecone'] === '1'),
+                'api_key' => $addon_options['knittnet_pinecone_api_key'] ?? '',
+                'host' => $addon_options['knittnet_pinecone_host'] ?? '',
+                'namespace' => $addon_options['knittnet_pinecone_namespace'] ?? ''
             );
         }
         
         //   Hook for multi-bot add-on to provide bot-specific Pinecone config
-        $bot_pinecone_config = apply_filters('mxchat_get_bot_pinecone_config', array(), $bot_id);
+        $bot_pinecone_config = apply_filters('knittnet_get_bot_pinecone_config', array(), $bot_id);
         
         return is_array($bot_pinecone_config) ? $bot_pinecone_config : array();
     }
@@ -671,28 +671,28 @@ private function get_page_bot_setting($post_id = null) {
     }
 
     // Check new visibility field first
-    $visibility = get_post_meta($post_id, '_mxchat_page_visibility', true);
+    $visibility = get_post_meta($post_id, '_knittnet_page_visibility', true);
 
     if ($visibility === 'hide') {
         return array('action' => 'hide');
     }
 
     if ($visibility === 'show') {
-        $selected_bot = get_post_meta($post_id, '_mxchat_selected_bot', true);
+        $selected_bot = get_post_meta($post_id, '_knittnet_selected_bot', true);
         $bot_id = !empty($selected_bot) ? $selected_bot : 'default';
         return array('action' => 'show', 'bot_id' => $bot_id);
     }
 
     // Backward compat: check legacy hide checkbox if no new field set
     if (empty($visibility)) {
-        $hide_chatbot = get_post_meta($post_id, '_mxchat_hide_chatbot', true);
+        $hide_chatbot = get_post_meta($post_id, '_knittnet_hide_chatbot', true);
         if ($hide_chatbot === '1') {
             return array('action' => 'hide');
         }
     }
 
     // Check if specific bot is selected (legacy path)
-    $selected_bot = get_post_meta($post_id, '_mxchat_selected_bot', true);
+    $selected_bot = get_post_meta($post_id, '_knittnet_selected_bot', true);
     if (!empty($selected_bot)) {
         return array('action' => 'show', 'bot_id' => $selected_bot);
     }
@@ -735,11 +735,11 @@ private function is_auto_append_enabled() {
  * NEW: Helper method to get available bots (for admin notices, etc.)
  */
 private function get_available_bots() {
-    $bots = array('default' => __('Default Bot', 'mxchat'));
+    $bots = array('default' => __('Default Bot', 'knittnet'));
     
     // Check if multi-bot addon is active
-    if (class_exists('MxChat_Multi_Bot_Manager')) {
-        $multi_bot_manager = MxChat_Multi_Bot_Core_Manager::get_instance();
+    if (class_exists('KnittNet_Multi_Bot_Manager')) {
+        $multi_bot_manager = KnittNet_Multi_Bot_Core_Manager::get_instance();
         $available_bots = $multi_bot_manager->get_available_bots();
         
         // Add the available bots

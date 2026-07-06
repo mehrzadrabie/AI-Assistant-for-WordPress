@@ -1,8 +1,8 @@
 jQuery(document).ready(function($) {
     // Manual test button click
-    $('#mxchat-test-streaming-btn').on('click', function() {
+    $('#knittnet-test-streaming-btn').on('click', function() {
         const $button = $(this);
-        const $result = $('#mxchat-test-streaming-result');
+        const $result = $('#knittnet-test-streaming-result');
 
         $button.prop('disabled', true).text('Testing...');
         $result.text('Testing streaming environment...');
@@ -34,8 +34,8 @@ jQuery(document).ready(function($) {
                 e.stopImmediatePropagation();
 
                 const $toggle = $(this);
-                const $result = $('#mxchat-test-streaming-result');
-                const $button = $('#mxchat-test-streaming-btn');
+                const $result = $('#knittnet-test-streaming-result');
+                const $button = $('#knittnet-test-streaming-btn');
 
                 // User is enabling streaming - run automatic compatibility test first
                 $button.prop('disabled', true);
@@ -71,13 +71,13 @@ jQuery(document).ready(function($) {
     // Helper function to save the streaming setting via AJAX
     function saveStreamingSetting(value) {
         $.ajax({
-            url: mxchatTestStreamingAjax.ajax_url,
+            url: knittnetTestStreamingAjax.ajax_url,
             type: 'POST',
             data: {
-                action: 'mxchat_save_setting',
+                action: 'knittnet_save_setting',
                 name: 'enable_streaming_toggle',
                 value: value,
-                _ajax_nonce: mxchatTestStreamingAjax.settings_nonce
+                _ajax_nonce: knittnetTestStreamingAjax.settings_nonce
             }
         });
     }
@@ -107,13 +107,13 @@ jQuery(document).ready(function($) {
             
             // Test the actual chat streaming endpoint (not the test endpoint)
             const formData = new FormData();
-            formData.append('action', 'mxchat_stream_chat');
+            formData.append('action', 'knittnet_stream_chat');
             formData.append('message', 'Say "test 1", then "test 2", then "test 3" - each on a separate line.');
             formData.append('session_id', 'streaming_test_' + Date.now());
-            formData.append('nonce', mxchatTestStreamingAjax.nonce);
+            formData.append('nonce', knittnetTestStreamingAjax.nonce);
             formData.append('force_streaming_test', '1'); // Force streaming mode for testing
             
-            fetch(mxchatTestStreamingAjax.ajax_url, {
+            fetch(knittnetTestStreamingAjax.ajax_url, {
                 method: 'POST',
                 body: formData,
                 credentials: 'same-origin'

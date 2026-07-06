@@ -1,5 +1,5 @@
 /**
- * MxChat Admin Testing Tab
+ * KnittNet Admin Testing Tab
  * Handles the in-admin testing interface with debug data display.
  * Ported from test-panel.js but adapted for inline admin use.
  */
@@ -77,7 +77,7 @@
             var self = this;
 
             // Store reference globally so interception can find us
-            window.mxchatTestPanelInstance = self;
+            window.knittnetTestPanelInstance = self;
 
             // Intercept jQuery AJAX calls
             if (window.jQuery) {
@@ -89,8 +89,8 @@
                     options.success = function(data, textStatus, jqXHR) {
                         // Check if this is a chat request
                         if (options.data &&
-                            (options.data.action === 'mxchat_handle_chat_request' ||
-                             options.data.action === 'mxchat_stream_chat')) {
+                            (options.data.action === 'knittnet_handle_chat_request' ||
+                             options.data.action === 'knittnet_stream_chat')) {
 
                             if (self && data && data.testing_data) {
                                 self.handleTestingData(data.testing_data);
@@ -115,7 +115,7 @@
                 var args = arguments;
                 return originalFetch.apply(this, args).then(function(response) {
                     if (args[0] && typeof args[0] === 'string' &&
-                        (args[0].includes('admin-ajax.php') || args[0].includes('mxchat'))) {
+                        (args[0].includes('admin-ajax.php') || args[0].includes('knittnet'))) {
                         var contentType = response.headers.get('content-type') || '';
 
                         if (contentType.includes('application/json')) {
@@ -441,9 +441,9 @@
         },
 
         updateSimilarityThreshold: function() {
-            $.post(mxchatAdminTestData.ajaxUrl, {
-                action: 'mxchat_get_similarity_threshold',
-                nonce: mxchatAdminTestData.nonce
+            $.post(knittnetAdminTestData.ajaxUrl, {
+                action: 'knittnet_get_similarity_threshold',
+                nonce: knittnetAdminTestData.nonce
             }).done(function(data) {
                 if (data.success) {
                     $('#mxch-testing-threshold').html('<code>' + data.data.threshold_percentage + '</code>');
@@ -460,9 +460,9 @@
             var el = $('#mxch-testing-system-prompt');
             el.text('Loading system prompt...');
 
-            $.post(mxchatAdminTestData.ajaxUrl, {
-                action: 'mxchat_get_system_info',
-                nonce: mxchatAdminTestData.nonce
+            $.post(knittnetAdminTestData.ajaxUrl, {
+                action: 'knittnet_get_system_info',
+                nonce: knittnetAdminTestData.nonce
             }).done(function(data) {
                 if (data.success) {
                     el.text(data.data.system_prompt || 'No system prompt configured');
@@ -490,9 +490,9 @@
             var el = $('#mxch-testing-kb-status');
             el.html('Checking...');
 
-            $.post(mxchatAdminTestData.ajaxUrl, {
-                action: 'mxchat_get_kb_status',
-                nonce: mxchatAdminTestData.nonce
+            $.post(knittnetAdminTestData.ajaxUrl, {
+                action: 'knittnet_get_kb_status',
+                nonce: knittnetAdminTestData.nonce
             }).done(function(data) {
                 if (data.success) {
                     var kbData = data.data;
@@ -516,7 +516,7 @@
             var botId = 'testing';
 
             // Get current session ID
-            var cookieName = 'mxchat_session_id_' + botId;
+            var cookieName = 'knittnet_session_id_' + botId;
             var sessionId = this.getCookie(cookieName) || this.getCurrentSessionId(botId);
 
             if (!sessionId) {
@@ -526,26 +526,26 @@
 
             this.log('Clearing session: ' + sessionId);
 
-            // Use MxChatInstances to properly reset
-            if (typeof MxChatInstances !== 'undefined' && typeof MxChatInstances.resetChatSession === 'function') {
-                MxChatInstances.resetChatSession(botId);
+            // Use KnittNetInstances to properly reset
+            if (typeof KnittNetInstances !== 'undefined' && typeof KnittNetInstances.resetChatSession === 'function') {
+                KnittNetInstances.resetChatSession(botId);
             }
 
             // Get new session ID
             var newSessionId = '';
-            if (typeof MxChatInstances !== 'undefined' && typeof MxChatInstances.getChatSession === 'function') {
-                newSessionId = MxChatInstances.getChatSession(botId);
+            if (typeof KnittNetInstances !== 'undefined' && typeof KnittNetInstances.getChatSession === 'function') {
+                newSessionId = KnittNetInstances.getChatSession(botId);
             }
 
             if (!newSessionId) {
-                newSessionId = 'mxchat_chat_' + Math.random().toString(36).substr(2, 9);
+                newSessionId = 'knittnet_chat_' + Math.random().toString(36).substr(2, 9);
                 document.cookie = cookieName + '=' + newSessionId + '; path=/; max-age=86400; SameSite=Lax';
             }
 
             // Call backend to clear old session
-            $.post(mxchatAdminTestData.ajaxUrl, {
-                action: 'mxchat_start_fresh_session',
-                nonce: mxchatAdminTestData.nonce,
+            $.post(knittnetAdminTestData.ajaxUrl, {
+                action: 'knittnet_start_fresh_session',
+                nonce: knittnetAdminTestData.nonce,
                 old_session_id: sessionId,
                 new_session_id: newSessionId
             }).done(function(data) {
@@ -570,7 +570,7 @@
                     }
 
                     // Show popular questions again
-                    var pq = document.getElementById('mxchat-popular-questions-testing');
+                    var pq = document.getElementById('knittnet-popular-questions-testing');
                     if (pq) {
                         pq.style.display = 'block';
                     }
@@ -631,12 +631,12 @@
         },
 
         getCurrentSessionId: function(botId) {
-            if (typeof MxChatInstances !== 'undefined' && typeof MxChatInstances.getChatSession === 'function') {
-                var session = MxChatInstances.getChatSession(botId);
+            if (typeof KnittNetInstances !== 'undefined' && typeof KnittNetInstances.getChatSession === 'function') {
+                var session = KnittNetInstances.getChatSession(botId);
                 if (session) return session;
             }
 
-            var cookieId = this.getCookie('mxchat_session_id_' + botId);
+            var cookieId = this.getCookie('knittnet_session_id_' + botId);
             if (cookieId) return cookieId;
 
             var chatInput = document.getElementById('chat-input-' + botId);

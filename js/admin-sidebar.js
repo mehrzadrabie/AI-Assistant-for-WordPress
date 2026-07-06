@@ -1,5 +1,5 @@
 /**
- * Shared admin shell JS for the MxChat admin design system.
+ * Shared admin shell JS for the KnittNet admin design system.
  *
  * Wires tab switching, mobile menu open/close, and copy-to-clipboard
  * inside every .mxch-admin-wrapper on the page. Scoped to each wrapper
@@ -7,10 +7,10 @@
  * per page, but no global side effects).
  *
  * Source of truth for the inline-script logic previously duplicated in
- * mxchat-basic/includes/admin-api-page.php and
- * mxchat-mcp/includes/admin-mcp-page.php.
+ * knittnet-basic/includes/admin-api-page.php and
+ * knittnet-mcp/includes/admin-mcp-page.php.
  *
- * @package MxChat
+ * @package KnittNet
  */
 (function () {
     function wire(wrapper) {
@@ -19,7 +19,7 @@
         }
         wrapper.dataset.mxchAdminWired = '1';
 
-        var copiedLabel = (window.MxChatAdminSidebarI18n && window.MxChatAdminSidebarI18n.copied) || 'Copied';
+        var copiedLabel = (window.KnittNetAdminSidebarI18n && window.KnittNetAdminSidebarI18n.copied) || 'Copied';
 
         // Tab switcher: clicking any [data-target] button toggles .mxch-section.active.
         var navButtons = wrapper.querySelectorAll('[data-target]');

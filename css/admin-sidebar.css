@@ -1,5 +1,5 @@
 /* ==========================================================================
-   MxChat Admin Sidebar Navigation - v2.0
+   KnittNet Admin Sidebar Navigation - v2.0
    Clean, modern CSS for the redesigned settings page
    ========================================================================== */
 
@@ -1086,7 +1086,7 @@ body.rtl .mxch-nav-link.active {
 }
 
 /* Toggle switches (if using class-based toggles) */
-.mxch-card-body .form-table .mxchat-toggle-wrapper {
+.mxch-card-body .form-table .knittnet-toggle-wrapper {
     display: flex;
     align-items: center;
     gap: var(--mxch-spacing-sm);
@@ -1196,7 +1196,7 @@ body.rtl .mxch-nav-link.active {
     margin-bottom: 0;
 }
 
-/* Global cap "Current usage" readout (plan-mxchat-20260603-e9b3f9) */
+/* Global cap "Current usage" readout (plan-knittnet-20260603-e9b3f9) */
 .mxch-rate-limit-usage {
     margin-top: var(--mxch-spacing-md);
     padding-top: var(--mxch-spacing-md);
@@ -1347,8 +1347,8 @@ body.rtl .mxch-nav-link.active {
 /* ==========================================================================
    Disclosure (collapsible <details>)
    Generic Advanced/opt-in surface — used for static-bearer fallback on
-   mxchat-mcp's Connected Apps tab, and any add-on that needs the same
-   "advanced/show more" pattern. Originally lived in plugins/mxchat-mcp/css/
+   knittnet-mcp's Connected Apps tab, and any add-on that needs the same
+   "advanced/show more" pattern. Originally lived in plugins/knittnet-mcp/css/
    admin-mcp.css; elevated here so every add-on inherits via the standard
    admin-sidebar.css enqueue.
    ========================================================================== */
@@ -2094,7 +2094,7 @@ body.rtl .mxch-nav-link.active {
 
 /* Ensure feedback container appears inline with toggles */
 .mxch-admin-wrapper .toggle-switch + .feedback-container,
-.mxch-admin-wrapper .mxchat-toggle-switch + .feedback-container,
+.mxch-admin-wrapper .knittnet-toggle-switch + .feedback-container,
 .mxch-admin-wrapper label.toggle-switch ~ .feedback-container {
     display: inline-flex;
     vertical-align: middle;
@@ -2138,12 +2138,12 @@ body.rtl .mxch-nav-link.active {
    ========================================================================== */
 
 /* New entry highlight animation */
-.mxchat-new-entry {
+.knittnet-new-entry {
     background-color: rgba(120, 115, 245, 0.15);
-    animation: mxchatNewEntryFade 2s ease-out forwards;
+    animation: knittnetNewEntryFade 2s ease-out forwards;
 }
 
-@keyframes mxchatNewEntryFade {
+@keyframes knittnetNewEntryFade {
     0% {
         background-color: rgba(120, 115, 245, 0.25);
     }
@@ -2153,12 +2153,12 @@ body.rtl .mxch-nav-link.active {
 }
 
 /* Count update flash */
-#mxchat-entry-count.mxchat-count-updated,
-#mxchat-sidebar-count.mxchat-count-updated {
-    animation: mxchatCountPulse 0.5s ease-out;
+#knittnet-entry-count.knittnet-count-updated,
+#knittnet-sidebar-count.knittnet-count-updated {
+    animation: knittnetCountPulse 0.5s ease-out;
 }
 
-@keyframes mxchatCountPulse {
+@keyframes knittnetCountPulse {
     0% {
         color: var(--mxch-primary);
         transform: scale(1.2);
@@ -2170,11 +2170,11 @@ body.rtl .mxch-nav-link.active {
 }
 
 /* Sidebar badge specific pulse - keep white text on purple background */
-#mxchat-sidebar-count.mxchat-count-updated {
-    animation: mxchatSidebarCountPulse 0.5s ease-out;
+#knittnet-sidebar-count.knittnet-count-updated {
+    animation: knittnetSidebarCountPulse 0.5s ease-out;
 }
 
-@keyframes mxchatSidebarCountPulse {
+@keyframes knittnetSidebarCountPulse {
     0% {
         transform: scale(1.3);
         background: var(--mxch-success);
@@ -2345,14 +2345,14 @@ body.rtl .mxch-nav-link.active {
    ========================================================================== */
 
 /* Mask API key fields like password fields but avoid browser password autofill */
-.mxchat-api-key-field {
+.knittnet-api-key-field {
     -webkit-text-security: disc;
     text-security: disc;
     font-family: monospace;
 }
 
 /* Show actual text when focused or when show button toggled */
-.mxchat-api-key-field.mxchat-show-key {
+.knittnet-api-key-field.knittnet-show-key {
     -webkit-text-security: none;
     text-security: none;
 }
@@ -2362,7 +2362,7 @@ body.rtl .mxch-nav-link.active {
    ========================================================================== */
 
 /* Debug Log Viewer */
-.mxchat-debug-log-viewer {
+.knittnet-debug-log-viewer {
     max-height: 400px;
     overflow-y: auto;
     background: #f8fafc;
@@ -2371,7 +2371,7 @@ body.rtl .mxch-nav-link.active {
     padding: 0;
 }
 
-.mxchat-debug-log-empty {
+.knittnet-debug-log-empty {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -2381,16 +2381,16 @@ body.rtl .mxch-nav-link.active {
     color: #64748b;
 }
 
-.mxchat-debug-log-empty p {
+.knittnet-debug-log-empty p {
     margin: 16px 0 0;
     font-size: 14px;
 }
 
-.mxchat-debug-log-entries {
+.knittnet-debug-log-entries {
     padding: 12px;
 }
 
-.mxchat-debug-log-entry {
+.knittnet-debug-log-entry {
     background: #ffffff;
     border: 1px solid #e2e8f0;
     border-radius: 8px;
@@ -2399,18 +2399,18 @@ body.rtl .mxch-nav-link.active {
     font-size: 13px;
 }
 
-.mxchat-debug-log-entry:last-child {
+.knittnet-debug-log-entry:last-child {
     margin-bottom: 0;
 }
 
-.mxchat-log-header {
+.knittnet-log-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 8px;
 }
 
-.mxchat-log-type {
+.knittnet-log-type {
     display: inline-block;
     padding: 2px 8px;
     border-radius: 4px;
@@ -2422,42 +2422,42 @@ body.rtl .mxch-nav-link.active {
     color: #475569;
 }
 
-.mxchat-log-type-settings_save .mxchat-log-type {
+.knittnet-log-type-settings_save .knittnet-log-type {
     background: #dbeafe;
     color: #1e40af;
 }
 
-.mxchat-log-type-debug_mode .mxchat-log-type {
+.knittnet-log-type-debug_mode .knittnet-log-type {
     background: #fef3c7;
     color: #92400e;
 }
 
-.mxchat-log-type-api_error .mxchat-log-type {
+.knittnet-log-type-api_error .knittnet-log-type {
     background: #fee2e2;
     color: #991b1b;
 }
 
-.mxchat-log-type-reset .mxchat-log-type {
+.knittnet-log-type-reset .knittnet-log-type {
     background: #fce7f3;
     color: #9d174d;
 }
 
-.mxchat-log-type-settings_export .mxchat-log-type {
+.knittnet-log-type-settings_export .knittnet-log-type {
     background: #d1fae5;
     color: #065f46;
 }
 
-.mxchat-log-time {
+.knittnet-log-time {
     font-size: 11px;
     color: #94a3b8;
 }
 
-.mxchat-log-message {
+.knittnet-log-message {
     color: #334155;
     line-height: 1.5;
 }
 
-.mxchat-log-data {
+.knittnet-log-data {
     margin-top: 8px;
     padding: 8px;
     background: #f1f5f9;
@@ -2682,7 +2682,7 @@ body.rtl .mxch-nav-link.active {
         margin: 0 auto;
     }
 
-    .mxchat-debug-log-viewer {
+    .knittnet-debug-log-viewer {
         max-height: 300px;
     }
 
@@ -2693,7 +2693,7 @@ body.rtl .mxch-nav-link.active {
 
 /* ============================================================
    Dashboard page (Setup Assistant + dashboard cards)
-   Added with plan-mxchat-20260526-704e25.
+   Added with plan-knittnet-20260526-704e25.
    ============================================================ */
 
 .mxch-setup-card .mxch-card-body {

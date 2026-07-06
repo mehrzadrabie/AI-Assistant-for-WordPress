@@ -1,9 +1,9 @@
 <?php
 /**
- * Word document handler and processor for MXChat
+ * Word document handler and processor for KnittNet
  * Can be directly bundled in WordPress plugins
  */
-class MXChat_Word_Handler {
+class KnittNet_Word_Handler {
     private $temp_dir;
     private $options;
 
@@ -15,25 +15,25 @@ class MXChat_Word_Handler {
     /**
      * Handle Word document upload and processing
      */
-    public function mxchat_handle_word_upload() {
+    public function knittnet_handle_word_upload() {
         // Match the PDF handler's nonce verification: the widget sends the chat-send
-        // nonce (action 'mxchat_chat_send'), which the old check_ajax_referer('mxchat_chat_nonce')
-        // rejected with -1. mxchat_verify_chat_send_nonce accepts both chat-send and chat nonces.
-        if (!isset($_POST['nonce']) || !MxChat_Integrator::mxchat_verify_chat_send_nonce(wp_unslash((string) $_POST['nonce']))) {
-            wp_send_json_error(array('message' => esc_html__('Invalid nonce.', 'mxchat')), 403);
+        // nonce (action 'knittnet_chat_send'), which the old check_ajax_referer('knittnet_chat_nonce')
+        // rejected with -1. knittnet_verify_chat_send_nonce accepts both chat-send and chat nonces.
+        if (!isset($_POST['nonce']) || !KnittNet_Integrator::knittnet_verify_chat_send_nonce(wp_unslash((string) $_POST['nonce']))) {
+            wp_send_json_error(array('message' => esc_html__('Invalid nonce.', 'knittnet')), 403);
         }
 
         if (!isset($_FILES['word_file']) || !isset($_POST['session_id'])) {
-            wp_send_json_error(esc_html__('Missing required parameters.', 'mxchat'));
+            wp_send_json_error(esc_html__('Missing required parameters.', 'knittnet'));
             return;
         }
     
         // SECURITY FIX: Check if Word uploads are enabled in settings
-        $options = get_option('mxchat_options', array());
+        $options = get_option('knittnet_options', array());
         $show_word_button = isset($options['show_word_upload_button']) ? $options['show_word_upload_button'] : 'on';
         
         if ($show_word_button !== 'on') {
-            wp_send_json_error(esc_html__('Word document uploads are currently disabled.', 'mxchat'));
+            wp_send_json_error(esc_html__('Word document uploads are currently disabled.', 'knittnet'));
             return;
         }
     
@@ -42,11 +42,11 @@ class MXChat_Word_Handler {
         $original_filename = sanitize_text_field($file['name']);
         
         // Update session owner if it changed (e.g. IP changed due to network switch)
-        $current_user_identifier = MxChat_User::mxchat_get_user_identifier();
-        $session_owner = get_option("mxchat_session_owner_{$session_id}");
+        $current_user_identifier = KnittNet_User::knittnet_get_user_identifier();
+        $session_owner = get_option("knittnet_session_owner_{$session_id}");
 
         if (!$session_owner || $session_owner !== $current_user_identifier) {
-            update_option("mxchat_session_owner_{$session_id}", $current_user_identifier, 'no');
+            update_option("knittnet_session_owner_{$session_id}", $current_user_identifier, 'no');
         }
         
         // Check file type
@@ -56,41 +56,41 @@ class MXChat_Word_Handler {
         $file_type = wp_check_filetype($file['name'], $allowed_types);
         
         if (!$file_type['type']) {
-            wp_send_json_error(esc_html__('Invalid file type. Only .docx files are allowed.', 'mxchat'));
+            wp_send_json_error(esc_html__('Invalid file type. Only .docx files are allowed.', 'knittnet'));
             return;
         }
         
         // SECURITY FIX: Generate random filename without exposing session_id
         $random_string = wp_generate_password(20, false, false); // 20 char alphanumeric string
-        $word_filename = 'mxchat_word_' . $random_string . '_' . time() . '.docx';
+        $word_filename = 'knittnet_word_' . $random_string . '_' . time() . '.docx';
         $word_path = $this->temp_dir . '/' . $word_filename;
         
         if (!move_uploaded_file($file['tmp_name'], $word_path)) {
-            wp_send_json_error(esc_html__('Failed to upload file.', 'mxchat'));
+            wp_send_json_error(esc_html__('Failed to upload file.', 'knittnet'));
             return;
         }
         
-        $this->mxchat_clear_word_transients($session_id);
+        $this->knittnet_clear_word_transients($session_id);
         
         // Process the document
-        $embeddings = $this->mxchat_process_word_document($word_path);
+        $embeddings = $this->knittnet_process_word_document($word_path);
         
         if ($embeddings === false || empty($embeddings)) {
             unlink($word_path);
             $error_message = $this->options['word_intent_error_text'] ?? 
-                esc_html__('The uploaded document appears to be empty or contains unsupported content.', 'mxchat');
+                esc_html__('The uploaded document appears to be empty or contains unsupported content.', 'knittnet');
             wp_send_json_error($error_message);
             return;
         }
         
         // Store the mapping between session and the random filename
-        set_transient('mxchat_word_url_' . $session_id, $word_path, HOUR_IN_SECONDS);
-        set_transient('mxchat_word_filename_' . $session_id, $original_filename, HOUR_IN_SECONDS);
-        set_transient('mxchat_word_embeddings_' . $session_id, $embeddings, HOUR_IN_SECONDS);
-        set_transient('mxchat_include_word_in_context_' . $session_id, true, HOUR_IN_SECONDS);
+        set_transient('knittnet_word_url_' . $session_id, $word_path, HOUR_IN_SECONDS);
+        set_transient('knittnet_word_filename_' . $session_id, $original_filename, HOUR_IN_SECONDS);
+        set_transient('knittnet_word_embeddings_' . $session_id, $embeddings, HOUR_IN_SECONDS);
+        set_transient('knittnet_include_word_in_context_' . $session_id, true, HOUR_IN_SECONDS);
         
         $success_message = $this->options['pdf_intent_success_text'] ?? 
-            __("I've processed the document. What questions do you have about it?", 'mxchat');
+            __("I've processed the document. What questions do you have about it?", 'knittnet');
         
         wp_send_json_success([
             'message' => $success_message,
@@ -101,7 +101,7 @@ class MXChat_Word_Handler {
     /**
      * Process Word document and generate embeddings
      */
-private function mxchat_process_word_document($file_path) {
+private function knittnet_process_word_document($file_path) {
     // Get the maximum number of pages allowed from admin settings
     $max_pages = isset($this->options['pdf_max_pages']) ? intval($this->options['pdf_max_pages']) : 69; // Use same setting as PDF
 
@@ -120,18 +120,18 @@ private function mxchat_process_word_document($file_path) {
         }
 
         // Clean up the content
-        $text = $this->mxchat_clean_word_content($content);
+        $text = $this->knittnet_clean_word_content($content);
         
         // Count pages (roughly estimate based on paragraphs)
         $paragraphs = explode("\n\n", $text);
         $estimated_pages = ceil(count($paragraphs) / 3); // Assume ~3 paragraphs per page
 
         if ($estimated_pages > $max_pages) {
-            return esc_html__('too_many_pages', 'mxchat');
+            return esc_html__('too_many_pages', 'knittnet');
         }
 
         // Split into chunks and continue processing...
-        $chunks = $this->mxchat_split_word_into_chunks($text, 1000);
+        $chunks = $this->knittnet_split_word_into_chunks($text, 1000);
 
         $embeddings = [];
         foreach ($chunks as $chunk_number => $chunk) {
@@ -139,8 +139,8 @@ private function mxchat_process_word_document($file_path) {
                 continue;
             }
 
-            $embedding = $this->mxchat_generate_embedding_word(
-                esc_html__('Chunk ', 'mxchat') . ($chunk_number + 1) . ': ' . $chunk,
+            $embedding = $this->knittnet_generate_embedding_word(
+                esc_html__('Chunk ', 'knittnet') . ($chunk_number + 1) . ': ' . $chunk,
                 $this->options['api_key']
             );
 
@@ -162,7 +162,7 @@ private function mxchat_process_word_document($file_path) {
     /**
      * Clean Word XML content
      */
-    private function mxchat_clean_word_content($content) {
+    private function knittnet_clean_word_content($content) {
         // Remove XML namespaces
         $content = preg_replace('/xmlns[^=]*="[^"]*"/i', '', $content);
         
@@ -183,7 +183,7 @@ private function mxchat_process_word_document($file_path) {
     /**
      * Split text into manageable chunks
      */
-    private function mxchat_split_word_into_chunks($text, $chunk_size) {
+    private function knittnet_split_word_into_chunks($text, $chunk_size) {
         $chunks = [];
         $paragraphs = explode("\n\n", $text);
         
@@ -209,47 +209,47 @@ private function mxchat_process_word_document($file_path) {
     /**
      * Remove Word document and clean up transients
      */
-public function mxchat_handle_word_remove() {
-        check_ajax_referer('mxchat_chat_nonce', 'nonce');
+public function knittnet_handle_word_remove() {
+        check_ajax_referer('knittnet_chat_nonce', 'nonce');
 
         if (empty($_POST['session_id'])) {
-            wp_send_json_error(esc_html__('Session ID missing.', 'mxchat'));
+            wp_send_json_error(esc_html__('Session ID missing.', 'knittnet'));
             return;
         }
 
         $session_id = sanitize_text_field($_POST['session_id']);
-        $word_path = get_transient('mxchat_word_url_' . $session_id);
+        $word_path = get_transient('knittnet_word_url_' . $session_id);
 
         if ($word_path && file_exists($word_path)) {
             unlink($word_path);
         }
 
-        $this->mxchat_clear_word_transients($session_id);
+        $this->knittnet_clear_word_transients($session_id);
 
         wp_send_json_success([
-            'message' => esc_html__('Document removed successfully.', 'mxchat')
+            'message' => esc_html__('Document removed successfully.', 'knittnet')
         ]);
     }
 
     /**
      * Clear all Word-related transients
      */
-    private function mxchat_clear_word_transients($session_id) {
-        delete_transient('mxchat_word_url_' . $session_id);
-        delete_transient('mxchat_word_filename_' . $session_id);
-        delete_transient('mxchat_word_embeddings_' . $session_id);
-        delete_transient('mxchat_include_word_in_context_' . $session_id);
+    private function knittnet_clear_word_transients($session_id) {
+        delete_transient('knittnet_word_url_' . $session_id);
+        delete_transient('knittnet_word_filename_' . $session_id);
+        delete_transient('knittnet_word_embeddings_' . $session_id);
+        delete_transient('knittnet_include_word_in_context_' . $session_id);
     }
 
     /**
      * Find relevant chunks from the Word document
      */
-    public function mxchat_find_relevant_word_chunks($query_embedding, $embeddings) {
+    public function knittnet_find_relevant_word_chunks($query_embedding, $embeddings) {
         $most_relevant = null;
         $highest_similarity = -INF;
 
         foreach ($embeddings as $chunk_data) {
-            $similarity = $this->mxchat_calculate_cosine_similarity_word($query_embedding, $chunk_data['embedding']);
+            $similarity = $this->knittnet_calculate_cosine_similarity_word($query_embedding, $chunk_data['embedding']);
 
             if ($similarity > $highest_similarity) {
                 $highest_similarity = $similarity;
@@ -273,26 +273,26 @@ public function mxchat_handle_word_remove() {
     /**
      * Handle Word document discussion similar to PDF discussion
      */
-public function mxchat_handle_word_discussion($message, $user_id, $session_id) {
+public function knittnet_handle_word_discussion($message, $user_id, $session_id) {
         // Get stored embeddings for the session
-        $embeddings = get_transient('mxchat_word_embeddings_' . $session_id);
-        $word_path = get_transient('mxchat_word_url_' . $session_id);
+        $embeddings = get_transient('knittnet_word_embeddings_' . $session_id);
+        $word_path = get_transient('knittnet_word_url_' . $session_id);
 
         if (!$embeddings || !$word_path) {
             $trigger_text = $this->options['word_intent_trigger_text'] ?? 
-                __("Please upload a Word document (.docx) that you'd like to discuss.", 'mxchat');
-            set_transient('mxchat_waiting_for_word_' . $session_id, true, HOUR_IN_SECONDS);
+                __("Please upload a Word document (.docx) that you'd like to discuss.", 'knittnet');
+            set_transient('knittnet_waiting_for_word_' . $session_id, true, HOUR_IN_SECONDS);
             $this->fallbackResponse['text'] = $trigger_text;
             return;
         }
 
         // Set context flag for including Word content in conversation
-        set_transient('mxchat_include_word_in_context_' . $session_id, true, HOUR_IN_SECONDS);
+        set_transient('knittnet_include_word_in_context_' . $session_id, true, HOUR_IN_SECONDS);
         $this->fallbackResponse['text'] = ''; // Proceed without additional message
     }
     
     
-    private function mxchat_generate_embedding_word($text, $api_key) {
+    private function knittnet_generate_embedding_word($text, $api_key) {
         $endpoint = 'https://api.openai.com/v1/embeddings';
 
         $body = wp_json_encode([
@@ -329,7 +329,7 @@ public function mxchat_handle_word_discussion($message, $user_id, $session_id) {
     }
     
     
-    private function mxchat_calculate_cosine_similarity_word($vectorA, $vectorB) {
+    private function knittnet_calculate_cosine_similarity_word($vectorA, $vectorB) {
         if (!is_array($vectorA) || !is_array($vectorB) || empty($vectorA) || empty($vectorB)) {
             return 0;
         }
@@ -354,17 +354,17 @@ public function mxchat_handle_word_discussion($message, $user_id, $session_id) {
     /**
  * Check the status of a Word document for the current session
  */
-public function mxchat_check_word_status() {
-    check_ajax_referer('mxchat_chat_nonce', 'nonce');
+public function knittnet_check_word_status() {
+    check_ajax_referer('knittnet_chat_nonce', 'nonce');
 
     if (empty($_POST['session_id'])) {
-        wp_send_json_error(esc_html__('Session ID missing.', 'mxchat'));
+        wp_send_json_error(esc_html__('Session ID missing.', 'knittnet'));
         return;
     }
 
     $session_id = sanitize_text_field($_POST['session_id']);
-    $word_path = get_transient('mxchat_word_url_' . $session_id);
-    $filename = get_transient('mxchat_word_filename_' . $session_id);
+    $word_path = get_transient('knittnet_word_url_' . $session_id);
+    $filename = get_transient('knittnet_word_filename_' . $session_id);
 
     if ($word_path && file_exists($word_path) && $filename) {
         wp_send_json_success([

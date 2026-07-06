@@ -1,5 +1,5 @@
 /**
- * MxChat Pro & Extensions Page JavaScript
+ * KnittNet Pro & Extensions Page JavaScript
  * Handles navigation, license management, and mobile interactions
  */
 (function($) {
@@ -164,7 +164,7 @@
             showSection('overview');
             // Focus on email field after section loads
             setTimeout(function() {
-                $('#mxchat_pro_email').focus();
+                $('#knittnet_pro_email').focus();
             }, 300);
         });
 

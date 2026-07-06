@@ -2,14 +2,14 @@
 /**
  * File: admin/class-pinecone-manager.php
  *
- * Handles all Pinecone vector database operations for MxChat
+ * Handles all Pinecone vector database operations for KnittNet
  */
 
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
-class MxChat_Pinecone_Manager {
+class KnittNet_Pinecone_Manager {
 
     /**
      * Constructor
@@ -26,10 +26,10 @@ class MxChat_Pinecone_Manager {
  * Fetches records from Pinecone with bot-specific filtering
  * UPDATED 2.6.1: Optimized for large datasets - uses server-side pagination
  */
-public function mxchat_fetch_pinecone_records($pinecone_options, $search_query = '', $page = 1, $per_page = 20, $bot_id = 'default', $content_type = '') {
-    $api_key = $pinecone_options['mxchat_pinecone_api_key'] ?? '';
-    $host = $pinecone_options['mxchat_pinecone_host'] ?? '';
-    $namespace = $pinecone_options['mxchat_pinecone_namespace'] ?? '';
+public function knittnet_fetch_pinecone_records($pinecone_options, $search_query = '', $page = 1, $per_page = 20, $bot_id = 'default', $content_type = '') {
+    $api_key = $pinecone_options['knittnet_pinecone_api_key'] ?? '';
+    $host = $pinecone_options['knittnet_pinecone_host'] ?? '';
+    $namespace = $pinecone_options['knittnet_pinecone_namespace'] ?? '';
 
     if (empty($api_key) || empty($host)) {
         return array('data' => array(), 'total' => 0, 'total_in_database' => 0, 'showing_recent_only' => false);
@@ -37,19 +37,19 @@ public function mxchat_fetch_pinecone_records($pinecone_options, $search_query =
 
     try {
         // Get total count for the banner message (bot-specific) - lightweight call
-        $total_in_database = $this->mxchat_get_pinecone_total_count($pinecone_options, $bot_id);
+        $total_in_database = $this->knittnet_get_pinecone_total_count($pinecone_options, $bot_id);
 
         // For large databases, use optimized paginated fetching
         // Only fetch what we need for the current page, not all 1K records
         if ($total_in_database > 500) {
-            $result = $this->mxchat_fetch_pinecone_page_optimized($pinecone_options, $search_query, $page, $per_page, $bot_id, $content_type);
+            $result = $this->knittnet_fetch_pinecone_page_optimized($pinecone_options, $search_query, $page, $per_page, $bot_id, $content_type);
             $result['total_in_database'] = $total_in_database;
             $result['showing_recent_only'] = true; // Always show banner when we're limiting results
             return $result;
         }
 
         // For smaller databases, use the existing approach but with safety limits
-        $all_records = $this->mxchat_get_recent_entries_safe($pinecone_options, $bot_id, 500);
+        $all_records = $this->knittnet_get_recent_entries_safe($pinecone_options, $bot_id, 500);
 
         // Filter by content type if provided
         if (!empty($content_type)) {
@@ -123,8 +123,8 @@ public function mxchat_fetch_pinecone_records($pinecone_options, $search_query =
         );
 
     } catch (Exception $e) {
-        //error_log('MxChat Pinecone fetch error: ' . $e->getMessage());
-        MxChat_Admin::mxchat_log_debug('pinecone_error', 'Pinecone fetch error: ' . $e->getMessage());
+        //error_log('KnittNet Pinecone fetch error: ' . $e->getMessage());
+        KnittNet_Admin::knittnet_log_debug('pinecone_error', 'Pinecone fetch error: ' . $e->getMessage());
         return array('data' => array(), 'total' => 0, 'total_in_database' => 0, 'showing_recent_only' => false);
     }
 }
@@ -134,24 +134,24 @@ public function mxchat_fetch_pinecone_records($pinecone_options, $search_query =
  * ADDED 2.6.1: Prevents crashes with large datasets
  * UPDATED 2.6.1: When searching, uses semantic search with embedded query for accurate results across all 13K+ records
  */
-private function mxchat_fetch_pinecone_page_optimized($pinecone_options, $search_query = '', $page = 1, $per_page = 20, $bot_id = 'default', $content_type = '') {
-    $api_key = $pinecone_options['mxchat_pinecone_api_key'] ?? '';
-    $host = $pinecone_options['mxchat_pinecone_host'] ?? '';
-    $namespace = $pinecone_options['mxchat_pinecone_namespace'] ?? '';
+private function knittnet_fetch_pinecone_page_optimized($pinecone_options, $search_query = '', $page = 1, $per_page = 20, $bot_id = 'default', $content_type = '') {
+    $api_key = $pinecone_options['knittnet_pinecone_api_key'] ?? '';
+    $host = $pinecone_options['knittnet_pinecone_host'] ?? '';
+    $namespace = $pinecone_options['knittnet_pinecone_namespace'] ?? '';
 
     try {
         // If user is searching, use semantic search with embedded query
         // This searches ALL records in Pinecone, not just fetched ones
         if (!empty($search_query)) {
-            return $this->mxchat_semantic_search_pinecone($pinecone_options, $search_query, $page, $per_page, $bot_id, $content_type);
+            return $this->knittnet_semantic_search_pinecone($pinecone_options, $search_query, $page, $per_page, $bot_id, $content_type);
         }
 
         // For browsing (no search), use Pinecone's list endpoint for true pagination
-        return $this->mxchat_list_pinecone_records($pinecone_options, $page, $per_page, $bot_id, $content_type);
+        return $this->knittnet_list_pinecone_records($pinecone_options, $page, $per_page, $bot_id, $content_type);
 
     } catch (Exception $e) {
-        //error_log('MxChat optimized fetch exception: ' . $e->getMessage());
-        MxChat_Admin::mxchat_log_debug('pinecone_error', 'Pinecone optimized fetch error: ' . $e->getMessage());
+        //error_log('KnittNet optimized fetch exception: ' . $e->getMessage());
+        KnittNet_Admin::knittnet_log_debug('pinecone_error', 'Pinecone optimized fetch error: ' . $e->getMessage());
         return array('data' => array(), 'total' => 0);
     }
 }
@@ -161,17 +161,17 @@ private function mxchat_fetch_pinecone_page_optimized($pinecone_options, $search
  * This allows users to find any of their 13K+ products by searching
  * ADDED 2.6.1
  */
-private function mxchat_semantic_search_pinecone($pinecone_options, $search_query, $page = 1, $per_page = 20, $bot_id = 'default', $content_type = '') {
-    $api_key = $pinecone_options['mxchat_pinecone_api_key'] ?? '';
-    $host = $pinecone_options['mxchat_pinecone_host'] ?? '';
-    $namespace = $pinecone_options['mxchat_pinecone_namespace'] ?? '';
+private function knittnet_semantic_search_pinecone($pinecone_options, $search_query, $page = 1, $per_page = 20, $bot_id = 'default', $content_type = '') {
+    $api_key = $pinecone_options['knittnet_pinecone_api_key'] ?? '';
+    $host = $pinecone_options['knittnet_pinecone_host'] ?? '';
+    $namespace = $pinecone_options['knittnet_pinecone_namespace'] ?? '';
 
     // Get embedding for the search query
-    $query_embedding = $this->mxchat_get_search_embedding($search_query);
+    $query_embedding = $this->knittnet_get_search_embedding($search_query);
 
     if (empty($query_embedding)) {
         // Fallback to text-based search if embedding fails
-        return $this->mxchat_text_search_fallback($pinecone_options, $search_query, $page, $per_page, $bot_id, $content_type);
+        return $this->knittnet_text_search_fallback($pinecone_options, $search_query, $page, $per_page, $bot_id, $content_type);
     }
 
     $query_url = "https://{$host}/query";
@@ -207,7 +207,7 @@ private function mxchat_semantic_search_pinecone($pinecone_options, $search_quer
     ));
 
     if (is_wp_error($response) || wp_remote_retrieve_response_code($response) !== 200) {
-        return $this->mxchat_text_search_fallback($pinecone_options, $search_query, $page, $per_page, $bot_id, $content_type);
+        return $this->knittnet_text_search_fallback($pinecone_options, $search_query, $page, $per_page, $bot_id, $content_type);
     }
 
     $body = wp_remote_retrieve_body($response);
@@ -246,7 +246,7 @@ private function mxchat_semantic_search_pinecone($pinecone_options, $search_quer
     $offset = ($page - 1) * $per_page;
     $paged_records = array_slice($records, $offset, $per_page);
 
-    $this->mxchat_batch_fetch_role_restrictions($paged_records, $bot_id);
+    $this->knittnet_batch_fetch_role_restrictions($paged_records, $bot_id);
 
     return array(
         'data' => $paged_records,
@@ -259,24 +259,24 @@ private function mxchat_semantic_search_pinecone($pinecone_options, $search_quer
  * Uses the same embedding model configured for the knowledge base
  * ADDED 2.6.1
  */
-private function mxchat_get_search_embedding($search_query) {
-    $options = get_option('mxchat_options', array());
+private function knittnet_get_search_embedding($search_query) {
+    $options = get_option('knittnet_options', array());
     $embedding_model = $options['embedding_model'] ?? 'text-embedding-ada-002';
 
     // Determine which API to use based on model
     if (strpos($embedding_model, 'voyage-') === 0) {
-        return $this->mxchat_get_voyage_embedding($search_query, $options, $embedding_model);
+        return $this->knittnet_get_voyage_embedding($search_query, $options, $embedding_model);
     } elseif (strpos($embedding_model, 'gemini-') === 0) {
-        return $this->mxchat_get_gemini_embedding($search_query, $options, $embedding_model);
+        return $this->knittnet_get_gemini_embedding($search_query, $options, $embedding_model);
     } else {
-        return $this->mxchat_get_openai_embedding($search_query, $options, $embedding_model);
+        return $this->knittnet_get_openai_embedding($search_query, $options, $embedding_model);
     }
 }
 
 /**
  * Get OpenAI embedding for search query
  */
-private function mxchat_get_openai_embedding($text, $options, $model) {
+private function knittnet_get_openai_embedding($text, $options, $model) {
     $api_key = $options['api_key'] ?? '';
     if (empty($api_key)) {
         return null;
@@ -305,7 +305,7 @@ private function mxchat_get_openai_embedding($text, $options, $model) {
 /**
  * Get Voyage AI embedding for search query
  */
-private function mxchat_get_voyage_embedding($text, $options, $model) {
+private function knittnet_get_voyage_embedding($text, $options, $model) {
     $api_key = $options['voyage_api_key'] ?? '';
     if (empty($api_key)) {
         return null;
@@ -342,7 +342,7 @@ private function mxchat_get_voyage_embedding($text, $options, $model) {
 /**
  * Get Google Gemini embedding for search query
  */
-private function mxchat_get_gemini_embedding($text, $options, $model) {
+private function knittnet_get_gemini_embedding($text, $options, $model) {
     $api_key = $options['gemini_api_key'] ?? '';
     if (empty($api_key)) {
         return null;
@@ -386,13 +386,13 @@ private function mxchat_get_gemini_embedding($text, $options, $model) {
  * Fetches more records and filters by text match
  * ADDED 2.6.1
  */
-private function mxchat_text_search_fallback($pinecone_options, $search_query, $page, $per_page, $bot_id, $content_type) {
-    $api_key = $pinecone_options['mxchat_pinecone_api_key'] ?? '';
-    $host = $pinecone_options['mxchat_pinecone_host'] ?? '';
-    $namespace = $pinecone_options['mxchat_pinecone_namespace'] ?? '';
+private function knittnet_text_search_fallback($pinecone_options, $search_query, $page, $per_page, $bot_id, $content_type) {
+    $api_key = $pinecone_options['knittnet_pinecone_api_key'] ?? '';
+    $host = $pinecone_options['knittnet_pinecone_host'] ?? '';
+    $namespace = $pinecone_options['knittnet_pinecone_namespace'] ?? '';
 
     $query_url = "https://{$host}/query";
-    $query_vector = $this->mxchat_generate_optimized_query_vector();
+    $query_vector = $this->knittnet_generate_optimized_query_vector();
 
     // Fetch more records to search through
     $query_data = array(
@@ -474,7 +474,7 @@ private function mxchat_text_search_fallback($pinecone_options, $search_query, $
     $offset = ($page - 1) * $per_page;
     $paged_records = array_slice($records, $offset, $per_page);
 
-    $this->mxchat_batch_fetch_role_restrictions($paged_records, $bot_id);
+    $this->knittnet_batch_fetch_role_restrictions($paged_records, $bot_id);
 
     return array(
         'data' => $paged_records,
@@ -487,10 +487,10 @@ private function mxchat_text_search_fallback($pinecone_options, $search_query, $
  * This allows browsing through all 13K+ records page by page
  * ADDED 2.6.1
  */
-private function mxchat_list_pinecone_records($pinecone_options, $page = 1, $per_page = 20, $bot_id = 'default', $content_type = '') {
-    $api_key = $pinecone_options['mxchat_pinecone_api_key'] ?? '';
-    $host = $pinecone_options['mxchat_pinecone_host'] ?? '';
-    $namespace = $pinecone_options['mxchat_pinecone_namespace'] ?? '';
+private function knittnet_list_pinecone_records($pinecone_options, $page = 1, $per_page = 20, $bot_id = 'default', $content_type = '') {
+    $api_key = $pinecone_options['knittnet_pinecone_api_key'] ?? '';
+    $host = $pinecone_options['knittnet_pinecone_host'] ?? '';
+    $namespace = $pinecone_options['knittnet_pinecone_namespace'] ?? '';
 
     // Pinecone's list endpoint returns vector IDs with pagination
     // We then fetch the metadata for those specific IDs
@@ -510,7 +510,7 @@ private function mxchat_list_pinecone_records($pinecone_options, $page = 1, $per
 
     // For pages beyond first, we need to use pagination_token
     // Store/retrieve pagination tokens in transients
-    $pagination_key = 'mxchat_pinecone_page_' . md5($host . $namespace . $content_type);
+    $pagination_key = 'knittnet_pinecone_page_' . md5($host . $namespace . $content_type);
 
     if ($page > 1) {
         $stored_tokens = get_transient($pagination_key);
@@ -530,7 +530,7 @@ private function mxchat_list_pinecone_records($pinecone_options, $page = 1, $per
 
     if (is_wp_error($response) || wp_remote_retrieve_response_code($response) !== 200) {
         // Fallback to query-based approach
-        return $this->mxchat_query_based_list($pinecone_options, $page, $per_page, $bot_id, $content_type);
+        return $this->knittnet_query_based_list($pinecone_options, $page, $per_page, $bot_id, $content_type);
     }
 
     $body = wp_remote_retrieve_body($response);
@@ -552,24 +552,24 @@ private function mxchat_list_pinecone_records($pinecone_options, $page = 1, $per
 
     // If list endpoint returned empty, fall back to query-based approach
     if (empty($vector_ids)) {
-        return $this->mxchat_query_based_list($pinecone_options, $page, $per_page, $bot_id, $content_type);
+        return $this->knittnet_query_based_list($pinecone_options, $page, $per_page, $bot_id, $content_type);
     }
 
     // Fetch metadata for these vector IDs
-    return $this->mxchat_fetch_vectors_by_ids_for_list($pinecone_options, $vector_ids, $page, $per_page, $bot_id, $content_type);
+    return $this->knittnet_fetch_vectors_by_ids_for_list($pinecone_options, $vector_ids, $page, $per_page, $bot_id, $content_type);
 }
 
 /**
  * Query-based listing fallback when list endpoint fails
  * ADDED 2.6.1
  */
-private function mxchat_query_based_list($pinecone_options, $page, $per_page, $bot_id, $content_type) {
-    $api_key = $pinecone_options['mxchat_pinecone_api_key'] ?? '';
-    $host = $pinecone_options['mxchat_pinecone_host'] ?? '';
-    $namespace = $pinecone_options['mxchat_pinecone_namespace'] ?? '';
+private function knittnet_query_based_list($pinecone_options, $page, $per_page, $bot_id, $content_type) {
+    $api_key = $pinecone_options['knittnet_pinecone_api_key'] ?? '';
+    $host = $pinecone_options['knittnet_pinecone_host'] ?? '';
+    $namespace = $pinecone_options['knittnet_pinecone_namespace'] ?? '';
 
     $query_url = "https://{$host}/query";
-    $query_vector = $this->mxchat_generate_optimized_query_vector();
+    $query_vector = $this->knittnet_generate_optimized_query_vector();
 
     // Fetch records - use higher limit to cover large databases
     // Pinecone query API supports up to 10,000 topK
@@ -645,7 +645,7 @@ private function mxchat_query_based_list($pinecone_options, $page, $per_page, $b
     $offset = ($page - 1) * $per_page;
     $paged_records = array_slice($records, $offset, $per_page);
 
-    $this->mxchat_batch_fetch_role_restrictions($paged_records, $bot_id);
+    $this->knittnet_batch_fetch_role_restrictions($paged_records, $bot_id);
 
     return array(
         'data' => $paged_records,
@@ -657,10 +657,10 @@ private function mxchat_query_based_list($pinecone_options, $page, $per_page, $b
  * Fetch specific vectors by their IDs and format for display
  * ADDED 2.6.1
  */
-private function mxchat_fetch_vectors_by_ids_for_list($pinecone_options, $vector_ids, $page, $per_page, $bot_id, $content_type) {
-    $api_key = $pinecone_options['mxchat_pinecone_api_key'] ?? '';
-    $host = $pinecone_options['mxchat_pinecone_host'] ?? '';
-    $namespace = $pinecone_options['mxchat_pinecone_namespace'] ?? '';
+private function knittnet_fetch_vectors_by_ids_for_list($pinecone_options, $vector_ids, $page, $per_page, $bot_id, $content_type) {
+    $api_key = $pinecone_options['knittnet_pinecone_api_key'] ?? '';
+    $host = $pinecone_options['knittnet_pinecone_host'] ?? '';
+    $namespace = $pinecone_options['knittnet_pinecone_namespace'] ?? '';
 
     $fetch_url = "https://{$host}/vectors/fetch";
 
@@ -730,7 +730,7 @@ private function mxchat_fetch_vectors_by_ids_for_list($pinecone_options, $vector
     $total = count($records);
     $paged_records = array_slice($records, 0, $per_page);
 
-    $this->mxchat_batch_fetch_role_restrictions($paged_records, $bot_id);
+    $this->knittnet_batch_fetch_role_restrictions($paged_records, $bot_id);
 
     return array(
         'data' => $paged_records,
@@ -742,8 +742,8 @@ private function mxchat_fetch_vectors_by_ids_for_list($pinecone_options, $vector
  * Generate a single optimized query vector for fetching records
  * Uses a center-weighted approach for best coverage
  */
-private function mxchat_generate_optimized_query_vector() {
-    $dimensions = $this->mxchat_get_embedding_dimensions();
+private function knittnet_generate_optimized_query_vector() {
+    $dimensions = $this->knittnet_get_embedding_dimensions();
     $vector = array();
 
     // Create a normalized center-weighted vector
@@ -767,13 +767,13 @@ private function mxchat_generate_optimized_query_vector() {
  * Uses a single query instead of N queries
  * ADDED 2.6.1: Prevents N+1 query problem
  */
-private function mxchat_batch_fetch_role_restrictions(&$records, $bot_id = 'default') {
+private function knittnet_batch_fetch_role_restrictions(&$records, $bot_id = 'default') {
     if (empty($records)) {
         return;
     }
 
     global $wpdb;
-    $roles_table = $wpdb->prefix . 'mxchat_pinecone_roles';
+    $roles_table = $wpdb->prefix . 'knittnet_pinecone_roles';
 
     // Check if table exists
     $table_exists = $wpdb->get_var("SHOW TABLES LIKE '{$roles_table}'");
@@ -826,12 +826,12 @@ private function mxchat_batch_fetch_role_restrictions(&$records, $bot_id = 'defa
  * Safe version of get_recent_entries with memory limits
  * ADDED 2.6.1: Prevents memory exhaustion
  */
-private function mxchat_get_recent_entries_safe($pinecone_options, $bot_id = 'default', $limit = 500) {
+private function knittnet_get_recent_entries_safe($pinecone_options, $bot_id = 'default', $limit = 500) {
     global $wpdb;
 
-    $api_key = $pinecone_options['mxchat_pinecone_api_key'] ?? '';
-    $host = $pinecone_options['mxchat_pinecone_host'] ?? '';
-    $namespace = $pinecone_options['mxchat_pinecone_namespace'] ?? '';
+    $api_key = $pinecone_options['knittnet_pinecone_api_key'] ?? '';
+    $host = $pinecone_options['knittnet_pinecone_host'] ?? '';
+    $namespace = $pinecone_options['knittnet_pinecone_namespace'] ?? '';
 
     if (empty($api_key) || empty($host)) {
         return array();
@@ -843,7 +843,7 @@ private function mxchat_get_recent_entries_safe($pinecone_options, $bot_id = 'de
         $query_url = "https://{$host}/query";
 
         // Use only 2 query vectors instead of 5 for better performance
-        $fixed_vectors = array_slice($this->mxchat_generate_fixed_query_vectors(), 0, 2);
+        $fixed_vectors = array_slice($this->knittnet_generate_fixed_query_vectors(), 0, 2);
 
         foreach ($fixed_vectors as $query_vector) {
             // Limit topK to prevent memory issues
@@ -921,13 +921,13 @@ private function mxchat_get_recent_entries_safe($pinecone_options, $bot_id = 'de
         $limited_records = array_slice($all_records, 0, $limit);
 
         // Batch fetch role restrictions
-        $this->mxchat_batch_fetch_role_restrictions($limited_records, $bot_id);
+        $this->knittnet_batch_fetch_role_restrictions($limited_records, $bot_id);
 
         return $limited_records;
 
     } catch (Exception $e) {
-        //error_log('MxChat safe fetch exception: ' . $e->getMessage());
-        MxChat_Admin::mxchat_log_debug('pinecone_error', 'Pinecone safe fetch error: ' . $e->getMessage());
+        //error_log('KnittNet safe fetch exception: ' . $e->getMessage());
+        KnittNet_Admin::knittnet_log_debug('pinecone_error', 'Pinecone safe fetch error: ' . $e->getMessage());
         return array();
     }
 }
@@ -935,8 +935,8 @@ private function mxchat_get_recent_entries_safe($pinecone_options, $bot_id = 'de
      * Get embedding dimensions based on the selected model
      * ADD THIS NEW FUNCTION
      */
-    private function mxchat_get_embedding_dimensions() {
-        $options = get_option('mxchat_options', array());
+    private function knittnet_get_embedding_dimensions() {
+        $options = get_option('knittnet_options', array());
         $selected_model = $options['embedding_model'] ?? 'text-embedding-ada-002';
         
         // Define dimensions for different models
@@ -970,8 +970,8 @@ private function mxchat_get_recent_entries_safe($pinecone_options, $bot_id = 'de
      * Generate random unit vector with correct dimensions
      * ADD THIS NEW FUNCTION
      */
-    private function mxchat_generate_random_vector() {
-        $dimensions = $this->mxchat_get_embedding_dimensions();
+    private function knittnet_generate_random_vector() {
+        $dimensions = $this->knittnet_get_embedding_dimensions();
         
         $random_vector = array();
         for ($i = 0; $i < $dimensions; $i++) {
@@ -991,18 +991,18 @@ private function mxchat_get_recent_entries_safe($pinecone_options, $bot_id = 'de
 /**
  * Get recent entries from Pinecone
  * UPDATED 2.6.1: Now uses safe version with memory limits to prevent crashes
- * @deprecated Use mxchat_get_recent_entries_safe() instead for new code
+ * @deprecated Use knittnet_get_recent_entries_safe() instead for new code
  */
-private function mxchat_get_recent_1k_entries($pinecone_options, $bot_id = 'default') {
+private function knittnet_get_recent_1k_entries($pinecone_options, $bot_id = 'default') {
     // Delegate to the safe version with a reasonable limit
     // This prevents crashes with large datasets (13K+ products)
-    return $this->mxchat_get_recent_entries_safe($pinecone_options, $bot_id, 500);
+    return $this->knittnet_get_recent_entries_safe($pinecone_options, $bot_id, 500);
 }
 /**
  * Generate fixed query vectors for consistent results
  */
-private function mxchat_generate_fixed_query_vectors() {
-    $dimensions = $this->mxchat_get_embedding_dimensions();
+private function knittnet_generate_fixed_query_vectors() {
+    $dimensions = $this->knittnet_get_embedding_dimensions();
     $vectors = array();
     
     // Create 5 fixed vectors with different patterns for better coverage
@@ -1061,9 +1061,9 @@ private function mxchat_generate_fixed_query_vectors() {
  * @param array $post_ids Optional array of specific post IDs to check (if empty, checks all published posts)
  * @return array Processed data keyed by post ID
  */
-public function mxchat_scan_pinecone_for_processed_content($pinecone_options, $post_ids = array()) {
-    $api_key = $pinecone_options['mxchat_pinecone_api_key'] ?? '';
-    $host = $pinecone_options['mxchat_pinecone_host'] ?? '';
+public function knittnet_scan_pinecone_for_processed_content($pinecone_options, $post_ids = array()) {
+    $api_key = $pinecone_options['knittnet_pinecone_api_key'] ?? '';
+    $host = $pinecone_options['knittnet_pinecone_host'] ?? '';
 
     if (empty($api_key) || empty($host)) {
         return array();
@@ -1177,10 +1177,10 @@ public function mxchat_scan_pinecone_for_processed_content($pinecone_options, $p
  * Get total count from Pinecone stats API
  * UPDATED: Removed cache fallback reference
  */
-private function mxchat_get_pinecone_total_count($pinecone_options, $bot_id = 'default') {
-    $api_key = $pinecone_options['mxchat_pinecone_api_key'] ?? '';
-    $host = $pinecone_options['mxchat_pinecone_host'] ?? '';
-    $namespace = $pinecone_options['mxchat_pinecone_namespace'] ?? '';
+private function knittnet_get_pinecone_total_count($pinecone_options, $bot_id = 'default') {
+    $api_key = $pinecone_options['knittnet_pinecone_api_key'] ?? '';
+    $host = $pinecone_options['knittnet_pinecone_host'] ?? '';
+    $namespace = $pinecone_options['knittnet_pinecone_namespace'] ?? '';
 
     if (empty($api_key) || empty($host)) {
         return 0;
@@ -1231,18 +1231,18 @@ private function mxchat_get_pinecone_total_count($pinecone_options, $bot_id = 'd
 /**
  * Get bot-specific Pinecone configuration for database operations
  */
-public function mxchat_get_bot_pinecone_options($bot_id = 'default') {
+public function knittnet_get_bot_pinecone_options($bot_id = 'default') {
     //error_log('DEBUG: Getting Pinecone options for bot: ' . $bot_id);
     
     // If default bot or multi-bot add-on not active, use default Pinecone config
-    if ($bot_id === 'default' || !class_exists('MxChat_Multi_Bot_Manager')) {
-        $addon_options = get_option('mxchat_pinecone_addon_options', array());
+    if ($bot_id === 'default' || !class_exists('KnittNet_Multi_Bot_Manager')) {
+        $addon_options = get_option('knittnet_pinecone_addon_options', array());
         //error_log('DEBUG: Using default Pinecone options');
         return $addon_options;
     }
     
     // Get bot-specific configuration using the filter
-    $bot_config = apply_filters('mxchat_get_bot_pinecone_config', array(), $bot_id);
+    $bot_config = apply_filters('knittnet_get_bot_pinecone_config', array(), $bot_id);
     
     //error_log('DEBUG: Bot config from filter: ' . print_r($bot_config, true));
     
@@ -1250,12 +1250,12 @@ public function mxchat_get_bot_pinecone_options($bot_id = 'default') {
     if (!empty($bot_config) && isset($bot_config['use_pinecone']) && $bot_config['use_pinecone']) {
         // Convert bot config to the format expected by fetch functions
         $pinecone_options = array(
-            'mxchat_use_pinecone' => '1',
-            'mxchat_pinecone_api_key' => $bot_config['api_key'] ?? '',
-            'mxchat_pinecone_host' => $bot_config['host'] ?? '',
-            'mxchat_pinecone_namespace' => $bot_config['namespace'] ?? '',
-            'mxchat_pinecone_environment' => '',
-            'mxchat_pinecone_index' => ''
+            'knittnet_use_pinecone' => '1',
+            'knittnet_pinecone_api_key' => $bot_config['api_key'] ?? '',
+            'knittnet_pinecone_host' => $bot_config['host'] ?? '',
+            'knittnet_pinecone_namespace' => $bot_config['namespace'] ?? '',
+            'knittnet_pinecone_environment' => '',
+            'knittnet_pinecone_index' => ''
         );
         
         //error_log('DEBUG: Returning bot-specific Pinecone options for bot: ' . $bot_id);
@@ -1264,7 +1264,7 @@ public function mxchat_get_bot_pinecone_options($bot_id = 'default') {
     
     // Fallback to default options if bot-specific config is invalid
     //error_log('DEBUG: Bot-specific config invalid, falling back to default');
-    return get_option('mxchat_pinecone_addon_options', array());
+    return get_option('knittnet_pinecone_addon_options', array());
 }
 
 /**
@@ -1272,34 +1272,34 @@ public function mxchat_get_bot_pinecone_options($bot_id = 'default') {
  * Used in the knowledge retrieval functions  
  */
 private function get_bot_pinecone_config($bot_id = 'default') {
-    //error_log("MXCHAT DEBUG: get_bot_pinecone_config called for bot: " . $bot_id);
+    //error_log("KNITTNET DEBUG: get_bot_pinecone_config called for bot: " . $bot_id);
     
     // If default bot or multi-bot add-on not active, use default Pinecone config
-    if ($bot_id === 'default' || !class_exists('MxChat_Multi_Bot_Manager')) {
-        //error_log("MXCHAT DEBUG: Using default Pinecone config (no multi-bot or bot is 'default')");
-        $addon_options = get_option('mxchat_pinecone_addon_options', array());
+    if ($bot_id === 'default' || !class_exists('KnittNet_Multi_Bot_Manager')) {
+        //error_log("KNITTNET DEBUG: Using default Pinecone config (no multi-bot or bot is 'default')");
+        $addon_options = get_option('knittnet_pinecone_addon_options', array());
         $config = array(
-            'use_pinecone' => (isset($addon_options['mxchat_use_pinecone']) && $addon_options['mxchat_use_pinecone'] === '1'),
-            'api_key' => $addon_options['mxchat_pinecone_api_key'] ?? '',
-            'host' => $addon_options['mxchat_pinecone_host'] ?? '',
-            'namespace' => $addon_options['mxchat_pinecone_namespace'] ?? ''
+            'use_pinecone' => (isset($addon_options['knittnet_use_pinecone']) && $addon_options['knittnet_use_pinecone'] === '1'),
+            'api_key' => $addon_options['knittnet_pinecone_api_key'] ?? '',
+            'host' => $addon_options['knittnet_pinecone_host'] ?? '',
+            'namespace' => $addon_options['knittnet_pinecone_namespace'] ?? ''
         );
-        //error_log("MXCHAT DEBUG: Default config - use_pinecone: " . ($config['use_pinecone'] ? 'true' : 'false'));
+        //error_log("KNITTNET DEBUG: Default config - use_pinecone: " . ($config['use_pinecone'] ? 'true' : 'false'));
         return $config;
     }
     
-    //error_log("MXCHAT DEBUG: Calling filter 'mxchat_get_bot_pinecone_config' for bot: " . $bot_id);
+    //error_log("KNITTNET DEBUG: Calling filter 'knittnet_get_bot_pinecone_config' for bot: " . $bot_id);
     
     // Hook for multi-bot add-on to provide bot-specific Pinecone config
-    $bot_pinecone_config = apply_filters('mxchat_get_bot_pinecone_config', array(), $bot_id);
+    $bot_pinecone_config = apply_filters('knittnet_get_bot_pinecone_config', array(), $bot_id);
     
     if (!empty($bot_pinecone_config)) {
-        //error_log("MXCHAT DEBUG: Got bot-specific config from filter");
+        //error_log("KNITTNET DEBUG: Got bot-specific config from filter");
         //error_log("  - use_pinecone: " . (isset($bot_pinecone_config['use_pinecone']) ? ($bot_pinecone_config['use_pinecone'] ? 'true' : 'false') : 'not set'));
         //error_log("  - host: " . ($bot_pinecone_config['host'] ?? 'not set'));
         //error_log("  - namespace: " . ($bot_pinecone_config['namespace'] ?? 'not set'));
     } else {
-        //error_log("MXCHAT DEBUG: Filter returned empty config!");
+        //error_log("KNITTNET DEBUG: Filter returned empty config!");
     }
     
     return is_array($bot_pinecone_config) ? $bot_pinecone_config : array();
@@ -1310,8 +1310,8 @@ private function get_bot_pinecone_config($bot_id = 'default') {
  * Fetches vectors from Pinecone using provided IDs (for content selection feature)
  */
 public function fetch_pinecone_vectors_by_ids($pinecone_options, $vector_ids) {
-    $api_key = $pinecone_options['mxchat_pinecone_api_key'] ?? '';
-    $host = $pinecone_options['mxchat_pinecone_host'] ?? '';
+    $api_key = $pinecone_options['knittnet_pinecone_api_key'] ?? '';
+    $host = $pinecone_options['knittnet_pinecone_host'] ?? '';
 
     if (empty($api_key) || empty($host) || empty($vector_ids)) {
         return array();
@@ -1395,9 +1395,9 @@ public function fetch_pinecone_vectors_by_ids($pinecone_options, $vector_ids) {
  * Delete all vectors from Pinecone
  * Loops until all vectors are deleted (handles large databases)
  */
-public function mxchat_delete_all_from_pinecone($pinecone_options, $content_type_filter = '') {
-    $api_key = $pinecone_options['mxchat_pinecone_api_key'] ?? '';
-    $host = $pinecone_options['mxchat_pinecone_host'] ?? '';
+public function knittnet_delete_all_from_pinecone($pinecone_options, $content_type_filter = '') {
+    $api_key = $pinecone_options['knittnet_pinecone_api_key'] ?? '';
+    $host = $pinecone_options['knittnet_pinecone_host'] ?? '';
 
     if (empty($api_key) || empty($host)) {
         return array(
@@ -1417,7 +1417,7 @@ public function mxchat_delete_all_from_pinecone($pinecone_options, $content_type
             $iteration++;
 
             // Get a batch of vector IDs from Pinecone
-            $records = $this->mxchat_get_recent_1k_entries($pinecone_options);
+            $records = $this->knittnet_get_recent_1k_entries($pinecone_options);
             $vector_ids = array();
 
             foreach ($records as $record) {
@@ -1444,7 +1444,7 @@ public function mxchat_delete_all_from_pinecone($pinecone_options, $content_type
             $batches = array_chunk($vector_ids, $batch_size);
 
             foreach ($batches as $batch) {
-                $result = $this->mxchat_delete_pinecone_batch($batch, $api_key, $host);
+                $result = $this->knittnet_delete_pinecone_batch($batch, $api_key, $host);
                 if ($result['success']) {
                     $total_deleted += count($batch);
                 } else {
@@ -1487,7 +1487,7 @@ public function mxchat_delete_all_from_pinecone($pinecone_options, $content_type
     /**
      * Deletes batch of vectors from Pinecone database
      */
-     public function mxchat_delete_pinecone_batch($vector_ids, $api_key, $host) {
+     public function knittnet_delete_pinecone_batch($vector_ids, $api_key, $host) {
          // Build the API endpoint
          $api_endpoint = "https://{$host}/vectors/delete";
 
@@ -1510,7 +1510,7 @@ public function mxchat_delete_all_from_pinecone($pinecone_options, $content_type
 
          // Handle WordPress HTTP API errors
          if (is_wp_error($response)) {
-             MxChat_Admin::mxchat_log_debug('pinecone_error', 'Pinecone batch deletion failed: ' . $response->get_error_message());
+             KnittNet_Admin::knittnet_log_debug('pinecone_error', 'Pinecone batch deletion failed: ' . $response->get_error_message());
              return array(
                  'success' => false,
                  'message' => $response->get_error_message()
@@ -1523,7 +1523,7 @@ public function mxchat_delete_all_from_pinecone($pinecone_options, $content_type
 
          // Pinecone returns 200 for successful deletion
          if ($response_code !== 200) {
-             MxChat_Admin::mxchat_log_debug('pinecone_error', 'Pinecone batch deletion failed (HTTP ' . $response_code . ')', array('response' => substr($response_body, 0, 200)));
+             KnittNet_Admin::knittnet_log_debug('pinecone_error', 'Pinecone batch deletion failed (HTTP ' . $response_code . ')', array('response' => substr($response_body, 0, 200)));
              return array(
                  'success' => false,
                  'message' => sprintf(
@@ -1544,7 +1544,7 @@ public function mxchat_delete_all_from_pinecone($pinecone_options, $content_type
 /**
  * Deletes vector from Pinecone using API request
  */
-public function mxchat_delete_from_pinecone_by_vector_id($vector_id, $api_key, $host, $namespace = '') {
+public function knittnet_delete_from_pinecone_by_vector_id($vector_id, $api_key, $host, $namespace = '') {
     //error_log('=== PINECONE DELETE OPERATION ===');
     //error_log('Vector ID: ' . $vector_id);
     //error_log('Host: ' . $host);
@@ -1682,10 +1682,10 @@ public function mxchat_delete_from_pinecone_by_vector_id($vector_id, $api_key, $
     /**
      * Deletes data from Pinecone index using API key
      */
-     private function mxchat_delete_from_pinecone($urls, $api_key, $environment, $index_name) {
+     private function knittnet_delete_from_pinecone($urls, $api_key, $environment, $index_name) {
          // Get the Pinecone host from options (matching your store_in_pinecone_main pattern)
-         $options = get_option('mxchat_pinecone_addon_options');
-         $host = $options['mxchat_pinecone_host'] ?? '';
+         $options = get_option('knittnet_pinecone_addon_options');
+         $host = $options['knittnet_pinecone_host'] ?? '';
 
          if (empty($host)) {
              return array(
@@ -1771,9 +1771,9 @@ public function mxchat_delete_from_pinecone_by_vector_id($vector_id, $api_key, $
  * @param array $post_ids Optional array of specific post IDs to check (if empty, checks all)
  * @return array Processed data keyed by post ID
  */
-public function mxchat_get_pinecone_processed_content($pinecone_options, $post_ids = array()) {
-    $api_key = $pinecone_options['mxchat_pinecone_api_key'] ?? '';
-    $host = $pinecone_options['mxchat_pinecone_host'] ?? '';
+public function knittnet_get_pinecone_processed_content($pinecone_options, $post_ids = array()) {
+    $api_key = $pinecone_options['knittnet_pinecone_api_key'] ?? '';
+    $host = $pinecone_options['knittnet_pinecone_host'] ?? '';
 
     if (empty($api_key) || empty($host)) {
         return array();
@@ -1783,7 +1783,7 @@ public function mxchat_get_pinecone_processed_content($pinecone_options, $post_i
 
     try {
         // Always get fresh data from Pinecone
-        $pinecone_data = $this->mxchat_scan_pinecone_for_processed_content($pinecone_options, $post_ids);
+        $pinecone_data = $this->knittnet_scan_pinecone_for_processed_content($pinecone_options, $post_ids);
 
         // Method 2: Final fallback - try stats endpoint (if available)
         if (empty($pinecone_data)) {
@@ -1817,7 +1817,7 @@ public function mxchat_get_pinecone_processed_content($pinecone_options, $post_i
     /**
      * Validates Pinecone API credentials
      */
-    private function mxchat_validate_pinecone_credentials($api_key, $host) {
+    private function knittnet_validate_pinecone_credentials($api_key, $host) {
         if (empty($api_key) || empty($host)) {
             return false;
         }
@@ -1827,8 +1827,8 @@ public function mxchat_get_pinecone_processed_content($pinecone_options, $post_i
     /**
      * Get Pinecone API credentials from options
      */
-    private function mxchat_get_pinecone_credentials() {
-        $options = get_option('mxchat_options', array());
+    private function knittnet_get_pinecone_credentials() {
+        $options = get_option('knittnet_options', array());
         return array(
             'api_key' => isset($options['pinecone_api_key']) ? $options['pinecone_api_key'] : '',
             'host' => isset($options['pinecone_host']) ? $options['pinecone_host'] : ''
@@ -1839,7 +1839,7 @@ public function mxchat_get_pinecone_processed_content($pinecone_options, $post_i
      * Log Pinecone operation errors
      */
     private function log_pinecone_error($operation, $error_message) {
-        //error_log("MxChat Pinecone {$operation} Error: " . $error_message);
+        //error_log("KnittNet Pinecone {$operation} Error: " . $error_message);
     }
 
     // ========================================
@@ -1859,4 +1859,4 @@ public function mxchat_get_pinecone_processed_content($pinecone_options, $post_i
 }
 
 // Initialize the Pinecone manager
-$mxchat_pinecone_manager = MxChat_Pinecone_Manager::get_instance();
+$knittnet_pinecone_manager = KnittNet_Pinecone_Manager::get_instance();

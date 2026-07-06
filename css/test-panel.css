@@ -1,5 +1,5 @@
-/* MxChat Testing Panel Styles */
-.mxchat-test-panel {
+/* KnittNet Testing Panel Styles */
+.knittnet-test-panel {
     position: fixed;
     top: 0;
     left: -400px; /* Hidden by default */
@@ -16,12 +16,12 @@
     flex-direction: column;
 }
 
-.mxchat-test-panel.open {
+.knittnet-test-panel.open {
     left: 0;
 }
 
 /* Test Panel Tab */
-.mxchat-test-tab {
+.knittnet-test-tab {
     position: fixed;
     top: 50%;
     left: 0;
@@ -42,14 +42,14 @@
     letter-spacing: 1px;
 }
 
-.mxchat-test-tab:hover {
+.knittnet-test-tab:hover {
     background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
     box-shadow: 6px 0 20px rgba(0, 0, 0, 0.3);
     transform: translateY(-50%) translateX(2px);
 }
 
 /* Panel Header */
-.mxchat-test-header {
+.knittnet-test-header {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     padding: 24px;
@@ -58,7 +58,7 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.mxchat-test-header h3 {
+.knittnet-test-header h3 {
     margin: 0 0 8px 0;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     -webkit-background-clip: text;
@@ -69,7 +69,7 @@
     letter-spacing: -0.5px;
 }
 
-.mxchat-test-header p {
+.knittnet-test-header p {
     margin: 0;
     color: #64748b;
     font-size: 13px;
@@ -78,7 +78,7 @@
 }
 
 /* Close Button */
-.mxchat-test-close {
+.knittnet-test-close {
     position: absolute;
     top: 20px;
     right: 20px;
@@ -97,7 +97,7 @@
     justify-content: center;
 }
 
-.mxchat-test-close:hover {
+.knittnet-test-close:hover {
     background: rgba(244, 67, 54, 0.1);
     border-color: rgba(244, 67, 54, 0.3);
     color: #f44336;
@@ -105,7 +105,7 @@
 }
 
 /* Panel Content */
-.mxchat-test-content {
+.knittnet-test-content {
     flex: 1;
     padding: 20px;
     overflow-y: auto;
@@ -114,7 +114,7 @@
 }
 
 /* Test Section */
-.mxchat-test-section {
+.knittnet-test-section {
     margin-bottom: 28px;
     padding: 20px;
     background: white;
@@ -123,11 +123,11 @@
     border: 1px solid rgba(255, 255, 255, 0.8);
 }
 
-.mxchat-test-section:last-child {
+.knittnet-test-section:last-child {
     margin-bottom: 0;
 }
 
-.mxchat-test-section h4 {
+.knittnet-test-section h4 {
     margin: 0 0 16px 0;
     color: #1e293b;
     font-size: 16px;
@@ -138,7 +138,7 @@
     gap: 8px;
 }
 
-.mxchat-test-section h4::before {
+.knittnet-test-section h4::before {
     content: '';
     width: 4px;
     height: 16px;
@@ -147,7 +147,7 @@
 }
 
 /* Action Buttons */
-.mxchat-test-btn {
+.knittnet-test-btn {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     border: none;
@@ -163,31 +163,31 @@
     letter-spacing: 0.3px;
 }
 
-.mxchat-test-btn:hover {
+.knittnet-test-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
 
-.mxchat-test-btn.danger {
+.knittnet-test-btn.danger {
     background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
     box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
 }
 
-.mxchat-test-btn.danger:hover {
+.knittnet-test-btn.danger:hover {
     box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
 }
 
-.mxchat-test-btn.secondary {
+.knittnet-test-btn.secondary {
     background: linear-gradient(135deg, #64748b 0%, #475569 100%);
     box-shadow: 0 2px 8px rgba(100, 116, 139, 0.3);
 }
 
-.mxchat-test-btn.secondary:hover {
+.knittnet-test-btn.secondary:hover {
     box-shadow: 0 4px 12px rgba(100, 116, 139, 0.4);
 }
 
 /* Info Display */
-.mxchat-test-info {
+.knittnet-test-info {
     background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
     border: 1px solid #e2e8f0;
     border-radius: 8px;
@@ -197,7 +197,7 @@
     line-height: 1.5;
 }
 
-.mxchat-test-info strong {
+.knittnet-test-info strong {
     color: #1e293b;
     display: block;
     margin-bottom: 8px;
@@ -207,7 +207,7 @@
     letter-spacing: 0.5px;
 }
 
-.mxchat-test-info code {
+.knittnet-test-info code {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     padding: 4px 8px;
@@ -538,7 +538,7 @@
 }
 
 /* Status Indicators */
-.mxchat-test-status {
+.knittnet-test-status {
     display: inline-block;
     padding: 4px 10px;
     border-radius: 12px;
@@ -549,13 +549,13 @@
     letter-spacing: 0.5px;
 }
 
-.mxchat-test-status.active {
+.knittnet-test-status.active {
     background: linear-gradient(135deg, #10b981 0%, #059669 100%);
     color: white;
     box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
 }
 
-.mxchat-test-status.inactive {
+.knittnet-test-status.inactive {
     background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
     color: white;
     box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
@@ -573,7 +573,7 @@
 }
 
 /* Toggle Switch */
-.mxchat-test-toggle {
+.knittnet-test-toggle {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -584,7 +584,7 @@
     border: 1px solid #e2e8f0;
 }
 
-.mxchat-test-switch {
+.knittnet-test-switch {
     position: relative;
     width: 48px;
     height: 24px;
@@ -595,12 +595,12 @@
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.mxchat-test-switch.active {
+.knittnet-test-switch.active {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
 }
 
-.mxchat-test-switch::after {
+.knittnet-test-switch::after {
     content: '';
     position: absolute;
     top: 2px;
@@ -613,11 +613,11 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.mxchat-test-switch.active::after {
+.knittnet-test-switch.active::after {
     transform: translateX(24px);
 }
 
-.mxchat-test-toggle label {
+.knittnet-test-toggle label {
     font-size: 13px;
     color: #475569;
     cursor: pointer;
@@ -626,21 +626,21 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-    .mxchat-test-panel {
+    .knittnet-test-panel {
         width: 100vw;
         left: -100vw;
     }
 }
 
 /* Scrollbar Styling */
-.mxchat-test-content::-webkit-scrollbar,
+.knittnet-test-content::-webkit-scrollbar,
 .similarity-container::-webkit-scrollbar,
 .system-prompt-container::-webkit-scrollbar,
 .debug-console-container::-webkit-scrollbar {
     width: 6px;
 }
 
-.mxchat-test-content::-webkit-scrollbar-track,
+.knittnet-test-content::-webkit-scrollbar-track,
 .similarity-container::-webkit-scrollbar-track,
 .system-prompt-container::-webkit-scrollbar-track {
     background: #f1f5f9;
@@ -651,7 +651,7 @@
     background: #334155;
 }
 
-.mxchat-test-content::-webkit-scrollbar-thumb,
+.knittnet-test-content::-webkit-scrollbar-thumb,
 .similarity-container::-webkit-scrollbar-thumb,
 .system-prompt-container::-webkit-scrollbar-thumb {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -663,7 +663,7 @@
     border-radius: 3px;
 }
 
-.mxchat-test-content::-webkit-scrollbar-thumb:hover,
+.knittnet-test-content::-webkit-scrollbar-thumb:hover,
 .similarity-container::-webkit-scrollbar-thumb:hover,
 .system-prompt-container::-webkit-scrollbar-thumb:hover,
 .debug-console-container::-webkit-scrollbar-thumb:hover {
@@ -682,13 +682,13 @@
     }
 }
 
-.mxchat-test-section {
+.knittnet-test-section {
     animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.mxchat-test-section:nth-child(2) { animation-delay: 0.1s; }
-.mxchat-test-section:nth-child(3) { animation-delay: 0.2s; }
-.mxchat-test-section:nth-child(4) { animation-delay: 0.3s; }
+.knittnet-test-section:nth-child(2) { animation-delay: 0.1s; }
+.knittnet-test-section:nth-child(3) { animation-delay: 0.2s; }
+.knittnet-test-section:nth-child(4) { animation-delay: 0.3s; }
 
 
 

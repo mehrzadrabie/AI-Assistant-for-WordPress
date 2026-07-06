@@ -1,5 +1,5 @@
 /**
- * MxChat Actions Page JavaScript - v2.0
+ * KnittNet Actions Page JavaScript - v2.0
  * Split-panel layout with action list and editor
  */
 jQuery(document).ready(function($) {
@@ -62,7 +62,7 @@ jQuery(document).ready(function($) {
 
     // ==========================================================================
     // AI Tools: autosave the function-calling toggle + per-tool checklist
-    // (matches MxChat's autosave UX — no Save button). plan a41dee.
+    // (matches KnittNet's autosave UX — no Save button). plan a41dee.
     // ==========================================================================
     var $fc = $('#mxch-fc-settings');
     if ($fc.length) {
@@ -74,9 +74,9 @@ jQuery(document).ready(function($) {
             // Presence = active (plan d450a7): the global on/off toggle is gone, so
             // the gate is derived from whether any tool is enabled. The server
             // derives this too; we send it for an immediate, correct nav badge.
-            var enabled = $fc.find('input[name="mxchat_fc_tools[]"]:checked').length > 0 ? '1' : '0';
-            var allTools = $fc.find('input[name="mxchat_fc_all_tools[]"]').map(function () { return $(this).val(); }).get();
-            var checked = $fc.find('input[name="mxchat_fc_tools[]"]:checked').map(function () { return $(this).val(); }).get();
+            var enabled = $fc.find('input[name="knittnet_fc_tools[]"]:checked').length > 0 ? '1' : '0';
+            var allTools = $fc.find('input[name="knittnet_fc_all_tools[]"]').map(function () { return $(this).val(); }).get();
+            var checked = $fc.find('input[name="knittnet_fc_tools[]"]:checked').map(function () { return $(this).val(); }).get();
             // Per-tool "when to use" hints, keyed by callback.
             var hints = {};
             $fc.find('.mxch-fc-hint-input').each(function () {
@@ -87,7 +87,7 @@ jQuery(document).ready(function($) {
             if ($fcStatus.length) { $fcStatus.text('Saving…').removeClass('is-saved is-error'); }
 
             $.post(mxchActionsData.ajaxUrl, {
-                action: 'mxchat_fc_autosave',
+                action: 'knittnet_fc_autosave',
                 nonce: fcNonce,
                 enabled: enabled,
                 all_tools: allTools,
@@ -106,7 +106,7 @@ jQuery(document).ready(function($) {
         // The hidden store's checkboxes are toggled programmatically by the
         // list/detail/modal flow (which calls fcCollectAndSave() directly). Keep
         // a change-bound autosave as a safety net for any direct mutation.
-        $fc.on('change', 'input[name="mxchat_fc_tools[]"]', function () {
+        $fc.on('change', 'input[name="knittnet_fc_tools[]"]', function () {
             clearTimeout(fcTimer);
             fcTimer = setTimeout(fcCollectAndSave, 200);
         });
@@ -118,8 +118,8 @@ jQuery(document).ready(function($) {
         // per-tool enable checkbox); selecting one shows its detail on the right
         // with Edit (usage note) + Remove. "Add" opens the same two-step
         // capability picker. Pure view layer over the hidden #mxch-fc-tool-store
-        // inputs — the unchanged mxchat_fc_autosave contract (mxchat_fc_tools[] /
-        // mxchat_fc_all_tools[] + hints) stays the source of truth. FC-specific
+        // inputs — the unchanged knittnet_fc_autosave contract (knittnet_fc_tools[] /
+        // knittnet_fc_all_tools[] + hints) stays the source of truth. FC-specific
         // IDs/classes keep the Trigger Phrases JS off these elements.
         // ======================================================================
         var $fcStore = $('#mxch-fc-tool-store');
@@ -158,7 +158,7 @@ jQuery(document).ready(function($) {
                     return String($(this).data('fc-callback')) === String(cb);
                 });
             }
-            function fcIsOn($t) { return $t.find('input[name="mxchat_fc_tools[]"]').is(':checked'); }
+            function fcIsOn($t) { return $t.find('input[name="knittnet_fc_tools[]"]').is(':checked'); }
             function fcIsMobile() { return window.innerWidth <= 782; }
 
             // Show the empty "Select a tool" state in the detail panel.
@@ -335,7 +335,7 @@ jQuery(document).ready(function($) {
                 if (!$t.length) return;
                 var cb = fcCurrentCb;
                 $t.find('.mxch-fc-hint-input').val($('#mxch-fc-modal-hint').val() || '');
-                $t.find('input[name="mxchat_fc_tools[]"]').prop('checked', true);
+                $t.find('input[name="knittnet_fc_tools[]"]').prop('checked', true);
                 fcCloseModal();
                 fcRenderList();
                 fcSelectTool(cb);
@@ -357,7 +357,7 @@ jQuery(document).ready(function($) {
                 if (!fcViewCb) return;
                 var $t = fcEntry(fcViewCb);
                 if (!$t.length) return;
-                $t.find('input[name="mxchat_fc_tools[]"]').prop('checked', false);
+                $t.find('input[name="knittnet_fc_tools[]"]').prop('checked', false);
                 fcShowEmpty();
                 fcRenderList();
                 fcCollectAndSave();
@@ -423,7 +423,7 @@ jQuery(document).ready(function($) {
                 var removingViewed = false;
                 fcSelected.forEach(function (cb) {
                     var $t = fcEntry(cb);
-                    if ($t.length) { $t.find('input[name="mxchat_fc_tools[]"]').prop('checked', false); }
+                    if ($t.length) { $t.find('input[name="knittnet_fc_tools[]"]').prop('checked', false); }
                     if (String(cb) === String(fcViewCb)) { removingViewed = true; }
                 });
                 fcSelected.clear();
@@ -547,7 +547,7 @@ jQuery(document).ready(function($) {
                 url: mxchActionsData.ajaxUrl,
                 type: 'POST',
                 data: {
-                    action: 'mxchat_add_phrase',
+                    action: 'knittnet_add_phrase',
                     intent_id: intentId,
                     phrase: text,
                     security: mxchActionsData.addPhraseNonce
@@ -612,7 +612,7 @@ jQuery(document).ready(function($) {
                 url: mxchActionsData.ajaxUrl,
                 type: 'POST',
                 data: {
-                    action: 'mxchat_delete_legacy_phrases',
+                    action: 'knittnet_delete_legacy_phrases',
                     intent_id: intentId,
                     security: mxchActionsData.deleteLegacyNonce
                 },
@@ -631,7 +631,7 @@ jQuery(document).ready(function($) {
                 url: mxchActionsData.ajaxUrl,
                 type: 'POST',
                 data: {
-                    action: 'mxchat_delete_phrase',
+                    action: 'knittnet_delete_phrase',
                     phrase_id: phrase.id,
                     security: mxchActionsData.deletePhraseNonce
                 },
@@ -656,7 +656,7 @@ jQuery(document).ready(function($) {
             url: mxchActionsData.ajaxUrl,
             type: 'POST',
             data: {
-                action: 'mxchat_get_phrases',
+                action: 'knittnet_get_phrases',
                 intent_id: intentId,
                 security: mxchActionsData.getPhrasesNonce
             },
@@ -770,7 +770,7 @@ jQuery(document).ready(function($) {
             url: mxchActionsData.ajaxUrl,
             type: 'POST',
             data: {
-                action: 'mxchat_bulk_delete_actions',
+                action: 'knittnet_bulk_delete_actions',
                 action_ids: actionIds,
                 security: mxchActionsData.deleteNonce
             },
@@ -811,7 +811,7 @@ jQuery(document).ready(function($) {
             url: mxchActionsData.ajaxUrl,
             type: 'POST',
             data: {
-                action: 'mxchat_fetch_actions_list',
+                action: 'knittnet_fetch_actions_list',
                 page: page,
                 per_page: perPage,
                 search: searchTerm,
@@ -1344,7 +1344,7 @@ jQuery(document).ready(function($) {
         showLoading();
 
         const data = {
-            action: formMode === 'edit' ? 'mxchat_edit_intent_ajax' : 'mxchat_add_intent_ajax',
+            action: formMode === 'edit' ? 'knittnet_edit_intent_ajax' : 'knittnet_add_intent_ajax',
             intent_label: label,
             similarity_threshold: threshold,
             callback_function: callbackFunction,
@@ -1432,7 +1432,7 @@ jQuery(document).ready(function($) {
             url: mxchActionsData.ajaxUrl,
             type: 'POST',
             data: {
-                action: 'mxchat_toggle_action_status',
+                action: 'knittnet_toggle_action_status',
                 action_id: actionId,
                 enabled: isEnabled ? 1 : 0,
                 security: mxchActionsData.toggleNonce
@@ -1494,7 +1494,7 @@ jQuery(document).ready(function($) {
             url: mxchActionsData.ajaxUrl,
             type: 'POST',
             data: {
-                action: 'mxchat_delete_intent_ajax',
+                action: 'knittnet_delete_intent_ajax',
                 intent_id: actionId,
                 security: mxchActionsData.deleteNonce
             },

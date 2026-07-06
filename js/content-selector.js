@@ -1,26 +1,26 @@
 jQuery(document).ready(function($) {
     // Modal elements
-    const $modal = $('#mxchat-kb-content-selector-modal');
-    const $openButton = $('#mxchat-open-content-selector');
-    const $closeButtons = $('.mxchat-kb-modal-close');
-    const $contentList = $('.mxchat-kb-content-list');
-    const $loading = $('.mxchat-kb-loading');
-    const $pagination = $('.mxchat-kb-pagination');
-    const $processButton = $('#mxchat-kb-process-selected');
-    const $selectAll = $('#mxchat-kb-select-all');
-    const $selectionCount = $('.mxchat-kb-selection-count');
-    const $acfPdfExtractCheckbox = $('#mxchat-kb-acf-pdf-extract');
+    const $modal = $('#knittnet-kb-content-selector-modal');
+    const $openButton = $('#knittnet-open-content-selector');
+    const $closeButtons = $('.knittnet-kb-modal-close');
+    const $contentList = $('.knittnet-kb-content-list');
+    const $loading = $('.knittnet-kb-loading');
+    const $pagination = $('.knittnet-kb-pagination');
+    const $processButton = $('#knittnet-kb-process-selected');
+    const $selectAll = $('#knittnet-kb-select-all');
+    const $selectionCount = $('.knittnet-kb-selection-count');
+    const $acfPdfExtractCheckbox = $('#knittnet-kb-acf-pdf-extract');
 
     // Restore last-used ACF→PDF extract preference from the server-localized default.
-    if (typeof mxchatSelector !== 'undefined' && mxchatSelector.acfPdfExtractDefault) {
+    if (typeof knittnetSelector !== 'undefined' && knittnetSelector.acfPdfExtractDefault) {
         $acfPdfExtractCheckbox.prop('checked', true);
     }
     
     // Filter elements
-    const $searchInput = $('#mxchat-kb-content-search');1
-    const $typeFilter = $('#mxchat-kb-content-type-filter');
-    const $statusFilter = $('#mxchat-kb-content-status-filter');
-    const $processedFilter = $('#mxchat-kb-processed-filter');
+    const $searchInput = $('#knittnet-kb-content-search');1
+    const $typeFilter = $('#knittnet-kb-content-type-filter');
+    const $statusFilter = $('#knittnet-kb-content-status-filter');
+    const $processedFilter = $('#knittnet-kb-processed-filter');
     
     // Current state - using let for variables that change
     let currentPage = 1;
@@ -41,7 +41,7 @@ jQuery(document).ready(function($) {
         $modal.hide();
     });
 // Handle import option box clicks (for non-WordPress options)
-$('.mxchat-import-box').on('click', function() {
+$('.knittnet-import-box').on('click', function() {
     const $box = $(this);
     const option = $box.data('option');
 
@@ -51,15 +51,15 @@ $('.mxchat-import-box').on('click', function() {
     }
 
     // Update active state
-    $('.mxchat-import-box').removeClass('active');
+    $('.knittnet-import-box').removeClass('active');
     $box.addClass('active');
 
     // Hide all input areas
-    $('#mxchat-url-input-area, #mxchat-content-input-area, #mxchat-pdf-upload-area').hide();
+    $('#knittnet-url-input-area, #knittnet-content-input-area, #knittnet-pdf-upload-area').hide();
 
     // Hide sitemap-specific sections (but NOT for sitemap option - let detection logic handle it)
     if (option !== 'sitemap') {
-        $('#mxchat-detected-sitemaps, #mxchat-no-sitemaps, #mxchat-sitemaps-loading').hide();
+        $('#knittnet-detected-sitemaps, #knittnet-no-sitemaps, #knittnet-sitemaps-loading').hide();
     }
 
     // Handle different import options
@@ -68,12 +68,12 @@ $('.mxchat-import-box').on('click', function() {
         case 'sitemap':
         case 'url':
             // Show URL input area with appropriate placeholder
-            $('#mxchat-url-input-area').show();
+            $('#knittnet-url-input-area').show();
             $('#sitemap_url').attr('placeholder', $box.data('placeholder'));
             $('#import_type').val(option === 'pdf-url' ? 'pdf' : option);
 
             // UPDATED: Add or update bot_id hidden field for URL forms
-            updateBotIdInForm('#mxchat-url-form');
+            updateBotIdInForm('#knittnet-url-form');
 
             // Update the description text based on the import type
             let descriptionText = '';
@@ -82,13 +82,13 @@ $('.mxchat-import-box').on('click', function() {
             } else if (option === 'sitemap') {
                 descriptionText = 'Enter a content-specific sub-sitemap URL, not the sitemap index. Sitemaps are processed via cron job. If processing does not start, you can manually process batch 5 pages at a time.';
                 // Re-show sitemap sections if they were previously loaded
-                const $sitemapsList = $('#mxchat-sitemaps-list');
+                const $sitemapsList = $('#knittnet-sitemaps-list');
                 if ($sitemapsList.children().length > 0) {
                     // Sitemaps were already loaded, just show the container
-                    $('#mxchat-detected-sitemaps').show();
-                } else if ($('#mxchat-no-sitemaps').data('was-shown')) {
+                    $('#knittnet-detected-sitemaps').show();
+                } else if ($('#knittnet-no-sitemaps').data('was-shown')) {
                     // No sitemaps message was shown before
-                    $('#mxchat-no-sitemaps').show();
+                    $('#knittnet-no-sitemaps').show();
                 }
                 // Note: If neither condition is true, initSitemapDetection will show loading state
             } else if (option === 'url') {
@@ -99,18 +99,18 @@ $('.mxchat-import-box').on('click', function() {
 
         case 'content':
             // Show content input area
-            $('#mxchat-content-input-area').show();
+            $('#knittnet-content-input-area').show();
 
             // UPDATED: Add or update bot_id hidden field for content forms
-            updateBotIdInForm('#mxchat-content-form');
+            updateBotIdInForm('#knittnet-content-form');
             break;
 
         case 'pdf-upload':
             // Show PDF file upload area
-            $('#mxchat-pdf-upload-area').show();
+            $('#knittnet-pdf-upload-area').show();
 
             // Add or update bot_id hidden field for PDF upload form
-            updateBotIdInForm('#mxchat-pdf-upload-form');
+            updateBotIdInForm('#knittnet-pdf-upload-form');
             break;
     }
 });
@@ -121,7 +121,7 @@ function updateBotIdInForm(formSelector) {
     if ($form.length === 0) return;
     
     // Get current bot_id from the bot selector dropdown
-    const currentBotId = $('#mxchat-bot-selector').val();
+    const currentBotId = $('#knittnet-bot-selector').val();
     
     // Only add bot_id field if multi-bot is active and bot is not 'default'
     if (currentBotId && currentBotId !== 'default') {
@@ -141,11 +141,11 @@ function updateBotIdInForm(formSelector) {
 // Load content via AJAX
 function loadContent() {
     $loading.show();
-    $contentList.find('.mxchat-kb-content-item').remove();
+    $contentList.find('.knittnet-kb-content-item').remove();
     
     const data = {
-        action: 'mxchat_get_content_list',
-        nonce: mxchatSelector.nonce,
+        action: 'knittnet_get_content_list',
+        nonce: knittnetSelector.nonce,
         page: currentPage,
         per_page: 100,
         search: $searchInput.val(),
@@ -157,7 +157,7 @@ function loadContent() {
     //console.log('Loading content for page', currentPage, 'with filters:', data);
     
     $.ajax({
-        url: mxchatSelector.ajaxurl,
+        url: knittnetSelector.ajaxurl,
         data: data,
         method: 'GET',
         dataType: 'json',
@@ -189,7 +189,7 @@ function loadContent() {
         error: function(xhr, status, error) {
             $loading.hide();
             console.error('AJAX Error:', status, error);
-            $contentList.html('<div class="mxchat-kb-error">Error loading content. Please try again.</div>');
+            $contentList.html('<div class="knittnet-kb-error">Error loading content. Please try again.</div>');
             // Clear pagination on error
             $pagination.empty();
         }
@@ -206,7 +206,7 @@ function displayNoResults(processedStatus) {
         message = 'All content is already in knowledge base.';
     }
     
-    $contentList.html('<div class="mxchat-kb-no-results">' + message + '</div>');
+    $contentList.html('<div class="knittnet-kb-no-results">' + message + '</div>');
     // Clear pagination when no results
     $pagination.empty();
 }
@@ -225,26 +225,26 @@ function displayNoResults(processedStatus) {
             if (isProcessed) {
                 badgeText = chunkCount > 1 ? `In Knowledge Base (${chunkCount} chunks)` : 'In Knowledge Base';
             }
-            const badgeClass = isProcessed ? 'mxchat-kb-processed-badge' : 'mxchat-kb-unprocessed-badge';
+            const badgeClass = isProcessed ? 'knittnet-kb-processed-badge' : 'knittnet-kb-unprocessed-badge';
 
 
             html += `
-                <div class="mxchat-kb-content-item ${isProcessed ? 'processed' : ''}" data-id="${item.id}">
-                    <div class="mxchat-kb-content-checkbox">
+                <div class="knittnet-kb-content-item ${isProcessed ? 'processed' : ''}" data-id="${item.id}">
+                    <div class="knittnet-kb-content-checkbox">
                         <input type="checkbox" id="content-${item.id}" ${isSelected ? 'checked' : ''}>
                     </div>
-                    <div class="mxchat-kb-content-details">
-                        <div class="mxchat-kb-content-title">
+                    <div class="knittnet-kb-content-details">
+                        <div class="knittnet-kb-content-title">
                             <a href="${item.permalink}" target="_blank">${item.title}</a>
                             <span class="${badgeClass}">${badgeText}</span>
-                            ${isProcessed ? '<span class="mxchat-kb-last-updated">Last updated: ' + item.processed_date + '</span>' : ''}
+                            ${isProcessed ? '<span class="knittnet-kb-last-updated">Last updated: ' + item.processed_date + '</span>' : ''}
                         </div>
-                        <div class="mxchat-kb-content-meta">
-                            <span class="mxchat-kb-content-type">${item.type}</span>
-                            <span class="mxchat-kb-content-date">${item.date}</span>
-                            <span class="mxchat-kb-content-words">${item.word_count} words</span>
+                        <div class="knittnet-kb-content-meta">
+                            <span class="knittnet-kb-content-type">${item.type}</span>
+                            <span class="knittnet-kb-content-date">${item.date}</span>
+                            <span class="knittnet-kb-content-words">${item.word_count} words</span>
                         </div>
-                        <div class="mxchat-kb-content-excerpt">${item.excerpt}</div>
+                        <div class="knittnet-kb-content-excerpt">${item.excerpt}</div>
                     </div>
                 </div>
             `;
@@ -255,7 +255,7 @@ function displayNoResults(processedStatus) {
         // Add event listeners for checkboxes using delegation for better performance
         $contentList.off('change', 'input[type="checkbox"]').on('change', 'input[type="checkbox"]', function() {
             const $checkbox = $(this);
-            const itemId = parseInt($checkbox.closest('.mxchat-kb-content-item').data('id'));
+            const itemId = parseInt($checkbox.closest('.knittnet-kb-content-item').data('id'));
             
             if ($checkbox.is(':checked')) {
                 selectedItems.add(itemId);
@@ -277,11 +277,11 @@ function displayNoResults(processedStatus) {
             return;
         }
         
-        let html = '<div class="mxchat-kb-pagination-links">';
+        let html = '<div class="knittnet-kb-pagination-links">';
         
         // Previous button
         if (currentPage > 1) {
-            html += '<a href="#" class="mxchat-kb-page-link prev" data-page="' + (currentPage - 1) + '">&laquo; Previous</a>';
+            html += '<a href="#" class="knittnet-kb-page-link prev" data-page="' + (currentPage - 1) + '">&laquo; Previous</a>';
         }
         
         // Page numbers
@@ -290,15 +290,15 @@ function displayNoResults(processedStatus) {
         
         for (let i = startPage; i <= endPage; i++) {
             if (i === currentPage) {
-                html += '<span class="mxchat-kb-page-current">' + i + '</span>';
+                html += '<span class="knittnet-kb-page-current">' + i + '</span>';
             } else {
-                html += '<a href="#" class="mxchat-kb-page-link" data-page="' + i + '">' + i + '</a>';
+                html += '<a href="#" class="knittnet-kb-page-link" data-page="' + i + '">' + i + '</a>';
             }
         }
         
         // Next button
         if (currentPage < totalPages) {
-            html += '<a href="#" class="mxchat-kb-page-link next" data-page="' + (currentPage + 1) + '">Next &raquo;</a>';
+            html += '<a href="#" class="knittnet-kb-page-link next" data-page="' + (currentPage + 1) + '">Next &raquo;</a>';
         }
         
         html += '</div>';
@@ -307,7 +307,7 @@ function displayNoResults(processedStatus) {
     }
     
     // Handle pagination clicks directly on the document
-    $(document).on('click', '.mxchat-kb-page-link', function(e) {
+    $(document).on('click', '.knittnet-kb-page-link', function(e) {
         e.preventDefault();
         const newPage = parseInt($(this).data('page'));
         //console.log('Pagination clicked: changing from page', currentPage, 'to', newPage);
@@ -323,18 +323,18 @@ function displayNoResults(processedStatus) {
     function updateSelection() {
         const selectedCount = selectedItems.size;
         $selectionCount.text(selectedCount + ' ' + (selectedCount === 1 ? 'selected' : 'selected'));
-        $('.mxchat-kb-selected-count').text('(' + selectedCount + ')');
+        $('.knittnet-kb-selected-count').text('(' + selectedCount + ')');
 
         // Show/hide clear all selections link
-        let $clearAllLink = $('.mxchat-kb-clear-all-selections');
+        let $clearAllLink = $('.knittnet-kb-clear-all-selections');
         if (selectedCount > 0) {
             if ($clearAllLink.length === 0) {
-                $clearAllLink = $('<a href="#" class="mxchat-kb-clear-all-selections" style="margin-left: 10px; font-size: 12px; color: var(--mxch-error, #dc2626);">Clear all</a>');
+                $clearAllLink = $('<a href="#" class="knittnet-kb-clear-all-selections" style="margin-left: 10px; font-size: 12px; color: var(--mxch-error, #dc2626);">Clear all</a>');
                 $selectionCount.after($clearAllLink);
                 $clearAllLink.on('click', function(e) {
                     e.preventDefault();
                     selectedItems.clear();
-                    $('.mxchat-kb-content-item input[type="checkbox"]').prop('checked', false);
+                    $('.knittnet-kb-content-item input[type="checkbox"]').prop('checked', false);
                     updateSelection();
                 });
             }
@@ -363,7 +363,7 @@ function displayNoResults(processedStatus) {
         } else {
             $processButton.prop('disabled', true);
             $processButton.text('Process Selected Content').removeClass('update-mode mixed-mode');
-            $('.mxchat-kb-selected-count').text('(0)');
+            $('.knittnet-kb-selected-count').text('(0)');
         }
 
         updateSelectAllState();
@@ -388,9 +388,9 @@ function displayNoResults(processedStatus) {
     $selectAll.on('change', function() {
         const isChecked = $(this).is(':checked');
         
-        $contentList.find('.mxchat-kb-content-item input[type="checkbox"]').each(function() {
+        $contentList.find('.knittnet-kb-content-item input[type="checkbox"]').each(function() {
             const $checkbox = $(this);
-            const $item = $checkbox.closest('.mxchat-kb-content-item');
+            const $item = $checkbox.closest('.knittnet-kb-content-item');
             const itemId = parseInt($item.data('id'));
             
             $checkbox.prop('checked', isChecked);
@@ -453,20 +453,20 @@ $processButton.on('click', function() {
     };
     
     // UPDATED: Get current bot_id for WordPress content processing
-    const currentBotId = $('#mxchat-bot-selector').val();
+    const currentBotId = $('#knittnet-bot-selector').val();
     
     // Flag to track if processing should be aborted
     let abortProcessing = false;
     let currentXHR = null;
 
     // Create a modal to show progress with stop button
-    const $progressModal = $('<div class="mxchat-kb-processing-overlay">' +
-        '<div class="mxchat-kb-processing-content">' +
+    const $progressModal = $('<div class="knittnet-kb-processing-overlay">' +
+        '<div class="knittnet-kb-processing-content">' +
         '<h3>Processing Content</h3>' +
-        '<p class="mxchat-kb-processing-status">Processing 1 of ' + totalToProcess + '...</p>' +
-        '<div class="mxchat-kb-progress-bar"><div class="mxchat-kb-progress-fill" style="width: 0%"></div></div>' +
-        '<p class="mxchat-kb-current-item"></p>' +
-        '<button type="button" class="mxchat-kb-stop-processing mxch-btn mxch-btn-secondary" style="margin-top: 15px;">' +
+        '<p class="knittnet-kb-processing-status">Processing 1 of ' + totalToProcess + '...</p>' +
+        '<div class="knittnet-kb-progress-bar"><div class="knittnet-kb-progress-fill" style="width: 0%"></div></div>' +
+        '<p class="knittnet-kb-current-item"></p>' +
+        '<button type="button" class="knittnet-kb-stop-processing mxch-btn mxch-btn-secondary" style="margin-top: 15px;">' +
         '<span class="dashicons dashicons-controls-pause" style="margin-right: 5px;"></span>Stop Processing</button>' +
         '</div>' +
         '</div>');
@@ -474,7 +474,7 @@ $processButton.on('click', function() {
     $('body').append($progressModal);
 
     // Handle stop button click
-    $progressModal.find('.mxchat-kb-stop-processing').on('click', function() {
+    $progressModal.find('.knittnet-kb-stop-processing').on('click', function() {
         abortProcessing = true;
         $(this).prop('disabled', true).html('<span class="dashicons dashicons-update spin" style="margin-right: 5px;"></span>Stopping...');
         if (currentXHR) {
@@ -502,15 +502,15 @@ $processButton.on('click', function() {
         const isUpdate = item && item.already_processed;
 
         // Update progress UI
-        $progressModal.find('.mxchat-kb-processing-status')
+        $progressModal.find('.knittnet-kb-processing-status')
             .text((isUpdate ? 'Updating' : 'Processing') + ' ' + (index + 1) + ' of ' + totalToProcess + '...');
-        $progressModal.find('.mxchat-kb-progress-fill').css('width', percent + '%');
+        $progressModal.find('.knittnet-kb-progress-fill').css('width', percent + '%');
 
         // UPDATED: Prepare AJAX data with bot_id
         const extractAcfPdfs = $acfPdfExtractCheckbox.prop('checked') ? 1 : 0;
         const ajaxData = {
-            action: 'mxchat_process_selected_content',
-            nonce: mxchatSelector.nonce,
+            action: 'knittnet_process_selected_content',
+            nonce: knittnetSelector.nonce,
             post_ids: [postId],
             is_update: isUpdate,
             extract_acf_pdfs: extractAcfPdfs
@@ -523,7 +523,7 @@ $processButton.on('click', function() {
 
         // Make AJAX request for this post (store reference for potential abort)
         currentXHR = $.ajax({
-            url: mxchatSelector.ajaxurl,
+            url: knittnetSelector.ajaxurl,
             method: 'POST',
             data: ajaxData,
             dataType: 'json',
@@ -546,10 +546,10 @@ $processButton.on('click', function() {
                     let successText = 'Successfully ' + (isUpdate ? 'updated' : 'processed') + ': ' + response.data.title;
                     const pdfCount = parseInt(response.data.pdf_extracted_count, 10) || 0;
                     if (pdfCount > 0) {
-                        const suffixTpl = (mxchatSelector.i18n && mxchatSelector.i18n.pdfExtractedSuffix) || ' (%d PDF(s) extracted)';
+                        const suffixTpl = (knittnetSelector.i18n && knittnetSelector.i18n.pdfExtractedSuffix) || ' (%d PDF(s) extracted)';
                         successText += suffixTpl.replace('%d', pdfCount);
                     }
-                    $progressModal.find('.mxchat-kb-current-item').text(successText);
+                    $progressModal.find('.knittnet-kb-current-item').text(successText);
                 } else {
                     failed++;
                     results.failed.push({
@@ -557,7 +557,7 @@ $processButton.on('click', function() {
                         error: response.data || 'Unknown error'
                     });
                     
-                    $progressModal.find('.mxchat-kb-current-item')
+                    $progressModal.find('.knittnet-kb-current-item')
                         .text('Failed to ' + (isUpdate ? 'update' : 'process') + ' ID: ' + postId);
                 }
                 
@@ -573,7 +573,7 @@ $processButton.on('click', function() {
                     error: error || 'Server error'
                 });
                 
-                $progressModal.find('.mxchat-kb-current-item')
+                $progressModal.find('.knittnet-kb-current-item')
                     .text('Error ' + (isUpdate ? 'updating' : 'processing') + ' ID: ' + postId);
                 
                 // Process next post
@@ -598,7 +598,7 @@ $processButton.on('click', function() {
         }
 
         // Create summary message
-        let resultHTML = '<div class="mxchat-kb-notification ' + notificationClass + '">' +
+        let resultHTML = '<div class="knittnet-kb-notification ' + notificationClass + '">' +
                        '<h4>';
 
         if (wasAborted) {
@@ -626,7 +626,7 @@ $processButton.on('click', function() {
         
         // Add details if there were failures
         if (failed > 0) {
-            resultHTML += '<div class="mxchat-kb-results-details">';
+            resultHTML += '<div class="knittnet-kb-results-details">';
             resultHTML += '<h5>Failed Items:</h5><ul>';
             
             results.failed.forEach(function(item) {
@@ -639,7 +639,7 @@ $processButton.on('click', function() {
         resultHTML += '</div>';
         
         // Show results in modal
-        $modal.find('.mxchat-kb-modal-content').prepend($(resultHTML));
+        $modal.find('.knittnet-kb-modal-content').prepend($(resultHTML));
         
         // Clear selection
         selectedItems.clear();
@@ -649,7 +649,7 @@ $processButton.on('click', function() {
         $button.prop('disabled', false)
                .text('Process Selected Content')
                .removeClass('update-mode mixed-mode');
-        $('.mxchat-kb-selected-count').text('(0)');
+        $('.knittnet-kb-selected-count').text('(0)');
 
         // Only reload if there were successful operations
         if (processed > 0 || updated > 0) {
@@ -670,7 +670,7 @@ $processButton.on('click', function() {
 });
 
     // Initialize - Set WordPress as the active option by default
-    $('.mxchat-import-box[data-option="wordpress"]').addClass('active');
+    $('.knittnet-import-box[data-option="wordpress"]').addClass('active');
 });
 
 // Navigation functionality for Knowledge Base page
@@ -699,8 +699,8 @@ jQuery(document).ready(function($) {
         }
 
         // Check if Pinecone was changed and we're going to import section
-        if (target === 'import' && sessionStorage.getItem('mxchat_pinecone_changed') === 'true') {
-            sessionStorage.removeItem('mxchat_pinecone_changed');
+        if (target === 'import' && sessionStorage.getItem('knittnet_pinecone_changed') === 'true') {
+            sessionStorage.removeItem('knittnet_pinecone_changed');
 
             // Show refresh notice
             var $knowledgeCard = $('#import .mxch-card').eq(1);
@@ -759,7 +759,7 @@ var initPineconeFeatures, initVectorStoreFeatures;
     // Pinecone functionality
     initPineconeFeatures = function() {
         // Check for either old or new section ID
-        if ($('#pinecone').length === 0 && $('#mxchat-kb-tab-pinecone').length === 0) {
+        if ($('#pinecone').length === 0 && $('#knittnet-kb-tab-pinecone').length === 0) {
             return;
         }
 
@@ -770,14 +770,14 @@ var initPineconeFeatures, initVectorStoreFeatures;
 
     function initPineconeToggle() {
         // Remove any existing handlers to prevent duplicates
-        var $toggleInput = $('input[name="mxchat_pinecone_addon_options[mxchat_use_pinecone]"]');
+        var $toggleInput = $('input[name="knittnet_pinecone_addon_options[knittnet_use_pinecone]"]');
         $toggleInput.off('change.pineconeToggle');
 
         // Ensure the success notice exists in the settings div (add if not present)
         // Check for both the JS-added class and any existing PHP-rendered success notice
-        var settingsDiv = $('.mxchat-pinecone-settings');
+        var settingsDiv = $('.knittnet-pinecone-settings');
         if (settingsDiv.length > 0 && settingsDiv.find('.mxch-notice-success').length === 0) {
-            var successNotice = $('<div class="mxch-notice mxch-notice-success mxchat-pinecone-enabled-notice" style="margin-bottom: 20px; display: none;">' +
+            var successNotice = $('<div class="mxch-notice mxch-notice-success knittnet-pinecone-enabled-notice" style="margin-bottom: 20px; display: none;">' +
                 '<svg class="mxch-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' +
                 '<span>Pinecone is enabled. All new knowledge base content will be stored in Pinecone.</span>' +
                 '</div>');
@@ -788,8 +788,8 @@ var initPineconeFeatures, initVectorStoreFeatures;
         $toggleInput.on('change.pineconeToggle', function() {
             var $checkbox = $(this);
             var isChecked = $checkbox.is(':checked');
-            var settingsDiv = $('.mxchat-pinecone-settings');
-            var enabledNotice = settingsDiv.find('.mxchat-pinecone-enabled-notice, .mxch-notice-success');
+            var settingsDiv = $('.knittnet-pinecone-settings');
+            var enabledNotice = settingsDiv.find('.knittnet-pinecone-enabled-notice, .mxch-notice-success');
 
             // Update the UI immediately
             if (isChecked) {
@@ -805,10 +805,10 @@ var initPineconeFeatures, initVectorStoreFeatures;
         });
 
         // Set initial state based on current checkbox value
-        var currentToggle = $('input[name="mxchat_pinecone_addon_options[mxchat_use_pinecone]"]');
+        var currentToggle = $('input[name="knittnet_pinecone_addon_options[knittnet_use_pinecone]"]');
         if (currentToggle.length > 0) {
-            var settingsDiv = $('.mxchat-pinecone-settings');
-            var enabledNotice = settingsDiv.find('.mxchat-pinecone-enabled-notice, .mxch-notice-success');
+            var settingsDiv = $('.knittnet-pinecone-settings');
+            var enabledNotice = settingsDiv.find('.knittnet-pinecone-enabled-notice, .mxch-notice-success');
             if (currentToggle.is(':checked')) {
                 settingsDiv.show();
                 enabledNotice.show();
@@ -826,9 +826,9 @@ var initPineconeFeatures, initVectorStoreFeatures;
             var button = $(this);
             var resultDiv = $('#connection-test-result');
             
-            var apiKey = $('#mxchat_pinecone_api_key').val();
-            var host = $('#mxchat_pinecone_host').val();
-            var index = $('#mxchat_pinecone_index').val();
+            var apiKey = $('#knittnet_pinecone_api_key').val();
+            var host = $('#knittnet_pinecone_host').val();
+            var index = $('#knittnet_pinecone_index').val();
             
             if (!apiKey || !host || !index) {
                 resultDiv.html('<div class="notice notice-error"><p>Please fill in all required fields first.</p></div>').show();
@@ -838,15 +838,15 @@ var initPineconeFeatures, initVectorStoreFeatures;
             button.prop('disabled', true).text('Testing...');
             resultDiv.hide();
             
-            var ajaxUrl = (typeof mxchatPromptsAdmin !== 'undefined') ? mxchatPromptsAdmin.ajax_url : ajaxurl;
-            var nonce = (typeof mxchatPromptsAdmin !== 'undefined') ? mxchatPromptsAdmin.prompts_setting_nonce : 
-                       (typeof mxchatAdmin !== 'undefined') ? mxchatAdmin.setting_nonce : '';
+            var ajaxUrl = (typeof knittnetPromptsAdmin !== 'undefined') ? knittnetPromptsAdmin.ajax_url : ajaxurl;
+            var nonce = (typeof knittnetPromptsAdmin !== 'undefined') ? knittnetPromptsAdmin.prompts_setting_nonce : 
+                       (typeof knittnetAdmin !== 'undefined') ? knittnetAdmin.setting_nonce : '';
             
             $.ajax({
                 url: ajaxUrl,
                 type: 'POST',
                 data: {
-                    action: 'mxchat_test_pinecone_connection',
+                    action: 'knittnet_test_pinecone_connection',
                     _ajax_nonce: nonce,
                     api_key: apiKey,
                     host: host,
@@ -871,23 +871,23 @@ var initPineconeFeatures, initVectorStoreFeatures;
     }
     
     function checkPineconeCompatibility() {
-        if ($('.mxchat-pinecone-compatibility-notice').length > 0) {
+        if ($('.knittnet-pinecone-compatibility-notice').length > 0) {
             return;
         }
         
-        var hasOldAddon = $('body').hasClass('mxchat-pinecone-addon-active') || 
+        var hasOldAddon = $('body').hasClass('knittnet-pinecone-addon-active') || 
                          $('.pcm-card').length > 0;
         
         if (hasOldAddon) {
             var compatibilityNotice = $(`
-                <div class="notice notice-info mxchat-pinecone-compatibility-notice">
+                <div class="notice notice-info knittnet-pinecone-compatibility-notice">
                     <p><strong>Pinecone Integration Notice:</strong> We've detected you have the Pinecone add-on installed. 
                     Pinecone functionality is now built into the core plugin. You can safely deactivate the separate 
                     Pinecone add-on after confirming your settings are migrated below.</p>
                 </div>
             `);
             
-            $('#mxchat-kb-tab-pinecone .mxchat-card').prepend(compatibilityNotice);
+            $('#knittnet-kb-tab-pinecone .knittnet-card').prepend(compatibilityNotice);
             
             migratePineconeSettings();
         }
@@ -899,8 +899,8 @@ var initPineconeFeatures, initVectorStoreFeatures;
                 url: ajaxurl,
                 type: 'POST',
                 data: {
-                    action: 'mxchat_migrate_pinecone_settings',
-                    _ajax_nonce: (typeof mxchatAdmin !== 'undefined') ? mxchatAdmin.setting_nonce : ''
+                    action: 'knittnet_migrate_pinecone_settings',
+                    _ajax_nonce: (typeof knittnetAdmin !== 'undefined') ? knittnetAdmin.setting_nonce : ''
                 },
                 success: function(response) {
                     if (response.success && response.data.migrated) {
@@ -927,14 +927,14 @@ var initPineconeFeatures, initVectorStoreFeatures;
 
     function initVectorStoreToggle() {
         // Remove any existing handlers to prevent duplicates
-        var $toggleInput = $('input[name="mxchat_openai_vectorstore_options[mxchat_use_openai_vectorstore]"]');
+        var $toggleInput = $('input[name="knittnet_openai_vectorstore_options[knittnet_use_openai_vectorstore]"]');
         $toggleInput.off('change.vectorstoreToggle');
 
         // Ensure the success notice exists in the settings div (add if not present)
         // Check for both the JS-added class and any existing PHP-rendered success notice
-        var settingsDiv = $('.mxchat-vectorstore-settings');
+        var settingsDiv = $('.knittnet-vectorstore-settings');
         if (settingsDiv.length > 0 && settingsDiv.find('.mxch-notice-success').length === 0) {
-            var successNotice = $('<div class="mxch-notice mxch-notice-success mxchat-vectorstore-enabled-notice" style="margin-bottom: 20px; display: none;">' +
+            var successNotice = $('<div class="mxch-notice mxch-notice-success knittnet-vectorstore-enabled-notice" style="margin-bottom: 20px; display: none;">' +
                 '<svg class="mxch-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' +
                 '<span>OpenAI Vector Store is enabled. Queries will search your Vector Store for relevant content.</span>' +
                 '</div>');
@@ -945,8 +945,8 @@ var initPineconeFeatures, initVectorStoreFeatures;
         $toggleInput.on('change.vectorstoreToggle', function() {
             var $checkbox = $(this);
             var isChecked = $checkbox.is(':checked');
-            var settingsDiv = $('.mxchat-vectorstore-settings');
-            var enabledNotice = settingsDiv.find('.mxchat-vectorstore-enabled-notice, .mxch-notice-success');
+            var settingsDiv = $('.knittnet-vectorstore-settings');
+            var enabledNotice = settingsDiv.find('.knittnet-vectorstore-enabled-notice, .mxch-notice-success');
 
             // Update the UI immediately
             if (isChecked) {
@@ -962,10 +962,10 @@ var initPineconeFeatures, initVectorStoreFeatures;
         });
 
         // Set initial state based on current checkbox value
-        var currentToggle = $('input[name="mxchat_openai_vectorstore_options[mxchat_use_openai_vectorstore]"]');
+        var currentToggle = $('input[name="knittnet_openai_vectorstore_options[knittnet_use_openai_vectorstore]"]');
         if (currentToggle.length > 0) {
-            var settingsDiv = $('.mxchat-vectorstore-settings');
-            var enabledNotice = settingsDiv.find('.mxchat-vectorstore-enabled-notice, .mxch-notice-success');
+            var settingsDiv = $('.knittnet-vectorstore-settings');
+            var enabledNotice = settingsDiv.find('.knittnet-vectorstore-enabled-notice, .mxch-notice-success');
             if (currentToggle.is(':checked')) {
                 settingsDiv.show();
                 enabledNotice.show();

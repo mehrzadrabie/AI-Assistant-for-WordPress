@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
-class MxChat_Utils {
+class KnittNet_Utils {
 
 /**
  * Centralized embedding model registry. Single source of truth for dimensions
@@ -35,7 +35,7 @@ public static function embedding_model_label($model) {
  * no re-embed has occurred yet — that's the mismatch state we warn about.
  */
 public static function get_active_embedding_model() {
-    return get_option('mxchat_active_embedding_model', '');
+    return get_option('knittnet_active_embedding_model', '');
 }
 
 /**
@@ -44,7 +44,7 @@ public static function get_active_embedding_model() {
  */
 public static function stamp_active_embedding_model($model) {
     if (!empty($model) && $model !== self::get_active_embedding_model()) {
-        update_option('mxchat_active_embedding_model', $model, false);
+        update_option('knittnet_active_embedding_model', $model, false);
     }
 }
 
@@ -62,10 +62,10 @@ public static function stamp_active_embedding_model($model) {
  */
 public static function submit_content_to_db($content, $source_url, $api_key, $vector_id = null, $bot_id = 'default', $content_type = 'content') {
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_system_prompt_content';
+    $table_name = $wpdb->prefix . 'knittnet_system_prompt_content';
 
-    //error_log('[MXCHAT-DB] Starting database submission for URL: ' . $source_url . ' (Bot: ' . $bot_id . ', Type: ' . $content_type . ')');
-    //error_log('[MXCHAT-DB] Content length: ' . strlen($content) . ' bytes');
+    //error_log('[KNITTNET-DB] Starting database submission for URL: ' . $source_url . ' (Bot: ' . $bot_id . ', Type: ' . $content_type . ')');
+    //error_log('[KNITTNET-DB] Content length: ' . strlen($content) . ' bytes');
 
     // Sanitize the source URL
     $source_url = esc_url_raw($source_url);
@@ -82,9 +82,9 @@ public static function submit_content_to_db($content, $source_url, $api_key, $ve
     $safe_content = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', $safe_content);
 
     // Check if chunking should be applied
-    $chunker = MxChat_Chunker::from_settings();
+    $chunker = KnittNet_Chunker::from_settings();
     if ($chunker->should_chunk($safe_content)) {
-        //error_log('[MXCHAT-DB] Content exceeds chunk threshold, using chunked submission');
+        //error_log('[KNITTNET-DB] Content exceeds chunk threshold, using chunked submission');
         return self::submit_chunked_content($safe_content, $source_url, $api_key, $bot_id, $content_type, $chunker);
     }
 
@@ -92,19 +92,19 @@ public static function submit_content_to_db($content, $source_url, $api_key, $ve
     $embedding_vector = self::generate_embedding($content, $api_key, $bot_id);
 
     if (!is_array($embedding_vector)) {
-        //error_log('[MXCHAT-DB] Error: Embedding generation failed');
+        //error_log('[KNITTNET-DB] Error: Embedding generation failed');
         return new WP_Error('embedding_failed', 'Failed to generate embedding for content');
     }
 
-    //error_log('[MXCHAT-DB] Embedding generated successfully');
+    //error_log('[KNITTNET-DB] Embedding generated successfully');
 
     // UPDATED: Check if Pinecone is enabled for this specific bot
     if (self::is_pinecone_enabled_for_bot($bot_id)) {
-        //error_log('[MXCHAT-DB] Pinecone is enabled for bot ' . $bot_id . ' - using Pinecone storage');
+        //error_log('[KNITTNET-DB] Pinecone is enabled for bot ' . $bot_id . ' - using Pinecone storage');
         // Store in Pinecone only
         return self::store_in_pinecone_only($embedding_vector, $content, $source_url, $vector_id, $bot_id, $content_type);
     } else {
-        //error_log('[MXCHAT-DB] Pinecone not enabled for bot ' . $bot_id . ' - using WordPress storage');
+        //error_log('[KNITTNET-DB] Pinecone not enabled for bot ' . $bot_id . ' - using WordPress storage');
         // Store in WordPress database only
         $embedding_vector_serialized = maybe_serialize($embedding_vector);
         return self::store_in_wordpress_db($safe_content, $source_url, $embedding_vector_serialized, $table_name, $content_type);
@@ -116,12 +116,12 @@ public static function submit_content_to_db($content, $source_url, $api_key, $ve
  */
 private static function is_pinecone_enabled_for_bot($bot_id = 'default') {
     // For default bot or when multi-bot is not active, use original method
-    if ($bot_id === 'default' || !class_exists('MxChat_Multi_Bot_Manager')) {
+    if ($bot_id === 'default' || !class_exists('KnittNet_Multi_Bot_Manager')) {
         return self::is_pinecone_enabled();
     }
     
     // Get bot-specific Pinecone configuration
-    $bot_pinecone_config = apply_filters('mxchat_get_bot_pinecone_config', array(), $bot_id);
+    $bot_pinecone_config = apply_filters('knittnet_get_bot_pinecone_config', array(), $bot_id);
     
     if (empty($bot_pinecone_config)) {
         // Fallback to default configuration
@@ -139,15 +139,15 @@ private static function is_pinecone_enabled_for_bot($bot_id = 'default') {
  * Check if Pinecone is enabled and properly configured (original method for default bot)
  */
 private static function is_pinecone_enabled() {
-    $pinecone_options = get_option('mxchat_pinecone_addon_options');
+    $pinecone_options = get_option('knittnet_pinecone_addon_options');
     
     if (empty($pinecone_options)) {
         return false;
     }
     
-    $enabled_check = !empty($pinecone_options['mxchat_use_pinecone']) && $pinecone_options['mxchat_use_pinecone'] !== '0';
-    $api_key_check = !empty($pinecone_options['mxchat_pinecone_api_key']);
-    $host_check = !empty($pinecone_options['mxchat_pinecone_host']);
+    $enabled_check = !empty($pinecone_options['knittnet_use_pinecone']) && $pinecone_options['knittnet_use_pinecone'] !== '0';
+    $api_key_check = !empty($pinecone_options['knittnet_pinecone_api_key']);
+    $host_check = !empty($pinecone_options['knittnet_pinecone_host']);
     
     return $enabled_check && $api_key_check && $host_check;
 }
@@ -156,24 +156,24 @@ private static function is_pinecone_enabled() {
  * UPDATED: Store content in Pinecone only with bot support
  */
 private static function store_in_pinecone_only($embedding_vector, $content, $source_url, $vector_id = null, $bot_id = 'default', $content_type = 'content') {
-    //error_log('[MXCHAT-PINECONE] ===== Using Pinecone-only storage for bot ' . $bot_id . ' =====');
+    //error_log('[KNITTNET-PINECONE] ===== Using Pinecone-only storage for bot ' . $bot_id . ' =====');
 
     // Get bot-specific Pinecone configuration
-    if ($bot_id === 'default' || !class_exists('MxChat_Multi_Bot_Manager')) {
-        $pinecone_options = get_option('mxchat_pinecone_addon_options');
-        $api_key = $pinecone_options['mxchat_pinecone_api_key'];
-        $environment = $pinecone_options['mxchat_pinecone_environment'] ?? '';
-        $index_name = $pinecone_options['mxchat_pinecone_index'] ?? '';
-        $namespace = $pinecone_options['mxchat_pinecone_namespace'] ?? '';
+    if ($bot_id === 'default' || !class_exists('KnittNet_Multi_Bot_Manager')) {
+        $pinecone_options = get_option('knittnet_pinecone_addon_options');
+        $api_key = $pinecone_options['knittnet_pinecone_api_key'];
+        $environment = $pinecone_options['knittnet_pinecone_environment'] ?? '';
+        $index_name = $pinecone_options['knittnet_pinecone_index'] ?? '';
+        $namespace = $pinecone_options['knittnet_pinecone_namespace'] ?? '';
     } else {
-        $bot_pinecone_config = apply_filters('mxchat_get_bot_pinecone_config', array(), $bot_id);
+        $bot_pinecone_config = apply_filters('knittnet_get_bot_pinecone_config', array(), $bot_id);
         if (empty($bot_pinecone_config)) {
             // Fallback to default configuration
-            $pinecone_options = get_option('mxchat_pinecone_addon_options');
-            $api_key = $pinecone_options['mxchat_pinecone_api_key'];
-            $environment = $pinecone_options['mxchat_pinecone_environment'] ?? '';
-            $index_name = $pinecone_options['mxchat_pinecone_index'] ?? '';
-            $namespace = $pinecone_options['mxchat_pinecone_namespace'] ?? '';
+            $pinecone_options = get_option('knittnet_pinecone_addon_options');
+            $api_key = $pinecone_options['knittnet_pinecone_api_key'];
+            $environment = $pinecone_options['knittnet_pinecone_environment'] ?? '';
+            $index_name = $pinecone_options['knittnet_pinecone_index'] ?? '';
+            $namespace = $pinecone_options['knittnet_pinecone_namespace'] ?? '';
         } else {
             $api_key = $bot_pinecone_config['api_key'];
             $environment = ''; // Not used in new Pinecone API
@@ -196,11 +196,11 @@ private static function store_in_pinecone_only($embedding_vector, $content, $sou
     );
     
     if (is_wp_error($result)) {
-        //error_log('[MXCHAT-PINECONE] Pinecone storage failed for bot ' . $bot_id . ': ' . $result->get_error_message());
+        //error_log('[KNITTNET-PINECONE] Pinecone storage failed for bot ' . $bot_id . ': ' . $result->get_error_message());
         return $result;
     }
     
-    //error_log('[MXCHAT-PINECONE] Pinecone storage completed successfully for bot ' . $bot_id);
+    //error_log('[KNITTNET-PINECONE] Pinecone storage completed successfully for bot ' . $bot_id);
     return true;
 }
 
@@ -211,7 +211,7 @@ private static function store_in_pinecone_only($embedding_vector, $content, $sou
 private static function store_in_wordpress_db($safe_content, $source_url, $embedding_vector_serialized, $table_name, $content_type = 'content') {
     global $wpdb;
 
-    //error_log('[MXCHAT-DB] ===== Using WordPress-only storage =====');
+    //error_log('[KNITTNET-DB] ===== Using WordPress-only storage =====');
 
     // Sanitize content_type
     $content_type = sanitize_key($content_type);
@@ -225,14 +225,14 @@ private static function store_in_wordpress_db($safe_content, $source_url, $embed
     // filter_var(FILTER_VALIDATE_URL) rejects valid URLs with encoded chars, non-ASCII, fragments, etc.
     // Use a looser check: if it starts with http(s):// or has a scheme, it's a URL
     $has_url_scheme = !empty($source_url) && preg_match('#^https?://#i', $source_url);
-    // Treat legacy mxchat.ai source URLs as manual — old bug assigned the site URL to manual entries
-    $is_legacy_mxchat_url = $has_url_scheme && strpos($source_url, 'mxchat.ai') !== false;
-    $is_manual_content = empty($source_url) || $source_url === '' || !$has_url_scheme || $is_legacy_mxchat_url;
+    // Treat legacy knittnet.ai source URLs as manual — old bug assigned the site URL to manual entries
+    $is_legacy_knittnet_url = $has_url_scheme && strpos($source_url, 'knittnet.ai') !== false;
+    $is_manual_content = empty($source_url) || $source_url === '' || !$has_url_scheme || $is_legacy_knittnet_url;
 
     if ($is_manual_content) {
         // Generate unique identifier for manual content to prevent overwrites
-        $source_url = 'mxchat://manual-content/' . time() . '-' . wp_generate_password(8, false);
-        //error_log('[MXCHAT-DB] Generated unique ID for manual content: ' . $source_url);
+        $source_url = 'knittnet://manual-content/' . time() . '-' . wp_generate_password(8, false);
+        //error_log('[KNITTNET-DB] Generated unique ID for manual content: ' . $source_url);
     }
 
     // Only check for duplicates if we have a valid source URL (not manual content)
@@ -244,9 +244,9 @@ private static function store_in_wordpress_db($safe_content, $source_url, $embed
                 $source_url
             )
         );
-        //error_log('[MXCHAT-DB] Checked for existing URL, found ID: ' . ($existing_id ?: 'none'));
+        //error_log('[KNITTNET-DB] Checked for existing URL, found ID: ' . ($existing_id ?: 'none'));
     } else {
-        //error_log('[MXCHAT-DB] Manual content - will create new entry (no duplicate check)');
+        //error_log('[KNITTNET-DB] Manual content - will create new entry (no duplicate check)');
     }
     // ===== END FIX =====
 
@@ -259,7 +259,7 @@ private static function store_in_wordpress_db($safe_content, $source_url, $embed
     while ($attempt <= $max_attempts && $result === false) {
         try {
             if ($existing_id) {
-                //error_log('[MXCHAT-DB] Found existing entry (ID: ' . $existing_id . '). Updating... (Attempt ' . $attempt . ')');
+                //error_log('[KNITTNET-DB] Found existing entry (ID: ' . $existing_id . '). Updating... (Attempt ' . $attempt . ')');
 
                 // Update the existing row - UPDATED 2.5.6: Added content_type
                 $result = $wpdb->update(
@@ -277,8 +277,8 @@ private static function store_in_wordpress_db($safe_content, $source_url, $embed
                     array('%d')
                 );
             } else {
-                //error_log('[MXCHAT-DB] No existing entry found. Inserting new row... (Attempt ' . $attempt . ')');
-                //error_log('[MXCHAT-DB] Content sample: ' . substr($current_content, 0, 1000));
+                //error_log('[KNITTNET-DB] No existing entry found. Inserting new row... (Attempt ' . $attempt . ')');
+                //error_log('[KNITTNET-DB] Content sample: ' . substr($current_content, 0, 1000));
 
                 // Insert a new row - UPDATED 2.5.6: Added content_type
                 $result = $wpdb->insert(
@@ -296,12 +296,12 @@ private static function store_in_wordpress_db($safe_content, $source_url, $embed
             }
             
         if ($result === false) {
-            //error_log('[MXCHAT-DB] Database operation failed (Attempt ' . $attempt . ')');
-            //error_log('[MXCHAT-DB] MySQL Error: ' . $wpdb->last_error);
-            //error_log('[MXCHAT-DB] MySQL Error Number: ' . $wpdb->last_errno);
-            //error_log('[MXCHAT-DB] Last Query: ' . substr($wpdb->last_query, 0, 500));
-            //error_log('[MXCHAT-DB] Content length: ' . strlen($current_content) . ' bytes');
-            //error_log('[MXCHAT-DB] Embedding vector length: ' . strlen($embedding_vector_serialized) . ' bytes');
+            //error_log('[KNITTNET-DB] Database operation failed (Attempt ' . $attempt . ')');
+            //error_log('[KNITTNET-DB] MySQL Error: ' . $wpdb->last_error);
+            //error_log('[KNITTNET-DB] MySQL Error Number: ' . $wpdb->last_errno);
+            //error_log('[KNITTNET-DB] Last Query: ' . substr($wpdb->last_query, 0, 500));
+            //error_log('[KNITTNET-DB] Content length: ' . strlen($current_content) . ' bytes');
+            //error_log('[KNITTNET-DB] Embedding vector length: ' . strlen($embedding_vector_serialized) . ' bytes');
                 
                 // Progressively apply more aggressive sanitization on failure
                 if ($attempt === 1) {
@@ -317,14 +317,14 @@ private static function store_in_wordpress_db($safe_content, $source_url, $embed
                 $attempt++;
             }
         } catch (Exception $e) {
-            //error_log('[MXCHAT-DB] Exception during database operation: ' . $e->getMessage());
+            //error_log('[KNITTNET-DB] Exception during database operation: ' . $e->getMessage());
             $attempt++;
         }
     }
     
 if ($result === false) {
-    //error_log('[MXCHAT-DB] All database operation attempts failed');
-    //error_log('[MXCHAT-DB] Final MySQL Error: ' . $wpdb->last_error);
+    //error_log('[KNITTNET-DB] All database operation attempts failed');
+    //error_log('[KNITTNET-DB] Final MySQL Error: ' . $wpdb->last_error);
     
     $detailed_error = sprintf(
         'Failed to store content in WordPress database after %d attempts. MySQL Error: %s (Error #%d). Content size: %d bytes, Embedding size: %d bytes',
@@ -338,7 +338,7 @@ if ($result === false) {
     return new WP_Error('database_failed', $detailed_error);
 }
     
-    //error_log('[MXCHAT-DB] WordPress database operation completed successfully (Attempt ' . ($attempt - 1) . ')');
+    //error_log('[KNITTNET-DB] WordPress database operation completed successfully (Attempt ' . ($attempt - 1) . ')');
     return true;
 }
 
@@ -347,44 +347,44 @@ if ($result === false) {
  * UPDATED 2.5.6: Now accepts content_type parameter
  */
 private static function store_in_pinecone_main($embedding_vector, $content, $url, $api_key, $environment, $index_name, $vector_id = null, $bot_id = 'default', $namespace = '', $content_type = 'content') {
-    //error_log('[MXCHAT-PINECONE-MAIN] ===== Starting Pinecone storage for bot ' . $bot_id . ' =====');
+    //error_log('[KNITTNET-PINECONE-MAIN] ===== Starting Pinecone storage for bot ' . $bot_id . ' =====');
 
     // ===== UPDATED: Handle manual content with unique vector IDs =====
     if ($vector_id) {
         // Use provided vector ID
-        //error_log('[MXCHAT-PINECONE-MAIN] Using provided vector ID: ' . $vector_id);
+        //error_log('[KNITTNET-PINECONE-MAIN] Using provided vector ID: ' . $vector_id);
     } elseif (!empty($url) && preg_match('#^https?://#i', $url)) {
         // For URLs, use URL-based ID (existing behavior)
         $vector_id = md5($url);
-        //error_log('[MXCHAT-PINECONE-MAIN] Generated vector ID from URL: ' . $vector_id);
+        //error_log('[KNITTNET-PINECONE-MAIN] Generated vector ID from URL: ' . $vector_id);
     } else {
         // For manual content (empty/no URL scheme), generate unique ID
         $vector_id = 'manual_' . time() . '_' . substr(md5($content . microtime(true)), 0, 8);
-        //error_log('[MXCHAT-PINECONE-MAIN] Generated unique vector ID for manual content: ' . $vector_id);
+        //error_log('[KNITTNET-PINECONE-MAIN] Generated unique vector ID for manual content: ' . $vector_id);
     }
     // ===== END UPDATE =====
 
     // Get host from bot-specific config or fallback to default
-    if ($bot_id === 'default' || !class_exists('MxChat_Multi_Bot_Manager')) {
-        $options = get_option('mxchat_pinecone_addon_options');
-        $host = $options['mxchat_pinecone_host'] ?? '';
+    if ($bot_id === 'default' || !class_exists('KnittNet_Multi_Bot_Manager')) {
+        $options = get_option('knittnet_pinecone_addon_options');
+        $host = $options['knittnet_pinecone_host'] ?? '';
     } else {
-        $bot_pinecone_config = apply_filters('mxchat_get_bot_pinecone_config', array(), $bot_id);
+        $bot_pinecone_config = apply_filters('knittnet_get_bot_pinecone_config', array(), $bot_id);
         if (!empty($bot_pinecone_config)) {
             $host = $bot_pinecone_config['host'] ?? '';
         } else {
-            $options = get_option('mxchat_pinecone_addon_options');
-            $host = $options['mxchat_pinecone_host'] ?? '';
+            $options = get_option('knittnet_pinecone_addon_options');
+            $host = $options['knittnet_pinecone_host'] ?? '';
         }
     }
 
-    //error_log('[MXCHAT-PINECONE-MAIN] Host: ' . $host);
-    //error_log('[MXCHAT-PINECONE-MAIN] API key length: ' . strlen($api_key));
-    //error_log('[MXCHAT-PINECONE-MAIN] Bot ID: ' . $bot_id);
-    //error_log('[MXCHAT-PINECONE-MAIN] Namespace: ' . $namespace);
+    //error_log('[KNITTNET-PINECONE-MAIN] Host: ' . $host);
+    //error_log('[KNITTNET-PINECONE-MAIN] API key length: ' . strlen($api_key));
+    //error_log('[KNITTNET-PINECONE-MAIN] Bot ID: ' . $bot_id);
+    //error_log('[KNITTNET-PINECONE-MAIN] Namespace: ' . $namespace);
 
     if (empty($host)) {
-        //error_log('[MXCHAT-PINECONE-MAIN] ERROR: Host is empty');
+        //error_log('[KNITTNET-PINECONE-MAIN] ERROR: Host is empty');
         return new WP_Error('pinecone_config', 'Pinecone host is not configured. Please set the host in your bot settings.');
     }
 
@@ -402,11 +402,11 @@ private static function store_in_pinecone_main($embedding_vector, $content, $url
         }
     }
 
-    //error_log('[MXCHAT-PINECONE-MAIN] Content type: ' . $content_type);
+    //error_log('[KNITTNET-PINECONE-MAIN] Content type: ' . $content_type);
     // ===== END UPDATE =====
 
     $api_endpoint = "https://{$host}/vectors/upsert";
-    //error_log('[MXCHAT-PINECONE-MAIN] API endpoint: ' . $api_endpoint);
+    //error_log('[KNITTNET-PINECONE-MAIN] API endpoint: ' . $api_endpoint);
 
     // UPDATED 2.5.6: Use provided content_type in metadata
     $metadata = array(
@@ -431,10 +431,10 @@ private static function store_in_pinecone_main($embedding_vector, $content, $url
     // Add namespace if specified for multi-bot separation
     if (!empty($namespace)) {
         $request_body['namespace'] = $namespace;
-        //error_log('[MXCHAT-PINECONE-MAIN] Using namespace: ' . $namespace);
+        //error_log('[KNITTNET-PINECONE-MAIN] Using namespace: ' . $namespace);
     }
     
-    //error_log('[MXCHAT-PINECONE-MAIN] Request body prepared (embedding dimensions: ' . count($embedding_vector) . ')');
+    //error_log('[KNITTNET-PINECONE-MAIN] Request body prepared (embedding dimensions: ' . count($embedding_vector) . ')');
 
     $response = wp_remote_post($api_endpoint, array(
         'headers' => array(
@@ -448,16 +448,16 @@ private static function store_in_pinecone_main($embedding_vector, $content, $url
     ));
 
     if (is_wp_error($response)) {
-        //error_log('[MXCHAT-PINECONE-MAIN] WordPress request error: ' . $response->get_error_message());
+        //error_log('[KNITTNET-PINECONE-MAIN] WordPress request error: ' . $response->get_error_message());
         return new WP_Error('pinecone_request', $response->get_error_message());
     }
 
     $response_code = wp_remote_retrieve_response_code($response);
-    //error_log('[MXCHAT-PINECONE-MAIN] Response code: ' . $response_code);
+    //error_log('[KNITTNET-PINECONE-MAIN] Response code: ' . $response_code);
     
     if ($response_code !== 200) {
         $body = wp_remote_retrieve_body($response);
-        //error_log('[MXCHAT-PINECONE-MAIN] API error - Response body: ' . $body);
+        //error_log('[KNITTNET-PINECONE-MAIN] API error - Response body: ' . $body);
         return new WP_Error('pinecone_api', sprintf(
             'Pinecone API error (HTTP %d): %s',
             $response_code,
@@ -466,9 +466,9 @@ private static function store_in_pinecone_main($embedding_vector, $content, $url
     }
 
     $response_body = wp_remote_retrieve_body($response);
-    //error_log('[MXCHAT-PINECONE-MAIN] Success response: ' . $response_body);
-    //error_log('[MXCHAT-PINECONE-MAIN] Successfully stored in Pinecone for bot ' . $bot_id);
-    //error_log('[MXCHAT-PINECONE-MAIN] ===== Pinecone storage complete =====');
+    //error_log('[KNITTNET-PINECONE-MAIN] Success response: ' . $response_body);
+    //error_log('[KNITTNET-PINECONE-MAIN] Successfully stored in Pinecone for bot ' . $bot_id);
+    //error_log('[KNITTNET-PINECONE-MAIN] ===== Pinecone storage complete =====');
     
     return true;
 }
@@ -483,11 +483,11 @@ private static function store_in_pinecone_main($embedding_vector, $content, $url
  */
 private static function generate_embedding($text, $api_key, $bot_id = 'default') {
     // Get bot-specific options
-    if ($bot_id === 'default' || !class_exists('MxChat_Multi_Bot_Manager')) {
-        $options = get_option('mxchat_options');
+    if ($bot_id === 'default' || !class_exists('KnittNet_Multi_Bot_Manager')) {
+        $options = get_option('knittnet_options');
     } else {
-        $bot_options = apply_filters('mxchat_get_bot_options', array(), $bot_id);
-        $options = !empty($bot_options) ? $bot_options : get_option('mxchat_options');
+        $bot_options = apply_filters('knittnet_get_bot_options', array(), $bot_id);
+        $options = !empty($bot_options) ? $bot_options : get_option('knittnet_options');
     }
 
     // Opt-in: when the custom provider is selected for embeddings, route the KB
@@ -597,7 +597,7 @@ private static function generate_embedding($text, $api_key, $bot_id = 'default')
  * Shared by every embedding entry point so the KNOWLEDGE-BASE INDEX side and the
  * QUERY side route through the same model when the opt-in
  * 'custom_provider_for_embeddings' setting is on. Mirrors the query-path logic in
- * MxChat_Integrator::mxchat_generate_embedding_custom() but takes an explicit
+ * KnittNet_Integrator::knittnet_generate_embedding_custom() but takes an explicit
  * $options array so it is callable statically from utils + knowledge-manager.
  *
  * Returns a numeric array (the embedding vector) on success, or a human-readable
@@ -605,7 +605,7 @@ private static function generate_embedding($text, $api_key, $bot_id = 'default')
  * knowledge-manager, can surface it directly; callers expecting array|null wrap it).
  *
  * @param string $text    Text to embed.
- * @param array  $options The resolved mxchat options (must contain the custom_provider_* keys).
+ * @param array  $options The resolved knittnet options (must contain the custom_provider_* keys).
  * @return array|string   Embedding vector on success; error string on failure.
  */
 public static function generate_embedding_custom($text, $options) {
@@ -676,20 +676,20 @@ public static function generate_embedding_custom($text, $options) {
  * @param string $api_key The API key for embeddings
  * @param string $bot_id The bot ID
  * @param string $content_type The content type
- * @param MxChat_Chunker $chunker The chunker instance
+ * @param KnittNet_Chunker $chunker The chunker instance
  * @return bool|WP_Error True on success, WP_Error on failure
  */
 private static function submit_chunked_content($content, $source_url, $api_key, $bot_id, $content_type, $chunker) {
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_system_prompt_content';
+    $table_name = $wpdb->prefix . 'knittnet_system_prompt_content';
 
-    //error_log('[MXCHAT-CHUNK-DEBUG] Starting chunked submission for: ' . $source_url);
-    //error_log('[MXCHAT-CHUNK-DEBUG] Content length: ' . strlen($content) . ' chars');
+    //error_log('[KNITTNET-CHUNK-DEBUG] Starting chunked submission for: ' . $source_url);
+    //error_log('[KNITTNET-CHUNK-DEBUG] Content length: ' . strlen($content) . ' chars');
 
     // First, delete any existing chunks for this URL (clean slate)
     $delete_result = self::delete_chunks_for_url($source_url, $bot_id);
     if (is_wp_error($delete_result)) {
-        //error_log('[MXCHAT-CHUNK-DEBUG] Warning: Failed to delete existing chunks: ' . $delete_result->get_error_message());
+        //error_log('[KNITTNET-CHUNK-DEBUG] Warning: Failed to delete existing chunks: ' . $delete_result->get_error_message());
         // Continue anyway - we'll overwrite with upsert
     }
 
@@ -697,12 +697,12 @@ private static function submit_chunked_content($content, $source_url, $api_key, 
     $chunks = $chunker->chunk_text($content);
     $total_chunks = count($chunks);
 
-    //error_log('[MXCHAT-CHUNK-DEBUG] Created ' . $total_chunks . ' chunks');
+    //error_log('[KNITTNET-CHUNK-DEBUG] Created ' . $total_chunks . ' chunks');
     foreach ($chunks as $i => $chunk) {
-        //error_log('[MXCHAT-CHUNK-DEBUG] Chunk ' . $i . ' length: ' . strlen($chunk) . ' chars, preview: ' . substr($chunk, 0, 100));
+        //error_log('[KNITTNET-CHUNK-DEBUG] Chunk ' . $i . ' length: ' . strlen($chunk) . ' chars, preview: ' . substr($chunk, 0, 100));
     }
 
-    //error_log('[MXCHAT-CHUNK] Split content into ' . $total_chunks . ' chunks');
+    //error_log('[KNITTNET-CHUNK] Split content into ' . $total_chunks . ' chunks');
 
     if ($total_chunks === 0) {
         return new WP_Error('chunking_failed', 'Content could not be split into chunks');
@@ -713,7 +713,7 @@ private static function submit_chunked_content($content, $source_url, $api_key, 
 
     foreach ($chunks as $index => $chunk_text) {
         // Generate chunk metadata
-        $chunk_metadata = MxChat_Chunker::create_chunk_metadata($index, $total_chunks, $source_url);
+        $chunk_metadata = KnittNet_Chunker::create_chunk_metadata($index, $total_chunks, $source_url);
 
         // AI-Engine-style aliases so external consumers (Pinecone/Qdrant/Chroma) can rely on
         // a stable shorthand ('source'/'part_index'/'part_total') without parsing our internal names.
@@ -730,7 +730,7 @@ private static function submit_chunked_content($content, $source_url, $api_key, 
          * @return array Updated metadata array.
          */
         $chunk_metadata = apply_filters(
-            'mxchat_embedding_chunk_metadata',
+            'knittnet_embedding_chunk_metadata',
             $chunk_metadata,
             $chunk_text,
             array(
@@ -742,16 +742,16 @@ private static function submit_chunked_content($content, $source_url, $api_key, 
             )
         );
 
-        $chunk_vector_id = MxChat_Chunker::generate_chunk_vector_id($source_url, $index);
+        $chunk_vector_id = KnittNet_Chunker::generate_chunk_vector_id($source_url, $index);
 
-        //error_log('[MXCHAT-CHUNK] Processing chunk ' . ($index + 1) . '/' . $total_chunks . ' (ID: ' . $chunk_vector_id . ')');
+        //error_log('[KNITTNET-CHUNK] Processing chunk ' . ($index + 1) . '/' . $total_chunks . ' (ID: ' . $chunk_vector_id . ')');
 
         // Generate embedding for this chunk
         $embedding_vector = self::generate_embedding($chunk_text, $api_key, $bot_id);
 
         if (!is_array($embedding_vector)) {
             $errors[] = new WP_Error('embedding_failed', 'Failed to generate embedding for chunk ' . $index);
-            //error_log('[MXCHAT-CHUNK] Failed to generate embedding for chunk ' . $index);
+            //error_log('[KNITTNET-CHUNK] Failed to generate embedding for chunk ' . $index);
             continue;
         }
 
@@ -768,7 +768,7 @@ private static function submit_chunked_content($content, $source_url, $api_key, 
             );
         } else {
             // Store in WordPress DB with chunk metadata
-            $content_with_metadata = MxChat_Chunker::format_chunk_for_storage($chunk_text, $chunk_metadata);
+            $content_with_metadata = KnittNet_Chunker::format_chunk_for_storage($chunk_text, $chunk_metadata);
             $embedding_vector_serialized = maybe_serialize($embedding_vector);
 
             $result = self::store_chunk_in_wordpress_db(
@@ -783,7 +783,7 @@ private static function submit_chunked_content($content, $source_url, $api_key, 
 
         if (is_wp_error($result)) {
             $errors[] = $result;
-            //error_log('[MXCHAT-CHUNK] Failed to store chunk ' . $index . ': ' . $result->get_error_message());
+            //error_log('[KNITTNET-CHUNK] Failed to store chunk ' . $index . ': ' . $result->get_error_message());
         }
     }
 
@@ -792,12 +792,12 @@ private static function submit_chunked_content($content, $source_url, $api_key, 
     }
 
     if (!empty($errors)) {
-        //error_log('[MXCHAT-CHUNK] Completed with ' . count($errors) . ' errors out of ' . $total_chunks . ' chunks');
+        //error_log('[KNITTNET-CHUNK] Completed with ' . count($errors) . ' errors out of ' . $total_chunks . ' chunks');
         return new WP_Error('chunking_partial_failure',
             sprintf('Failed to store %d of %d chunks', count($errors), $total_chunks));
     }
 
-    //error_log('[MXCHAT-CHUNK] Successfully stored all ' . $total_chunks . ' chunks');
+    //error_log('[KNITTNET-CHUNK] Successfully stored all ' . $total_chunks . ' chunks');
     return true;
 }
 
@@ -806,18 +806,18 @@ private static function submit_chunked_content($content, $source_url, $api_key, 
  */
 private static function store_chunk_in_pinecone($embedding_vector, $chunk_text, $source_url, $vector_id, $bot_id, $content_type, $chunk_metadata) {
     // Get Pinecone configuration
-    if ($bot_id === 'default' || !class_exists('MxChat_Multi_Bot_Manager')) {
-        $pinecone_options = get_option('mxchat_pinecone_addon_options');
-        $api_key = $pinecone_options['mxchat_pinecone_api_key'] ?? '';
-        $host = $pinecone_options['mxchat_pinecone_host'] ?? '';
-        $namespace = $pinecone_options['mxchat_pinecone_namespace'] ?? '';
+    if ($bot_id === 'default' || !class_exists('KnittNet_Multi_Bot_Manager')) {
+        $pinecone_options = get_option('knittnet_pinecone_addon_options');
+        $api_key = $pinecone_options['knittnet_pinecone_api_key'] ?? '';
+        $host = $pinecone_options['knittnet_pinecone_host'] ?? '';
+        $namespace = $pinecone_options['knittnet_pinecone_namespace'] ?? '';
     } else {
-        $bot_pinecone_config = apply_filters('mxchat_get_bot_pinecone_config', array(), $bot_id);
+        $bot_pinecone_config = apply_filters('knittnet_get_bot_pinecone_config', array(), $bot_id);
         if (empty($bot_pinecone_config)) {
-            $pinecone_options = get_option('mxchat_pinecone_addon_options');
-            $api_key = $pinecone_options['mxchat_pinecone_api_key'] ?? '';
-            $host = $pinecone_options['mxchat_pinecone_host'] ?? '';
-            $namespace = $pinecone_options['mxchat_pinecone_namespace'] ?? '';
+            $pinecone_options = get_option('knittnet_pinecone_addon_options');
+            $api_key = $pinecone_options['knittnet_pinecone_api_key'] ?? '';
+            $host = $pinecone_options['knittnet_pinecone_host'] ?? '';
+            $namespace = $pinecone_options['knittnet_pinecone_namespace'] ?? '';
         } else {
             $api_key = $bot_pinecone_config['api_key'] ?? '';
             $host = $bot_pinecone_config['host'] ?? '';
@@ -917,7 +917,7 @@ private static function store_chunk_in_wordpress_db($content_with_metadata, $sou
  * @return bool|WP_Error True on success, WP_Error on failure
  */
 public static function delete_chunks_for_url($source_url, $bot_id = 'default') {
-    //error_log('[MXCHAT-CHUNK-DELETE] Deleting chunks for URL: ' . $source_url);
+    //error_log('[KNITTNET-CHUNK-DELETE] Deleting chunks for URL: ' . $source_url);
 
     if (self::is_pinecone_enabled_for_bot($bot_id)) {
         return self::delete_pinecone_chunks_by_url($source_url, $bot_id);
@@ -931,18 +931,18 @@ public static function delete_chunks_for_url($source_url, $bot_id = 'default') {
  */
 private static function delete_pinecone_chunks_by_url($source_url, $bot_id) {
     // Get Pinecone configuration
-    if ($bot_id === 'default' || !class_exists('MxChat_Multi_Bot_Manager')) {
-        $pinecone_options = get_option('mxchat_pinecone_addon_options');
-        $api_key = $pinecone_options['mxchat_pinecone_api_key'] ?? '';
-        $host = $pinecone_options['mxchat_pinecone_host'] ?? '';
-        $namespace = $pinecone_options['mxchat_pinecone_namespace'] ?? '';
+    if ($bot_id === 'default' || !class_exists('KnittNet_Multi_Bot_Manager')) {
+        $pinecone_options = get_option('knittnet_pinecone_addon_options');
+        $api_key = $pinecone_options['knittnet_pinecone_api_key'] ?? '';
+        $host = $pinecone_options['knittnet_pinecone_host'] ?? '';
+        $namespace = $pinecone_options['knittnet_pinecone_namespace'] ?? '';
     } else {
-        $bot_pinecone_config = apply_filters('mxchat_get_bot_pinecone_config', array(), $bot_id);
+        $bot_pinecone_config = apply_filters('knittnet_get_bot_pinecone_config', array(), $bot_id);
         if (empty($bot_pinecone_config)) {
-            $pinecone_options = get_option('mxchat_pinecone_addon_options');
-            $api_key = $pinecone_options['mxchat_pinecone_api_key'] ?? '';
-            $host = $pinecone_options['mxchat_pinecone_host'] ?? '';
-            $namespace = $pinecone_options['mxchat_pinecone_namespace'] ?? '';
+            $pinecone_options = get_option('knittnet_pinecone_addon_options');
+            $api_key = $pinecone_options['knittnet_pinecone_api_key'] ?? '';
+            $host = $pinecone_options['knittnet_pinecone_host'] ?? '';
+            $namespace = $pinecone_options['knittnet_pinecone_namespace'] ?? '';
         } else {
             $api_key = $bot_pinecone_config['api_key'] ?? '';
             $host = $bot_pinecone_config['host'] ?? '';
@@ -1005,11 +1005,11 @@ private static function delete_pinecone_chunks_by_url($source_url, $bot_id) {
     } while (true);
 
     if (empty($vectors_to_delete)) {
-        //error_log('[MXCHAT-CHUNK-DELETE] No vectors found to delete');
+        //error_log('[KNITTNET-CHUNK-DELETE] No vectors found to delete');
         return true;
     }
 
-    //error_log('[MXCHAT-CHUNK-DELETE] Deleting ' . count($vectors_to_delete) . ' vectors from Pinecone');
+    //error_log('[KNITTNET-CHUNK-DELETE] Deleting ' . count($vectors_to_delete) . ' vectors from Pinecone');
 
     // Delete vectors
     $delete_url = "https://{$host}/vectors/delete";
@@ -1049,7 +1049,7 @@ private static function delete_pinecone_chunks_by_url($source_url, $bot_id) {
  */
 private static function delete_wordpress_chunks_by_url($source_url) {
     global $wpdb;
-    $table_name = $wpdb->prefix . 'mxchat_system_prompt_content';
+    $table_name = $wpdb->prefix . 'knittnet_system_prompt_content';
 
     // Delete all rows with this source_url (handles both chunked and non-chunked)
     $result = $wpdb->delete(
@@ -1062,7 +1062,7 @@ private static function delete_wordpress_chunks_by_url($source_url) {
         return new WP_Error('database_delete', 'Failed to delete chunks: ' . $wpdb->last_error);
     }
 
-    //error_log('[MXCHAT-CHUNK-DELETE] Deleted ' . $result . ' rows from WordPress DB');
+    //error_log('[KNITTNET-CHUNK-DELETE] Deleted ' . $result . ' rows from WordPress DB');
     return true;
 }
 }

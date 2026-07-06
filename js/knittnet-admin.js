@@ -12,8 +12,8 @@ function debounce(func, wait) {
 }
 
 // Helper function to open edit modal for intents/actions
-function mxchatOpenEditModal(intentId, phrases) {
-    const modal = document.getElementById('mxchat-edit-modal');
+function knittnetOpenEditModal(intentId, phrases) {
+    const modal = document.getElementById('knittnet-edit-modal');
     if (!modal) return;
 
     // Get form fields
@@ -39,13 +39,13 @@ function mxchatOpenEditModal(intentId, phrases) {
     };
 
     // Close button handler
-    const closeBtn = modal.querySelector('.mxchat-modal-close');
+    const closeBtn = modal.querySelector('.knittnet-modal-close');
     if (closeBtn) {
         closeBtn.onclick = closeModal;
     }
 
     // Cancel button handler
-    const cancelBtn = modal.querySelector('.mxchat-modal-cancel');
+    const cancelBtn = modal.querySelector('.knittnet-modal-cancel');
     if (cancelBtn) {
         cancelBtn.onclick = closeModal;
     }
@@ -62,21 +62,21 @@ function mxchatOpenEditModal(intentId, phrases) {
 }
 // Live Agent Notice Dismissal Function
 function dismissLiveAgentNotice() {
-    if (typeof jQuery !== 'undefined' && typeof mxchatLiveAgent !== 'undefined') {
-        jQuery.post(mxchatLiveAgent.ajaxurl, {
+    if (typeof jQuery !== 'undefined' && typeof knittnetLiveAgent !== 'undefined') {
+        jQuery.post(knittnetLiveAgent.ajaxurl, {
             action: 'dismiss_live_agent_notice',
-            nonce: mxchatLiveAgent.nonce
+            nonce: knittnetLiveAgent.nonce
         }, function(response) {
             if (response.success) {
-                jQuery('#mxchat-disabled-notice').fadeOut(300);
+                jQuery('#knittnet-disabled-notice').fadeOut(300);
             }
         }).fail(function() {
             // Fallback: just hide the notice if AJAX fails
-            jQuery('#mxchat-disabled-notice').fadeOut(300);
+            jQuery('#knittnet-disabled-notice').fadeOut(300);
         });
     } else {
         // Fallback for cases where jQuery or localized data isn't available
-        var notice = document.getElementById('mxchat-disabled-notice');
+        var notice = document.getElementById('knittnet-disabled-notice');
         if (notice) {
             notice.style.display = 'none';
         }
@@ -85,30 +85,30 @@ function dismissLiveAgentNotice() {
 
 // Theme Migration Notice Dismissal Function
 function dismissThemeMigrationNotice() {
-    if (typeof jQuery !== 'undefined' && typeof mxchatThemeMigration !== 'undefined') {
-        jQuery.post(mxchatThemeMigration.ajaxurl, {
+    if (typeof jQuery !== 'undefined' && typeof knittnetThemeMigration !== 'undefined') {
+        jQuery.post(knittnetThemeMigration.ajaxurl, {
             action: 'dismiss_theme_migration_notice',
-            nonce: mxchatThemeMigration.nonce
+            nonce: knittnetThemeMigration.nonce
         }, function(response) {
             if (response.success) {
-                jQuery('#mxchat-theme-migration-notice').fadeOut(300);
+                jQuery('#knittnet-theme-migration-notice').fadeOut(300);
             }
         }).fail(function() {
             // Fallback: just hide the notice if AJAX fails
-            jQuery('#mxchat-theme-migration-notice').fadeOut(300);
+            jQuery('#knittnet-theme-migration-notice').fadeOut(300);
         });
     } else {
         // Fallback for cases where jQuery or localized data isn't available
-        var notice = document.getElementById('mxchat-theme-migration-notice');
+        var notice = document.getElementById('knittnet-theme-migration-notice');
         if (notice) {
             notice.style.display = 'none';
         }
     }
 }
 
-// Updated mxchatOpenActionModal function to integrate with the new selector
-function mxchatOpenActionModal(isEdit = false, actionId = '', label = '', phrases = '', threshold = 85, callbackFunction = '') {
-    const modal = document.getElementById('mxchat-action-modal');
+// Updated knittnetOpenActionModal function to integrate with the new selector
+function knittnetOpenActionModal(isEdit = false, actionId = '', label = '', phrases = '', threshold = 85, callbackFunction = '') {
+    const modal = document.getElementById('knittnet-action-modal');
     if (!modal) return;
 
     // Get form fields
@@ -118,15 +118,15 @@ function mxchatOpenActionModal(isEdit = false, actionId = '', label = '', phrase
     const formActionType = document.getElementById('form_action_type');
     const callbackGroup = document.getElementById('callback_selection_group');
     const callbackSelect = document.getElementById('callback_function');
-    const saveButton = document.getElementById('mxchat-save-action-btn');
+    const saveButton = document.getElementById('knittnet-save-action-btn');
     const nonceContainer = document.getElementById('action-nonce-container');
     const thresholdSlider = document.getElementById('similarity_threshold');
-    const thresholdDisplay = document.querySelector('.mxchat-threshold-value-display');
+    const thresholdDisplay = document.querySelector('.knittnet-threshold-value-display');
 
     // Set up modal for edit or create
     if (isEdit) {
         saveButton.textContent = 'Update Action';
-        formActionType.value = 'mxchat_edit_intent';
+        formActionType.value = 'knittnet_edit_intent';
         actionIdField.value = actionId;
         labelField.value = label;
         phrasesField.value = phrases;
@@ -139,12 +139,12 @@ function mxchatOpenActionModal(isEdit = false, actionId = '', label = '', phrase
         
         // Update the nonce field for editing
         nonceContainer.innerHTML = '';  // Clear existing nonce
-        if (typeof mxchatAdmin !== 'undefined' && mxchatAdmin.edit_intent_nonce) {
-            nonceContainer.innerHTML = `<input type="hidden" name="_wpnonce" value="${mxchatAdmin.edit_intent_nonce}">`;
+        if (typeof knittnetAdmin !== 'undefined' && knittnetAdmin.edit_intent_nonce) {
+            nonceContainer.innerHTML = `<input type="hidden" name="_wpnonce" value="${knittnetAdmin.edit_intent_nonce}">`;
         }
     } else {
         saveButton.textContent = 'Save Action';
-        formActionType.value = 'mxchat_add_intent';
+        formActionType.value = 'knittnet_add_intent';
         actionIdField.value = '';
         labelField.value = '';
         phrasesField.value = '';
@@ -157,8 +157,8 @@ function mxchatOpenActionModal(isEdit = false, actionId = '', label = '', phrase
         
         // Update the nonce field for adding
         nonceContainer.innerHTML = '';  // Clear existing nonce
-        if (typeof mxchatAdmin !== 'undefined' && mxchatAdmin.add_intent_nonce) {
-            nonceContainer.innerHTML = `<input type="hidden" name="_wpnonce" value="${mxchatAdmin.add_intent_nonce}">`;
+        if (typeof knittnetAdmin !== 'undefined' && knittnetAdmin.add_intent_nonce) {
+            nonceContainer.innerHTML = `<input type="hidden" name="_wpnonce" value="${knittnetAdmin.add_intent_nonce}">`;
         }
     }
 
@@ -177,13 +177,13 @@ function mxchatOpenActionModal(isEdit = false, actionId = '', label = '', phrase
     };
 
     // Close button handler
-    const closeBtn = modal.querySelector('.mxchat-modal-close');
+    const closeBtn = modal.querySelector('.knittnet-modal-close');
     if (closeBtn) {
         closeBtn.onclick = closeModal;
     }
 
     // Cancel button handler
-    const cancelBtn = modal.querySelector('.mxchat-modal-cancel');
+    const cancelBtn = modal.querySelector('.knittnet-modal-cancel');
     if (cancelBtn) {
         cancelBtn.onclick = closeModal;
     }
@@ -206,7 +206,7 @@ function mxchatOpenActionModal(isEdit = false, actionId = '', label = '', phrase
     labelField.focus();
     
     // Dispatch an event for the action type selector to catch
-    const event = new CustomEvent('mxchatModalOpened', {
+    const event = new CustomEvent('knittnetModalOpened', {
         detail: {
             isEdit: isEdit,
             callbackFunction: callbackFunction || (isEdit ? callbackSelect.value : '')
@@ -220,15 +220,15 @@ function mxchatOpenActionModal(isEdit = false, actionId = '', label = '', phrase
 // Initialize event listeners
 document.addEventListener('DOMContentLoaded', () => {
     // Set up edit button handlers for intents
-    document.querySelectorAll('.mxchat-edit-button').forEach(button => {
+    document.querySelectorAll('.knittnet-edit-button').forEach(button => {
         button.onclick = () => {
             const intentId = button.dataset.intentId;
             const phrases = button.dataset.phrases;
-            mxchatOpenEditModal(intentId, phrases);
+            knittnetOpenEditModal(intentId, phrases);
         };
     });
     
-    document.querySelectorAll('.mxchat-action-card .mxchat-edit-button').forEach(button => {
+    document.querySelectorAll('.knittnet-action-card .knittnet-edit-button').forEach(button => {
         button.onclick = () => {
             const actionId = button.dataset.actionId;
             const phrases = button.dataset.phrases;
@@ -237,26 +237,26 @@ document.addEventListener('DOMContentLoaded', () => {
             const callbackFunction = button.dataset.callbackFunction;
             const enabledBots = button.dataset.enabledBots; // ADD THIS LINE
             
-            mxchatOpenActionModal(true, actionId, label, phrases, threshold, callbackFunction, enabledBots);
+            knittnetOpenActionModal(true, actionId, label, phrases, threshold, callbackFunction, enabledBots);
         };
     });
         
     // Set up add new action buttons (new functionality)
-    const addActionBtn = document.getElementById('mxchat-add-action-btn');
+    const addActionBtn = document.getElementById('knittnet-add-action-btn');
     if (addActionBtn) {
-        addActionBtn.onclick = () => mxchatOpenActionModal();
+        addActionBtn.onclick = () => knittnetOpenActionModal();
     }
     
-    const createFirstAction = document.getElementById('mxchat-create-first-action');
+    const createFirstAction = document.getElementById('knittnet-create-first-action');
     if (createFirstAction) {
-        createFirstAction.onclick = () => mxchatOpenActionModal();
+        createFirstAction.onclick = () => knittnetOpenActionModal();
     }
     
     // Setup category-specific new action buttons (new functionality)
-    document.querySelectorAll('.mxchat-new-action-button').forEach(button => {
+    document.querySelectorAll('.knittnet-new-action-button').forEach(button => {
         button.onclick = () => {
-            const category = button.closest('.mxchat-new-action-card').dataset.category;
-            const closeModal = mxchatOpenActionModal();
+            const category = button.closest('.knittnet-new-action-card').dataset.category;
+            const closeModal = knittnetOpenActionModal();
             
             // Pre-select the appropriate callback based on category
             if (category) {
@@ -265,10 +265,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     setTimeout(() => {
                         // Map categories to default callbacks
                         const categoryToCallback = {
-                            'data_collection': 'mxchat_handle_form_collection',
-                            'integrations': 'mxchat_handle_slack_message',
-                            'custom_actions': 'mxchat_handle_custom_action',
-                            'recommendations': 'mxchat_handle_product_recommendations'
+                            'data_collection': 'knittnet_handle_form_collection',
+                            'integrations': 'knittnet_handle_slack_message',
+                            'custom_actions': 'knittnet_handle_custom_action',
+                            'recommendations': 'knittnet_handle_product_recommendations'
                             // Add more mappings as needed
                         };
                         
@@ -282,13 +282,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     // Handle action toggle switches (new functionality)
-    document.querySelectorAll('.mxchat-action-toggle').forEach(toggle => {
+    document.querySelectorAll('.knittnet-action-toggle').forEach(toggle => {
         toggle.onchange = function() {
             const actionId = this.dataset.actionId;
             const isEnabled = this.checked;
             
             // Show loading indicator
-            const loadingEl = document.getElementById('mxchat-action-loading');
+            const loadingEl = document.getElementById('knittnet-action-loading');
             if (loadingEl) loadingEl.style.display = 'flex';
             
             // Send AJAX request to update status
@@ -298,10 +298,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
                 body: new URLSearchParams({
-                    action: 'mxchat_toggle_action',
+                    action: 'knittnet_toggle_action',
                     intent_id: actionId,
                     enabled: isEnabled ? 1 : 0,
-                    nonce: mxchatAdmin.toggle_action_nonce // Use the correct nonce
+                    nonce: knittnetAdmin.toggle_action_nonce // Use the correct nonce
                 })
             })
             .then(response => response.json())
@@ -323,7 +323,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     // Handle threshold sliders in action cards (new functionality)
-    document.querySelectorAll('.mxchat-threshold-slider').forEach(slider => {
+    document.querySelectorAll('.knittnet-threshold-slider').forEach(slider => {
         slider.oninput = function() {
             const actionId = this.id.replace('intent_threshold_', '');
             document.getElementById('threshold_output_' + actionId).textContent = this.value + '%';
@@ -331,7 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Handle threshold save buttons in action cards (new functionality)
-    document.querySelectorAll('.mxchat-threshold-save').forEach(button => {
+    document.querySelectorAll('.knittnet-threshold-save').forEach(button => {
         button.onclick = function(e) {
             e.preventDefault();
             const form = this.closest('form');
@@ -340,7 +340,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const nonce = form.querySelector('input[name="_wpnonce"]').value;
             
             // Show loading indicator
-            const loadingEl = document.getElementById('mxchat-action-loading');
+            const loadingEl = document.getElementById('knittnet-action-loading');
             if (loadingEl) loadingEl.style.display = 'flex';
             
             // Send AJAX request
@@ -350,7 +350,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
                 body: new URLSearchParams({
-                    action: 'mxchat_update_intent_threshold',
+                    action: 'knittnet_update_intent_threshold',
                     intent_id: intentId,
                     intent_threshold: threshold,
                     _wpnonce: nonce
@@ -360,7 +360,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
                 if (data.success) {
                     // Visual feedback of success
-                    const card = this.closest('.mxchat-action-card');
+                    const card = this.closest('.knittnet-action-card');
                     card.style.background = 'rgba(120, 115, 245, 0.1)';
                     setTimeout(() => {
                         card.style.background = 'white';
@@ -385,10 +385,10 @@ jQuery(document).ready(function($) {
     const useDebounce = (window._ && window._.debounce) ? window._.debounce : debounce;
 
     // --- AJAX Auto-Save ---
-    let $autosaveSections = $('.mxchat-autosave-section');
+    let $autosaveSections = $('.knittnet-autosave-section');
     
     // *** ADD THIS: Extend auto-save sections to include Pinecone settings ***
-    const $pineconeAutosaveSection = $('#mxchat-kb-tab-pinecone');
+    const $pineconeAutosaveSection = $('#knittnet-kb-tab-pinecone');
     if ($pineconeAutosaveSection.length) {
         $autosaveSections = $autosaveSections.add($pineconeAutosaveSection);
         //console.log('Added Pinecone section to auto-save monitoring');
@@ -442,12 +442,12 @@ jQuery(document).ready(function($) {
             feedbackContainer.append(spinner);
 
             // Rate limits use the main settings action
-            const ajaxAction = 'mxchat_save_setting';
-            const nonce = mxchatAdmin.setting_nonce;
+            const ajaxAction = 'knittnet_save_setting';
+            const nonce = knittnetAdmin.setting_nonce;
 
             // Store the AJAX request so it can be aborted if needed
             pendingRequests[name] = $.ajax({
-                url: mxchatAdmin.ajax_url,
+                url: knittnetAdmin.ajax_url,
                 type: 'POST',
                 data: {
                     action: ajaxAction,
@@ -529,7 +529,7 @@ jQuery(document).ready(function($) {
                     // Handle different input types
                     if ($field.attr('type') === 'checkbox') {
                         // *** UPDATED: Handle Pinecone checkboxes differently ***
-                        if (name && name.indexOf('mxchat_pinecone_addon_options') !== -1) {
+                        if (name && name.indexOf('knittnet_pinecone_addon_options') !== -1) {
                             value = $field.is(':checked') ? '1' : '0';
                         } else {
                             value = $field.is(':checked') ? 'on' : 'off';
@@ -555,13 +555,13 @@ jQuery(document).ready(function($) {
                         } else {
                             $field.closest('.toggle-switch').after(feedbackContainer);
                         }
-                    } else if ($field.closest('.mxchat-toggle-switch').length) {
-                        // Try mxchat-toggle-container first, then parent div, then fallback to after toggle
-                        var $toggleContainer = $field.closest('.mxchat-toggle-container');
+                    } else if ($field.closest('.knittnet-toggle-switch').length) {
+                        // Try knittnet-toggle-container first, then parent div, then fallback to after toggle
+                        var $toggleContainer = $field.closest('.knittnet-toggle-container');
                         if ($toggleContainer.length) {
                             $toggleContainer.append(feedbackContainer);
                         } else {
-                            $field.closest('.mxchat-toggle-switch').after(feedbackContainer);
+                            $field.closest('.knittnet-toggle-switch').after(feedbackContainer);
                         }
                     } else if ($field.closest('.slider-container').length) {
                         $field.closest('.slider-container').after(feedbackContainer);
@@ -573,30 +573,30 @@ jQuery(document).ready(function($) {
                     // Determine which AJAX action and nonce to use:
                     var ajaxAction, nonce;
                     // *** UPDATED: Add Pinecone fields, chunking fields, ACF fields, and custom meta to prompts action ***
-                    if (name.indexOf('mxchat_prompts_options') !== -1 ||
-                        name === 'mxchat_auto_sync_posts' ||
-                        name === 'mxchat_auto_sync_pages' ||
-                        name.indexOf('mxchat_auto_sync_') === 0 ||
-                        name.indexOf('mxchat_pinecone_addon_options') !== -1 ||
-                        name.indexOf('mxchat_chunk') === 0 ||
-                        name.indexOf('mxchat_acf_field_') === 0 ||
-                        name === 'mxchat_custom_meta_whitelist') { // Chunking, ACF field settings, and custom meta
-                        ajaxAction = 'mxchat_save_prompts_setting';
-                        nonce = mxchatPromptsAdmin.prompts_setting_nonce;
+                    if (name.indexOf('knittnet_prompts_options') !== -1 ||
+                        name === 'knittnet_auto_sync_posts' ||
+                        name === 'knittnet_auto_sync_pages' ||
+                        name.indexOf('knittnet_auto_sync_') === 0 ||
+                        name.indexOf('knittnet_pinecone_addon_options') !== -1 ||
+                        name.indexOf('knittnet_chunk') === 0 ||
+                        name.indexOf('knittnet_acf_field_') === 0 ||
+                        name === 'knittnet_custom_meta_whitelist') { // Chunking, ACF field settings, and custom meta
+                        ajaxAction = 'knittnet_save_prompts_setting';
+                        nonce = knittnetPromptsAdmin.prompts_setting_nonce;
                     } else {
                         // Otherwise, use the existing AJAX action.
-                        ajaxAction = 'mxchat_save_setting';
-                        nonce = mxchatAdmin.setting_nonce;
+                        ajaxAction = 'knittnet_save_setting';
+                        nonce = knittnetAdmin.setting_nonce;
                     }
         
                     // *** ADD THIS: Debug logging for Pinecone fields ***
-                    if (name && name.indexOf('mxchat_pinecone_addon_options') !== -1) {
+                    if (name && name.indexOf('knittnet_pinecone_addon_options') !== -1) {
                         //console.log('Saving Pinecone field:', name, '=', value);
                     }
         
                     // AJAX save request
                     $.ajax({
-                        url: (ajaxAction === 'mxchat_save_prompts_setting') ? mxchatPromptsAdmin.ajax_url : mxchatAdmin.ajax_url,
+                        url: (ajaxAction === 'knittnet_save_prompts_setting') ? knittnetPromptsAdmin.ajax_url : knittnetAdmin.ajax_url,
                         type: 'POST',
                         data: {
                             action: ajaxAction,
@@ -625,18 +625,18 @@ jQuery(document).ready(function($) {
                     name.indexOf('_api_key') !== -1
                 );
 
-                if (isApiKeyField && typeof window.mxchatRefreshAPIKeyStatus === 'function') {
-                    window.mxchatRefreshAPIKeyStatus();
+                if (isApiKeyField && typeof window.knittnetRefreshAPIKeyStatus === 'function') {
+                    window.knittnetRefreshAPIKeyStatus();
                 }
 
                 // *** ADD THIS: Update Pinecone checkbox state after successful save ***
-                if (name && name.indexOf('mxchat_pinecone_addon_options[mxchat_use_pinecone]') !== -1) {
+                if (name && name.indexOf('knittnet_pinecone_addon_options[knittnet_use_pinecone]') !== -1) {
                     //console.log('Pinecone toggle saved successfully, value:', value);
                     
                     // The checkbox state is already updated by the user interaction
                     // But let's make sure the UI state matches the saved value
-                    var $checkbox = $('input[name="mxchat_pinecone_addon_options[mxchat_use_pinecone]"]');
-                    var settingsDiv = $('.mxchat-pinecone-settings');
+                    var $checkbox = $('input[name="knittnet_pinecone_addon_options[knittnet_use_pinecone]"]');
+                    var settingsDiv = $('.knittnet-pinecone-settings');
                     
                     // Double-check the UI state matches what was saved
                     if (value === '1' && !$checkbox.is(':checked')) {
@@ -650,9 +650,9 @@ jQuery(document).ready(function($) {
                     //console.log('Pinecone UI state synchronized');
                     
                     // Check if Knowledge Import tab is currently active
-                    if ($('.mxchat-kb-tab-button[data-tab="import"]').hasClass('active')) {
+                    if ($('.knittnet-kb-tab-button[data-tab="import"]').hasClass('active')) {
                         // Show a notice that we need to refresh
-                        var $knowledgeCard = $('#mxchat-kb-tab-import .mxchat-card').eq(1);
+                        var $knowledgeCard = $('#knittnet-kb-tab-import .knittnet-card').eq(1);
                         if ($knowledgeCard.length > 0) {
                             // Add a refresh notice at the top of the knowledge base card
                             var refreshNotice = $('<div class="notice notice-warning" style="margin: 15px 0; padding: 10px 15px;">' +
@@ -666,12 +666,12 @@ jQuery(document).ready(function($) {
                         }
                     } else {
                         // If not on import tab, set a flag to refresh when they go there
-                        sessionStorage.setItem('mxchat_pinecone_changed', 'true');
+                        sessionStorage.setItem('knittnet_pinecone_changed', 'true');
                     }
                 }
                 
                 // *** ADD THIS: Debug logging for successful saves ***
-                if (name && name.indexOf('mxchat_pinecone_addon_options') !== -1) {
+                if (name && name.indexOf('knittnet_pinecone_addon_options') !== -1) {
                     //console.log('Pinecone field saved successfully:', name, '=', value);
                 }
                 
@@ -755,20 +755,20 @@ jQuery(document).ready(function($) {
                     // Determine which AJAX action and nonce to use:
                     var ajaxAction, nonce;
                     // Use the new AJAX action for submenu fields:
-                    if (name.indexOf('mxchat_prompts_options') !== -1 ||
-                        name === 'mxchat_auto_sync_posts' || 
-                        name === 'mxchat_auto_sync_pages' ||
-                        name.indexOf('mxchat_auto_sync_') === 0) { // Modified to catch all auto-sync fields
-                        ajaxAction = 'mxchat_save_prompts_setting';
-                        nonce = mxchatPromptsAdmin.prompts_setting_nonce;
+                    if (name.indexOf('knittnet_prompts_options') !== -1 ||
+                        name === 'knittnet_auto_sync_posts' || 
+                        name === 'knittnet_auto_sync_pages' ||
+                        name.indexOf('knittnet_auto_sync_') === 0) { // Modified to catch all auto-sync fields
+                        ajaxAction = 'knittnet_save_prompts_setting';
+                        nonce = knittnetPromptsAdmin.prompts_setting_nonce;
                     } else {
                         // Otherwise, use the existing AJAX action.
-                        ajaxAction = 'mxchat_save_setting';
-                        nonce = mxchatAdmin.setting_nonce;
+                        ajaxAction = 'knittnet_save_setting';
+                        nonce = knittnetAdmin.setting_nonce;
                     }
                     // AJAX save request
                     $.ajax({
-                        url: (ajaxAction === 'mxchat_save_prompts_setting') ? mxchatPromptsAdmin.ajax_url : mxchatAdmin.ajax_url,
+                        url: (ajaxAction === 'knittnet_save_prompts_setting') ? knittnetPromptsAdmin.ajax_url : knittnetAdmin.ajax_url,
                         type: 'POST',
                         data: {
                             action: ajaxAction,
@@ -846,18 +846,18 @@ jQuery(document).ready(function($) {
 
     // Helper function to save post type visibility settings
     function savePostTypeVisibility(name, value) {
-        if (typeof mxchatAdmin === 'undefined') return;
+        if (typeof knittnetAdmin === 'undefined') return;
 
         // Find the container element for feedback
         const $container = name === 'post_type_visibility_mode'
-            ? $('.mxchat-visibility-mode')
+            ? $('.knittnet-visibility-mode')
             : $postTypeList;
 
         // Remove any existing feedback
-        $container.find('.mxchat-save-feedback').remove();
+        $container.find('.knittnet-save-feedback').remove();
 
         // Create feedback element
-        const $feedback = $('<span class="mxchat-save-feedback" style="margin-left: 10px; font-size: 12px;"></span>');
+        const $feedback = $('<span class="knittnet-save-feedback" style="margin-left: 10px; font-size: 12px;"></span>');
         $feedback.text('Saving...').css('color', '#666');
 
         if (name === 'post_type_visibility_mode') {
@@ -867,13 +867,13 @@ jQuery(document).ready(function($) {
         }
 
         $.ajax({
-            url: mxchatAdmin.ajax_url,
+            url: knittnetAdmin.ajax_url,
             type: 'POST',
             data: {
-                action: 'mxchat_save_setting',
+                action: 'knittnet_save_setting',
                 name: name,
                 value: value,
-                _ajax_nonce: mxchatAdmin.setting_nonce
+                _ajax_nonce: knittnetAdmin.setting_nonce
             },
             success: function(response) {
                 if (response.success) {
@@ -898,14 +898,14 @@ jQuery(document).ready(function($) {
 function toggleVisibility(selector) {
     $(selector).on('click', function() {
         var inputField = $(this).prev('input');
-        // Check if this is a CSS-masked field (type="text" with mxchat-api-key-field class)
-        if (inputField.hasClass('mxchat-api-key-field')) {
+        // Check if this is a CSS-masked field (type="text" with knittnet-api-key-field class)
+        if (inputField.hasClass('knittnet-api-key-field')) {
             // Use CSS class toggle for CSS-masked fields
-            if (inputField.hasClass('mxchat-show-key')) {
-                inputField.removeClass('mxchat-show-key');
+            if (inputField.hasClass('knittnet-show-key')) {
+                inputField.removeClass('knittnet-show-key');
                 $(this).text('Show');
             } else {
-                inputField.addClass('mxchat-show-key');
+                inputField.addClass('knittnet-show-key');
                 $(this).text('Hide');
             }
         } else {
@@ -938,12 +938,12 @@ function toggleVisibility(selector) {
     '#toggleOpenRouterApiKeyVisibility'
 ].forEach(toggleVisibility);
 
-function setupMxChatModelSelector() {
+function setupKnittNetModelSelector() {
     const $modelSelect = $('#model');
     const $modelSelectorButton = $('<button>', {
         type: 'button',
-        id: 'mxchat_model_selector_btn',
-        class: 'button-primary mxchat-model-selector-btn',
+        id: 'knittnet_model_selector_btn',
+        class: 'button-primary knittnet-model-selector-btn',
         text: 'Select AI Model'
     });
     
@@ -977,30 +977,30 @@ function setupMxChatModelSelector() {
     
     // Create and append modal HTML
     const modelSelectorModal = `
-        <div id="mxchat_model_selector_modal" class="mxchat-model-selector-modal">
-            <div class="mxchat-model-selector-modal-content">
-                <div class="mxchat-model-selector-modal-header">
+        <div id="knittnet_model_selector_modal" class="knittnet-model-selector-modal">
+            <div class="knittnet-model-selector-modal-content">
+                <div class="knittnet-model-selector-modal-header">
                     <h3>Select AI Model</h3>
-                    <span class="mxchat-model-selector-modal-close">&times;</span>
+                    <span class="knittnet-model-selector-modal-close">&times;</span>
                 </div>
-                <div class="mxchat-model-selector-modal-body">
-                    <div class="mxchat-model-selector-search-container">
-                        <input type="text" id="mxchat_model_search_input" class="mxchat-model-search-input" placeholder="Search models...">
+                <div class="knittnet-model-selector-modal-body">
+                    <div class="knittnet-model-selector-search-container">
+                        <input type="text" id="knittnet_model_search_input" class="knittnet-model-search-input" placeholder="Search models...">
                     </div>
-                        <div class="mxchat-model-selector-categories">
-                            <button class="mxchat-model-category-btn active" data-category="all">All</button>
-                            <button class="mxchat-model-category-btn" data-category="openrouter">OpenRouter</button>
-                            <button class="mxchat-model-category-btn" data-category="gemini">Google Gemini</button>
-                            <button class="mxchat-model-category-btn" data-category="openai">OpenAI</button>
-                            <button class="mxchat-model-category-btn" data-category="claude">Claude</button>
-                            <button class="mxchat-model-category-btn" data-category="xai">X.AI</button>
-                            <button class="mxchat-model-category-btn" data-category="deepseek">DeepSeek</button>
-                            <button class="mxchat-model-category-btn" data-category="custom">Custom / Local</button>
+                        <div class="knittnet-model-selector-categories">
+                            <button class="knittnet-model-category-btn active" data-category="all">All</button>
+                            <button class="knittnet-model-category-btn" data-category="openrouter">OpenRouter</button>
+                            <button class="knittnet-model-category-btn" data-category="gemini">Google Gemini</button>
+                            <button class="knittnet-model-category-btn" data-category="openai">OpenAI</button>
+                            <button class="knittnet-model-category-btn" data-category="claude">Claude</button>
+                            <button class="knittnet-model-category-btn" data-category="xai">X.AI</button>
+                            <button class="knittnet-model-category-btn" data-category="deepseek">DeepSeek</button>
+                            <button class="knittnet-model-category-btn" data-category="custom">Custom / Local</button>
                         </div>
-                    <div class="mxchat-model-selector-grid" id="mxchat_models_grid"></div>
+                    <div class="knittnet-model-selector-grid" id="knittnet_models_grid"></div>
                 </div>
-                <div class="mxchat-model-selector-modal-footer">
-                    <button id="mxchat_cancel_model_selection" class="button mxchat-model-cancel-btn">Cancel</button>
+                <div class="knittnet-model-selector-modal-footer">
+                    <button id="knittnet_cancel_model_selection" class="button knittnet-model-cancel-btn">Cancel</button>
                 </div>
             </div>
         </div>
@@ -1010,15 +1010,15 @@ function setupMxChatModelSelector() {
     
     // MOVE THIS OUTSIDE - Make it a property of the window object so it's accessible globally
     window.populateModelsGrid = function(filter = '', category = 'all') {
-        const $grid = $('#mxchat_models_grid');
+        const $grid = $('#knittnet_models_grid');
         $grid.empty();
 
-        // Catalog refactor (plan-d14e89): when class-mxchat-model-catalog.php
-        // is loaded (via wp_localize_script as mxchatChatModelCatalog), use
+        // Catalog refactor (plan-d14e89): when class-knittnet-model-catalog.php
+        // is loaded (via wp_localize_script as knittnetChatModelCatalog), use
         // its data so a single edit there flows to this picker grid. The
         // inline fallback below keeps the picker working if for some reason
         // the localize hasn't run (e.g. legacy admin page bootstrap order).
-        const models = (typeof mxchatChatModelCatalog === 'object' && mxchatChatModelCatalog) ? mxchatChatModelCatalog : {
+        const models = (typeof knittnetChatModelCatalog === 'object' && knittnetChatModelCatalog) ? knittnetChatModelCatalog : {
             openrouter: [
                 { value: 'openrouter', label: 'OpenRouter', description: 'Access 100+ models from multiple providers (add API key to browse)' }
             ],
@@ -1064,13 +1064,13 @@ function setupMxChatModelSelector() {
         allModels.forEach(model => {
             const isSelected = $modelSelect.val() === model.value;
             const $modelCard = $(`
-                <div class="mxchat-model-selector-card ${isSelected ? 'mxchat-model-selected' : ''}" data-value="${model.value}">
-                    <div class="mxchat-model-selector-icon">${getModelIcon(model.value)}</div>
-                    <div class="mxchat-model-selector-info">
-                        <h4 class="mxchat-model-selector-title">${model.label}</h4>
-                        <p class="mxchat-model-selector-description">${model.description}</p>
+                <div class="knittnet-model-selector-card ${isSelected ? 'knittnet-model-selected' : ''}" data-value="${model.value}">
+                    <div class="knittnet-model-selector-icon">${getModelIcon(model.value)}</div>
+                    <div class="knittnet-model-selector-info">
+                        <h4 class="knittnet-model-selector-title">${model.label}</h4>
+                        <p class="knittnet-model-selector-description">${model.description}</p>
                     </div>
-                    ${isSelected ? '<div class="mxchat-model-selector-checkmark">✓</div>' : ''}
+                    ${isSelected ? '<div class="knittnet-model-selector-checkmark">✓</div>' : ''}
                 </div>
             `);
             $grid.append($modelCard);
@@ -1080,40 +1080,40 @@ function setupMxChatModelSelector() {
     // Helper function to get icon for each model
     function getModelIcon(modelValue) {
         if (modelValue === 'openrouter') return '<span class="dashicons dashicons-networking" style="font-size: 24px; color: #6750A4;"></span>';
-        if (modelValue.startsWith('gemini-')) return '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48" class="mxchat-model-icon-gemini"><defs><path id="a" d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z"></path></defs><clipPath id="b"><use xlink:href="#a" overflow="visible"></use></clipPath><path clip-path="url(#b)" fill="#FBBC05" d="M0 37V11l17 13z"></path><path clip-path="url(#b)" fill="#EA4335" d="M0 11l17 13 7-6.1L48 14V0H0z"></path><path clip-path="url(#b)" fill="#34A853" d="M0 37l30-23 7.9 1L48 0v48H0z"></path><path clip-path="url(#b)" fill="#4285F4" d="M48 48L17 24l-4-3 35-10z"></path></svg>';
-        if (modelValue.startsWith('gpt-')) return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" class="mxchat-model-icon-openai"><path fill="currentColor" d="M297 131a80.6 80.6 0 0 0-93.7-104.2 80.6 80.6 0 0 0-137 29A80.6 80.6 0 0 0 23 189a80.6 80.6 0 0 0 93.7 104.2 80.6 80.6 0 0 0 137-29A80.7 80.7 0 0 0 297.1 131zM176.9 299c-14 .1-27.6-4.8-38.4-13.8l1.9-1 63.7-36.9c3.3-1.8 5.3-5.3 5.2-9v-89.9l27 15.6c.3.1.4.4.5.7v74.4a60 60 0 0 1-60 60zM47.9 244a59.7 59.7 0 0 1-7.1-40.1l1.9 1.1 63.7 36.8c3.2 1.9 7.2 1.9 10.5 0l77.8-45V228c0 .3-.2.6-.4.8L129.9 266a60 60 0 0 1-82-22zM31.2 105c7-12.2 18-21.5 31.2-26.3v75.8c0 3.7 2 7.2 5.2 9l77.8 45-27 15.5a1 1 0 0 1-.9 0L53.1 187a60 60 0 0 1-22-82zm221.2 51.5-77.8-45 27-15.5a1 1 0 0 1 .9 0l64.4 37.1a60 60 0 0 1-9.3 108.2v-75.8c0-3.7-2-7.2-5.2-9zm26.8-40.4-1.9-1.1-63.7-36.8a10.4 10.4 0 0 0-10.5 0L125.4 123V92c0-.3 0-.6.3-.8L190.1 54a60 60 0 0 1 89.1 62.1zm-168.5 55.4-27-15.5a1 1 0 0 1-.4-.7V80.9a60 60 0 0 1 98.3-46.1l-1.9 1L116 72.8a10.3 10.3 0 0 0-5.2 9v89.8zm14.6-31.5 34.7-20 34.6 20v40L160 200l-34.7-20z"></path></svg>';
-        if (modelValue.startsWith('claude-')) return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 176" fill="none" class="mxchat-model-icon-claude"><path fill="currentColor" d="m147.487 0l70.081 175.78H256L185.919 0zM66.183 106.221l23.98-61.774l23.98 61.774zM70.07 0L0 175.78h39.18l14.33-36.914h73.308l14.328 36.914h39.179L110.255 0z"></path></svg>';
-        if (modelValue.startsWith('grok-')) return '<svg fill="currentColor" fill-rule="evenodd" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mxchat-model-icon-xai"><path d="M6.469 8.776L16.512 23h-4.464L2.005 8.776H6.47zm-.004 7.9l2.233 3.164L6.467 23H2l4.465-6.324zM22 2.582V23h-3.659V7.764L22 2.582zM22 1l-9.952 14.095-2.233-3.163L17.533 1H22z"></path></svg>';
+        if (modelValue.startsWith('gemini-')) return '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48" class="knittnet-model-icon-gemini"><defs><path id="a" d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z"></path></defs><clipPath id="b"><use xlink:href="#a" overflow="visible"></use></clipPath><path clip-path="url(#b)" fill="#FBBC05" d="M0 37V11l17 13z"></path><path clip-path="url(#b)" fill="#EA4335" d="M0 11l17 13 7-6.1L48 14V0H0z"></path><path clip-path="url(#b)" fill="#34A853" d="M0 37l30-23 7.9 1L48 0v48H0z"></path><path clip-path="url(#b)" fill="#4285F4" d="M48 48L17 24l-4-3 35-10z"></path></svg>';
+        if (modelValue.startsWith('gpt-')) return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" class="knittnet-model-icon-openai"><path fill="currentColor" d="M297 131a80.6 80.6 0 0 0-93.7-104.2 80.6 80.6 0 0 0-137 29A80.6 80.6 0 0 0 23 189a80.6 80.6 0 0 0 93.7 104.2 80.6 80.6 0 0 0 137-29A80.7 80.7 0 0 0 297.1 131zM176.9 299c-14 .1-27.6-4.8-38.4-13.8l1.9-1 63.7-36.9c3.3-1.8 5.3-5.3 5.2-9v-89.9l27 15.6c.3.1.4.4.5.7v74.4a60 60 0 0 1-60 60zM47.9 244a59.7 59.7 0 0 1-7.1-40.1l1.9 1.1 63.7 36.8c3.2 1.9 7.2 1.9 10.5 0l77.8-45V228c0 .3-.2.6-.4.8L129.9 266a60 60 0 0 1-82-22zM31.2 105c7-12.2 18-21.5 31.2-26.3v75.8c0 3.7 2 7.2 5.2 9l77.8 45-27 15.5a1 1 0 0 1-.9 0L53.1 187a60 60 0 0 1-22-82zm221.2 51.5-77.8-45 27-15.5a1 1 0 0 1 .9 0l64.4 37.1a60 60 0 0 1-9.3 108.2v-75.8c0-3.7-2-7.2-5.2-9zm26.8-40.4-1.9-1.1-63.7-36.8a10.4 10.4 0 0 0-10.5 0L125.4 123V92c0-.3 0-.6.3-.8L190.1 54a60 60 0 0 1 89.1 62.1zm-168.5 55.4-27-15.5a1 1 0 0 1-.4-.7V80.9a60 60 0 0 1 98.3-46.1l-1.9 1L116 72.8a10.3 10.3 0 0 0-5.2 9v89.8zm14.6-31.5 34.7-20 34.6 20v40L160 200l-34.7-20z"></path></svg>';
+        if (modelValue.startsWith('claude-')) return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 176" fill="none" class="knittnet-model-icon-claude"><path fill="currentColor" d="m147.487 0l70.081 175.78H256L185.919 0zM66.183 106.221l23.98-61.774l23.98 61.774zM70.07 0L0 175.78h39.18l14.33-36.914h73.308l14.328 36.914h39.179L110.255 0z"></path></svg>';
+        if (modelValue.startsWith('grok-')) return '<svg fill="currentColor" fill-rule="evenodd" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="knittnet-model-icon-xai"><path d="M6.469 8.776L16.512 23h-4.464L2.005 8.776H6.47zm-.004 7.9l2.233 3.164L6.467 23H2l4.465-6.324zM22 2.582V23h-3.659V7.764L22 2.582zM22 1l-9.952 14.095-2.233-3.163L17.533 1H22z"></path></svg>';
         if (modelValue === 'custom-provider' || modelValue.startsWith('custom-')) return '<span class="dashicons dashicons-admin-site-alt3" style="font-size: 24px; color: #2c8a3d;"></span>';
-        if (modelValue.startsWith('deepseek-')) return '<svg height="1em" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg" class="mxchat-model-icon-deepseek"><path d="M23.748 4.482c-.254-.124-.364.113-.512.234-.051.039-.094.09-.137.136-.372.397-.806.657-1.373.626-.829-.046-1.537.214-2.163.848-.133-.782-.575-1.248-1.247-1.548-.352-.156-.708-.311-.955-.65-.172-.241-.219-.51-.305-.774-.055-.16-.11-.323-.293-.35-.2-.031-.278.136-.356.276-.313.572-.434 1.202-.422 1.84.027 1.436.633 2.58 1.838 3.393.137.093.172.187.129.323-.082.28-.18.552-.266.833-.055.179-.137.217-.329.14a5.526 5.526 0 01-1.736-1.18c-.857-.828-1.631-1.742-2.597-2.458a11.365 11.365 0 00-.689-.471c-.985-.957.13-1.743.388-1.836.27-.098.093-.432-.779-.428-.872.004-1.67.295-2.687.684a3.055 3.055 0 01-.465.137 9.597 9.597 0 00-2.883-.102c-1.885.21-3.39 1.102-4.497 2.623C.082 8.606-.231 10.684.152 12.85c.403 2.284 1.569 4.175 3.36 5.653 1.858 1.533 3.997 2.284 6.438 2.14 1.482-.085 3.133-.284 4.994-1.86.47.234.962.327 1.78.397.63.059 1.236-.03 1.705-.128.735-.156.684-.837.419-.961-2.155-1.004-1.682-.595-2.113-.926 1.096-1.296 2.746-2.642 3.392-7.003.05-.347.007-.565 0-.845-.004-.17.035-.237.23-.256a4.173 4.173 0 001.545-.475c1.396-.763 1.96-2.015 2.093-3.517.02-.23-.004-.467-.247-.588zM11.581 18c-2.089-1.642-3.102-2.183-3.52-2.16-.392.024-.321.471-.235.763.09.288.207.486.371.739.114.167.192.416-.113.603-.673.416-1.842-.14-1.897-.167-1.361-.802-2.5-1.86-3.301-3.307-.774-1.393-1.224-2.887-1.298-4.482-.02-.386.093-.522.477-.592a4.696 4.696 0 011.529-.039c2.132.312 3.946 1.265 5.468 2.774.868.86 1.525 1.887 2.202 2.891.72 1.066 1.494 2.082 2.48 2.914.348.292.625.514.891.677-.802.09-2.14.11-3.054-.614zm1-6.44a.306.306 0 01.415-.287.302.302 0 01.2.288.306.306 0 01-.31.307.303.303 0 01-.304-.308zm3.11 1.596c-.2.081-.399.151-.59.16a1.245 1.245 0 01-.798-.254c-.274-.23-.47-.358-.552-.758a1.73 1.73 0 01.016-.588c.07-.327-.008-.537-.239-.727-.187-.156-.426-.199-.688-.199a.559.559 0 01-.254-.078c-.11-.054-.2-.19-.114-.358.028-.054.16-.186.192-.21.356-.202.767-.136 1.146.016.352.144.618.408 1.001.782.391.451.462.576.685.914.176.265.336.537.445.848.067.195-.019.354-.25.452z" fill="currentColor"></path></svg>';
-        return '<span class="dashicons dashicons-admin-generic mxchat-model-icon-generic"></span>';
+        if (modelValue.startsWith('deepseek-')) return '<svg height="1em" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg" class="knittnet-model-icon-deepseek"><path d="M23.748 4.482c-.254-.124-.364.113-.512.234-.051.039-.094.09-.137.136-.372.397-.806.657-1.373.626-.829-.046-1.537.214-2.163.848-.133-.782-.575-1.248-1.247-1.548-.352-.156-.708-.311-.955-.65-.172-.241-.219-.51-.305-.774-.055-.16-.11-.323-.293-.35-.2-.031-.278.136-.356.276-.313.572-.434 1.202-.422 1.84.027 1.436.633 2.58 1.838 3.393.137.093.172.187.129.323-.082.28-.18.552-.266.833-.055.179-.137.217-.329.14a5.526 5.526 0 01-1.736-1.18c-.857-.828-1.631-1.742-2.597-2.458a11.365 11.365 0 00-.689-.471c-.985-.957.13-1.743.388-1.836.27-.098.093-.432-.779-.428-.872.004-1.67.295-2.687.684a3.055 3.055 0 01-.465.137 9.597 9.597 0 00-2.883-.102c-1.885.21-3.39 1.102-4.497 2.623C.082 8.606-.231 10.684.152 12.85c.403 2.284 1.569 4.175 3.36 5.653 1.858 1.533 3.997 2.284 6.438 2.14 1.482-.085 3.133-.284 4.994-1.86.47.234.962.327 1.78.397.63.059 1.236-.03 1.705-.128.735-.156.684-.837.419-.961-2.155-1.004-1.682-.595-2.113-.926 1.096-1.296 2.746-2.642 3.392-7.003.05-.347.007-.565 0-.845-.004-.17.035-.237.23-.256a4.173 4.173 0 001.545-.475c1.396-.763 1.96-2.015 2.093-3.517.02-.23-.004-.467-.247-.588zM11.581 18c-2.089-1.642-3.102-2.183-3.52-2.16-.392.024-.321.471-.235.763.09.288.207.486.371.739.114.167.192.416-.113.603-.673.416-1.842-.14-1.897-.167-1.361-.802-2.5-1.86-3.301-3.307-.774-1.393-1.224-2.887-1.298-4.482-.02-.386.093-.522.477-.592a4.696 4.696 0 011.529-.039c2.132.312 3.946 1.265 5.468 2.774.868.86 1.525 1.887 2.202 2.891.72 1.066 1.494 2.082 2.48 2.914.348.292.625.514.891.677-.802.09-2.14.11-3.054-.614zm1-6.44a.306.306 0 01.415-.287.302.302 0 01.2.288.306.306 0 01-.31.307.303.303 0 01-.304-.308zm3.11 1.596c-.2.081-.399.151-.59.16a1.245 1.245 0 01-.798-.254c-.274-.23-.47-.358-.552-.758a1.73 1.73 0 01.016-.588c.07-.327-.008-.537-.239-.727-.187-.156-.426-.199-.688-.199a.559.559 0 01-.254-.078c-.11-.054-.2-.19-.114-.358.028-.054.16-.186.192-.21.356-.202.767-.136 1.146.016.352.144.618.408 1.001.782.391.451.462.576.685.914.176.265.336.537.445.848.067.195-.019.354-.25.452z" fill="currentColor"></path></svg>';
+        return '<span class="dashicons dashicons-admin-generic knittnet-model-icon-generic"></span>';
     }
     
     // Event handlers
     $modelSelectorButton.on('click', function() {
-        $('#mxchat_model_selector_modal').show();
+        $('#knittnet_model_selector_modal').show();
         window.populateModelsGrid('', 'all');
     });
     
-    $('.mxchat-model-selector-modal-close, #mxchat_cancel_model_selection').on('click', function() {
-        $('#mxchat_model_selector_modal').hide();
+    $('.knittnet-model-selector-modal-close, #knittnet_cancel_model_selection').on('click', function() {
+        $('#knittnet_model_selector_modal').hide();
     });
     
-    $('.mxchat-model-category-btn').on('click', function() {
-        $('.mxchat-model-category-btn').removeClass('active');
+    $('.knittnet-model-category-btn').on('click', function() {
+        $('.knittnet-model-category-btn').removeClass('active');
         $(this).addClass('active');
         const category = $(this).data('category');
-        const searchTerm = $('#mxchat_model_search_input').val();
+        const searchTerm = $('#knittnet_model_search_input').val();
         window.populateModelsGrid(searchTerm, category);
     });
     
-    $('#mxchat_model_search_input').on('input', function() {
+    $('#knittnet_model_search_input').on('input', function() {
         const searchTerm = $(this).val();
-        const activeCategory = $('.mxchat-model-category-btn.active').data('category');
+        const activeCategory = $('.knittnet-model-category-btn.active').data('category');
         window.populateModelsGrid(searchTerm, activeCategory);
     });
     
-$(document).on('click', '.mxchat-model-selector-card', function() {
+$(document).on('click', '.knittnet-model-selector-card', function() {
     const modelValue = $(this).data('value');
     const $modelSelect = $('#model');
     const $clickedCard = $(this);
@@ -1124,12 +1124,12 @@ $(document).on('click', '.mxchat-model-selector-card', function() {
         loadOpenRouterModels();
     } else {
         // Remove selection from all other cards
-        $('.mxchat-model-selector-card').removeClass('mxchat-model-selected').find('.mxchat-model-selector-checkmark').remove();
+        $('.knittnet-model-selector-card').removeClass('knittnet-model-selected').find('.knittnet-model-selector-checkmark').remove();
 
         // Add selection to clicked card immediately for instant feedback
-        $clickedCard.addClass('mxchat-model-selected');
-        if ($clickedCard.find('.mxchat-model-selector-checkmark').length === 0) {
-            $clickedCard.append('<div class="mxchat-model-selector-checkmark">✓</div>');
+        $clickedCard.addClass('knittnet-model-selected');
+        if ($clickedCard.find('.knittnet-model-selector-checkmark').length === 0) {
+            $clickedCard.append('<div class="knittnet-model-selector-checkmark">✓</div>');
         }
 
         // Brief delay to show the selection, then start saving
@@ -1139,62 +1139,62 @@ $(document).on('click', '.mxchat-model-selector-card', function() {
 
             // Show loading state on the card
             $clickedCard.css('pointer-events', 'none');
-            const originalContent = $clickedCard.find('.mxchat-model-selector-title').html();
-            $clickedCard.find('.mxchat-model-selector-title').html(
+            const originalContent = $clickedCard.find('.knittnet-model-selector-title').html();
+            $clickedCard.find('.knittnet-model-selector-title').html(
                 '<span class="spinner is-active" style="float: none; margin: 0 5px 0 0;"></span> Saving...'
             );
 
             // Manually save the model via AJAX
             jQuery.ajax({
-                url: mxchatAdmin.ajax_url,
+                url: knittnetAdmin.ajax_url,
                 type: 'POST',
                 data: {
-                    action: 'mxchat_save_setting',
+                    action: 'knittnet_save_setting',
                     name: 'model',
                     value: modelValue,
-                    _ajax_nonce: mxchatAdmin.setting_nonce
+                    _ajax_nonce: knittnetAdmin.setting_nonce
                 },
                 success: function(response) {
                     if (response.success) {
                         // Show success state
-                        $clickedCard.find('.mxchat-model-selector-title').html(
+                        $clickedCard.find('.knittnet-model-selector-title').html(
                             '<span class="dashicons dashicons-yes" style="color: #46b450; margin-top: 3px;"></span> Saved!'
                         );
 
                         // Update button text after successful save
                         const selectedModelText = $modelSelect.find('option:selected').text();
-                        $('#mxchat_model_selector_btn').text(selectedModelText);
+                        $('#knittnet_model_selector_btn').text(selectedModelText);
 
                         // Close modal after a short delay to show the success message
                         setTimeout(function() {
-                            $('#mxchat_model_selector_modal').hide();
+                            $('#knittnet_model_selector_modal').hide();
                             // Restore original content and remove selection for next time
-                            $clickedCard.find('.mxchat-model-selector-title').html(originalContent);
-                            $clickedCard.removeClass('mxchat-model-selected').find('.mxchat-model-selector-checkmark').remove();
+                            $clickedCard.find('.knittnet-model-selector-title').html(originalContent);
+                            $clickedCard.removeClass('knittnet-model-selected').find('.knittnet-model-selector-checkmark').remove();
                             $clickedCard.css('pointer-events', 'auto');
                         }, 600);
                     } else {
                         // Show error state
-                        $clickedCard.find('.mxchat-model-selector-title').html(
+                        $clickedCard.find('.knittnet-model-selector-title').html(
                             '<span class="dashicons dashicons-no" style="color: #dc3232;"></span> Error!'
                         );
 
                         setTimeout(function() {
-                            $clickedCard.find('.mxchat-model-selector-title').html(originalContent);
-                            $clickedCard.removeClass('mxchat-model-selected').find('.mxchat-model-selector-checkmark').remove();
+                            $clickedCard.find('.knittnet-model-selector-title').html(originalContent);
+                            $clickedCard.removeClass('knittnet-model-selected').find('.knittnet-model-selector-checkmark').remove();
                             $clickedCard.css('pointer-events', 'auto');
                         }, 1500);
                     }
                 },
                 error: function() {
                     // Show error state
-                    $clickedCard.find('.mxchat-model-selector-title').html(
+                    $clickedCard.find('.knittnet-model-selector-title').html(
                         '<span class="dashicons dashicons-no" style="color: #dc3232;"></span> Error!'
                     );
 
                     setTimeout(function() {
-                        $clickedCard.find('.mxchat-model-selector-title').html(originalContent);
-                        $clickedCard.removeClass('mxchat-model-selected').find('.mxchat-model-selector-checkmark').remove();
+                        $clickedCard.find('.knittnet-model-selector-title').html(originalContent);
+                        $clickedCard.removeClass('knittnet-model-selected').find('.knittnet-model-selector-checkmark').remove();
                         $clickedCard.css('pointer-events', 'auto');
                     }, 1500);
                 }
@@ -1205,16 +1205,16 @@ $(document).on('click', '.mxchat-model-selector-card', function() {
     
     // Close modal when clicking outside
     $(window).on('click', function(event) {
-        if ($(event.target).is('#mxchat_model_selector_modal')) {
-            $('#mxchat_model_selector_modal').hide();
+        if ($(event.target).is('#knittnet_model_selector_modal')) {
+            $('#knittnet_model_selector_modal').hide();
         }
     });
 }
 
 function loadOpenRouterModels() {
     const apiKey = $('#openrouter_api_key').val(); // This line already re-checks the field
-    const $modal = $('#mxchat_model_selector_modal');
-    const $modalBody = $modal.find('.mxchat-model-selector-modal-body');
+    const $modal = $('#knittnet_model_selector_modal');
+    const $modalBody = $modal.find('.knittnet-model-selector-modal-body');
     
     if (!apiKey || apiKey.trim() === '') {
         // Show error message in modal
@@ -1223,27 +1223,27 @@ function loadOpenRouterModels() {
                 <span class="dashicons dashicons-warning" style="font-size: 48px; color: #d63638; margin-bottom: 20px;"></span>
                 <h3>OpenRouter API Key Required</h3>
                 <p>Please enter your OpenRouter API key in the settings before selecting a model. If you're seeing this message and recently entered API key, try refreshing.</p>
-                <button class="button button-primary" id="mxchat_back_to_models">Back to Models</button>
+                <button class="button button-primary" id="knittnet_back_to_models">Back to Models</button>
             </div>
         `);
         
-        $('#mxchat_back_to_models').on('click', function(e) {
+        $('#knittnet_back_to_models').on('click', function(e) {
             e.preventDefault();
             // CHANGE THIS: Instead of reloading, restore the original modal content
             $modalBody.html(`
-                <div class="mxchat-model-selector-search-container">
-                    <input type="text" id="mxchat_model_search_input" class="mxchat-model-search-input" placeholder="Search models...">
+                <div class="knittnet-model-selector-search-container">
+                    <input type="text" id="knittnet_model_search_input" class="knittnet-model-search-input" placeholder="Search models...">
                 </div>
-                <div class="mxchat-model-selector-categories">
-                    <button class="mxchat-model-category-btn active" data-category="all">All</button>
-                    <button class="mxchat-model-category-btn" data-category="openrouter">OpenRouter</button>
-                    <button class="mxchat-model-category-btn" data-category="gemini">Google Gemini</button>
-                    <button class="mxchat-model-category-btn" data-category="openai">OpenAI</button>
-                    <button class="mxchat-model-category-btn" data-category="claude">Claude</button>
-                    <button class="mxchat-model-category-btn" data-category="xai">X.AI</button>
-                    <button class="mxchat-model-category-btn" data-category="deepseek">DeepSeek</button>
+                <div class="knittnet-model-selector-categories">
+                    <button class="knittnet-model-category-btn active" data-category="all">All</button>
+                    <button class="knittnet-model-category-btn" data-category="openrouter">OpenRouter</button>
+                    <button class="knittnet-model-category-btn" data-category="gemini">Google Gemini</button>
+                    <button class="knittnet-model-category-btn" data-category="openai">OpenAI</button>
+                    <button class="knittnet-model-category-btn" data-category="claude">Claude</button>
+                    <button class="knittnet-model-category-btn" data-category="xai">X.AI</button>
+                    <button class="knittnet-model-category-btn" data-category="deepseek">DeepSeek</button>
                 </div>
-                <div class="mxchat-model-selector-grid" id="mxchat_models_grid"></div>
+                <div class="knittnet-model-selector-grid" id="knittnet_models_grid"></div>
             `);
             
             // Re-populate the grid
@@ -1266,12 +1266,12 @@ function loadOpenRouterModels() {
     
     // Fetch models from OpenRouter
     jQuery.ajax({
-        url: mxchatAdmin.ajax_url,
+        url: knittnetAdmin.ajax_url,
         type: 'POST',
         data: {
-            action: 'mxchat_fetch_openrouter_models',
+            action: 'knittnet_fetch_openrouter_models',
             api_key: apiKey,
-            nonce: mxchatAdmin.fetch_openrouter_models_nonce
+            nonce: knittnetAdmin.fetch_openrouter_models_nonce
         },
         success: function(response) {
             if (response.success && response.data.models) {
@@ -1282,11 +1282,11 @@ function loadOpenRouterModels() {
                         <span class="dashicons dashicons-warning" style="font-size: 48px; color: #d63638; margin-bottom: 20px;"></span>
                         <h3>Error Loading Models</h3>
                         <p>${response.data.message || 'Failed to load models from OpenRouter'}</p>
-                        <button class="button button-primary" id="mxchat_back_to_models">Back to Models</button>
+                        <button class="button button-primary" id="knittnet_back_to_models">Back to Models</button>
                     </div>
                 `);
                 
-                $('#mxchat_back_to_models').on('click', function(e) {
+                $('#knittnet_back_to_models').on('click', function(e) {
                     e.preventDefault();
                     // CHANGE THIS: Restore original content instead of reloading
                     restoreOriginalModalContent();
@@ -1299,11 +1299,11 @@ function loadOpenRouterModels() {
                     <span class="dashicons dashicons-warning" style="font-size: 48px; color: #d63638; margin-bottom: 20px;"></span>
                     <h3>Connection Error</h3>
                     <p>Failed to connect to OpenRouter. Please check your API key and try again.</p>
-                    <button class="button button-primary" id="mxchat_back_to_models">Back to Models</button>
+                    <button class="button button-primary" id="knittnet_back_to_models">Back to Models</button>
                 </div>
             `);
             
-            $('#mxchat_back_to_models').on('click', function(e) {
+            $('#knittnet_back_to_models').on('click', function(e) {
                 e.preventDefault();
                 // CHANGE THIS: Restore original content instead of reloading
                 restoreOriginalModalContent();
@@ -1312,22 +1312,22 @@ function loadOpenRouterModels() {
     });
 }
 function restoreOriginalModalContent() {
-    const $modalBody = $('#mxchat_model_selector_modal').find('.mxchat-model-selector-modal-body');
+    const $modalBody = $('#knittnet_model_selector_modal').find('.knittnet-model-selector-modal-body');
     
     $modalBody.html(`
-        <div class="mxchat-model-selector-search-container">
-            <input type="text" id="mxchat_model_search_input" class="mxchat-model-search-input" placeholder="Search models...">
+        <div class="knittnet-model-selector-search-container">
+            <input type="text" id="knittnet_model_search_input" class="knittnet-model-search-input" placeholder="Search models...">
         </div>
-        <div class="mxchat-model-selector-categories">
-            <button class="mxchat-model-category-btn active" data-category="all">All</button>
-            <button class="mxchat-model-category-btn" data-category="openrouter">OpenRouter</button>
-            <button class="mxchat-model-category-btn" data-category="gemini">Google Gemini</button>
-            <button class="mxchat-model-category-btn" data-category="openai">OpenAI</button>
-            <button class="mxchat-model-category-btn" data-category="claude">Claude</button>
-            <button class="mxchat-model-category-btn" data-category="xai">X.AI</button>
-            <button class="mxchat-model-category-btn" data-category="deepseek">DeepSeek</button>
+        <div class="knittnet-model-selector-categories">
+            <button class="knittnet-model-category-btn active" data-category="all">All</button>
+            <button class="knittnet-model-category-btn" data-category="openrouter">OpenRouter</button>
+            <button class="knittnet-model-category-btn" data-category="gemini">Google Gemini</button>
+            <button class="knittnet-model-category-btn" data-category="openai">OpenAI</button>
+            <button class="knittnet-model-category-btn" data-category="claude">Claude</button>
+            <button class="knittnet-model-category-btn" data-category="xai">X.AI</button>
+            <button class="knittnet-model-category-btn" data-category="deepseek">DeepSeek</button>
         </div>
-        <div class="mxchat-model-selector-grid" id="mxchat_models_grid"></div>
+        <div class="knittnet-model-selector-grid" id="knittnet_models_grid"></div>
     `);
     
     // Re-populate the grid
@@ -1337,43 +1337,43 @@ function restoreOriginalModalContent() {
     rebindModalEventHandlers();
 }
 function rebindModalEventHandlers() {
-    const $modal = $('#mxchat_model_selector_modal');
+    const $modal = $('#knittnet_model_selector_modal');
 
     // Re-bind category button clicks
-    $('.mxchat-model-category-btn').off('click').on('click', function() {
-        $('.mxchat-model-category-btn').removeClass('active');
+    $('.knittnet-model-category-btn').off('click').on('click', function() {
+        $('.knittnet-model-category-btn').removeClass('active');
         $(this).addClass('active');
         const category = $(this).data('category');
-        const searchTerm = $('#mxchat_model_search_input').val();
+        const searchTerm = $('#knittnet_model_search_input').val();
         window.populateModelsGrid(searchTerm, category);
     });
 
     // Re-bind search input
-    $('#mxchat_model_search_input').off('input').on('input', function() {
+    $('#knittnet_model_search_input').off('input').on('input', function() {
         const searchTerm = $(this).val();
-        const activeCategory = $('.mxchat-model-category-btn.active').data('category');
+        const activeCategory = $('.knittnet-model-category-btn.active').data('category');
         populateModelsGrid(searchTerm, activeCategory);
     });
 }
 
 function restoreDefaultModalFooter() {
-    const $modalFooter = $('#mxchat_model_selector_modal').find('.mxchat-model-selector-modal-footer');
+    const $modalFooter = $('#knittnet_model_selector_modal').find('.knittnet-model-selector-modal-footer');
 
     // Restore default footer buttons
     $modalFooter.html(`
-        <button id="mxchat_cancel_model_selection" class="button mxchat-model-cancel-btn">Cancel</button>
+        <button id="knittnet_cancel_model_selection" class="button knittnet-model-cancel-btn">Cancel</button>
     `);
 
     // Re-bind cancel button
-    $('#mxchat_cancel_model_selection').on('click', function() {
-        $('#mxchat_model_selector_modal').hide();
+    $('#knittnet_cancel_model_selection').on('click', function() {
+        $('#knittnet_model_selector_modal').hide();
     });
 }
 
 function displayOpenRouterModels(models) {
-    const $modal = $('#mxchat_model_selector_modal');
-    const $modalBody = $modal.find('.mxchat-model-selector-modal-body');
-    const $modalFooter = $modal.find('.mxchat-model-selector-modal-footer');
+    const $modal = $('#knittnet_model_selector_modal');
+    const $modalBody = $modal.find('.knittnet-model-selector-modal-body');
+    const $modalFooter = $modal.find('.knittnet-model-selector-modal-footer');
     const currentSelected = $('#openrouter_selected_model').val();
 
     // Variable to store the currently selected model (in the UI, not yet saved)
@@ -1384,20 +1384,20 @@ function displayOpenRouterModels(models) {
 
     // Build new modal content with search and models
     const newContent = `
-        <div class="mxchat-model-selector-search-container">
-            <input type="text" id="mxchat_openrouter_search" class="mxchat-model-search-input" placeholder="Search OpenRouter models...">
+        <div class="knittnet-model-selector-search-container">
+            <input type="text" id="knittnet_openrouter_search" class="knittnet-model-search-input" placeholder="Search OpenRouter models...">
             <p style="margin: 10px 0; color: #666; font-size: 13px;">
                 <strong>${models.length} models available</strong> ·
-                <a href="#" id="mxchat_back_to_provider_select" style="color: #2271b1;">← Back to providers</a>
+                <a href="#" id="knittnet_back_to_provider_select" style="color: #2271b1;">← Back to providers</a>
             </p>
         </div>
-        <div class="mxchat-model-selector-grid" id="mxchat_openrouter_models_grid"></div>
+        <div class="knittnet-model-selector-grid" id="knittnet_openrouter_models_grid"></div>
     `;
 
     // Update footer with Save button for OpenRouter
     const footerContent = `
-        <button id="mxchat_back_to_models_footer" class="button mxchat-model-cancel-btn">Back to Providers</button>
-        <button id="mxchat_save_openrouter_model" class="button button-primary" disabled>
+        <button id="knittnet_back_to_models_footer" class="button knittnet-model-cancel-btn">Back to Providers</button>
+        <button id="knittnet_save_openrouter_model" class="button button-primary" disabled>
             <span class="dashicons dashicons-saved" style="margin-top: 3px;"></span> Save Selected Model
         </button>
     `;
@@ -1407,7 +1407,7 @@ function displayOpenRouterModels(models) {
     
     // Function to render models
     function renderOpenRouterModels(filterText = '') {
-        const $grid = $('#mxchat_openrouter_models_grid');
+        const $grid = $('#knittnet_openrouter_models_grid');
         $grid.empty();
 
         let filteredModels = models;
@@ -1426,18 +1426,18 @@ function displayOpenRouterModels(models) {
             const promptPrice = model.pricing.prompt ? `$${(model.pricing.prompt * 1000000).toFixed(2)}/1M` : '';
 
             const $card = jQuery(`
-                <div class="mxchat-openrouter-card ${isSelected ? 'mxchat-model-selected' : ''}" data-model-id="${model.id}" data-model-name="${model.name}">
-                    <div class="mxchat-model-selector-icon">
+                <div class="knittnet-openrouter-card ${isSelected ? 'knittnet-model-selected' : ''}" data-model-id="${model.id}" data-model-name="${model.name}">
+                    <div class="knittnet-model-selector-icon">
                         ${getOpenRouterIcon(model.id)}
                     </div>
-                    <div class="mxchat-model-selector-info">
-                        <h4 class="mxchat-model-selector-title">${model.name}</h4>
+                    <div class="knittnet-model-selector-info">
+                        <h4 class="knittnet-model-selector-title">${model.name}</h4>
                         <div style="font-size: 12px; color: #666; margin-top: 5px;">
                             ${contextLength ? '<span style="margin-right: 12px;">📄 ' + contextLength + '</span>' : ''}
                             ${promptPrice ? '<span>💰 ' + promptPrice + '</span>' : ''}
                         </div>
                     </div>
-                    ${isSelected ? '<div class="mxchat-model-selector-checkmark">✓</div>' : ''}
+                    ${isSelected ? '<div class="knittnet-model-selector-checkmark">✓</div>' : ''}
                 </div>
             `);
 
@@ -1448,11 +1448,11 @@ function displayOpenRouterModels(models) {
     // Helper to get icon
     function getOpenRouterIcon(modelId) {
         if (modelId.includes('gpt') || modelId.includes('openai')) {
-            return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" class="mxchat-model-icon-openai"><path fill="currentColor" d="M297 131a80.6 80.6 0 0 0-93.7-104.2 80.6 80.6 0 0 0-137 29A80.6 80.6 0 0 0 23 189a80.6 80.6 0 0 0 93.7 104.2 80.6 80.6 0 0 0 137-29A80.7 80.7 0 0 0 297.1 131zM176.9 299c-14 .1-27.6-4.8-38.4-13.8l1.9-1 63.7-36.9c3.3-1.8 5.3-5.3 5.2-9v-89.9l27 15.6c.3.1.4.4.5.7v74.4a60 60 0 0 1-60 60zM47.9 244a59.7 59.7 0 0 1-7.1-40.1l1.9 1.1 63.7 36.8c3.2 1.9 7.2 1.9 10.5 0l77.8-45V228c0 .3-.2.6-.4.8L129.9 266a60 60 0 0 1-82-22zM31.2 105c7-12.2 18-21.5 31.2-26.3v75.8c0 3.7 2 7.2 5.2 9l77.8 45-27 15.5a1 1 0 0 1-.9 0L53.1 187a60 60 0 0 1-22-82zm221.2 51.5-77.8-45 27-15.5a1 1 0 0 1 .9 0l64.4 37.1a60 60 0 0 1-9.3 108.2v-75.8c0-3.7-2-7.2-5.2-9zm26.8-40.4-1.9-1.1-63.7-36.8a10.4 10.4 0 0 0-10.5 0L125.4 123V92c0-.3 0-.6.3-.8L190.1 54a60 60 0 0 1 89.1 62.1zm-168.5 55.4-27-15.5a1 1 0 0 1-.4-.7V80.9a60 60 0 0 1 98.3-46.1l-1.9 1L116 72.8a10.3 10.3 0 0 0-5.2 9v89.8zm14.6-31.5 34.7-20 34.6 20v40L160 200l-34.7-20z"></path></svg>';
+            return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" class="knittnet-model-icon-openai"><path fill="currentColor" d="M297 131a80.6 80.6 0 0 0-93.7-104.2 80.6 80.6 0 0 0-137 29A80.6 80.6 0 0 0 23 189a80.6 80.6 0 0 0 93.7 104.2 80.6 80.6 0 0 0 137-29A80.7 80.7 0 0 0 297.1 131zM176.9 299c-14 .1-27.6-4.8-38.4-13.8l1.9-1 63.7-36.9c3.3-1.8 5.3-5.3 5.2-9v-89.9l27 15.6c.3.1.4.4.5.7v74.4a60 60 0 0 1-60 60zM47.9 244a59.7 59.7 0 0 1-7.1-40.1l1.9 1.1 63.7 36.8c3.2 1.9 7.2 1.9 10.5 0l77.8-45V228c0 .3-.2.6-.4.8L129.9 266a60 60 0 0 1-82-22zM31.2 105c7-12.2 18-21.5 31.2-26.3v75.8c0 3.7 2 7.2 5.2 9l77.8 45-27 15.5a1 1 0 0 1-.9 0L53.1 187a60 60 0 0 1-22-82zm221.2 51.5-77.8-45 27-15.5a1 1 0 0 1 .9 0l64.4 37.1a60 60 0 0 1-9.3 108.2v-75.8c0-3.7-2-7.2-5.2-9zm26.8-40.4-1.9-1.1-63.7-36.8a10.4 10.4 0 0 0-10.5 0L125.4 123V92c0-.3 0-.6.3-.8L190.1 54a60 60 0 0 1 89.1 62.1zm-168.5 55.4-27-15.5a1 1 0 0 1-.4-.7V80.9a60 60 0 0 1 98.3-46.1l-1.9 1L116 72.8a10.3 10.3 0 0 0-5.2 9v89.8zm14.6-31.5 34.7-20 34.6 20v40L160 200l-34.7-20z"></path></svg>';
         } else if (modelId.includes('claude') || modelId.includes('anthropic')) {
-            return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 176" fill="none" class="mxchat-model-icon-claude"><path fill="currentColor" d="m147.487 0l70.081 175.78H256L185.919 0zM66.183 106.221l23.98-61.774l23.98 61.774zM70.07 0L0 175.78h39.18l14.33-36.914h73.308l14.328 36.914h39.179L110.255 0z"></path></svg>';
+            return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 176" fill="none" class="knittnet-model-icon-claude"><path fill="currentColor" d="m147.487 0l70.081 175.78H256L185.919 0zM66.183 106.221l23.98-61.774l23.98 61.774zM70.07 0L0 175.78h39.18l14.33-36.914h73.308l14.328 36.914h39.179L110.255 0z"></path></svg>';
         } else if (modelId.includes('gemini') || modelId.includes('google')) {
-            return '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48" class="mxchat-model-icon-gemini"><defs><path id="a" d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z"></path></defs><clipPath id="b"><use xlink:href="#a" overflow="visible"></use></clipPath><path clip-path="url(#b)" fill="#FBBC05" d="M0 37V11l17 13z"></path><clip-path="url(#b)" fill="#EA4335" d="M0 11l17 13 7-6.1L48 14V0H0z"></path><path clip-path="url(#b)" fill="#34A853" d="M0 37l30-23 7.9 1L48 0v48H0z"></path><path clip-path="url(#b)" fill="#4285F4" d="M48 48L17 24l-4-3 35-10z"></path></svg>';
+            return '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48" class="knittnet-model-icon-gemini"><defs><path id="a" d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z"></path></defs><clipPath id="b"><use xlink:href="#a" overflow="visible"></use></clipPath><path clip-path="url(#b)" fill="#FBBC05" d="M0 37V11l17 13z"></path><clip-path="url(#b)" fill="#EA4335" d="M0 11l17 13 7-6.1L48 14V0H0z"></path><path clip-path="url(#b)" fill="#34A853" d="M0 37l30-23 7.9 1L48 0v48H0z"></path><path clip-path="url(#b)" fill="#4285F4" d="M48 48L17 24l-4-3 35-10z"></path></svg>';
         }
         return '<span class="dashicons dashicons-cloud" style="font-size: 24px; color: #6750A4;"></span>';
     }
@@ -1461,11 +1461,11 @@ function displayOpenRouterModels(models) {
     renderOpenRouterModels();
     
     // Search handler
-    $('#mxchat_openrouter_search').on('input', function() {
+    $('#knittnet_openrouter_search').on('input', function() {
         renderOpenRouterModels($(this).val());
     });
     
-    $('#mxchat_back_to_provider_select').on('click', function(e) {
+    $('#knittnet_back_to_provider_select').on('click', function(e) {
         e.preventDefault();
         // Restore footer to default state
         restoreDefaultModalFooter();
@@ -1474,7 +1474,7 @@ function displayOpenRouterModels(models) {
     });
 
     // Back to providers footer button
-    $('#mxchat_back_to_models_footer').on('click', function(e) {
+    $('#knittnet_back_to_models_footer').on('click', function(e) {
         e.preventDefault();
         // Restore footer to default state
         restoreDefaultModalFooter();
@@ -1483,19 +1483,19 @@ function displayOpenRouterModels(models) {
     });
 
     // Model selection - just highlight, don't save yet
-    $(document).on('click', '.mxchat-openrouter-card', function(e) {
+    $(document).on('click', '.knittnet-openrouter-card', function(e) {
         e.stopPropagation(); // Prevent triggering the regular model card handler
 
         const modelId = $(this).data('model-id');
         const modelName = $(this).data('model-name');
 
         // Remove selection from all cards
-        $('.mxchat-openrouter-card').removeClass('mxchat-model-selected').find('.mxchat-model-selector-checkmark').remove();
+        $('.knittnet-openrouter-card').removeClass('knittnet-model-selected').find('.knittnet-model-selector-checkmark').remove();
 
         // Add selection to clicked card
-        $(this).addClass('mxchat-model-selected');
-        if ($(this).find('.mxchat-model-selector-checkmark').length === 0) {
-            $(this).append('<div class="mxchat-model-selector-checkmark">✓</div>');
+        $(this).addClass('knittnet-model-selected');
+        if ($(this).find('.knittnet-model-selector-checkmark').length === 0) {
+            $(this).append('<div class="knittnet-model-selector-checkmark">✓</div>');
         }
 
         // Update pending selection
@@ -1503,11 +1503,11 @@ function displayOpenRouterModels(models) {
         pendingSelection.modelName = modelName;
 
         // Enable the save button
-        $('#mxchat_save_openrouter_model').prop('disabled', false);
+        $('#knittnet_save_openrouter_model').prop('disabled', false);
     });
 
     // Save button handler
-    $('#mxchat_save_openrouter_model').on('click', function() {
+    $('#knittnet_save_openrouter_model').on('click', function() {
         const $saveButton = $(this);
 
         if (!pendingSelection.modelId) {
@@ -1519,24 +1519,24 @@ function displayOpenRouterModels(models) {
 
         // First, save that we're using OpenRouter
         jQuery.ajax({
-            url: mxchatAdmin.ajax_url,
+            url: knittnetAdmin.ajax_url,
             type: 'POST',
             data: {
-                action: 'mxchat_save_setting',
+                action: 'knittnet_save_setting',
                 name: 'model',
                 value: 'openrouter',
-                _ajax_nonce: mxchatAdmin.setting_nonce
+                _ajax_nonce: knittnetAdmin.setting_nonce
             },
             success: function() {
                 // After model is set, save the model ID
                 jQuery.ajax({
-                    url: mxchatAdmin.ajax_url,
+                    url: knittnetAdmin.ajax_url,
                     type: 'POST',
                     data: {
-                        action: 'mxchat_save_setting',
+                        action: 'knittnet_save_setting',
                         name: 'openrouter_selected_model',
                         value: pendingSelection.modelId,
-                        _ajax_nonce: mxchatAdmin.setting_nonce
+                        _ajax_nonce: knittnetAdmin.setting_nonce
                     },
                     success: function() {
                         // Update DOM immediately
@@ -1544,20 +1544,20 @@ function displayOpenRouterModels(models) {
 
                         // After model ID is saved, save the display name
                         jQuery.ajax({
-                            url: mxchatAdmin.ajax_url,
+                            url: knittnetAdmin.ajax_url,
                             type: 'POST',
                             data: {
-                                action: 'mxchat_save_setting',
+                                action: 'knittnet_save_setting',
                                 name: 'openrouter_selected_model_name',
                                 value: pendingSelection.modelName,
-                                _ajax_nonce: mxchatAdmin.setting_nonce
+                                _ajax_nonce: knittnetAdmin.setting_nonce
                             },
                             success: function() {
                                 // Update DOM immediately
                                 $('#openrouter_selected_model_name').val(pendingSelection.modelName);
 
                                 // Update button text
-                                $('#mxchat_model_selector_btn').text('OpenRouter: ' + pendingSelection.modelName);
+                                $('#knittnet_model_selector_btn').text('OpenRouter: ' + pendingSelection.modelName);
 
                                 // Update the "Currently using" message
                                 const $currentSelection = $('#openrouter-current-selection');
@@ -1603,10 +1603,10 @@ function displayOpenRouterModels(models) {
 // models after they've already embedded content with a different model. Mixing
 // embeddings from two models silently breaks similarity matching.
 function showEmbeddingSwitchWarning(data, newValue, onChoice) {
-    $('#mxchat_embedding_switch_warning').remove();
+    $('#knittnet_embedding_switch_warning').remove();
 
     const dimsBlock = data.dims_differ ? `
-        <div class="mxchat-embed-warn-dims">
+        <div class="knittnet-embed-warn-dims">
             <strong>Dimension mismatch:</strong>
             Existing vectors are ${data.active_dims}-dimensional, but ${data.new_label}
             produces ${data.new_dims}-dimensional vectors.
@@ -1614,13 +1614,13 @@ function showEmbeddingSwitchWarning(data, newValue, onChoice) {
         </div>` : '';
 
     const $modal = $(`
-        <div id="mxchat_embedding_switch_warning" class="mxchat-embed-warn-overlay">
-            <div class="mxchat-embed-warn-dialog">
-                <div class="mxchat-embed-warn-header">
-                    <span class="mxchat-embed-warn-icon">⚠️</span>
+        <div id="knittnet_embedding_switch_warning" class="knittnet-embed-warn-overlay">
+            <div class="knittnet-embed-warn-dialog">
+                <div class="knittnet-embed-warn-header">
+                    <span class="knittnet-embed-warn-icon">⚠️</span>
                     <h3>Switching embedding models will break similarity matching</h3>
                 </div>
-                <div class="mxchat-embed-warn-body">
+                <div class="knittnet-embed-warn-body">
                     <p>
                         Your knowledge base and actions are currently embedded with
                         <code>${data.active_label}</code>. Switching to
@@ -1636,9 +1636,9 @@ function showEmbeddingSwitchWarning(data, newValue, onChoice) {
                         <li>Come back here, switch the model, then re-import your content and re-add your actions.</li>
                     </ol>
                 </div>
-                <div class="mxchat-embed-warn-footer">
-                    <button type="button" class="button button-secondary" id="mxchat_embed_warn_cancel">Cancel — keep ${data.active_label}</button>
-                    <button type="button" class="button button-primary mxchat-embed-warn-danger" id="mxchat_embed_warn_continue">Switch anyway (I'll handle it)</button>
+                <div class="knittnet-embed-warn-footer">
+                    <button type="button" class="button button-secondary" id="knittnet_embed_warn_cancel">Cancel — keep ${data.active_label}</button>
+                    <button type="button" class="button button-primary knittnet-embed-warn-danger" id="knittnet_embed_warn_continue">Switch anyway (I'll handle it)</button>
                 </div>
             </div>
         </div>
@@ -1658,12 +1658,12 @@ function showEmbeddingSwitchWarning(data, newValue, onChoice) {
     $modal.on('click', function(e) {
         if (e.target === $modal[0]) resolve(false);
     });
-    $modal.find('#mxchat_embed_warn_cancel').on('click', function() { resolve(false); });
-    $modal.find('#mxchat_embed_warn_continue').on('click', function() { resolve(true); });
+    $modal.find('#knittnet_embed_warn_cancel').on('click', function() { resolve(false); });
+    $modal.find('#knittnet_embed_warn_continue').on('click', function() { resolve(true); });
 }
 
 // Embedding model selector - completely separate from chat model selector
-function setupMxChatEmbeddingModelSelector() {
+function setupKnittNetEmbeddingModelSelector() {
     const $embeddingModelSelect = $('#embedding_model');
     
     // Skip if the element doesn't exist on the page
@@ -1673,8 +1673,8 @@ function setupMxChatEmbeddingModelSelector() {
     
     const $embeddingModelSelectorButton = $('<button>', {
         type: 'button',
-        id: 'mxchat_embedding_model_selector_btn',
-        class: 'button-primary mxchat-embedding-model-selector-btn', // Changed class name to be more specific
+        id: 'knittnet_embedding_model_selector_btn',
+        class: 'button-primary knittnet-embedding-model-selector-btn', // Changed class name to be more specific
         text: 'Select Embedding Model'
     });
     
@@ -1692,30 +1692,30 @@ function setupMxChatEmbeddingModelSelector() {
     updateButtonText();
     
     // Create a unique ID for the modal to avoid conflicts
-    const embeddingModalId = 'mxchat_embedding_model_selector_modal';
+    const embeddingModalId = 'knittnet_embedding_model_selector_modal';
     
     // Create and append modal HTML with unique IDs
     const embeddingModelSelectorModal = `
-        <div id="${embeddingModalId}" class="mxchat-embedding-model-selector-modal">
-            <div class="mxchat-embedding-model-selector-modal-content">
-                <div class="mxchat-embedding-model-selector-modal-header">
+        <div id="${embeddingModalId}" class="knittnet-embedding-model-selector-modal">
+            <div class="knittnet-embedding-model-selector-modal-content">
+                <div class="knittnet-embedding-model-selector-modal-header">
                     <h3>Select Embedding Model</h3>
-                    <span class="mxchat-embedding-model-selector-modal-close">&times;</span>
+                    <span class="knittnet-embedding-model-selector-modal-close">&times;</span>
                 </div>
-                <div class="mxchat-embedding-model-selector-modal-body">
-                    <div class="mxchat-embedding-model-selector-search-container">
-                        <input type="text" id="mxchat_embedding_model_search_input" class="mxchat-embedding-model-search-input" placeholder="Search models...">
+                <div class="knittnet-embedding-model-selector-modal-body">
+                    <div class="knittnet-embedding-model-selector-search-container">
+                        <input type="text" id="knittnet_embedding_model_search_input" class="knittnet-embedding-model-search-input" placeholder="Search models...">
                     </div>
-                    <div class="mxchat-embedding-model-selector-categories">
-                        <button class="mxchat-embedding-model-category-btn active" data-category="all">All</button>
-                        <button class="mxchat-embedding-model-category-btn" data-category="openai">OpenAI</button>
-                        <button class="mxchat-embedding-model-category-btn" data-category="voyage">Voyage AI</button>
-                        <button class="mxchat-embedding-model-category-btn" data-category="gemini">Google Gemini</button>
+                    <div class="knittnet-embedding-model-selector-categories">
+                        <button class="knittnet-embedding-model-category-btn active" data-category="all">All</button>
+                        <button class="knittnet-embedding-model-category-btn" data-category="openai">OpenAI</button>
+                        <button class="knittnet-embedding-model-category-btn" data-category="voyage">Voyage AI</button>
+                        <button class="knittnet-embedding-model-category-btn" data-category="gemini">Google Gemini</button>
                     </div>
-                    <div class="mxchat-embedding-model-selector-grid" id="mxchat_embedding_models_grid"></div>
+                    <div class="knittnet-embedding-model-selector-grid" id="knittnet_embedding_models_grid"></div>
                 </div>
-                <div class="mxchat-embedding-model-selector-modal-footer">
-                    <button id="mxchat_cancel_embedding_model_selection" class="button mxchat-embedding-model-cancel-btn">Cancel</button>
+                <div class="knittnet-embedding-model-selector-modal-footer">
+                    <button id="knittnet_cancel_embedding_model_selection" class="button knittnet-embedding-model-cancel-btn">Cancel</button>
                 </div>
             </div>
         </div>
@@ -1726,7 +1726,7 @@ function setupMxChatEmbeddingModelSelector() {
     
     // Populate models grid
     function populateEmbeddingModelsGrid(filter = '', category = 'all') {
-        const $grid = $('#mxchat_embedding_models_grid');
+        const $grid = $('#knittnet_embedding_models_grid');
         $grid.empty();
         
         // Define embedding models with descriptions and context lengths
@@ -1783,33 +1783,33 @@ function setupMxChatEmbeddingModelSelector() {
         // Create model cards
         allModels.forEach(model => {
             const isSelected = $embeddingModelSelect.val() === model.value;
-            let providerClass = 'mxchat-embedding-model-provider-openai';
+            let providerClass = 'knittnet-embedding-model-provider-openai';
             
             if (model.value.startsWith('voyage-')) {
-                providerClass = 'mxchat-embedding-model-provider-voyage';
+                providerClass = 'knittnet-embedding-model-provider-voyage';
             } else if (model.value.startsWith('gemini-embedding-')) {
-                providerClass = 'mxchat-embedding-model-provider-gemini';
+                providerClass = 'knittnet-embedding-model-provider-gemini';
             }
             
             let iconHTML = '';
             if (model.value.startsWith('voyage-')) {
-                iconHTML = '<span class="dashicons dashicons-chart-line mxchat-embedding-model-icon-voyage"></span>';
+                iconHTML = '<span class="dashicons dashicons-chart-line knittnet-embedding-model-icon-voyage"></span>';
             } else if (model.value.startsWith('gemini-embedding-')) {
-                iconHTML = '<span class="dashicons dashicons-google mxchat-embedding-model-icon-gemini"></span>';
+                iconHTML = '<span class="dashicons dashicons-google knittnet-embedding-model-icon-gemini"></span>';
             } else {
-                iconHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" class="mxchat-embedding-model-icon-openai"><path fill="currentColor" d="M297 131a80.6 80.6 0 0 0-93.7-104.2 80.6 80.6 0 0 0-137 29A80.6 80.6 0 0 0 23 189a80.6 80.6 0 0 0 93.7 104.2 80.6 80.6 0 0 0 137-29A80.7 80.7 0 0 0 297.1 131zM176.9 299c-14 .1-27.6-4.8-38.4-13.8l1.9-1 63.7-36.9c3.3-1.8 5.3-5.3 5.2-9v-89.9l27 15.6c.3.1.4.4.5.7v74.4a60 60 0 0 1-60 60zM47.9 244a59.7 59.7 0 0 1-7.1-40.1l1.9 1.1 63.7 36.8c3.2 1.9 7.2 1.9 10.5 0l77.8-45V228c0 .3-.2.6-.4.8L129.9 266a60 60 0 0 1-82-22zM31.2 105c7-12.2 18-21.5 31.2-26.3v75.8c0 3.7 2 7.2 5.2 9l77.8 45-27 15.5a1 1 0 0 1-.9 0L53.1 187a60 60 0 0 1-22-82zm221.2 51.5-77.8-45 27-15.5a1 1 0 0 1 .9 0l64.4 37.1a60 60 0 0 1-9.3 108.2v-75.8c0-3.7-2-7.2-5.2-9zm26.8-40.4-1.9-1.1-63.7-36.8a10.4 10.4 0 0 0-10.5 0L125.4 123V92c0-.3 0-.6.3-.8L190.1 54a60 60 0 0 1 89.1 62.1zm-168.5 55.4-27-15.5a1 1 0 0 1-.4-.7V80.9a60 60 0 0 1 98.3-46.1l-1.9 1L116 72.8a10.3 10.3 0 0 0-5.2 9v89.8zm14.6-31.5 34.7-20 34.6 20v40L160 200l-34.7-20z"></path></svg>';
+                iconHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" class="knittnet-embedding-model-icon-openai"><path fill="currentColor" d="M297 131a80.6 80.6 0 0 0-93.7-104.2 80.6 80.6 0 0 0-137 29A80.6 80.6 0 0 0 23 189a80.6 80.6 0 0 0 93.7 104.2 80.6 80.6 0 0 0 137-29A80.7 80.7 0 0 0 297.1 131zM176.9 299c-14 .1-27.6-4.8-38.4-13.8l1.9-1 63.7-36.9c3.3-1.8 5.3-5.3 5.2-9v-89.9l27 15.6c.3.1.4.4.5.7v74.4a60 60 0 0 1-60 60zM47.9 244a59.7 59.7 0 0 1-7.1-40.1l1.9 1.1 63.7 36.8c3.2 1.9 7.2 1.9 10.5 0l77.8-45V228c0 .3-.2.6-.4.8L129.9 266a60 60 0 0 1-82-22zM31.2 105c7-12.2 18-21.5 31.2-26.3v75.8c0 3.7 2 7.2 5.2 9l77.8 45-27 15.5a1 1 0 0 1-.9 0L53.1 187a60 60 0 0 1-22-82zm221.2 51.5-77.8-45 27-15.5a1 1 0 0 1 .9 0l64.4 37.1a60 60 0 0 1-9.3 108.2v-75.8c0-3.7-2-7.2-5.2-9zm26.8-40.4-1.9-1.1-63.7-36.8a10.4 10.4 0 0 0-10.5 0L125.4 123V92c0-.3 0-.6.3-.8L190.1 54a60 60 0 0 1 89.1 62.1zm-168.5 55.4-27-15.5a1 1 0 0 1-.4-.7V80.9a60 60 0 0 1 98.3-46.1l-1.9 1L116 72.8a10.3 10.3 0 0 0-5.2 9v89.8zm14.6-31.5 34.7-20 34.6 20v40L160 200l-34.7-20z"></path></svg>';
             }
             
             const $modelCard = $(`
-                <div class="mxchat-embedding-model-selector-card ${isSelected ? 'mxchat-embedding-model-selected' : ''} ${providerClass}" data-value="${model.value}">
-                    <div class="mxchat-embedding-model-selector-icon">
+                <div class="knittnet-embedding-model-selector-card ${isSelected ? 'knittnet-embedding-model-selected' : ''} ${providerClass}" data-value="${model.value}">
+                    <div class="knittnet-embedding-model-selector-icon">
                         ${iconHTML}
                     </div>
-                    <div class="mxchat-embedding-model-selector-info">
-                        <h4 class="mxchat-embedding-model-selector-title">${model.label}</h4>
-                        <p class="mxchat-embedding-model-selector-description">${model.description}</p>
+                    <div class="knittnet-embedding-model-selector-info">
+                        <h4 class="knittnet-embedding-model-selector-title">${model.label}</h4>
+                        <p class="knittnet-embedding-model-selector-description">${model.description}</p>
                     </div>
-                    ${isSelected ? '<div class="mxchat-embedding-model-selector-checkmark">✓</div>' : ''}
+                    ${isSelected ? '<div class="knittnet-embedding-model-selector-checkmark">✓</div>' : ''}
                 </div>
             `);
             
@@ -1824,23 +1824,23 @@ function setupMxChatEmbeddingModelSelector() {
         populateEmbeddingModelsGrid('', 'all');
     });
     
-    $('.mxchat-embedding-model-selector-modal-close, #mxchat_cancel_embedding_model_selection').on('click.embeddingModelSelector', function(e) {
+    $('.knittnet-embedding-model-selector-modal-close, #knittnet_cancel_embedding_model_selection').on('click.embeddingModelSelector', function(e) {
         e.stopPropagation(); // Prevent event bubbling
         $('#' + embeddingModalId).hide();
     });
     
-    $('.mxchat-embedding-model-selector-categories .mxchat-embedding-model-category-btn').on('click.embeddingModelSelector', function(e) {
+    $('.knittnet-embedding-model-selector-categories .knittnet-embedding-model-category-btn').on('click.embeddingModelSelector', function(e) {
         e.stopPropagation(); // Prevent event bubbling
-        $('.mxchat-embedding-model-selector-categories .mxchat-embedding-model-category-btn').removeClass('active');
+        $('.knittnet-embedding-model-selector-categories .knittnet-embedding-model-category-btn').removeClass('active');
         $(this).addClass('active');
         const category = $(this).data('category');
-        const searchTerm = $('#mxchat_embedding_model_search_input').val();
+        const searchTerm = $('#knittnet_embedding_model_search_input').val();
         populateEmbeddingModelsGrid(searchTerm, category);
     });
     
-    $('#mxchat_embedding_model_search_input').on('input.embeddingModelSelector', function() {
+    $('#knittnet_embedding_model_search_input').on('input.embeddingModelSelector', function() {
         const searchTerm = $(this).val();
-        const activeCategory = $('.mxchat-embedding-model-selector-categories .mxchat-embedding-model-category-btn.active').data('category');
+        const activeCategory = $('.knittnet-embedding-model-selector-categories .knittnet-embedding-model-category-btn.active').data('category');
         populateEmbeddingModelsGrid(searchTerm, activeCategory);
     });
     
@@ -1856,7 +1856,7 @@ function setupMxChatEmbeddingModelSelector() {
     }
 
     // Use a direct selector to avoid conflicts with other card elements
-    $(document).on('click.embeddingModelSelector', '.mxchat-embedding-model-selector-grid .mxchat-embedding-model-selector-card', function(e) {
+    $(document).on('click.embeddingModelSelector', '.knittnet-embedding-model-selector-grid .knittnet-embedding-model-selector-card', function(e) {
         e.stopPropagation(); // Prevent event bubbling
         const modelValue = $(this).data('value');
         const previousValue = $embeddingModelSelect.val();
@@ -1870,8 +1870,8 @@ function setupMxChatEmbeddingModelSelector() {
         // 3.2.3: Preflight — if the user has content embedded with a different
         // model, surface a confirmation dialog before committing the switch.
         $.post(ajaxurl, {
-            action: 'mxchat_check_embedding_switch',
-            security: (typeof mxchatAdmin !== 'undefined' ? mxchatAdmin.nonce : ''),
+            action: 'knittnet_check_embedding_switch',
+            security: (typeof knittnetAdmin !== 'undefined' ? knittnetAdmin.nonce : ''),
             new_model: modelValue
         }).done(function(resp) {
             if (resp && resp.success && resp.data && resp.data.is_mismatch) {
@@ -1901,14 +1901,14 @@ function setupMxChatEmbeddingModelSelector() {
 
 // Call this function after the DOM is fully loaded
 $(document).ready(function() {
-    setupMxChatModelSelector();
-    setupMxChatEmbeddingModelSelector();
+    setupKnittNetModelSelector();
+    setupKnittNetEmbeddingModelSelector();
 });
 
     // Add Intent Form Submission
-    $('#mxchat-add-intent-form').on('submit', function(event) {
-        $('#mxchat-intent-loading').show();
-        $('#mxchat-intent-loading-text').show();
+    $('#knittnet-add-intent-form').on('submit', function(event) {
+        $('#knittnet-intent-loading').show();
+        $('#knittnet-intent-loading-text').show();
         $(this).find('button[type="submit"]').hide();
     });
     
@@ -1916,17 +1916,17 @@ $(document).ready(function() {
     $('.edit-button').on('click', function() {
         var row = $(this).closest('tr');
 
-        // Clear URL field if it's a manual content URL (mxchat:// protocol)
+        // Clear URL field if it's a manual content URL (knittnet:// protocol)
         var urlEdit = row.find('.url-edit');
-        if (urlEdit.length && urlEdit.val().indexOf('mxchat://') === 0) {
+        if (urlEdit.length && urlEdit.val().indexOf('knittnet://') === 0) {
             urlEdit.val('');
         }
 
         // Expand the accordion to show the edit textarea (fixes short content editing)
-        var contentFull = row.find('.mxchat-content-full');
+        var contentFull = row.find('.knittnet-content-full');
         if (contentFull.length && contentFull.is(':hidden')) {
             contentFull.show();
-            row.find('.mxchat-content-preview').hide();
+            row.find('.knittnet-content-preview').hide();
         }
 
         row.find('.content-view, .url-view').hide();
@@ -1951,10 +1951,10 @@ $('.save-button').on('click', function() {
     button.text('Saving...');
 
     $.ajax({
-        url: mxchatAdmin.ajax_url,
+        url: knittnetAdmin.ajax_url,
         type: 'POST',
         data: {
-            action: 'mxchat_save_inline_prompt',
+            action: 'knittnet_save_inline_prompt',
             id: id,
             article_content: newContent,
             article_url: newUrl,
@@ -1969,7 +1969,7 @@ $('.save-button').on('click', function() {
                 if (newUrl) {
                     row.find('.url-view').html('<a href="' + newUrl + '" target="_blank"><span class="dashicons dashicons-external"></span> View Source</a>');
                 } else {
-                    row.find('.url-view').html('<span class="mxchat-na">Manual Content</span>');
+                    row.find('.url-view').html('<span class="knittnet-na">Manual Content</span>');
                 }
 
                 row.find('.content-edit, .url-edit').hide();
@@ -1978,8 +1978,8 @@ $('.save-button').on('click', function() {
                 row.find('.edit-button').show();
 
                 // Restore accordion state - show preview, hide full content
-                row.find('.mxchat-content-preview').show();
-                row.find('.mxchat-content-full').hide();
+                row.find('.knittnet-content-preview').show();
+                row.find('.knittnet-content-full').hide();
             } else {
                 alert('Error saving content: ' + (response.data?.message || 'Unknown error'));
             }
@@ -1994,37 +1994,37 @@ $('.save-button').on('click', function() {
     
     
     // Questions handling
-    $('.mxchat-add-question').on('click', function () {
-        const container = $('#mxchat-additional-questions-container');
-        const questionCount = container.find('.mxchat-question-row').length + 4;
-        const questionIndex = container.find('.mxchat-question-row').length;
+    $('.knittnet-add-question').on('click', function () {
+        const container = $('#knittnet-additional-questions-container');
+        const questionCount = container.find('.knittnet-question-row').length + 4;
+        const questionIndex = container.find('.knittnet-question-row').length;
     
         const newQuestion = `
-            <div class="mxchat-question-row">
+            <div class="knittnet-question-row">
                 <input type="text"
                        name="additional_popular_questions[]"
                        placeholder="Enter Additional Popular Question ${questionCount}"
-                       class="regular-text mxchat-question-input"
+                       class="regular-text knittnet-question-input"
                        data-question-index="${questionIndex}" />
-                <button type="button" class="button mxchat-remove-question"
+                <button type="button" class="button knittnet-remove-question"
                         aria-label="Remove question">Remove</button>
             </div>
         `;
         container.append(newQuestion);
     });
     
-    $(document).on('click', '.mxchat-remove-question', function () {
-        $(this).closest('.mxchat-question-row').remove();
+    $(document).on('click', '.knittnet-remove-question', function () {
+        $(this).closest('.knittnet-question-row').remove();
         saveQuestions();
     });
     
-    $(document).on('change', '.mxchat-question-input', function() {
+    $(document).on('change', '.knittnet-question-input', function() {
         saveQuestions();
     });
     
     function saveQuestions() {
         const questions = [];
-        $('.mxchat-question-input').each(function() {
+        $('.knittnet-question-input').each(function() {
             const value = $(this).val().trim();
             if (value) {
                 questions.push(value);
@@ -2036,18 +2036,18 @@ $('.save-button').on('click', function() {
         const successIcon = $('<div class="success-icon">✔</div>');
     
         // Append feedback after the add button
-        $('.mxchat-add-question').after(feedbackContainer);
+        $('.knittnet-add-question').after(feedbackContainer);
         feedbackContainer.append(spinner);
     
         // Save via AJAX
         $.ajax({
-            url: mxchatAdmin.ajax_url,
+            url: knittnetAdmin.ajax_url,
             type: 'POST',
             data: {
-                action: 'mxchat_save_setting',
+                action: 'knittnet_save_setting',
                 name: 'additional_popular_questions',
                 value: JSON.stringify(questions),
-                _ajax_nonce: mxchatAdmin.setting_nonce
+                _ajax_nonce: knittnetAdmin.setting_nonce
             },
             success: function(response) {
                 if (response.success) {
@@ -2078,8 +2078,8 @@ $('.save-button').on('click', function() {
             statusText.textContent = this.checked ? 'Online' : 'Offline';
             
             // Send the correct on/off value to the server
-            if (window.mxchatSaveSetting) {
-                window.mxchatSaveSetting('live_agent_status', this.checked ? 'on' : 'off');
+            if (window.knittnetSaveSetting) {
+                window.knittnetSaveSetting('live_agent_status', this.checked ? 'on' : 'off');
             }
         });
     }
@@ -2107,11 +2107,11 @@ $('.save-button').on('click', function() {
 
 document.addEventListener('DOMContentLoaded', function() {
     // Check if we're on the correct page before initializing
-    const modal = document.getElementById('mxchat-action-modal');
+    const modal = document.getElementById('knittnet-action-modal');
     
     // Only initialize if the modal exists on this page
     if (modal) {
-        //console.log('MXChat Action Modal JS Loaded');
+        //console.log('KnittNet Action Modal JS Loaded');
         
         // Initialize the action modal functionality
         initStepBasedActionModal();
@@ -2121,13 +2121,13 @@ document.addEventListener('DOMContentLoaded', function() {
     function initStepBasedActionModal() {
         // We already checked for modal existence above, so no need to check again
         
-        const actionStep1 = document.getElementById('mxchat-action-step-1');
-        const actionStep2 = document.getElementById('mxchat-action-step-2');
-        const backToStep1Btn = document.getElementById('mxchat-back-to-step-1');
+        const actionStep1 = document.getElementById('knittnet-action-step-1');
+        const actionStep2 = document.getElementById('knittnet-action-step-2');
+        const backToStep1Btn = document.getElementById('knittnet-back-to-step-1');
         const searchInput = document.getElementById('action-type-search');
-        const categoryButtons = modal.querySelectorAll('.mxchat-category-button');
-        const actionCards = modal.querySelectorAll('.mxchat-action-type-card');
-        const actionForm = document.getElementById('mxchat-action-form');
+        const categoryButtons = modal.querySelectorAll('.knittnet-category-button');
+        const actionCards = modal.querySelectorAll('.knittnet-action-type-card');
+        const actionForm = document.getElementById('knittnet-action-form');
         const callbackInput = document.getElementById('callback_function');
         const actionIdField = document.getElementById('edit_action_id');
         const labelField = document.getElementById('intent_label');
@@ -2135,7 +2135,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const formActionType = document.getElementById('form_action_type');
         const nonceContainer = document.getElementById('action-nonce-container');
         const thresholdSlider = document.getElementById('similarity_threshold');
-        const thresholdDisplay = document.querySelector('.mxchat-threshold-value-display');
+        const thresholdDisplay = document.querySelector('.knittnet-threshold-value-display');
         
         // Rest of your initialization code remains the same...
         
@@ -2168,7 +2168,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (searchInput) {
             searchInput.addEventListener('input', function() {
                 // Get active category
-                const activeCategory = modal.querySelector('.mxchat-category-button.active')?.dataset.category || 'all';
+                const activeCategory = modal.querySelector('.knittnet-category-button.active')?.dataset.category || 'all';
                 //console.log('Search input changed, active category:', activeCategory);
                 
                 // Filter action cards
@@ -2193,7 +2193,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (isPromo || (addonName && !isInstalled)) {
                     // Add-on required but not installed — show informational notice
-                    const addonDisplayName = this.querySelector('.mxchat-addon-info')?.textContent?.replace('Requires ', '').replace('— Get Add-on', '').trim() || addonName + ' Add-on';
+                    const addonDisplayName = this.querySelector('.knittnet-addon-info')?.textContent?.replace('Requires ', '').replace('— Get Add-on', '').trim() || addonName + ' Add-on';
                     showAddonRequiredNotice(addonDisplayName);
                     return;
                 }
@@ -2271,21 +2271,21 @@ document.addEventListener('DOMContentLoaded', function() {
         function showProFeatureNotice() {
             //console.log('Showing Pro feature notice');
             // Check if we already have a notification container
-            let noticeContainer = document.querySelector('.mxchat-pro-notice');
+            let noticeContainer = document.querySelector('.knittnet-pro-notice');
             
             if (!noticeContainer) {
                 // Create the notice container
                 noticeContainer = document.createElement('div');
-                noticeContainer.className = 'mxchat-pro-notice';
+                noticeContainer.className = 'knittnet-pro-notice';
                 
                 // Create content
                 noticeContainer.innerHTML = `
-                    <div class="mxchat-pro-notice-content">
-                        <h3>MxChat Pro Feature</h3>
+                    <div class="knittnet-pro-notice-content">
+                        <h3>KnittNet Pro Feature</h3>
                         <p>This action is available in the Pro version only.</p>
-                        <div class="mxchat-pro-notice-buttons">
-                            <button class="mxchat-button-secondary mxchat-pro-notice-close">Close</button>
-                            <a href="https://mxchat.ai/" class="mxchat-button-primary">Upgrade to Pro</a>
+                        <div class="knittnet-pro-notice-buttons">
+                            <button class="knittnet-button-secondary knittnet-pro-notice-close">Close</button>
+                            <a href="https://knittnet.ai/" class="knittnet-button-primary">Upgrade to Pro</a>
                         </div>
                     </div>
                 `;
@@ -2294,7 +2294,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.body.appendChild(noticeContainer);
                 
                 // Add close functionality
-                const closeButton = noticeContainer.querySelector('.mxchat-pro-notice-close');
+                const closeButton = noticeContainer.querySelector('.knittnet-pro-notice-close');
                 closeButton.addEventListener('click', function() {
                     noticeContainer.classList.remove('active');
                     setTimeout(() => {
@@ -2323,22 +2323,22 @@ document.addEventListener('DOMContentLoaded', function() {
         function showAddonRequiredNotice(addonName) {
             //console.log(`Showing add-on notice for: ${addonName}`);
             // Check if we already have a notification container
-            let noticeContainer = document.querySelector('.mxchat-addon-notice');
+            let noticeContainer = document.querySelector('.knittnet-addon-notice');
             
             if (!noticeContainer) {
                 // Create the notice container
                 noticeContainer = document.createElement('div');
-                noticeContainer.className = 'mxchat-addon-notice';
+                noticeContainer.className = 'knittnet-addon-notice';
                 
                 // Create content
                 noticeContainer.innerHTML = `
-                    <div class="mxchat-addon-notice-content">
-                        <span class="mxchat-addon-notice-icon">🧩</span>
+                    <div class="knittnet-addon-notice-content">
+                        <span class="knittnet-addon-notice-icon">🧩</span>
                         <h3>Add-on Required</h3>
                         <p>This action requires the <strong>${addonName}</strong> add-on to be installed.</p>
-                        <div class="mxchat-addon-notice-buttons">
-                            <button class="mxchat-button-secondary mxchat-addon-notice-close">Close</button>
-                            <a href="admin.php?page=mxchat-addons" class="mxchat-button-primary">Get Add-ons</a>
+                        <div class="knittnet-addon-notice-buttons">
+                            <button class="knittnet-button-secondary knittnet-addon-notice-close">Close</button>
+                            <a href="admin.php?page=knittnet-addons" class="knittnet-button-primary">Get Add-ons</a>
                         </div>
                     </div>
                 `;
@@ -2347,7 +2347,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.body.appendChild(noticeContainer);
                 
                 // Add close functionality
-                const closeButton = noticeContainer.querySelector('.mxchat-addon-notice-close');
+                const closeButton = noticeContainer.querySelector('.knittnet-addon-notice-close');
                 closeButton.addEventListener('click', function() {
                     noticeContainer.classList.remove('active');
                     setTimeout(() => {
@@ -2382,7 +2382,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (actionForm) {
             actionForm.addEventListener('submit', function() {
                 //console.log('Form submitted');
-                document.getElementById('mxchat-action-loading').style.display = 'flex';
+                document.getElementById('knittnet-action-loading').style.display = 'flex';
                 this.querySelector('button[type="submit"]').disabled = true;
             });
         }
@@ -2391,7 +2391,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Setup add action buttons (only if we're on the correct page)
     if (modal) {
         // Update the modal open function to support the step-based flow
-        window.mxchatOpenActionModal = function(isEdit = false, actionId = '', label = '', phrases = '', threshold = 85, callbackFunction = '', enabledBots = null) {
+        window.knittnetOpenActionModal = function(isEdit = false, actionId = '', label = '', phrases = '', threshold = 85, callbackFunction = '', enabledBots = null) {
             //console.log('Modal opening, edit mode:', isEdit);
             
             // Get form fields
@@ -2400,18 +2400,18 @@ document.addEventListener('DOMContentLoaded', function() {
             const phrasesField = document.getElementById('action_phrases');
             const formActionType = document.getElementById('form_action_type');
             const callbackInput = document.getElementById('callback_function'); 
-            const saveButton = document.getElementById('mxchat-save-action-btn');
+            const saveButton = document.getElementById('knittnet-save-action-btn');
             const nonceContainer = document.getElementById('action-nonce-container');
             const thresholdSlider = document.getElementById('similarity_threshold');
-            const thresholdDisplay = document.querySelector('.mxchat-threshold-value-display');
-            const actionStep1 = document.getElementById('mxchat-action-step-1');
-            const actionStep2 = document.getElementById('mxchat-action-step-2');
+            const thresholdDisplay = document.querySelector('.knittnet-threshold-value-display');
+            const actionStep1 = document.getElementById('knittnet-action-step-1');
+            const actionStep2 = document.getElementById('knittnet-action-step-2');
             const searchInput = document.getElementById('action-type-search');
             
             // Set up modal for edit or create
             if (isEdit) {
                 saveButton.textContent = 'Update Action';
-                formActionType.value = 'mxchat_edit_intent';
+                formActionType.value = 'knittnet_edit_intent';
                 actionIdField.value = actionId;
                 labelField.value = label;
                 phrasesField.value = phrases;
@@ -2457,8 +2457,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Update the nonce field for editing
                 nonceContainer.innerHTML = '';  // Clear existing nonce
-                if (typeof mxchatAdmin !== 'undefined' && mxchatAdmin.edit_intent_nonce) {
-                    nonceContainer.innerHTML = `<input type="hidden" name="_wpnonce" value="${mxchatAdmin.edit_intent_nonce}">`;
+                if (typeof knittnetAdmin !== 'undefined' && knittnetAdmin.edit_intent_nonce) {
+                    nonceContainer.innerHTML = `<input type="hidden" name="_wpnonce" value="${knittnetAdmin.edit_intent_nonce}">`;
                 }
                 
                 // For editing, go directly to step 2 and update the selected action display
@@ -2466,7 +2466,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 actionStep2.classList.add('active');
                 
                 // Find the matching action card to get its details
-                const actionCards = document.querySelectorAll('.mxchat-action-type-card');
+                const actionCards = document.querySelectorAll('.knittnet-action-type-card');
                 let foundCard = null;
                 
                 actionCards.forEach(card => {
@@ -2499,7 +2499,7 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 //console.log('Setting up create mode');
                 saveButton.textContent = 'Save Action';
-                formActionType.value = 'mxchat_add_intent';
+                formActionType.value = 'knittnet_add_intent';
                 actionIdField.value = '';
                 labelField.value = '';
                 phrasesField.value = '';
@@ -2514,8 +2514,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Update the nonce field for adding
                 nonceContainer.innerHTML = '';  // Clear existing nonce
-                if (typeof mxchatAdmin !== 'undefined' && mxchatAdmin.add_intent_nonce) {
-                    nonceContainer.innerHTML = `<input type="hidden" name="_wpnonce" value="${mxchatAdmin.add_intent_nonce}">`;
+                if (typeof knittnetAdmin !== 'undefined' && knittnetAdmin.add_intent_nonce) {
+                    nonceContainer.innerHTML = `<input type="hidden" name="_wpnonce" value="${knittnetAdmin.add_intent_nonce}">`;
                 }
                 
                 // For creating new, start at step 1
@@ -2539,13 +2539,13 @@ document.addEventListener('DOMContentLoaded', function() {
             };
             
             // Close button handler
-            const closeBtn = modal.querySelector('.mxchat-modal-close');
+            const closeBtn = modal.querySelector('.knittnet-modal-close');
             if (closeBtn) {
                 closeBtn.onclick = closeModal;
             }
             
             // Cancel button handler
-            const cancelBtns = modal.querySelectorAll('.mxchat-modal-cancel');
+            const cancelBtns = modal.querySelectorAll('.knittnet-modal-cancel');
             if (cancelBtns) {
                 cancelBtns.forEach(btn => {
                     btn.onclick = closeModal;
@@ -2576,20 +2576,20 @@ document.addEventListener('DOMContentLoaded', function() {
             return closeModal; // Return close function for external use
         };
         // Setup add action buttons
-        const addActionBtn = document.getElementById('mxchat-add-action-btn');
+        const addActionBtn = document.getElementById('knittnet-add-action-btn');
         if (addActionBtn) {
             //console.log('Add action button found');
-            addActionBtn.onclick = () => window.mxchatOpenActionModal();
+            addActionBtn.onclick = () => window.knittnetOpenActionModal();
         }
         
-        const createFirstAction = document.getElementById('mxchat-create-first-action');
+        const createFirstAction = document.getElementById('knittnet-create-first-action');
         if (createFirstAction) {
             //console.log('Create first action button found');
-            createFirstAction.onclick = () => window.mxchatOpenActionModal();
+            createFirstAction.onclick = () => window.knittnetOpenActionModal();
         }
         
         // Setup edit buttons
-        const editButtons = document.querySelectorAll('.mxchat-action-card .mxchat-edit-button');
+        const editButtons = document.querySelectorAll('.knittnet-action-card .knittnet-edit-button');
         //console.log('Edit buttons found:', editButtons.length);
             editButtons.forEach(button => {
                 button.onclick = () => {
@@ -2600,7 +2600,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const callbackFunction = button.dataset.callbackFunction;
                     const enabledBots = button.dataset.enabledBots; // ADD THIS LINE
             
-                    window.mxchatOpenActionModal(true, actionId, label, phrases, threshold, callbackFunction, enabledBots);
+                    window.knittnetOpenActionModal(true, actionId, label, phrases, threshold, callbackFunction, enabledBots);
                 };
             });
     }
@@ -2610,8 +2610,8 @@ jQuery(document).ready(function($) {
     // Auto-expand custom post types container if any are checked
     // Note: Click handler is in admin-knowledge-page.php inline script (initCustomPostTypesToggle)
     function autoExpandIfNeeded() {
-        const $container = $('#mxchat-custom-post-types-container');
-        const $toggleBtn = $('#mxchat-custom-post-types-toggle');
+        const $container = $('#knittnet-custom-post-types-container');
+        const $toggleBtn = $('#knittnet-custom-post-types-toggle');
 
         if ($container.length === 0) return;
 
@@ -2631,13 +2631,13 @@ jQuery(document).ready(function($) {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-    var viewSampleBtn = document.getElementById('mxchatViewSampleBtn');
-    var modal = document.getElementById('mxchatSampleModal');
-    var modalClose = document.getElementById('mxchatModalClose');
-    var closeBtn = document.getElementById('mxchatCloseBtn');
-    var copyBtn = document.getElementById('mxchatCopyBtn');
-    var instructionsContent = document.querySelector('.mxchat-instructions-content');
-    var modalContent = document.querySelector('.mxchat-instructions-modal-content');
+    var viewSampleBtn = document.getElementById('knittnetViewSampleBtn');
+    var modal = document.getElementById('knittnetSampleModal');
+    var modalClose = document.getElementById('knittnetModalClose');
+    var closeBtn = document.getElementById('knittnetCloseBtn');
+    var copyBtn = document.getElementById('knittnetCopyBtn');
+    var instructionsContent = document.querySelector('.knittnet-instructions-content');
+    var modalContent = document.querySelector('.knittnet-instructions-modal-content');
 
     if (!viewSampleBtn || !modal) {
         return;
@@ -2647,7 +2647,7 @@ document.addEventListener('DOMContentLoaded', function() {
     viewSampleBtn.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        modal.classList.add('mxchat-instructions-show');
+        modal.classList.add('knittnet-instructions-show');
     });
 
     // Close modal function
@@ -2656,7 +2656,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             e.stopPropagation();
         }
-        modal.classList.remove('mxchat-instructions-show');
+        modal.classList.remove('knittnet-instructions-show');
     }
 
     // Close modal events
@@ -2689,7 +2689,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Close on escape key
     document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && modal.classList.contains('mxchat-instructions-show')) {
+        if (e.key === 'Escape' && modal.classList.contains('knittnet-instructions-show')) {
             closeModal();
         }
     });
@@ -2786,7 +2786,7 @@ jQuery(document).ready(function($) {
 //Handle role restriction changes
 jQuery(document).ready(function($) {
     //Handle role restriction changes for both data sources
-    $(document).on('change', '.mxchat-role-select', function() {
+    $(document).on('change', '.knittnet-role-select', function() {
         const $select = $(this);
         const entryId = $select.data('entry-id');
         const dataSource = $select.data('data-source');
@@ -2800,7 +2800,7 @@ jQuery(document).ready(function($) {
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_update_role_restriction',
+                action: 'knittnet_update_role_restriction',
                 nonce: nonce,
                 entry_id: entryId,
                 data_source: dataSource, // NEW: Include data source
@@ -2834,7 +2834,7 @@ jQuery(document).ready(function($) {
     });
     
     // Store initial values
-    $('.mxchat-role-select').each(function() {
+    $('.knittnet-role-select').each(function() {
         $(this).data('original-value', $(this).val());
     });
 });
@@ -2845,7 +2845,7 @@ jQuery(document).ready(function($) {
 
     // Function to update bot_id in forms
     function updateBotIdInForm(formSelector) {
-        var botId = $('#mxchat-bot-selector').val();
+        var botId = $('#knittnet-bot-selector').val();
         var form = $(formSelector);
 
         if (form.length > 0) {
@@ -2859,35 +2859,35 @@ jQuery(document).ready(function($) {
         }
     }
 
-    $('#mxchat-bot-selector').on('change', function() {
+    $('#knittnet-bot-selector').on('change', function() {
         var botId = $(this).val();
 
         // Clear any existing timer
         clearTimeout(saveTimer);
 
         // Update all forms with new bot_id when bot selection changes
-        updateBotIdInForm('#mxchat-url-form');
-        updateBotIdInForm('#mxchat-content-form');
+        updateBotIdInForm('#knittnet-url-form');
+        updateBotIdInForm('#knittnet-content-form');
 
         // Save the selection via AJAX
         $.ajax({
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_save_selected_bot',
+                action: 'knittnet_save_selected_bot',
                 bot_id: botId,
-                nonce: mxchatAdmin.setting_nonce
+                nonce: knittnetAdmin.setting_nonce
             },
             success: function(response) {
                 if (response.success) {
                     // Show saved indicator
-                    $('#mxchat-bot-save-status').fadeIn().delay(2000).fadeOut();
+                    $('#knittnet-bot-save-status').fadeIn().delay(2000).fadeOut();
 
                     // Reload the page after a short delay to refresh content
                     saveTimer = setTimeout(function() {
                         var currentUrl = new URL(window.location.href);
                         currentUrl.searchParams.set('bot_id', botId);
-                        currentUrl.searchParams.set('page', 'mxchat-prompts');
+                        currentUrl.searchParams.set('page', 'knittnet-prompts');
                         window.location.href = currentUrl.toString();
                     }, 500);
                 }
@@ -2900,8 +2900,8 @@ jQuery(document).ready(function($) {
 
     // Initialize forms with current bot_id when the page loads
     setTimeout(function() {
-        updateBotIdInForm('#mxchat-url-form');
-        updateBotIdInForm('#mxchat-content-form');
+        updateBotIdInForm('#knittnet-url-form');
+        updateBotIdInForm('#knittnet-content-form');
     }, 100);
 });
 
@@ -2911,7 +2911,7 @@ jQuery(document).ready(function($) {
         var selectedModel = $('#model').val();
 
         // Hide all status messages
-        $('.mxchat-api-status').hide();
+        $('.knittnet-api-status').hide();
 
         // Return early if no model is selected
         if (!selectedModel) {
@@ -2937,7 +2937,7 @@ jQuery(document).ready(function($) {
 
         // If we have fresh API key data, update the messages
         if (apiKeyStatuses && provider && apiKeyStatuses[provider] !== undefined) {
-            var $statusElement = $('.mxchat-api-status[data-provider="' + provider + '"]');
+            var $statusElement = $('.knittnet-api-status[data-provider="' + provider + '"]');
             var hasKey = apiKeyStatuses[provider];
 
             if (hasKey) {
@@ -2949,7 +2949,7 @@ jQuery(document).ready(function($) {
 
         // Show the appropriate status message
         if (provider) {
-            $('.mxchat-api-status[data-provider="' + provider + '"]').show();
+            $('.knittnet-api-status[data-provider="' + provider + '"]').show();
         }
     }
 
@@ -2957,7 +2957,7 @@ jQuery(document).ready(function($) {
         var selectedModel = $('#embedding_model').val();
 
         // Hide all status messages
-        $('.mxchat-embedding-api-status').hide();
+        $('.knittnet-embedding-api-status').hide();
 
         // Return early if no model is selected
         if (!selectedModel) {
@@ -2977,7 +2977,7 @@ jQuery(document).ready(function($) {
 
         // If we have fresh API key data, update the messages
         if (apiKeyStatuses && provider && apiKeyStatuses[provider] !== undefined) {
-            var $statusElement = $('.mxchat-embedding-api-status[data-provider="' + provider + '"]');
+            var $statusElement = $('.knittnet-embedding-api-status[data-provider="' + provider + '"]');
             var hasKey = apiKeyStatuses[provider];
 
             if (hasKey) {
@@ -2989,7 +2989,7 @@ jQuery(document).ready(function($) {
 
         // Show the appropriate status message
         if (provider) {
-            $('.mxchat-embedding-api-status[data-provider="' + provider + '"]').show();
+            $('.knittnet-embedding-api-status[data-provider="' + provider + '"]').show();
         }
     }
 
@@ -3011,8 +3011,8 @@ jQuery(document).ready(function($) {
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_check_api_keys',
-                nonce: mxchatAdmin.setting_nonce
+                action: 'knittnet_check_api_keys',
+                nonce: knittnetAdmin.setting_nonce
             },
             success: function(response) {
                 if (response.success && response.data) {
@@ -3024,7 +3024,7 @@ jQuery(document).ready(function($) {
     }
 
     // Expose refresh function globally so auto-save can call it
-    window.mxchatRefreshAPIKeyStatus = refreshAPIKeyStatus;
+    window.knittnetRefreshAPIKeyStatus = refreshAPIKeyStatus;
 
     // Run on page load
     updateChatModelAPIStatus();
@@ -3081,19 +3081,19 @@ jQuery(document).ready(function($) {
 // Transcripts Metrics Dashboard
 jQuery(document).ready(function($) {
     // Tab switching functionality
-    $('.mxchat-metrics-tab').on('click', function() {
+    $('.knittnet-metrics-tab').on('click', function() {
         const tabName = $(this).data('tab');
         
         // Update tab buttons
-        $('.mxchat-metrics-tab').removeClass('active');
+        $('.knittnet-metrics-tab').removeClass('active');
         $(this).addClass('active');
         
         // Update panels
-        $('.mxchat-metrics-panel').removeClass('active');
-        $(`.mxchat-metrics-panel[data-panel="${tabName}"]`).addClass('active');
+        $('.knittnet-metrics-panel').removeClass('active');
+        $(`.knittnet-metrics-panel[data-panel="${tabName}"]`).addClass('active');
         
         // Initialize chart if activity tab is shown
-        if (tabName === 'activity' && typeof mxchatChartData !== 'undefined') {
+        if (tabName === 'activity' && typeof knittnetChartData !== 'undefined') {
             // Small delay to ensure the canvas is visible
             setTimeout(function() {
                 initActivityChart();
@@ -3103,7 +3103,7 @@ jQuery(document).ready(function($) {
     
     // Initialize chart function
     function initActivityChart() {
-        const canvas = document.getElementById('mxchat-activity-chart');
+        const canvas = document.getElementById('knittnet-activity-chart');
         if (!canvas) return;
         
         // Check if chart already exists and destroy it
@@ -3125,18 +3125,18 @@ jQuery(document).ready(function($) {
         
         // Simple chart without external library
         canvas.chartInstance = new SimpleChart(canvas, {
-            labels: mxchatChartData.labels,
+            labels: knittnetChartData.labels,
             datasets: [
                 {
                     label: 'Chats',
-                    data: mxchatChartData.chats,
+                    data: knittnetChartData.chats,
                     borderColor: '#667eea',
                     backgroundColor: chatsGradient,
                     fill: true
                 },
                 {
                     label: 'Messages',
-                    data: mxchatChartData.messages,
+                    data: knittnetChartData.messages,
                     borderColor: '#764ba2',
                     backgroundColor: messagesGradient,
                     fill: true
@@ -3288,7 +3288,7 @@ jQuery(document).ready(function($) {
     }
     
     // Initialize chart on page load if we're on the activity tab
-    if ($('.mxchat-metrics-tab.active').data('tab') === 'activity' && typeof mxchatChartData !== 'undefined') {
+    if ($('.knittnet-metrics-tab.active').data('tab') === 'activity' && typeof knittnetChartData !== 'undefined') {
         setTimeout(function() {
             initActivityChart();
         }, 100);
@@ -3297,9 +3297,9 @@ jQuery(document).ready(function($) {
     // ========================================
     // SLACK TEST CONNECTION
     // ========================================
-    $('#mxchat-test-slack-connection').on('click', function() {
+    $('#knittnet-test-slack-connection').on('click', function() {
         var $button = $(this);
-        var $result = $('#mxchat-slack-test-result');
+        var $result = $('#knittnet-slack-test-result');
         var originalText = $button.html();
 
         // Show loading state
@@ -3312,8 +3312,8 @@ jQuery(document).ready(function($) {
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_test_slack_connection',
-                nonce: mxchatAdmin.nonce
+                action: 'knittnet_test_slack_connection',
+                nonce: knittnetAdmin.nonce
             },
             success: function(response) {
                 $result.show();
@@ -3365,31 +3365,31 @@ jQuery(document).ready(function($) {
     // ========================================
 
     // Debug Mode Toggle
-    $('#mxchat_debug_mode').on('change', function() {
+    $('#knittnet_debug_mode').on('change', function() {
         var $toggle = $(this);
         var enabled = $toggle.is(':checked') ? 'on' : 'off';
         var $label = $toggle.closest('label');
 
         // Add loading indicator next to the toggle label
-        var $indicator = $label.find('.mxchat-save-indicator');
+        var $indicator = $label.find('.knittnet-save-indicator');
         if ($indicator.length === 0) {
-            $indicator = $('<span class="mxchat-save-indicator" style="margin-left: 10px;"></span>');
+            $indicator = $('<span class="knittnet-save-indicator" style="margin-left: 10px;"></span>');
             $label.append($indicator);
         }
-        $indicator.html('<span class="mxchat-saving-spinner"></span>').show();
+        $indicator.html('<span class="knittnet-saving-spinner"></span>').show();
 
         $.ajax({
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_toggle_debug_mode',
+                action: 'knittnet_toggle_debug_mode',
                 enabled: enabled,
-                _ajax_nonce: mxchatAdmin.setting_nonce
+                _ajax_nonce: knittnetAdmin.setting_nonce
             },
             success: function(response) {
                 if (response.success) {
                     // Show success indicator
-                    $indicator.html('<span class="mxchat-save-success">✓</span>');
+                    $indicator.html('<span class="knittnet-save-success">✓</span>');
                     setTimeout(function() {
                         $indicator.fadeOut(300);
                     }, 2000);
@@ -3397,13 +3397,13 @@ jQuery(document).ready(function($) {
                     // Always refresh the log after toggling
                     refreshDebugLog();
                 } else {
-                    $indicator.html('<span class="mxchat-save-error">✗</span>');
+                    $indicator.html('<span class="knittnet-save-error">✗</span>');
                     alert(response.data.message || 'Error toggling debug mode');
                     $toggle.prop('checked', !$toggle.is(':checked'));
                 }
             },
             error: function() {
-                $indicator.html('<span class="mxchat-save-error">✗</span>');
+                $indicator.html('<span class="knittnet-save-error">✗</span>');
                 alert('Error toggling debug mode');
                 $toggle.prop('checked', !$toggle.is(':checked'));
             }
@@ -3412,15 +3412,15 @@ jQuery(document).ready(function($) {
 
     // Refresh Debug Log
     function refreshDebugLog() {
-        var $container = $('#mxchat-debug-log');
-        var $countBadge = $('#mxchat-log-count');
+        var $container = $('#knittnet-debug-log');
+        var $countBadge = $('#knittnet-log-count');
 
         $.ajax({
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_get_debug_log',
-                _ajax_nonce: mxchatAdmin.setting_nonce
+                action: 'knittnet_get_debug_log',
+                _ajax_nonce: knittnetAdmin.setting_nonce
             },
             success: function(response) {
                 if (response.success) {
@@ -3429,18 +3429,18 @@ jQuery(document).ready(function($) {
 
                     if (count > 0) {
                         $countBadge.text(count + ' entries').show();
-                        var html = '<div class="mxchat-debug-log-entries">';
+                        var html = '<div class="knittnet-debug-log-entries">';
                         log.forEach(function(entry) {
-                            var typeClass = 'mxchat-log-type-' + entry.type;
+                            var typeClass = 'knittnet-log-type-' + entry.type;
                             var typeLabel = entry.type.replace(/_/g, ' ').toUpperCase();
-                            html += '<div class="mxchat-debug-log-entry ' + typeClass + '">';
-                            html += '<div class="mxchat-log-header">';
-                            html += '<span class="mxchat-log-type">' + escapeHtml(typeLabel) + '</span>';
-                            html += '<span class="mxchat-log-time">' + escapeHtml(entry.time) + '</span>';
+                            html += '<div class="knittnet-debug-log-entry ' + typeClass + '">';
+                            html += '<div class="knittnet-log-header">';
+                            html += '<span class="knittnet-log-type">' + escapeHtml(typeLabel) + '</span>';
+                            html += '<span class="knittnet-log-time">' + escapeHtml(entry.time) + '</span>';
                             html += '</div>';
-                            html += '<div class="mxchat-log-message">' + escapeHtml(entry.message) + '</div>';
+                            html += '<div class="knittnet-log-message">' + escapeHtml(entry.message) + '</div>';
                             if (entry.data) {
-                                html += '<div class="mxchat-log-data">' + escapeHtml(JSON.stringify(entry.data, null, 2)) + '</div>';
+                                html += '<div class="knittnet-log-data">' + escapeHtml(JSON.stringify(entry.data, null, 2)) + '</div>';
                             }
                             html += '</div>';
                         });
@@ -3449,7 +3449,7 @@ jQuery(document).ready(function($) {
                     } else {
                         $countBadge.hide();
                         $container.html(
-                            '<div class="mxchat-debug-log-empty">' +
+                            '<div class="knittnet-debug-log-empty">' +
                             '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.3;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>' +
                             '<p>No log entries yet. Enable debug mode to start logging.</p>' +
                             '</div>'
@@ -3461,12 +3461,12 @@ jQuery(document).ready(function($) {
     }
 
     // Load debug log on page load
-    if ($('#mxchat-debug-log').length) {
+    if ($('#knittnet-debug-log').length) {
         refreshDebugLog();
     }
 
     // Refresh Log Button
-    $('#mxchat-refresh-log').on('click', function() {
+    $('#knittnet-refresh-log').on('click', function() {
         var $btn = $(this);
         $btn.prop('disabled', true);
         refreshDebugLog();
@@ -3476,7 +3476,7 @@ jQuery(document).ready(function($) {
     });
 
     // Clear Log Button
-    $('#mxchat-clear-log').on('click', function() {
+    $('#knittnet-clear-log').on('click', function() {
         if (!confirm('Are you sure you want to clear the debug log?')) {
             return;
         }
@@ -3488,8 +3488,8 @@ jQuery(document).ready(function($) {
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_clear_debug_log',
-                _ajax_nonce: mxchatAdmin.setting_nonce
+                action: 'knittnet_clear_debug_log',
+                _ajax_nonce: knittnetAdmin.setting_nonce
             },
             success: function(response) {
                 if (response.success) {
@@ -3508,7 +3508,7 @@ jQuery(document).ready(function($) {
     });
 
     // Export Settings Button
-    $('#mxchat-export-settings').on('click', function() {
+    $('#knittnet-export-settings').on('click', function() {
         var $btn = $(this);
         var originalHtml = $btn.html();
         $btn.prop('disabled', true).html(
@@ -3519,8 +3519,8 @@ jQuery(document).ready(function($) {
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_export_settings',
-                _ajax_nonce: mxchatAdmin.setting_nonce
+                action: 'knittnet_export_settings',
+                _ajax_nonce: knittnetAdmin.setting_nonce
             },
             success: function(response) {
                 if (response.success) {
@@ -3549,17 +3549,17 @@ jQuery(document).ready(function($) {
     });
 
     // Reset Settings Modal
-    var $resetModal = $('#mxchat-reset-modal');
-    var $resetConfirmInput = $('#mxchat-reset-confirmation');
-    var $resetConfirmBtn = $('#mxchat-reset-confirm');
+    var $resetModal = $('#knittnet-reset-modal');
+    var $resetConfirmInput = $('#knittnet-reset-confirmation');
+    var $resetConfirmBtn = $('#knittnet-reset-confirm');
 
-    $('#mxchat-reset-settings').on('click', function() {
+    $('#knittnet-reset-settings').on('click', function() {
         $resetModal.fadeIn(200);
         $resetConfirmInput.val('').focus();
         $resetConfirmBtn.prop('disabled', true);
     });
 
-    $('#mxchat-reset-modal-close, #mxchat-reset-cancel, .mxch-modal-backdrop').on('click', function() {
+    $('#knittnet-reset-modal-close, #knittnet-reset-cancel, .mxch-modal-backdrop').on('click', function() {
         $resetModal.fadeOut(200);
     });
 
@@ -3578,9 +3578,9 @@ jQuery(document).ready(function($) {
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'mxchat_reset_all_settings',
+                action: 'knittnet_reset_all_settings',
                 confirmation: confirmation,
-                _ajax_nonce: mxchatAdmin.setting_nonce
+                _ajax_nonce: knittnetAdmin.setting_nonce
             },
             success: function(response) {
                 if (response.success) {
@@ -3609,7 +3609,7 @@ jQuery(document).ready(function($) {
     });
 });
 
-// Global rate-limit usage: "Reset counter" button (plan-mxchat-20260603-e9b3f9)
+// Global rate-limit usage: "Reset counter" button (plan-knittnet-20260603-e9b3f9)
 jQuery(document).ready(function($) {
     var $usage = $('#mxch-global-usage');
     if (!$usage.length) {
@@ -3626,10 +3626,10 @@ jQuery(document).ready(function($) {
         $btn.prop('disabled', true).text('Resetting…');
 
         $.ajax({
-            url: mxchatAdmin.ajax_url,
+            url: knittnetAdmin.ajax_url,
             type: 'POST',
             data: {
-                action: 'mxchat_reset_global_rate_limit',
+                action: 'knittnet_reset_global_rate_limit',
                 bot_id: $usage.data('bot-id') || 'default',
                 _ajax_nonce: $usage.data('reset-nonce')
             },

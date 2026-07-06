@@ -1,41 +1,41 @@
-# Copyright (C) 2026 MxChat
+# Copyright (C) 2026 KnittNet
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: MxChat 3.2.10\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/mxchat-basic/\n"
-"Last-Translator: MxChat <support@mxchat.ai>\n"
-"Language-Team: MxChat <support@mxchat.ai>\n"
+"Project-Id-Version: KnittNet 3.2.10\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/knittnet-basic/\n"
+"Last-Translator: KnittNet <support@knittnet.ai>\n"
+"Language-Team: KnittNet <support@knittnet.ai>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2026-06-19T13:28:22+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
-"X-Domain: mxchat\n"
+"X-Domain: knittnet\n"
 
 #. Plugin Name of the plugin
 #. Author of the plugin
-#: mxchat-basic.php
-#: includes/class-mxchat-admin.php:293
-#: includes/class-mxchat-admin.php:395
-#: includes/class-mxchat-admin.php:396
-msgid "MxChat"
+#: knittnet-basic.php
+#: includes/class-knittnet-admin.php:293
+#: includes/class-knittnet-admin.php:395
+#: includes/class-knittnet-admin.php:396
+msgid "KnittNet"
 msgstr ""
 
 #. Plugin URI of the plugin
-#: mxchat-basic.php
-msgid "https://mxchat.ai/"
+#: knittnet-basic.php
+msgid "https://knittnet.ai/"
 msgstr ""
 
 #. Description of the plugin
-#: mxchat-basic.php
+#: knittnet-basic.php
 msgid "AI chatbot for WordPress with OpenAI, Claude, xAI, DeepSeek, live agent, PDF uploads, WooCommerce, and training on website data."
 msgstr ""
 
 #. Author URI of the plugin
-#: mxchat-basic.php
-msgid "https://mxchat.ai"
+#: knittnet-basic.php
+msgid "https://knittnet.ai"
 msgstr ""
 
 #: admin/class-ajax-handler.php:66
@@ -47,27 +47,27 @@ msgstr ""
 #: admin/class-ajax-handler.php:1375
 #: admin/class-ajax-handler.php:1400
 #: admin/class-ajax-handler.php:1432
-#: includes/class-mxchat-admin.php:127
-#: includes/class-mxchat-admin.php:157
-#: includes/class-mxchat-admin.php:5090
-#: includes/class-mxchat-admin.php:5200
-#: includes/class-mxchat-admin.php:5235
-#: includes/class-mxchat-admin.php:5271
-#: includes/class-mxchat-admin.php:5399
-#: includes/class-mxchat-admin.php:5488
-#: includes/class-mxchat-admin.php:5522
-#: includes/class-mxchat-admin.php:5570
-#: includes/class-mxchat-admin.php:5596
-#: includes/class-mxchat-admin.php:5625
-#: includes/class-mxchat-content-generator.php:284
-#: includes/class-mxchat-content-generator.php:570
-#: includes/class-mxchat-content-generator.php:1511
-#: includes/class-mxchat-content-generator.php:1538
-#: includes/class-mxchat-content-generator.php:2519
-#: includes/class-mxchat-content-generator.php:2644
-#: includes/class-mxchat-content-generator.php:2690
-#: includes/class-mxchat-content-generator.php:2718
-#: includes/class-mxchat-content-generator.php:2782
+#: includes/class-knittnet-admin.php:127
+#: includes/class-knittnet-admin.php:157
+#: includes/class-knittnet-admin.php:5090
+#: includes/class-knittnet-admin.php:5200
+#: includes/class-knittnet-admin.php:5235
+#: includes/class-knittnet-admin.php:5271
+#: includes/class-knittnet-admin.php:5399
+#: includes/class-knittnet-admin.php:5488
+#: includes/class-knittnet-admin.php:5522
+#: includes/class-knittnet-admin.php:5570
+#: includes/class-knittnet-admin.php:5596
+#: includes/class-knittnet-admin.php:5625
+#: includes/class-knittnet-content-generator.php:284
+#: includes/class-knittnet-content-generator.php:570
+#: includes/class-knittnet-content-generator.php:1511
+#: includes/class-knittnet-content-generator.php:1538
+#: includes/class-knittnet-content-generator.php:2519
+#: includes/class-knittnet-content-generator.php:2644
+#: includes/class-knittnet-content-generator.php:2690
+#: includes/class-knittnet-content-generator.php:2718
+#: includes/class-knittnet-content-generator.php:2782
 msgid "Unauthorized"
 msgstr ""
 
@@ -206,9 +206,9 @@ msgid "Activation failed"
 msgstr ""
 
 #: admin/class-ajax-handler.php:1201
-#: includes/class-mxchat-admin.php:4835
-#: includes/class-mxchat-admin.php:4854
-#: includes/class-mxchat-admin.php:4956
+#: includes/class-knittnet-admin.php:4835
+#: includes/class-knittnet-admin.php:4854
+#: includes/class-knittnet-admin.php:4956
 msgid "Unauthorized user"
 msgstr ""
 
@@ -253,8 +253,8 @@ msgid "Usage counter reset."
 msgstr ""
 
 #: admin/class-knowledge-manager.php:108
-#: includes/class-mxchat-admin.php:9982
-#: includes/class-mxchat-admin.php:10068
+#: includes/class-knittnet-admin.php:9982
+#: includes/class-knittnet-admin.php:10068
 msgid "Nonce verification failed."
 msgstr ""
 
@@ -342,8 +342,8 @@ msgid "Failed to process uploaded PDF: "
 msgstr ""
 
 #: admin/class-knowledge-manager.php:581
-#: includes/class-mxchat-admin.php:840
-#: includes/class-mxchat-admin.php:911
+#: includes/class-knittnet-admin.php:840
+#: includes/class-knittnet-admin.php:911
 msgid "Permission denied."
 msgstr ""
 
@@ -518,16 +518,16 @@ msgstr ""
 #: admin/class-knowledge-manager.php:2287
 #: admin/class-knowledge-manager.php:2763
 #: includes/admin-knowledge-page.php:1178
-#: includes/class-mxchat-admin.php:3800
-#: includes/class-mxchat-admin.php:4548
+#: includes/class-knittnet-admin.php:3800
+#: includes/class-knittnet-admin.php:4548
 msgid "&laquo; Previous"
 msgstr ""
 
 #: admin/class-knowledge-manager.php:2318
 #: admin/class-knowledge-manager.php:2794
 #: includes/admin-knowledge-page.php:1209
-#: includes/class-mxchat-admin.php:3801
-#: includes/class-mxchat-admin.php:4549
+#: includes/class-knittnet-admin.php:3801
+#: includes/class-knittnet-admin.php:4549
 msgid "Next &raquo;"
 msgstr ""
 
@@ -548,7 +548,7 @@ msgstr ""
 
 #: admin/class-knowledge-manager.php:4552
 #: admin/class-knowledge-manager.php:4638
-#: includes/class-mxchat-integrator.php:409
+#: includes/class-knittnet-integrator.php:409
 msgid "Dismiss"
 msgstr ""
 
@@ -700,8 +700,8 @@ msgstr ""
 
 #: admin/class-knowledge-manager.php:5935
 #: admin/class-knowledge-manager.php:7030
-#: includes/class-mxchat-admin.php:3895
-#: includes/class-mxchat-admin.php:4107
+#: includes/class-knittnet-admin.php:3895
+#: includes/class-knittnet-admin.php:4107
 msgid "You do not have sufficient permissions."
 msgstr ""
 
@@ -779,7 +779,7 @@ msgstr ""
 #: includes/admin-onboarding-page.php:458
 #: includes/admin-onboarding-page.php:486
 #: includes/admin-transcripts-page.php:952
-#: includes/class-mxchat-admin.php:460
+#: includes/class-knittnet-admin.php:460
 msgid "Actions"
 msgstr ""
 
@@ -881,7 +881,7 @@ msgstr ""
 #: includes/admin-content-page.php:814
 #: includes/admin-transcripts-page.php:443
 #: includes/admin-transcripts-page.php:697
-#: includes/class-mxchat-admin.php:4591
+#: includes/class-knittnet-admin.php:4591
 msgid "All"
 msgstr ""
 
@@ -952,7 +952,7 @@ msgid "Pro"
 msgstr ""
 
 #: includes/admin-actions-page.php:316
-#: includes/class-mxchat-admin.php:4662
+#: includes/class-knittnet-admin.php:4662
 #, php-format
 msgid "Requires %s"
 msgstr ""
@@ -994,8 +994,8 @@ msgstr ""
 #: includes/admin-actions-page.php:460
 #: includes/admin-settings-page.php:293
 #: includes/admin-settings-page.php:1233
-#: includes/class-mxchat-admin.php:4725
-#: includes/class-mxchat-admin.php:6153
+#: includes/class-knittnet-admin.php:4725
+#: includes/class-knittnet-admin.php:6153
 msgid "Similarity Threshold"
 msgstr ""
 
@@ -1008,10 +1008,10 @@ msgid "Enabled Bots"
 msgstr ""
 
 #: includes/admin-actions-page.php:388
-#: includes/class-mxchat-admin.php:4457
-#: includes/class-mxchat-admin.php:4757
-#: includes/class-mxchat-meta-box.php:90
-#: includes/class-mxchat-public.php:726
+#: includes/class-knittnet-admin.php:4457
+#: includes/class-knittnet-admin.php:4757
+#: includes/class-knittnet-meta-box.php:90
+#: includes/class-knittnet-public.php:726
 msgid "Default Bot"
 msgstr ""
 
@@ -1024,10 +1024,10 @@ msgstr ""
 #: includes/admin-settings-page.php:838
 #: includes/admin-transcripts-page.php:620
 #: includes/admin-transcripts-page.php:785
-#: includes/class-mxchat-admin.php:4677
-#: includes/class-mxchat-admin.php:4786
-#: includes/class-mxchat-admin.php:9063
-#: includes/class-mxchat-integrator.php:4808
+#: includes/class-knittnet-admin.php:4677
+#: includes/class-knittnet-admin.php:4786
+#: includes/class-knittnet-admin.php:9063
+#: includes/class-knittnet-integrator.php:4808
 msgid "Cancel"
 msgstr ""
 
@@ -1044,7 +1044,7 @@ msgid "Toggle Enabled"
 msgstr ""
 
 #: includes/admin-actions-page.php:429
-#: includes/class-mxchat-admin.php:4508
+#: includes/class-knittnet-admin.php:4508
 msgid "Edit"
 msgstr ""
 
@@ -1052,7 +1052,7 @@ msgstr ""
 #: includes/admin-actions-page.php:704
 #: includes/admin-transcripts-page.php:621
 #: includes/admin-transcripts-page.php:702
-#: includes/class-mxchat-admin.php:4519
+#: includes/class-knittnet-admin.php:4519
 msgid "Delete"
 msgstr ""
 
@@ -1071,7 +1071,7 @@ msgstr ""
 #: includes/admin-settings-page.php:41
 #: includes/admin-transcripts-page.php:71
 #: includes/admin-transcripts-page.php:142
-#: includes/class-mxchat-admin.php:432
+#: includes/class-knittnet-admin.php:432
 msgid "Settings"
 msgstr ""
 
@@ -1255,7 +1255,7 @@ msgid "Save Changes"
 msgstr ""
 
 #: includes/admin-api-page.php:30
-msgid "MxChat API Access"
+msgid "KnittNet API Access"
 msgstr ""
 
 #: includes/admin-api-page.php:31
@@ -1383,7 +1383,7 @@ msgid "Regenerating immediately invalidates the old token. Save the new value so
 msgstr ""
 
 #: includes/admin-api-page.php:319
-msgid "All endpoints live under the WordPress REST namespace mxchat/v1."
+msgid "All endpoints live under the WordPress REST namespace knittnet/v1."
 msgstr ""
 
 #: includes/admin-api-page.php:327
@@ -1478,8 +1478,8 @@ msgstr ""
 #: includes/admin-content-page.php:506
 #: includes/admin-knowledge-page.php:922
 #: includes/admin-onboarding-page.php:459
-#: includes/class-mxchat-admin.php:469
-#: includes/class-mxchat-admin.php:470
+#: includes/class-knittnet-admin.php:469
+#: includes/class-knittnet-admin.php:470
 msgid "Content"
 msgstr ""
 
@@ -1601,20 +1601,20 @@ msgid "Post Title"
 msgstr ""
 
 #: includes/admin-content-page.php:272
-#: includes/class-mxchat-admin.php:7024
-#: includes/class-mxchat-admin.php:7036
-#: includes/class-mxchat-admin.php:7047
-#: includes/class-mxchat-admin.php:7059
-#: includes/class-mxchat-admin.php:7071
-#: includes/class-mxchat-admin.php:7084
-#: includes/class-mxchat-admin.php:7224
-#: includes/class-mxchat-admin.php:7239
-#: includes/class-mxchat-admin.php:8295
-#: includes/class-mxchat-admin.php:8577
-#: includes/class-mxchat-admin.php:8586
-#: includes/class-mxchat-admin.php:8595
-#: includes/class-mxchat-admin.php:8663
-#: includes/class-mxchat-admin.php:8691
+#: includes/class-knittnet-admin.php:7024
+#: includes/class-knittnet-admin.php:7036
+#: includes/class-knittnet-admin.php:7047
+#: includes/class-knittnet-admin.php:7059
+#: includes/class-knittnet-admin.php:7071
+#: includes/class-knittnet-admin.php:7084
+#: includes/class-knittnet-admin.php:7224
+#: includes/class-knittnet-admin.php:7239
+#: includes/class-knittnet-admin.php:8295
+#: includes/class-knittnet-admin.php:8577
+#: includes/class-knittnet-admin.php:8586
+#: includes/class-knittnet-admin.php:8595
+#: includes/class-knittnet-admin.php:8663
+#: includes/class-knittnet-admin.php:8691
 msgid "Show"
 msgstr ""
 
@@ -1627,7 +1627,7 @@ msgid "Template Mode"
 msgstr ""
 
 #: includes/admin-content-page.php:279
-#: includes/class-mxchat-admin.php:8333
+#: includes/class-knittnet-admin.php:8333
 msgid "Off"
 msgstr ""
 
@@ -1755,10 +1755,10 @@ msgid "Optimize All"
 msgstr ""
 
 #: includes/admin-content-page.php:447
-#: includes/class-mxchat-admin.php:7419
-#: includes/class-mxchat-public.php:248
-#: includes/class-mxchat-public.php:253
-#: includes/class-mxchat-public.php:450
+#: includes/class-knittnet-admin.php:7419
+#: includes/class-knittnet-public.php:248
+#: includes/class-knittnet-public.php:253
+#: includes/class-knittnet-public.php:450
 msgid "Close"
 msgstr ""
 
@@ -1791,7 +1791,7 @@ msgid "Content Model"
 msgstr ""
 
 #: includes/admin-content-page.php:560
-msgid "Select the AI model used for generating content. Uses the API key configured in your main MxChat settings."
+msgid "Select the AI model used for generating content. Uses the API key configured in your main KnittNet settings."
 msgstr ""
 
 #: includes/admin-content-page.php:565
@@ -1799,8 +1799,8 @@ msgid "Image Model"
 msgstr ""
 
 #: includes/admin-content-page.php:569
-#: includes/class-mxchat-model-catalog.php:70
-#: includes/class-mxchat-model-catalog.php:147
+#: includes/class-knittnet-model-catalog.php:70
+#: includes/class-knittnet-model-catalog.php:147
 msgid "OpenAI"
 msgstr ""
 
@@ -1881,7 +1881,7 @@ msgid "How many images to generate and place in each article (1–5). Default 3.
 msgstr ""
 
 #: includes/admin-content-page.php:655
-#: includes/class-mxchat-addons.php:89
+#: includes/class-knittnet-addons.php:89
 msgid "Internal Linking"
 msgstr ""
 
@@ -1981,7 +1981,7 @@ msgid "Bulk optimize requires the Advanced Content Editor add-on"
 msgstr ""
 
 #: includes/admin-content-page.php:822
-msgid "Bulk optimize requires MxChat Pro"
+msgid "Bulk optimize requires KnittNet Pro"
 msgstr ""
 
 #: includes/admin-content-page.php:824
@@ -2131,7 +2131,7 @@ msgid "We detected your %s API key. <strong>Remember to add credits to your %s a
 msgstr ""
 
 #: includes/admin-knowledge-page.php:460
-#: includes/class-mxchat-meta-box.php:214
+#: includes/class-knittnet-meta-box.php:214
 msgid "Important:"
 msgstr ""
 
@@ -2330,7 +2330,7 @@ msgid "Refresh Entries"
 msgstr ""
 
 #: includes/admin-knowledge-page.php:919
-#: includes/class-mxchat-admin.php:9061
+#: includes/class-knittnet-admin.php:9061
 msgid "Select All"
 msgstr ""
 
@@ -2535,7 +2535,7 @@ msgid "Pinecone is optional."
 msgstr ""
 
 #: includes/admin-knowledge-page.php:1562
-msgid "MxChat works without it. When enabled, content is stored in Pinecone for faster similarity searches."
+msgid "KnittNet works without it. When enabled, content is stored in Pinecone for faster similarity searches."
 msgstr ""
 
 #: includes/admin-knowledge-page.php:1574
@@ -2709,7 +2709,7 @@ msgid "Save & Re-embed"
 msgstr ""
 
 #: includes/admin-knowledge-page.php:1831
-#: includes/class-mxchat-admin.php:8860
+#: includes/class-knittnet-admin.php:8860
 msgid "Saving..."
 msgstr ""
 
@@ -2750,28 +2750,28 @@ msgstr ""
 
 #: includes/admin-onboarding-page.php:454
 #: includes/admin-onboarding-page.php:541
-#: includes/class-mxchat-admin.php:411
-#: includes/class-mxchat-admin.php:422
+#: includes/class-knittnet-admin.php:411
+#: includes/class-knittnet-admin.php:422
 msgid "Onboarding"
 msgstr ""
 
 #: includes/admin-onboarding-page.php:456
 #: includes/admin-onboarding-page.php:485
-#: includes/class-mxchat-admin.php:442
+#: includes/class-knittnet-admin.php:442
 msgid "Knowledge"
 msgstr ""
 
 #: includes/admin-onboarding-page.php:457
 #: includes/admin-transcripts-page.php:43
-#: includes/class-mxchat-admin.php:451
+#: includes/class-knittnet-admin.php:451
 msgid "Transcripts"
 msgstr ""
 
 #: includes/admin-onboarding-page.php:461
 #: includes/admin-pro-page.php:67
 #: includes/admin-pro-page.php:179
-#: includes/class-mxchat-admin.php:486
-#: includes/class-mxchat-admin.php:487
+#: includes/class-knittnet-admin.php:486
+#: includes/class-knittnet-admin.php:487
 msgid "Pro & Extensions"
 msgstr ""
 
@@ -2811,7 +2811,7 @@ msgstr ""
 
 #: includes/admin-onboarding-page.php:486
 #: includes/admin-onboarding-page.php:796
-msgid "Try MxChat Actions"
+msgid "Try KnittNet Actions"
 msgstr ""
 
 #: includes/admin-onboarding-page.php:487
@@ -2888,7 +2888,7 @@ msgid "Copied!"
 msgstr ""
 
 #: includes/admin-onboarding-page.php:543
-msgid "Six quick steps to get your MxChat chatbot live."
+msgid "Six quick steps to get your KnittNet chatbot live."
 msgstr ""
 
 #: includes/admin-onboarding-page.php:553
@@ -2929,7 +2929,7 @@ msgstr ""
 
 #: includes/admin-onboarding-page.php:624
 #: includes/admin-onboarding-page.php:737
-msgid "An API key is a password from your AI provider that lets MxChat talk to them."
+msgid "An API key is a password from your AI provider that lets KnittNet talk to them."
 msgstr ""
 
 #. translators: %s = link to API Keys settings
@@ -2967,7 +2967,7 @@ msgid "Optional — leave blank to use sensible defaults. You can refine this la
 msgstr ""
 
 #: includes/admin-onboarding-page.php:676
-#: includes/class-mxchat-admin.php:7357
+#: includes/class-knittnet-admin.php:7357
 msgid "View Sample Instructions"
 msgstr ""
 
@@ -3000,13 +3000,13 @@ msgid "Patient, empathetic, troubleshoots, escalates when stuck."
 msgstr ""
 
 #: includes/admin-onboarding-page.php:710
-msgid "Embeddings turn your website content and knowledge base into a format MxChat can search through — this is what makes your chatbot \"know\" your stuff. You only need this if you'll use a knowledge base, but most users do."
+msgid "Embeddings turn your website content and knowledge base into a format KnittNet can search through — this is what makes your chatbot \"know\" your stuff. You only need this if you'll use a knowledge base, but most users do."
 msgstr ""
 
 #. translators: %s = link to Knowledge page
 #: includes/admin-onboarding-page.php:763
 #, php-format
-msgid "By default MxChat stores embeddings in your WordPress database. After onboarding you can switch to %s for larger knowledge bases."
+msgid "By default KnittNet stores embeddings in your WordPress database. After onboarding you can switch to %s for larger knowledge bases."
 msgstr ""
 
 #: includes/admin-onboarding-page.php:764
@@ -3018,7 +3018,7 @@ msgid "Add something to your knowledge base"
 msgstr ""
 
 #: includes/admin-onboarding-page.php:778
-msgid "Your knowledge base is the content MxChat uses to answer questions about your site — pages, posts, PDFs, or custom text. Add some now if you'd like, or skip this and build it later from the Knowledge page."
+msgid "Your knowledge base is the content KnittNet uses to answer questions about your site — pages, posts, PDFs, or custom text. Add some now if you'd like, or skip this and build it later from the Knowledge page."
 msgstr ""
 
 #: includes/admin-onboarding-page.php:783
@@ -3031,7 +3031,7 @@ msgid "I'll skip this for now — Continue"
 msgstr ""
 
 #: includes/admin-onboarding-page.php:798
-msgid "Actions let your chatbot do things, not just answer. When a visitor's message matches phrases you choose, MxChat can capture their email to a Loops list, search the web and images with Brave, generate an image with OpenAI or Gemini, answer questions about a PDF you've uploaded, or hand the conversation off to a human agent on Slack or Telegram. This step is optional — skip it now and set up Actions any time."
+msgid "Actions let your chatbot do things, not just answer. When a visitor's message matches phrases you choose, KnittNet can capture their email to a Loops list, search the web and images with Brave, generate an image with OpenAI or Gemini, answer questions about a PDF you've uploaded, or hand the conversation off to a human agent on Slack or Telegram. This step is optional — skip it now and set up Actions any time."
 msgstr ""
 
 #: includes/admin-onboarding-page.php:803
@@ -3148,7 +3148,7 @@ msgid "Hide the setup guide from the menu — reopen it any time under Settings 
 msgstr ""
 
 #: includes/admin-onboarding-page.php:970
-#: includes/class-mxchat-admin.php:7379
+#: includes/class-knittnet-admin.php:7379
 msgid "Sample AI Instructions"
 msgstr ""
 
@@ -3187,7 +3187,7 @@ msgstr ""
 
 #: includes/admin-pro-page.php:170
 #: includes/admin-settings-page.php:228
-msgid "One payment unlocks every MxChat Pro add-on for life — MCP server access for Claude / ChatGPT / Claude Code, WooCommerce sales, Google Search Console insights, AI-generated chatbot themes, lead-capture forms, unlimited bots, image analysis, and more. No renewals. No surprise bills."
+msgid "One payment unlocks every KnittNet Pro add-on for life — MCP server access for Claude / ChatGPT / Claude Code, WooCommerce sales, Google Search Console insights, AI-generated chatbot themes, lead-capture forms, unlimited bots, image analysis, and more. No renewals. No surprise bills."
 msgstr ""
 
 #: includes/admin-pro-page.php:172
@@ -3196,7 +3196,7 @@ msgid "Get Lifetime Access →"
 msgstr ""
 
 #: includes/admin-pro-page.php:180
-msgid "Manage your license and extend MxChat with powerful add-ons. All add-ons are available for download from the Downloads page in your MxChat account."
+msgid "Manage your license and extend KnittNet with powerful add-ons. All add-ons are available for download from the Downloads page in your KnittNet account."
 msgstr ""
 
 #: includes/admin-pro-page.php:188
@@ -3233,7 +3233,7 @@ msgid "Deactivate License"
 msgstr ""
 
 #: includes/admin-pro-page.php:238
-#: includes/class-mxchat-public.php:278
+#: includes/class-knittnet-public.php:278
 msgid "Email Address"
 msgstr ""
 
@@ -3250,7 +3250,7 @@ msgid "Don't have a license?"
 msgstr ""
 
 #: includes/admin-pro-page.php:258
-msgid "Get MxChat Pro"
+msgid "Get KnittNet Pro"
 msgstr ""
 
 #: includes/admin-pro-page.php:267
@@ -3263,24 +3263,24 @@ msgstr ""
 
 #: includes/admin-pro-page.php:286
 #: includes/admin-pro-page.php:412
-#: includes/class-mxchat-addons.php:562
+#: includes/class-knittnet-addons.php:562
 msgid "Configure"
 msgstr ""
 
 #: includes/admin-pro-page.php:290
 #: includes/admin-pro-page.php:421
-#: includes/class-mxchat-addons.php:571
+#: includes/class-knittnet-addons.php:571
 msgid "Activate"
 msgstr ""
 
 #: includes/admin-pro-page.php:294
 #: includes/admin-pro-page.php:429
-#: includes/class-mxchat-addons.php:579
+#: includes/class-knittnet-addons.php:579
 msgid "Get Extension"
 msgstr ""
 
 #: includes/admin-pro-page.php:298
-#: includes/class-mxchat-addons.php:613
+#: includes/class-knittnet-addons.php:613
 msgid "Learn More"
 msgstr ""
 
@@ -3301,7 +3301,7 @@ msgid "Download Add-on"
 msgstr ""
 
 #: includes/admin-pro-page.php:360
-msgid "Purchase MxChat"
+msgid "Purchase KnittNet"
 msgstr ""
 
 #: includes/admin-pro-page.php:364
@@ -3332,7 +3332,7 @@ msgstr ""
 #: includes/admin-settings-page.php:59
 #: includes/admin-settings-page.php:140
 #: includes/admin-settings-page.php:424
-#: includes/class-mxchat-addons.php:274
+#: includes/class-knittnet-addons.php:274
 msgid "Lead Capture"
 msgstr ""
 
@@ -3351,7 +3351,7 @@ msgstr ""
 #: includes/admin-settings-page.php:65
 #: includes/admin-settings-page.php:151
 #: includes/admin-settings-page.php:559
-#: includes/class-mxchat-admin.php:6055
+#: includes/class-knittnet-admin.php:6055
 msgid "API Keys"
 msgstr ""
 
@@ -3409,7 +3409,7 @@ msgid "Configure the AI models your chatbot will use for conversations and embed
 msgstr ""
 
 #: includes/admin-settings-page.php:252
-#: includes/class-mxchat-admin.php:6229
+#: includes/class-knittnet-admin.php:6229
 msgid "Chat Model"
 msgstr ""
 
@@ -3418,7 +3418,7 @@ msgid "Select the AI model your chatbot will use for conversations."
 msgstr ""
 
 #: includes/admin-settings-page.php:257
-#: includes/class-mxchat-admin.php:6237
+#: includes/class-knittnet-admin.php:6237
 msgid "Embedding Model"
 msgstr ""
 
@@ -3427,7 +3427,7 @@ msgid "Vector embedding model for knowledge base matching. Changing models requi
 msgstr ""
 
 #: includes/admin-settings-page.php:262
-#: includes/class-mxchat-admin.php:6216
+#: includes/class-knittnet-admin.php:6216
 msgid "Enable Streaming"
 msgstr ""
 
@@ -3448,7 +3448,7 @@ msgid "Control how your AI chatbot responds and processes queries."
 msgstr ""
 
 #: includes/admin-settings-page.php:288
-#: includes/class-mxchat-admin.php:6245
+#: includes/class-knittnet-admin.php:6245
 msgid "AI Instructions (Behavior)"
 msgstr ""
 
@@ -3461,7 +3461,7 @@ msgid "Adjust threshold for content matching. Lower values = more matches, highe
 msgstr ""
 
 #: includes/admin-settings-page.php:298
-#: includes/class-mxchat-admin.php:6162
+#: includes/class-knittnet-admin.php:6162
 msgid "RAG Sources Limit"
 msgstr ""
 
@@ -3470,7 +3470,7 @@ msgid "Number of knowledge base sources (pages/documents) to include in AI conte
 msgstr ""
 
 #: includes/admin-settings-page.php:303
-#: includes/class-mxchat-admin.php:6171
+#: includes/class-knittnet-admin.php:6171
 msgid "RAG Chunks Limit"
 msgstr ""
 
@@ -3479,7 +3479,7 @@ msgid "Maximum total content chunks sent to the AI across all sources. Higher va
 msgstr ""
 
 #: includes/admin-settings-page.php:308
-#: includes/class-mxchat-admin.php:6187
+#: includes/class-knittnet-admin.php:6187
 msgid "Contextual Awareness"
 msgstr ""
 
@@ -3488,7 +3488,7 @@ msgid "Allow the chatbot to understand and reference the current page content fo
 msgstr ""
 
 #: includes/admin-settings-page.php:313
-#: includes/class-mxchat-admin.php:6195
+#: includes/class-knittnet-admin.php:6195
 msgid "Citation Links"
 msgstr ""
 
@@ -3497,7 +3497,7 @@ msgid "Allow the AI to include citation links from your knowledge database in re
 msgstr ""
 
 #: includes/admin-settings-page.php:322
-#: includes/class-mxchat-admin.php:6204
+#: includes/class-knittnet-admin.php:6204
 msgid "Satisfaction Rating Prompt"
 msgstr ""
 
@@ -3518,12 +3518,12 @@ msgid "Visibility"
 msgstr ""
 
 #: includes/admin-settings-page.php:349
-#: includes/class-mxchat-admin.php:6179
+#: includes/class-knittnet-admin.php:6179
 msgid "Auto-Display Chatbot"
 msgstr ""
 
 #: includes/admin-settings-page.php:351
-msgid "Show chatbot automatically on all pages. Disable to use shortcode [mxchat_chatbot floating=\"yes\"] for floating widget or [mxchat_chatbot floating=\"no\"] for embedded chat."
+msgid "Show chatbot automatically on all pages. Disable to use shortcode [knittnet_chatbot floating=\"yes\"] for floating widget or [knittnet_chatbot floating=\"no\"] for embedded chat."
 msgstr ""
 
 #: includes/admin-settings-page.php:354
@@ -3543,7 +3543,7 @@ msgid "Keep chat history when users navigate or return within 24 hours."
 msgstr ""
 
 #: includes/admin-settings-page.php:364
-#: includes/class-mxchat-admin.php:6366
+#: includes/class-knittnet-admin.php:6366
 msgid "Show Download Transcript Button"
 msgstr ""
 
@@ -3552,7 +3552,7 @@ msgid "Show the \"Download Transcript\" item in the chat window menu."
 msgstr ""
 
 #: includes/admin-settings-page.php:370
-#: includes/class-mxchat-admin.php:6374
+#: includes/class-knittnet-admin.php:6374
 msgid "Show Start-New-Chat Button"
 msgstr ""
 
@@ -3561,7 +3561,7 @@ msgid "Show a \"Start new chat\" item in the chat window menu that clears the cu
 msgstr ""
 
 #: includes/admin-settings-page.php:374
-#: includes/class-mxchat-admin.php:6382
+#: includes/class-knittnet-admin.php:6382
 msgid "Start-New-Chat Button Label"
 msgstr ""
 
@@ -3574,7 +3574,7 @@ msgid "Text & Labels"
 msgstr ""
 
 #: includes/admin-settings-page.php:391
-#: includes/class-mxchat-admin.php:6254
+#: includes/class-knittnet-admin.php:6254
 msgid "Top Bar Title"
 msgstr ""
 
@@ -3583,7 +3583,7 @@ msgid "Title text shown in the chatbot header."
 msgstr ""
 
 #: includes/admin-settings-page.php:396
-#: includes/class-mxchat-admin.php:6262
+#: includes/class-knittnet-admin.php:6262
 msgid "AI Agent Text"
 msgstr ""
 
@@ -3592,7 +3592,7 @@ msgid "Text shown for AI agents in the status indicator."
 msgstr ""
 
 #: includes/admin-settings-page.php:401
-#: includes/class-mxchat-admin.php:6310
+#: includes/class-knittnet-admin.php:6310
 msgid "Introductory Message"
 msgstr ""
 
@@ -3609,7 +3609,7 @@ msgid "Placeholder text in the chat input field."
 msgstr ""
 
 #: includes/admin-settings-page.php:411
-#: includes/class-mxchat-admin.php:6326
+#: includes/class-knittnet-admin.php:6326
 msgid "Chat Teaser Pop-up"
 msgstr ""
 
@@ -3658,7 +3658,7 @@ msgid "Also require users to enter their name with email."
 msgstr ""
 
 #: includes/admin-settings-page.php:458
-#: includes/class-mxchat-admin.php:6302
+#: includes/class-knittnet-admin.php:6302
 msgid "Name Field Placeholder"
 msgstr ""
 
@@ -3691,17 +3691,17 @@ msgid "Pre-defined questions displayed above the chat input to help users get st
 msgstr ""
 
 #: includes/admin-settings-page.php:501
-#: includes/class-mxchat-admin.php:6390
+#: includes/class-knittnet-admin.php:6390
 msgid "Quick Question 1"
 msgstr ""
 
 #: includes/admin-settings-page.php:506
-#: includes/class-mxchat-admin.php:6398
+#: includes/class-knittnet-admin.php:6398
 msgid "Quick Question 2"
 msgstr ""
 
 #: includes/admin-settings-page.php:511
-#: includes/class-mxchat-admin.php:6406
+#: includes/class-knittnet-admin.php:6406
 msgid "Quick Question 3"
 msgstr ""
 
@@ -3818,7 +3818,7 @@ msgid "Page Cache Compatibility"
 msgstr ""
 
 #: includes/admin-settings-page.php:638
-msgid "MxChat's chat send (and stream send, plus PDF / Word upload) all POST to /wp-admin/admin-ajax.php. Page-cache plugins occasionally cache those responses, which breaks the per-session nonce flow on the first message. MxChat auto-tells the five most common cache plugins to never cache chat AJAX via their own filter APIs — no setup needed for those. For other cache plugins (or Cloudflare APO), copy the manual exclusion string into your cache plugin's exclusion list."
+msgid "KnittNet's chat send (and stream send, plus PDF / Word upload) all POST to /wp-admin/admin-ajax.php. Page-cache plugins occasionally cache those responses, which breaks the per-session nonce flow on the first message. KnittNet auto-tells the five most common cache plugins to never cache chat AJAX via their own filter APIs — no setup needed for those. For other cache plugins (or Cloudflare APO), copy the manual exclusion string into your cache plugin's exclusion list."
 msgstr ""
 
 #: includes/admin-settings-page.php:655
@@ -3826,7 +3826,7 @@ msgid "Auto-handled"
 msgstr ""
 
 #: includes/admin-settings-page.php:677
-msgid "Auto-handled plugins receive a filter from MxChat that excludes chat AJAX from their cache. Even so, having the exclusion in your own exclusion list is harmless and acts as a belt-and-suspenders guarantee."
+msgid "Auto-handled plugins receive a filter from KnittNet that excludes chat AJAX from their cache. Even so, having the exclusion in your own exclusion list is harmless and acts as a belt-and-suspenders guarantee."
 msgstr ""
 
 #: includes/admin-settings-page.php:691
@@ -3838,7 +3838,7 @@ msgid "Auto-retry on provider overload"
 msgstr ""
 
 #: includes/admin-settings-page.php:714
-msgid "When the AI provider returns a transient error (rate-limit / overload / 429 / 503 / Gemini \"model overloaded\"), MxChat retries the chat-send up to twice before surfacing the error. Visitors see a brief pause instead of a raw provider error in the bot bubble."
+msgid "When the AI provider returns a transient error (rate-limit / overload / 429 / 503 / Gemini \"model overloaded\"), KnittNet retries the chat-send up to twice before surfacing the error. Visitors see a brief pause instead of a raw provider error in the bot bubble."
 msgstr ""
 
 #: includes/admin-settings-page.php:715
@@ -3891,7 +3891,7 @@ msgid "Reset All Settings"
 msgstr ""
 
 #: includes/admin-settings-page.php:805
-msgid "Reset all MxChat settings to their default values. This action cannot be undone."
+msgid "Reset all KnittNet settings to their default values. This action cannot be undone."
 msgstr ""
 
 #: includes/admin-settings-page.php:828
@@ -3899,7 +3899,7 @@ msgid "Warning: This action cannot be undone!"
 msgstr ""
 
 #: includes/admin-settings-page.php:829
-msgid "All your MxChat settings including API keys, customizations, and configurations will be permanently deleted."
+msgid "All your KnittNet settings including API keys, customizations, and configurations will be permanently deleted."
 msgstr ""
 
 #: includes/admin-settings-page.php:833
@@ -3940,7 +3940,7 @@ msgid "documentation page"
 msgstr ""
 
 #: includes/admin-settings-page.php:930
-#: includes/class-mxchat-admin.php:7182
+#: includes/class-knittnet-admin.php:7182
 msgid "Test Connection"
 msgstr ""
 
@@ -4005,7 +4005,7 @@ msgid "Video Tutorials"
 msgstr ""
 
 #: includes/admin-settings-page.php:1057
-msgid "Learn how to get the most out of MxChat with our video guides."
+msgid "Learn how to get the most out of KnittNet with our video guides."
 msgstr ""
 
 #: includes/admin-settings-page.php:1070
@@ -4017,7 +4017,7 @@ msgid "You finished the setup guide. Reopen it any time to revisit the steps or 
 msgstr ""
 
 #: includes/admin-settings-page.php:1078
-msgid "You hid the setup guide from the MxChat menu. Reopen it any time to revisit the steps."
+msgid "You hid the setup guide from the KnittNet menu. Reopen it any time to revisit the steps."
 msgstr ""
 
 #: includes/admin-settings-page.php:1085
@@ -4037,7 +4037,7 @@ msgid "Submit Support Ticket"
 msgstr ""
 
 #: includes/admin-settings-page.php:1112
-msgid "Quick Setup with MxChat"
+msgid "Quick Setup with KnittNet"
 msgstr ""
 
 #: includes/admin-settings-page.php:1113
@@ -4061,7 +4061,7 @@ msgid "Find content gaps, quick win keywords, and SEO opportunities by chatting 
 msgstr ""
 
 #: includes/admin-settings-page.php:1127
-#: includes/class-mxchat-addons.php:116
+#: includes/class-knittnet-addons.php:116
 msgid "AI Theme Generator"
 msgstr ""
 
@@ -4070,8 +4070,8 @@ msgid "Learn how to instantly restyle your chatbot using plain English prompts w
 msgstr ""
 
 #: includes/admin-settings-page.php:1132
-#: includes/class-mxchat-addons.php:249
-msgid "MxChat Forms"
+#: includes/class-knittnet-addons.php:249
+msgid "KnittNet Forms"
 msgstr ""
 
 #: includes/admin-settings-page.php:1133
@@ -4135,7 +4135,7 @@ msgid "Leverage Brave Search for improved query understanding."
 msgstr ""
 
 #: includes/admin-settings-page.php:1172
-#: includes/class-mxchat-admin.php:5744
+#: includes/class-knittnet-admin.php:5744
 msgid "Loops Email Capture"
 msgstr ""
 
@@ -4230,27 +4230,27 @@ msgid "Debug panel ready - send a message to begin..."
 msgstr ""
 
 #: includes/admin-settings-page.php:1598
-#: includes/class-mxchat-admin.php:6888
+#: includes/class-knittnet-admin.php:6888
 msgid "Per Hour"
 msgstr ""
 
 #: includes/admin-settings-page.php:1599
-#: includes/class-mxchat-admin.php:6889
+#: includes/class-knittnet-admin.php:6889
 msgid "Per Day"
 msgstr ""
 
 #: includes/admin-settings-page.php:1600
-#: includes/class-mxchat-admin.php:6890
+#: includes/class-knittnet-admin.php:6890
 msgid "Per Week"
 msgstr ""
 
 #: includes/admin-settings-page.php:1601
-#: includes/class-mxchat-admin.php:6891
+#: includes/class-knittnet-admin.php:6891
 msgid "Per Month"
 msgstr ""
 
 #: includes/admin-settings-page.php:1605
-#: includes/class-mxchat-admin.php:6896
+#: includes/class-knittnet-admin.php:6896
 msgid "Logged Out Users"
 msgstr ""
 
@@ -4301,11 +4301,11 @@ msgid "Unlimited — no cap. Usage tracking applies only when a numeric limit is
 msgstr ""
 
 #: includes/admin-settings-page.php:1748
-#: includes/class-mxchat-admin.php:287
-#: includes/class-mxchat-admin.php:6922
-#: includes/class-mxchat-admin.php:9161
-#: includes/class-mxchat-integrator.php:11571
-#: includes/class-mxchat-public.php:182
+#: includes/class-knittnet-admin.php:287
+#: includes/class-knittnet-admin.php:6922
+#: includes/class-knittnet-admin.php:9161
+#: includes/class-knittnet-integrator.php:11571
+#: includes/class-knittnet-public.php:182
 msgid "Rate limit exceeded. Please try again later."
 msgstr ""
 
@@ -4634,7 +4634,7 @@ msgid "With conversation"
 msgstr ""
 
 #: includes/admin-transcripts-page.php:737
-#: includes/class-mxchat-admin.php:2446
+#: includes/class-knittnet-admin.php:2446
 msgid "Chat deleted"
 msgstr ""
 
@@ -4679,7 +4679,7 @@ msgid "Email Notifications"
 msgstr ""
 
 #: includes/admin-transcripts-page.php:829
-#: includes/class-mxchat-admin.php:6757
+#: includes/class-knittnet-admin.php:6757
 msgid "Enable Chat Notifications"
 msgstr ""
 
@@ -4700,7 +4700,7 @@ msgid "Auto-Email Transcript"
 msgstr ""
 
 #: includes/admin-transcripts-page.php:871
-#: includes/class-mxchat-admin.php:6789
+#: includes/class-knittnet-admin.php:6789
 msgid "Auto-Email Full Transcript"
 msgstr ""
 
@@ -4713,17 +4713,17 @@ msgid "Send Transcript After"
 msgstr ""
 
 #: includes/admin-transcripts-page.php:881
-#: includes/class-mxchat-admin.php:1597
+#: includes/class-knittnet-admin.php:1597
 msgid "15 minutes"
 msgstr ""
 
 #: includes/admin-transcripts-page.php:882
-#: includes/class-mxchat-admin.php:1600
+#: includes/class-knittnet-admin.php:1600
 msgid "30 minutes"
 msgstr ""
 
 #: includes/admin-transcripts-page.php:883
-#: includes/class-mxchat-admin.php:1603
+#: includes/class-knittnet-admin.php:1603
 msgid "1 hour"
 msgstr ""
 
@@ -4736,7 +4736,7 @@ msgid "Transcript Management"
 msgstr ""
 
 #: includes/admin-transcripts-page.php:917
-#: includes/class-mxchat-admin.php:6773
+#: includes/class-knittnet-admin.php:6773
 msgid "Auto-Delete Old Transcripts"
 msgstr ""
 
@@ -4745,17 +4745,17 @@ msgid "Never (Keep All)"
 msgstr ""
 
 #: includes/admin-transcripts-page.php:922
-#: includes/class-mxchat-admin.php:1530
+#: includes/class-knittnet-admin.php:1530
 msgid "After 1 Week"
 msgstr ""
 
 #: includes/admin-transcripts-page.php:923
-#: includes/class-mxchat-admin.php:1533
+#: includes/class-knittnet-admin.php:1533
 msgid "After 2 Weeks"
 msgstr ""
 
 #: includes/admin-transcripts-page.php:924
-#: includes/class-mxchat-admin.php:1536
+#: includes/class-knittnet-admin.php:1536
 msgid "After 1 Month"
 msgstr ""
 
@@ -4775,3705 +4775,3705 @@ msgstr ""
 msgid "Loading context..."
 msgstr ""
 
-#: includes/class-mxchat-addons.php:23
-msgid "MxChat MCP Server"
+#: includes/class-knittnet-addons.php:23
+msgid "KnittNet MCP Server"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:24
+#: includes/class-knittnet-addons.php:24
 msgid "MCP Server"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:25
-msgid "Turn your MxChat install into a Model Context Protocol server so Claude, ChatGPT, and Claude Code can list transcripts, push knowledge, and inspect bots directly — no per-message fees, no middleman API."
+#: includes/class-knittnet-addons.php:25
+msgid "Turn your KnittNet install into a Model Context Protocol server so Claude, ChatGPT, and Claude Code can list transcripts, push knowledge, and inspect bots directly — no per-message fees, no middleman API."
 msgstr ""
 
-#: includes/class-mxchat-addons.php:27
+#: includes/class-knittnet-addons.php:27
 msgid "JSON-RPC 2.0 MCP endpoint with OAuth + bearer auth"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:28
+#: includes/class-knittnet-addons.php:28
 msgid "One-click connect snippets for Claude Code, ChatGPT, mcp-inspector"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:29
+#: includes/class-knittnet-addons.php:29
 msgid "WooCommerce-aware tools: products, orders, customers"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:40
+#: includes/class-knittnet-addons.php:40
 msgid "Open Protocol"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:41
+#: includes/class-knittnet-addons.php:41
 msgid "Standards-based MCP over Streamable HTTP"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:45
+#: includes/class-knittnet-addons.php:45
 msgid "OAuth + Bearer"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:46
-msgid "Reuses your MxChat REST token"
+#: includes/class-knittnet-addons.php:46
+msgid "Reuses your KnittNet REST token"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:50
+#: includes/class-knittnet-addons.php:50
 msgid "Chatbot Ops Tools"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:51
+#: includes/class-knittnet-addons.php:51
 msgid "Transcripts, knowledge, bots, search"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:55
+#: includes/class-knittnet-addons.php:55
 msgid "WooCommerce Aware"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:56
+#: includes/class-knittnet-addons.php:56
 msgid "Products, orders, customer lookups"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:62
-msgid "MxChat Advanced Content Editor"
+#: includes/class-knittnet-addons.php:62
+msgid "KnittNet Advanced Content Editor"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:63
+#: includes/class-knittnet-addons.php:63
 msgid "Content Gen."
 msgstr ""
 
-#: includes/class-mxchat-addons.php:64
-msgid "Supercharge your AI content generation workflow. Add advanced editing tools, image management, SEO meta controls, and internal linking to the MxChat Content Generator—turning simple prompts into publish-ready posts and landing pages."
+#: includes/class-knittnet-addons.php:64
+msgid "Supercharge your AI content generation workflow. Add advanced editing tools, image management, SEO meta controls, and internal linking to the KnittNet Content Generator—turning simple prompts into publish-ready posts and landing pages."
 msgstr ""
 
-#: includes/class-mxchat-addons.php:66
+#: includes/class-knittnet-addons.php:66
 msgid "AI-powered image regeneration & uploads"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:67
+#: includes/class-knittnet-addons.php:67
 msgid "SEO meta title, description & excerpt editor"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:68
+#: includes/class-knittnet-addons.php:68
 msgid "Automatic internal linking between posts"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:79
+#: includes/class-knittnet-addons.php:79
 msgid "Image Management"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:80
+#: includes/class-knittnet-addons.php:80
 msgid "Regenerate, upload, and swap AI images"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:84
+#: includes/class-knittnet-addons.php:84
 msgid "SEO Meta Editor"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:85
+#: includes/class-knittnet-addons.php:85
 msgid "Title, description & excerpt controls"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:90
+#: includes/class-knittnet-addons.php:90
 msgid "Auto-link to related posts & pages"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:94
+#: includes/class-knittnet-addons.php:94
 msgid "Chat-Based Editing"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:95
+#: includes/class-knittnet-addons.php:95
 msgid "Refine content through conversation"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:101
-msgid "MxChat Chat Themes"
+#: includes/class-knittnet-addons.php:101
+msgid "KnittNet Chat Themes"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:102
+#: includes/class-knittnet-addons.php:102
 msgid "Make your chatbot uniquely yours. Generate beautiful themes instantly using simple descriptions or customize manually with precise color controls—zero coding required. Perfect for matching your brand identity."
 msgstr ""
 
-#: includes/class-mxchat-addons.php:104
+#: includes/class-knittnet-addons.php:104
 msgid "AI-powered theme generator"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:105
+#: includes/class-knittnet-addons.php:105
 msgid "Live preview customizer"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:106
+#: includes/class-knittnet-addons.php:106
 msgid "One-click theme application"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:117
+#: includes/class-knittnet-addons.php:117
 msgid "Describe your style, AI creates it"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:121
+#: includes/class-knittnet-addons.php:121
 msgid "Live Preview"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:122
+#: includes/class-knittnet-addons.php:122
 msgid "See changes in real-time"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:126
+#: includes/class-knittnet-addons.php:126
 msgid "Color Controls"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:127
+#: includes/class-knittnet-addons.php:127
 msgid "Fine-tune every color precisely"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:131
+#: includes/class-knittnet-addons.php:131
 msgid "One-Click Apply"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:132
+#: includes/class-knittnet-addons.php:132
 msgid "Apply themes instantly"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:138
-msgid "MxChat Admin Assistant"
+#: includes/class-knittnet-addons.php:138
+msgid "KnittNet Admin Assistant"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:139
+#: includes/class-knittnet-addons.php:139
 msgid "Your AI powerhouse inside WordPress. Chat with multiple AI models, generate images, research the web, and boost productivity—all without leaving your dashboard."
 msgstr ""
 
-#: includes/class-mxchat-addons.php:141
+#: includes/class-knittnet-addons.php:141
 msgid "ChatGPT-like admin interface"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:142
+#: includes/class-knittnet-addons.php:142
 msgid "Generate images & research web"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:143
+#: includes/class-knittnet-addons.php:143
 msgid "Searchable chat history"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:153
+#: includes/class-knittnet-addons.php:153
 msgid "Admin Chat UI"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:154
+#: includes/class-knittnet-addons.php:154
 msgid "ChatGPT-like dashboard interface"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:158
+#: includes/class-knittnet-addons.php:158
 msgid "Image Generation"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:159
+#: includes/class-knittnet-addons.php:159
 msgid "Create images with AI prompts"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:163
+#: includes/class-knittnet-addons.php:163
 msgid "Web Research"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:164
+#: includes/class-knittnet-addons.php:164
 msgid "Search the web from your dashboard"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:168
+#: includes/class-knittnet-addons.php:168
 msgid "Chat History"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:169
+#: includes/class-knittnet-addons.php:169
 msgid "Searchable conversation archive"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:175
-msgid "MxChat Video Generation"
+#: includes/class-knittnet-addons.php:175
+msgid "KnittNet Video Generation"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:176
+#: includes/class-knittnet-addons.php:176
 msgid "Generate stunning AI videos using Google Veo 2 and Veo 3 models directly from your WordPress dashboard. Create high-quality videos from text prompts with audio, multiple aspect ratios, and optimized generation speeds."
 msgstr ""
 
-#: includes/class-mxchat-addons.php:178
+#: includes/class-knittnet-addons.php:178
 msgid "Multiple Veo models (Veo 2, 3, 3 Fast)"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:179
+#: includes/class-knittnet-addons.php:179
 msgid "8-second videos with native audio"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:180
+#: includes/class-knittnet-addons.php:180
 msgid "Media library integration"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:190
+#: includes/class-knittnet-addons.php:190
 msgid "AI Video Creation"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:191
+#: includes/class-knittnet-addons.php:191
 msgid "Generate videos from text prompts"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:195
+#: includes/class-knittnet-addons.php:195
 msgid "Native Audio"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:196
+#: includes/class-knittnet-addons.php:196
 msgid "Videos with built-in audio tracks"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:200
+#: includes/class-knittnet-addons.php:200
 msgid "Aspect Ratios"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:201
+#: includes/class-knittnet-addons.php:201
 msgid "Multiple size options available"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:205
+#: includes/class-knittnet-addons.php:205
 msgid "Media Library"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:206
+#: includes/class-knittnet-addons.php:206
 msgid "Save directly to WordPress media"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:212
-msgid "MxChat Image Analysis"
+#: includes/class-knittnet-addons.php:212
+msgid "KnittNet Image Analysis"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:213
+#: includes/class-knittnet-addons.php:213
 msgid "Enhance your chatbot with AI-powered image analysis. Users can upload images for intelligent descriptions, OCR text extraction, and get answers about visual content using OpenAI Vision and Grok APIs."
 msgstr ""
 
-#: includes/class-mxchat-addons.php:215
+#: includes/class-knittnet-addons.php:215
 msgid "Multiple AI vision models"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:216
+#: includes/class-knittnet-addons.php:216
 msgid "Drag & drop image uploads"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:217
+#: includes/class-knittnet-addons.php:217
 msgid "Custom analysis prompts"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:227
+#: includes/class-knittnet-addons.php:227
 msgid "Vision AI Models"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:228
+#: includes/class-knittnet-addons.php:228
 msgid "OpenAI Vision & Grok analysis"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:232
+#: includes/class-knittnet-addons.php:232
 msgid "Drag & Drop"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:233
+#: includes/class-knittnet-addons.php:233
 msgid "Easy image upload in chat"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:237
+#: includes/class-knittnet-addons.php:237
 msgid "OCR Extraction"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:238
+#: includes/class-knittnet-addons.php:238
 msgid "Extract text from images"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:242
+#: includes/class-knittnet-addons.php:242
 msgid "Custom Prompts"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:243
+#: includes/class-knittnet-addons.php:243
 msgid "Tailor analysis instructions"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:250
+#: includes/class-knittnet-addons.php:250
 msgid "Convert conversations into data collection. Create smart forms that trigger during chats, collect user information, and turn casual visitors into qualified leads."
 msgstr ""
 
-#: includes/class-mxchat-addons.php:252
+#: includes/class-knittnet-addons.php:252
 msgid "No-code form builder"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:253
+#: includes/class-knittnet-addons.php:253
 msgid "Intent-triggered activation"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:254
+#: includes/class-knittnet-addons.php:254
 msgid "Export lead data easily"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:264
+#: includes/class-knittnet-addons.php:264
 msgid "Form Builder"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:265
+#: includes/class-knittnet-addons.php:265
 msgid "No-code drag & drop builder"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:269
+#: includes/class-knittnet-addons.php:269
 msgid "Smart Triggers"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:270
+#: includes/class-knittnet-addons.php:270
 msgid "Show forms based on intent"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:275
+#: includes/class-knittnet-addons.php:275
 msgid "Turn visitors into contacts"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:279
+#: includes/class-knittnet-addons.php:279
 msgid "Data Export"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:280
+#: includes/class-knittnet-addons.php:280
 msgid "Export leads to CSV easily"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:286
-msgid "MxChat Multi-Bot Manager"
+#: includes/class-knittnet-addons.php:286
+msgid "KnittNet Multi-Bot Manager"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:287
+#: includes/class-knittnet-addons.php:287
 msgid "Create unlimited specialized chatbots for every purpose. Deploy dedicated bots with separate knowledge bases, custom personalities, and page-specific assignments—perfect for support, sales, and department-specific assistance."
 msgstr ""
 
-#: includes/class-mxchat-addons.php:289
+#: includes/class-knittnet-addons.php:289
 msgid "Unlimited specialized chatbots"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:290
+#: includes/class-knittnet-addons.php:290
 msgid "Separate Pinecone knowledge bases"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:291
+#: includes/class-knittnet-addons.php:291
 msgid "Page-specific bot assignments"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:301
+#: includes/class-knittnet-addons.php:301
 msgid "Unlimited Bots"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:302
+#: includes/class-knittnet-addons.php:302
 msgid "Create specialized chatbots"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:306
+#: includes/class-knittnet-addons.php:306
 msgid "Separate Knowledge"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:307
+#: includes/class-knittnet-addons.php:307
 msgid "Unique knowledge per bot"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:311
+#: includes/class-knittnet-addons.php:311
 msgid "Page Assignments"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:312
+#: includes/class-knittnet-addons.php:312
 msgid "Assign bots to specific pages"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:316
+#: includes/class-knittnet-addons.php:316
 msgid "Custom Personas"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:317
+#: includes/class-knittnet-addons.php:317
 msgid "Unique personality per bot"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:323
-msgid "MxChat Trigger"
+#: includes/class-knittnet-addons.php:323
+msgid "KnittNet Trigger"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:324
-msgid "Turn any element into a conversation starter. Add chat trigger buttons and links throughout your website that open MxChat and send predefined messages—perfect for CTAs, support links, and guided experiences."
+#: includes/class-knittnet-addons.php:324
+msgid "Turn any element into a conversation starter. Add chat trigger buttons and links throughout your website that open KnittNet and send predefined messages—perfect for CTAs, support links, and guided experiences."
 msgstr ""
 
-#: includes/class-mxchat-addons.php:326
+#: includes/class-knittnet-addons.php:326
 msgid "Simple data attribute triggers"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:327
+#: includes/class-knittnet-addons.php:327
 msgid "Multi-Bot targeting support"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:328
+#: includes/class-knittnet-addons.php:328
 msgid "Built-in button styles & animations"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:338
+#: includes/class-knittnet-addons.php:338
 msgid "Element Triggers"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:339
+#: includes/class-knittnet-addons.php:339
 msgid "Turn any element into a trigger"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:343
+#: includes/class-knittnet-addons.php:343
 msgid "Preset Messages"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:344
+#: includes/class-knittnet-addons.php:344
 msgid "Auto-send predefined prompts"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:348
+#: includes/class-knittnet-addons.php:348
 msgid "Multi-Bot Targeting"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:349
+#: includes/class-knittnet-addons.php:349
 msgid "Route to specific bots"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:353
+#: includes/class-knittnet-addons.php:353
 msgid "Button Styles"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:354
+#: includes/class-knittnet-addons.php:354
 msgid "Built-in styles & animations"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:360
-#: includes/class-mxchat-addons.php:361
-msgid "MxChat Anywhere"
+#: includes/class-knittnet-addons.php:360
+#: includes/class-knittnet-addons.php:361
+msgid "KnittNet Anywhere"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:362
+#: includes/class-knittnet-addons.php:362
 msgid "Deploy your AI chatbot on any website with a single script tag. Works on static HTML, Shopify, Squarespace, Wix, and custom web apps — no WordPress required on the target site. Full feature parity with Shadow DOM style isolation."
 msgstr ""
 
-#: includes/class-mxchat-addons.php:364
+#: includes/class-knittnet-addons.php:364
 msgid "One script tag — works on any website"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:365
-#: includes/class-mxchat-addons.php:383
+#: includes/class-knittnet-addons.php:365
+#: includes/class-knittnet-addons.php:383
 msgid "Shadow DOM prevents CSS conflicts"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:366
+#: includes/class-knittnet-addons.php:366
 msgid "Domain-validated security keys"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:377
+#: includes/class-knittnet-addons.php:377
 msgid "Universal Embed"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:378
+#: includes/class-knittnet-addons.php:378
 msgid "One script tag on any website"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:382
+#: includes/class-knittnet-addons.php:382
 msgid "Style Isolation"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:387
+#: includes/class-knittnet-addons.php:387
 msgid "Domain Security"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:388
+#: includes/class-knittnet-addons.php:388
 msgid "Validated keys per domain"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:392
+#: includes/class-knittnet-addons.php:392
 msgid "Zero Dependencies"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:393
+#: includes/class-knittnet-addons.php:393
 msgid "Vanilla JS, no impact on Core Web Vitals"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:399
-msgid "MxChat WooCommerce"
+#: includes/class-knittnet-addons.php:399
+msgid "KnittNet WooCommerce"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:400
+#: includes/class-knittnet-addons.php:400
 msgid "Boost sales with AI-powered shopping assistance. Help customers find products, manage carts, and complete purchases—all through natural conversation."
 msgstr ""
 
-#: includes/class-mxchat-addons.php:402
-#: includes/class-mxchat-addons.php:420
+#: includes/class-knittnet-addons.php:402
+#: includes/class-knittnet-addons.php:420
 msgid "Smart product recommendations"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:403
+#: includes/class-knittnet-addons.php:403
 msgid "Cart & checkout assistance"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:404
+#: includes/class-knittnet-addons.php:404
 msgid "Order history access"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:414
+#: includes/class-knittnet-addons.php:414
 msgid "Cart Assistant"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:415
+#: includes/class-knittnet-addons.php:415
 msgid "Manage cart through conversation"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:419
+#: includes/class-knittnet-addons.php:419
 msgid "Product Search"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:424
+#: includes/class-knittnet-addons.php:424
 msgid "Checkout Help"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:425
+#: includes/class-knittnet-addons.php:425
 msgid "Guide customers to purchase"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:429
-#: includes/class-mxchat-admin.php:5840
+#: includes/class-knittnet-addons.php:429
+#: includes/class-knittnet-admin.php:5840
 msgid "Order History"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:430
+#: includes/class-knittnet-addons.php:430
 msgid "Look up past orders in chat"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:436
-msgid "MxChat Perplexity"
+#: includes/class-knittnet-addons.php:436
+msgid "KnittNet Perplexity"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:437
+#: includes/class-knittnet-addons.php:437
 msgid "Give your chatbot real-time knowledge. Add powerful web search capabilities so your bot can answer questions about current events and time-sensitive information."
 msgstr ""
 
-#: includes/class-mxchat-addons.php:439
+#: includes/class-knittnet-addons.php:439
 msgid "Real-time web search"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:440
+#: includes/class-knittnet-addons.php:440
 msgid "Intent-triggered research"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:441
+#: includes/class-knittnet-addons.php:441
 msgid "Up-to-date information"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:451
-#: includes/class-mxchat-tool-registry.php:170
+#: includes/class-knittnet-addons.php:451
+#: includes/class-knittnet-tool-registry.php:170
 msgid "Web Search"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:452
+#: includes/class-knittnet-addons.php:452
 msgid "Real-time internet searching"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:456
+#: includes/class-knittnet-addons.php:456
 msgid "Intent Triggers"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:457
+#: includes/class-knittnet-addons.php:457
 msgid "Auto-search when needed"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:461
+#: includes/class-knittnet-addons.php:461
 msgid "Live Data"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:462
+#: includes/class-knittnet-addons.php:462
 msgid "Up-to-date information always"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:466
+#: includes/class-knittnet-addons.php:466
 msgid "Seamless Chat"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:467
+#: includes/class-knittnet-addons.php:467
 msgid "Results blend into conversation"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:473
-msgid "MxChat Moderation"
+#: includes/class-knittnet-addons.php:473
+msgid "KnittNet Moderation"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:474
+#: includes/class-knittnet-addons.php:474
 msgid "Keep your chat clean and professional. Block unwanted users, filter inappropriate content, and ensure your chatbot represents your brand properly."
 msgstr ""
 
-#: includes/class-mxchat-addons.php:476
+#: includes/class-knittnet-addons.php:476
 msgid "IP & email-based blocking"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:477
+#: includes/class-knittnet-addons.php:477
 msgid "Content filtering"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:478
+#: includes/class-knittnet-addons.php:478
 msgid "Spam protection"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:488
+#: includes/class-knittnet-addons.php:488
 msgid "Content Filter"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:489
+#: includes/class-knittnet-addons.php:489
 msgid "Block inappropriate content"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:493
+#: includes/class-knittnet-addons.php:493
 msgid "User Blocking"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:494
+#: includes/class-knittnet-addons.php:494
 msgid "IP & email-based bans"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:498
+#: includes/class-knittnet-addons.php:498
 msgid "Spam Protection"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:499
+#: includes/class-knittnet-addons.php:499
 msgid "Detect and prevent spam"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:503
+#: includes/class-knittnet-addons.php:503
 msgid "Brand Safety"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:504
+#: includes/class-knittnet-addons.php:504
 msgid "Keep chat professional"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:598
-msgid "Extend MxChat with these powerful extensions and unlock advanced features."
+#: includes/class-knittnet-addons.php:598
+msgid "Extend KnittNet with these powerful extensions and unlock advanced features."
 msgstr ""
 
-#: includes/class-mxchat-addons.php:611
+#: includes/class-knittnet-addons.php:611
 msgid "Ready to take your chatbot to the next level?"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:612
-msgid "Get MxChat PRO today and access all premium extensions at one low price."
+#: includes/class-knittnet-addons.php:612
+msgid "Get KnittNet PRO today and access all premium extensions at one low price."
 msgstr ""
 
-#: includes/class-mxchat-addons.php:636
+#: includes/class-knittnet-addons.php:636
 msgid "Deprecated"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:659
+#: includes/class-knittnet-addons.php:659
 msgid "Now Built-in"
 msgstr ""
 
-#: includes/class-mxchat-addons.php:664
+#: includes/class-knittnet-addons.php:664
 msgid "Go to Knowledge Tab"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:205
-msgid "MxChat: Embedding model mismatch detected"
+#: includes/class-knittnet-admin.php:205
+msgid "KnittNet: Embedding model mismatch detected"
 msgstr ""
 
 #. translators: 1: previously-used model name, 2: currently-selected model name
-#: includes/class-mxchat-admin.php:210
+#: includes/class-knittnet-admin.php:210
 #, php-format
 msgid "Your knowledge base and actions were embedded with %1$s, but %2$s is now selected. Similarity matching will return inaccurate or empty results until you delete all existing embeddings and re-embed your content with the new model."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:218
+#: includes/class-knittnet-admin.php:218
 msgid "Dimension mismatch:"
 msgstr ""
 
 #. translators: 1: old dim count, 2: new dim count
-#: includes/class-mxchat-admin.php:222
+#: includes/class-knittnet-admin.php:222
 #, php-format
 msgid "Existing vectors are %1$d-dimensional but the new model produces %2$d-dimensional vectors. If you use Pinecone, your index will reject queries entirely until re-embedded."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:230
+#: includes/class-knittnet-admin.php:230
 msgid "To fix this:"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:231
+#: includes/class-knittnet-admin.php:231
 msgid "Delete all knowledge base entries"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:232
+#: includes/class-knittnet-admin.php:232
 msgid "Delete all actions"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:233
+#: includes/class-knittnet-admin.php:233
 msgid "then re-import / re-add them with the new model selected."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:284
+#: includes/class-knittnet-admin.php:284
 msgid "gpt-5.1-chat-latest"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:285
-#: includes/class-mxchat-admin.php:378
+#: includes/class-knittnet-admin.php:285
+#: includes/class-knittnet-admin.php:378
 msgid "100"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:289
+#: includes/class-knittnet-admin.php:289
 msgid ""
 "<h2>Welcome to Our Chat!</h2>\n"
 "<p>Let's get started. Enter your email to begin chatting with us.</p>"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:290
-#: includes/class-mxchat-public.php:283
+#: includes/class-knittnet-admin.php:290
+#: includes/class-knittnet-public.php:283
 msgid "Start Chat"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:292
-#: includes/class-mxchat-admin.php:7796
-#: includes/class-mxchat-public.php:209
+#: includes/class-knittnet-admin.php:292
+#: includes/class-knittnet-admin.php:7796
+#: includes/class-knittnet-public.php:209
 msgid "Enter your name"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:294
-#: includes/class-mxchat-admin.php:7807
-#: includes/class-mxchat-public.php:167
+#: includes/class-knittnet-admin.php:294
+#: includes/class-knittnet-admin.php:7807
+#: includes/class-knittnet-public.php:167
 msgid "Hello! How can I assist you today?"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:295
-#: includes/class-mxchat-public.php:197
+#: includes/class-knittnet-admin.php:295
+#: includes/class-knittnet-public.php:197
 msgid "AI Agent"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:296
-#: includes/class-mxchat-admin.php:7824
-#: includes/class-mxchat-admin.php:7831
-#: includes/class-mxchat-public.php:181
+#: includes/class-knittnet-admin.php:296
+#: includes/class-knittnet-admin.php:7824
+#: includes/class-knittnet-admin.php:7831
+#: includes/class-knittnet-public.php:181
 msgid "How can I assist?"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:297
-#: includes/class-mxchat-admin.php:320
-#: includes/class-mxchat-admin.php:353
+#: includes/class-knittnet-admin.php:297
+#: includes/class-knittnet-admin.php:320
+#: includes/class-knittnet-admin.php:353
 msgid "off"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:308
-#: includes/class-mxchat-admin.php:309
-#: includes/class-mxchat-admin.php:310
-#: includes/class-mxchat-admin.php:313
-#: includes/class-mxchat-admin.php:318
+#: includes/class-knittnet-admin.php:308
+#: includes/class-knittnet-admin.php:309
+#: includes/class-knittnet-admin.php:310
+#: includes/class-knittnet-admin.php:313
+#: includes/class-knittnet-admin.php:318
 msgid "#fff"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:311
-#: includes/class-mxchat-admin.php:312
-#: includes/class-mxchat-admin.php:314
-#: includes/class-mxchat-admin.php:315
-#: includes/class-mxchat-admin.php:316
-#: includes/class-mxchat-admin.php:317
-#: includes/class-mxchat-admin.php:356
+#: includes/class-knittnet-admin.php:311
+#: includes/class-knittnet-admin.php:312
+#: includes/class-knittnet-admin.php:314
+#: includes/class-knittnet-admin.php:315
+#: includes/class-knittnet-admin.php:316
+#: includes/class-knittnet-admin.php:317
+#: includes/class-knittnet-admin.php:356
 msgid "#212121"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:319
+#: includes/class-knittnet-admin.php:319
 msgid "0"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:321
-#: includes/class-mxchat-admin.php:7326
-#: includes/class-mxchat-admin.php:9160
+#: includes/class-knittnet-admin.php:321
+#: includes/class-knittnet-admin.php:7326
+#: includes/class-knittnet-admin.php:9160
 msgid "Hey there! Ask me anything!"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:326
-#: includes/class-mxchat-admin.php:7289
-#: includes/class-mxchat-admin.php:9164
+#: includes/class-knittnet-admin.php:326
+#: includes/class-knittnet-admin.php:7289
+#: includes/class-knittnet-admin.php:9164
 msgid "Would you like to join our mailing list? Please provide your email below."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:327
-#: includes/class-mxchat-admin.php:7306
-#: includes/class-mxchat-admin.php:9165
-#: includes/class-mxchat-integrator.php:1743
-#: includes/class-mxchat-integrator.php:1762
+#: includes/class-knittnet-admin.php:327
+#: includes/class-knittnet-admin.php:7306
+#: includes/class-knittnet-admin.php:9165
+#: includes/class-knittnet-integrator.php:1743
+#: includes/class-knittnet-integrator.php:1762
 msgid "Thank you for providing your email! You've been added to our list."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:331
-#: includes/class-mxchat-admin.php:8460
-#: includes/class-mxchat-admin.php:9166
-#: includes/class-mxchat-integrator.php:3643
+#: includes/class-knittnet-admin.php:331
+#: includes/class-knittnet-admin.php:8460
+#: includes/class-knittnet-admin.php:9166
+#: includes/class-knittnet-integrator.php:3643
 msgid "Please provide the URL to the PDF you'd like to discuss."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:332
-#: includes/class-mxchat-admin.php:8477
-#: includes/class-mxchat-admin.php:9167
-#: includes/class-mxchat-integrator.php:3644
-#: includes/class-mxchat-integrator.php:3982
+#: includes/class-knittnet-admin.php:332
+#: includes/class-knittnet-admin.php:8477
+#: includes/class-knittnet-admin.php:9167
+#: includes/class-knittnet-integrator.php:3644
+#: includes/class-knittnet-integrator.php:3982
 msgid "I've processed the PDF. What questions do you have about it?"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:333
-#: includes/class-mxchat-admin.php:8494
-#: includes/class-mxchat-admin.php:9168
-#: includes/class-mxchat-integrator.php:1913
-#: includes/class-mxchat-integrator.php:3645
-#: includes/class-mxchat-integrator.php:3993
+#: includes/class-knittnet-admin.php:333
+#: includes/class-knittnet-admin.php:8494
+#: includes/class-knittnet-admin.php:9168
+#: includes/class-knittnet-integrator.php:1913
+#: includes/class-knittnet-integrator.php:3645
+#: includes/class-knittnet-integrator.php:3993
 msgid "Sorry, I couldn't process the PDF. Please ensure it's a valid file."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:342
-#: includes/class-mxchat-admin.php:355
+#: includes/class-knittnet-admin.php:342
+#: includes/class-knittnet-admin.php:355
 msgid "#ffffff"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:343
+#: includes/class-knittnet-admin.php:343
 msgid "#333333"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:350
+#: includes/class-knittnet-admin.php:350
 msgid "I've notified a support agent. Please allow a moment for them to respond. If you'd like to continue with AI, just type \"Switch to AI\" at any time."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:351
+#: includes/class-knittnet-admin.php:351
 msgid "I just checked, and it looks like our support team isn't personally available at the moment. If you'd like, you can leave your email address, and they'll get back to you as soon as possible. In the meantime, you can keep chatting with me — just let me know how I can help!"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:354
+#: includes/class-knittnet-admin.php:354
 msgid "#767676"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:410
-#: includes/class-mxchat-admin.php:421
-msgid "MxChat Onboarding"
+#: includes/class-knittnet-admin.php:410
+#: includes/class-knittnet-admin.php:421
+msgid "KnittNet Onboarding"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:431
-#: includes/class-mxchat-meta-box.php:27
-#: includes/class-mxchat-meta-box.php:300
-msgid "MxChat Settings"
+#: includes/class-knittnet-admin.php:431
+#: includes/class-knittnet-meta-box.php:27
+#: includes/class-knittnet-meta-box.php:300
+msgid "KnittNet Settings"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:441
+#: includes/class-knittnet-admin.php:441
 msgid "Prompts"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:450
+#: includes/class-knittnet-admin.php:450
 msgid "Chat Transcripts"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:459
-msgid "MxChat Actions"
+#: includes/class-knittnet-admin.php:459
+msgid "KnittNet Actions"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:850
+#: includes/class-knittnet-admin.php:850
 msgid "OpenAI API key is not configured."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:855
+#: includes/class-knittnet-admin.php:855
 msgid "No Vector Store ID configured."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:877
-#: includes/class-mxchat-admin.php:932
+#: includes/class-knittnet-admin.php:877
+#: includes/class-knittnet-admin.php:932
 msgid "Connection failed: "
 msgstr ""
 
-#: includes/class-mxchat-admin.php:889
+#: includes/class-knittnet-admin.php:889
 #, php-format
 msgid "Connected successfully! Vector Store: %s (%d files)"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:895
+#: includes/class-knittnet-admin.php:895
 msgid "Vector Store not found. Please check the ID."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:897
+#: includes/class-knittnet-admin.php:897
 msgid "Invalid API key."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:899
+#: includes/class-knittnet-admin.php:899
 msgid "Unknown error occurred."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:918
+#: includes/class-knittnet-admin.php:918
 msgid "Slack Bot Token is not configured. Please enter your token and save settings first."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:941
+#: includes/class-knittnet-admin.php:941
 msgid "Invalid bot token. Please check your token starts with xoxb-"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:942
+#: includes/class-knittnet-admin.php:942
 msgid "No authentication token provided."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:943
+#: includes/class-knittnet-admin.php:943
 msgid "The Slack workspace has been deactivated."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:944
+#: includes/class-knittnet-admin.php:944
 msgid "The bot token has been revoked. Please generate a new one."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:946
+#: includes/class-knittnet-admin.php:946
 #, php-format
 msgid "Authentication failed: %s"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:1004
+#: includes/class-knittnet-admin.php:1004
 #, php-format
 msgid "Workspace: %s"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:1005
+#: includes/class-knittnet-admin.php:1005
 #, php-format
 msgid "Bot: %s"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:1007
+#: includes/class-knittnet-admin.php:1007
 msgid "channels:read - List channels"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:1008
+#: includes/class-knittnet-admin.php:1008
 msgid "channels:manage - Create channels"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:1033
-#: includes/class-mxchat-admin.php:1044
-#: includes/class-mxchat-admin.php:3543
-#: includes/class-mxchat-admin.php:4152
-#: includes/class-mxchat-admin.php:6869
+#: includes/class-knittnet-admin.php:1033
+#: includes/class-knittnet-admin.php:1044
+#: includes/class-knittnet-admin.php:3543
+#: includes/class-knittnet-admin.php:4152
+#: includes/class-knittnet-admin.php:6869
 msgid "Dismiss this notice."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:1489
+#: includes/class-knittnet-admin.php:1489
 msgid "Configure email notifications for new chat transcripts. You will receive an email notification when a new chat session begins."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:1499
+#: includes/class-knittnet-admin.php:1499
 msgid "Send email notification when a new chat session starts"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:1502
+#: includes/class-knittnet-admin.php:1502
 msgid "Enable this option to receive email notifications for new chat sessions."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:1515
+#: includes/class-knittnet-admin.php:1515
 msgid "Enter the email address where notifications should be sent. Defaults to the admin email address."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:1527
+#: includes/class-knittnet-admin.php:1527
 msgid "Never (Keep All Transcripts)"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:1540
+#: includes/class-knittnet-admin.php:1540
 msgid "Automatically delete old chat transcripts after the selected time period. This helps manage database size and privacy."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:1568
+#: includes/class-knittnet-admin.php:1568
 msgid "Number of days to retain transcripts. When set to a value greater than 0, this overrides the dropdown above. Set to 0 to use the dropdown. Maximum 3650 (10 years). A daily wp-cron task removes anything older, cascading to translations and click-tracking rows."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:1571
+#: includes/class-knittnet-admin.php:1571
 msgid "lets developers override the final day count programmatically."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:1588
+#: includes/class-knittnet-admin.php:1588
 msgid "Enable Auto-Email of Full Transcript"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:1592
+#: includes/class-knittnet-admin.php:1592
 msgid "Send transcript after:"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:1613
+#: includes/class-knittnet-admin.php:1613
 msgid "Only send if visitor provided contact info"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:1616
+#: includes/class-knittnet-admin.php:1616
 msgid "Automatically email the full transcript as a .txt file after the specified time has passed since the last user message. The scheduled email will be cancelled if a new message is received."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:1618
+#: includes/class-knittnet-admin.php:1618
 msgid "When \"Only send if visitor provided contact info\" is enabled, transcripts will only be emailed if the visitor shared an email address or phone number (including WhatsApp) in the chat."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:1636
+#: includes/class-knittnet-admin.php:1636
 msgid "Please enter a valid email address for notifications."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:1809
-#: includes/class-mxchat-admin.php:2198
+#: includes/class-knittnet-admin.php:1809
+#: includes/class-knittnet-admin.php:2198
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:2574
+#: includes/class-knittnet-admin.php:2574
 msgid "No conversation yet"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:2614
+#: includes/class-knittnet-admin.php:2614
 msgid "just now"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:2615
+#: includes/class-knittnet-admin.php:2615
 msgid "m ago"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:2616
+#: includes/class-knittnet-admin.php:2616
 msgid "h ago"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:2617
+#: includes/class-knittnet-admin.php:2617
 msgid "d ago"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:3543
+#: includes/class-knittnet-admin.php:3543
 msgid "All knowledge has been deleted successfully."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:3901
+#: includes/class-knittnet-admin.php:3901
 msgid "No chat sessions selected for deletion."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:3988
+#: includes/class-knittnet-admin.php:3988
 #, php-format
 msgid "%d chat session(s) have been deleted."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4113
+#: includes/class-knittnet-admin.php:4113
 msgid "Message ID is required."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4129
+#: includes/class-knittnet-admin.php:4129
 msgid "No RAG context found for this message."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4137
+#: includes/class-knittnet-admin.php:4137
 msgid "Invalid RAG context data."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4340
+#: includes/class-knittnet-admin.php:4340
 msgid "Create and manage custom actions to enhance your chatbot's capabilities."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4352
+#: includes/class-knittnet-admin.php:4352
 msgid "Search Actions"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4356
+#: includes/class-knittnet-admin.php:4356
 msgid "All Action Types"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4366
+#: includes/class-knittnet-admin.php:4366
 msgid "Filter"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4373
+#: includes/class-knittnet-admin.php:4373
 msgid "Add New Action"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4423
+#: includes/class-knittnet-admin.php:4423
 msgid "Type:"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4428
+#: includes/class-knittnet-admin.php:4428
 msgid "Trigger phrases:"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4445
+#: includes/class-knittnet-admin.php:4445
 msgid "Similarity Threshold:"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4452
+#: includes/class-knittnet-admin.php:4452
 msgid "Assigned bots:"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4489
+#: includes/class-knittnet-admin.php:4489
 msgid "Edit Form"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4496
+#: includes/class-knittnet-admin.php:4496
 msgid "Manage Flows"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4513
+#: includes/class-knittnet-admin.php:4513
 msgid "Are you sure you want to delete this action?"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4531
+#: includes/class-knittnet-admin.php:4531
 msgid "No actions found"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4532
+#: includes/class-knittnet-admin.php:4532
 msgid "Get started by creating your first action to enhance your chatbot."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4534
+#: includes/class-knittnet-admin.php:4534
 msgid "Create Your First Action"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4576
+#: includes/class-knittnet-admin.php:4576
 msgid "Select Action Type"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4582
+#: includes/class-knittnet-admin.php:4582
 msgid "Search action types..."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4624
-#: includes/class-mxchat-admin.php:4628
+#: includes/class-knittnet-admin.php:4624
+#: includes/class-knittnet-admin.php:4628
 msgid "Add-on Required"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4634
+#: includes/class-knittnet-admin.php:4634
 #, php-format
 msgid "Use the %s action in your chatbot"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4665
+#: includes/class-knittnet-admin.php:4665
 msgid "Get Add-on"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4686
+#: includes/class-knittnet-admin.php:4686
 msgid "Configure Action"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4692
+#: includes/class-knittnet-admin.php:4692
 msgid "Back to Action Types"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4699
+#: includes/class-knittnet-admin.php:4699
 msgid "Selected Action"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4700
+#: includes/class-knittnet-admin.php:4700
 msgid "Configure this action for your chatbot"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4707
+#: includes/class-knittnet-admin.php:4707
 msgid "Action Label (For your reference only)"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4711
+#: includes/class-knittnet-admin.php:4711
 msgid "Example: Newsletter Signup"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4716
+#: includes/class-knittnet-admin.php:4716
 msgid "Trigger Phrases (comma-separated)"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4720
+#: includes/class-knittnet-admin.php:4720
 msgid "Example: sign me up, subscribe me, I want to join, add me to the newsletter"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4739
+#: includes/class-knittnet-admin.php:4739
 msgid "Lower values (10-30) make the action trigger more easily. Higher values (70-95) require more exact matches."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4746
+#: includes/class-knittnet-admin.php:4746
 msgid "Which bots should we enable this action for?"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4789
+#: includes/class-knittnet-admin.php:4789
 msgid "Save Action"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4800
+#: includes/class-knittnet-admin.php:4800
 msgid "Saving action, please wait..."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4878
-#: includes/class-mxchat-admin.php:4983
+#: includes/class-knittnet-admin.php:4878
+#: includes/class-knittnet-admin.php:4983
 msgid "Invalid input. Please ensure all fields are filled out."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4884
-#: includes/class-mxchat-admin.php:5007
+#: includes/class-knittnet-admin.php:4884
+#: includes/class-knittnet-admin.php:5007
 msgid "Please enter at least one valid phrase."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4904
-#: includes/class-mxchat-admin.php:5027
+#: includes/class-knittnet-admin.php:4904
+#: includes/class-knittnet-admin.php:5027
 #, php-format
 msgid "Error generating embeddings for phrases: %s. Check your embedding API."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4912
-#: includes/class-mxchat-admin.php:5035
+#: includes/class-knittnet-admin.php:4912
+#: includes/class-knittnet-admin.php:5035
 msgid "No valid embeddings generated. Please check your phrases."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4938
+#: includes/class-knittnet-admin.php:4938
 msgid "Failed to update action in database."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4943
+#: includes/class-knittnet-admin.php:4943
 msgid "Intent updated successfully!"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4990
+#: includes/class-knittnet-admin.php:4990
 msgid "Invalid callback function selected."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4996
+#: includes/class-knittnet-admin.php:4996
 msgid "an add-on"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:4998
+#: includes/class-knittnet-admin.php:4998
 #, php-format
 msgid "This action requires the %s to be installed and activated."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5053
+#: includes/class-knittnet-admin.php:5053
 msgid "Database error: "
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5058
+#: includes/class-knittnet-admin.php:5058
 msgid "New intent added successfully!"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5207
-#: includes/class-mxchat-admin.php:5494
+#: includes/class-knittnet-admin.php:5207
+#: includes/class-knittnet-admin.php:5494
 msgid "Invalid action ID"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5222
+#: includes/class-knittnet-admin.php:5222
 msgid "Failed to update action status"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5241
+#: includes/class-knittnet-admin.php:5241
 msgid "No actions selected"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5252
+#: includes/class-knittnet-admin.php:5252
 msgid "Failed to delete actions"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5291
-#: includes/class-mxchat-admin.php:5294
-#: includes/class-mxchat-admin.php:5415
+#: includes/class-knittnet-admin.php:5291
+#: includes/class-knittnet-admin.php:5294
+#: includes/class-knittnet-admin.php:5415
 msgid "Please fill in all required fields."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5320
-#: includes/class-mxchat-admin.php:5385
+#: includes/class-knittnet-admin.php:5320
+#: includes/class-knittnet-admin.php:5385
 msgid "Failed to add action to database."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5358
-#: includes/class-mxchat-admin.php:5433
+#: includes/class-knittnet-admin.php:5358
+#: includes/class-knittnet-admin.php:5433
 msgid "Please provide at least one trigger phrase."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5475
+#: includes/class-knittnet-admin.php:5475
 msgid "Failed to update action."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5503
+#: includes/class-knittnet-admin.php:5503
 msgid "Failed to delete action"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5529
+#: includes/class-knittnet-admin.php:5529
 msgid "Please provide an intent ID and phrase."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5537
+#: includes/class-knittnet-admin.php:5537
 msgid "Action not found."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5543
+#: includes/class-knittnet-admin.php:5543
 msgid "Failed to generate embedding: "
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5557
+#: includes/class-knittnet-admin.php:5557
 msgid "Failed to add phrase."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5575
+#: includes/class-knittnet-admin.php:5575
 msgid "Invalid phrase ID."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5583
+#: includes/class-knittnet-admin.php:5583
 msgid "Failed to delete phrase."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5601
-#: includes/class-mxchat-admin.php:5630
+#: includes/class-knittnet-admin.php:5601
+#: includes/class-knittnet-admin.php:5630
 msgid "Invalid intent ID."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5645
+#: includes/class-knittnet-admin.php:5645
 msgid "Failed to clear legacy phrases."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5694
+#: includes/class-knittnet-admin.php:5694
 msgid "WooCommerce Add-on"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5699
+#: includes/class-knittnet-admin.php:5699
 msgid "Perplexity Add-on"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5704
+#: includes/class-knittnet-admin.php:5704
 msgid "Forms Add-on"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5746
-#: includes/class-mxchat-admin.php:5801
-#: includes/class-mxchat-admin.php:5810
-#: includes/class-mxchat-admin.php:5819
+#: includes/class-knittnet-admin.php:5746
+#: includes/class-knittnet-admin.php:5801
+#: includes/class-knittnet-admin.php:5810
+#: includes/class-knittnet-admin.php:5819
 msgid "Customer Engagement"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5748
+#: includes/class-knittnet-admin.php:5748
 msgid "Collect visitor emails for your mailing list in Loops"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5753
+#: includes/class-knittnet-admin.php:5753
 msgid "Brave Web Search"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5755
-#: includes/class-mxchat-admin.php:5764
-#: includes/class-mxchat-admin.php:5885
+#: includes/class-knittnet-admin.php:5755
+#: includes/class-knittnet-admin.php:5764
+#: includes/class-knittnet-admin.php:5885
 msgid "Search Features"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5757
+#: includes/class-knittnet-admin.php:5757
 msgid "Let users search the web directly from the chat (requires a Brave Search API key)"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5762
+#: includes/class-knittnet-admin.php:5762
 msgid "Brave Image Search"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5766
+#: includes/class-knittnet-admin.php:5766
 msgid "Search and display images in the chat conversation (requires a Brave Search API key)"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5772
-#: includes/class-mxchat-tool-registry.php:196
+#: includes/class-knittnet-admin.php:5772
+#: includes/class-knittnet-tool-registry.php:196
 msgid "Generate Image (OpenAI)"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5774
-#: includes/class-mxchat-admin.php:5783
-#: includes/class-mxchat-admin.php:5792
-#: includes/class-mxchat-admin.php:5986
+#: includes/class-knittnet-admin.php:5774
+#: includes/class-knittnet-admin.php:5783
+#: includes/class-knittnet-admin.php:5792
+#: includes/class-knittnet-admin.php:5986
 msgid "Other Features"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5776
+#: includes/class-knittnet-admin.php:5776
 msgid "Create images with GPT Image from OpenAI (requires OpenAI API key)"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5781
-#: includes/class-mxchat-tool-registry.php:204
+#: includes/class-knittnet-admin.php:5781
+#: includes/class-knittnet-tool-registry.php:204
 msgid "Generate Image (Gemini)"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5785
+#: includes/class-knittnet-admin.php:5785
 msgid "Create images with Imagen from Google (requires Gemini API key)"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5790
+#: includes/class-knittnet-admin.php:5790
 msgid "Chat with PDF"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5794
+#: includes/class-knittnet-admin.php:5794
 msgid "Answer questions about uploaded PDF documents"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5799
+#: includes/class-knittnet-admin.php:5799
 msgid "Slack Live Agent"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5803
+#: includes/class-knittnet-admin.php:5803
 msgid "Transfer conversation to a human support agent on Slack"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5808
+#: includes/class-knittnet-admin.php:5808
 msgid "Telegram Live Agent"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5812
+#: includes/class-knittnet-admin.php:5812
 msgid "Transfer conversation to a human support agent on Telegram"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5817
+#: includes/class-knittnet-admin.php:5817
 msgid "Back to Chatbot"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5821
+#: includes/class-knittnet-admin.php:5821
 msgid "Return from live agent mode to AI chatbot"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5832
+#: includes/class-knittnet-admin.php:5832
 msgid "Product Recommendations"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5835
-#: includes/class-mxchat-admin.php:5843
-#: includes/class-mxchat-admin.php:5851
-#: includes/class-mxchat-admin.php:5859
-#: includes/class-mxchat-admin.php:5867
-#: includes/class-mxchat-admin.php:5875
+#: includes/class-knittnet-admin.php:5835
+#: includes/class-knittnet-admin.php:5843
+#: includes/class-knittnet-admin.php:5851
+#: includes/class-knittnet-admin.php:5859
+#: includes/class-knittnet-admin.php:5867
+#: includes/class-knittnet-admin.php:5875
 msgid "WooCommerce Features"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5837
+#: includes/class-knittnet-admin.php:5837
 msgid "Suggest products based on customer preferences"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5845
+#: includes/class-knittnet-admin.php:5845
 msgid "Allow customers to check their order status"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5848
+#: includes/class-knittnet-admin.php:5848
 msgid "Show Product Card"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5853
+#: includes/class-knittnet-admin.php:5853
 msgid "Display product information in the chat"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5856
+#: includes/class-knittnet-admin.php:5856
 msgid "Add to Cart"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5861
+#: includes/class-knittnet-admin.php:5861
 msgid "Add products to cart directly from chat"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5864
+#: includes/class-knittnet-admin.php:5864
 msgid "Proceed to Checkout"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5869
+#: includes/class-knittnet-admin.php:5869
 msgid "Redirect customer to checkout page"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5872
+#: includes/class-knittnet-admin.php:5872
 msgid "Featured Products Showcase"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5877
+#: includes/class-knittnet-admin.php:5877
 msgid "Display a curated selection of products with an AI-generated message"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5882
+#: includes/class-knittnet-admin.php:5882
 msgid "Perplexity Research"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5887
+#: includes/class-knittnet-admin.php:5887
 msgid "Allows the chatbot to search the web for accurate, up-to-date answers"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5892
+#: includes/class-knittnet-admin.php:5892
 msgid "Form Collection"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5895
+#: includes/class-knittnet-admin.php:5895
 msgid "Form Features"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5897
+#: includes/class-knittnet-admin.php:5897
 msgid "Collect user information through custom forms in chat"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5914
+#: includes/class-knittnet-admin.php:5914
 msgid "Unknown Add-on"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:5993
+#: includes/class-knittnet-admin.php:5993
 msgid "Custom action for your chatbot"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6047
+#: includes/class-knittnet-admin.php:6047
 msgid "Chatbot Settings"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6063
+#: includes/class-knittnet-admin.php:6063
 msgid "OpenAI API Key"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6072
+#: includes/class-knittnet-admin.php:6072
 msgid "X.AI API Key"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6081
+#: includes/class-knittnet-admin.php:6081
 msgid "Claude API Key"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6090
+#: includes/class-knittnet-admin.php:6090
 msgid "DeepSeek API Key"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6099
+#: includes/class-knittnet-admin.php:6099
 msgid "Google Gemini API Key"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6108
+#: includes/class-knittnet-admin.php:6108
 msgid "Voyage AI API Key"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6117
+#: includes/class-knittnet-admin.php:6117
 msgid "OpenRouter API Key"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6126
+#: includes/class-knittnet-admin.php:6126
 msgid "Custom Provider (OpenAI-compatible)"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6135
+#: includes/class-knittnet-admin.php:6135
 msgid "Loops API Key"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6144
+#: includes/class-knittnet-admin.php:6144
 msgid "Brave API Key"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6270
+#: includes/class-knittnet-admin.php:6270
 msgid "Require Email To Chat"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6278
+#: includes/class-knittnet-admin.php:6278
 msgid "Require Email Chat Content"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6286
+#: includes/class-knittnet-admin.php:6286
 msgid "Require Email Chat Button Text"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6294
+#: includes/class-knittnet-admin.php:6294
 msgid "Require Name Field"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6318
+#: includes/class-knittnet-admin.php:6318
 msgid "Input Copy"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6334
+#: includes/class-knittnet-admin.php:6334
 msgid "Toggle Privacy Notice"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6342
+#: includes/class-knittnet-admin.php:6342
 msgid "Enable Complianz"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6350
+#: includes/class-knittnet-admin.php:6350
 msgid "Open Links in a New Tab"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6358
+#: includes/class-knittnet-admin.php:6358
 msgid "Enable Chat Persistence"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6414
+#: includes/class-knittnet-admin.php:6414
 msgid "Additional Quick Questions"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6423
+#: includes/class-knittnet-admin.php:6423
 msgid "Rate Limits Settings"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6432
+#: includes/class-knittnet-admin.php:6432
 msgid "Loops Settings"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6440
+#: includes/class-knittnet-admin.php:6440
 msgid "Loops Mailing List"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6448
+#: includes/class-knittnet-admin.php:6448
 msgid "Triggered Phrase Response"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6456
+#: includes/class-knittnet-admin.php:6456
 msgid "Email Capture Response"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6465
+#: includes/class-knittnet-admin.php:6465
 msgid "Brave Search Settings"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6473
+#: includes/class-knittnet-admin.php:6473
 msgid "Number of Images to Return"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6481
+#: includes/class-knittnet-admin.php:6481
 msgid "Safe Search"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6489
+#: includes/class-knittnet-admin.php:6489
 msgid "Number of News Articles"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6497
+#: includes/class-knittnet-admin.php:6497
 msgid "Country"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6505
+#: includes/class-knittnet-admin.php:6505
 msgid "Language"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6514
+#: includes/class-knittnet-admin.php:6514
 msgid "Toolbar Settings & Intents"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6521
+#: includes/class-knittnet-admin.php:6521
 msgid "Show Chat Toolbar"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6530
+#: includes/class-knittnet-admin.php:6530
 msgid "Show PDF Upload Button"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6539
+#: includes/class-knittnet-admin.php:6539
 msgid "Show Word Upload Button"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6547
+#: includes/class-knittnet-admin.php:6547
 msgid "Intent Trigger Text"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6555
+#: includes/class-knittnet-admin.php:6555
 msgid "Success Text"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6563
+#: includes/class-knittnet-admin.php:6563
 msgid "Error Text"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6572
+#: includes/class-knittnet-admin.php:6572
 msgid "Maximum Document Pages"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6581
+#: includes/class-knittnet-admin.php:6581
 msgid "Live Agent Settings"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6589
-#: includes/class-mxchat-admin.php:6654
+#: includes/class-knittnet-admin.php:6589
+#: includes/class-knittnet-admin.php:6654
 msgid "Live Agent Status"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6597
-#: includes/class-mxchat-admin.php:6662
+#: includes/class-knittnet-admin.php:6597
+#: includes/class-knittnet-admin.php:6662
 msgid "Notification Message"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6605
-#: includes/class-mxchat-admin.php:6670
+#: includes/class-knittnet-admin.php:6605
+#: includes/class-knittnet-admin.php:6670
 msgid "Away Message"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6613
+#: includes/class-knittnet-admin.php:6613
 msgid "Slack Agent User IDs"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6621
+#: includes/class-knittnet-admin.php:6621
 msgid "Slack Webhook URL"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6629
+#: includes/class-knittnet-admin.php:6629
 msgid "Slack Secret Key"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6638
+#: includes/class-knittnet-admin.php:6638
 msgid "Slack Bot OAuth Token"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6647
+#: includes/class-knittnet-admin.php:6647
 msgid "Telegram Settings"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6678
+#: includes/class-knittnet-admin.php:6678
 msgid "Telegram Bot Token"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6686
+#: includes/class-knittnet-admin.php:6686
 msgid "Telegram Group ID"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6694
+#: includes/class-knittnet-admin.php:6694
 msgid "Webhook Secret Token"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6703
+#: includes/class-knittnet-admin.php:6703
 msgid "YouTube Tutorials"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6715
-msgid "MXChat Knowledge Base Settings"
+#: includes/class-knittnet-admin.php:6715
+msgid "KnittNet Knowledge Base Settings"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6738
-msgid "MXChat Transcripts Notification Settings"
+#: includes/class-knittnet-admin.php:6738
+msgid "KnittNet Transcripts Notification Settings"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6750
+#: includes/class-knittnet-admin.php:6750
 msgid "Chat Notification Settings"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6765
+#: includes/class-knittnet-admin.php:6765
 msgid "Notification Email Address"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6781
+#: includes/class-knittnet-admin.php:6781
 msgid "Custom Retention (Days)"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6820
+#: includes/class-knittnet-admin.php:6820
 msgid "The Pinecone API key appears to be invalid. Please check your API key."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6841
-msgid "The Pinecone host appears to be invalid. It should look like \"mxchat-vectors-zrmsquq.svc.aped-4627-b74a.pinecone.io\""
+#: includes/class-knittnet-admin.php:6841
+msgid "The Pinecone host appears to be invalid. It should look like \"knittnet-vectors-zrmsquq.svc.aped-4627-b74a.pinecone.io\""
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6868
+#: includes/class-knittnet-admin.php:6868
 msgid "Sync settings updated successfully."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6877
+#: includes/class-knittnet-admin.php:6877
 msgid "1"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6903
+#: includes/class-knittnet-admin.php:6903
 msgid "Set message limits for each user role and customize the experience when users reach those limits. You can use {limit}, {timeframe}, {count}, and {remaining} as placeholders."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6908
+#: includes/class-knittnet-admin.php:6908
 msgid "Markdown Links Supported:"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6909
+#: includes/class-knittnet-admin.php:6909
 msgid "You can include clickable links in your custom messages using markdown syntax:"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6950
+#: includes/class-knittnet-admin.php:6950
 msgid "Limit:"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6963
+#: includes/class-knittnet-admin.php:6963
 msgid "Timeframe:"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6978
+#: includes/class-knittnet-admin.php:6978
 msgid "Custom Message:"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6983
+#: includes/class-knittnet-admin.php:6983
 msgid "Enter custom message when rate limit is exceeded"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:6987
+#: includes/class-knittnet-admin.php:6987
 msgid "Example: Rate limit reached! [Visit our pricing page](https://example.com/pricing) to upgrade."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7014
+#: includes/class-knittnet-admin.php:7014
 msgid "Manage all your API keys in one place. Add the API keys for the services you want to use with your chatbot."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7025
+#: includes/class-knittnet-admin.php:7025
 msgid "Required for OpenAI GPT models and OpenAI embeddings. Get your API key from OpenAI Platform."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7037
+#: includes/class-knittnet-admin.php:7037
 msgid "Required for X.AI Grok models. Get your API key from X.AI Console."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7048
+#: includes/class-knittnet-admin.php:7048
 msgid "Required for Anthropic Claude models. Get your API key from Anthropic Console."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7060
+#: includes/class-knittnet-admin.php:7060
 msgid "Required for DeepSeek models. Get your API key from DeepSeek Platform."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7072
+#: includes/class-knittnet-admin.php:7072
 msgid "Required for Google Gemini models and embeddings. Get your API key from Google AI Studio."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7085
+#: includes/class-knittnet-admin.php:7085
 msgid "Required for OpenRouter models. Get your API key from OpenRouter.ai"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7120
-msgid "Point MxChat at any OpenAI-compatible /v1/chat/completions endpoint: Ollama, LM Studio, vLLM, llama.cpp, LocalAI, Azure OpenAI, etc. Then select \"Custom (OpenAI-compatible)\" in the model picker."
+#: includes/class-knittnet-admin.php:7120
+msgid "Point KnittNet at any OpenAI-compatible /v1/chat/completions endpoint: Ollama, LM Studio, vLLM, llama.cpp, LocalAI, Azure OpenAI, etc. Then select \"Custom (OpenAI-compatible)\" in the model picker."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7125
+#: includes/class-knittnet-admin.php:7125
 msgid "Azure OpenAI quick start"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7127
+#: includes/class-knittnet-admin.php:7127
 msgid "<strong>Base URL</strong> → <code>https://&lt;resource&gt;.openai.azure.com/openai/deployments/&lt;deployment&gt;</code>"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7128
+#: includes/class-knittnet-admin.php:7128
 msgid "<strong>API Key</strong> → your Azure OpenAI key (required)"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7129
+#: includes/class-knittnet-admin.php:7129
 msgid "<strong>Auth Scheme</strong> → <code>api-key header (Azure OpenAI)</code>"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7130
+#: includes/class-knittnet-admin.php:7130
 msgid "<strong>API Version</strong> → required for Azure, e.g. <code>2024-08-01-preview</code>"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7135
+#: includes/class-knittnet-admin.php:7135
 msgid "Base URL"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7137
+#: includes/class-knittnet-admin.php:7137
 msgid "Examples: Ollama http://localhost:11434/v1  ·  LM Studio http://localhost:1234/v1  ·  vLLM http://gpu:8000/v1  ·  Azure https://<resource>.openai.azure.com/openai/deployments/<deployment>"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7141
+#: includes/class-knittnet-admin.php:7141
 msgid "API Key (optional)"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7143
+#: includes/class-knittnet-admin.php:7143
 msgid "Leave empty for unauthenticated local servers. Required for Azure / vLLM / hosted endpoints."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7147
+#: includes/class-knittnet-admin.php:7147
 msgid "Model Name"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7149
+#: includes/class-knittnet-admin.php:7149
 msgid "The model identifier the upstream server expects (e.g. llama3.2, mistral, gpt-oss). For Azure this is the deployment ID — leave empty if the Base URL already includes /deployments/<deployment>."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7153
+#: includes/class-knittnet-admin.php:7153
 msgid "Auth Scheme"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7155
+#: includes/class-knittnet-admin.php:7155
 msgid "Authorization: Bearer (OpenAI / Ollama / vLLM / LM Studio)"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7156
+#: includes/class-knittnet-admin.php:7156
 msgid "api-key header (Azure OpenAI)"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7158
+#: includes/class-knittnet-admin.php:7158
 msgid "Most OpenAI-compatible servers use Bearer. Azure OpenAI uses the api-key header."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7162
+#: includes/class-knittnet-admin.php:7162
 msgid "API Version (Azure only)"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7164
+#: includes/class-knittnet-admin.php:7164
 msgid "Appended as ?api-version=... on the request URL. Required for Azure OpenAI; leave empty for non-Azure providers."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7169
+#: includes/class-knittnet-admin.php:7169
 msgid "Extended routing (opt-in)"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7170
+#: includes/class-knittnet-admin.php:7170
 msgid "Use custom provider for embeddings"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7171
+#: includes/class-knittnet-admin.php:7171
 msgid "Use custom provider for image generation"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7172
+#: includes/class-knittnet-admin.php:7172
 msgid "When off, embeddings and image generation continue to use OpenAI (current behavior). Turn on only if your endpoint exposes OpenAI-compatible /embeddings or /images/generations routes (e.g. Ollama, vLLM, LocalAI)."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7176
+#: includes/class-knittnet-admin.php:7176
 msgid "Custom Embedding Model"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7178
+#: includes/class-knittnet-admin.php:7178
 msgid "Only used when \"Use custom provider for embeddings\" is on. The embedding model name is separate from the chat model name above (e.g. Ollama embedding models: nomic-embed-text, mxbai-embed-large). Leave blank to fall back to the chat model name."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7191
+#: includes/class-knittnet-admin.php:7191
 msgid "Testing..."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7200
+#: includes/class-knittnet-admin.php:7200
 msgid "OK"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7203
+#: includes/class-knittnet-admin.php:7203
 msgid "Failed"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7208
+#: includes/class-knittnet-admin.php:7208
 msgid "Request failed"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7225
+#: includes/class-knittnet-admin.php:7225
 msgid "Required for Voyage AI embedding models. Get your API key from Voyage AI."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7241
+#: includes/class-knittnet-admin.php:7241
 msgid "Required for Loops email integration. Get your API key from Loops.so"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7266
+#: includes/class-knittnet-admin.php:7266
 msgid "Select a list"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7280
+#: includes/class-knittnet-admin.php:7280
 msgid "Please select a mailing list to use with Loops."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7282
+#: includes/class-knittnet-admin.php:7282
 msgid "No lists found. Please verify your API Key."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7285
+#: includes/class-knittnet-admin.php:7285
 msgid "Enter a valid Loops API Key to load mailing lists."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7302
+#: includes/class-knittnet-admin.php:7302
 msgid "Enter the instruction for the AI when a trigger keyword is detected. The AI will use this as guidance to naturally ask for the user's email in a conversational way."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7319
+#: includes/class-knittnet-admin.php:7319
 msgid "Enter the instruction for the AI when a user provides their email. The AI will use this as guidance to naturally confirm the email capture in a conversational way."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7347
+#: includes/class-knittnet-admin.php:7347
 msgid "Use {visitor_name} to personalize AI responses when lead capture is enabled."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7348
+#: includes/class-knittnet-admin.php:7348
 msgid "Example: The visitor's name is {visitor_name}. Address them by name."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7415
+#: includes/class-knittnet-admin.php:7415
 msgid "Copy Instructions"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7457
+#: includes/class-knittnet-admin.php:7457
 msgid "After entering your OpenRouter API key above, click the button below to load available models."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7471
-#: includes/class-mxchat-admin.php:7682
+#: includes/class-knittnet-admin.php:7471
+#: includes/class-knittnet-admin.php:7682
 msgid "API key for OpenAI detected"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7473
-#: includes/class-mxchat-admin.php:7684
+#: includes/class-knittnet-admin.php:7473
+#: includes/class-knittnet-admin.php:7684
 msgid "No API key for OpenAI detected. Please enter API key in API Keys tab."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7480
+#: includes/class-knittnet-admin.php:7480
 msgid "API key for Anthropic (Claude) detected"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7482
+#: includes/class-knittnet-admin.php:7482
 msgid "No API key for Anthropic (Claude) detected. Please enter API key in API Keys tab."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7489
+#: includes/class-knittnet-admin.php:7489
 msgid "API key for X.AI (Grok) detected"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7491
+#: includes/class-knittnet-admin.php:7491
 msgid "No API key for X.AI (Grok) detected. Please enter API key in API Keys tab."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7498
+#: includes/class-knittnet-admin.php:7498
 msgid "API key for DeepSeek detected"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7500
+#: includes/class-knittnet-admin.php:7500
 msgid "No API key for DeepSeek detected. Please enter API key in API Keys tab."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7507
-#: includes/class-mxchat-admin.php:7700
+#: includes/class-knittnet-admin.php:7507
+#: includes/class-knittnet-admin.php:7700
 msgid "API key for Google Gemini detected"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7509
-#: includes/class-mxchat-admin.php:7702
+#: includes/class-knittnet-admin.php:7509
+#: includes/class-knittnet-admin.php:7702
 msgid "No API key for Google Gemini detected. Please enter API key in API Keys tab."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7516
+#: includes/class-knittnet-admin.php:7516
 msgid "API key for OpenRouter detected"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7518
+#: includes/class-knittnet-admin.php:7518
 msgid "No API key for OpenRouter detected. Please enter API key in API Keys tab."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7548
+#: includes/class-knittnet-admin.php:7548
 msgid "Test Streaming Compatibility"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7598
+#: includes/class-knittnet-admin.php:7598
 msgid "Web search is only available for OpenAI models."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7651
+#: includes/class-knittnet-admin.php:7651
 msgid "OpenAI Embeddings"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7652
+#: includes/class-knittnet-admin.php:7652
 msgid "TE3 Small (1536, Efficient)"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7653
+#: includes/class-knittnet-admin.php:7653
 msgid "Ada 2 (1536, Recommended)"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7654
+#: includes/class-knittnet-admin.php:7654
 msgid "TE3 Large (3072, Powerful)"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7656
+#: includes/class-knittnet-admin.php:7656
 msgid "Voyage AI Embeddings"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7657
+#: includes/class-knittnet-admin.php:7657
 msgid "Voyage-3 Large (2048, Most Capable)"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7659
+#: includes/class-knittnet-admin.php:7659
 msgid "Google Gemini Embeddings"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7660
+#: includes/class-knittnet-admin.php:7660
 msgid "Gemini Embedding (1536, Stable)"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7691
+#: includes/class-knittnet-admin.php:7691
 msgid "API key for Voyage AI detected"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7693
+#: includes/class-knittnet-admin.php:7693
 msgid "No API key for Voyage AI detected. Please enter API key in API Keys tab."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7813
+#: includes/class-knittnet-admin.php:7813
 msgid "Use {visitor_name} to personalize greetings when lead capture is enabled."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7814
+#: includes/class-knittnet-admin.php:7814
 msgid "Example: Hello {visitor_name}! How can I help you today?"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7867
+#: includes/class-knittnet-admin.php:7867
 msgid "Post Type Visibility"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7875
+#: includes/class-knittnet-admin.php:7875
 msgid "Show on all post types"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7880
+#: includes/class-knittnet-admin.php:7880
 msgid "Only show on selected post types"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7885
+#: includes/class-knittnet-admin.php:7885
 msgid "Hide on selected post types"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7989
+#: includes/class-knittnet-admin.php:7989
 msgid "Customize the prompt (optional)"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7992
+#: includes/class-knittnet-admin.php:7992
 msgid "Idle Timeout"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:7996
+#: includes/class-knittnet-admin.php:7996
 msgid "seconds of user inactivity before the prompt appears (5-600)"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8001
+#: includes/class-knittnet-admin.php:8001
 msgid "Prompt Question"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8005
-#: includes/class-mxchat-integrator.php:406
+#: includes/class-knittnet-admin.php:8005
+#: includes/class-knittnet-integrator.php:406
 msgid "Was this helpful?"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8007
+#: includes/class-knittnet-admin.php:8007
 msgid "Leave blank for the default. Shown above the thumbs up/down."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8011
+#: includes/class-knittnet-admin.php:8011
 msgid "Thank-You Message"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8015
-#: includes/class-mxchat-integrator.php:410
+#: includes/class-knittnet-admin.php:8015
+#: includes/class-knittnet-integrator.php:410
 msgid "Thanks! Anything we should improve? (optional)"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8017
+#: includes/class-knittnet-admin.php:8017
 msgid "Leave blank for the default. Shown after the user clicks a thumb."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8021
+#: includes/class-knittnet-admin.php:8021
 msgid "Feedback Placeholder"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8025
-#: includes/class-mxchat-integrator.php:411
+#: includes/class-knittnet-admin.php:8025
+#: includes/class-knittnet-integrator.php:411
 msgid "Tell us what could be better…"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8027
+#: includes/class-knittnet-admin.php:8027
 msgid "Leave blank for the default. Placeholder text inside the feedback textarea."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8031
+#: includes/class-knittnet-admin.php:8031
 msgid "Saved Confirmation"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8035
-#: includes/class-mxchat-integrator.php:414
+#: includes/class-knittnet-admin.php:8035
+#: includes/class-knittnet-integrator.php:414
 msgid "Thanks for the feedback."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8037
+#: includes/class-knittnet-admin.php:8037
 msgid "Leave blank for the default. Shown after the feedback is sent."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8070
-#: includes/class-mxchat-public.php:188
+#: includes/class-knittnet-admin.php:8070
+#: includes/class-knittnet-public.php:188
 msgid "By chatting, you agree to our <a href=\"https://example.com/privacy-policy\" target=\"_blank\">privacy policy</a>."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8184
-#: includes/class-mxchat-integrator.php:392
+#: includes/class-knittnet-admin.php:8184
+#: includes/class-knittnet-integrator.php:392
 msgid "Start new chat"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8199
+#: includes/class-knittnet-admin.php:8199
 msgid "Enter Quick Question 1"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8215
+#: includes/class-knittnet-admin.php:8215
 msgid "Enter Quick Question 2"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8231
+#: includes/class-knittnet-admin.php:8231
 msgid "Enter Quick Question 3"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8255
+#: includes/class-knittnet-admin.php:8255
 #, php-format
 msgid "Enter Additional Quick Question %d"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8257
-#: includes/class-mxchat-admin.php:8273
+#: includes/class-knittnet-admin.php:8257
+#: includes/class-knittnet-admin.php:8273
 msgid "Remove question"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8258
-#: includes/class-mxchat-admin.php:8274
+#: includes/class-knittnet-admin.php:8258
+#: includes/class-knittnet-admin.php:8274
 msgid "Remove"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8272
+#: includes/class-knittnet-admin.php:8272
 msgid "Enter Additional Quick Question 4"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8280
+#: includes/class-knittnet-admin.php:8280
 msgid "Add question"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8281
+#: includes/class-knittnet-admin.php:8281
 msgid "Add Question"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8297
+#: includes/class-knittnet-admin.php:8297
 msgid "Required for Brave Search integration. Get your API key from Brave Search API."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8314
+#: includes/class-knittnet-admin.php:8314
 msgid "Select the number of images to return (1-6)."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8328
+#: includes/class-knittnet-admin.php:8328
 msgid "Strict"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8338
+#: includes/class-knittnet-admin.php:8338
 msgid "Set the Safe Search level for image searches. Brave Search only supports \"Strict\" and \"Off\" options."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8356
+#: includes/class-knittnet-admin.php:8356
 msgid "Select the number of news articles to retrieve (1-10)."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8373
+#: includes/class-knittnet-admin.php:8373
 msgid "Enter the country code (e.g., \"us\" for United States)."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8390
+#: includes/class-knittnet-admin.php:8390
 msgid "Enter the language code (e.g., \"en\" for English)."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8399
+#: includes/class-knittnet-admin.php:8399
 msgid "Configure the intent settings for the Chat with PDF feature."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8416
+#: includes/class-knittnet-admin.php:8416
 msgid "Enable to display the chat toolbar, adding two icons below the chatbot input field for uploading PDF and Word documents (default is hidden)."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8436
+#: includes/class-knittnet-admin.php:8436
 msgid "Enable to show the PDF upload button in the chatbot toolbar. Disable to hide it."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8456
+#: includes/class-knittnet-admin.php:8456
 msgid "Enable to show the Word document upload button in the chatbot toolbar. Disable to hide it."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8468
+#: includes/class-knittnet-admin.php:8468
 msgid "Enter trigger text"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8473
+#: includes/class-knittnet-admin.php:8473
 msgid "Text displayed when the intent is triggered."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8485
+#: includes/class-knittnet-admin.php:8485
 msgid "Enter success text"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8490
+#: includes/class-knittnet-admin.php:8490
 msgid "Text displayed when the intent is successful."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8502
+#: includes/class-knittnet-admin.php:8502
 msgid "Enter error text"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8507
+#: includes/class-knittnet-admin.php:8507
 msgid "Text displayed when an error occurs during the intent."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8524
+#: includes/class-knittnet-admin.php:8524
 msgid "Set the maximum number of document pages users can upload for processing. (1-69 pages)"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8540
-#: includes/class-mxchat-admin.php:8630
+#: includes/class-knittnet-admin.php:8540
+#: includes/class-knittnet-admin.php:8630
 msgid "Online"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8540
-#: includes/class-mxchat-admin.php:8630
+#: includes/class-knittnet-admin.php:8540
+#: includes/class-knittnet-admin.php:8630
 msgid "Offline"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8547
-#: includes/class-mxchat-admin.php:8649
+#: includes/class-knittnet-admin.php:8547
+#: includes/class-knittnet-admin.php:8649
 msgid "Sorry, live agents are currently unavailable. I can continue helping you as an AI assistant."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8553
-#: includes/class-mxchat-admin.php:8655
+#: includes/class-knittnet-admin.php:8553
+#: includes/class-knittnet-admin.php:8655
 msgid "Message shown when live agents are offline."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8559
+#: includes/class-knittnet-admin.php:8559
 msgid "Live agent has been notified."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8565
-#: includes/class-mxchat-admin.php:8643
+#: includes/class-knittnet-admin.php:8565
+#: includes/class-knittnet-admin.php:8643
 msgid "Message shown when live transfer activated."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8578
+#: includes/class-knittnet-admin.php:8578
 msgid "Enter your Slack webhook URL for live agent notifications."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8587
+#: includes/class-knittnet-admin.php:8587
 msgid "Secret key for validating Slack requests. Keep this secure."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8596
+#: includes/class-knittnet-admin.php:8596
 msgid "Your Slack Bot OAuth Token (starts with xoxb-). Keep this secure."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8608
+#: includes/class-knittnet-admin.php:8608
 msgid "Enter Slack User IDs of agents who should be automatically invited to chat channels (one per line). Find user IDs in Slack profiles under \"More\" → \"Copy member ID\". Example: U1234567890"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8615
+#: includes/class-knittnet-admin.php:8615
 msgid "Configure Telegram integration for live agent support."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8637
+#: includes/class-knittnet-admin.php:8637
 msgid "I've notified a support agent. Please allow a moment for them to respond."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8663
-#: includes/class-mxchat-admin.php:8691
+#: includes/class-knittnet-admin.php:8663
+#: includes/class-knittnet-admin.php:8691
 msgid "Hide"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8664
+#: includes/class-knittnet-admin.php:8664
 msgid "Your Telegram Bot Token from @BotFather (e.g., 123456789:ABCdefGhIJKlmNoPQRsTUVwxyZ)."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8672
+#: includes/class-knittnet-admin.php:8672
 msgid "Your Telegram supergroup ID (starts with -100). The group must have forum topics enabled."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8692
+#: includes/class-knittnet-admin.php:8692
 msgid "Secret token for webhook verification. Use this when setting up your Telegram webhook with the secret_token parameter."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8858
+#: includes/class-knittnet-admin.php:8858
 msgid "Are you sure you want to delete this trigger phrase?"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8859
+#: includes/class-knittnet-admin.php:8859
 msgid "Are you sure you want to delete the selected trigger phrases?"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8861
+#: includes/class-knittnet-admin.php:8861
 msgid "Saved successfully!"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8862
-#: includes/class-mxchat-admin.php:9117
+#: includes/class-knittnet-admin.php:8862
+#: includes/class-knittnet-admin.php:9117
 msgid "An error occurred. Please try again."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8863
-msgid "This feature requires MxChat Pro."
+#: includes/class-knittnet-admin.php:8863
+msgid "This feature requires KnittNet Pro."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8864
+#: includes/class-knittnet-admin.php:8864
 msgid "This feature requires an add-on."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:8894
-#: includes/class-mxchat-admin.php:8908
+#: includes/class-knittnet-admin.php:8894
+#: includes/class-knittnet-admin.php:8908
 msgid "Copied"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:9060
+#: includes/class-knittnet-admin.php:9060
 msgid "Search posts and pages..."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:9062
+#: includes/class-knittnet-admin.php:9062
 msgid "Process Selected"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:9064
+#: includes/class-knittnet-admin.php:9064
 msgid "No content found."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:9065
+#: includes/class-knittnet-admin.php:9065
 #, php-format
 msgid "extracting %d PDF(s)..."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:9066
+#: includes/class-knittnet-admin.php:9066
 #, php-format
 msgid " (%d PDF(s) extracted)"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:9111
+#: includes/class-knittnet-admin.php:9111
 msgid "Generating..."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:9112
-#: includes/class-mxchat-content-generator.php:430
+#: includes/class-knittnet-admin.php:9112
+#: includes/class-knittnet-content-generator.php:430
 msgid "Planning content structure..."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:9113
-#: includes/class-mxchat-content-generator.php:439
+#: includes/class-knittnet-admin.php:9113
+#: includes/class-knittnet-content-generator.php:439
 msgid "Generating images..."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:9114
-#: includes/class-mxchat-content-generator.php:444
+#: includes/class-knittnet-admin.php:9114
+#: includes/class-knittnet-content-generator.php:444
 msgid "Writing full content..."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:9115
-#: includes/class-mxchat-content-generator.php:453
+#: includes/class-knittnet-admin.php:9115
+#: includes/class-knittnet-content-generator.php:453
 msgid "Creating WordPress post..."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:9116
-#: includes/class-mxchat-content-generator.php:560
+#: includes/class-knittnet-admin.php:9116
+#: includes/class-knittnet-content-generator.php:560
 msgid "Content generated successfully!"
 msgstr ""
 
-#: includes/class-mxchat-admin.php:9118
-#: includes/class-mxchat-content-generator.php:684
+#: includes/class-knittnet-admin.php:9118
+#: includes/class-knittnet-content-generator.php:684
 msgid "Content updated successfully."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:9119
-#: includes/class-mxchat-content-generator.php:297
+#: includes/class-knittnet-admin.php:9119
+#: includes/class-knittnet-content-generator.php:297
 msgid "Please enter a prompt."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:9988
+#: includes/class-knittnet-admin.php:9988
 msgid "You do not have sufficient permissions to delete all prompts."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:10073
+#: includes/class-knittnet-admin.php:10073
 msgid "You do not have sufficient permissions to delete prompts."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:10081
+#: includes/class-knittnet-admin.php:10081
 msgid "Invalid prompt ID."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:10102
+#: includes/class-knittnet-admin.php:10102
 msgid "Pinecone configuration is missing."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:10120
+#: includes/class-knittnet-admin.php:10120
 msgid "Vector deleted successfully from Pinecone."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:10124
+#: includes/class-knittnet-admin.php:10124
 msgid "Failed to delete from Pinecone: "
 msgstr ""
 
-#: includes/class-mxchat-admin.php:10145
+#: includes/class-knittnet-admin.php:10145
 msgid "Entry deleted successfully."
 msgstr ""
 
-#: includes/class-mxchat-admin.php:10148
+#: includes/class-knittnet-admin.php:10148
 msgid "Failed to delete entry from database."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:312
+#: includes/class-knittnet-content-generator.php:312
 msgid "Starting generation..."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:582
+#: includes/class-knittnet-content-generator.php:582
 msgid "Missing post ID or edit instruction."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:587
-#: includes/class-mxchat-content-generator.php:2792
+#: includes/class-knittnet-content-generator.php:587
+#: includes/class-knittnet-content-generator.php:2792
 msgid "Post not found."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:705
+#: includes/class-knittnet-content-generator.php:705
 msgid "Invalid progress key."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:713
+#: includes/class-knittnet-content-generator.php:713
 msgid "Waiting..."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:766
+#: includes/class-knittnet-content-generator.php:766
 msgid "Failed to parse content plan. The AI response was not valid JSON."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:771
+#: includes/class-knittnet-content-generator.php:771
 msgid "Content plan is missing required fields (title or sections)."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:824
+#: includes/class-knittnet-content-generator.php:824
 #, php-format
 msgid "Generating %d images..."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:900
+#: includes/class-knittnet-content-generator.php:900
 msgid "Saving images to media library..."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:933
+#: includes/class-knittnet-content-generator.php:933
 #, php-format
 msgid "Generating image %d of %d..."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:971
+#: includes/class-knittnet-content-generator.php:971
 msgid "Unknown image model configured."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:987
-#: includes/class-mxchat-content-generator.php:1116
+#: includes/class-knittnet-content-generator.php:987
+#: includes/class-knittnet-content-generator.php:1116
 msgid "OpenAI API key not configured."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:1009
-#: includes/class-mxchat-content-generator.php:1170
+#: includes/class-knittnet-content-generator.php:1009
+#: includes/class-knittnet-content-generator.php:1170
 msgid "xAI API key not configured."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:1029
-#: includes/class-mxchat-content-generator.php:1217
-#: includes/class-mxchat-content-generator.php:2428
+#: includes/class-knittnet-content-generator.php:1029
+#: includes/class-knittnet-content-generator.php:1217
+#: includes/class-knittnet-content-generator.php:2428
 msgid "Gemini API key not configured."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:1053
-#: includes/class-mxchat-content-generator.php:1107
+#: includes/class-knittnet-content-generator.php:1053
+#: includes/class-knittnet-content-generator.php:1107
 msgid "Unknown image model."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:1068
+#: includes/class-knittnet-content-generator.php:1068
 msgid "Invalid image API response."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:1081
-#: includes/class-mxchat-content-generator.php:1161
+#: includes/class-knittnet-content-generator.php:1081
+#: includes/class-knittnet-content-generator.php:1161
 msgid "No image data in OpenAI response."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:1090
-#: includes/class-mxchat-content-generator.php:1208
+#: includes/class-knittnet-content-generator.php:1090
+#: includes/class-knittnet-content-generator.php:1208
 msgid "No image data in xAI response."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:1104
-#: includes/class-mxchat-content-generator.php:1269
+#: includes/class-knittnet-content-generator.php:1104
+#: includes/class-knittnet-content-generator.php:1269
 msgid "No image data in Gemini response."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:1145
+#: includes/class-knittnet-content-generator.php:1145
 msgid "OpenAI image generation failed."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:1199
+#: includes/class-knittnet-content-generator.php:1199
 msgid "xAI image generation failed."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:1254
+#: includes/class-knittnet-content-generator.php:1254
 msgid "Gemini image generation failed."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:1284
-#: includes/class-mxchat-integrator.php:2848
+#: includes/class-knittnet-content-generator.php:1284
+#: includes/class-knittnet-integrator.php:2848
 msgid "Failed to decode image data."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:1298
+#: includes/class-knittnet-content-generator.php:1298
 msgid "Could not create temporary file."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:1304
+#: includes/class-knittnet-content-generator.php:1304
 msgid "Could not write image file."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:2270
+#: includes/class-knittnet-content-generator.php:2270
 msgid "API key not configured for the selected content model."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:2332
+#: includes/class-knittnet-content-generator.php:2332
 msgid "API request failed with status "
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:2340
+#: includes/class-knittnet-content-generator.php:2340
 msgid "Unexpected API response format."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:2352
+#: includes/class-knittnet-content-generator.php:2352
 msgid "Claude API key not configured."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:2402
+#: includes/class-knittnet-content-generator.php:2402
 msgid "Claude API error "
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:2416
+#: includes/class-knittnet-content-generator.php:2416
 msgid "Unexpected Claude response format."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:2480
+#: includes/class-knittnet-content-generator.php:2480
 msgid "Gemini API error "
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:2488
+#: includes/class-knittnet-content-generator.php:2488
 msgid "Unexpected Gemini response format."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:2527
+#: includes/class-knittnet-content-generator.php:2527
 msgid "Invalid field."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:2549
+#: includes/class-knittnet-content-generator.php:2549
 msgid "Setting saved."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:2695
-#: includes/class-mxchat-content-generator.php:2726
-#: includes/class-mxchat-content-generator.php:2787
+#: includes/class-knittnet-content-generator.php:2695
+#: includes/class-knittnet-content-generator.php:2726
+#: includes/class-knittnet-content-generator.php:2787
 msgid "Invalid post ID."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:2700
-#: includes/class-mxchat-content-generator.php:2731
-#: includes/class-mxchat-content-generator.php:2796
+#: includes/class-knittnet-content-generator.php:2700
+#: includes/class-knittnet-content-generator.php:2731
+#: includes/class-knittnet-content-generator.php:2796
 msgid "This post was not created by the content generator."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:2705
+#: includes/class-knittnet-content-generator.php:2705
 msgid "Failed to delete post."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:2735
+#: includes/class-knittnet-content-generator.php:2735
 msgid "Invalid status."
 msgstr ""
 
-#: includes/class-mxchat-content-generator.php:2743
+#: includes/class-knittnet-content-generator.php:2743
 msgid "A schedule date is required."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:389
+#: includes/class-knittnet-integrator.php:389
 msgid "Download Transcript"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:393
+#: includes/class-knittnet-integrator.php:393
 msgid "Start a new chat? This clears the current conversation."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:394
+#: includes/class-knittnet-integrator.php:394
 msgid "Stop response"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:395
+#: includes/class-knittnet-integrator.php:395
 msgid "Chat transcript"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:407
+#: includes/class-knittnet-integrator.php:407
 msgid "Helpful"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:408
+#: includes/class-knittnet-integrator.php:408
 msgid "Not helpful"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:412
-#: includes/class-mxchat-integrator.php:4804
-#: includes/class-mxchat-public.php:349
+#: includes/class-knittnet-integrator.php:412
+#: includes/class-knittnet-integrator.php:4804
+#: includes/class-knittnet-public.php:349
 msgid "Send"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:413
+#: includes/class-knittnet-integrator.php:413
 msgid "Skip"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:438
-#: includes/class-mxchat-integrator.php:4003
-#: includes/class-mxchat-integrator.php:4031
-#: includes/class-mxchat-word-handler.php:216
-#: includes/class-mxchat-word-handler.php:361
+#: includes/class-knittnet-integrator.php:438
+#: includes/class-knittnet-integrator.php:4003
+#: includes/class-knittnet-integrator.php:4031
+#: includes/class-knittnet-word-handler.php:216
+#: includes/class-knittnet-word-handler.php:361
 msgid "Session ID missing."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:644
+#: includes/class-knittnet-integrator.php:644
 msgid "Too many nonce requests. Try again shortly."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:791
+#: includes/class-knittnet-integrator.php:791
 msgid ""
 "event: error\n"
 "data: "
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:791
+#: includes/class-knittnet-integrator.php:791
 msgid "Missing session_id"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:805
+#: includes/class-knittnet-integrator.php:805
 msgid ""
 "event: newMessages\n"
 "data: "
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:808
+#: includes/class-knittnet-integrator.php:808
 msgid ""
 "event: keepAlive\n"
 "data: "
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:1263
-#: includes/class-mxchat-integrator.php:3903
-#: includes/class-mxchat-integrator.php:3999
-#: includes/class-mxchat-word-handler.php:23
+#: includes/class-knittnet-integrator.php:1263
+#: includes/class-knittnet-integrator.php:3903
+#: includes/class-knittnet-integrator.php:3999
+#: includes/class-knittnet-word-handler.php:23
 msgid "Invalid nonce."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:1275
+#: includes/class-knittnet-integrator.php:1275
 msgid "Session ID or email is missing."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:1286
+#: includes/class-knittnet-integrator.php:1286
 msgid "Name must be between 2 and 100 characters."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:1335
+#: includes/class-knittnet-integrator.php:1335
 msgid "Thanks for providing your email! You can continue chatting now."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:1348
+#: includes/class-knittnet-integrator.php:1348
 msgid "Invalid nonce"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:1354
+#: includes/class-knittnet-integrator.php:1354
 msgid "No session ID provided"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:1407
+#: includes/class-knittnet-integrator.php:1407
 msgid "No email found"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:1481
+#: includes/class-knittnet-integrator.php:1481
 msgid "Access denied. Your IP address has been banned."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:1491
+#: includes/class-knittnet-integrator.php:1491
 msgid "Access denied. Your email address has been banned."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:1542
+#: includes/class-knittnet-integrator.php:1542
 msgid "Session ID is missing."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:1557
+#: includes/class-knittnet-integrator.php:1557
 msgid "No message received."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:1773
-#: includes/class-mxchat-integrator.php:2703
+#: includes/class-knittnet-integrator.php:1773
+#: includes/class-knittnet-integrator.php:2703
 msgid "Please provide your email address."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:1815
+#: includes/class-knittnet-integrator.php:1815
 msgid "Switched to AI chat mode"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:1828
+#: includes/class-knittnet-integrator.php:1828
 msgid "Message sent to live agent."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:1837
+#: includes/class-knittnet-integrator.php:1837
 msgid "Failed to send message to agent"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:1875
-#: includes/class-mxchat-integrator.php:3959
+#: includes/class-knittnet-integrator.php:1875
+#: includes/class-knittnet-integrator.php:3959
 #, php-format
 msgid "The provided PDF exceeds the maximum allowed limit of %d pages. Please provide a smaller document."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:2034
-#: includes/class-mxchat-integrator.php:2471
+#: includes/class-knittnet-integrator.php:2034
+#: includes/class-knittnet-integrator.php:2471
 msgid "Unable to process your message. The embedding service is not responding correctly."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:2719
-#: includes/class-mxchat-integrator.php:2778
+#: includes/class-knittnet-integrator.php:2719
+#: includes/class-knittnet-integrator.php:2778
 msgid "Create an image of "
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:2737
-#: includes/class-mxchat-integrator.php:2792
+#: includes/class-knittnet-integrator.php:2737
+#: includes/class-knittnet-integrator.php:2792
 msgid "Generated Image"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:2738
-#: includes/class-mxchat-integrator.php:2793
+#: includes/class-knittnet-integrator.php:2738
+#: includes/class-knittnet-integrator.php:2793
 msgid "Here is the image I generated:"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:2757
-#: includes/class-mxchat-integrator.php:2806
+#: includes/class-knittnet-integrator.php:2757
+#: includes/class-knittnet-integrator.php:2806
 msgid "I'm sorry, but I couldn't generate an image based on your request."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:2782
+#: includes/class-knittnet-integrator.php:2782
 msgid "Gemini API key is not configured."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:2899
-#: includes/class-mxchat-integrator.php:2986
+#: includes/class-knittnet-integrator.php:2899
+#: includes/class-knittnet-integrator.php:2986
 msgid "Error generating image: "
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:2912
-#: includes/class-mxchat-integrator.php:3000
+#: includes/class-knittnet-integrator.php:2912
+#: includes/class-knittnet-integrator.php:3000
 msgid "Failed to generate image."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:2923
-#: includes/class-mxchat-integrator.php:5313
-#: includes/class-mxchat-integrator.php:8570
-#: includes/class-mxchat-integrator.php:8744
+#: includes/class-knittnet-integrator.php:2923
+#: includes/class-knittnet-integrator.php:5313
+#: includes/class-knittnet-integrator.php:8570
+#: includes/class-knittnet-integrator.php:8744
 msgid "Custom provider Base URL is not configured."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:2942
+#: includes/class-knittnet-integrator.php:2942
 msgid "Error generating image (custom provider): "
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:2958
+#: includes/class-knittnet-integrator.php:2958
 msgid "Custom provider did not return an image."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:3021
+#: includes/class-knittnet-integrator.php:3021
 msgid "I apologize, but could you please rephrase your search request?"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:3033
+#: includes/class-knittnet-integrator.php:3033
 msgid "Search functionality is temporarily unavailable. Please try again later."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:3069
+#: includes/class-knittnet-integrator.php:3069
 msgid "I encountered an error while searching. Please try again."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:3078
+#: includes/class-knittnet-integrator.php:3078
 msgid "I received an invalid response from the search service."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:3094
+#: includes/class-knittnet-integrator.php:3094
 #, php-format
 msgid "Here's what I found about '%s':"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:3129
+#: includes/class-knittnet-integrator.php:3129
 #, php-format
 msgid "I searched for \"%s\" but couldn't find any relevant results. Would you like to try different search terms?"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:3153
+#: includes/class-knittnet-integrator.php:3153
 msgid "I'm sorry, I couldn't interpret your search query. Please specify what you'd like to see images of."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:3167
+#: includes/class-knittnet-integrator.php:3167
 msgid "API key is not configured. Please set it in the Brave Search Settings."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:3201
-#: includes/class-mxchat-integrator.php:3249
+#: includes/class-knittnet-integrator.php:3201
+#: includes/class-knittnet-integrator.php:3249
 msgid "I'm sorry, I couldn't retrieve any images based on your request."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:3223
+#: includes/class-knittnet-integrator.php:3223
 msgid "Image"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:3237
+#: includes/class-knittnet-integrator.php:3237
 #, php-format
 msgid "Here are some images of %s:"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:3268
+#: includes/class-knittnet-integrator.php:3268
 msgid "Interpret the user's request to provide only the essential keywords or phrases for image searching. Remove conversational language, politeness, or extra context. Return a concise search query that doesn't lose any of the original meaning."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:3607
-msgid "MxChat AI Chatbot"
+#: includes/class-knittnet-integrator.php:3607
+msgid "KnittNet AI Chatbot"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:3798
+#: includes/class-knittnet-integrator.php:3798
 msgid "Page "
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:3907
-#: includes/class-mxchat-word-handler.php:27
+#: includes/class-knittnet-integrator.php:3907
+#: includes/class-knittnet-word-handler.php:27
 msgid "Missing required parameters."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:3916
+#: includes/class-knittnet-integrator.php:3916
 msgid "PDF uploads are currently disabled."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:3934
+#: includes/class-knittnet-integrator.php:3934
 msgid "Invalid file type. Only PDF files are allowed."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:3946
-#: includes/class-mxchat-word-handler.php:69
+#: includes/class-knittnet-integrator.php:3946
+#: includes/class-knittnet-word-handler.php:69
 msgid "Failed to upload file."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:3969
+#: includes/class-knittnet-integrator.php:3969
 msgid "The uploaded PDF appears to be empty or contains unsupported content."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:4017
+#: includes/class-knittnet-integrator.php:4017
 msgid "PDF removed successfully."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:4786
+#: includes/class-knittnet-integrator.php:4786
 msgid "Bot token not configured"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:4800
+#: includes/class-knittnet-integrator.php:4800
 msgid "Reply to User"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:4816
+#: includes/class-knittnet-integrator.php:4816
 #, php-format
 msgid "Reply to session: %s"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:4824
+#: includes/class-knittnet-integrator.php:4824
 msgid "Type your message here..."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:4870
+#: includes/class-knittnet-integrator.php:4870
 msgid "Command text is required. Format: /reply session_id message"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:4879
+#: includes/class-knittnet-integrator.php:4879
 msgid "Invalid format. Use: /reply session_id message"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:4894
+#: includes/class-knittnet-integrator.php:4894
 msgid "Failed to save message"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:4913
+#: includes/class-knittnet-integrator.php:4913
 msgid "You are now chatting with the AI chatbot."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:5113
+#: includes/class-knittnet-integrator.php:5113
 msgid "Voyage AI API key is not configured"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:5125
-#: includes/class-mxchat-integrator.php:7677
+#: includes/class-knittnet-integrator.php:5125
+#: includes/class-knittnet-integrator.php:7677
 msgid "Google Gemini API key is not configured"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:5137
-#: includes/class-mxchat-integrator.php:7821
-#: includes/class-mxchat-integrator.php:7870
+#: includes/class-knittnet-integrator.php:5137
+#: includes/class-knittnet-integrator.php:7821
+#: includes/class-knittnet-integrator.php:7870
 msgid "OpenAI API key is not configured"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:5147
-#: includes/class-mxchat-integrator.php:5309
+#: includes/class-knittnet-integrator.php:5147
+#: includes/class-knittnet-integrator.php:5309
 msgid "No text provided for embedding generation"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:5208
+#: includes/class-knittnet-integrator.php:5208
 msgid "Connection error when generating embeddings: "
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:5233
+#: includes/class-knittnet-integrator.php:5233
 msgid "Invalid API key for embedding generation. Please check your API key configuration."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:5241
+#: includes/class-knittnet-integrator.php:5241
 msgid "Authentication failed for embedding generation. Please check your API key."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:5247
+#: includes/class-knittnet-integrator.php:5247
 msgid "Rate limit exceeded for embedding generation. Please try again later."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:5253
+#: includes/class-knittnet-integrator.php:5253
 msgid "API quota exceeded for embedding generation. Please check your billing details."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:5260
+#: includes/class-knittnet-integrator.php:5260
 msgid "Embedding API error - check embedding API key.: "
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:5276
+#: includes/class-knittnet-integrator.php:5276
 msgid "Received invalid embedding data from the Gemini API."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:5287
+#: includes/class-knittnet-integrator.php:5287
 msgid "Received invalid embedding data from the API."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:5295
+#: includes/class-knittnet-integrator.php:5295
 msgid "System error when generating embeddings: "
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:5332
+#: includes/class-knittnet-integrator.php:5332
 msgid "Connection error when generating embeddings (custom provider): "
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:5341
+#: includes/class-knittnet-integrator.php:5341
 msgid "Custom embedding endpoint error: "
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:5350
+#: includes/class-knittnet-integrator.php:5350
 msgid "Invalid embedding response from custom provider."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:7311
+#: includes/class-knittnet-integrator.php:7311
 msgid "[A visual result has already been shown to the user in the chat. Do not repeat or describe it in detail — reply with at most a brief one-line caption.]"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:7590
+#: includes/class-knittnet-integrator.php:7590
 msgid "I looked into that but could not put together a final answer. Please try rephrasing your request."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:7597
+#: includes/class-knittnet-integrator.php:7597
 msgid "I couldn't find relevant information on that topic."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:7619
+#: includes/class-knittnet-integrator.php:7619
 msgid "No OpenRouter model selected. Please select a model in settings."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:7630
+#: includes/class-knittnet-integrator.php:7630
 msgid "OpenRouter API key is not configured"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:7697
+#: includes/class-knittnet-integrator.php:7697
 msgid "Claude API key is not configured"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:7728
+#: includes/class-knittnet-integrator.php:7728
 msgid "X.AI API key is not configured"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:7759
-#: includes/class-mxchat-integrator.php:10943
+#: includes/class-knittnet-integrator.php:7759
+#: includes/class-knittnet-integrator.php:10943
 msgid "DeepSeek API key is not configured"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:7792
-msgid "Custom provider is not configured. Set Base URL in MxChat → API Keys → Custom Provider."
+#: includes/class-knittnet-integrator.php:7792
+msgid "Custom provider is not configured. Set Base URL in KnittNet → API Keys → Custom Provider."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:7926
+#: includes/class-knittnet-integrator.php:7926
 #, php-format
 msgid "An error occurred: %s"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:8733
+#: includes/class-knittnet-integrator.php:8733
 #, php-format
 msgid "Custom provider error: %s"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:8785
+#: includes/class-knittnet-integrator.php:8785
 #, php-format
 msgid "Custom provider request failed: %s"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:8789
+#: includes/class-knittnet-integrator.php:8789
 #, php-format
 msgid "Custom provider returned HTTP %d."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:8795
+#: includes/class-knittnet-integrator.php:8795
 msgid "Custom provider returned an unexpected response shape."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:8876
+#: includes/class-knittnet-integrator.php:8876
 #, php-format
 msgid "Web search error: %s"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:8900
+#: includes/class-knittnet-integrator.php:8900
 msgid "Failed to connect to OpenAI web search API"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:8915
+#: includes/class-knittnet-integrator.php:8915
 #, php-format
 msgid "OpenAI API error: %s"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:8924
+#: includes/class-knittnet-integrator.php:8924
 msgid "Invalid response from OpenAI"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:9968
+#: includes/class-knittnet-integrator.php:9968
 msgid "OpenRouter API error: "
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:9982
+#: includes/class-knittnet-integrator.php:9982
 msgid "Unexpected response format from OpenRouter."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:9989
+#: includes/class-knittnet-integrator.php:9989
 msgid "System error when processing OpenRouter request: "
 msgstr ""
 
 #. translators: %s: raw provider error detail
-#: includes/class-mxchat-integrator.php:10035
+#: includes/class-knittnet-integrator.php:10035
 #, php-format
-msgid "The selected AI model isn't available on your API key. Choose another model in MxChat → Settings. (Details: %s)"
+msgid "The selected AI model isn't available on your API key. Choose another model in KnittNet → Settings. (Details: %s)"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:10038
-msgid "The selected AI model isn't available on your API key. Choose another model in MxChat → Settings."
+#: includes/class-knittnet-integrator.php:10038
+msgid "The selected AI model isn't available on your API key. Choose another model in KnittNet → Settings."
 msgstr ""
 
 #. translators: 1: provider label, 2: raw provider error detail
-#: includes/class-mxchat-integrator.php:10043
+#: includes/class-knittnet-integrator.php:10043
 #, php-format
-msgid "The AI provider (%1$s) returned an error: %2$s. Check your model and API key in MxChat → Settings."
+msgid "The AI provider (%1$s) returned an error: %2$s. Check your model and API key in KnittNet → Settings."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:10044
+#: includes/class-knittnet-integrator.php:10044
 msgid "AI"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:10047
-msgid "The AI provider returned an error. Check your model and API key in MxChat → Settings."
+#: includes/class-knittnet-integrator.php:10047
+msgid "The AI provider returned an error. Check your model and API key in KnittNet → Settings."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:10051
+#: includes/class-knittnet-integrator.php:10051
 msgid "Sorry, I'm having trouble responding right now. Please try again in a moment."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:10293
+#: includes/class-knittnet-integrator.php:10293
 msgid "Invalid OpenAI API key. Please check your API key configuration."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:10302
+#: includes/class-knittnet-integrator.php:10302
 msgid "Authentication failed with OpenAI. Please check your API key."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:10309
+#: includes/class-knittnet-integrator.php:10309
 msgid "OpenAI rate limit exceeded. Please try again later."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:10316
+#: includes/class-knittnet-integrator.php:10316
 msgid "OpenAI API quota exceeded. Please check your billing details."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:10340
+#: includes/class-knittnet-integrator.php:10340
 msgid "Unexpected response format from OpenAI."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:10347
+#: includes/class-knittnet-integrator.php:10347
 msgid "System error when processing OpenAI request: "
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:10460
+#: includes/class-knittnet-integrator.php:10460
 msgid "Invalid X.AI API key. Please check your API key configuration."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:10470
+#: includes/class-knittnet-integrator.php:10470
 msgid "Authentication failed with X.AI. Please check your API key."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:10479
+#: includes/class-knittnet-integrator.php:10479
 msgid "Invalid model specified for X.AI. Please check your model configuration."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:10490
+#: includes/class-knittnet-integrator.php:10490
 msgid "X.AI rate limit exceeded. Please try again later."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:10500
+#: includes/class-knittnet-integrator.php:10500
 msgid "X.AI API quota exceeded. Please check your billing details."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:10509
+#: includes/class-knittnet-integrator.php:10509
 msgid "X.AI service is currently unavailable. Please try again later."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:10535
+#: includes/class-knittnet-integrator.php:10535
 msgid "Unexpected response format from X.AI."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:10543
+#: includes/class-knittnet-integrator.php:10543
 msgid "System error when processing X.AI request: "
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:10644
+#: includes/class-knittnet-integrator.php:10644
 msgid "Authentication failed with DeepSeek. Please check your API key."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:10652
+#: includes/class-knittnet-integrator.php:10652
 msgid "Invalid DeepSeek API key. Please check your API key configuration."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:10662
+#: includes/class-knittnet-integrator.php:10662
 msgid "DeepSeek API quota exceeded. Please check your billing details."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:10668
+#: includes/class-knittnet-integrator.php:10668
 msgid "DeepSeek rate limit exceeded. Please try again later."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:10679
+#: includes/class-knittnet-integrator.php:10679
 msgid "DeepSeek service is currently unavailable. Please try again later."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:10702
+#: includes/class-knittnet-integrator.php:10702
 msgid "Unexpected response format from DeepSeek."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:10710
+#: includes/class-knittnet-integrator.php:10710
 msgid "System error when processing DeepSeek request: "
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:11475
+#: includes/class-knittnet-integrator.php:11475
 msgid "This chatbot has reached its message limit. Please try again later."
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:11577
+#: includes/class-knittnet-integrator.php:11577
 msgid "hour"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:11580
+#: includes/class-knittnet-integrator.php:11580
 msgid "day"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:11583
+#: includes/class-knittnet-integrator.php:11583
 msgid "week"
 msgstr ""
 
-#: includes/class-mxchat-integrator.php:11586
+#: includes/class-knittnet-integrator.php:11586
 msgid "month"
 msgstr ""
 
-#: includes/class-mxchat-meta-box.php:142
-#: includes/class-mxchat-meta-box.php:301
+#: includes/class-knittnet-meta-box.php:142
+#: includes/class-knittnet-meta-box.php:301
 msgid "Chatbot Visibility"
 msgstr ""
 
-#: includes/class-mxchat-meta-box.php:151
-#: includes/class-mxchat-meta-box.php:302
+#: includes/class-knittnet-meta-box.php:151
+#: includes/class-knittnet-meta-box.php:302
 msgid "Use Global Setting"
 msgstr ""
 
-#: includes/class-mxchat-meta-box.php:160
-#: includes/class-mxchat-meta-box.php:303
+#: includes/class-knittnet-meta-box.php:160
+#: includes/class-knittnet-meta-box.php:303
 msgid "Show Chatbot on this page"
 msgstr ""
 
-#: includes/class-mxchat-meta-box.php:169
-#: includes/class-mxchat-meta-box.php:304
+#: includes/class-knittnet-meta-box.php:169
+#: includes/class-knittnet-meta-box.php:304
 msgid "Hide Chatbot on this page"
 msgstr ""
 
-#: includes/class-mxchat-meta-box.php:175
+#: includes/class-knittnet-meta-box.php:175
 msgid "Global Auto-Show: ON"
 msgstr ""
 
-#: includes/class-mxchat-meta-box.php:178
+#: includes/class-knittnet-meta-box.php:178
 msgid "The chatbot appears on all pages by default. Use \"Hide\" to exclude this page, or \"Show\" to override post type restrictions."
 msgstr ""
 
-#: includes/class-mxchat-meta-box.php:182
+#: includes/class-knittnet-meta-box.php:182
 msgid "Global Auto-Show: OFF"
 msgstr ""
 
-#: includes/class-mxchat-meta-box.php:185
+#: includes/class-knittnet-meta-box.php:185
 msgid "The chatbot is hidden by default. Select \"Show\" to display it on this page without needing a shortcode."
 msgstr ""
 
-#: includes/class-mxchat-meta-box.php:195
+#: includes/class-knittnet-meta-box.php:195
 msgid "Select Bot for this Page:"
 msgstr ""
 
-#: includes/class-mxchat-meta-box.php:198
-#: includes/class-mxchat-meta-box.php:306
+#: includes/class-knittnet-meta-box.php:198
+#: includes/class-knittnet-meta-box.php:306
 msgid "Use Default Bot"
 msgstr ""
 
-#: includes/class-mxchat-meta-box.php:206
+#: includes/class-knittnet-meta-box.php:206
 msgid "Only applies when visibility is set to \"Show\" or \"Use Global Setting\" with auto-show enabled."
 msgstr ""
 
-#: includes/class-mxchat-meta-box.php:215
+#: includes/class-knittnet-meta-box.php:215
 msgid "Changes only take effect after saving/updating the page."
 msgstr ""
 
-#: includes/class-mxchat-meta-box.php:222
+#: includes/class-knittnet-meta-box.php:222
 msgid "Shortcode Examples:"
 msgstr ""
 
-#: includes/class-mxchat-meta-box.php:225
-msgid "[mxchat_chatbot floating=\"yes\"] - Floating chatbot"
+#: includes/class-knittnet-meta-box.php:225
+msgid "[knittnet_chatbot floating=\"yes\"] - Floating chatbot"
 msgstr ""
 
-#: includes/class-mxchat-meta-box.php:226
-msgid "[mxchat_chatbot floating=\"no\"] - Embedded chatbot"
+#: includes/class-knittnet-meta-box.php:226
+msgid "[knittnet_chatbot floating=\"no\"] - Embedded chatbot"
 msgstr ""
 
-#: includes/class-mxchat-meta-box.php:305
+#: includes/class-knittnet-meta-box.php:305
 msgid "Select Bot for this Page"
 msgstr ""
 
-#: includes/class-mxchat-meta-box.php:307
+#: includes/class-knittnet-meta-box.php:307
 msgid "Global Auto-Show is ON. The chatbot appears on all pages by default. Use \"Hide\" to exclude this page."
 msgstr ""
 
-#: includes/class-mxchat-meta-box.php:308
+#: includes/class-knittnet-meta-box.php:308
 msgid "Global Auto-Show is OFF. Select \"Show\" to display the chatbot on this page without needing a shortcode."
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:43
+#: includes/class-knittnet-model-catalog.php:43
 msgid "OpenRouter"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:50
+#: includes/class-knittnet-model-catalog.php:50
 msgid "Access 100+ models from multiple providers (add API key to browse)"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:55
-#: includes/class-mxchat-model-catalog.php:163
+#: includes/class-knittnet-model-catalog.php:55
+#: includes/class-knittnet-model-catalog.php:163
 msgid "Google Gemini"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:59
+#: includes/class-knittnet-model-catalog.php:59
 msgid "Stable — newest Flash generation, recommended default"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:60
+#: includes/class-knittnet-model-catalog.php:60
 msgid "Preview — most intelligent, multimodal & agentic"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:61
+#: includes/class-knittnet-model-catalog.php:61
 msgid "Preview — balanced speed and scale"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:62
+#: includes/class-knittnet-model-catalog.php:62
 msgid "Stable — cost-efficient, high throughput"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:63
+#: includes/class-knittnet-model-catalog.php:63
 msgid "Preview — latest cost-efficient model"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:64
+#: includes/class-knittnet-model-catalog.php:64
 msgid "Stable — advanced thinking, code, math & long context"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:65
+#: includes/class-knittnet-model-catalog.php:65
 msgid "Stable — strong price-performance with thinking"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:66
+#: includes/class-knittnet-model-catalog.php:66
 msgid "Stable — ultra fast and low cost"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:74
+#: includes/class-knittnet-model-catalog.php:74
 msgid "Latest Flagship — newest OpenAI reasoning and coding model"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:75
+#: includes/class-knittnet-model-catalog.php:75
 msgid "Flagship reasoning and coding model"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:76
+#: includes/class-knittnet-model-catalog.php:76
 msgid "Fast and affordable with 400K context"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:77
+#: includes/class-knittnet-model-catalog.php:77
 msgid "Fastest and cheapest for lightweight tasks"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:78
+#: includes/class-knittnet-model-catalog.php:78
 msgid "Optimized for natural conversations with reduced hallucinations"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:79
+#: includes/class-knittnet-model-catalog.php:79
 msgid "Best general-purpose & agentic model with fast responses"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:80
+#: includes/class-knittnet-model-catalog.php:80
 msgid "Recommended for most use cases"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:81
+#: includes/class-knittnet-model-catalog.php:81
 msgid "Flagship for coding & agentic tasks with low reasoning (400K context)"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:82
+#: includes/class-knittnet-model-catalog.php:82
 msgid "Flagship for coding, reasoning, and agentic tasks across domains"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:83
+#: includes/class-knittnet-model-catalog.php:83
 msgid "Fast and lightweight"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:84
+#: includes/class-knittnet-model-catalog.php:84
 msgid "Fastest and cheapest; ideal for summarization and classification"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:88
+#: includes/class-knittnet-model-catalog.php:88
 msgid "Anthropic Claude"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:92
+#: includes/class-knittnet-model-catalog.php:92
 msgid "Latest Flagship — newest and most capable Anthropic model"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:93
+#: includes/class-knittnet-model-catalog.php:93
 msgid "Previous flagship — most capable Opus-tier model"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:94
+#: includes/class-knittnet-model-catalog.php:94
 msgid "Previous Anthropic flagship model"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:95
+#: includes/class-knittnet-model-catalog.php:95
 msgid "Most capable Claude model - recommended"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:96
+#: includes/class-knittnet-model-catalog.php:96
 msgid "Latest Sonnet - excellent balance of speed and capability"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:97
+#: includes/class-knittnet-model-catalog.php:97
 msgid "Highly capable for complex tasks"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:98
+#: includes/class-knittnet-model-catalog.php:98
 msgid "Best for complex agents and coding"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:99
+#: includes/class-knittnet-model-catalog.php:99
 msgid "Exceptional for specialized complex tasks"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:100
+#: includes/class-knittnet-model-catalog.php:100
 msgid "Fastest and most intelligent Haiku"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:104
+#: includes/class-knittnet-model-catalog.php:104
 msgid "xAI Grok"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:108
+#: includes/class-knittnet-model-catalog.php:108
 msgid "2M context window and reasoning"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:109
+#: includes/class-knittnet-model-catalog.php:109
 msgid "2M context window and faster responses"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:110
+#: includes/class-knittnet-model-catalog.php:110
 msgid "Latest flagship model - unparalleled performance in natural language, math and reasoning"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:111
+#: includes/class-knittnet-model-catalog.php:111
 msgid "Powerful model with 131K context"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:112
+#: includes/class-knittnet-model-catalog.php:112
 msgid "High performance with faster responses"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:113
+#: includes/class-knittnet-model-catalog.php:113
 msgid "Affordable model with good performance"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:114
+#: includes/class-knittnet-model-catalog.php:114
 msgid "Quick and cost-effective"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:118
+#: includes/class-knittnet-model-catalog.php:118
 msgid "DeepSeek"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:122
+#: includes/class-knittnet-model-catalog.php:122
 msgid "Advanced AI assistant"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:126
+#: includes/class-knittnet-model-catalog.php:126
 msgid "Custom (OpenAI-compatible)"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:133
+#: includes/class-knittnet-model-catalog.php:133
 msgid "OpenAI-compatible local LLM (Ollama, LM Studio, vLLM, llama.cpp, Azure OpenAI) — configure Base URL, key, and model in API Keys tab"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:150
+#: includes/class-knittnet-model-catalog.php:150
 msgid "1536 dim, recommended"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:151
+#: includes/class-knittnet-model-catalog.php:151
 msgid "1536 dim, efficient"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:152
+#: includes/class-knittnet-model-catalog.php:152
 msgid "3072 dim, powerful"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:156
+#: includes/class-knittnet-model-catalog.php:156
 msgid "Voyage AI"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:159
+#: includes/class-knittnet-model-catalog.php:159
 msgid "2048 dim, most capable"
 msgstr ""
 
-#: includes/class-mxchat-model-catalog.php:166
+#: includes/class-knittnet-model-catalog.php:166
 msgid "1536 dim"
 msgstr ""
 
-#: includes/class-mxchat-public.php:168
-msgid "MxChat: Basic"
+#: includes/class-knittnet-public.php:168
+msgid "KnittNet: Basic"
 msgstr ""
 
-#: includes/class-mxchat-public.php:241
+#: includes/class-knittnet-public.php:241
 msgid "More options"
 msgstr ""
 
-#: includes/class-mxchat-public.php:274
+#: includes/class-knittnet-public.php:274
 msgid "Name"
 msgstr ""
 
-#: includes/class-mxchat-public.php:279
+#: includes/class-knittnet-public.php:279
 msgid "Enter your email address"
 msgstr ""
 
-#: includes/class-mxchat-public.php:311
+#: includes/class-knittnet-public.php:311
 msgid "Hide Quick Questions"
 msgstr ""
 
-#: includes/class-mxchat-public.php:318
+#: includes/class-knittnet-public.php:318
 msgid "Show Quick Questions"
 msgstr ""
 
-#: includes/class-mxchat-public.php:347
+#: includes/class-knittnet-public.php:347
 msgid "Send message"
 msgstr ""
 
-#: includes/class-mxchat-public.php:368
+#: includes/class-knittnet-public.php:368
 msgid "Upload PDF"
 msgstr ""
 
-#: includes/class-mxchat-public.php:380
+#: includes/class-knittnet-public.php:380
 msgid "Upload Word Document"
 msgstr ""
 
-#: includes/class-mxchat-public.php:389
+#: includes/class-knittnet-public.php:389
 msgid "Remove PDF"
 msgstr ""
 
-#: includes/class-mxchat-public.php:399
+#: includes/class-knittnet-public.php:399
 msgid "Remove Word Document"
 msgstr ""
 
-#: includes/class-mxchat-public.php:419
+#: includes/class-knittnet-public.php:419
 msgid "Upload Image for Analysis"
 msgstr ""
 
-#: includes/class-mxchat-public.php:456
+#: includes/class-knittnet-public.php:456
 msgid "Open chat"
 msgstr ""
 
-#: includes/class-mxchat-public.php:460
+#: includes/class-knittnet-public.php:460
 msgid "Chatbot Icon"
 msgstr ""
 
-#: includes/class-mxchat-tool-registry.php:171
+#: includes/class-knittnet-tool-registry.php:171
 msgid "Search the public web (via Brave Search) for current, real-time information to answer the user. Use when the answer may be recent or is not in the site content."
 msgstr ""
 
-#: includes/class-mxchat-tool-registry.php:177
-#: includes/class-mxchat-tool-registry.php:189
+#: includes/class-knittnet-tool-registry.php:177
+#: includes/class-knittnet-tool-registry.php:189
 msgid "Powered by Brave Search — requires a Brave Search API key. Add it under Settings → Brave Search."
 msgstr ""
 
-#: includes/class-mxchat-tool-registry.php:180
+#: includes/class-knittnet-tool-registry.php:180
 msgid "Image Search"
 msgstr ""
 
-#: includes/class-mxchat-tool-registry.php:181
+#: includes/class-knittnet-tool-registry.php:181
 msgid "Search the web (via Brave Search) for images relevant to the user request and show them in the chat."
 msgstr ""
 
-#: includes/class-mxchat-tool-registry.php:192
+#: includes/class-knittnet-tool-registry.php:192
 msgid "Ask the Uploaded PDF"
 msgstr ""
 
-#: includes/class-mxchat-tool-registry.php:193
+#: includes/class-knittnet-tool-registry.php:193
 msgid "Answer a question using the PDF document the visitor uploaded earlier in this conversation."
 msgstr ""
 
-#: includes/class-mxchat-tool-registry.php:197
+#: includes/class-knittnet-tool-registry.php:197
 msgid "Create an image from a text description using OpenAI image generation. The query should describe the image to make."
 msgstr ""
 
-#: includes/class-mxchat-tool-registry.php:205
+#: includes/class-knittnet-tool-registry.php:205
 msgid "Create an image from a text description using Google Imagen. The query should describe the image to make."
 msgstr ""
 
-#: includes/class-mxchat-tool-registry.php:213
+#: includes/class-knittnet-tool-registry.php:213
 msgid "Collect Email"
 msgstr ""
 
-#: includes/class-mxchat-tool-registry.php:214
+#: includes/class-knittnet-tool-registry.php:214
 msgid "Begin collecting the visitor's email address for the mailing list."
 msgstr ""
 
-#: includes/class-mxchat-tool-registry.php:217
+#: includes/class-knittnet-tool-registry.php:217
 msgid "Hand Off to Live Agent (Slack)"
 msgstr ""
 
-#: includes/class-mxchat-tool-registry.php:218
+#: includes/class-knittnet-tool-registry.php:218
 msgid "Transfer the conversation to a human support agent on Slack."
 msgstr ""
 
-#: includes/class-mxchat-tool-registry.php:221
+#: includes/class-knittnet-tool-registry.php:221
 msgid "Hand Off to Live Agent (Telegram)"
 msgstr ""
 
-#: includes/class-mxchat-tool-registry.php:222
+#: includes/class-knittnet-tool-registry.php:222
 msgid "Transfer the conversation to a human support agent on Telegram."
 msgstr ""
 
-#: includes/class-mxchat-tool-registry.php:270
+#: includes/class-knittnet-tool-registry.php:270
 msgid "Core"
 msgstr ""
 
-#: includes/class-mxchat-tool-registry.php:304
-#: includes/class-mxchat-tool-registry.php:343
+#: includes/class-knittnet-tool-registry.php:304
+#: includes/class-knittnet-tool-registry.php:343
 #, php-format
 msgid "Use the %s capability."
 msgstr ""
 
-#: includes/class-mxchat-tool-registry.php:309
-#: includes/class-mxchat-tool-registry.php:348
+#: includes/class-knittnet-tool-registry.php:309
+#: includes/class-knittnet-tool-registry.php:348
 msgid "Add-ons"
 msgstr ""
 
-#: includes/class-mxchat-tool-registry.php:444
+#: includes/class-knittnet-tool-registry.php:444
 msgid "The natural-language request, question, or search query to act on."
 msgstr ""
 
-#: includes/class-mxchat-word-handler.php:36
+#: includes/class-knittnet-word-handler.php:36
 msgid "Word document uploads are currently disabled."
 msgstr ""
 
-#: includes/class-mxchat-word-handler.php:59
+#: includes/class-knittnet-word-handler.php:59
 msgid "Invalid file type. Only .docx files are allowed."
 msgstr ""
 
-#: includes/class-mxchat-word-handler.php:81
+#: includes/class-knittnet-word-handler.php:81
 msgid "The uploaded document appears to be empty or contains unsupported content."
 msgstr ""
 
-#: includes/class-mxchat-word-handler.php:93
+#: includes/class-knittnet-word-handler.php:93
 msgid "I've processed the document. What questions do you have about it?"
 msgstr ""
 
-#: includes/class-mxchat-word-handler.php:130
+#: includes/class-knittnet-word-handler.php:130
 msgid "too_many_pages"
 msgstr ""
 
-#: includes/class-mxchat-word-handler.php:143
+#: includes/class-knittnet-word-handler.php:143
 msgid "Chunk "
 msgstr ""
 
-#: includes/class-mxchat-word-handler.php:230
+#: includes/class-knittnet-word-handler.php:230
 msgid "Document removed successfully."
 msgstr ""
 
-#: includes/class-mxchat-word-handler.php:283
+#: includes/class-knittnet-word-handler.php:283
 msgid "Please upload a Word document (.docx) that you'd like to discuss."
 msgstr ""
 
@@ -8514,7 +8514,7 @@ msgid "Array of session_ids to delete. Required and non-empty — there is inten
 msgstr ""
 
 #: includes/class-rest-api.php:136
-msgid "If true (default), also deletes related rows in mxchat_transcript_translations and mxchat_url_clicks for each session_id."
+msgid "If true (default), also deletes related rows in knittnet_transcript_translations and knittnet_url_clicks for each session_id."
 msgstr ""
 
 #: includes/class-rest-api.php:152
@@ -8534,7 +8534,7 @@ msgid "Free-form content type label, e.g. content, manual, faq, page, post. Stor
 msgstr ""
 
 #: includes/class-rest-api.php:193
-msgid "MxChat REST API is disabled. Generate a token from MxChat → API Access in the WordPress admin."
+msgid "KnittNet REST API is disabled. Generate a token from KnittNet → API Access in the WordPress admin."
 msgstr ""
 
 #: includes/class-rest-api.php:202
@@ -8575,7 +8575,7 @@ msgid "session_ids must contain at least one valid non-empty string."
 msgstr ""
 
 #: includes/class-rest-api.php:500
-msgid "MxChat_Utils is not loaded."
+msgid "KnittNet_Utils is not loaded."
 msgstr ""
 
 #: includes/class-rest-api.php:518
@@ -8587,13 +8587,13 @@ msgid "source_url is required and must be a valid URL."
 msgstr ""
 
 #: includes/class-rest-api.php:544
-msgid "No embedding API key configured for the selected embedding model. Configure it in MxChat settings before pushing knowledge."
+msgid "No embedding API key configured for the selected embedding model. Configure it in KnittNet settings before pushing knowledge."
 msgstr ""
 
-#: mxchat-basic.php:996
+#: knittnet-basic.php:996
 msgid "Your chatbot model has been automatically updated due to a model deprecation."
 msgstr ""
 
-#: mxchat-basic.php:1000
-msgid "MxChat Model Updated"
+#: knittnet-basic.php:1000
+msgid "KnittNet Model Updated"
 msgstr ""

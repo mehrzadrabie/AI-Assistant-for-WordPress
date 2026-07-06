@@ -1,5 +1,5 @@
 /* =====================================================
-   MxChat Admin Testing Tab Styles
+   KnittNet Admin Testing Tab Styles
    ===================================================== */
 
 /* Two-column layout */
@@ -553,7 +553,7 @@
 }
 
 /* Make the chatbot fill the container instead of floating */
-.mxch-testing-chatbot-scope .mxchat-chatbot-wrapper {
+.mxch-testing-chatbot-scope .knittnet-chatbot-wrapper {
     position: relative !important;
     width: 100% !important;
     max-width: 100% !important;
@@ -573,7 +573,7 @@
 }
 
 /* Ensure chatbot container fills available space */
-.mxch-testing-chatbot-scope .mxchat-chatbot {
+.mxch-testing-chatbot-scope .knittnet-chatbot {
     flex: 1 !important;
     display: flex !important;
     flex-direction: column !important;
@@ -618,29 +618,29 @@
 }
 
 /* Init loader positioning */
-.mxch-testing-chatbot-scope .mxchat-init-loader {
+.mxch-testing-chatbot-scope .knittnet-init-loader {
     position: relative !important;
 }
 
 /* Ensure quick questions are visible */
-.mxch-testing-chatbot-scope .mxchat-popular-questions {
+.mxch-testing-chatbot-scope .knittnet-popular-questions {
     display: block !important;
 }
 
-.mxch-testing-chatbot-scope .mxchat-popular-questions-container {
+.mxch-testing-chatbot-scope .knittnet-popular-questions-container {
     display: flex !important;
 }
 
-.mxch-testing-chatbot-scope .mxchat-popular-question {
+.mxch-testing-chatbot-scope .knittnet-popular-question {
     display: block !important;
 }
 
 /* Allow collapsed state to hide questions in testing tab */
-.mxch-testing-chatbot-scope .mxchat-popular-questions.collapsed .mxchat-popular-question {
+.mxch-testing-chatbot-scope .knittnet-popular-questions.collapsed .knittnet-popular-question {
     display: none !important;
 }
 
-.mxch-testing-chatbot-scope .mxchat-popular-questions.collapsed .questions-collapse-btn {
+.mxch-testing-chatbot-scope .knittnet-popular-questions.collapsed .questions-collapse-btn {
     display: none !important;
 }
 
@@ -692,7 +692,7 @@
         order: -1; /* Chatbot first on smaller screens */
     }
 
-    .mxch-testing-chatbot-scope .mxchat-chatbot-wrapper {
+    .mxch-testing-chatbot-scope .knittnet-chatbot-wrapper {
         height: 500px !important;
         max-height: 500px !important;
     }

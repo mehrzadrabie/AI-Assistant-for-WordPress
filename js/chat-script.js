@@ -4,9 +4,9 @@ jQuery(document).ready(function($) {
     //
     // The widget no longer relies on a nonce embedded in inline cached HTML.
     // Before each chat-send / stream-send / upload, we call the REST endpoint
-    // GET /wp-json/mxchat/v1/nonce and use the freshly-issued value. The
-    // endpoint creates the nonce with action `mxchat_chat_send`; the server-side
-    // verifier ALSO still accepts the legacy `mxchat_chat_nonce` action for a
+    // GET /wp-json/knittnet/v1/nonce and use the freshly-issued value. The
+    // endpoint creates the nonce with action `knittnet_chat_send`; the server-side
+    // verifier ALSO still accepts the legacy `knittnet_chat_nonce` action for a
     // 30-day backwards-compat window so cached pages still in users' browsers
     // (which carry the legacy inline-localized nonce) keep working.
     //
@@ -20,11 +20,11 @@ jQuery(document).ready(function($) {
     var nonceRefreshCallbacks = [];
 
     function getRestNonceUrl() {
-        if (typeof mxchatChat !== 'undefined' && mxchatChat.rest_url) {
-            return mxchatChat.rest_url.replace(/\/+$/, '') + '/nonce';
+        if (typeof knittnetChat !== 'undefined' && knittnetChat.rest_url) {
+            return knittnetChat.rest_url.replace(/\/+$/, '') + '/nonce';
         }
-        // Fallback: derive from current origin if mxchatChat.rest_url isn't set.
-        return window.location.origin + '/wp-json/mxchat/v1/nonce';
+        // Fallback: derive from current origin if knittnetChat.rest_url isn't set.
+        return window.location.origin + '/wp-json/knittnet/v1/nonce';
     }
 
     function fetchFreshNonceFromRest() {
@@ -45,19 +45,19 @@ jQuery(document).ready(function($) {
     }
 
     /**
-     * withFreshNonce(cb) — invoke cb() after ensuring mxchatChat.nonce is fresh.
+     * withFreshNonce(cb) — invoke cb() after ensuring knittnetChat.nonce is fresh.
      * Tries REST endpoint first (cache-bypass design); falls back to the legacy
      * admin-ajax refresh path if REST is unavailable. Idempotent — concurrent
      * calls share the same in-flight refresh.
      */
     function withFreshNonce(callback) {
-        if (typeof mxchatChat === 'undefined') {
+        if (typeof knittnetChat === 'undefined') {
             if (callback) callback();
             return;
         }
         var now = Date.now();
         if (cachedFreshNonce && (now - cachedFreshNonceFetchedAt) < NONCE_TTL_MS) {
-            mxchatChat.nonce = cachedFreshNonce;
+            knittnetChat.nonce = cachedFreshNonce;
             if (callback) callback();
             return;
         }
@@ -69,7 +69,7 @@ jQuery(document).ready(function($) {
             if (nonce) {
                 cachedFreshNonce = nonce;
                 cachedFreshNonceFetchedAt = Date.now();
-                mxchatChat.nonce = nonce;
+                knittnetChat.nonce = nonce;
             }
             nonceRefreshState = 'done';
             var pending = nonceRefreshCallbacks;
@@ -81,10 +81,10 @@ jQuery(document).ready(function($) {
             .then(resolved)
             .catch(function () {
                 // Fallback to the legacy admin-ajax refresh path (issued with the
-                // old action `mxchat_chat_nonce`; the server still accepts both
+                // old action `knittnet_chat_nonce`; the server still accepts both
                 // during the compat window).
-                if (mxchatChat.ajax_url) {
-                    $.post(mxchatChat.ajax_url, { action: 'mxchat_refresh_nonce' })
+                if (knittnetChat.ajax_url) {
+                    $.post(knittnetChat.ajax_url, { action: 'knittnet_refresh_nonce' })
                         .done(function (res) {
                             if (res && res.success && res.data && res.data.nonce) {
                                 resolved(res.data.nonce);
@@ -113,15 +113,15 @@ jQuery(document).ready(function($) {
     // over. Same distrust-cached-HTML reasoning as the per-request nonce:
     // on the FIRST widget open per page load we ask the nonce endpoint for
     // the current behavior-gate settings (?with_settings=1), merge them over
-    // mxchatChat, and rebuild the header menu. Colors are NOT refreshed —
+    // knittnetChat, and rebuild the header menu. Colors are NOT refreshed —
     // they're server-inline-styled, so a runtime swap would visibly flash.
     // On any failure we keep the inline values silently (nonce-fallback
     // posture). At most one request per page load, only if a widget opens.
     var dynamicSettingsState = 'idle'; // 'idle' | 'pending' | 'done'
 
-    function mxchatRefreshDynamicSettings() {
+    function knittnetRefreshDynamicSettings() {
         if (dynamicSettingsState !== 'idle') return;
-        if (typeof mxchatChat === 'undefined') return;
+        if (typeof knittnetChat === 'undefined') return;
         dynamicSettingsState = 'pending';
 
         var applied = function (data) {
@@ -132,11 +132,11 @@ jQuery(document).ready(function($) {
                 // round-trip and keeps us under the endpoint's rate limit.
                 cachedFreshNonce = data.nonce;
                 cachedFreshNonceFetchedAt = Date.now();
-                mxchatChat.nonce = data.nonce;
+                knittnetChat.nonce = data.nonce;
             }
             if (data.settings && typeof data.settings === 'object') {
-                $.extend(mxchatChat, data.settings);
-                mxchatRebuildHeaderMenus();
+                $.extend(knittnetChat, data.settings);
+                knittnetRebuildHeaderMenus();
             }
         };
 
@@ -148,8 +148,8 @@ jQuery(document).ready(function($) {
             return resp.json();
         }).then(applied).catch(function () {
             // Fallback: legacy admin-ajax refresh path, same as withFreshNonce.
-            if (mxchatChat.ajax_url) {
-                $.post(mxchatChat.ajax_url, { action: 'mxchat_refresh_nonce', with_settings: 1 })
+            if (knittnetChat.ajax_url) {
+                $.post(knittnetChat.ajax_url, { action: 'knittnet_refresh_nonce', with_settings: 1 })
                     .done(function (res) {
                         applied(res && res.success && res.data ? res.data : null);
                     })
@@ -165,7 +165,7 @@ jQuery(document).ready(function($) {
     // ====================================
 
     // Instance registry - tracks all chatbot instances on the page
-    const MxChatInstances = {
+    const KnittNetInstances = {
         instances: {},
 
         // Initialize an instance for a bot
@@ -173,7 +173,7 @@ jQuery(document).ready(function($) {
             if (!this.instances[botId]) {
                 // When persistence is OFF, track when this session started
                 // so the AI only sees messages from this page load
-                var chatPersistenceEnabled = typeof mxchatChat !== 'undefined' && mxchatChat.chat_persistence_toggle === 'on';
+                var chatPersistenceEnabled = typeof knittnetChat !== 'undefined' && knittnetChat.chat_persistence_toggle === 'on';
 
                 this.instances[botId] = {
                     botId: botId,
@@ -207,8 +207,8 @@ jQuery(document).ready(function($) {
         // Returns existing session ID from cookie or localStorage (with in-memory fallback),
         // or null if none exists. Does NOT create a new session — use ensureSession() for that.
         getChatSession: function(botId) {
-            var cookieName = 'mxchat_session_id_' + botId;
-            var storageKey = 'mxchat_session_id_' + botId;
+            var cookieName = 'knittnet_session_id_' + botId;
+            var storageKey = 'knittnet_session_id_' + botId;
             var sessionId = getCookie(cookieName);
 
             // Fallback to localStorage if cookie is missing (e.g. cleared by browser/consent)
@@ -269,8 +269,8 @@ jQuery(document).ready(function($) {
         },
 
         setChatSession: function(botId, sessionId) {
-            var cookieName = 'mxchat_session_id_' + botId;
-            var storageKey = 'mxchat_session_id_' + botId;
+            var cookieName = 'knittnet_session_id_' + botId;
+            var storageKey = 'knittnet_session_id_' + botId;
             document.cookie = cookieName + "=" + sessionId + "; path=/; max-age=86400; SameSite=Lax";
             try { localStorage.setItem(storageKey, sessionId); } catch (e) {}
             if (this.instances[botId]) {
@@ -280,7 +280,7 @@ jQuery(document).ready(function($) {
 
         resetChatSession: function(botId) {
             // Clear old session from localStorage before setting new one
-            try { localStorage.removeItem('mxchat_session_id_' + botId); } catch (e) {}
+            try { localStorage.removeItem('knittnet_session_id_' + botId); } catch (e) {}
             var newSessionId = generateSessionId();
             this.setChatSession(botId, newSessionId);
             var $chatBox = getElement(botId, 'chat-box');
@@ -296,7 +296,7 @@ jQuery(document).ready(function($) {
         // Silent reset — new session ID without clearing the chat UI
         // Used when IP changes mid-conversation so the user doesn't see messages vanish
         silentResetSession: function(botId) {
-            try { localStorage.removeItem('mxchat_session_id_' + botId); } catch (e) {}
+            try { localStorage.removeItem('knittnet_session_id_' + botId); } catch (e) {}
             var newSessionId = generateSessionId();
             this.setChatSession(botId, newSessionId);
             if (this.instances[botId]) {
@@ -313,11 +313,11 @@ jQuery(document).ready(function($) {
     // Check if a specific bot has an AI theme assigned (skip inline colors)
     function shouldSkipInlineColors(botId) {
         // If global AI theme is active, skip inline colors for all bots
-        if (mxchatChat.skip_inline_colors) {
+        if (knittnetChat.skip_inline_colors) {
             return true;
         }
         // Check if this specific bot has a theme assignment
-        var botAssignments = mxchatChat.bot_theme_assignments || {};
+        var botAssignments = knittnetChat.bot_theme_assignments || {};
         return botAssignments.hasOwnProperty(botId);
     }
 
@@ -333,7 +333,7 @@ jQuery(document).ready(function($) {
 
     // Get bot ID from any element within a chatbot instance
     function getBotIdFromElement(element) {
-        var $wrapper = $(element).closest('.mxchat-chatbot-wrapper');
+        var $wrapper = $(element).closest('.knittnet-chatbot-wrapper');
         if ($wrapper.length) {
             return $wrapper.data('bot-id') || 'default';
         }
@@ -356,23 +356,23 @@ jQuery(document).ready(function($) {
 
     // Get wrapper element for a bot
     function getWrapper(botId) {
-        return getElement(botId, 'mxchat-chatbot-wrapper');
+        return getElement(botId, 'knittnet-chatbot-wrapper');
     }
 
     // ====================================
     // GLOBAL VARIABLES & CONFIGURATION
     // ====================================
-    const toolbarIconColor = mxchatChat.toolbar_icon_color || '#212121';
+    const toolbarIconColor = knittnetChat.toolbar_icon_color || '#212121';
 
     // Initialize color settings (these are global as they come from PHP)
-    var userMessageBgColor = mxchatChat.user_message_bg_color;
-    var userMessageFontColor = mxchatChat.user_message_font_color;
-    var botMessageBgColor = mxchatChat.bot_message_bg_color;
-    var botMessageFontColor = mxchatChat.bot_message_font_color;
-    var liveAgentMessageBgColor = mxchatChat.live_agent_message_bg_color;
-    var liveAgentMessageFontColor = mxchatChat.live_agent_message_font_color;
+    var userMessageBgColor = knittnetChat.user_message_bg_color;
+    var userMessageFontColor = knittnetChat.user_message_font_color;
+    var botMessageBgColor = knittnetChat.bot_message_bg_color;
+    var botMessageFontColor = knittnetChat.bot_message_font_color;
+    var liveAgentMessageBgColor = knittnetChat.live_agent_message_bg_color;
+    var liveAgentMessageFontColor = knittnetChat.live_agent_message_font_color;
 
-    var linkTarget = mxchatChat.link_target_toggle === 'on' ? '_blank' : '_self';
+    var linkTarget = knittnetChat.link_target_toggle === 'on' ? '_blank' : '_self';
 
     // ====================================
     // SESSION MANAGEMENT (Legacy compatibility)
@@ -385,23 +385,23 @@ jQuery(document).ready(function($) {
     }
 
     function generateSessionId() {
-        return 'mxchat_chat_' + Math.random().toString(36).substr(2, 9);
+        return 'knittnet_chat_' + Math.random().toString(36).substr(2, 9);
     }
 
     // Legacy function - now delegates to instance manager
     function getChatSession(botId) {
         botId = botId || 'default';
-        return MxChatInstances.getChatSession(botId);
+        return KnittNetInstances.getChatSession(botId);
     }
 
     function setChatSession(sessionId, botId) {
         botId = botId || 'default';
-        MxChatInstances.setChatSession(botId, sessionId);
+        KnittNetInstances.setChatSession(botId, sessionId);
     }
 
     function resetChatSession(botId) {
         botId = botId || 'default';
-        MxChatInstances.resetChatSession(botId);
+        KnittNetInstances.resetChatSession(botId);
     }
 
     // ====================================
@@ -410,15 +410,15 @@ jQuery(document).ready(function($) {
 
     function initializeAllInstances() {
         // Find all chatbot wrappers on the page
-        $('.mxchat-chatbot-wrapper').each(function() {
+        $('.knittnet-chatbot-wrapper').each(function() {
             var botId = $(this).data('bot-id') || 'default';
-            MxChatInstances.init(botId);
+            KnittNetInstances.init(botId);
             initializeBotInstance(botId);
         });
     }
 
     function initializeBotInstance(botId) {
-        var instance = MxChatInstances.get(botId);
+        var instance = KnittNetInstances.get(botId);
 
         // Initialize quick questions state for this bot
         checkQuickQuestionsState(botId);
@@ -433,7 +433,7 @@ jQuery(document).ready(function($) {
 
 function getPageContext() {
     // Check if contextual awareness is enabled
-    if (mxchatChat.contextual_awareness_toggle !== 'on') {
+    if (knittnetChat.contextual_awareness_toggle !== 'on') {
         return null;
     }
     
@@ -494,7 +494,7 @@ function getPageContext() {
             '.breadcrumbs',
             '#floating-chatbot',
             '#floating-chatbot-button',
-            '.mxchat',
+            '.knittnet',
             '[class*="chat"]',
             '[id*="chat"]'
         ];
@@ -504,10 +504,10 @@ function getPageContext() {
             elements.forEach(el => el.remove());
         });
         
-        //   Extract MxChat context data attributes before getting text content
+        //   Extract KnittNet context data attributes before getting text content
         const contextData = [];
-        clone.querySelectorAll('[data-mxchat-context]').forEach(el => {
-            const contextValue = el.dataset.mxchatContext;
+        clone.querySelectorAll('[data-knittnet-context]').forEach(el => {
+            const contextValue = el.dataset.knittnetContext;
             if (contextValue && contextValue.trim()) {
                 contextData.push(contextValue);
             }
@@ -547,20 +547,20 @@ function trackOriginatingPage() {
     const pageTitle = document.title || 'Untitled Page';
     
     // Only track once per session
-    const trackingKey = 'mxchat_originating_tracked_' + sessionId;
+    const trackingKey = 'knittnet_originating_tracked_' + sessionId;
     if (sessionStorage.getItem(trackingKey)) {
         return;
     }
     
     $.ajax({
-        url: mxchatChat.ajax_url,
+        url: knittnetChat.ajax_url,
         type: 'POST',
         data: {
-            action: 'mxchat_track_originating_page',
+            action: 'knittnet_track_originating_page',
             session_id: sessionId,
             page_url: pageUrl,
             page_title: pageTitle,
-            nonce: mxchatChat.nonce
+            nonce: knittnetChat.nonce
         },
         success: function(response) {
             if (response.success) {
@@ -606,23 +606,23 @@ function enableChatInput(botId) {
     }
     // Every completion path re-enables input, so this is the single restore
     // point for the streaming Stop affordance (no-op when not in stop mode).
-    mxchatRestoreSendButton(botId);
+    knittnetRestoreSendButton(botId);
 }
 
 // --- Streaming Stop control -------------------------------------------------
 // One live stream handle per bot instance, so Stop on one widget never aborts
 // another bot on the same page.
-var mxchatActiveStreams = {};
+var knittnetActiveStreams = {};
 // Original send-button markup, captured once per bot the first time the Stop
 // state is shown (never captured while already in stop mode, so a rapid
 // stop-then-resend can't save the stop glyph as the "original").
-var mxchatSendMarkup = {};
+var knittnetSendMarkup = {};
 
-function mxchatShowStopButton(botId) {
+function knittnetShowStopButton(botId) {
     var btn = getElementDOM(botId, 'send-button');
     if (!btn) return;
-    if (!btn.classList.contains('mxchat-stop-mode')) {
-        mxchatSendMarkup[botId] = {
+    if (!btn.classList.contains('knittnet-stop-mode')) {
+        knittnetSendMarkup[botId] = {
             html: btn.innerHTML,
             label: btn.getAttribute('aria-label')
         };
@@ -641,18 +641,18 @@ function mxchatShowStopButton(botId) {
         var cs = window.getComputedStyle(child);
         color = (child.tagName.toLowerCase() === 'svg' ? cs.fill : cs.color) || '';
     }
-    var stopLabel = (typeof mxchatChat !== 'undefined' && mxchatChat.stop_button_label) || 'Stop response';
+    var stopLabel = (typeof knittnetChat !== 'undefined' && knittnetChat.stop_button_label) || 'Stop response';
     btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" style="width:' + size + 'px;height:' + size + 'px;' + (color ? 'fill:' + color + ';' : '') + '"><rect x="5" y="5" width="14" height="14" rx="3"></rect></svg>';
-    // An add-on's DIRECT send-button handler (e.g. mxchat-vision's rebind) can
+    // An add-on's DIRECT send-button handler (e.g. knittnet-vision's rebind) can
     // start a stream synchronously while the originating click is still
     // bubbling up to our delegated handler. Without this guard, that handler
     // reads the just-added stop-mode class as a user Stop press and aborts the
     // brand-new stream — the user's message renders but no reply ever fires
     // (plan-4bba64 silent message loss). The flag only spans the current event
     // dispatch: cleared on the next macrotask, long before a real Stop click.
-    btn.__mxchatStopJustShown = true;
-    setTimeout(function () { btn.__mxchatStopJustShown = false; }, 0);
-    btn.classList.add('mxchat-stop-mode');
+    btn.__knittnetStopJustShown = true;
+    setTimeout(function () { btn.__knittnetStopJustShown = false; }, 0);
+    btn.classList.add('knittnet-stop-mode');
     btn.setAttribute('aria-label', stopLabel);
     btn.setAttribute('title', stopLabel);
     // disableChatInput() ran when the turn was sent; the Stop control itself
@@ -662,20 +662,20 @@ function mxchatShowStopButton(botId) {
     btn.style.pointerEvents = 'auto';
 }
 
-function mxchatRestoreSendButton(botId) {
+function knittnetRestoreSendButton(botId) {
     var btn = getElementDOM(botId, 'send-button');
-    var saved = mxchatSendMarkup[botId];
-    if (!btn || !btn.classList.contains('mxchat-stop-mode') || !saved) return;
+    var saved = knittnetSendMarkup[botId];
+    if (!btn || !btn.classList.contains('knittnet-stop-mode') || !saved) return;
     btn.innerHTML = saved.html;
-    btn.classList.remove('mxchat-stop-mode');
+    btn.classList.remove('knittnet-stop-mode');
     btn.removeAttribute('title');
     if (saved.label) {
         btn.setAttribute('aria-label', saved.label);
     }
 }
 
-function mxchatStopStreaming(botId) {
-    var entry = mxchatActiveStreams[botId];
+function knittnetStopStreaming(botId) {
+    var entry = knittnetActiveStreams[botId];
     if (!entry || !entry.controller) return;
     entry.aborted = true;
     try { entry.controller.abort(); } catch (e) {}
@@ -683,10 +683,10 @@ function mxchatStopStreaming(botId) {
 
 // Returns true when a stream rejection came from an intentional Stop click:
 // keep the partial text as the turn's answer — no error UI, no fallback resend.
-function mxchatHandleStreamAbort(botId, accumulatedContent, callback) {
-    var entry = mxchatActiveStreams[botId];
+function knittnetHandleStreamAbort(botId, accumulatedContent, callback) {
+    var entry = knittnetActiveStreams[botId];
     if (!entry || !entry.aborted) return false;
-    delete mxchatActiveStreams[botId];
+    delete knittnetActiveStreams[botId];
     if (!accumulatedContent) {
         // Stopped before the first chunk: drop the thinking bubble, no orphan message.
         getElement(botId, 'chat-box').find('.bot-message.temporary-message').remove();
@@ -701,13 +701,13 @@ function mxchatHandleStreamAbort(botId, accumulatedContent, callback) {
 // Update your existing sendMessage function
 function sendMessage(botId) {
     botId = botId || 'default';
-    MxChatInstances.ensureSession(botId);
+    KnittNetInstances.ensureSession(botId);
     var $chatInput = getElement(botId, 'chat-input');
     var message = $chatInput.val();
 
     // ADD PROMPT HOOK HERE
-    if (typeof customMxChatFilter === 'function') {
-        message = customMxChatFilter(message, "prompt");
+    if (typeof customKnittNetFilter === 'function') {
+        message = customKnittNetFilter(message, "prompt");
     }
 
     if (message) {
@@ -720,7 +720,7 @@ function sendMessage(botId) {
 
         appendMessage("user", message, '', [], false, botId);
         $chatInput.val('');
-        mxchatUpdateCharCounter($chatInput[0]); // reset the char counter after send (plan 7091a2)
+        knittnetUpdateCharCounter($chatInput[0]); // reset the char counter after send (plan 7091a2)
         $chatInput.css('height', 'auto');
 
         if (hasQuickQuestions(botId)) {
@@ -729,15 +729,15 @@ function sendMessage(botId) {
         appendThinkingMessage(botId);
         scrollToBottom(botId);
 
-        const currentModel = mxchatChat.model || 'gpt-5.1-chat-latest';
+        const currentModel = knittnetChat.model || 'gpt-5.1-chat-latest';
 
         // Check if streaming is enabled AND supported for this model
         if (shouldUseStreaming(currentModel)) {
-            callMxChatStream(message, function(response) {
+            callKnittNetStream(message, function(response) {
                 getElement(botId, 'chat-box').find('.bot-message.temporary-message').removeClass('temporary-message');
             }, botId);
         } else {
-            callMxChat(message, function(response) {
+            callKnittNet(message, function(response) {
                 replaceLastMessage("bot", response, '', [], botId);
             }, botId);
         }
@@ -747,11 +747,11 @@ function sendMessage(botId) {
 // Update your existing sendMessageToChatbot function
 function sendMessageToChatbot(message, botId) {
     botId = botId || 'default';
-    MxChatInstances.ensureSession(botId);
+    KnittNetInstances.ensureSession(botId);
 
     // ADD PROMPT HOOK HERE
-    if (typeof customMxChatFilter === 'function') {
-        message = customMxChatFilter(message, "prompt");
+    if (typeof customKnittNetFilter === 'function') {
+        message = customKnittNetFilter(message, "prompt");
     }
 
     // Don't disable input in live agent mode - let users chat freely
@@ -769,15 +769,15 @@ function sendMessageToChatbot(message, botId) {
     appendThinkingMessage(botId);
     scrollToBottom(botId);
 
-    const currentModel = mxchatChat.model || 'gpt-5.1-chat-latest';
+    const currentModel = knittnetChat.model || 'gpt-5.1-chat-latest';
 
     // Check if streaming is enabled AND supported for this model
     if (shouldUseStreaming(currentModel)) {
-        callMxChatStream(message, function(response) {
+        callKnittNetStream(message, function(response) {
             getElement(botId, 'chat-box').find('.bot-message.temporary-message').removeClass('temporary-message');
         }, botId);
     } else {
-        callMxChat(message, function(response) {
+        callKnittNet(message, function(response) {
             getElement(botId, 'chat-box').find('.temporary-message').remove();
             replaceLastMessage("bot", response, '', [], botId);
         }, botId);
@@ -787,7 +787,7 @@ function sendMessageToChatbot(message, botId) {
 // Updated shouldUseStreaming function with debugging
 function shouldUseStreaming(model) {
     // Check if streaming is enabled in settings (using your toggle naming pattern)
-    const streamingEnabled = mxchatChat.enable_streaming_toggle === 'on';
+    const streamingEnabled = knittnetChat.enable_streaming_toggle === 'on';
     
     // Check if model supports streaming
     const streamingSupported = isStreamingSupported(model);
@@ -828,55 +828,55 @@ function handleChatModeUpdates(response, responseText) {
 // Function to get bot ID from any element or wrapper
 // If element is provided, finds the bot ID from its wrapper
 // If no element, returns 'default' (for backward compatibility)
-function getMxChatBotId(element) {
+function getKnittNetBotId(element) {
     if (element) {
         return getBotIdFromElement(element);
     }
     // Fallback: find first chatbot wrapper on page
-    const chatbotWrapper = document.querySelector('.mxchat-chatbot-wrapper');
+    const chatbotWrapper = document.querySelector('.knittnet-chatbot-wrapper');
     return chatbotWrapper ? chatbotWrapper.getAttribute('data-bot-id') || 'default' : 'default';
 }
 
-function callMxChat(message, callback, botId) {
-    botId = botId || getMxChatBotId();
+function callKnittNet(message, callback, botId) {
+    botId = botId || getKnittNetBotId();
 
     // Streaming fallbacks land here: drop any leftover stream handle and
     // return the button to its send state (no-op for plain non-stream turns).
-    if (mxchatActiveStreams[botId]) {
-        delete mxchatActiveStreams[botId];
+    if (knittnetActiveStreams[botId]) {
+        delete knittnetActiveStreams[botId];
     }
-    mxchatRestoreSendButton(botId);
+    knittnetRestoreSendButton(botId);
 
     // Store the message in case we need to retry after session reset
-    getElement(botId, 'mxchat-chatbot-wrapper').find('.mxchat-input-holder textarea').data('pending-message', message);
+    getElement(botId, 'knittnet-chatbot-wrapper').find('.knittnet-input-holder textarea').data('pending-message', message);
 
     // Get page context if contextual awareness is enabled
     const pageContext = getPageContext();
 
     // Get instance for session start timestamp (used when persistence is OFF)
-    var instance = MxChatInstances.get(botId);
+    var instance = KnittNetInstances.get(botId);
 
     // Guarantee a non-null session_id before the AJAX leaves. ensureSession() is idempotent
     // and returns the guaranteed-present session id from the in-memory instance even when
     // cookie/localStorage writes are silently blocked by the browser.
-    var sessionId = MxChatInstances.ensureSession(botId);
+    var sessionId = KnittNetInstances.ensureSession(botId);
     if (!sessionId || sessionId === 'null' || sessionId === 'undefined') {
         // Last-resort generation to ensure we never POST a null marker.
         sessionId = generateSessionId();
-        MxChatInstances.setChatSession(botId, sessionId);
+        KnittNetInstances.setChatSession(botId, sessionId);
     }
 
     // Wait for the page-cache nonce refresh to complete before firing the
-    // chat-send AJAX. On cached pages the inline mxchatChat.nonce is stale
+    // chat-send AJAX. On cached pages the inline knittnetChat.nonce is stale
     // until refreshNonceIfNeeded() returns; constructing ajaxData inside the
     // callback guarantees we read the fresh value. See plan-c5457f.
     refreshNonceIfNeeded(function() {
     // Prepare AJAX data
     const ajaxData = {
-        action: 'mxchat_handle_chat_request',
+        action: 'knittnet_handle_chat_request',
         message: message,
         session_id: sessionId,
-        nonce: mxchatChat.nonce,
+        nonce: knittnetChat.nonce,
         current_page_url: window.location.href,
         current_page_title: document.title,
         bot_id: botId,
@@ -890,18 +890,18 @@ function callMxChat(message, callback, botId) {
     }
 
     // CHECK FOR VISION FLAGS AND ADD THEM
-    if (window.mxchatVisionProcessed) {
+    if (window.knittnetVisionProcessed) {
         ajaxData.vision_processed = true;
-        ajaxData.original_user_message = window.mxchatOriginalMessage || message;
-        ajaxData.vision_images_count = window.mxchatVisionImagesCount || 0;
+        ajaxData.original_user_message = window.knittnetOriginalMessage || message;
+        ajaxData.vision_images_count = window.knittnetVisionImagesCount || 0;
         // Clear the flags after use
-        window.mxchatVisionProcessed = false;
-        window.mxchatOriginalMessage = null;
-        window.mxchatVisionImagesCount = 0;
+        window.knittnetVisionProcessed = false;
+        window.knittnetOriginalMessage = null;
+        window.knittnetVisionImagesCount = 0;
     }
 
     $.ajax({
-        url: mxchatChat.ajax_url,
+        url: knittnetChat.ajax_url,
         type: 'POST',
         dataType: 'json',
         data: ajaxData,
@@ -941,18 +941,18 @@ function callMxChat(message, callback, botId) {
                 // Handle session reset action (IP changed, session expired, etc.)
                 // Silent reset — keep chat UI intact, just get a new session and retry
                 if (response.data && response.data.action === 'reset_session') {
-                    MxChatInstances.silentResetSession(botId);
+                    KnittNetInstances.silentResetSession(botId);
                     // Re-send the original message with the new session (user message is already displayed)
-                    var originalMessage = getElement(botId, 'mxchat-chatbot-wrapper').find('.mxchat-input-holder textarea').data('pending-message');
+                    var originalMessage = getElement(botId, 'knittnet-chatbot-wrapper').find('.knittnet-input-holder textarea').data('pending-message');
                     if (originalMessage) {
-                        getElement(botId, 'mxchat-chatbot-wrapper').find('.mxchat-input-holder textarea').data('pending-message', null);
-                        var currentModel = mxchatChat.model || 'gpt-5.1-chat-latest';
+                        getElement(botId, 'knittnet-chatbot-wrapper').find('.knittnet-input-holder textarea').data('pending-message', null);
+                        var currentModel = knittnetChat.model || 'gpt-5.1-chat-latest';
                         if (shouldUseStreaming(currentModel)) {
-                            callMxChatStream(originalMessage, function(response) {
+                            callKnittNetStream(originalMessage, function(response) {
                                 getElement(botId, 'chat-box').find('.bot-message.temporary-message').removeClass('temporary-message');
                             }, botId);
                         } else {
-                            callMxChat(originalMessage, function(response) {
+                            callKnittNet(originalMessage, function(response) {
                                 replaceLastMessage("bot", response, '', [], botId);
                             }, botId);
                         }
@@ -964,7 +964,7 @@ function callMxChat(message, callback, botId) {
                 let displayMessage = errorMessage;
 
                 // Customize message for admin users
-                if (mxchatChat.is_admin) {
+                if (knittnetChat.is_admin) {
                     // For admin users, show more technical details including error code
                     displayMessage = errorMessage + (errorCode ? " (Error code: " + errorCode + ")" : "");
                 }
@@ -988,7 +988,7 @@ function callMxChat(message, callback, botId) {
                 // Add PDF filename handling
                 if (response.data && response.data.filename) {
                     showActivePdf(response.data.filename, botId);
-                    var instance = MxChatInstances.get(botId);
+                    var instance = KnittNetInstances.get(botId);
                     instance.activePdfFile = response.data.filename;
                 }
 
@@ -1015,11 +1015,11 @@ function callMxChat(message, callback, botId) {
                 if (responseText || responseHtml || responseMessage) {
 
                     // ADD RESPONSE HOOKS HERE - BEFORE DISPLAYING
-                    if (responseText && typeof customMxChatFilter === 'function') {
-                        responseText = customMxChatFilter(responseText, "response");
+                    if (responseText && typeof customKnittNetFilter === 'function') {
+                        responseText = customKnittNetFilter(responseText, "response");
                     }
-                    if (responseMessage && typeof customMxChatFilter === 'function') {
-                        responseMessage = customMxChatFilter(responseMessage, "response");
+                    if (responseMessage && typeof customKnittNetFilter === 'function') {
+                        responseMessage = customKnittNetFilter(responseMessage, "response");
                     }
 
                     // Update the messages as before
@@ -1050,7 +1050,7 @@ function callMxChat(message, callback, botId) {
                 }
 
                 if (response.message_id) {
-                    var instance = MxChatInstances.get(botId);
+                    var instance = KnittNetInstances.get(botId);
                     instance.lastSeenMessageId = response.message_id;
                 }
 
@@ -1093,15 +1093,15 @@ function callMxChat(message, callback, botId) {
     }); // refreshNonceIfNeeded
 }
 
-function callMxChatStream(message, callback, botId) {
-    botId = botId || getMxChatBotId();
+function callKnittNetStream(message, callback, botId) {
+    botId = botId || getKnittNetBotId();
 
     // Store the message in case we need to retry after session reset
-    getElement(botId, 'mxchat-chatbot-wrapper').find('.mxchat-input-holder textarea').data('pending-message', message);
+    getElement(botId, 'knittnet-chatbot-wrapper').find('.knittnet-input-holder textarea').data('pending-message', message);
 
-    const currentModel = mxchatChat.model || 'gpt-5.1-chat-latest';
+    const currentModel = knittnetChat.model || 'gpt-5.1-chat-latest';
     if (!isStreamingSupported(currentModel)) {
-        callMxChat(message, callback, botId);
+        callKnittNet(message, callback, botId);
         return;
     }
 
@@ -1109,26 +1109,26 @@ function callMxChatStream(message, callback, botId) {
     const pageContext = getPageContext();
 
     // Get instance for session start timestamp (used when persistence is OFF)
-    var instance = MxChatInstances.get(botId);
+    var instance = KnittNetInstances.get(botId);
 
     // Guarantee a non-null session_id before the fetch. FormData.append() stringifies any
     // non-string value via String(), so passing `null` would POST the literal string "null"
     // and land in the transcripts table as a ghost session. ensureSession() always returns
     // a real string even when cookies/localStorage are blocked.
-    var streamSessionId = MxChatInstances.ensureSession(botId);
+    var streamSessionId = KnittNetInstances.ensureSession(botId);
     if (!streamSessionId || streamSessionId === 'null' || streamSessionId === 'undefined') {
         streamSessionId = generateSessionId();
-        MxChatInstances.setChatSession(botId, streamSessionId);
+        KnittNetInstances.setChatSession(botId, streamSessionId);
     }
 
     // Wait for the page-cache nonce refresh before constructing formData (which
-    // captures mxchatChat.nonce by value). Mirrors callMxChat's wrapping. See plan-c5457f.
+    // captures knittnetChat.nonce by value). Mirrors callKnittNet's wrapping. See plan-c5457f.
     refreshNonceIfNeeded(function() {
     const formData = new FormData();
-    formData.append('action', 'mxchat_stream_chat');
+    formData.append('action', 'knittnet_stream_chat');
     formData.append('message', message);
     formData.append('session_id', streamSessionId);
-    formData.append('nonce', mxchatChat.nonce);
+    formData.append('nonce', knittnetChat.nonce);
     formData.append('current_page_url', window.location.href);
     formData.append('current_page_title', document.title);
     formData.append('bot_id', botId);
@@ -1141,14 +1141,14 @@ function callMxChatStream(message, callback, botId) {
     }
 
     // CHECK FOR VISION FLAGS AND ADD THEM
-    if (window.mxchatVisionProcessed) {
+    if (window.knittnetVisionProcessed) {
         formData.append('vision_processed', 'true');
-        formData.append('original_user_message', window.mxchatOriginalMessage || message);
-        formData.append('vision_images_count', window.mxchatVisionImagesCount || '0');
+        formData.append('original_user_message', window.knittnetOriginalMessage || message);
+        formData.append('vision_images_count', window.knittnetVisionImagesCount || '0');
         // Clear the flags after use
-        window.mxchatVisionProcessed = false;
-        window.mxchatOriginalMessage = null;
-        window.mxchatVisionImagesCount = 0;
+        window.knittnetVisionProcessed = false;
+        window.knittnetOriginalMessage = null;
+        window.knittnetVisionImagesCount = 0;
     }
 
     let accumulatedContent = '';
@@ -1159,10 +1159,10 @@ function callMxChatStream(message, callback, botId) {
     // The Stop control (send button swapped in place) aborts both the read
     // loop and the underlying request.
     var streamControl = { controller: new AbortController(), aborted: false };
-    mxchatActiveStreams[botId] = streamControl;
-    mxchatShowStopButton(botId);
+    knittnetActiveStreams[botId] = streamControl;
+    knittnetShowStopButton(botId);
 
-    fetch(mxchatChat.ajax_url, {
+    fetch(knittnetChat.ajax_url, {
         method: 'POST',
         body: formData,
         credentials: 'same-origin',
@@ -1191,8 +1191,8 @@ function callMxChatStream(message, callback, botId) {
             }
 
             // Check for testing panel
-            if (window.mxchatTestPanelInstance && data.testing_data) {
-                window.mxchatTestPanelInstance.handleTestingData(data.testing_data);
+            if (window.knittnetTestPanelInstance && data.testing_data) {
+                window.knittnetTestPanelInstance.handleTestingData(data.testing_data);
             }
 
             // Handle the JSON response directly
@@ -1220,16 +1220,16 @@ function callMxChatStream(message, callback, botId) {
                                 } else {
                                     // No valid data, fall back to regular call
                                     getElement(botId, 'chat-box').find('.bot-message.temporary-message').remove();
-                                    callMxChat(message, callback, botId);
+                                    callKnittNet(message, callback, botId);
                                 }
                             } catch (e) {
                                 // Could not parse, fall back to regular call
                                 getElement(botId, 'chat-box').find('.bot-message.temporary-message').remove();
-                                callMxChat(message, callback, botId);
+                                callKnittNet(message, callback, botId);
                             }
                         }).catch(() => {
                             getElement(botId, 'chat-box').find('.bot-message.temporary-message').remove();
-                            callMxChat(message, callback, botId);
+                            callKnittNet(message, callback, botId);
                         });
                         return;
                     }
@@ -1262,7 +1262,7 @@ function callMxChatStream(message, callback, botId) {
                         if (data === '[DONE]') {
                             if (!accumulatedContent) {
                                 getElement(botId, 'chat-box').find('.bot-message.temporary-message').remove();
-                                callMxChat(message, callback, botId);
+                                callKnittNet(message, callback, botId);
                                 return;
                             }
 
@@ -1293,8 +1293,8 @@ function callMxChatStream(message, callback, botId) {
 
                             // Handle testing data
                             if (json.testing_data && !testingDataReceived) {
-                                if (window.mxchatTestPanelInstance) {
-                                    window.mxchatTestPanelInstance.handleTestingData(json.testing_data);
+                                if (window.knittnetTestPanelInstance) {
+                                    window.knittnetTestPanelInstance.handleTestingData(json.testing_data);
                                     testingDataReceived = true;
                                 }
                             }
@@ -1335,16 +1335,16 @@ function callMxChatStream(message, callback, botId) {
 
                 processStream();
             }).catch(streamError => {
-                if (mxchatHandleStreamAbort(botId, accumulatedContent, callback)) return;
+                if (knittnetHandleStreamAbort(botId, accumulatedContent, callback)) return;
                 getElement(botId, 'chat-box').find('.bot-message.temporary-message').remove();
-                callMxChat(message, callback, botId);
+                callKnittNet(message, callback, botId);
             });
         }
 
         processStream();
     })
         .catch(error => {
-            if (mxchatHandleStreamAbort(botId, accumulatedContent, callback)) return;
+            if (knittnetHandleStreamAbort(botId, accumulatedContent, callback)) return;
             // Check if we have server error data with chat mode
             if (error && error.isServerError && error.data) {
                 // Check for chat mode in error data
@@ -1356,7 +1356,7 @@ function callMxChatStream(message, callback, botId) {
             } else {
                 // Only fall back to regular call if we don't have any response data
                 getElement(botId, 'chat-box').find('.bot-message.temporary-message').remove();
-                callMxChat(message, callback, botId);
+                callKnittNet(message, callback, botId);
             }
         });
     }); // refreshNonceIfNeeded
@@ -1402,16 +1402,16 @@ function handleNonStreamResponse(data, callback, botId) {
         // Handle session reset action (IP changed, session expired, etc.)
         // Silent reset — keep chat UI intact, just get a new session and retry
         if (data.data && data.data.action === 'reset_session') {
-            MxChatInstances.silentResetSession(botId);
+            KnittNetInstances.silentResetSession(botId);
             // Re-send the original message with the new session (user message is already displayed)
-            var originalMessage = getElement(botId, 'mxchat-chatbot-wrapper').find('.mxchat-input-holder textarea').data('pending-message');
+            var originalMessage = getElement(botId, 'knittnet-chatbot-wrapper').find('.knittnet-input-holder textarea').data('pending-message');
             if (originalMessage) {
-                getElement(botId, 'mxchat-chatbot-wrapper').find('.mxchat-input-holder textarea').data('pending-message', null);
-                var currentModel = mxchatChat.model || 'gpt-5.1-chat-latest';
+                getElement(botId, 'knittnet-chatbot-wrapper').find('.knittnet-input-holder textarea').data('pending-message', null);
+                var currentModel = knittnetChat.model || 'gpt-5.1-chat-latest';
                 if (shouldUseStreaming(currentModel)) {
-                    callMxChatStream(originalMessage, callback, botId);
+                    callKnittNetStream(originalMessage, callback, botId);
                 } else {
-                    callMxChat(originalMessage, callback, botId);
+                    callKnittNet(originalMessage, callback, botId);
                 }
             }
             return;
@@ -1419,7 +1419,7 @@ function handleNonStreamResponse(data, callback, botId) {
 
         // Format user-friendly error message
         let displayMessage = errorMessage;
-        if (mxchatChat.is_admin) {
+        if (knittnetChat.is_admin) {
             displayMessage = errorMessage + (errorCode ? " (Error code: " + errorCode + ")" : "");
         }
 
@@ -1449,11 +1449,11 @@ function handleNonStreamResponse(data, callback, botId) {
     if (data.text || data.html || data.message) {
 
         // Apply response hooks
-        if (data.text && typeof customMxChatFilter === 'function') {
-            data.text = customMxChatFilter(data.text, "response");
+        if (data.text && typeof customKnittNetFilter === 'function') {
+            data.text = customKnittNetFilter(data.text, "response");
         }
-        if (data.message && typeof customMxChatFilter === 'function') {
-            data.message = customMxChatFilter(data.message, "response");
+        if (data.message && typeof customKnittNetFilter === 'function') {
+            data.message = customKnittNetFilter(data.message, "response");
         }
 
         // Display the response
@@ -1471,7 +1471,7 @@ function handleNonStreamResponse(data, callback, botId) {
     // Handle other response properties
     if (data.data && data.data.filename) {
         showActivePdf(data.data.filename, botId);
-        var instance = MxChatInstances.get(botId);
+        var instance = KnittNetInstances.get(botId);
         instance.activePdfFile = data.data.filename;
     }
 
@@ -1531,8 +1531,8 @@ function updateStreamingMessage(content, botId) {
     botId = botId || 'default';
 
     // ADD RESPONSE HOOK FOR REAL-TIME STREAMING
-    if (typeof customMxChatFilter === 'function') {
-        content = customMxChatFilter(content, "response");
+    if (typeof customKnittNetFilter === 'function') {
+        content = customKnittNetFilter(content, "response");
     }
 
     const formattedContent = linkify(content);
@@ -1571,12 +1571,12 @@ function isStreamingSupported(model) {
 $(document).on('click', '.send-button', function() {
     var botId = getBotIdFromElement(this);
     // While a response is streaming the button is a Stop control.
-    if (this.classList.contains('mxchat-stop-mode')) {
+    if (this.classList.contains('knittnet-stop-mode')) {
         // Same click that just started this stream (an add-on's direct handler
         // ran before this delegated one) — not a Stop press. See
-        // mxchatShowStopButton for the full story (plan-4bba64).
-        if (this.__mxchatStopJustShown) return;
-        mxchatStopStreaming(botId);
+        // knittnetShowStopButton for the full story (plan-4bba64).
+        if (this.__knittnetStopJustShown) return;
+        knittnetStopStreaming(botId);
         return;
     }
     var modeIndicator = getElementDOM(botId, 'chat-mode-indicator');
@@ -1604,41 +1604,41 @@ $(document).on('keypress', '.chat-input', function(e) {
 // reveals near the cap and ramps neutral -> amber -> red; an over-limit keystroke
 // or trimmed paste produces a brief border-flash/shake so the maxlength cap (plan
 // a3fae2) is never a silent "input jumps back". Per-bot scoped via .input-container.
-function mxchatUpdateCharCounter(inputEl) {
+function knittnetUpdateCharCounter(inputEl) {
     if (!inputEl || !inputEl.closest) return;
     var max = parseInt(inputEl.getAttribute('maxlength'), 10);
     var container = inputEl.closest('.input-container');
     if (!container || !max || max <= 0) return;
-    var counter = container.querySelector('.mxchat-char-counter');
+    var counter = container.querySelector('.knittnet-char-counter');
     if (!counter) return;
     var len = inputEl.value.length;
     var ratio = len / max;
     var nearThreshold = 0.8; // start surfacing the counter at 80% of the cap
-    var cur = counter.querySelector('.mxchat-char-counter-current');
+    var cur = counter.querySelector('.knittnet-char-counter-current');
     if (cur) cur.textContent = len;
     var warn = ratio >= nearThreshold && len < max;
     var full = len >= max;
     counter.classList.toggle('is-visible', ratio >= nearThreshold);
     counter.classList.toggle('is-warn', warn);
     counter.classList.toggle('is-full', full);
-    container.classList.toggle('mxchat-input-near-limit', warn);
-    container.classList.toggle('mxchat-input-at-limit', full);
+    container.classList.toggle('knittnet-input-near-limit', warn);
+    container.classList.toggle('knittnet-input-at-limit', full);
 }
 
-function mxchatBumpInput(inputEl) {
+function knittnetBumpInput(inputEl) {
     var container = inputEl && inputEl.closest ? inputEl.closest('.input-container') : null;
     if (!container) return;
-    container.classList.remove('mxchat-input-bump');
+    container.classList.remove('knittnet-input-bump');
     void container.offsetWidth; // reflow so a rapid second hit retriggers the animation
-    container.classList.add('mxchat-input-bump');
-    clearTimeout($(container).data('mxchatBumpTimeout'));
-    var t = setTimeout(function() { container.classList.remove('mxchat-input-bump'); }, 220);
-    $(container).data('mxchatBumpTimeout', t);
+    container.classList.add('knittnet-input-bump');
+    clearTimeout($(container).data('knittnetBumpTimeout'));
+    var t = setTimeout(function() { container.classList.remove('knittnet-input-bump'); }, 220);
+    $(container).data('knittnetBumpTimeout', t);
 }
 
 // Live counter update on every input.
 $(document).on('input', '.chat-input', function() {
-    mxchatUpdateCharCounter(this);
+    knittnetUpdateCharCounter(this);
 });
 
 // Visible "you've hit the edge" feedback when a printable keystroke is about to be
@@ -1649,7 +1649,7 @@ $(document).on('keydown', '.chat-input', function(e) {
     if (e.ctrlKey || e.metaKey || e.altKey) return;
     // A single printable char with no selection to overwrite WILL be rejected.
     if (e.key && e.key.length === 1 && this.selectionStart === this.selectionEnd) {
-        mxchatBumpInput(this);
+        knittnetBumpInput(this);
     }
 });
 
@@ -1659,16 +1659,16 @@ $(document).on('paste', '.chat-input', function() {
     var max = parseInt(el.getAttribute('maxlength'), 10);
     if (!max || max <= 0) return;
     setTimeout(function() {
-        mxchatUpdateCharCounter(el);
-        if (el.value.length >= max) mxchatBumpInput(el);
+        knittnetUpdateCharCounter(el);
+        if (el.value.length >= max) knittnetBumpInput(el);
     }, 0);
 });
 
 // Builds the list of overflow-menu items for a given bot.
 // Adding a future item is one push to this array — do NOT hardcode "only download."
-function mxchatGetHeaderMenuItems(botId) {
+function knittnetGetHeaderMenuItems(botId) {
     var items = [];
-    var settings = (typeof mxchatChat !== 'undefined') ? mxchatChat : {};
+    var settings = (typeof knittnetChat !== 'undefined') ? knittnetChat : {};
 
     // The `print_button_*` keys still gate this item for back-compat with
     // existing user options. The action is now a transcript download, not print.
@@ -1678,13 +1678,13 @@ function mxchatGetHeaderMenuItems(botId) {
             label: settings.print_button_label || 'Download Transcript',
             icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
             action: function() {
-                mxchatDownloadTranscript(botId);
+                knittnetDownloadTranscript(botId);
             }
         });
     }
 
     // "Start new chat" — surfaces the EXISTING per-conversation reset
-    // (MxChatInstances.resetChatSession) so a visitor can start a fresh thread
+    // (KnittNetInstances.resetChatSession) so a visitor can start a fresh thread
     // without the site owner disabling chat persistence globally. Default OFF;
     // gated by the reset_chat_enabled option. plan ac2e81.
     if (settings.reset_chat_enabled === 'on') {
@@ -1695,7 +1695,7 @@ function mxchatGetHeaderMenuItems(botId) {
             action: function() {
                 var confirmMsg = settings.reset_chat_confirm || 'Start a new chat? This clears the current conversation.';
                 if (window.confirm(confirmMsg)) {
-                    MxChatInstances.resetChatSession(botId);
+                    KnittNetInstances.resetChatSession(botId);
                 }
             }
         });
@@ -1706,11 +1706,11 @@ function mxchatGetHeaderMenuItems(botId) {
 
 // Builds a clean markdown transcript of the current conversation and triggers
 // a file download. Used by the "Download Transcript" menu item.
-function mxchatDownloadTranscript(botId) {
+function knittnetDownloadTranscript(botId) {
     var $chatBox = getElement(botId, 'chat-box');
     if (!$chatBox || !$chatBox.length) return;
 
-    var settings = (typeof mxchatChat !== 'undefined') ? mxchatChat : {};
+    var settings = (typeof knittnetChat !== 'undefined') ? knittnetChat : {};
     var headerTitle = settings.print_header_title || 'Chat transcript';
     var now = new Date();
     var stamp = now.toLocaleString();
@@ -1736,7 +1736,7 @@ function mxchatDownloadTranscript(botId) {
 
         // Strip interactive UI from the cloned message so we get the conversation text.
         var $clone = $msg.clone();
-        $clone.find('.copy-button, .message-toolbar, .mxchat-copy, button, script, style').remove();
+        $clone.find('.copy-button, .message-toolbar, .knittnet-copy, button, script, style').remove();
         var text = $clone.text().replace(/ /g, ' ').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
         if (!text) return;
 
@@ -1748,7 +1748,7 @@ function mxchatDownloadTranscript(botId) {
 
     var content = lines.join('\n');
     var iso = now.toISOString().replace(/[:.]/g, '-').slice(0, 19);
-    var fname = 'mxchat-transcript-' + iso + '.md';
+    var fname = 'knittnet-transcript-' + iso + '.md';
     var blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
@@ -1765,30 +1765,30 @@ function mxchatDownloadTranscript(botId) {
 
 // Reads the bot bubble's actual computed bg+fg and writes them as CSS vars
 // on the menu wrap, so the dropdown matches whatever paints the bubble —
-// saved options, AI theme CSS, or the mxchat-theme add-on.
-function mxchatSyncMenuColors(botId, $wrap) {
+// saved options, AI theme CSS, or the knittnet-theme add-on.
+function knittnetSyncMenuColors(botId, $wrap) {
     if (!$wrap || !$wrap.length) return;
-    var $bot = $wrap.closest('.mxchat-chatbot-wrapper').find('.bot-message').not('.temporary-message').first();
+    var $bot = $wrap.closest('.knittnet-chatbot-wrapper').find('.bot-message').not('.temporary-message').first();
     if (!$bot.length) return;
     var cs = window.getComputedStyle($bot[0]);
     if (cs.backgroundColor && cs.backgroundColor !== 'rgba(0, 0, 0, 0)' && cs.backgroundColor !== 'transparent') {
-        $wrap[0].style.setProperty('--mxchat-menu-bg', cs.backgroundColor);
+        $wrap[0].style.setProperty('--knittnet-menu-bg', cs.backgroundColor);
     }
     // Bot text color usually lives on a child div, not .bot-message itself.
     var $textChild = $bot.find('[style*="color"]').first();
     var fg = ($textChild.length ? window.getComputedStyle($textChild[0]).color : cs.color);
-    if (fg) $wrap[0].style.setProperty('--mxchat-menu-fg', fg);
+    if (fg) $wrap[0].style.setProperty('--knittnet-menu-fg', fg);
 }
 
 // Renders (or re-renders) the item list for one menu wrap. Split out of
-// mxchatInitHeaderMenu so the dynamic-settings merge (plan-32db95) can
+// knittnetInitHeaderMenu so the dynamic-settings merge (plan-32db95) can
 // rebuild items + trigger visibility WITHOUT re-binding the one-time
 // open/close/keyboard wiring. closeMenu is passed in by the init closure;
 // a rebuild before init (never happens, but harmless) just skips it.
-function mxchatRenderHeaderMenuItems(botId, $wrap, closeMenuFn) {
-    var $trigger = $wrap.find('.mxchat-menu-trigger');
-    var $menu = $wrap.find('.mxchat-header-menu');
-    var items = mxchatGetHeaderMenuItems(botId);
+function knittnetRenderHeaderMenuItems(botId, $wrap, closeMenuFn) {
+    var $trigger = $wrap.find('.knittnet-menu-trigger');
+    var $menu = $wrap.find('.knittnet-header-menu');
+    var items = knittnetGetHeaderMenuItems(botId);
 
     $menu.empty();
 
@@ -1806,14 +1806,14 @@ function mxchatRenderHeaderMenuItems(botId, $wrap, closeMenuFn) {
     items.forEach(function(item, idx) {
         var $btn = $('<button>', {
             type: 'button',
-            'class': 'mxchat-menu-item',
+            'class': 'knittnet-menu-item',
             'role': 'menuitem',
             'tabindex': '-1',
             'data-menu-id': item.id,
-            html: '<span class="mxchat-menu-item-icon">' + item.icon + '</span>' +
-                  '<span class="mxchat-menu-item-label"></span>'
+            html: '<span class="knittnet-menu-item-icon">' + item.icon + '</span>' +
+                  '<span class="knittnet-menu-item-label"></span>'
         });
-        $btn.find('.mxchat-menu-item-label').text(item.label);
+        $btn.find('.knittnet-menu-item-label').text(item.label);
         $btn.on('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
@@ -1828,20 +1828,20 @@ function mxchatRenderHeaderMenuItems(botId, $wrap, closeMenuFn) {
 // (multi-bot: each wrap re-reads its items). An OPEN menu is left alone —
 // swapping items under the user mid-interaction yanks focus — and the
 // rebuild runs when it closes instead (closeMenu checks the pending flag).
-function mxchatRebuildHeaderMenus() {
-    $('.mxchat-header-menu-wrap').each(function() {
+function knittnetRebuildHeaderMenus() {
+    $('.knittnet-header-menu-wrap').each(function() {
         var $wrap = $(this);
         var botId = $wrap.data('bot-id');
         if (!botId) return;
-        if (!$wrap.data('mxchatMenuReady')) {
-            mxchatInitHeaderMenu(botId);
+        if (!$wrap.data('knittnetMenuReady')) {
+            knittnetInitHeaderMenu(botId);
             return;
         }
-        if ($wrap.find('.mxchat-header-menu').hasClass('is-open')) {
-            $wrap.data('mxchatMenuRebuildPending', true);
+        if ($wrap.find('.knittnet-header-menu').hasClass('is-open')) {
+            $wrap.data('knittnetMenuRebuildPending', true);
             return;
         }
-        mxchatRenderHeaderMenuItems(botId, $wrap, $wrap.data('mxchatMenuClose'));
+        knittnetRenderHeaderMenuItems(botId, $wrap, $wrap.data('knittnetMenuClose'));
     });
 }
 
@@ -1849,36 +1849,36 @@ function mxchatRebuildHeaderMenus() {
 // outside-click, Escape, and arrow-key navigation. If no items, hides the
 // trigger. Wiring happens even when there are zero items at init, so a
 // later dynamic-settings rebuild that adds items has a working trigger.
-function mxchatInitHeaderMenu(botId) {
-    var $wrap = $('.mxchat-header-menu-wrap[data-bot-id="' + botId + '"]').first();
-    if (!$wrap.length || $wrap.data('mxchatMenuReady')) return;
+function knittnetInitHeaderMenu(botId) {
+    var $wrap = $('.knittnet-header-menu-wrap[data-bot-id="' + botId + '"]').first();
+    if (!$wrap.length || $wrap.data('knittnetMenuReady')) return;
 
-    var $trigger = $wrap.find('.mxchat-menu-trigger');
-    var $menu = $wrap.find('.mxchat-header-menu');
+    var $trigger = $wrap.find('.knittnet-menu-trigger');
+    var $menu = $wrap.find('.knittnet-header-menu');
 
     // Initial color sync — covers normal page load.
-    mxchatSyncMenuColors(botId, $wrap);
+    knittnetSyncMenuColors(botId, $wrap);
 
     function openMenu() {
         // Re-sync each open in case the active theme changed since init.
-        mxchatSyncMenuColors(botId, $wrap);
+        knittnetSyncMenuColors(botId, $wrap);
         $menu.prop('hidden', false).attr('aria-hidden', 'false').addClass('is-open');
         $trigger.attr('aria-expanded', 'true');
         // Focus the first item for keyboard users
         setTimeout(function() {
-            $menu.find('.mxchat-menu-item').first().attr('tabindex', '0').trigger('focus');
+            $menu.find('.knittnet-menu-item').first().attr('tabindex', '0').trigger('focus');
         }, 0);
     }
     function closeMenu(returnFocus) {
         $menu.prop('hidden', true).attr('aria-hidden', 'true').removeClass('is-open');
         $trigger.attr('aria-expanded', 'false');
-        $menu.find('.mxchat-menu-item').attr('tabindex', '-1');
+        $menu.find('.knittnet-menu-item').attr('tabindex', '-1');
         if (returnFocus) $trigger.trigger('focus');
         // A dynamic-settings rebuild that arrived while the menu was open
-        // was deferred (mxchatRebuildHeaderMenus) — run it now.
-        if ($wrap.data('mxchatMenuRebuildPending')) {
-            $wrap.removeData('mxchatMenuRebuildPending');
-            mxchatRenderHeaderMenuItems(botId, $wrap, closeMenu);
+        // was deferred (knittnetRebuildHeaderMenus) — run it now.
+        if ($wrap.data('knittnetMenuRebuildPending')) {
+            $wrap.removeData('knittnetMenuRebuildPending');
+            knittnetRenderHeaderMenuItems(botId, $wrap, closeMenu);
         }
     }
 
@@ -1897,15 +1897,15 @@ function mxchatInitHeaderMenu(botId) {
     });
 
     // Outside click closes the menu.
-    $(document).on('click.mxchatMenu-' + botId, function(e) {
+    $(document).on('click.knittnetMenu-' + botId, function(e) {
         if (!$menu.hasClass('is-open')) return;
         if ($wrap.has(e.target).length || $wrap.is(e.target)) return;
         closeMenu();
     });
 
     // Keyboard: Escape closes and returns focus; arrow keys move focus; Enter activates.
-    $menu.on('keydown', '.mxchat-menu-item', function(e) {
-        var $items = $menu.find('.mxchat-menu-item');
+    $menu.on('keydown', '.knittnet-menu-item', function(e) {
+        var $items = $menu.find('.knittnet-menu-item');
         var idx = $items.index(this);
         if (e.key === 'Escape') {
             e.preventDefault();
@@ -1935,29 +1935,29 @@ function mxchatInitHeaderMenu(botId) {
         }
     });
 
-    // Expose closeMenu for out-of-closure re-renders (mxchatRebuildHeaderMenus),
+    // Expose closeMenu for out-of-closure re-renders (knittnetRebuildHeaderMenus),
     // then do the initial item render.
-    $wrap.data('mxchatMenuClose', closeMenu);
-    mxchatRenderHeaderMenuItems(botId, $wrap, closeMenu);
+    $wrap.data('knittnetMenuClose', closeMenu);
+    knittnetRenderHeaderMenuItems(botId, $wrap, closeMenu);
 
-    $wrap.data('mxchatMenuReady', true);
+    $wrap.data('knittnetMenuReady', true);
 }
 
 // Initialize header menus for every rendered widget on DOM ready.
 $(function() {
-    $('.mxchat-header-menu-wrap').each(function() {
+    $('.knittnet-header-menu-wrap').each(function() {
         var botId = $(this).data('bot-id');
-        if (botId) mxchatInitHeaderMenu(botId);
+        if (botId) knittnetInitHeaderMenu(botId);
     });
 
     // Embedded (non-floating) widgets are open from the moment the page
     // renders — refresh dynamic settings at init (plan-32db95). Floating
     // widgets refresh on first launcher open instead.
-    var hasEmbeddedWidget = $('.mxchat-chatbot-wrapper').filter(function() {
+    var hasEmbeddedWidget = $('.knittnet-chatbot-wrapper').filter(function() {
         return !$(this).closest('.floating-chatbot').length;
     }).length > 0;
     if (hasEmbeddedWidget) {
-        mxchatRefreshDynamicSettings();
+        knittnetRefreshDynamicSettings();
     }
 });
 
@@ -2056,12 +2056,12 @@ function appendMessage(sender, messageText = '', messageHtml = '', images = [], 
             }
 
             if ((sender === "bot" || sender === "agent") && !isTemporary) {
-                if (typeof mxchatInitHeaderMenu === 'function') mxchatInitHeaderMenu(botId);
+                if (typeof knittnetInitHeaderMenu === 'function') knittnetInitHeaderMenu(botId);
             }
         });
 
         if (messageText.id) {
-            var instance = MxChatInstances.get(botId);
+            var instance = KnittNetInstances.get(botId);
             instance.lastSeenMessageId = messageText.id;
             hideNotification(botId);
         }
@@ -2100,14 +2100,14 @@ function attachLinkTracking(messageDiv, messageText, botId) {
 
                     // Track the click
                     $.ajax({
-                        url: mxchatChat.ajax_url,
+                        url: knittnetChat.ajax_url,
                         type: 'POST',
                         data: {
-                            action: 'mxchat_track_url_click',
+                            action: 'knittnet_track_url_click',
                             session_id: getChatSession(botId),
                             url: originalHref,
                             message_context: messageContext,
-                            nonce: mxchatChat.nonce
+                            nonce: knittnetChat.nonce
                         },
                         complete: function() {
                             // Always redirect, even if tracking fails
@@ -2181,7 +2181,7 @@ function replaceLastMessage(sender, responseText, responseHtml = '', images = []
             .attr('dir', 'auto');
 
         // Only apply inline colors if AI theme is not active (let CSS handle it)
-        var skipColors = mxchatChat.skip_inline_colors || shouldSkipInlineColors(botId);
+        var skipColors = knittnetChat.skip_inline_colors || shouldSkipInlineColors(botId);
         if (!skipColors) {
             lastMessageDiv.css({
                 'background-color': bgColor,
@@ -2208,7 +2208,7 @@ function replaceLastMessage(sender, responseText, responseHtml = '', images = []
         enableChatInput(botId);
 
         if (sender === "bot" || sender === "agent") {
-            if (typeof mxchatInitHeaderMenu === 'function') mxchatInitHeaderMenu(botId);
+            if (typeof knittnetInitHeaderMenu === 'function') knittnetInitHeaderMenu(botId);
         }
     } else {
         appendMessage(sender, responseText, responseHtml, images, false, botId);
@@ -2236,8 +2236,8 @@ function replaceLastMessage(sender, responseText, responseHtml = '', images = []
         var skipColors = shouldSkipInlineColors(botId);
 
         // Retrieve the bot message font color and background color
-        var botMessageFontColor = mxchatChat.bot_message_font_color;
-        var botMessageBgColor = mxchatChat.bot_message_bg_color;
+        var botMessageFontColor = knittnetChat.bot_message_font_color;
+        var botMessageBgColor = knittnetChat.bot_message_bg_color;
 
         // Build thinking dots HTML - skip inline colors if AI theme is active
         var dotStyle = skipColors ? '' : ' style="background-color: ' + botMessageFontColor + ';"';
@@ -2496,27 +2496,27 @@ function convertNewlinesToBreaks(text) {
         text = text.replace(/```(\w+)?\n?([\s\S]*?)```/g, (match, language, code) => {
             const lang = language || 'text';
             const escapedCode = escapeHtml(code.trim());
-            return `<div class="mxchat-code-block-container">
-                <div class="mxchat-code-header">
-                    <span class="mxchat-code-language">${lang}</span>
-                    <button class="mxchat-copy-button" aria-label="Copy to clipboard">Copy</button>
+            return `<div class="knittnet-code-block-container">
+                <div class="knittnet-code-header">
+                    <span class="knittnet-code-language">${lang}</span>
+                    <button class="knittnet-copy-button" aria-label="Copy to clipboard">Copy</button>
                 </div>
-                <pre class="mxchat-code-block"><code class="language-${lang}">${escapedCode}</code></pre>
+                <pre class="knittnet-code-block"><code class="language-${lang}">${escapedCode}</code></pre>
             </div>`;
         });
 
         // Handle inline code with single backticks
-        text = text.replace(/`([^`\n]+)`/g, '<code class="mxchat-inline-code">$1</code>');
+        text = text.replace(/`([^`\n]+)`/g, '<code class="knittnet-inline-code">$1</code>');
 
         // Handle raw PHP tags (legacy support)
         text = text.replace(/(<\?php[\s\S]*?\?>)/g, (match) => {
             const escapedCode = escapeHtml(match);
-            return `<div class="mxchat-code-block-container">
-                <div class="mxchat-code-header">
-                    <span class="mxchat-code-language">php</span>
-                    <button class="mxchat-copy-button" aria-label="Copy to clipboard">Copy</button>
+            return `<div class="knittnet-code-block-container">
+                <div class="knittnet-code-header">
+                    <span class="knittnet-code-language">php</span>
+                    <button class="knittnet-copy-button" aria-label="Copy to clipboard">Copy</button>
                 </div>
-                <pre class="mxchat-code-block"><code class="language-php">${escapedCode}</code></pre>
+                <pre class="knittnet-code-block"><code class="language-php">${escapedCode}</code></pre>
             </div>`;
         });
 
@@ -2557,7 +2557,7 @@ function convertNewlinesToBreaks(text) {
                 });
 
                 // Build HTML table
-                var html = '<div class="mxchat-table-wrapper"><table class="mxchat-table">';
+                var html = '<div class="knittnet-table-wrapper"><table class="knittnet-table">';
 
                 // Header row
                 var headerCells = tableLines[0].split('|').filter(function(c) { return c.trim() !== ''; });
@@ -2768,11 +2768,11 @@ function convertNewlinesToBreaks(text) {
 
     function startNotificationChecking(botId) {
         botId = botId || 'default';
-        const chatPersistenceEnabled = mxchatChat.chat_persistence_toggle === 'on';
+        const chatPersistenceEnabled = knittnetChat.chat_persistence_toggle === 'on';
         if (!chatPersistenceEnabled) return;
 
         createNotificationBadge(botId);
-        var instance = MxChatInstances.get(botId);
+        var instance = KnittNetInstances.get(botId);
         instance.notificationCheckInterval = setInterval(function() {
             checkForNewMessages(botId);
         }, 30000); // Check every 30 seconds
@@ -2780,7 +2780,7 @@ function convertNewlinesToBreaks(text) {
 
     function stopNotificationChecking(botId) {
         botId = botId || 'default';
-        var instance = MxChatInstances.get(botId);
+        var instance = KnittNetInstances.get(botId);
         if (instance.notificationCheckInterval) {
             clearInterval(instance.notificationCheckInterval);
         }
@@ -2788,18 +2788,18 @@ function convertNewlinesToBreaks(text) {
     
     function checkForNewMessages() {
         const sessionId = getChatSession();
-        const chatPersistenceEnabled = mxchatChat.chat_persistence_toggle === 'on';
+        const chatPersistenceEnabled = knittnetChat.chat_persistence_toggle === 'on';
         
         if (!chatPersistenceEnabled) return;
     
         $.ajax({
-            url: mxchatChat.ajax_url,
+            url: knittnetChat.ajax_url,
             type: 'POST',
             data: {
-                action: 'mxchat_check_new_messages',
+                action: 'knittnet_check_new_messages',
                 session_id: sessionId,
                 last_seen_id: lastSeenMessageId,
-                nonce: mxchatChat.nonce
+                nonce: knittnetChat.nonce
             },
             success: function(response) {
                 if (response.success && response.data.hasNewMessages) {
@@ -2816,7 +2816,7 @@ function convertNewlinesToBreaks(text) {
 
 function startPolling(botId) {
     botId = botId || 'default';
-    var instance = MxChatInstances.get(botId);
+    var instance = KnittNetInstances.get(botId);
     // Clear any existing interval first
     stopPolling(botId);
     instance.pollingInterval = setInterval(function() {
@@ -2826,7 +2826,7 @@ function startPolling(botId) {
 
 function stopPolling(botId) {
     botId = botId || 'default';
-    var instance = MxChatInstances.get(botId);
+    var instance = KnittNetInstances.get(botId);
     if (instance.pollingInterval) {
         clearInterval(instance.pollingInterval);
         instance.pollingInterval = null;
@@ -2835,18 +2835,18 @@ function stopPolling(botId) {
 
 function checkForAgentMessages(botId) {
     botId = botId || 'default';
-    var instance = MxChatInstances.get(botId);
+    var instance = KnittNetInstances.get(botId);
     const sessionId = getChatSession(botId);
     $.ajax({
-        url: mxchatChat.ajax_url,
+        url: knittnetChat.ajax_url,
         type: 'POST',
         dataType: 'json',
         data: {
-            action: 'mxchat_fetch_new_messages',
+            action: 'knittnet_fetch_new_messages',
             session_id: sessionId,
             last_seen_id: instance.lastSeenMessageId,
             persistence_enabled: 'true',
-            nonce: mxchatChat.nonce
+            nonce: knittnetChat.nonce
         },
         success: function (response) {
             if (response.success && response.data?.new_messages) {
@@ -2890,7 +2890,7 @@ function checkForAgentMessages(botId) {
 
 function loadChatHistory(botId, onComplete) {
     botId = botId || 'default';
-    var instance = MxChatInstances.get(botId);
+    var instance = KnittNetInstances.get(botId);
 
     // Prevent duplicate loading
     if (instance.chatHistoryLoaded) {
@@ -2900,7 +2900,7 @@ function loadChatHistory(botId, onComplete) {
 
     // Use getChatSession which returns null if no session exists (does NOT create one)
     var sessionId = getChatSession(botId);
-    var chatPersistenceEnabled = mxchatChat.chat_persistence_toggle === 'on';
+    var chatPersistenceEnabled = knittnetChat.chat_persistence_toggle === 'on';
 
     // No session yet — nothing to load. History will load after first message via ensureSession.
     if (!sessionId) {
@@ -2911,18 +2911,18 @@ function loadChatHistory(botId, onComplete) {
 
     if (chatPersistenceEnabled && sessionId) {
         $.ajax({
-            url: mxchatChat.ajax_url,
+            url: knittnetChat.ajax_url,
             type: 'POST',
             dataType: 'json',
             data: {
-                action: 'mxchat_fetch_conversation_history',
+                action: 'knittnet_fetch_conversation_history',
                 session_id: sessionId
             },
             success: function(response) {
                 // Handle session reset (IP changed while user was away)
                 if (response.success === false && response.data && response.data.action === 'reset_session') {
                     // Silent reset — new session but don't clear UI
-                    MxChatInstances.silentResetSession(botId);
+                    KnittNetInstances.silentResetSession(botId);
                     instance.chatHistoryLoaded = true; // Prevent retry loop
                     if (onComplete) onComplete();
                     return;
@@ -2986,9 +2986,9 @@ function loadChatHistory(botId, onComplete) {
                                 // (forms, product cards, galleries, etc.) to avoid
                                 // markdown formatting corrupting HTML attributes
                                 // (e.g. underscores in name="field_name" becoming <em> tags)
-                                if (content.includes("mxchat-product-card") ||
-                                    content.includes("mxchat-image-gallery") ||
-                                    content.includes("mxchat-featured-products") ||
+                                if (content.includes("knittnet-product-card") ||
+                                    content.includes("knittnet-image-gallery") ||
+                                    content.includes("knittnet-featured-products") ||
                                     content.includes("<form") ||
                                     content.includes("<input") ||
                                     content.includes("<select") ||
@@ -3086,21 +3086,21 @@ function loadChatHistory(botId, onComplete) {
 
     function removeActivePdf(botId) {
         botId = botId || 'default';
-        var instance = MxChatInstances.get(botId);
+        var instance = KnittNetInstances.get(botId);
         const container = getElementDOM(botId, 'active-pdf-container');
         const nameElement = getElementDOM(botId, 'active-pdf-name');
 
         if (!container || !nameElement || !instance.activePdfFile) return;
 
-        fetch(mxchatChat.ajax_url, {
+        fetch(knittnetChat.ajax_url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: new URLSearchParams({
-                'action': 'mxchat_remove_pdf',
+                'action': 'knittnet_remove_pdf',
                 'session_id': getChatSession(botId),
-                'nonce': mxchatChat.nonce
+                'nonce': knittnetChat.nonce
             })
         })
         .then(response => response.json())
@@ -3119,21 +3119,21 @@ function loadChatHistory(botId, onComplete) {
 
     function removeActiveWord(botId) {
         botId = botId || 'default';
-        var instance = MxChatInstances.get(botId);
+        var instance = KnittNetInstances.get(botId);
         const container = getElementDOM(botId, 'active-word-container');
         const nameElement = getElementDOM(botId, 'active-word-name');
 
         if (!container || !nameElement || !instance.activeWordFile) return;
 
-        fetch(mxchatChat.ajax_url, {
+        fetch(knittnetChat.ajax_url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: new URLSearchParams({
-                'action': 'mxchat_remove_word',
+                'action': 'knittnet_remove_word',
                 'session_id': getChatSession(botId),
-                'nonce': mxchatChat.nonce
+                'nonce': knittnetChat.nonce
             })
         })
         .then(response => response.json())
@@ -3156,9 +3156,9 @@ function loadChatHistory(botId, onComplete) {
 
     function initializeChatVisibility(botId) {
         botId = botId || 'default';
-        const complianzEnabled = mxchatChat.complianz_toggle === 'on' ||
-                                mxchatChat.complianz_toggle === '1' ||
-                                mxchatChat.complianz_toggle === 1;
+        const complianzEnabled = knittnetChat.complianz_toggle === 'on' ||
+                                knittnetChat.complianz_toggle === '1' ||
+                                knittnetChat.complianz_toggle === 1;
 
         if (complianzEnabled && typeof cmplz_has_consent === "function" && typeof complianz !== 'undefined') {
             // Initial check
@@ -3223,7 +3223,7 @@ function loadChatHistory(botId, onComplete) {
     function checkPreChatDismissal(botId) {
         botId = botId || 'default';
         try {
-            var dismissedAt = localStorage.getItem('mxchat_pre_chat_dismissed_' + botId);
+            var dismissedAt = localStorage.getItem('knittnet_pre_chat_dismissed_' + botId);
             if (dismissedAt) {
                 // Re-show after 24 hours
                 var elapsed = Date.now() - parseInt(dismissedAt, 10);
@@ -3232,7 +3232,7 @@ function loadChatHistory(botId, onComplete) {
                     return;
                 }
                 // Expired — clear and show again
-                localStorage.removeItem('mxchat_pre_chat_dismissed_' + botId);
+                localStorage.removeItem('knittnet_pre_chat_dismissed_' + botId);
             }
             getElement(botId, 'pre-chat-message').fadeIn(250);
         } catch (e) {
@@ -3245,7 +3245,7 @@ function loadChatHistory(botId, onComplete) {
         botId = botId || 'default';
         getElement(botId, 'pre-chat-message').fadeOut(200);
         try {
-            localStorage.setItem('mxchat_pre_chat_dismissed_' + botId, String(Date.now()));
+            localStorage.setItem('knittnet_pre_chat_dismissed_' + botId, String(Date.now()));
         } catch (e) {
             // localStorage unavailable — dismissal won't persist
         }
@@ -3274,7 +3274,7 @@ function loadChatHistory(botId, onComplete) {
     // EVENT HANDLERS & INITIALIZATION
     // ====================================
 
-$(document).on('click', '.mxchat-popular-question', function () {
+$(document).on('click', '.knittnet-popular-question', function () {
     var question = $(this).text();
     var botId = getBotIdFromElement(this);
 
@@ -3327,17 +3327,17 @@ $(document).on('click', '.questions-collapse-btn', function(e) {
             // First open per page load: re-fetch behavior settings in case
             // this page's inline values came from a stale full-page cache
             // (plan-32db95). Idempotent — later opens are a no-op.
-            mxchatRefreshDynamicSettings();
+            knittnetRefreshDynamicSettings();
 
             // Load chat history for returning visitors (persistence)
-            var chatPersistenceEnabled = typeof mxchatChat !== 'undefined' && mxchatChat.chat_persistence_toggle === 'on';
+            var chatPersistenceEnabled = typeof knittnetChat !== 'undefined' && knittnetChat.chat_persistence_toggle === 'on';
             if (chatPersistenceEnabled) {
-                MxChatInstances.ensureSession(botId);
+                KnittNetInstances.ensureSession(botId);
             }
 
             // Deferred email check — only on first widget open
             var emailBlocker = getElementDOM(botId, 'email-blocker');
-            var instance = MxChatInstances.get(botId);
+            var instance = KnittNetInstances.get(botId);
             if (emailBlocker && !instance.emailCheckDone) {
                 instance.emailCheckDone = true;
                 resolveEmailState(botId);
@@ -3417,9 +3417,9 @@ $(document).on('click', '.questions-collapse-btn', function(e) {
     // PDF file input change handler - delegated, bot-aware (was bound to stale un-suffixed id 'pdf-upload')
     $(document).on('change', '.pdf-upload', async function(e) {
         var botId = getBotIdFromElement(this);
-        var instance = MxChatInstances.get(botId);
+        var instance = KnittNetInstances.get(botId);
         const file = this.files[0];
-        const sessionId = MxChatInstances.ensureSession(botId);
+        const sessionId = KnittNetInstances.ensureSession(botId);
 
         if (!file || file.type !== 'application/pdf') {
             alert('Please select a valid PDF file.');
@@ -3431,7 +3431,7 @@ $(document).on('click', '.questions-collapse-btn', function(e) {
             return;
         }
 
-        if (!mxchatChat || !mxchatChat.ajax_url || !mxchatChat.nonce) {
+        if (!knittnetChat || !knittnetChat.ajax_url || !knittnetChat.nonce) {
             alert('Error: Ajax configuration missing');
             return;
         }
@@ -3443,13 +3443,13 @@ $(document).on('click', '.questions-collapse-btn', function(e) {
         const originalBtnContent = uploadBtn.innerHTML;
 
         try {
-            // Wait for page-cache nonce refresh before reading mxchatChat.nonce. See plan-c5457f.
+            // Wait for page-cache nonce refresh before reading knittnetChat.nonce. See plan-c5457f.
             await new Promise(function(resolve) { refreshNonceIfNeeded(resolve); });
             const formData = new FormData();
-            formData.append('action', 'mxchat_upload_pdf');
+            formData.append('action', 'knittnet_upload_pdf');
             formData.append('pdf_file', file);
             formData.append('session_id', sessionId);
-            formData.append('nonce', mxchatChat.nonce);
+            formData.append('nonce', knittnetChat.nonce);
 
             uploadBtn.disabled = true;
             if (sendBtn) sendBtn.disabled = true;
@@ -3457,7 +3457,7 @@ $(document).on('click', '.questions-collapse-btn', function(e) {
                 <circle cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
             </svg>`;
 
-            const response = await fetch(mxchatChat.ajax_url, {
+            const response = await fetch(knittnetChat.ajax_url, {
                 method: 'POST',
                 body: formData
             });
@@ -3492,9 +3492,9 @@ $(document).on('click', '.questions-collapse-btn', function(e) {
     // Word file input change handler - delegated, bot-aware (was bound to stale un-suffixed id 'word-upload')
     $(document).on('change', '.word-upload', async function(e) {
         var botId = getBotIdFromElement(this);
-        var instance = MxChatInstances.get(botId);
+        var instance = KnittNetInstances.get(botId);
         const file = this.files[0];
-        const sessionId = MxChatInstances.ensureSession(botId);
+        const sessionId = KnittNetInstances.ensureSession(botId);
 
         if (!file || file.type !== 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
             alert('Please select a valid Word document (.docx).');
@@ -3506,7 +3506,7 @@ $(document).on('click', '.questions-collapse-btn', function(e) {
             return;
         }
 
-        if (!mxchatChat || !mxchatChat.ajax_url || !mxchatChat.nonce) {
+        if (!knittnetChat || !knittnetChat.ajax_url || !knittnetChat.nonce) {
             alert('Error: Ajax configuration missing');
             return;
         }
@@ -3518,13 +3518,13 @@ $(document).on('click', '.questions-collapse-btn', function(e) {
         const originalBtnContent = uploadBtn.innerHTML;
 
         try {
-            // Wait for page-cache nonce refresh before reading mxchatChat.nonce. See plan-c5457f.
+            // Wait for page-cache nonce refresh before reading knittnetChat.nonce. See plan-c5457f.
             await new Promise(function(resolve) { refreshNonceIfNeeded(resolve); });
             const formData = new FormData();
-            formData.append('action', 'mxchat_upload_word');
+            formData.append('action', 'knittnet_upload_word');
             formData.append('word_file', file);
             formData.append('session_id', sessionId);
-            formData.append('nonce', mxchatChat.nonce);
+            formData.append('nonce', knittnetChat.nonce);
 
             uploadBtn.disabled = true;
             if (sendBtn) sendBtn.disabled = true;
@@ -3532,7 +3532,7 @@ $(document).on('click', '.questions-collapse-btn', function(e) {
                 <circle cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
             </svg>`;
 
-            const response = await fetch(mxchatChat.ajax_url, {
+            const response = await fetch(knittnetChat.ajax_url, {
                 method: 'POST',
                 body: formData
             });
@@ -3588,7 +3588,7 @@ $(document).on('click', '.questions-collapse-btn', function(e) {
     // ====================================
     
     // Apply toolbar settings
-    if (mxchatChat.chat_toolbar_toggle === 'on') {
+    if (knittnetChat.chat_toolbar_toggle === 'on') {
         $('.chat-toolbar').show();
     } else {
         $('.chat-toolbar').hide();
@@ -3596,12 +3596,12 @@ $(document).on('click', '.questions-collapse-btn', function(e) {
     
     // Apply toolbar icon colors
     const toolbarElements = [
-        '#mxchat-chatbot .toolbar-btn svg',
-        '#mxchat-chatbot .active-pdf-name',
-        '#mxchat-chatbot .active-word-name',
-        '#mxchat-chatbot .remove-pdf-btn svg',
-        '#mxchat-chatbot .remove-word-btn svg',
-        '#mxchat-chatbot .toolbar-perplexity svg'
+        '#knittnet-chatbot .toolbar-btn svg',
+        '#knittnet-chatbot .active-pdf-name',
+        '#knittnet-chatbot .active-word-name',
+        '#knittnet-chatbot .remove-pdf-btn svg',
+        '#knittnet-chatbot .remove-word-btn svg',
+        '#knittnet-chatbot .toolbar-perplexity svg'
     ];
     
     toolbarElements.forEach(selector => {
@@ -3620,12 +3620,12 @@ $(document).on('click', '.questions-collapse-btn', function(e) {
 // (used by persistence loading even when email collection is off)
 
 function showInitLoader(botId) {
-    var loader = getElementDOM(botId, 'mxchat-init-loader');
+    var loader = getElementDOM(botId, 'knittnet-init-loader');
     if (loader) loader.style.display = 'flex';
 }
 
 function hideInitLoader(botId) {
-    var loader = getElementDOM(botId, 'mxchat-init-loader');
+    var loader = getElementDOM(botId, 'knittnet-init-loader');
     if (loader) loader.style.display = 'none';
 }
 
@@ -3642,8 +3642,8 @@ function showChatContainerForBot(botId) {
     var chatContainer = getElementDOM(botId, 'chat-container');
     if (emailBlocker) emailBlocker.style.display = 'none';
 
-    var instance = MxChatInstances.get(botId);
-    var chatPersistenceEnabled = mxchatChat.chat_persistence_toggle === 'on';
+    var instance = KnittNetInstances.get(botId);
+    var chatPersistenceEnabled = knittnetChat.chat_persistence_toggle === 'on';
 
     // If persistence is on and history hasn't loaded yet, show loader
     // while history loads to prevent flash of empty chat
@@ -3668,7 +3668,7 @@ function showChatContainerForBot(botId) {
 //  EMAIL COLLECTION SETUP - MULTI-INSTANCE VERSION
 // ====================================
 // Only run email collection setup if it's enabled
-if (mxchatChat && mxchatChat.email_collection_enabled === 'on') {
+if (knittnetChat && knittnetChat.email_collection_enabled === 'on') {
 
     // Track submitting state per bot
     const emailSubmittingState = {};
@@ -3827,8 +3827,8 @@ if (mxchatChat && mxchatChat.email_collection_enabled === 'on') {
 
     // Resolve email state using server-side data when available, AJAX fallback otherwise
     function resolveEmailState(botId) {
-        if (mxchatChat.skip_email_check && mxchatChat.initial_email_state) {
-            if (mxchatChat.initial_email_state.show_email_form) {
+        if (knittnetChat.skip_email_check && knittnetChat.initial_email_state) {
+            if (knittnetChat.initial_email_state.show_email_form) {
                 showEmailFormForBot(botId);
             } else {
                 showChatContainerForBot(botId);
@@ -3839,7 +3839,7 @@ if (mxchatChat && mxchatChat.email_collection_enabled === 'on') {
     }
 
     function checkSessionAndEmailForBot(botId) {
-        const sessionId = MxChatInstances.ensureSession(botId);
+        const sessionId = KnittNetInstances.ensureSession(botId);
 
         // Hide both panels while we check — show loader instead
         var emailBlocker = getElementDOM(botId, 'email-blocker');
@@ -3848,15 +3848,15 @@ if (mxchatChat && mxchatChat.email_collection_enabled === 'on') {
         if (chatContainer) chatContainer.style.display = 'none';
         showInitLoader(botId);
 
-        fetch(mxchatChat.ajax_url, {
+        fetch(knittnetChat.ajax_url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: new URLSearchParams({
-                action: 'mxchat_check_email_provided',
+                action: 'knittnet_check_email_provided',
                 session_id: sessionId,
-                nonce: mxchatChat.nonce,
+                nonce: knittnetChat.nonce,
             })
         })
         .then((response) => {
@@ -3897,7 +3897,7 @@ if (mxchatChat && mxchatChat.email_collection_enabled === 'on') {
         var nameInput = getElementDOM(botId, 'user-name');
         var userEmail = emailInput ? emailInput.value.trim() : '';
         var userName = nameInput ? nameInput.value.trim() : '';
-        var sessionId = MxChatInstances.ensureSession(botId);
+        var sessionId = KnittNetInstances.ensureSession(botId);
 
         // Validate email
         if (!userEmail) {
@@ -3921,17 +3921,17 @@ if (mxchatChat && mxchatChat.email_collection_enabled === 'on') {
 
         // Prepare form data
         const formData = new URLSearchParams({
-            action: 'mxchat_handle_save_email_and_response',
+            action: 'knittnet_handle_save_email_and_response',
             email: userEmail,
             session_id: sessionId,
-            nonce: mxchatChat.nonce,
+            nonce: knittnetChat.nonce,
         });
 
         if (userName) {
             formData.append('name', userName);
         }
 
-        fetch(mxchatChat.ajax_url, {
+        fetch(knittnetChat.ajax_url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -3979,7 +3979,7 @@ if (mxchatChat && mxchatChat.email_collection_enabled === 'on') {
     });
 
     // Real-time email validation using event delegation
-    $(document).on('input', '.mxchat-email-input', function() {
+    $(document).on('input', '.knittnet-email-input', function() {
         var botId = getBotIdFromElement(this);
         var $input = $(this);
 
@@ -4000,7 +4000,7 @@ if (mxchatChat && mxchatChat.email_collection_enabled === 'on') {
     });
 
     // Handle Enter key in email input
-    $(document).on('keypress', '.mxchat-email-input', function(e) {
+    $(document).on('keypress', '.knittnet-email-input', function(e) {
         if (e.key === 'Enter') {
             e.preventDefault();
             var botId = getBotIdFromElement(this);
@@ -4011,7 +4011,7 @@ if (mxchatChat && mxchatChat.email_collection_enabled === 'on') {
     });
 
     // Handle Enter key in name input
-    $(document).on('keypress', '.mxchat-name-input', function(e) {
+    $(document).on('keypress', '.knittnet-name-input', function(e) {
         if (e.key === 'Enter') {
             e.preventDefault();
             var botId = getBotIdFromElement(this);
@@ -4024,7 +4024,7 @@ if (mxchatChat && mxchatChat.email_collection_enabled === 'on') {
     // Initialize email check for all bot instances
     // For floating bots: defer until widget is opened (zero passive AJAX)
     // For embedded bots: check immediately since the form is visible
-    $('.mxchat-chatbot-wrapper').each(function() {
+    $('.knittnet-chatbot-wrapper').each(function() {
         var botId = $(this).data('bot-id') || 'default';
         var emailBlocker = getElementDOM(botId, 'email-blocker');
 
@@ -4036,9 +4036,9 @@ if (mxchatChat && mxchatChat.email_collection_enabled === 'on') {
             // Floating bots: handled in the widget open handler
         } else if (isEmbeddedBot(botId)) {
             // Embedded bot, no email collection — load history with loader
-            var chatPersistenceEnabled = typeof mxchatChat !== 'undefined' && mxchatChat.chat_persistence_toggle === 'on';
+            var chatPersistenceEnabled = typeof knittnetChat !== 'undefined' && knittnetChat.chat_persistence_toggle === 'on';
             if (chatPersistenceEnabled) {
-                MxChatInstances.ensureSession(botId);
+                KnittNetInstances.ensureSession(botId);
                 showChatContainerForBot(botId);
             }
         }
@@ -4056,14 +4056,14 @@ if (mxchatChat && mxchatChat.email_collection_enabled === 'on') {
             disableScroll(); // Disable scroll when chatbot opens
 
             // Load chat history for returning visitors (persistence)
-            var chatPersistenceEnabled = typeof mxchatChat !== 'undefined' && mxchatChat.chat_persistence_toggle === 'on';
+            var chatPersistenceEnabled = typeof knittnetChat !== 'undefined' && knittnetChat.chat_persistence_toggle === 'on';
             if (chatPersistenceEnabled) {
-                MxChatInstances.ensureSession(botId);
+                KnittNetInstances.ensureSession(botId);
             }
 
             // Deferred email check — only on first widget open
             var emailBlocker = getElementDOM(botId, 'email-blocker');
-            var instance = MxChatInstances.get(botId);
+            var instance = KnittNetInstances.get(botId);
             if (emailBlocker && !instance.emailCheckDone) {
                 instance.emailCheckDone = true;
                 resolveEmailState(botId);
@@ -4078,9 +4078,9 @@ if (mxchatChat && mxchatChat.email_collection_enabled === 'on') {
 
 function hasQuickQuestions(botId) {
     botId = botId || 'default';
-    var questionsContainer = getElementDOM(botId, 'mxchat-popular-questions');
+    var questionsContainer = getElementDOM(botId, 'knittnet-popular-questions');
     if (!questionsContainer) return false;
-    const questionButtons = questionsContainer.querySelectorAll('.mxchat-popular-question');
+    const questionButtons = questionsContainer.querySelectorAll('.knittnet-popular-question');
     return questionButtons.length > 0;
 }
 
@@ -4096,13 +4096,13 @@ function isEmbeddedBot(botId) {
 
 function collapseQuickQuestions(botId) {
     botId = botId || 'default';
-    const questionsContainer = getElementDOM(botId, 'mxchat-popular-questions');
+    const questionsContainer = getElementDOM(botId, 'knittnet-popular-questions');
     if (questionsContainer && hasQuickQuestions(botId)) {
         questionsContainer.classList.add('collapsed');
         questionsContainer.classList.add('has-been-collapsed');
         try {
-            sessionStorage.setItem('mxchat_questions_collapsed_' + botId, 'true');
-            sessionStorage.setItem('mxchat_questions_has_been_collapsed_' + botId, 'true');
+            sessionStorage.setItem('knittnet_questions_collapsed_' + botId, 'true');
+            sessionStorage.setItem('knittnet_questions_has_been_collapsed_' + botId, 'true');
         } catch (e) {
             // Ignore if sessionStorage is not available
         }
@@ -4111,11 +4111,11 @@ function collapseQuickQuestions(botId) {
 
 function expandQuickQuestions(botId) {
     botId = botId || 'default';
-    const questionsContainer = getElementDOM(botId, 'mxchat-popular-questions');
+    const questionsContainer = getElementDOM(botId, 'knittnet-popular-questions');
     if (questionsContainer && hasQuickQuestions(botId)) {
         questionsContainer.classList.remove('collapsed');
         try {
-            sessionStorage.setItem('mxchat_questions_collapsed_' + botId, 'false');
+            sessionStorage.setItem('knittnet_questions_collapsed_' + botId, 'false');
         } catch (e) {
             // Ignore if sessionStorage is not available
         }
@@ -4134,10 +4134,10 @@ function checkQuickQuestionsState(botId) {
     }
 
     try {
-        const isCollapsed = sessionStorage.getItem('mxchat_questions_collapsed_' + botId);
-        const hasBeenCollapsed = sessionStorage.getItem('mxchat_questions_has_been_collapsed_' + botId);
+        const isCollapsed = sessionStorage.getItem('knittnet_questions_collapsed_' + botId);
+        const hasBeenCollapsed = sessionStorage.getItem('knittnet_questions_has_been_collapsed_' + botId);
 
-        const questionsContainer = getElementDOM(botId, 'mxchat-popular-questions');
+        const questionsContainer = getElementDOM(botId, 'knittnet-popular-questions');
         if (questionsContainer) {
             if (hasBeenCollapsed === 'true') {
                 questionsContainer.classList.add('has-been-collapsed');
@@ -4175,14 +4175,14 @@ $(document).on('click', '.chat-box a[href]:not([data-tracked])', function(e) {
             const messageText = messageDiv.text().substring(0, 200);
 
             $.ajax({
-                url: mxchatChat.ajax_url,
+                url: knittnetChat.ajax_url,
                 type: 'POST',
                 data: {
-                    action: 'mxchat_track_url_click',
+                    action: 'knittnet_track_url_click',
                     session_id: getChatSession(botId),
                     url: originalHref,
                     message_context: messageText,
-                    nonce: mxchatChat.nonce
+                    nonce: knittnetChat.nonce
                 },
                 complete: function() {
                     if ($link.attr('target') === '_blank' || linkTarget === '_blank') {
@@ -4215,10 +4215,10 @@ $(document).on('click', '.chat-box a[href]:not([data-tracked])', function(e) {
     setFullHeight();
 
     // Note: trackOriginatingPage() and loadChatHistory() are now deferred
-    // until the user's first interaction via MxChatInstances.ensureSession()
+    // until the user's first interaction via KnittNetInstances.ensureSession()
 
     // Initialize chat visibility for all instances
-    $('.mxchat-chatbot-wrapper').each(function() {
+    $('.knittnet-chatbot-wrapper').each(function() {
         var botId = $(this).data('bot-id') || 'default';
         initializeChatVisibility(botId);
     });
@@ -4231,13 +4231,13 @@ $(document).on('click', '.chat-box a[href]:not([data-tracked])', function(e) {
     window.scrollToBottom = scrollToBottom;
     window.scrollElementToTop = scrollElementToTop;
     window.replaceLastMessage = replaceLastMessage;
-    window.callMxChat = callMxChat;
-    window.callMxChatStream = callMxChatStream;
+    window.callKnittNet = callKnittNet;
+    window.callKnittNetStream = callKnittNetStream;
     window.shouldUseStreaming = shouldUseStreaming;
     window.getChatSession = getChatSession;
     window.getPageContext = getPageContext;
     window.updateStreamingMessage = updateStreamingMessage;
-    window.MxChatInstances = MxChatInstances;
+    window.KnittNetInstances = KnittNetInstances;
     window.getElement = getElement;
     window.getElementDOM = getElementDOM;
     window.getBotIdFromElement = getBotIdFromElement;
@@ -4251,11 +4251,11 @@ $(document).on('click', '.chat-box a[href]:not([data-tracked])', function(e) {
 
 // Event listener for copy button (code blocks)
 document.addEventListener("click", (e) => {
-    if (e.target.classList.contains("mxchat-copy-button")) {
+    if (e.target.classList.contains("knittnet-copy-button")) {
         const copyButton = e.target;
         const codeBlock = copyButton
-            .closest(".mxchat-code-block-container")
-            .querySelector(".mxchat-code-block code");
+            .closest(".knittnet-code-block-container")
+            .querySelector(".knittnet-code-block code");
 
         if (codeBlock) {
             // Preserve formatting using innerText
@@ -4280,7 +4280,7 @@ document.addEventListener("click", (e) => {
 // localStorage. Runs ONLY when the satisfaction_rating_enabled option is on —
 // the option (default off) is authoritative.
 jQuery(function($) {
-    if (typeof mxchatChat === 'undefined') return;
+    if (typeof knittnetChat === 'undefined') return;
     // wp_localize_script stringifies scalars: a PHP boolean false arrives as
     // '' and true as '1', so this must be an explicit-enable allowlist — the
     // old "disabled when exactly false/'off'" check let '' through and the
@@ -4289,15 +4289,15 @@ jQuery(function($) {
     // (boolean-true localizations) working.
     // NOTE (plan-32db95): this gate reads the INLINE value at DOM ready and is
     // deliberately NOT re-evaluated after the widget's dynamic-settings refresh
-    // merges fresh values over mxchatChat (that merge fires on first widget
+    // merges fresh values over knittnetChat (that merge fires on first widget
     // open, after this module has already decided). Re-evaluating would mean
     // restructuring the whole module to late-bind its listeners — not worth it
     // for a prompt that is at worst stale for one page load on a cached page.
-    var sre = mxchatChat.satisfaction_rating_enabled;
+    var sre = knittnetChat.satisfaction_rating_enabled;
     if (sre !== 'on' && sre !== true && sre !== '1' && sre !== 1) return;
 
     // wp_localize_script stringifies ints, so accept both number and numeric string.
-    var idleRaw = mxchatChat.satisfaction_rating_idle_seconds;
+    var idleRaw = knittnetChat.satisfaction_rating_idle_seconds;
     var idleSeconds = (typeof idleRaw === 'number') ? idleRaw : parseInt(idleRaw, 10);
     if (!isFinite(idleSeconds)) idleSeconds = 60;
     if (idleSeconds < 5) idleSeconds = 5;
@@ -4314,20 +4314,20 @@ jQuery(function($) {
     }
 
     function getSessionId(botId) {
-        if (typeof MxChatInstances !== 'undefined' && MxChatInstances.getChatSession) {
-            return MxChatInstances.getChatSession(botId);
+        if (typeof KnittNetInstances !== 'undefined' && KnittNetInstances.getChatSession) {
+            return KnittNetInstances.getChatSession(botId);
         }
         return null;
     }
 
     function isAlreadyRated(sessionId) {
         if (!sessionId) return false;
-        try { return localStorage.getItem('mxchat_rated:' + sessionId) === '1'; } catch (e) { return false; }
+        try { return localStorage.getItem('knittnet_rated:' + sessionId) === '1'; } catch (e) { return false; }
     }
 
     function markRated(sessionId) {
         if (!sessionId) return;
-        try { localStorage.setItem('mxchat_rated:' + sessionId, '1'); } catch (e) {}
+        try { localStorage.setItem('knittnet_rated:' + sessionId, '1'); } catch (e) {}
     }
 
     function esc(s) {
@@ -4338,23 +4338,23 @@ jQuery(function($) {
 
     // Mirror shouldSkipInlineColors so rating bubbles defer to AI-theme CSS.
     function ratingSkipInlineColors(botId) {
-        if (mxchatChat.skip_inline_colors) return true;
-        var botAssignments = mxchatChat.bot_theme_assignments || {};
+        if (knittnetChat.skip_inline_colors) return true;
+        var botAssignments = knittnetChat.bot_theme_assignments || {};
         return botAssignments.hasOwnProperty(botId);
     }
 
     function botBubbleStyleAttr(botId) {
         if (ratingSkipInlineColors(botId)) return '';
-        var bg = mxchatChat.bot_message_bg_color;
-        var fg = mxchatChat.bot_message_font_color;
+        var bg = knittnetChat.bot_message_bg_color;
+        var fg = knittnetChat.bot_message_font_color;
         if (!bg && !fg) return '';
         return ' style="background-color: ' + esc(bg || '') + '; color: ' + esc(fg || '') + ';"';
     }
 
     // Reads the rating bubble's actual computed fg+bg (whatever paints it —
-    // the inline color pickers OR the mxchat-theme AI customizer's injected CSS)
+    // the inline color pickers OR the knittnet-theme AI customizer's injected CSS)
     // and paints the filled "Send" pill so it fills with the bot font color and
-    // labels in the bubble bg. Mirrors mxchatSyncMenuColors(~:1512) for the read.
+    // labels in the bubble bg. Mirrors knittnetSyncMenuColors(~:1512) for the read.
     // We paint the submit button DIRECTLY (inline longhand) rather than relying
     // on the CSS rule's var()s: Chromium resolves an INHERITED custom property
     // unreliably inside a descendant's `background`, so a bubble-level var would
@@ -4364,7 +4364,7 @@ jQuery(function($) {
     function syncRatingBubbleColors(botId) {
         var $chatBox = getChatBoxByBotId(botId);
         if (!$chatBox || !$chatBox.length) return;
-        var bubbleEl = $chatBox.find('.mxchat-rating-bot-bubble').last()[0];
+        var bubbleEl = $chatBox.find('.knittnet-rating-bot-bubble').last()[0];
         if (!bubbleEl) return;
         var cs = window.getComputedStyle(bubbleEl);
         var fg = cs.color;
@@ -4372,10 +4372,10 @@ jQuery(function($) {
         var hasFg = fg && fg !== 'rgba(0, 0, 0, 0)' && fg !== 'transparent';
         var hasBg = bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent';
         // Expose on the bubble too, for any inheriting styles / future use.
-        if (hasFg) bubbleEl.style.setProperty('--mxchat-bot-fg', fg);
-        if (hasBg) bubbleEl.style.setProperty('--mxchat-bot-bg', bg);
+        if (hasFg) bubbleEl.style.setProperty('--knittnet-bot-fg', fg);
+        if (hasBg) bubbleEl.style.setProperty('--knittnet-bot-bg', bg);
         // Paint the Send pill directly — the part that actually fixes the bug.
-        var submitEl = bubbleEl.querySelector('.mxchat-rating-submit');
+        var submitEl = bubbleEl.querySelector('.knittnet-rating-submit');
         if (submitEl) {
             if (hasFg) submitEl.style.backgroundColor = fg; // fill  = bot font color
             if (hasBg) submitEl.style.color = bg;           // label = bubble background
@@ -4383,7 +4383,7 @@ jQuery(function($) {
     }
 
     function copy(key) {
-        var c = mxchatChat.satisfaction_rating_copy || {};
+        var c = knittnetChat.satisfaction_rating_copy || {};
         var d = {
             question: 'Was this helpful?',
             helpful: 'Helpful',
@@ -4408,15 +4408,15 @@ jQuery(function($) {
     function buildPromptHtml(botId) {
         var styleAttr = botBubbleStyleAttr(botId);
         return ''
-            + '<div class="bot-message mxchat-rating-bot-bubble"' + styleAttr + '>'
-            +   '<div class="mxchat-rating-prompt" data-bot-id="' + esc(botId) + '" role="group" aria-label="' + esc(copy('question')) + '">'
-            +     '<div class="mxchat-rating-question">' + esc(copy('question')) + '</div>'
-            +     '<div class="mxchat-rating-actions">'
-            +       '<span class="mxchat-rating-buttons">'
-            +         '<button type="button" class="mxchat-rating-btn" data-rating="1" aria-label="' + esc(copy('helpful')) + '">' + thumbUpSvg() + '</button>'
-            +         '<button type="button" class="mxchat-rating-btn" data-rating="-1" aria-label="' + esc(copy('not_helpful')) + '">' + thumbDownSvg() + '</button>'
+            + '<div class="bot-message knittnet-rating-bot-bubble"' + styleAttr + '>'
+            +   '<div class="knittnet-rating-prompt" data-bot-id="' + esc(botId) + '" role="group" aria-label="' + esc(copy('question')) + '">'
+            +     '<div class="knittnet-rating-question">' + esc(copy('question')) + '</div>'
+            +     '<div class="knittnet-rating-actions">'
+            +       '<span class="knittnet-rating-buttons">'
+            +         '<button type="button" class="knittnet-rating-btn" data-rating="1" aria-label="' + esc(copy('helpful')) + '">' + thumbUpSvg() + '</button>'
+            +         '<button type="button" class="knittnet-rating-btn" data-rating="-1" aria-label="' + esc(copy('not_helpful')) + '">' + thumbDownSvg() + '</button>'
             +       '</span>'
-            +       '<button type="button" class="mxchat-rating-dismiss" aria-label="' + esc(copy('dismiss')) + '">×</button>'
+            +       '<button type="button" class="knittnet-rating-dismiss" aria-label="' + esc(copy('dismiss')) + '">×</button>'
             +     '</div>'
             +   '</div>'
             + '</div>';
@@ -4425,13 +4425,13 @@ jQuery(function($) {
     function buildFeedbackHtml(botId, rating) {
         var styleAttr = botBubbleStyleAttr(botId);
         return ''
-            + '<div class="bot-message mxchat-rating-bot-bubble"' + styleAttr + '>'
-            +   '<div class="mxchat-rating-feedback" data-bot-id="' + esc(botId) + '" data-rating="' + esc(String(rating)) + '">'
-            +     '<div class="mxchat-rating-feedback-label">' + esc(copy('thanks')) + '</div>'
-            +     '<textarea class="mxchat-rating-feedback-input" maxlength="500" placeholder="' + esc(copy('placeholder')) + '" rows="2"></textarea>'
-            +     '<div class="mxchat-rating-feedback-actions">'
-            +       '<button type="button" class="mxchat-rating-skip">' + esc(copy('skip')) + '</button>'
-            +       '<button type="button" class="mxchat-rating-submit">' + esc(copy('send')) + '</button>'
+            + '<div class="bot-message knittnet-rating-bot-bubble"' + styleAttr + '>'
+            +   '<div class="knittnet-rating-feedback" data-bot-id="' + esc(botId) + '" data-rating="' + esc(String(rating)) + '">'
+            +     '<div class="knittnet-rating-feedback-label">' + esc(copy('thanks')) + '</div>'
+            +     '<textarea class="knittnet-rating-feedback-input" maxlength="500" placeholder="' + esc(copy('placeholder')) + '" rows="2"></textarea>'
+            +     '<div class="knittnet-rating-feedback-actions">'
+            +       '<button type="button" class="knittnet-rating-skip">' + esc(copy('skip')) + '</button>'
+            +       '<button type="button" class="knittnet-rating-submit">' + esc(copy('send')) + '</button>'
             +     '</div>'
             +   '</div>'
             + '</div>';
@@ -4440,8 +4440,8 @@ jQuery(function($) {
     function buildSavedHtml(botId) {
         var styleAttr = botBubbleStyleAttr(botId);
         return ''
-            + '<div class="bot-message mxchat-rating-bot-bubble"' + styleAttr + '>'
-            +   '<div class="mxchat-rating-saved">' + esc(copy('saved')) + '</div>'
+            + '<div class="bot-message knittnet-rating-bot-bubble"' + styleAttr + '>'
+            +   '<div class="knittnet-rating-saved">' + esc(copy('saved')) + '</div>'
             + '</div>';
     }
 
@@ -4464,7 +4464,7 @@ jQuery(function($) {
         if (isAlreadyRated(sessionId)) { s.promptShown = true; return; }
         var $chatBox = getChatBoxByBotId(botId);
         if (!$chatBox.length) return;
-        if ($chatBox.find('.mxchat-rating-prompt').length) { s.promptShown = true; return; }
+        if ($chatBox.find('.knittnet-rating-prompt').length) { s.promptShown = true; return; }
         $chatBox.append(buildPromptHtml(botId));
         syncRatingBubbleColors(botId);
         s.promptShown = true;
@@ -4474,8 +4474,8 @@ jQuery(function($) {
     function submitRating(botId, rating, feedback) {
         var sessionId = getSessionId(botId);
         if (!sessionId) return;
-        $.post(mxchatChat.ajax_url, {
-            action: 'mxchat_save_rating',
+        $.post(knittnetChat.ajax_url, {
+            action: 'knittnet_save_rating',
             session_id: sessionId,
             bot_id: botId,
             rating: rating,
@@ -4514,7 +4514,7 @@ jQuery(function($) {
                         var node = m.addedNodes[i];
                         if (!node || node.nodeType !== 1) continue;
                         var $n = $(node);
-                        if ($n.hasClass('mxchat-rating-bot-bubble') || $n.hasClass('mxchat-rating-prompt') || $n.hasClass('mxchat-rating-feedback') || $n.hasClass('mxchat-rating-saved')) continue;
+                        if ($n.hasClass('knittnet-rating-bot-bubble') || $n.hasClass('knittnet-rating-prompt') || $n.hasClass('knittnet-rating-feedback') || $n.hasClass('knittnet-rating-saved')) continue;
                         if ($n.hasClass('bot-message')) onBotReply(botId); // count at insert time — streaming providers append with .temporary-message first, then remove later (childList observer can't see attr changes)
                         else if ($n.hasClass('user-message')) onUserMessage(botId);
                     }
@@ -4526,11 +4526,11 @@ jQuery(function($) {
 
     $('.chat-box').each(function() { setupObserver(this); });
 
-    $(document).on('click', '.mxchat-rating-btn', function(e) {
+    $(document).on('click', '.knittnet-rating-btn', function(e) {
         e.preventDefault();
         var $btn = $(this);
-        var $prompt = $btn.closest('.mxchat-rating-prompt');
-        var $wrap = $btn.closest('.mxchat-rating-bot-bubble');
+        var $prompt = $btn.closest('.knittnet-rating-prompt');
+        var $wrap = $btn.closest('.knittnet-rating-bot-bubble');
         var botId = $prompt.data('bot-id') || 'default';
         var rating = parseInt($btn.attr('data-rating'), 10);
         if (rating !== 1 && rating !== -1) return;
@@ -4540,10 +4540,10 @@ jQuery(function($) {
         scrollChatBoxToBottom(getChatBoxByBotId(botId));
     });
 
-    $(document).on('click', '.mxchat-rating-dismiss', function(e) {
+    $(document).on('click', '.knittnet-rating-dismiss', function(e) {
         e.preventDefault();
-        var $prompt = $(this).closest('.mxchat-rating-prompt');
-        var $wrap = $(this).closest('.mxchat-rating-bot-bubble');
+        var $prompt = $(this).closest('.knittnet-rating-prompt');
+        var $wrap = $(this).closest('.knittnet-rating-bot-bubble');
         var botId = $prompt.data('bot-id') || 'default';
         var s = getState(botId);
         s.dismissed = true;
@@ -4553,24 +4553,24 @@ jQuery(function($) {
 
     function closeFeedback($fb) {
         var botId = $fb.data('bot-id') || 'default';
-        var $wrap = $fb.closest('.mxchat-rating-bot-bubble');
+        var $wrap = $fb.closest('.knittnet-rating-bot-bubble');
         ($wrap.length ? $wrap : $fb).replaceWith(buildSavedHtml(botId));
         syncRatingBubbleColors(botId);
         scrollChatBoxToBottom(getChatBoxByBotId(botId));
     }
 
-    $(document).on('click', '.mxchat-rating-skip', function(e) {
+    $(document).on('click', '.knittnet-rating-skip', function(e) {
         e.preventDefault();
-        closeFeedback($(this).closest('.mxchat-rating-feedback'));
+        closeFeedback($(this).closest('.knittnet-rating-feedback'));
     });
 
-    $(document).on('click', '.mxchat-rating-submit', function(e) {
+    $(document).on('click', '.knittnet-rating-submit', function(e) {
         e.preventDefault();
-        var $fb = $(this).closest('.mxchat-rating-feedback');
+        var $fb = $(this).closest('.knittnet-rating-feedback');
         var botId = $fb.data('bot-id') || 'default';
         var rating = parseInt($fb.attr('data-rating'), 10);
         if (rating !== 1 && rating !== -1) { closeFeedback($fb); return; }
-        var text = String($fb.find('.mxchat-rating-feedback-input').val() || '').trim();
+        var text = String($fb.find('.knittnet-rating-feedback-input').val() || '').trim();
         if (text !== '') {
             submitRating(botId, rating, text);
         }

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   MxChat Actions Page Styles - v2.0
+   KnittNet Actions Page Styles - v2.0
    Uses admin-sidebar.css for core layout/navigation styles
    ========================================================================== */
 
@@ -1630,7 +1630,7 @@
 @media screen and (max-width: 782px) {
     /* The wrapper is position:fixed (admin-sidebar.css), so the PAGE body can't
        scroll it — scrolling has to happen INSIDE .mxch-content (same as desktop
-       and every other MxChat admin page). The previous rules set the wrapper +
+       and every other KnittNet admin page). The previous rules set the wrapper +
        content to height:auto + overflow:visible, which on a FIXED wrapper just
        pushed the overflow below the viewport with no way to reach it (the page
        "didn't move"). Fix: make .mxch-content the bounded internal scroll

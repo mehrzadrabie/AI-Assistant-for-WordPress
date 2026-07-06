@@ -1,10 +1,10 @@
 /**
- * MxChat Content Generator
+ * KnittNet Content Generator
  *
  * Handles modal generation flow, full-width preview with iframe scaling,
  * floating chat panel, sidebar navigation, and settings auto-save.
  *
- * @package MxChat
+ * @package KnittNet
  * @since 3.1.0
  */
 (function($) {
@@ -190,9 +190,9 @@
 
         function fetchPromptData(callback) {
             var contentType = $('#mxch-cg-type').val() || 'post';
-            $.post(mxchatContent.ajaxUrl, {
-                action: 'mxchat_get_default_prompt',
-                nonce: mxchatContent.nonce,
+            $.post(knittnetContent.ajaxUrl, {
+                action: 'knittnet_get_default_prompt',
+                nonce: knittnetContent.nonce,
                 content_type: contentType
             }, function(response) {
                 if (response.success) {
@@ -226,9 +226,9 @@
 
         function saveToServer(promptText, callback) {
             var contentType = $('#mxch-cg-type').val() || 'post';
-            $.post(mxchatContent.ajaxUrl, {
-                action: 'mxchat_save_custom_prompt',
-                nonce: mxchatContent.nonce,
+            $.post(knittnetContent.ajaxUrl, {
+                action: 'knittnet_save_custom_prompt',
+                nonce: knittnetContent.nonce,
                 content_type: contentType,
                 custom_prompt: promptText
             }, function(response) {
@@ -286,8 +286,8 @@
         showLoadingIndicator();
 
         var data = {
-            action: 'mxchat_generate_content',
-            nonce: mxchatContent.nonce,
+            action: 'knittnet_generate_content',
+            nonce: knittnetContent.nonce,
             prompt: prompt,
             content_type: $('#mxch-cg-type').val(),
             post_status: $('#mxch-cg-status').val(),
@@ -299,7 +299,7 @@
         };
 
         $.ajax({
-            url: mxchatContent.ajaxUrl,
+            url: knittnetContent.ajaxUrl,
             type: 'POST',
             data: data,
             timeout: 60000,
@@ -479,11 +479,11 @@
         }
 
         $.ajax({
-            url: mxchatContent.ajaxUrl,
+            url: knittnetContent.ajaxUrl,
             type: 'POST',
             data: {
-                action: 'mxchat_content_progress',
-                nonce: mxchatContent.nonce,
+                action: 'knittnet_content_progress',
+                nonce: knittnetContent.nonce,
                 progress_key: state.progressKey
             },
             timeout: 10000,
@@ -677,9 +677,9 @@
             scaleIframe();
         });
 
-        // Add mxchat_preview param so PHP hides admin bar in <head> before render
+        // Add knittnet_preview param so PHP hides admin bar in <head> before render
         var separator = url.indexOf('?') !== -1 ? '&' : '?';
-        $iframe.attr('src', url + separator + 'mxchat_preview=1&_t=' + Date.now());
+        $iframe.attr('src', url + separator + 'knittnet_preview=1&_t=' + Date.now());
 
         // Also scale immediately for initial sizing
         setTimeout(scaleIframe, 100);
@@ -765,11 +765,11 @@
         scrollChatToBottom();
 
         $.ajax({
-            url: mxchatContent.ajaxUrl,
+            url: knittnetContent.ajaxUrl,
             type: 'POST',
             data: {
-                action: 'mxchat_content_edit',
-                nonce: mxchatContent.nonce,
+                action: 'knittnet_content_edit',
+                nonce: knittnetContent.nonce,
                 post_id: state.postId,
                 edit_instruction: input
             },
@@ -848,8 +848,8 @@
                 seo_optimize_img_alt: 'img_alt',
                 seo_optimize_featured_img: 'featured_img'
             };
-            if (seoMap[field] && mxchatContent.seoOptimize) {
-                mxchatContent.seoOptimize[seoMap[field]] = (value === 'on');
+            if (seoMap[field] && knittnetContent.seoOptimize) {
+                knittnetContent.seoOptimize[seoMap[field]] = (value === 'on');
             }
         });
     }
@@ -866,11 +866,11 @@
         }
 
         $.ajax({
-            url: mxchatContent.ajaxUrl,
+            url: knittnetContent.ajaxUrl,
             type: 'POST',
             data: {
-                action: 'mxchat_save_content_setting',
-                nonce: mxchatContent.nonce,
+                action: 'knittnet_save_content_setting',
+                nonce: knittnetContent.nonce,
                 field: field,
                 value: value
             },
@@ -890,7 +890,7 @@
                     $label.removeClass('mxch-saving');
                 }
                 if (window.console) {
-                    console.warn('MxChat content setting save failed:', field, status, error);
+                    console.warn('KnittNet content setting save failed:', field, status, error);
                 }
             }
         });
@@ -967,8 +967,8 @@
         seoState.analyzing = true;
         $('#mxch-seo-analyze').addClass('mxch-spinning');
         $.post(ajaxurl, {
-            action: 'mxchat_seo_analyze',
-            nonce: mxchatContent.nonce,
+            action: 'knittnet_seo_analyze',
+            nonce: knittnetContent.nonce,
             post_id: state.postId,
         }).done(function(res) {
             if (res.success) {
@@ -1029,18 +1029,18 @@
 
             // Show addon/pro badge for gated checks that aren't passing
             var badge = '';
-            if (addonChecks[key] && c.status !== 'pass' && !mxchatContent.hasAdvancedContent) {
-                if (mxchatContent.isActivated) {
-                    badge = ' <a href="https://mxchat.ai/advanced-content-editor/" target="_blank" class="mxch-seod-addon-badge">ADD-ON</a>';
+            if (addonChecks[key] && c.status !== 'pass' && !knittnetContent.hasAdvancedContent) {
+                if (knittnetContent.isActivated) {
+                    badge = ' <a href="https://knittnet.ai/advanced-content-editor/" target="_blank" class="mxch-seod-addon-badge">ADD-ON</a>';
                 } else {
-                    badge = ' <a href="https://mxchat.ai/" target="_blank" class="mxch-seod-addon-badge mxch-seod-pro-badge">PRO</a>';
+                    badge = ' <a href="https://knittnet.ai/" target="_blank" class="mxch-seod-addon-badge mxch-seod-pro-badge">PRO</a>';
                 }
             }
 
             // Per-check AI fix button for non-passing, fixable checks
             var fixBtn = '';
             if (c.status !== 'pass' && fixableMap[key]) {
-                var canFix = !addonChecks[key] || mxchatContent.hasAdvancedContent;
+                var canFix = !addonChecks[key] || knittnetContent.hasAdvancedContent;
                 if (canFix) {
                     fixBtn = '<button type="button" class="mxch-seo-check-fix" data-field="' + fixableMap[key] + '" title="AI Fix">' + sparkleIcon + '</button>';
                 }
@@ -1067,8 +1067,8 @@
     function runSeoFixSingle(field, $btn) {
         $btn.addClass('mxch-seo-check-fixing').prop('disabled', true);
         $.post(ajaxurl, {
-            action: 'mxchat_seo_suggest',
-            nonce: mxchatContent.nonce,
+            action: 'knittnet_seo_suggest',
+            nonce: knittnetContent.nonce,
             post_id: state.postId,
             field: field,
         }).done(function(res) {
@@ -1090,14 +1090,14 @@
         var $btn = $('#mxch-seo-ai-optimize'), origHtml = $btn.html();
         $btn.addClass('mxch-seo-fixing').prop('disabled', true)
             .html('<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.287 1.288L3 12l5.8 1.9a2 2 0 0 1 1.288 1.287L12 21l1.9-5.8a2 2 0 0 1 1.287-1.288L21 12l-5.8-1.9a2 2 0 0 1-1.288-1.287Z"/></svg> Optimizing\u2026');
-        var prefs = mxchatContent.seoOptimize || {};
+        var prefs = knittnetContent.seoOptimize || {};
         var fields = [];
         if (seoState.checks) {
             if (prefs.meta_description !== false && seoState.checks.meta_desc && seoState.checks.meta_desc.status !== 'pass') fields.push('meta_description');
             if (prefs.seo_title !== false && seoState.checks.title_length && seoState.checks.title_length.status !== 'pass') fields.push('seo_title');
             if (prefs.slug !== false && seoState.checks.slug && seoState.checks.slug.status !== 'pass') fields.push('slug');
             // Readability, internal links, images require Advanced Content Editor add-on
-            if (mxchatContent.hasAdvancedContent) {
+            if (knittnetContent.hasAdvancedContent) {
                 if (prefs.readability !== false && seoState.checks.readability && seoState.checks.readability.status !== 'pass') fields.push('readability');
                 if (prefs.internal_links !== false && seoState.checks.internal_links && seoState.checks.internal_links.status !== 'pass') fields.push('internal_links');
                 if (prefs.img_alt !== false && seoState.checks.img_alt && seoState.checks.img_alt.status !== 'pass') fields.push('img_alt');
@@ -1117,8 +1117,8 @@
             }
             var field = fields[idx];
             $.post(ajaxurl, {
-                action: 'mxchat_seo_suggest',
-                nonce: mxchatContent.nonce,
+                action: 'knittnet_seo_suggest',
+                nonce: knittnetContent.nonce,
                 post_id: state.postId,
                 field: field,
             }).done(function(res) {
@@ -1226,11 +1226,11 @@
 
             $btn.prop('disabled', true);
             $.ajax({
-                url: mxchatContent.ajaxUrl,
+                url: knittnetContent.ajaxUrl,
                 type: 'POST',
                 data: {
-                    action: 'mxchat_delete_content',
-                    nonce: mxchatContent.nonce,
+                    action: 'knittnet_delete_content',
+                    nonce: knittnetContent.nonce,
                     post_id: postId
                 },
                 success: function(response) {
@@ -1264,11 +1264,11 @@
         $pag.hide();
 
         $.ajax({
-            url: mxchatContent.ajaxUrl,
+            url: knittnetContent.ajaxUrl,
             type: 'POST',
             data: {
-                action: 'mxchat_content_history',
-                nonce: mxchatContent.nonce,
+                action: 'knittnet_content_history',
+                nonce: knittnetContent.nonce,
                 page: page
             },
             success: function(response) {
@@ -1384,11 +1384,11 @@
         $btn.prop('disabled', true).text('Loading...');
 
         $.ajax({
-            url: mxchatContent.ajaxUrl,
+            url: knittnetContent.ajaxUrl,
             type: 'POST',
             data: {
-                action: 'mxchat_load_post_for_edit',
-                nonce: mxchatContent.nonce,
+                action: 'knittnet_load_post_for_edit',
+                nonce: knittnetContent.nonce,
                 post_id: postId
             },
             success: function(response) {
@@ -1521,11 +1521,11 @@
         closeStatusDropdown();
 
         $.ajax({
-            url: mxchatContent.ajaxUrl,
+            url: knittnetContent.ajaxUrl,
             type: 'POST',
             data: {
-                action: 'mxchat_update_post_status',
-                nonce: mxchatContent.nonce,
+                action: 'knittnet_update_post_status',
+                nonce: knittnetContent.nonce,
                 post_id: state.postId,
                 new_status: newStatus,
                 schedule_date: scheduleDate || ''
@@ -1686,8 +1686,8 @@
             var postId = $btn.data('post-id');
             $btn.addClass('mxch-seo-check-fixing').prop('disabled', true);
             $.post(ajaxurl, {
-                action: 'mxchat_seo_suggest',
-                nonce: mxchatContent.nonce,
+                action: 'knittnet_seo_suggest',
+                nonce: knittnetContent.nonce,
                 post_id: postId,
                 field: field,
             }).always(function() {
@@ -1740,8 +1740,8 @@
         $('#mxch-seod-table').empty();
 
         $.post(ajaxurl, {
-            action: 'mxchat_seo_list_posts',
-            nonce: mxchatContent.nonce,
+            action: 'knittnet_seo_list_posts',
+            nonce: knittnetContent.nonce,
             page: seodState.page,
             post_type: seodState.postType,
             filter: seodState.filter,
@@ -1794,8 +1794,8 @@
                 '<div class="mxch-seod-header-cell mxch-seod-header-title' + activeClass('title') + '" data-sort="title">Title' + seodSortArrow('title') + '</div>' +
                 '<div class="mxch-seod-header-cell mxch-seod-header-date' + activeClass('date') + '" data-sort="date">Date' + seodSortArrow('date') + '</div>' +
                 '<div class="mxch-seod-header-cell mxch-seod-header-score' + activeClass('score') + '" data-sort="score">Score' + seodSortArrow('score') + '</div>' +
-                '<div class="mxch-seod-header-cell mxch-seod-header-clicks' + (!mxchatContent.hasGSC ? ' mxch-seod-header-locked' : '') + '"' + (mxchatContent.hasGSC ? ' data-sort="clicks"' : '') + '>Clicks' + (mxchatContent.hasGSC ? seodSortArrow('clicks') : ' <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>') + '</div>' +
-                '<div class="mxch-seod-header-cell mxch-seod-header-impressions' + (!mxchatContent.hasGSC ? ' mxch-seod-header-locked' : '') + '"' + (mxchatContent.hasGSC ? ' data-sort="impressions"' : '') + '>Impr.' + (mxchatContent.hasGSC ? seodSortArrow('impressions') : ' <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>') + '</div>' +
+                '<div class="mxch-seod-header-cell mxch-seod-header-clicks' + (!knittnetContent.hasGSC ? ' mxch-seod-header-locked' : '') + '"' + (knittnetContent.hasGSC ? ' data-sort="clicks"' : '') + '>Clicks' + (knittnetContent.hasGSC ? seodSortArrow('clicks') : ' <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>') + '</div>' +
+                '<div class="mxch-seod-header-cell mxch-seod-header-impressions' + (!knittnetContent.hasGSC ? ' mxch-seod-header-locked' : '') + '"' + (knittnetContent.hasGSC ? ' data-sort="impressions"' : '') + '>Impr.' + (knittnetContent.hasGSC ? seodSortArrow('impressions') : ' <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>') + '</div>' +
             '</div>'
         );
 
@@ -1822,8 +1822,8 @@
                             '<span class="mxch-seod-date">' + escapeHtml(p.date) + '</span>' +
                         '</div>' +
                         '<div class="mxch-seod-cell mxch-seod-cell-score">' + scoreHtml + '</div>' +
-                        '<div class="mxch-seod-cell mxch-seod-cell-clicks' + (!mxchatContent.hasGSC ? ' mxch-seod-cell-locked' : '') + '" data-clicks="' + (p.clicks !== null ? p.clicks : 0) + '">' + (!mxchatContent.hasGSC ? '—' : (p.clicks !== null ? p.clicks : '—')) + '</div>' +
-                        '<div class="mxch-seod-cell mxch-seod-cell-impressions' + (!mxchatContent.hasGSC ? ' mxch-seod-cell-locked' : '') + '" data-impressions="' + (p.impressions !== null ? p.impressions : 0) + '">' + (!mxchatContent.hasGSC ? '—' : (p.impressions !== null ? seodFormatNum(p.impressions) : '—')) + '</div>' +
+                        '<div class="mxch-seod-cell mxch-seod-cell-clicks' + (!knittnetContent.hasGSC ? ' mxch-seod-cell-locked' : '') + '" data-clicks="' + (p.clicks !== null ? p.clicks : 0) + '">' + (!knittnetContent.hasGSC ? '—' : (p.clicks !== null ? p.clicks : '—')) + '</div>' +
+                        '<div class="mxch-seod-cell mxch-seod-cell-impressions' + (!knittnetContent.hasGSC ? ' mxch-seod-cell-locked' : '') + '" data-impressions="' + (p.impressions !== null ? p.impressions : 0) + '">' + (!knittnetContent.hasGSC ? '—' : (p.impressions !== null ? seodFormatNum(p.impressions) : '—')) + '</div>' +
                     '</div>' +
                 '</div>'
             );
@@ -1899,8 +1899,8 @@
         // Run analysis
         seodState.expandAnalyzing = true;
         $.post(ajaxurl, {
-            action: 'mxchat_seo_analyze',
-            nonce: mxchatContent.nonce,
+            action: 'knittnet_seo_analyze',
+            nonce: knittnetContent.nonce,
             post_id: postId,
         }).done(function(res) {
             if (res.success) {
@@ -1950,18 +1950,18 @@
 
             // Show addon/pro badge for gated checks that aren't passing
             var badge = '';
-            if (addonChecks[key] && c.status !== 'pass' && !mxchatContent.hasAdvancedContent) {
-                if (mxchatContent.isActivated) {
-                    badge = ' <a href="https://mxchat.ai/advanced-content-editor/" target="_blank" class="mxch-seod-addon-badge">ADD-ON</a>';
+            if (addonChecks[key] && c.status !== 'pass' && !knittnetContent.hasAdvancedContent) {
+                if (knittnetContent.isActivated) {
+                    badge = ' <a href="https://knittnet.ai/advanced-content-editor/" target="_blank" class="mxch-seod-addon-badge">ADD-ON</a>';
                 } else {
-                    badge = ' <a href="https://mxchat.ai/" target="_blank" class="mxch-seod-addon-badge mxch-seod-pro-badge">PRO</a>';
+                    badge = ' <a href="https://knittnet.ai/" target="_blank" class="mxch-seod-addon-badge mxch-seod-pro-badge">PRO</a>';
                 }
             }
 
             // Per-check AI fix button
             var fixBtn = '';
             if (c.status !== 'pass' && fixableMap[key]) {
-                var canFix = !addonChecks[key] || mxchatContent.hasAdvancedContent;
+                var canFix = !addonChecks[key] || knittnetContent.hasAdvancedContent;
                 if (canFix) {
                     fixBtn = '<button type="button" class="mxch-seo-check-fix mxch-seod-check-fix-btn" data-field="' + fixableMap[key] + '" data-post-id="' + postId + '" title="AI Fix">' + sparkleIcon + '</button>';
                 }
@@ -1991,10 +1991,10 @@
         $detail.html(html);
 
         // GSC placeholder for free/non-addon users
-        if (!mxchatContent.hasGSC) {
-            var badgeLabel = mxchatContent.isActivated ? 'ADD-ON' : 'PRO';
-            var badgeClass = mxchatContent.isActivated ? '' : ' mxch-seod-pro-badge';
-            var upgradeText = mxchatContent.isActivated ? 'Install Add-on' : 'Upgrade to Pro';
+        if (!knittnetContent.hasGSC) {
+            var badgeLabel = knittnetContent.isActivated ? 'ADD-ON' : 'PRO';
+            var badgeClass = knittnetContent.isActivated ? '' : ' mxch-seod-pro-badge';
+            var upgradeText = knittnetContent.isActivated ? 'Install Add-on' : 'Upgrade to Pro';
             var gscHtml =
                 '<div class="mxch-gsc-placeholder">' +
                     '<h4 class="mxch-gsc-placeholder-title">' +
@@ -2019,8 +2019,8 @@
                     '</div>' +
                     '<div class="mxch-gsc-placeholder-overlay">' +
                         '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>' +
-                        '<a href="https://mxchat.ai/" target="_blank" class="mxch-seod-addon-badge' + badgeClass + '">' + badgeLabel + '</a>' +
-                        '<a href="https://mxchat.ai/" target="_blank" class="mxch-cg-pro-upgrade-link">' + upgradeText + '</a>' +
+                        '<a href="https://knittnet.ai/" target="_blank" class="mxch-seod-addon-badge' + badgeClass + '">' + badgeLabel + '</a>' +
+                        '<a href="https://knittnet.ai/" target="_blank" class="mxch-cg-pro-upgrade-link">' + upgradeText + '</a>' +
                     '</div>' +
                 '</div>';
             $detail.append(gscHtml);
@@ -2054,8 +2054,8 @@
         var allIds = [];
         function fetchPage(page) {
             $.post(ajaxurl, {
-                action: 'mxchat_seo_list_posts',
-                nonce: mxchatContent.nonce,
+                action: 'knittnet_seo_list_posts',
+                nonce: knittnetContent.nonce,
                 page: page,
                 post_type: 'any',
                 filter: 'unscored',
@@ -2113,8 +2113,8 @@
                 var batch = ids.slice(scanned, scanned + batchSize);
                 $status.html('<span class="mxch-seod-scan-progress">' + (scanned + 1) + ' / ' + total + '</span>');
                 $.post(ajaxurl, {
-                    action: 'mxchat_seo_analyze_batch',
-                    nonce: mxchatContent.nonce,
+                    action: 'knittnet_seo_analyze_batch',
+                    nonce: knittnetContent.nonce,
                     'post_ids[]': batch,
                 }).done(function(res) {
                     if (res.success && res.data.results) {
@@ -2149,8 +2149,8 @@
 
         // Get the current checks to find what needs fixing
         $.post(ajaxurl, {
-            action: 'mxchat_seo_analyze',
-            nonce: mxchatContent.nonce,
+            action: 'knittnet_seo_analyze',
+            nonce: knittnetContent.nonce,
             post_id: postId,
         }).done(function(res) {
             if (!res.success) {
@@ -2158,13 +2158,13 @@
                 return;
             }
             var checks = res.data.checks;
-            var prefs = mxchatContent.seoOptimize || {};
+            var prefs = knittnetContent.seoOptimize || {};
             var fields = [];
             if (prefs.meta_description !== false && checks.meta_desc && checks.meta_desc.status !== 'pass') fields.push('meta_description');
             if (prefs.seo_title !== false && checks.title_length && checks.title_length.status !== 'pass') fields.push('seo_title');
             if (prefs.slug !== false && checks.slug && checks.slug.status !== 'pass') fields.push('slug');
             // Readability, internal links, images require Advanced Content Editor add-on
-            if (mxchatContent.hasAdvancedContent) {
+            if (knittnetContent.hasAdvancedContent) {
                 if (prefs.readability !== false && checks.readability && checks.readability.status !== 'pass') fields.push('readability');
                 if (prefs.internal_links !== false && checks.internal_links && checks.internal_links.status !== 'pass') fields.push('internal_links');
                 if (prefs.img_alt !== false && checks.img_alt && checks.img_alt.status !== 'pass') fields.push('img_alt');
@@ -2184,8 +2184,8 @@
                     return;
                 }
                 $.post(ajaxurl, {
-                    action: 'mxchat_seo_suggest',
-                    nonce: mxchatContent.nonce,
+                    action: 'knittnet_seo_suggest',
+                    nonce: knittnetContent.nonce,
                     post_id: postId,
                     field: fields[idx],
                 }).always(function() {

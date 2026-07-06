@@ -4,34 +4,34 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * MxChat_Cache_Purge — purges known full-page caches when MxChat settings save.
+ * KnittNet_Cache_Purge — purges known full-page caches when KnittNet settings save.
  *
  * Widget settings are printed inline into page HTML (wp_localize_script in
- * class-mxchat-integrator.php), so a full-page cache keeps serving the old
+ * class-knittnet-integrator.php), so a full-page cache keeps serving the old
  * snapshot after an admin changes a setting — toggles look broken until the
  * cache is cleared by hand. This module clears the page caches we can reach
- * from PHP the moment mxchat_options is written, using each cache plugin's
+ * from PHP the moment knittnet_options is written, using each cache plugin's
  * own public purge API (guarded by existence checks, so absent plugins are
  * a no-op). Companion to the 3.2.6 page-cache compatibility filters in
- * mxchat-basic.php, which keep the chat AJAX endpoints out of those same
+ * knittnet-basic.php, which keep the chat AJAX endpoints out of those same
  * caches; this handles the cached page HTML itself.
  *
  * Host-level caches and CDNs (Cloudflare APO etc.) cannot be purged from
  * PHP — for those, the widget re-fetches its behavior settings when opened
- * (see MxChat_Integrator::get_dynamic_widget_settings()).
+ * (see KnittNet_Integrator::get_dynamic_widget_settings()).
  *
  * Debounce: the admin screen autosaves per field, so a settings session can
- * write mxchat_options many times in a minute. We purge at most once per
+ * write knittnet_options many times in a minute. We purge at most once per
  * DEBOUNCE_SECONDS; writes that land inside the window schedule one deferred
  * purge via wp-cron so the final state always gets flushed.
  *
  * @since 3.2.9 (plan-32db95)
  */
-class MxChat_Cache_Purge {
+class KnittNet_Cache_Purge {
 
-    const DEBOUNCE_TRANSIENT = 'mxchat_cache_purge_debounce';
+    const DEBOUNCE_TRANSIENT = 'knittnet_cache_purge_debounce';
     const DEBOUNCE_SECONDS   = 30;
-    const DEFERRED_EVENT     = 'mxchat_deferred_cache_purge';
+    const DEFERRED_EVENT     = 'knittnet_deferred_cache_purge';
 
     private static $instance = null;
 
@@ -61,18 +61,18 @@ class MxChat_Cache_Purge {
      * Option names whose writes trigger a page-cache purge.
      *
      * Defaults cover every option whose values reach the cached page's inline
-     * widget payload: mxchat_options (settings/behavior gates),
-     * mxchat_theme_options (active AI theme CSS + bot theme assignments —
-     * written only by the MxChat Theme add-on's admin AJAX actions), and
-     * mxchat_prompts_options (Pinecone toggle — written only by the prompts
+     * widget payload: knittnet_options (settings/behavior gates),
+     * knittnet_theme_options (active AI theme CSS + bot theme assignments —
+     * written only by the KnittNet Theme add-on's admin AJAX actions), and
+     * knittnet_prompts_options (Pinecone toggle — written only by the prompts
      * autosave). All write sites are admin-action-driven; the debounce
      * absorbs back-to-back writes like apply-and-save.
      *
      * @return string[]
      */
     private function watched_options() {
-        $defaults = array('mxchat_options', 'mxchat_theme_options', 'mxchat_prompts_options');
-        $options  = apply_filters('mxchat_cache_purge_watched_options', $defaults);
+        $defaults = array('knittnet_options', 'knittnet_theme_options', 'knittnet_prompts_options');
+        $options  = apply_filters('knittnet_cache_purge_watched_options', $defaults);
         return is_array($options) ? array_filter(array_map('strval', $options)) : $defaults;
     }
 
@@ -135,6 +135,6 @@ class MxChat_Cache_Purge {
         }
 
         // Extension point for CDNs / host caches / custom setups.
-        do_action('mxchat_purge_page_caches');
+        do_action('knittnet_purge_page_caches');
     }
 }

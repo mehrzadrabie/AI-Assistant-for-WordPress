@@ -6,7 +6,7 @@ if (!defined('ABSPATH')) {
 /**
  * Enhanced meta box for page-level chatbot visibility and bot selection
  */
-class MxChat_Meta_Box {
+class KnittNet_Meta_Box {
 
     public function __construct() {
         add_action('add_meta_boxes', array($this, 'add_chatbot_meta_box'));
@@ -23,8 +23,8 @@ class MxChat_Meta_Box {
 
         foreach ($post_types as $post_type) {
             add_meta_box(
-                'mxchat_visibility',
-                __('MxChat Settings', 'mxchat'),
+                'knittnet_visibility',
+                __('KnittNet Settings', 'knittnet'),
                 array($this, 'render_meta_box'),
                 $post_type,
                 'side',
@@ -38,7 +38,7 @@ class MxChat_Meta_Box {
      */
     public function register_meta_fields() {
         // Legacy field - kept for backward compatibility
-        register_post_meta('', '_mxchat_hide_chatbot', array(
+        register_post_meta('', '_knittnet_hide_chatbot', array(
             'show_in_rest' => true,
             'single' => true,
             'type' => 'string',
@@ -49,7 +49,7 @@ class MxChat_Meta_Box {
         ));
 
         // New visibility field: '' (global), 'show', 'hide'
-        register_post_meta('', '_mxchat_page_visibility', array(
+        register_post_meta('', '_knittnet_page_visibility', array(
             'show_in_rest' => true,
             'single' => true,
             'type' => 'string',
@@ -59,7 +59,7 @@ class MxChat_Meta_Box {
             }
         ));
 
-        register_post_meta('', '_mxchat_selected_bot', array(
+        register_post_meta('', '_knittnet_selected_bot', array(
             'show_in_rest' => true,
             'single' => true,
             'type' => 'string',
@@ -77,8 +77,8 @@ class MxChat_Meta_Box {
         $bots = array();
 
         // Check if multi-bot addon is active
-        if (class_exists('MxChat_Multi_Bot_Manager')) {
-            $multi_bot_manager = MxChat_Multi_Bot_Core_Manager::get_instance();
+        if (class_exists('KnittNet_Multi_Bot_Manager')) {
+            $multi_bot_manager = KnittNet_Multi_Bot_Core_Manager::get_instance();
             $available_bots = $multi_bot_manager->get_available_bots();
 
             // Add the available bots
@@ -87,7 +87,7 @@ class MxChat_Meta_Box {
             }
         } else {
             // Only default bot available
-            $bots['default'] = __('Default Bot', 'mxchat');
+            $bots['default'] = __('Default Bot', 'knittnet');
         }
 
         return $bots;
@@ -97,7 +97,7 @@ class MxChat_Meta_Box {
      * Check if global auto-show is enabled
      */
     private function is_global_autoshow_enabled() {
-        $options = get_option('mxchat_options', array());
+        $options = get_option('knittnet_options', array());
         return isset($options['append_to_body']) && $options['append_to_body'] === 'on';
     }
 
@@ -106,14 +106,14 @@ class MxChat_Meta_Box {
      */
     private function get_effective_visibility($post_id) {
         // Check new field first
-        $visibility = get_post_meta($post_id, '_mxchat_page_visibility', true);
+        $visibility = get_post_meta($post_id, '_knittnet_page_visibility', true);
 
         if (!empty($visibility)) {
             return $visibility;
         }
 
         // Backward compat: check legacy hide checkbox
-        $hide_chatbot = get_post_meta($post_id, '_mxchat_hide_chatbot', true);
+        $hide_chatbot = get_post_meta($post_id, '_knittnet_hide_chatbot', true);
         if ($hide_chatbot === '1') {
             return 'hide';
         }
@@ -125,13 +125,13 @@ class MxChat_Meta_Box {
      * Render meta box with 3-option visibility control
      */
     public function render_meta_box($post) {
-        wp_nonce_field('mxchat_meta_box_nonce', 'mxchat_meta_box_nonce');
+        wp_nonce_field('knittnet_meta_box_nonce', 'knittnet_meta_box_nonce');
 
         $visibility = $this->get_effective_visibility($post->ID);
-        $selected_bot = get_post_meta($post->ID, '_mxchat_selected_bot', true);
+        $selected_bot = get_post_meta($post->ID, '_knittnet_selected_bot', true);
         $available_bots = $this->get_available_bots();
         $global_autoshow = $this->is_global_autoshow_enabled();
-        $has_multibot = class_exists('MxChat_Multi_Bot_Manager');
+        $has_multibot = class_exists('KnittNet_Multi_Bot_Manager');
 
         ?>
         <div style="padding: 10px 0;">
@@ -139,50 +139,50 @@ class MxChat_Meta_Box {
             <!-- Chatbot Visibility -->
             <div style="margin-bottom: 15px;">
                 <label style="display: block; margin-bottom: 8px; font-weight: 600;">
-                    <?php _e('Chatbot Visibility', 'mxchat'); ?>
+                    <?php _e('Chatbot Visibility', 'knittnet'); ?>
                 </label>
 
                 <label style="display: flex; align-items: center; margin-bottom: 6px; cursor: pointer;">
                     <input type="radio"
-                           name="mxchat_page_visibility"
+                           name="knittnet_page_visibility"
                            value=""
                            <?php checked($visibility, ''); ?>
                            style="margin-right: 8px;" />
-                    <?php _e('Use Global Setting', 'mxchat'); ?>
+                    <?php _e('Use Global Setting', 'knittnet'); ?>
                 </label>
 
                 <label style="display: flex; align-items: center; margin-bottom: 6px; cursor: pointer;">
                     <input type="radio"
-                           name="mxchat_page_visibility"
+                           name="knittnet_page_visibility"
                            value="show"
                            <?php checked($visibility, 'show'); ?>
                            style="margin-right: 8px;" />
-                    <?php _e('Show Chatbot on this page', 'mxchat'); ?>
+                    <?php _e('Show Chatbot on this page', 'knittnet'); ?>
                 </label>
 
                 <label style="display: flex; align-items: center; cursor: pointer;">
                     <input type="radio"
-                           name="mxchat_page_visibility"
+                           name="knittnet_page_visibility"
                            value="hide"
                            <?php checked($visibility, 'hide'); ?>
                            style="margin-right: 8px;" />
-                    <?php _e('Hide Chatbot on this page', 'mxchat'); ?>
+                    <?php _e('Hide Chatbot on this page', 'knittnet'); ?>
                 </label>
 
                 <div style="margin-top: 8px; padding: 8px; background: #f8f9fa; border-left: 3px solid #007cba; font-size: 12px;">
                     <?php if ($global_autoshow) : ?>
                         <p style="margin: 0 0 5px 0; color: #0073aa;">
-                            <strong><?php _e('Global Auto-Show: ON', 'mxchat'); ?></strong>
+                            <strong><?php _e('Global Auto-Show: ON', 'knittnet'); ?></strong>
                         </p>
                         <p style="margin: 0; color: #666;">
-                            <?php _e('The chatbot appears on all pages by default. Use "Hide" to exclude this page, or "Show" to override post type restrictions.', 'mxchat'); ?>
+                            <?php _e('The chatbot appears on all pages by default. Use "Hide" to exclude this page, or "Show" to override post type restrictions.', 'knittnet'); ?>
                         </p>
                     <?php else : ?>
                         <p style="margin: 0 0 5px 0; color: #d63638;">
-                            <strong><?php _e('Global Auto-Show: OFF', 'mxchat'); ?></strong>
+                            <strong><?php _e('Global Auto-Show: OFF', 'knittnet'); ?></strong>
                         </p>
                         <p style="margin: 0; color: #666;">
-                            <?php _e('The chatbot is hidden by default. Select "Show" to display it on this page without needing a shortcode.', 'mxchat'); ?>
+                            <?php _e('The chatbot is hidden by default. Select "Show" to display it on this page without needing a shortcode.', 'knittnet'); ?>
                         </p>
                     <?php endif; ?>
                 </div>
@@ -192,10 +192,10 @@ class MxChat_Meta_Box {
             <?php if ($has_multibot && count($available_bots) > 1) : ?>
                 <div style="margin-bottom: 15px;">
                     <label style="display: block; margin-bottom: 5px; font-weight: 600;">
-                        <?php _e('Select Bot for this Page:', 'mxchat'); ?>
+                        <?php _e('Select Bot for this Page:', 'knittnet'); ?>
                     </label>
-                    <select name="mxchat_selected_bot" style="width: 100%;">
-                        <option value=""><?php _e('Use Default Bot', 'mxchat'); ?></option>
+                    <select name="knittnet_selected_bot" style="width: 100%;">
+                        <option value=""><?php _e('Use Default Bot', 'knittnet'); ?></option>
                         <?php foreach ($available_bots as $bot_id => $bot_name) : ?>
                             <option value="<?php echo esc_attr($bot_id); ?>" <?php selected($selected_bot, $bot_id); ?>>
                                 <?php echo esc_html($bot_name); ?>
@@ -203,7 +203,7 @@ class MxChat_Meta_Box {
                         <?php endforeach; ?>
                     </select>
                     <p style="font-size: 12px; color: #666; margin-top: 5px; font-style: italic;">
-                        <?php _e('Only applies when visibility is set to "Show" or "Use Global Setting" with auto-show enabled.', 'mxchat'); ?>
+                        <?php _e('Only applies when visibility is set to "Show" or "Use Global Setting" with auto-show enabled.', 'knittnet'); ?>
                     </p>
                 </div>
             <?php endif; ?>
@@ -211,19 +211,19 @@ class MxChat_Meta_Box {
             <!-- Preview Notice -->
             <div style="margin-top: 15px; padding: 8px; background: #fff3cd; border-left: 3px solid #ffc107; font-size: 12px;">
                 <p style="margin: 0; color: #856404;">
-                    <strong><?php _e('Important:', 'mxchat'); ?></strong>
-                    <?php _e('Changes only take effect after saving/updating the page.', 'mxchat'); ?>
+                    <strong><?php _e('Important:', 'knittnet'); ?></strong>
+                    <?php _e('Changes only take effect after saving/updating the page.', 'knittnet'); ?>
                 </p>
             </div>
 
             <!-- Shortcode Examples -->
             <div style="margin-top: 10px; padding: 8px; background: #e7f3ff; border-left: 3px solid #2196f3; font-size: 12px;">
                 <p style="margin: 0 0 5px 0; color: #1565c0;">
-                    <strong><?php _e('Shortcode Examples:', 'mxchat'); ?></strong>
+                    <strong><?php _e('Shortcode Examples:', 'knittnet'); ?></strong>
                 </p>
                 <p style="margin: 0; color: #666; font-family: monospace;">
-                    <?php _e('[mxchat_chatbot floating="yes"] - Floating chatbot', 'mxchat'); ?><br>
-                    <?php _e('[mxchat_chatbot floating="no"] - Embedded chatbot', 'mxchat'); ?>
+                    <?php _e('[knittnet_chatbot floating="yes"] - Floating chatbot', 'knittnet'); ?><br>
+                    <?php _e('[knittnet_chatbot floating="no"] - Embedded chatbot', 'knittnet'); ?>
                 </p>
             </div>
         </div>
@@ -234,8 +234,8 @@ class MxChat_Meta_Box {
      * Save meta box data
      */
     public function save_chatbot_meta_box($post_id) {
-        if (!isset($_POST['mxchat_meta_box_nonce']) ||
-            !wp_verify_nonce($_POST['mxchat_meta_box_nonce'], 'mxchat_meta_box_nonce')) {
+        if (!isset($_POST['knittnet_meta_box_nonce']) ||
+            !wp_verify_nonce($_POST['knittnet_meta_box_nonce'], 'knittnet_meta_box_nonce')) {
             return;
         }
 
@@ -248,28 +248,28 @@ class MxChat_Meta_Box {
         }
 
         // Save new visibility field
-        $visibility = isset($_POST['mxchat_page_visibility']) ? sanitize_text_field($_POST['mxchat_page_visibility']) : '';
+        $visibility = isset($_POST['knittnet_page_visibility']) ? sanitize_text_field($_POST['knittnet_page_visibility']) : '';
 
         if (in_array($visibility, array('show', 'hide'), true)) {
-            update_post_meta($post_id, '_mxchat_page_visibility', $visibility);
+            update_post_meta($post_id, '_knittnet_page_visibility', $visibility);
         } else {
-            delete_post_meta($post_id, '_mxchat_page_visibility');
+            delete_post_meta($post_id, '_knittnet_page_visibility');
         }
 
         // Sync legacy field for backward compat with any external code
         if ($visibility === 'hide') {
-            update_post_meta($post_id, '_mxchat_hide_chatbot', '1');
+            update_post_meta($post_id, '_knittnet_hide_chatbot', '1');
         } else {
-            delete_post_meta($post_id, '_mxchat_hide_chatbot');
+            delete_post_meta($post_id, '_knittnet_hide_chatbot');
         }
 
         // Save selected bot setting
-        if (isset($_POST['mxchat_selected_bot'])) {
-            $selected_bot = sanitize_text_field($_POST['mxchat_selected_bot']);
+        if (isset($_POST['knittnet_selected_bot'])) {
+            $selected_bot = sanitize_text_field($_POST['knittnet_selected_bot']);
             if (!empty($selected_bot)) {
-                update_post_meta($post_id, '_mxchat_selected_bot', $selected_bot);
+                update_post_meta($post_id, '_knittnet_selected_bot', $selected_bot);
             } else {
-                delete_post_meta($post_id, '_mxchat_selected_bot');
+                delete_post_meta($post_id, '_knittnet_selected_bot');
             }
         }
     }
@@ -280,11 +280,11 @@ class MxChat_Meta_Box {
     public function enqueue_gutenberg_assets() {
         $available_bots = $this->get_available_bots();
         $global_autoshow = $this->is_global_autoshow_enabled();
-        $has_multibot = class_exists('MxChat_Multi_Bot_Manager');
+        $has_multibot = class_exists('KnittNet_Multi_Bot_Manager');
 
         // Enqueue the JavaScript file
         wp_enqueue_script(
-            'mxchat-meta-box',
+            'knittnet-meta-box',
             plugin_dir_url(__FILE__) . '../js/meta-box.js',
             array('wp-edit-post', 'wp-element', 'wp-components', 'wp-data', 'wp-plugins'),
             '1.0.0',
@@ -292,20 +292,20 @@ class MxChat_Meta_Box {
         );
 
         // Localize script with data
-        wp_localize_script('mxchat-meta-box', 'mxchatMetaBox', array(
+        wp_localize_script('knittnet-meta-box', 'knittnetMetaBox', array(
             'availableBots' => $available_bots,
             'globalAutoshow' => $global_autoshow,
             'hasMultibot' => $has_multibot,
             'strings' => array(
-                'panelTitle' => __('MxChat Settings', 'mxchat'),
-                'visibilityLabel' => __('Chatbot Visibility', 'mxchat'),
-                'useGlobalSetting' => __('Use Global Setting', 'mxchat'),
-                'showChatbot' => __('Show Chatbot on this page', 'mxchat'),
-                'hideChatbot' => __('Hide Chatbot on this page', 'mxchat'),
-                'selectBot' => __('Select Bot for this Page', 'mxchat'),
-                'useDefaultBot' => __('Use Default Bot', 'mxchat'),
-                'globalAutoshowOn' => __('Global Auto-Show is ON. The chatbot appears on all pages by default. Use "Hide" to exclude this page.', 'mxchat'),
-                'globalAutoshowOff' => __('Global Auto-Show is OFF. Select "Show" to display the chatbot on this page without needing a shortcode.', 'mxchat')
+                'panelTitle' => __('KnittNet Settings', 'knittnet'),
+                'visibilityLabel' => __('Chatbot Visibility', 'knittnet'),
+                'useGlobalSetting' => __('Use Global Setting', 'knittnet'),
+                'showChatbot' => __('Show Chatbot on this page', 'knittnet'),
+                'hideChatbot' => __('Hide Chatbot on this page', 'knittnet'),
+                'selectBot' => __('Select Bot for this Page', 'knittnet'),
+                'useDefaultBot' => __('Use Default Bot', 'knittnet'),
+                'globalAutoshowOn' => __('Global Auto-Show is ON. The chatbot appears on all pages by default. Use "Hide" to exclude this page.', 'knittnet'),
+                'globalAutoshowOff' => __('Global Auto-Show is OFF. Select "Show" to display the chatbot on this page without needing a shortcode.', 'knittnet')
             )
         ));
     }
@@ -324,28 +324,28 @@ class MxChat_Meta_Box {
         }
 
         // Check new visibility field first
-        $visibility = get_post_meta($post_id, '_mxchat_page_visibility', true);
+        $visibility = get_post_meta($post_id, '_knittnet_page_visibility', true);
 
         if ($visibility === 'hide') {
             return array('action' => 'hide');
         }
 
         if ($visibility === 'show') {
-            $selected_bot = get_post_meta($post_id, '_mxchat_selected_bot', true);
+            $selected_bot = get_post_meta($post_id, '_knittnet_selected_bot', true);
             $bot_id = !empty($selected_bot) ? $selected_bot : 'default';
             return array('action' => 'show', 'bot_id' => $bot_id);
         }
 
         // Backward compat: check legacy hide checkbox if no new field set
         if (empty($visibility)) {
-            $hide_chatbot = get_post_meta($post_id, '_mxchat_hide_chatbot', true);
+            $hide_chatbot = get_post_meta($post_id, '_knittnet_hide_chatbot', true);
             if ($hide_chatbot === '1') {
                 return array('action' => 'hide');
             }
         }
 
         // Check if specific bot is selected (legacy path)
-        $selected_bot = get_post_meta($post_id, '_mxchat_selected_bot', true);
+        $selected_bot = get_post_meta($post_id, '_knittnet_selected_bot', true);
         if (!empty($selected_bot)) {
             return array('action' => 'show', 'bot_id' => $selected_bot);
         }
