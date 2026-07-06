@@ -7610,13 +7610,13 @@ public function enable_streaming_toggle_callback() {
     echo '<span class="slider"></span>';
     echo '</label>';
 
-    // Test button — branded .mxch-btn with inline SVG (IDs preserved for AJAX binding)
-    echo '<div class="mxch-streaming-test-row">';
-    echo '<button type="button" id="knittnet-test-streaming-btn" class="mxch-btn mxch-btn-secondary">';
-    echo '<svg class="mxch-streaming-test-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>';
+    // Test button — branded .knet-btn with inline SVG (IDs preserved for AJAX binding)
+    echo '<div class="knet-streaming-test-row">';
+    echo '<button type="button" id="knittnet-test-streaming-btn" class="knet-btn knet-btn-secondary">';
+    echo '<svg class="knet-streaming-test-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>';
     echo esc_html__('Test Streaming Compatibility', 'knittnet');
     echo '</button>';
-    echo '<p id="knittnet-test-streaming-result" class="mxch-streaming-test-result"></p>';
+    echo '<p id="knittnet-test-streaming-result" class="knet-streaming-test-result"></p>';
     echo '</div>';
 }
 
@@ -8812,7 +8812,7 @@ public function knittnet_max_input_length_callback() {
                step="1"
                value="%s"
                placeholder="0"
-               class="mxch-input mxch-input-sm" />',
+               class="knet-input knet-input-sm" />',
         esc_attr($max_input_length)
     );
 }
@@ -8924,7 +8924,7 @@ private function enqueue_page_specific_assets($current_page, $plugin_url, $versi
             wp_enqueue_script('knittnet-knowledge-processing', $plugin_url . 'js/knowledge-processing.js', array('jquery', 'common'), $version, true);
             // Per-entry "View indexed content" inspector (plan-d8cb4b) reuses the
             // Testing tab's match-card / chunk-detail components, which are scoped
-            // under .mxch-testing-results. Load that stylesheet here so the inspector
+            // under .knet-testing-results. Load that stylesheet here so the inspector
             // modal renders identically to the Testing tab.
             wp_enqueue_style('knittnet-admin-testing-css', $plugin_url . 'css/admin-testing-tab.css', array('knittnet-admin-sidebar-css'), $version);
             break;
@@ -8946,7 +8946,7 @@ private function enqueue_page_specific_assets($current_page, $plugin_url, $versi
 
             // Localize script data for actions page
             $is_activated = get_option('knittnet_pro_license_status') === 'active';
-            wp_localize_script('knittnet-actions-js', 'mxchActionsData', array(
+            wp_localize_script('knittnet-actions-js', 'knetActionsData', array(
                 'ajaxUrl' => admin_url('admin-ajax.php'),
                 'nonce' => wp_create_nonce('knittnet_actions_nonce'),
                 'addNonce' => wp_create_nonce('knittnet_add_intent_nonce'),

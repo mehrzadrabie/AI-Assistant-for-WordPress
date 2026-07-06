@@ -17,18 +17,18 @@
     // ==========================================================================
     function showSection(targetId) {
         // Hide all sections
-        $('.mxch-section').removeClass('active');
+        $('.knet-section').removeClass('active');
 
         // Show target section
         $('#' + targetId).addClass('active');
 
         // Update sidebar nav active states
-        $('.mxch-nav-link, .mxch-addon-nav-link').removeClass('active');
+        $('.knet-nav-link, .knet-addon-nav-link').removeClass('active');
         $('[data-target="' + targetId + '"]').addClass('active');
 
         // Update mobile nav active states
-        $('.mxch-mobile-nav-link').removeClass('active');
-        $('.mxch-mobile-nav-link[data-target="' + targetId + '"]').addClass('active');
+        $('.knet-mobile-nav-link').removeClass('active');
+        $('.knet-mobile-nav-link[data-target="' + targetId + '"]').addClass('active');
 
         // Close mobile menu if open
         closeMobileMenu();
@@ -39,22 +39,22 @@
         }
 
         // Scroll to top of content
-        $('.mxch-content').scrollTop(0);
+        $('.knet-content').scrollTop(0);
     }
 
     // ==========================================================================
     // Mobile Menu
     // ==========================================================================
     function openMobileMenu() {
-        $('.mxch-mobile-menu').addClass('open');
-        $('.mxch-mobile-overlay').addClass('open');
-        $('body').addClass('mxch-mobile-menu-open');
+        $('.knet-mobile-menu').addClass('open');
+        $('.knet-mobile-overlay').addClass('open');
+        $('body').addClass('knet-mobile-menu-open');
     }
 
     function closeMobileMenu() {
-        $('.mxch-mobile-menu').removeClass('open');
-        $('.mxch-mobile-overlay').removeClass('open');
-        $('body').removeClass('mxch-mobile-menu-open');
+        $('.knet-mobile-menu').removeClass('open');
+        $('.knet-mobile-overlay').removeClass('open');
+        $('body').removeClass('knet-mobile-menu-open');
     }
 
     // ==========================================================================
@@ -63,13 +63,13 @@
     function showMobileDetailPanel(targetId) {
         if (isMobile()) {
             $('#' + targetId).addClass('mobile-active');
-            $('body').addClass('mxch-mobile-panel-open');
+            $('body').addClass('knet-mobile-panel-open');
         }
     }
 
     function hideMobileDetailPanel() {
-        $('.mxch-addon-detail').removeClass('mobile-active');
-        $('body').removeClass('mxch-mobile-panel-open');
+        $('.knet-addon-detail').removeClass('mobile-active');
+        $('body').removeClass('knet-mobile-panel-open');
     }
 
     // ==========================================================================
@@ -96,7 +96,7 @@
     // ==========================================================================
     $(document).ready(function() {
         // Sidebar navigation clicks
-        $(document).on('click', '.mxch-nav-link[data-target], .mxch-addon-nav-link[data-target]', function(e) {
+        $(document).on('click', '.knet-nav-link[data-target], .knet-addon-nav-link[data-target]', function(e) {
             e.preventDefault();
             var target = $(this).data('target');
             if (target) {
@@ -105,7 +105,7 @@
         });
 
         // Extension card clicks (overview grid)
-        $(document).on('click', '.mxch-extension-card', function(e) {
+        $(document).on('click', '.knet-extension-card', function(e) {
             // Don't trigger if clicking on a button inside
             if ($(e.target).closest('button, a').length) {
                 return;
@@ -117,7 +117,7 @@
         });
 
         // View addon button clicks
-        $(document).on('click', '.mxch-view-addon-btn', function(e) {
+        $(document).on('click', '.knet-view-addon-btn', function(e) {
             e.preventDefault();
             e.stopPropagation();
             var target = $(this).data('target');
@@ -126,8 +126,8 @@
             }
         });
 
-        // Back button clicks (supports both .mxch-back-btn and .mxch-back-link)
-        $(document).on('click', '.mxch-back-btn, .mxch-back-link', function(e) {
+        // Back button clicks (supports both .knet-back-btn and .knet-back-link)
+        $(document).on('click', '.knet-back-btn, .knet-back-link', function(e) {
             e.preventDefault();
             var target = $(this).data('target') || 'overview';
             hideMobileDetailPanel();
@@ -135,19 +135,19 @@
         });
 
         // Mobile menu toggle
-        $(document).on('click', '.mxch-mobile-menu-btn', function(e) {
+        $(document).on('click', '.knet-mobile-menu-btn', function(e) {
             e.preventDefault();
             openMobileMenu();
         });
 
         // Mobile menu close
-        $(document).on('click', '.mxch-mobile-menu-close, .mxch-mobile-overlay', function(e) {
+        $(document).on('click', '.knet-mobile-menu-close, .knet-mobile-overlay', function(e) {
             e.preventDefault();
             closeMobileMenu();
         });
 
         // Mobile nav link clicks
-        $(document).on('click', '.mxch-mobile-nav-link', function(e) {
+        $(document).on('click', '.knet-mobile-nav-link', function(e) {
             e.preventDefault();
             var target = $(this).data('target');
             if (target) {
@@ -159,7 +159,7 @@
         // activation-script.js - do not add duplicate handlers here.
 
         // Activate license button in sidebar (when inactive)
-        $(document).on('click', '.mxch-activate-license-btn', function(e) {
+        $(document).on('click', '.knet-activate-license-btn', function(e) {
             e.preventDefault();
             showSection('overview');
             // Focus on email field after section loads

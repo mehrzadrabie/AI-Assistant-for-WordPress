@@ -60,11 +60,11 @@
         bindActionButtons: function() {
             var self = this;
 
-            $('#mxch-testing-clear-session').on('click', function() {
+            $('#knet-testing-clear-session').on('click', function() {
                 self.clearChatSession();
             });
 
-            $('#mxch-testing-clear-debug').on('click', function() {
+            $('#knet-testing-clear-debug').on('click', function() {
                 self.clearDebugConsole();
             });
         },
@@ -238,15 +238,15 @@
         // =====================================================
 
         updateLastQuery: function(query) {
-            $('#mxch-testing-last-query').text(query);
+            $('#knet-testing-last-query').text(query);
             this.lastQueryData = { query: query, timestamp: new Date() };
         },
 
         updateApprovedUrls: function(approvedUrls) {
-            var el = $('#mxch-testing-approved-urls');
+            var el = $('#knet-testing-approved-urls');
 
             if (!approvedUrls || !Array.isArray(approvedUrls) || approvedUrls.length === 0) {
-                el.html('<div class="mxch-testing-no-data">No approved URLs (AI cannot cite links)</div>');
+                el.html('<div class="knet-testing-no-data">No approved URLs (AI cannot cite links)</div>');
                 return;
             }
 
@@ -270,10 +270,10 @@
         },
 
         updateActionMatches: function(actionMatches) {
-            var el = $('#mxch-testing-action-scores');
+            var el = $('#knet-testing-action-scores');
 
             if (!actionMatches || actionMatches.length === 0) {
-                el.html('<div class="mxch-testing-no-data">No actions checked</div>');
+                el.html('<div class="knet-testing-no-data">No actions checked</div>');
                 return;
             }
 
@@ -312,10 +312,10 @@
         },
 
         updateTopMatches: function(topMatches, threshold, sourcesUsed, totalChunksUsed) {
-            var el = $('#mxch-testing-similarity-scores');
+            var el = $('#knet-testing-similarity-scores');
 
             if (!topMatches || topMatches.length === 0) {
-                el.html('<div class="mxch-testing-no-data">No similarity data available</div>');
+                el.html('<div class="knet-testing-no-data">No similarity data available</div>');
                 return;
             }
 
@@ -446,18 +446,18 @@
                 nonce: knittnetAdminTestData.nonce
             }).done(function(data) {
                 if (data.success) {
-                    $('#mxch-testing-threshold').html('<code>' + data.data.threshold_percentage + '</code>');
+                    $('#knet-testing-threshold').html('<code>' + data.data.threshold_percentage + '</code>');
                 } else {
-                    $('#mxch-testing-threshold').html('<span class="error-text">Error loading threshold</span>');
+                    $('#knet-testing-threshold').html('<span class="error-text">Error loading threshold</span>');
                 }
             }).fail(function() {
-                $('#mxch-testing-threshold').html('<span class="error-text">Connection error</span>');
+                $('#knet-testing-threshold').html('<span class="error-text">Connection error</span>');
             });
         },
 
         updateSystemPrompt: function() {
             var self = this;
-            var el = $('#mxch-testing-system-prompt');
+            var el = $('#knet-testing-system-prompt');
             el.text('Loading system prompt...');
 
             $.post(knittnetAdminTestData.ajaxUrl, {
@@ -487,7 +487,7 @@
         },
 
         updateKnowledgeBaseStatus: function() {
-            var el = $('#mxch-testing-kb-status');
+            var el = $('#knet-testing-kb-status');
             el.html('Checking...');
 
             $.post(knittnetAdminTestData.ajaxUrl, {
@@ -595,27 +595,27 @@
         // =====================================================
 
         log: function(message) {
-            var consoleEl = document.getElementById('mxch-testing-debug-console');
+            var consoleEl = document.getElementById('knet-testing-debug-console');
             if (!consoleEl) return;
 
             var timestamp = new Date().toLocaleTimeString();
             var entry = document.createElement('div');
-            entry.className = 'mxch-testing-debug-entry';
-            entry.innerHTML = '<span class="mxch-testing-debug-timestamp">[' + timestamp + ']</span> ' + message;
+            entry.className = 'knet-testing-debug-entry';
+            entry.innerHTML = '<span class="knet-testing-debug-timestamp">[' + timestamp + ']</span> ' + message;
             consoleEl.appendChild(entry);
             consoleEl.scrollTop = consoleEl.scrollHeight;
 
             // Keep only last 50 entries
-            var entries = consoleEl.querySelectorAll('.mxch-testing-debug-entry');
+            var entries = consoleEl.querySelectorAll('.knet-testing-debug-entry');
             if (entries.length > 50) {
                 entries[0].remove();
             }
         },
 
         clearDebugConsole: function() {
-            var consoleEl = document.getElementById('mxch-testing-debug-console');
+            var consoleEl = document.getElementById('knet-testing-debug-console');
             if (consoleEl) {
-                consoleEl.innerHTML = '<div class="mxch-testing-debug-entry">Debug console cleared...</div>';
+                consoleEl.innerHTML = '<div class="knet-testing-debug-entry">Debug console cleared...</div>';
             }
         },
 

@@ -6,37 +6,37 @@
 /* ==========================================================================
    Override parent content padding for split panel view
    ========================================================================== */
-.mxch-content:has(#all-actions.mxch-section.active),
-.mxch-content:has(#ai-tools.mxch-section.active) {
+.knet-content:has(#all-actions.knet-section.active),
+.knet-content:has(#ai-tools.knet-section.active) {
     padding: 0 !important;
     overflow: hidden;
 }
 
-#all-actions.mxch-section,
-#ai-tools.mxch-section {
+#all-actions.knet-section,
+#ai-tools.knet-section {
     padding: 0;
     margin: 0;
     height: calc(100vh - 32px); /* Account for WP admin bar */
     overflow: hidden;
 }
 
-/* AI Tools keeps an extra #mxch-fc-settings wrapper (autosave nonce + JS target),
+/* AI Tools keeps an extra #knet-fc-settings wrapper (autosave nonce + JS target),
    so unlike #all-actions its split panel is NOT a direct child of the section.
    Make the wrapper a layout-neutral full-height flex column so the split panel sits
    edge-to-edge identical to Trigger Phrases (plan 183856). A model-not-capable or
    Brave-key notice, when present, stacks above (with a small inset so it isn't flush
    to the viewport edge) and the split panel flexes to fill the remaining height. */
-#mxch-fc-settings {
+#knet-fc-settings {
     display: flex;
     flex-direction: column;
     height: 100%;
     overflow: hidden;
 }
-#mxch-fc-settings > .mxch-split-panel {
+#knet-fc-settings > .knet-split-panel {
     flex: 1 1 auto;
     min-height: 0;
 }
-#mxch-fc-settings > .mxch-notice {
+#knet-fc-settings > .knet-notice {
     margin-top: 16px;
     margin-left: 16px;
     margin-right: 16px;
@@ -44,219 +44,219 @@
 
 /* Fixed-viewport content for the split-panel tabs (All Actions + AI Tools — their
    inner list + detail panels scroll independently). The Dashboard tab keeps the
-   shared scrollable .mxch-content from admin-sidebar.css (flex:1 + overflow-y:auto)
+   shared scrollable .knet-content from admin-sidebar.css (flex:1 + overflow-y:auto)
    so it scrolls normally on desktop AND mobile — previously this rule was unscoped
    and forced overflow:hidden on every tab, clipping tall content with no scroll
    (worst on mobile). plan a41dee fix; AI Tools added for full-bleed parity (plan 183856). */
-.mxch-actions-wrapper .mxch-content:has(#all-actions.mxch-section.active),
-.mxch-actions-wrapper .mxch-content:has(#ai-tools.mxch-section.active) {
+.knet-actions-wrapper .knet-content:has(#all-actions.knet-section.active),
+.knet-actions-wrapper .knet-content:has(#ai-tools.knet-section.active) {
     height: calc(100vh - 32px);
     overflow: hidden;
 }
 
-.mxch-actions-wrapper {
+.knet-actions-wrapper {
     height: calc(100vh - 32px);
 }
 
 /* ==========================================================================
    Stats Grid
    ========================================================================== */
-.mxch-stats-grid {
+.knet-stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--mxch-spacing-lg);
-    margin-bottom: var(--mxch-spacing-xl);
+    gap: var(--knet-spacing-lg);
+    margin-bottom: var(--knet-spacing-xl);
 }
 
-.mxch-stat-card {
-    background: var(--mxch-card-bg);
-    border: 1px solid var(--mxch-card-border);
-    border-radius: var(--mxch-radius-lg);
-    padding: var(--mxch-spacing-lg);
+.knet-stat-card {
+    background: var(--knet-card-bg);
+    border: 1px solid var(--knet-card-border);
+    border-radius: var(--knet-radius-lg);
+    padding: var(--knet-spacing-lg);
     display: flex;
     align-items: center;
-    gap: var(--mxch-spacing-md);
-    transition: all var(--mxch-transition);
+    gap: var(--knet-spacing-md);
+    transition: all var(--knet-transition);
 }
 
-.mxch-stat-card:hover {
-    box-shadow: var(--mxch-card-shadow-hover);
+.knet-stat-card:hover {
+    box-shadow: var(--knet-card-shadow-hover);
     transform: translateY(-2px);
 }
 
-.mxch-stat-icon {
+.knet-stat-icon {
     width: 48px;
     height: 48px;
-    border-radius: var(--mxch-radius-md);
+    border-radius: var(--knet-radius-md);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
 }
 
-.mxch-stat-icon svg {
+.knet-stat-icon svg {
     width: 24px;
     height: 24px;
 }
 
-.mxch-stat-icon-primary {
+.knet-stat-icon-primary {
     background: rgba(120, 115, 245, 0.1);
-    color: var(--mxch-primary);
+    color: var(--knet-primary);
 }
 
-.mxch-stat-icon-success {
+.knet-stat-icon-success {
     background: rgba(16, 185, 129, 0.1);
-    color: var(--mxch-success);
+    color: var(--knet-success);
 }
 
-.mxch-stat-icon-info {
+.knet-stat-icon-info {
     background: rgba(59, 130, 246, 0.1);
-    color: var(--mxch-info);
+    color: var(--knet-info);
 }
 
-.mxch-stat-icon-warning {
+.knet-stat-icon-warning {
     background: rgba(245, 158, 11, 0.1);
-    color: var(--mxch-warning);
+    color: var(--knet-warning);
 }
 
-.mxch-stat-content {
+.knet-stat-content {
     display: flex;
     flex-direction: column;
 }
 
-.mxch-stat-value {
+.knet-stat-value {
     font-size: 28px;
     font-weight: 700;
-    color: var(--mxch-text-primary);
+    color: var(--knet-text-primary);
     line-height: 1.2;
 }
 
-.mxch-stat-label {
+.knet-stat-label {
     font-size: 13px;
-    color: var(--mxch-text-secondary);
+    color: var(--knet-text-secondary);
     margin-top: 2px;
 }
 
 /* ==========================================================================
    Quick Actions
    ========================================================================== */
-.mxch-quick-actions {
+.knet-quick-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--mxch-spacing-md);
+    gap: var(--knet-spacing-md);
 }
 
-.mxch-quick-action-btn {
+.knet-quick-action-btn {
     display: flex;
     align-items: center;
-    gap: var(--mxch-spacing-sm);
-    padding: var(--mxch-spacing-md) var(--mxch-spacing-lg);
+    gap: var(--knet-spacing-sm);
+    padding: var(--knet-spacing-md) var(--knet-spacing-lg);
     background: #f8fafc;
-    border: 1px solid var(--mxch-card-border);
-    border-radius: var(--mxch-radius-md);
-    color: var(--mxch-text-primary);
+    border: 1px solid var(--knet-card-border);
+    border-radius: var(--knet-radius-md);
+    color: var(--knet-text-primary);
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
-    transition: all var(--mxch-transition-fast);
+    transition: all var(--knet-transition-fast);
 }
 
-.mxch-quick-action-btn:hover {
-    background: var(--mxch-primary);
-    border-color: var(--mxch-primary);
+.knet-quick-action-btn:hover {
+    background: var(--knet-primary);
+    border-color: var(--knet-primary);
     color: white;
 }
 
-.mxch-quick-action-btn svg {
+.knet-quick-action-btn svg {
     flex-shrink: 0;
 }
 
 /* ==========================================================================
    Info Section - What are Actions
    ========================================================================== */
-.mxch-info-section {
-    background: var(--mxch-card-bg);
-    border: 1px solid var(--mxch-card-border);
-    border-radius: var(--mxch-radius-lg);
-    padding: var(--mxch-spacing-lg);
-    margin-top: var(--mxch-spacing-lg);
+.knet-info-section {
+    background: var(--knet-card-bg);
+    border: 1px solid var(--knet-card-border);
+    border-radius: var(--knet-radius-lg);
+    padding: var(--knet-spacing-lg);
+    margin-top: var(--knet-spacing-lg);
 }
 
-.mxch-info-section-header {
+.knet-info-section-header {
     display: flex;
     align-items: center;
-    gap: var(--mxch-spacing-sm);
-    margin-bottom: var(--mxch-spacing-md);
+    gap: var(--knet-spacing-sm);
+    margin-bottom: var(--knet-spacing-md);
 }
 
-.mxch-info-section-icon {
+.knet-info-section-icon {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 40px;
     height: 40px;
-    background: var(--mxch-primary);
+    background: var(--knet-primary);
     border-radius: 10px;
     color: white;
     flex-shrink: 0;
 }
 
-.mxch-info-section-title {
+.knet-info-section-title {
     font-size: 18px;
     font-weight: 600;
-    color: var(--mxch-text-primary);
+    color: var(--knet-text-primary);
     margin: 0;
 }
 
-.mxch-info-section-desc {
+.knet-info-section-desc {
     font-size: 14px;
     line-height: 1.7;
-    color: var(--mxch-text-secondary);
-    margin: 0 0 var(--mxch-spacing-lg) 0;
+    color: var(--knet-text-secondary);
+    margin: 0 0 var(--knet-spacing-lg) 0;
 }
 
-.mxch-info-features {
+.knet-info-features {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: var(--mxch-spacing-md);
+    gap: var(--knet-spacing-md);
 }
 
-.mxch-info-feature {
+.knet-info-feature {
     display: flex;
-    gap: var(--mxch-spacing-sm);
-    padding: var(--mxch-spacing-md);
+    gap: var(--knet-spacing-sm);
+    padding: var(--knet-spacing-md);
     background: #f9fafb;
-    border: 1px solid var(--mxch-card-border);
-    border-radius: var(--mxch-radius-md);
+    border: 1px solid var(--knet-card-border);
+    border-radius: var(--knet-radius-md);
 }
 
-.mxch-info-feature-icon {
+.knet-info-feature-icon {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 36px;
     height: 36px;
-    background: var(--mxch-primary);
+    background: var(--knet-primary);
     border-radius: 8px;
     color: white;
     flex-shrink: 0;
 }
 
-.mxch-info-feature-content {
+.knet-info-feature-content {
     display: flex;
     flex-direction: column;
     gap: 2px;
 }
 
-.mxch-info-feature-title {
+.knet-info-feature-title {
     font-size: 14px;
     font-weight: 600;
-    color: var(--mxch-text-primary);
+    color: var(--knet-text-primary);
 }
 
-.mxch-info-feature-desc {
+.knet-info-feature-desc {
     font-size: 12px;
-    color: var(--mxch-text-secondary);
+    color: var(--knet-text-secondary);
     line-height: 1.5;
 }
 
@@ -264,65 +264,65 @@
    Actions landing — "two ways to set up" explainer (plan 8bbf98)
    AI Tools (recommended) vs Trigger Phrases, side by side.
    ========================================================================== */
-.mxch-approach-grid {
+.knet-approach-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: var(--mxch-spacing-md);
-    margin-bottom: var(--mxch-spacing-md);
+    gap: var(--knet-spacing-md);
+    margin-bottom: var(--knet-spacing-md);
 }
 
-.mxch-approach-card {
+.knet-approach-card {
     display: flex;
     flex-direction: column;
     background: #f9fafb;
-    border: 1px solid var(--mxch-card-border);
-    border-radius: var(--mxch-radius-md);
-    padding: var(--mxch-spacing-lg);
+    border: 1px solid var(--knet-card-border);
+    border-radius: var(--knet-radius-md);
+    padding: var(--knet-spacing-lg);
 }
 
-.mxch-approach-card-primary {
-    background: var(--mxch-primary-light);
-    border-color: var(--mxch-primary);
+.knet-approach-card-primary {
+    background: var(--knet-primary-light);
+    border-color: var(--knet-primary);
 }
 
-.mxch-approach-card-head {
+.knet-approach-card-head {
     display: flex;
     align-items: center;
-    gap: var(--mxch-spacing-sm);
-    margin-bottom: var(--mxch-spacing-md);
+    gap: var(--knet-spacing-sm);
+    margin-bottom: var(--knet-spacing-md);
 }
 
-.mxch-approach-icon {
+.knet-approach-icon {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 40px;
     height: 40px;
-    background: var(--mxch-primary);
+    background: var(--knet-primary);
     border-radius: 10px;
     color: #fff;
     flex-shrink: 0;
 }
 
-.mxch-approach-icon-muted {
-    background: var(--mxch-text-secondary);
+.knet-approach-icon-muted {
+    background: var(--knet-text-secondary);
 }
 
-.mxch-approach-titles {
+.knet-approach-titles {
     display: flex;
     align-items: center;
-    gap: var(--mxch-spacing-sm);
+    gap: var(--knet-spacing-sm);
     flex-wrap: wrap;
 }
 
-.mxch-approach-title {
+.knet-approach-title {
     font-size: 16px;
     font-weight: 600;
-    color: var(--mxch-text-primary);
+    color: var(--knet-text-primary);
     margin: 0;
 }
 
-.mxch-approach-pill {
+.knet-approach-pill {
     display: inline-flex;
     align-items: center;
     font-size: 11px;
@@ -331,60 +331,60 @@
     letter-spacing: 0.4px;
     padding: 2px 8px;
     border-radius: 999px;
-    background: var(--mxch-primary);
+    background: var(--knet-primary);
     color: #fff;
 }
 
-.mxch-approach-desc {
+.knet-approach-desc {
     font-size: 13px;
     line-height: 1.6;
-    color: var(--mxch-text-secondary);
-    margin: 0 0 var(--mxch-spacing-md) 0;
+    color: var(--knet-text-secondary);
+    margin: 0 0 var(--knet-spacing-md) 0;
     flex: 1 1 auto;
 }
 
-.mxch-approach-btn {
+.knet-approach-btn {
     align-self: flex-start;
 }
 
-.mxch-approach-note {
+.knet-approach-note {
     display: flex;
     align-items: flex-start;
-    gap: var(--mxch-spacing-sm);
-    padding: var(--mxch-spacing-md);
+    gap: var(--knet-spacing-sm);
+    padding: var(--knet-spacing-md);
     background: #f9fafb;
-    border: 1px dashed var(--mxch-card-border);
-    border-radius: var(--mxch-radius-md);
+    border: 1px dashed var(--knet-card-border);
+    border-radius: var(--knet-radius-md);
     font-size: 13px;
     line-height: 1.6;
-    color: var(--mxch-text-secondary);
+    color: var(--knet-text-secondary);
 }
 
-.mxch-approach-note svg {
+.knet-approach-note svg {
     flex-shrink: 0;
-    color: var(--mxch-primary);
+    color: var(--knet-primary);
     margin-top: 1px;
 }
 
-.mxch-approach-note strong {
-    color: var(--mxch-text-primary);
+.knet-approach-note strong {
+    color: var(--knet-text-primary);
 }
 
 /* ==========================================================================
    Empty Text
    ========================================================================== */
-.mxch-empty-text {
+.knet-empty-text {
     font-size: 13px;
-    color: var(--mxch-text-secondary);
+    color: var(--knet-text-secondary);
     text-align: center;
-    padding: var(--mxch-spacing-md);
+    padding: var(--knet-spacing-md);
     margin: 0;
     background: rgba(120, 115, 245, 0.1);
     padding: 2px 10px;
     border-radius: 12px;
 }
 
-.mxch-empty-text {
+.knet-empty-text {
     color: #9ca3af;
     font-size: 13px;
     text-align: center;
@@ -394,7 +394,7 @@
 /* ==========================================================================
    Split Panel Layout - Action List + Editor
    ========================================================================== */
-.mxch-split-panel {
+.knet-split-panel {
     display: flex;
     height: 100%;
     background: #fff;
@@ -404,7 +404,7 @@
 }
 
 /* Left Panel - Action List */
-.mxch-action-list-panel {
+.knet-action-list-panel {
     width: 360px;
     min-width: 300px;
     max-width: 440px;
@@ -417,7 +417,7 @@
 }
 
 /* Bulk Actions Toolbar */
-.mxch-bulk-toolbar {
+.knet-bulk-toolbar {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -426,7 +426,7 @@
     border-bottom: 1px solid #e5e7eb;
 }
 
-.mxch-bulk-select-all {
+.knet-bulk-select-all {
     display: flex;
     align-items: center;
     gap: 6px;
@@ -435,21 +435,21 @@
     cursor: pointer;
 }
 
-.mxch-bulk-select-all input[type="checkbox"] {
+.knet-bulk-select-all input[type="checkbox"] {
     width: 16px;
     height: 16px;
     cursor: pointer;
     accent-color: #3b82f6;
 }
 
-.mxch-bulk-actions {
+.knet-bulk-actions {
     display: flex;
     align-items: center;
     gap: 4px;
     margin-left: auto;
 }
 
-.mxch-bulk-btn {
+.knet-bulk-btn {
     display: flex;
     align-items: center;
     gap: 4px;
@@ -464,27 +464,27 @@
     transition: all 0.15s;
 }
 
-.mxch-bulk-btn:hover {
+.knet-bulk-btn:hover {
     background: #f3f4f6;
     border-color: #d1d5db;
 }
 
-.mxch-bulk-btn.mxch-bulk-delete {
+.knet-bulk-btn.knet-bulk-delete {
     color: #dc2626;
     border-color: #fecaca;
 }
 
-.mxch-bulk-btn.mxch-bulk-delete:hover {
+.knet-bulk-btn.knet-bulk-delete:hover {
     background: #fef2f2;
     border-color: #fca5a5;
 }
 
-.mxch-bulk-btn:disabled {
+.knet-bulk-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
 
-.mxch-filter-select {
+.knet-filter-select {
     padding: 6px 10px;
     font-size: 12px;
     border: 1px solid #e5e7eb;
@@ -495,7 +495,7 @@
     max-width: 140px;
 }
 
-.mxch-selected-count {
+.knet-selected-count {
     font-size: 11px;
     color: #3b82f6;
     font-weight: 600;
@@ -505,16 +505,16 @@
     display: none;
 }
 
-.mxch-selected-count.has-selection {
+.knet-selected-count.has-selection {
     display: inline-block;
 }
 
-.mxch-panel-header {
+.knet-panel-header {
     padding: 0;
     border-bottom: 1px solid #e5e7eb;
 }
 
-.mxch-panel-title-row {
+.knet-panel-title-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -522,18 +522,18 @@
     border-bottom: 1px solid #f3f4f6;
 }
 
-.mxch-panel-count {
+.knet-panel-count {
     font-size: 12px;
     font-weight: 600;
     color: #374151;
 }
 
-.mxch-panel-actions {
+.knet-panel-actions {
     display: flex;
     gap: 4px;
 }
 
-.mxch-icon-btn {
+.knet-icon-btn {
     width: 32px;
     height: 32px;
     border: none;
@@ -547,17 +547,17 @@
     transition: all 0.15s;
 }
 
-.mxch-icon-btn:hover {
+.knet-icon-btn:hover {
     background: #f3f4f6;
     color: #374151;
 }
 
-.mxch-btn-danger-icon:hover {
+.knet-btn-danger-icon:hover {
     background: #fef2f2;
     color: #dc2626;
 }
 
-.mxch-icon-btn.spinning svg {
+.knet-icon-btn.spinning svg {
     animation: spin 0.5s linear;
 }
 
@@ -567,12 +567,12 @@
 }
 
 /* Search */
-.mxch-search-wrapper {
+.knet-search-wrapper {
     position: relative;
     background: #fff;
 }
 
-.mxch-search-wrapper svg {
+.knet-search-wrapper svg {
     position: absolute;
     left: 12px;
     top: 50%;
@@ -584,7 +584,7 @@
     z-index: 1;
 }
 
-.mxch-search-input {
+.knet-search-input {
     width: 100%;
     padding: 10px 12px 10px 34px;
     border: none;
@@ -595,25 +595,25 @@
     box-sizing: border-box;
 }
 
-.mxch-search-input:focus {
+.knet-search-input:focus {
     outline: none;
     background: #fff;
     box-shadow: none;
 }
 
-.mxch-search-input::placeholder {
+.knet-search-input::placeholder {
     color: #9ca3af;
 }
 
 /* Action List */
-.mxch-action-list {
+.knet-action-list {
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
     min-height: 0; /* Important for flex children to allow scroll */
 }
 
-.mxch-action-item {
+.knet-action-item {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -624,42 +624,42 @@
     position: relative;
 }
 
-.mxch-action-item:hover {
+.knet-action-item:hover {
     background: #f9fafb;
 }
 
-.mxch-action-item.active {
+.knet-action-item.active {
     background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
-    border-left: 3px solid var(--mxch-primary);
+    border-left: 3px solid var(--knet-primary);
     padding-left: 9px;
 }
 
-.mxch-action-item.selected {
+.knet-action-item.selected {
     background: #f5f3ff;
 }
 
-.mxch-action-item.disabled {
+.knet-action-item.disabled {
     opacity: 0.6;
 }
 
 /* Checkbox for action items */
-.mxch-action-checkbox {
+.knet-action-checkbox {
     width: 16px;
     height: 16px;
     flex-shrink: 0;
     cursor: pointer;
-    accent-color: var(--mxch-primary);
+    accent-color: var(--knet-primary);
     opacity: 0;
     transition: opacity 0.15s;
 }
 
-.mxch-action-item:hover .mxch-action-checkbox,
-.mxch-action-item.selected .mxch-action-checkbox,
-.mxch-action-list.selection-mode .mxch-action-checkbox {
+.knet-action-item:hover .knet-action-checkbox,
+.knet-action-item.selected .knet-action-checkbox,
+.knet-action-list.selection-mode .knet-action-checkbox {
     opacity: 1;
 }
 
-.mxch-action-icon {
+.knet-action-icon {
     width: 36px;
     height: 36px;
     border-radius: 8px;
@@ -670,19 +670,19 @@
     flex-shrink: 0;
 }
 
-.mxch-action-icon .dashicons {
-    color: var(--mxch-primary);
+.knet-action-icon .dashicons {
+    color: var(--knet-primary);
     font-size: 18px;
     width: 18px;
     height: 18px;
 }
 
-.mxch-action-info {
+.knet-action-info {
     flex: 1;
     min-width: 0;
 }
 
-.mxch-action-name {
+.knet-action-name {
     font-size: 14px;
     font-weight: 600;
     color: #111827;
@@ -691,7 +691,7 @@
     text-overflow: ellipsis;
 }
 
-.mxch-action-type-label {
+.knet-action-type-label {
     font-size: 12px;
     color: #6b7280;
     white-space: nowrap;
@@ -700,7 +700,7 @@
     margin-top: 2px;
 }
 
-.mxch-action-meta {
+.knet-action-meta {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -708,7 +708,7 @@
     flex-shrink: 0;
 }
 
-.mxch-action-status {
+.knet-action-status {
     display: inline-flex;
     align-items: center;
     padding: 2px 8px;
@@ -718,18 +718,18 @@
     text-transform: uppercase;
 }
 
-.mxch-action-status.enabled {
+.knet-action-status.enabled {
     background: rgba(16, 185, 129, 0.1);
     color: #059669;
 }
 
-.mxch-action-status.disabled {
+.knet-action-status.disabled {
     background: rgba(100, 116, 139, 0.1);
     color: #64748b;
 }
 
-.mxch-list-loading,
-.mxch-list-empty {
+.knet-list-loading,
+.knet-list-empty {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -738,20 +738,20 @@
     font-size: 13px;
 }
 
-.mxch-panel-footer {
+.knet-panel-footer {
     padding: 8px 12px;
     border-top: 1px solid #e5e7eb;
     background: #f9fafb;
 }
 
-.mxch-pagination-btns {
+.knet-pagination-btns {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
 }
 
-.mxch-page-btn {
+.knet-page-btn {
     width: 32px;
     height: 32px;
     border: 1px solid #e5e7eb;
@@ -766,12 +766,12 @@
     transition: all 0.15s;
 }
 
-.mxch-page-btn:hover {
+.knet-page-btn:hover {
     background: #f3f4f6;
     border-color: #d1d5db;
 }
 
-.mxch-page-info {
+.knet-page-info {
     font-size: 12px;
     color: #6b7280;
 }
@@ -779,7 +779,7 @@
 /* ==========================================================================
    Right Panel - Action Details/Editor
    ========================================================================== */
-.mxch-action-detail-panel {
+.knet-action-detail-panel {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -790,7 +790,7 @@
 }
 
 /* Empty State */
-.mxch-action-empty {
+.knet-action-empty {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -801,19 +801,19 @@
     padding: 40px;
 }
 
-.mxch-empty-icon {
+.knet-empty-icon {
     margin-bottom: 16px;
     opacity: 0.5;
 }
 
-.mxch-action-empty h3 {
+.knet-action-empty h3 {
     font-size: 16px;
     font-weight: 600;
     color: #6b7280;
     margin: 0 0 8px 0;
 }
 
-.mxch-action-empty p {
+.knet-action-empty p {
     font-size: 13px;
     margin: 0 0 20px 0;
 }
@@ -821,7 +821,7 @@
 /* ==========================================================================
    Editor Steps
    ========================================================================== */
-.mxch-action-editor {
+.knet-action-editor {
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -829,7 +829,7 @@
     min-height: 0;
 }
 
-.mxch-editor-step {
+.knet-editor-step {
     display: none;
     flex-direction: column;
     height: 100%;
@@ -837,11 +837,11 @@
     min-height: 0;
 }
 
-.mxch-editor-step.active {
+.knet-editor-step.active {
     display: flex;
 }
 
-.mxch-editor-header {
+.knet-editor-header {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -851,7 +851,7 @@
     flex-shrink: 0;
 }
 
-.mxch-editor-title {
+.knet-editor-title {
     flex: 1;
     font-size: 16px;
     font-weight: 600;
@@ -859,13 +859,13 @@
     margin: 0;
 }
 
-.mxch-header-actions {
+.knet-header-actions {
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-.mxch-editor-close {
+.knet-editor-close {
     width: 32px;
     height: 32px;
     border: none;
@@ -879,12 +879,12 @@
     transition: all 0.15s;
 }
 
-.mxch-editor-close:hover {
+.knet-editor-close:hover {
     background: #f3f4f6;
     color: #111827;
 }
 
-.mxch-back-btn {
+.knet-back-btn {
     display: flex;
     align-items: center;
     gap: 6px;
@@ -893,24 +893,24 @@
     font-weight: 500;
     background: transparent;
     border: none;
-    color: var(--mxch-primary);
+    color: var(--knet-primary);
     cursor: pointer;
     transition: all 0.15s;
 }
 
-.mxch-back-btn:hover {
+.knet-back-btn:hover {
     color: #6366f1;
 }
 
 /* Type Search & Categories */
-.mxch-type-search {
+.knet-type-search {
     position: relative;
     padding: 16px 20px;
     background: #fff;
     border-bottom: 1px solid #e5e7eb;
 }
 
-.mxch-type-search svg {
+.knet-type-search svg {
     position: absolute;
     left: 32px;
     top: 50%;
@@ -919,7 +919,7 @@
     pointer-events: none;
 }
 
-.mxch-type-search input {
+.knet-type-search input {
     width: 100%;
     padding: 10px 12px 10px 40px;
     border: 1px solid #e5e7eb;
@@ -929,14 +929,14 @@
     transition: all 0.15s;
 }
 
-.mxch-type-search input:focus {
+.knet-type-search input:focus {
     outline: none;
-    border-color: var(--mxch-primary);
+    border-color: var(--knet-primary);
     background: #fff;
     box-shadow: 0 0 0 3px rgba(120, 115, 245, 0.1);
 }
 
-.mxch-type-categories {
+.knet-type-categories {
     display: flex;
     gap: 8px;
     padding: 12px 20px;
@@ -945,7 +945,7 @@
     flex-wrap: wrap;
 }
 
-.mxch-category-btn {
+.knet-category-btn {
     padding: 6px 14px;
     font-size: 13px;
     font-weight: 500;
@@ -957,18 +957,18 @@
     transition: all 0.15s;
 }
 
-.mxch-category-btn:hover {
+.knet-category-btn:hover {
     background: #e5e7eb;
     color: #374151;
 }
 
-.mxch-category-btn.active {
-    background: var(--mxch-primary);
+.knet-category-btn.active {
+    background: var(--knet-primary);
     color: #fff;
 }
 
 /* Types Grid */
-.mxch-types-grid {
+.knet-types-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 12px;
@@ -980,7 +980,7 @@
     min-height: 0;
 }
 
-.mxch-type-card {
+.knet-type-card {
     display: flex;
     align-items: center;
     gap: 14px;
@@ -992,26 +992,26 @@
     transition: all 0.15s;
 }
 
-.mxch-type-card:hover {
-    border-color: var(--mxch-primary);
+.knet-type-card:hover {
+    border-color: var(--knet-primary);
     box-shadow: 0 4px 12px rgba(120, 115, 245, 0.1);
     transform: translateY(-2px);
 }
 
-.mxch-type-card.selected {
-    border-color: var(--mxch-primary);
+.knet-type-card.selected {
+    border-color: var(--knet-primary);
     background: #f5f3ff;
 }
 
-.mxch-type-card.mxch-type-pro {
+.knet-type-card.knet-type-pro {
     opacity: 0.7;
 }
 
-.mxch-type-card.mxch-type-addon {
+.knet-type-card.knet-type-addon {
     opacity: 0.7;
 }
 
-.mxch-type-icon {
+.knet-type-icon {
     width: 44px;
     height: 44px;
     border-radius: 10px;
@@ -1022,41 +1022,41 @@
     flex-shrink: 0;
 }
 
-.mxch-type-icon .dashicons {
-    color: var(--mxch-primary);
+.knet-type-icon .dashicons {
+    color: var(--knet-primary);
     font-size: 22px;
     width: 22px;
     height: 22px;
 }
 
-.mxch-type-pro .mxch-type-icon {
+.knet-type-pro .knet-type-icon {
     background: linear-gradient(135deg, #7873f5, #fa73e6);
 }
 
-.mxch-type-pro .mxch-type-icon .dashicons {
+.knet-type-pro .knet-type-icon .dashicons {
     color: #fff;
 }
 
-.mxch-type-info {
+.knet-type-info {
     flex: 1;
     min-width: 0;
 }
 
-.mxch-type-info h4 {
+.knet-type-info h4 {
     font-size: 14px;
     font-weight: 600;
     color: #111827;
     margin: 0 0 4px 0;
 }
 
-.mxch-type-info p {
+.knet-type-info p {
     font-size: 12px;
     color: #6b7280;
     margin: 0;
     line-height: 1.4;
 }
 
-.mxch-badge {
+.knet-badge {
     display: inline-block;
     padding: 2px 8px;
     border-radius: 10px;
@@ -1065,12 +1065,12 @@
     margin-top: 6px;
 }
 
-.mxch-badge-pro {
+.knet-badge-pro {
     background: linear-gradient(135deg, #7873f5, #fa73e6);
     color: #fff;
 }
 
-.mxch-badge-addon {
+.knet-badge-addon {
     background: rgba(245, 158, 11, 0.1);
     color: #b45309;
 }
@@ -1078,7 +1078,7 @@
 /* ==========================================================================
    Step 2 - Configure Action
    ========================================================================== */
-.mxch-selected-type {
+.knet-selected-type {
     display: flex;
     align-items: center;
     gap: 14px;
@@ -1087,7 +1087,7 @@
     border-bottom: 1px solid #e5e7eb;
 }
 
-.mxch-selected-type-icon {
+.knet-selected-type-icon {
     width: 44px;
     height: 44px;
     border-radius: 10px;
@@ -1098,32 +1098,32 @@
     flex-shrink: 0;
 }
 
-.mxch-selected-type-icon .dashicons {
-    color: var(--mxch-primary);
+.knet-selected-type-icon .dashicons {
+    color: var(--knet-primary);
     font-size: 22px;
     width: 22px;
     height: 22px;
 }
 
-.mxch-selected-type-info {
+.knet-selected-type-info {
     flex: 1;
 }
 
-.mxch-selected-type-info h4 {
+.knet-selected-type-info h4 {
     font-size: 15px;
     font-weight: 600;
     color: #111827;
     margin: 0 0 4px 0;
 }
 
-.mxch-selected-type-info p {
+.knet-selected-type-info p {
     font-size: 13px;
     color: #6b7280;
     margin: 0;
 }
 
 /* Form Styles */
-#mxch-action-form {
+#knet-action-form {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -1134,11 +1134,11 @@
     min-height: 0;
 }
 
-.mxch-form-group {
+.knet-form-group {
     margin-bottom: 20px;
 }
 
-.mxch-form-group label {
+.knet-form-group label {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1148,8 +1148,8 @@
     color: #374151;
 }
 
-.mxch-form-group input[type="text"],
-.mxch-form-group textarea {
+.knet-form-group input[type="text"],
+.knet-form-group textarea {
     width: 100%;
     padding: 12px 14px;
     border: 1px solid #e5e7eb;
@@ -1160,36 +1160,36 @@
     box-sizing: border-box;
 }
 
-.mxch-form-group input[type="text"]:focus,
-.mxch-form-group textarea:focus {
+.knet-form-group input[type="text"]:focus,
+.knet-form-group textarea:focus {
     outline: none;
-    border-color: var(--mxch-primary);
+    border-color: var(--knet-primary);
     background: #fff;
     box-shadow: 0 0 0 3px rgba(120, 115, 245, 0.1);
 }
 
-.mxch-form-group textarea {
+.knet-form-group textarea {
     resize: vertical;
     min-height: 100px;
 }
 
-.mxch-form-hint {
+.knet-form-hint {
     font-size: 12px;
     color: #9ca3af;
     margin-top: 6px;
 }
 
 /* Threshold Slider */
-.mxch-threshold-value {
+.knet-threshold-value {
     font-size: 14px;
     font-weight: 600;
-    color: var(--mxch-primary);
+    color: var(--knet-primary);
     background: rgba(120, 115, 245, 0.1);
     padding: 2px 8px;
     border-radius: 6px;
 }
 
-.mxch-form-group input[type="range"] {
+.knet-form-group input[type="range"] {
     width: 100%;
     height: 6px;
     border-radius: 3px;
@@ -1199,7 +1199,7 @@
     margin: 10px 0;
 }
 
-.mxch-form-group input[type="range"]::-webkit-slider-thumb {
+.knet-form-group input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     width: 18px;
     height: 18px;
@@ -1210,7 +1210,7 @@
     box-shadow: 0 2px 6px rgba(120, 115, 245, 0.3);
 }
 
-.mxch-form-group input[type="range"]::-moz-range-thumb {
+.knet-form-group input[type="range"]::-moz-range-thumb {
     width: 18px;
     height: 18px;
     border-radius: 50%;
@@ -1221,13 +1221,13 @@
 }
 
 /* Bot Selector */
-.mxch-bot-selector {
+.knet-bot-selector {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.mxch-checkbox-label {
+.knet-checkbox-label {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -1241,20 +1241,20 @@
     transition: all 0.15s;
 }
 
-.mxch-checkbox-label:hover {
+.knet-checkbox-label:hover {
     background: #f3f4f6;
     border-color: #d1d5db;
 }
 
-.mxch-checkbox-label input[type="checkbox"] {
+.knet-checkbox-label input[type="checkbox"] {
     width: 18px;
     height: 18px;
-    accent-color: var(--mxch-primary);
+    accent-color: var(--knet-primary);
     cursor: pointer;
 }
 
 /* Form Actions */
-.mxch-form-actions {
+.knet-form-actions {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
@@ -1266,26 +1266,26 @@
 /* ==========================================================================
    Action View (Viewing Details)
    ========================================================================== */
-.mxch-header-actions {
+.knet-header-actions {
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-.mxch-toggle-switch {
+.knet-toggle-switch {
     position: relative;
     display: inline-block;
     width: 44px;
     height: 24px;
 }
 
-.mxch-toggle-switch input {
+.knet-toggle-switch input {
     opacity: 0;
     width: 0;
     height: 0;
 }
 
-.mxch-toggle-slider {
+.knet-toggle-slider {
     position: absolute;
     cursor: pointer;
     top: 0;
@@ -1297,7 +1297,7 @@
     border-radius: 24px;
 }
 
-.mxch-toggle-slider:before {
+.knet-toggle-slider:before {
     position: absolute;
     content: "";
     height: 18px;
@@ -1309,15 +1309,15 @@
     border-radius: 50%;
 }
 
-.mxch-toggle-switch input:checked + .mxch-toggle-slider {
+.knet-toggle-switch input:checked + .knet-toggle-slider {
     background: linear-gradient(135deg, #7873f5, #fa73e6);
 }
 
-.mxch-toggle-switch input:checked + .mxch-toggle-slider:before {
+.knet-toggle-switch input:checked + .knet-toggle-slider:before {
     transform: translateX(20px);
 }
 
-.mxch-action-details {
+.knet-action-details {
     padding: 20px;
     flex: 1;
     overflow-y: auto;
@@ -1325,7 +1325,7 @@
     min-height: 0;
 }
 
-.mxch-detail-card {
+.knet-detail-card {
     display: flex;
     align-items: center;
     gap: 16px;
@@ -1336,7 +1336,7 @@
     margin-bottom: 20px;
 }
 
-.mxch-detail-icon {
+.knet-detail-icon {
     width: 52px;
     height: 52px;
     border-radius: 12px;
@@ -1347,27 +1347,27 @@
     flex-shrink: 0;
 }
 
-.mxch-detail-icon .dashicons {
-    color: var(--mxch-primary);
+.knet-detail-icon .dashicons {
+    color: var(--knet-primary);
     font-size: 26px;
     width: 26px;
     height: 26px;
 }
 
-.mxch-detail-content h4 {
+.knet-detail-content h4 {
     font-size: 18px;
     font-weight: 600;
     color: #111827;
     margin: 0 0 4px 0;
 }
 
-.mxch-detail-type {
+.knet-detail-type {
     font-size: 13px;
     color: #6b7280;
     margin: 0;
 }
 
-.mxch-detail-section {
+.knet-detail-section {
     background: #fff;
     border: 1px solid #e5e7eb;
     border-radius: 12px;
@@ -1375,7 +1375,7 @@
     margin-bottom: 16px;
 }
 
-.mxch-detail-section h5 {
+.knet-detail-section h5 {
     font-size: 13px;
     font-weight: 600;
     color: #6b7280;
@@ -1384,13 +1384,13 @@
     margin: 0 0 12px 0;
 }
 
-.mxch-phrases-list {
+.knet-phrases-list {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
 }
 
-.mxch-phrase-tag {
+.knet-phrase-tag {
     display: inline-block;
     padding: 6px 12px;
     background: #f3f4f6;
@@ -1399,30 +1399,30 @@
     color: #374151;
 }
 
-.mxch-settings-grid {
+.knet-settings-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
 }
 
-.mxch-setting-item {
+.knet-setting-item {
     display: flex;
     flex-direction: column;
     gap: 4px;
 }
 
-.mxch-setting-label {
+.knet-setting-label {
     font-size: 12px;
     color: #9ca3af;
 }
 
-.mxch-setting-value {
+.knet-setting-value {
     font-size: 14px;
     font-weight: 600;
     color: #111827;
 }
 
-.mxch-setting-value.mxch-status-badge {
+.knet-setting-value.knet-status-badge {
     display: inline-block;
     padding: 4px 10px;
     border-radius: 6px;
@@ -1430,23 +1430,23 @@
     width: fit-content;
 }
 
-.mxch-setting-value.mxch-status-enabled {
+.knet-setting-value.knet-status-enabled {
     background: rgba(16, 185, 129, 0.1);
     color: #059669;
 }
 
-.mxch-setting-value.mxch-status-disabled {
+.knet-setting-value.knet-status-disabled {
     background: rgba(100, 116, 139, 0.1);
     color: #64748b;
 }
 
-.mxch-bots-list {
+.knet-bots-list {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
 }
 
-.mxch-bot-tag {
+.knet-bot-tag {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -1454,14 +1454,14 @@
     background: rgba(120, 115, 245, 0.1);
     border-radius: 6px;
     font-size: 13px;
-    color: var(--mxch-primary);
+    color: var(--knet-primary);
     font-weight: 500;
 }
 
 /* ==========================================================================
    Buttons
    ========================================================================== */
-.mxch-btn {
+.knet-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -1475,45 +1475,45 @@
     border: none;
 }
 
-.mxch-btn-sm {
+.knet-btn-sm {
     padding: 8px 14px;
     font-size: 13px;
 }
 
-.mxch-btn-primary {
+.knet-btn-primary {
     background: linear-gradient(135deg, #7873f5, #8b5cf6);
     color: #fff;
 }
 
-.mxch-btn-primary:hover {
+.knet-btn-primary:hover {
     background: linear-gradient(135deg, #6366f1, #7c3aed);
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(120, 115, 245, 0.3);
 }
 
-.mxch-btn-secondary {
+.knet-btn-secondary {
     background: #f3f4f6;
     color: #374151;
     border: 1px solid #e5e7eb;
 }
 
-.mxch-btn-secondary:hover {
+.knet-btn-secondary:hover {
     background: #e5e7eb;
 }
 
-.mxch-btn-danger {
+.knet-btn-danger {
     background: #dc2626;
     color: #fff;
 }
 
-.mxch-btn-danger:hover {
+.knet-btn-danger:hover {
     background: #b91c1c;
 }
 
 /* ==========================================================================
    Loading & Modal
    ========================================================================== */
-.mxch-loading-overlay {
+.knet-loading-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -1527,24 +1527,24 @@
     z-index: 100001;
 }
 
-.mxch-loading-spinner {
+.knet-loading-spinner {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     border: 3px solid transparent;
-    border-top-color: var(--mxch-primary);
-    border-right-color: var(--mxch-primary);
+    border-top-color: var(--knet-primary);
+    border-right-color: var(--knet-primary);
     animation: spin 0.8s linear infinite;
     margin-bottom: 16px;
 }
 
-.mxch-loading-text {
+.knet-loading-text {
     color: #fff;
     font-size: 14px;
     font-weight: 500;
 }
 
-.mxch-modal-overlay {
+.knet-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -1557,7 +1557,7 @@
     z-index: 100000;
 }
 
-.mxch-modal-content {
+.knet-modal-content {
     background: #fff;
     border-radius: 12px;
     width: 90%;
@@ -1565,11 +1565,11 @@
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 }
 
-.mxch-modal-sm {
+.knet-modal-sm {
     max-width: 400px;
 }
 
-.mxch-modal-header {
+.knet-modal-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1577,14 +1577,14 @@
     border-bottom: 1px solid #e5e7eb;
 }
 
-.mxch-modal-header h2 {
+.knet-modal-header h2 {
     font-size: 16px;
     font-weight: 600;
     color: #111827;
     margin: 0;
 }
 
-.mxch-modal-close {
+.knet-modal-close {
     width: 32px;
     height: 32px;
     border: none;
@@ -1599,22 +1599,22 @@
     transition: all 0.15s;
 }
 
-.mxch-modal-close:hover {
+.knet-modal-close:hover {
     background: #f3f4f6;
     color: #111827;
 }
 
-.mxch-modal-body {
+.knet-modal-body {
     padding: 20px;
 }
 
-.mxch-modal-body p {
+.knet-modal-body p {
     font-size: 14px;
     color: #6b7280;
     margin: 0;
 }
 
-.mxch-modal-footer {
+.knet-modal-footer {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
@@ -1629,39 +1629,39 @@
 /* Mobile-first: Show list by default, hide detail panel until action selected */
 @media screen and (max-width: 782px) {
     /* The wrapper is position:fixed (admin-sidebar.css), so the PAGE body can't
-       scroll it — scrolling has to happen INSIDE .mxch-content (same as desktop
+       scroll it — scrolling has to happen INSIDE .knet-content (same as desktop
        and every other KnittNet admin page). The previous rules set the wrapper +
        content to height:auto + overflow:visible, which on a FIXED wrapper just
        pushed the overflow below the viewport with no way to reach it (the page
-       "didn't move"). Fix: make .mxch-content the bounded internal scroll
+       "didn't move"). Fix: make .knet-content the bounded internal scroll
        container on mobile, for every tab. plan a41dee follow-up. */
-    .mxch-actions-wrapper {
+    .knet-actions-wrapper {
         height: calc(100vh - 46px); /* WP admin bar is 46px on mobile */
         overflow: hidden;
     }
-    .mxch-actions-wrapper .mxch-content,
-    .mxch-actions-wrapper .mxch-content:has(#all-actions.mxch-section.active) {
+    .knet-actions-wrapper .knet-content,
+    .knet-actions-wrapper .knet-content:has(#all-actions.knet-section.active) {
         height: 100%;
         overflow-y: auto;
         overflow-x: hidden;
         -webkit-overflow-scrolling: touch;
     }
     /* The split-panel tabs flow + scroll inside the scrollable content on mobile. */
-    #all-actions.mxch-section,
-    #ai-tools.mxch-section {
+    #all-actions.knet-section,
+    #ai-tools.knet-section {
         height: auto;
         min-height: 0;
         overflow: visible;
     }
     /* AI Tools wrapper flows naturally on mobile (no fixed height / flex column) so
-       its split panel stacks + scrolls in the bounded .mxch-content (plan 183856). */
-    #mxch-fc-settings {
+       its split panel stacks + scrolls in the bounded .knet-content (plan 183856). */
+    #knet-fc-settings {
         display: block;
         height: auto;
         overflow: visible;
     }
 
-    .mxch-split-panel {
+    .knet-split-panel {
         flex-direction: column;
         height: auto;
         min-height: 0;
@@ -1669,7 +1669,7 @@
     }
 
     /* List panel takes full width and reasonable height */
-    .mxch-action-list-panel {
+    .knet-action-list-panel {
         width: 100%;
         max-width: none;
         min-width: 0;
@@ -1681,21 +1681,21 @@
     }
 
     /* Action list scrolls within container */
-    .mxch-action-list {
+    .knet-action-list {
         max-height: 50vh;
         min-height: 200px;
         overflow-y: auto;
     }
 
     /* Detail panel hidden by default on mobile */
-    .mxch-action-detail-panel {
+    .knet-action-detail-panel {
         display: none;
         min-height: auto;
         height: auto;
     }
 
     /* When an action is selected, show detail panel */
-    .mxch-action-detail-panel.mobile-active {
+    .knet-action-detail-panel.mobile-active {
         display: flex;
         flex-direction: column;
         position: fixed;
@@ -1709,169 +1709,169 @@
     }
 
     /* Mobile back button */
-    .mxch-mobile-back-btn {
+    .knet-mobile-back-btn {
         display: flex !important;
         align-items: center;
         gap: 6px;
         padding: 8px 12px;
         background: transparent;
         border: none;
-        color: var(--mxch-primary);
+        color: var(--knet-primary);
         font-size: 14px;
         font-weight: 500;
         cursor: pointer;
     }
 
-    .mxch-mobile-back-btn:hover {
+    .knet-mobile-back-btn:hover {
         background: rgba(120, 115, 245, 0.1);
     }
 
     /* Adjust editor header for mobile */
-    .mxch-editor-header {
+    .knet-editor-header {
         flex-wrap: wrap;
         gap: 8px;
     }
 
-    .mxch-view-header {
+    .knet-view-header {
         flex-wrap: wrap;
         gap: 8px;
         padding: 12px;
     }
 
-    .mxch-view-header-actions {
+    .knet-view-header-actions {
         width: 100%;
         justify-content: flex-end;
     }
 
     /* Stats grid */
-    .mxch-stats-grid {
+    .knet-stats-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: var(--mxch-spacing-md);
+        gap: var(--knet-spacing-md);
     }
 
     /* Type cards grid */
-    .mxch-types-grid {
+    .knet-types-grid {
         grid-template-columns: 1fr;
         padding: 12px;
     }
 
-    .mxch-type-card {
+    .knet-type-card {
         padding: 12px;
     }
 
     /* Settings grid */
-    .mxch-settings-grid {
+    .knet-settings-grid {
         grid-template-columns: 1fr;
     }
 
     /* Form actions */
-    .mxch-form-actions {
+    .knet-form-actions {
         flex-direction: column-reverse;
         gap: 8px;
     }
 
-    .mxch-form-actions .mxch-btn {
+    .knet-form-actions .knet-btn {
         width: 100%;
     }
 
     /* Bulk toolbar adjustments */
-    .mxch-bulk-toolbar {
+    .knet-bulk-toolbar {
         flex-wrap: wrap;
         padding: 8px;
     }
 
-    .mxch-bulk-btn span {
+    .knet-bulk-btn span {
         display: none;
     }
 
-    .mxch-filter-select {
+    .knet-filter-select {
         flex: 1;
         min-width: 120px;
     }
 
     /* Action items tighter on mobile */
-    .mxch-action-item,
-    .mxch-fc-list-item {
+    .knet-action-item,
+    .knet-fc-list-item {
         padding: 10px;
     }
 
-    .mxch-action-icon {
+    .knet-action-icon {
         width: 36px;
         height: 36px;
     }
 
-    .mxch-action-name {
+    .knet-action-name {
         font-size: 13px;
     }
 
-    .mxch-action-type-label {
+    .knet-action-type-label {
         font-size: 11px;
     }
 
     /* Panel header adjustments */
-    .mxch-panel-header {
+    .knet-panel-header {
         padding: 0;
     }
 
-    .mxch-panel-title-row {
+    .knet-panel-title-row {
         padding: 8px 10px;
     }
 
-    .mxch-search-input {
+    .knet-search-input {
         padding: 8px 10px 8px 34px;
     }
 
     /* Form padding on mobile */
-    #mxch-action-form {
+    #knet-action-form {
         padding: 12px;
     }
 
-    .mxch-action-details {
+    .knet-action-details {
         padding: 12px;
     }
 
     /* Editor step content scrollable */
-    .mxch-editor-step.active {
+    .knet-editor-step.active {
         overflow-y: auto;
     }
 
     /* Category buttons scroll horizontally */
-    .mxch-category-btns {
+    .knet-category-btns {
         overflow-x: auto;
         padding: 12px;
         gap: 6px;
         flex-wrap: nowrap;
     }
 
-    .mxch-category-btn {
+    .knet-category-btn {
         flex-shrink: 0;
         padding: 6px 12px;
         font-size: 12px;
     }
 
     /* Hide close button on mobile (use back button instead) */
-    .mxch-editor-close {
+    .knet-editor-close {
         display: none;
     }
 }
 
 /* Hide mobile back button on desktop */
-.mxch-mobile-back-btn {
+.knet-mobile-back-btn {
     display: none;
 }
 
 /* Prevent body scroll when mobile panel is open */
-body.mxch-mobile-panel-open {
+body.knet-mobile-panel-open {
     overflow: hidden;
 }
 
 /* Tablet adjustments */
 @media screen and (min-width: 783px) and (max-width: 1024px) {
-    .mxch-split-panel {
+    .knet-split-panel {
         flex-direction: column;
     }
 
-    .mxch-action-list-panel {
+    .knet-action-list-panel {
         width: 100%;
         max-width: none;
         border-right: none;
@@ -1879,12 +1879,12 @@ body.mxch-mobile-panel-open {
         max-height: 350px;
     }
 
-    .mxch-action-detail-panel {
+    .knet-action-detail-panel {
         flex: 1;
         min-height: 400px;
     }
 
-    .mxch-types-grid {
+    .knet-types-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
@@ -1893,14 +1893,14 @@ body.mxch-mobile-panel-open {
    Phrase Tag Input
    ========================================================================== */
 
-.mxch-phrase-input-wrapper {
-    border: 1px solid var(--mxch-card-border, #e5e7eb);
+.knet-phrase-input-wrapper {
+    border: 1px solid var(--knet-card-border, #e5e7eb);
     border-radius: 8px;
     padding: 10px;
-    background: var(--mxch-card-bg, #fff);
+    background: var(--knet-card-bg, #fff);
 }
 
-.mxch-phrase-tags {
+.knet-phrase-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
@@ -1908,11 +1908,11 @@ body.mxch-mobile-panel-open {
     min-height: 28px;
 }
 
-.mxch-phrase-tags:empty {
+.knet-phrase-tags:empty {
     margin-bottom: 0;
 }
 
-.mxch-phrase-pill {
+.knet-phrase-pill {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -1927,7 +1927,7 @@ body.mxch-mobile-panel-open {
     word-break: break-word;
 }
 
-.mxch-phrase-pill .mxch-phrase-remove {
+.knet-phrase-pill .knet-phrase-remove {
     background: none;
     border: none;
     cursor: pointer;
@@ -1938,18 +1938,18 @@ body.mxch-mobile-panel-open {
     flex-shrink: 0;
 }
 
-.mxch-phrase-pill .mxch-phrase-remove:hover {
+.knet-phrase-pill .knet-phrase-remove:hover {
     color: #ef4444;
 }
 
 /* Legacy phrase pill */
-.mxch-phrase-pill.mxch-phrase-legacy {
+.knet-phrase-pill.knet-phrase-legacy {
     background: #fef3c7;
     border-color: #fcd34d;
     color: #92400e;
 }
 
-.mxch-legacy-badge {
+.knet-legacy-badge {
     font-size: 10px;
     text-transform: uppercase;
     background: #f59e0b;
@@ -1961,18 +1961,18 @@ body.mxch-mobile-panel-open {
 }
 
 /* Legacy tag in view mode */
-.mxch-phrase-tag.mxch-phrase-legacy {
+.knet-phrase-tag.knet-phrase-legacy {
     background: #fef3c7;
     border: 1px solid #fcd34d;
     color: #92400e;
 }
 
-.mxch-phrase-add-row {
+.knet-phrase-add-row {
     display: flex;
     gap: 8px;
 }
 
-.mxch-phrase-add-row input {
+.knet-phrase-add-row input {
     flex: 1;
     padding: 6px 10px;
     border: 1px solid #d1d5db;
@@ -1980,19 +1980,19 @@ body.mxch-mobile-panel-open {
     font-size: 13px;
 }
 
-.mxch-phrase-add-row input:focus {
+.knet-phrase-add-row input:focus {
     outline: none;
     border-color: #6366f1;
     box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);
 }
 
-.mxch-phrase-add-row .mxch-btn-sm {
+.knet-phrase-add-row .knet-btn-sm {
     padding: 6px 14px;
     font-size: 13px;
     white-space: nowrap;
 }
 
-.mxch-no-phrases {
+.knet-no-phrases {
     font-size: 13px;
     color: #9ca3af;
     font-style: italic;
@@ -2001,82 +2001,82 @@ body.mxch-mobile-panel-open {
 /* ============================================================
  * AI Tools section (native function calling) — plan a41dee
  * ============================================================ */
-.mxch-fc-intro {
+.knet-fc-intro {
     font-size: 14px;
-    color: var(--mxch-text-secondary, #64748b);
-    margin: 0 0 var(--mxch-spacing-md, 16px);
+    color: var(--knet-text-secondary, #64748b);
+    margin: 0 0 var(--knet-spacing-md, 16px);
     line-height: 1.5;
 }
-.mxch-fc-toggle-row {
+.knet-fc-toggle-row {
     display: flex;
     align-items: center;
-    gap: var(--mxch-spacing-md, 16px);
+    gap: var(--knet-spacing-md, 16px);
 }
-.mxch-fc-toggle-row .mxch-fc-toggle-text {
+.knet-fc-toggle-row .knet-fc-toggle-text {
     font-size: 14px;
     font-weight: 600;
-    color: var(--mxch-text-primary, #1a1a2e);
+    color: var(--knet-text-primary, #1a1a2e);
 }
-.mxch-fc-note {
+.knet-fc-note {
     display: flex;
     gap: 8px;
     align-items: flex-start;
-    margin: var(--mxch-spacing-md, 16px) 0 0;
+    margin: var(--knet-spacing-md, 16px) 0 0;
     padding: 10px 12px;
-    border-radius: var(--mxch-radius-md, 8px);
+    border-radius: var(--knet-radius-md, 8px);
     background: #fff7ed;
     border: 1px solid #fed7aa;
     color: #9a3412;
     font-size: 13px;
     line-height: 1.45;
 }
-.mxch-fc-note svg { flex: 0 0 auto; margin-top: 1px; }
-.mxch-fc-saved-notice {
+.knet-fc-note svg { flex: 0 0 auto; margin-top: 1px; }
+.knet-fc-saved-notice {
     display: flex;
     gap: 8px;
     align-items: center;
-    margin: 0 0 var(--mxch-spacing-md, 16px);
+    margin: 0 0 var(--knet-spacing-md, 16px);
     padding: 10px 12px;
-    border-radius: var(--mxch-radius-md, 8px);
+    border-radius: var(--knet-radius-md, 8px);
     background: #ecfdf5;
     border: 1px solid #a7f3d0;
     color: #065f46;
     font-size: 13px;
     font-weight: 600;
 }
-.mxch-fc-tool-list {
+.knet-fc-tool-list {
     display: flex;
     flex-direction: column;
     gap: 2px;
 }
-.mxch-fc-tool-row {
+.knet-fc-tool-row {
     display: flex;
     align-items: flex-start;
     gap: 12px;
     padding: 12px 8px;
-    border-radius: var(--mxch-radius-md, 8px);
+    border-radius: var(--knet-radius-md, 8px);
     cursor: pointer;
     transition: background 0.15s ease;
 }
-.mxch-fc-tool + .mxch-fc-tool { border-top: 1px solid var(--mxch-card-border, #e5e7eb); }
-.mxch-fc-tool-row:hover { background: var(--mxch-content-bg, #f0f2f5); }
-.mxch-fc-tool-row input[type="checkbox"] { margin-top: 3px; flex: 0 0 auto; }
-.mxch-fc-tool-meta { display: flex; flex-direction: column; gap: 3px; }
-.mxch-fc-tool-label {
+.knet-fc-tool + .knet-fc-tool { border-top: 1px solid var(--knet-card-border, #e5e7eb); }
+.knet-fc-tool-row:hover { background: var(--knet-content-bg, #f0f2f5); }
+.knet-fc-tool-row input[type="checkbox"] { margin-top: 3px; flex: 0 0 auto; }
+.knet-fc-tool-meta { display: flex; flex-direction: column; gap: 3px; }
+.knet-fc-tool-label {
     font-size: 14px;
     font-weight: 600;
-    color: var(--mxch-text-primary, #1a1a2e);
+    color: var(--knet-text-primary, #1a1a2e);
     display: flex;
     align-items: center;
     gap: 8px;
     flex-wrap: wrap;
 }
-.mxch-fc-tool-desc {
+.knet-fc-tool-desc {
     font-size: 13px;
-    color: var(--mxch-text-secondary, #64748b);
+    color: var(--knet-text-secondary, #64748b);
     line-height: 1.45;
 }
-.mxch-fc-badge {
+.knet-fc-badge {
     font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;
@@ -2085,23 +2085,23 @@ body.mxch-mobile-panel-open {
     border-radius: 999px;
     line-height: 1.4;
 }
-.mxch-fc-badge-addon { background: #ede9fe; color: #5b21b6; }
-.mxch-fc-badge-sensitive { background: #fef3c7; color: #92400e; }
+.knet-fc-badge-addon { background: #ede9fe; color: #5b21b6; }
+.knet-fc-badge-sensitive { background: #fef3c7; color: #92400e; }
 /* Per-tool "when to use" hint (plan 27d3e6) — indented under each tool row,
    shown only while the tool is enabled. */
-.mxch-fc-tool-hint {
+.knet-fc-tool-hint {
     display: flex;
     flex-direction: column;
     gap: 4px;
     padding: 0 8px 12px 40px;
 }
-.mxch-fc-tool-hint.is-hidden { display: none; }
-.mxch-fc-hint-label {
+.knet-fc-tool-hint.is-hidden { display: none; }
+.knet-fc-hint-label {
     font-size: 12px;
     font-weight: 600;
-    color: var(--mxch-text-secondary, #64748b);
+    color: var(--knet-text-secondary, #64748b);
 }
-.mxch-fc-hint-input {
+.knet-fc-hint-input {
     width: 100%;
     box-sizing: border-box;
     min-height: 44px;
@@ -2109,50 +2109,50 @@ body.mxch-mobile-panel-open {
     padding: 8px 10px;
     font-size: 13px;
     line-height: 1.45;
-    color: var(--mxch-text-primary, #1a1a2e);
-    background: var(--mxch-card-bg, #fff);
-    border: 1px solid var(--mxch-card-border, #e5e7eb);
-    border-radius: var(--mxch-radius-md, 8px);
+    color: var(--knet-text-primary, #1a1a2e);
+    background: var(--knet-card-bg, #fff);
+    border: 1px solid var(--knet-card-border, #e5e7eb);
+    border-radius: var(--knet-radius-md, 8px);
     font-family: inherit;
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
-.mxch-fc-hint-input:focus {
+.knet-fc-hint-input:focus {
     outline: none;
-    border-color: var(--mxch-primary, #7873f5);
-    box-shadow: 0 0 0 3px var(--mxch-primary-light, rgba(120, 115, 245, 0.15));
+    border-color: var(--knet-primary, #7873f5);
+    box-shadow: 0 0 0 3px var(--knet-primary-light, rgba(120, 115, 245, 0.15));
 }
-.mxch-fc-hint-input::placeholder { color: var(--mxch-text-muted, #94a3b8); }
+.knet-fc-hint-input::placeholder { color: var(--knet-text-muted, #94a3b8); }
 @media (max-width: 782px) {
-    .mxch-fc-tool-hint { padding-left: 8px; }
+    .knet-fc-tool-hint { padding-left: 8px; }
 }
-.mxch-fc-actions {
+.knet-fc-actions {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-top: var(--mxch-spacing-lg, 24px);
+    margin-top: var(--knet-spacing-lg, 24px);
 }
-.mxch-fc-autosave-hint {
+.knet-fc-autosave-hint {
     font-size: 13px;
-    color: var(--mxch-text-muted, #94a3b8);
+    color: var(--knet-text-muted, #94a3b8);
 }
-.mxch-fc-save-status {
+.knet-fc-save-status {
     font-size: 13px;
     font-weight: 600;
-    color: var(--mxch-text-secondary, #64748b);
+    color: var(--knet-text-secondary, #64748b);
     min-height: 18px;
 }
-.mxch-fc-save-status.is-saved { color: #059669; }
-.mxch-fc-save-status.is-error { color: #dc2626; }
+.knet-fc-save-status.is-saved { color: #059669; }
+.knet-fc-save-status.is-error { color: #dc2626; }
 
 /* ==========================================================================
    AI Tools — master-detail list + detail view (plan d450a7)
-   The left list reuses the Trigger Phrases inner classes (.mxch-action-icon,
-   .mxch-action-info, .mxch-action-name, .mxch-action-type-label,
-   .mxch-action-meta, .mxch-action-status) directly. Only the OUTER row needs a
-   dedicated class — a clone of .mxch-action-item's look — so the Trigger Phrases
-   JS (which binds clicks to .mxch-action-item) never touches these rows.
+   The left list reuses the Trigger Phrases inner classes (.knet-action-icon,
+   .knet-action-info, .knet-action-name, .knet-action-type-label,
+   .knet-action-meta, .knet-action-status) directly. Only the OUTER row needs a
+   dedicated class — a clone of .knet-action-item's look — so the Trigger Phrases
+   JS (which binds clicks to .knet-action-item) never touches these rows.
    ========================================================================== */
-.mxch-fc-list-item {
+.knet-fc-list-item {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -2162,76 +2162,76 @@ body.mxch-mobile-panel-open {
     transition: background 0.15s;
     position: relative;
 }
-.mxch-fc-list-item:hover {
+.knet-fc-list-item:hover {
     background: #f9fafb;
 }
-.mxch-fc-list-item.active {
+.knet-fc-list-item.active {
     background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
-    border-left: 3px solid var(--mxch-primary);
+    border-left: 3px solid var(--knet-primary);
     padding-left: 9px;
 }
-.mxch-fc-list-item.selected {
+.knet-fc-list-item.selected {
     background: #f5f3ff;
 }
 
-/* Bulk-select checkbox on AI Tools rows — mirrors .mxch-action-checkbox so the
+/* Bulk-select checkbox on AI Tools rows — mirrors .knet-action-checkbox so the
    two list panes behave identically: hidden until hover / selection (plan 5f7409). */
-.mxch-fc-checkbox {
+.knet-fc-checkbox {
     width: 16px;
     height: 16px;
     flex-shrink: 0;
     cursor: pointer;
-    accent-color: var(--mxch-primary);
+    accent-color: var(--knet-primary);
     opacity: 0;
     transition: opacity 0.15s;
 }
-.mxch-fc-list-item:hover .mxch-fc-checkbox,
-.mxch-fc-list-item.selected .mxch-fc-checkbox,
-.mxch-action-list.selection-mode .mxch-fc-checkbox {
+.knet-fc-list-item:hover .knet-fc-checkbox,
+.knet-fc-list-item.selected .knet-fc-checkbox,
+.knet-action-list.selection-mode .knet-fc-checkbox {
     opacity: 1;
 }
 
 /* Detail-view body text (description + the "when to use" note). */
-.mxch-fc-view-desc,
-.mxch-fc-view-hint {
+.knet-fc-view-desc,
+.knet-fc-view-hint {
     margin: 0;
     font-size: 14px;
     line-height: 1.6;
-    color: var(--mxch-text-primary, #1a1a2e);
+    color: var(--knet-text-primary, #1a1a2e);
     white-space: pre-wrap;
 }
-.mxch-fc-view-hint.is-muted {
-    color: var(--mxch-text-muted, #94a3b8);
+.knet-fc-view-hint.is-muted {
+    color: var(--knet-text-muted, #94a3b8);
     font-style: italic;
 }
 
 /* ==========================================================================
    AI Tools — add/remove card flow (plan 8bbf98 part 4)
-   A view layer over the hidden #mxch-fc-tool-store inputs.
+   A view layer over the hidden #knet-fc-tool-store inputs.
    ========================================================================== */
-.mxch-fc-tool-store { display: none; }
+.knet-fc-tool-store { display: none; }
 
-.mxch-fc-card-list {
+.knet-fc-card-list {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin-top: var(--mxch-spacing-md, 16px);
+    margin-top: var(--knet-spacing-md, 16px);
 }
-.mxch-fc-card {
+.knet-fc-card {
     display: flex;
     align-items: flex-start;
     gap: 14px;
     padding: 14px;
-    background: var(--mxch-card-bg, #fff);
-    border: 1px solid var(--mxch-card-border, #e5e7eb);
-    border-radius: var(--mxch-radius-lg, 12px);
+    background: var(--knet-card-bg, #fff);
+    border: 1px solid var(--knet-card-border, #e5e7eb);
+    border-radius: var(--knet-radius-lg, 12px);
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
-.mxch-fc-card:hover {
-    border-color: var(--mxch-primary, #7873f5);
+.knet-fc-card:hover {
+    border-color: var(--knet-primary, #7873f5);
     box-shadow: 0 4px 12px rgba(120, 115, 245, 0.08);
 }
-.mxch-fc-card-icon {
+.knet-fc-card-icon {
     width: 40px;
     height: 40px;
     border-radius: 10px;
@@ -2241,53 +2241,53 @@ body.mxch-mobile-panel-open {
     justify-content: center;
     flex-shrink: 0;
 }
-.mxch-fc-card-icon .dashicons { color: var(--mxch-primary, #7873f5); font-size: 20px; width: 20px; height: 20px; }
-.mxch-fc-card-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
-.mxch-fc-card-label {
+.knet-fc-card-icon .dashicons { color: var(--knet-primary, #7873f5); font-size: 20px; width: 20px; height: 20px; }
+.knet-fc-card-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.knet-fc-card-label {
     font-size: 14px;
     font-weight: 600;
-    color: var(--mxch-text-primary, #1a1a2e);
+    color: var(--knet-text-primary, #1a1a2e);
     display: flex;
     align-items: center;
     gap: 8px;
     flex-wrap: wrap;
 }
-.mxch-fc-card-hint { font-size: 13px; color: var(--mxch-text-secondary, #64748b); line-height: 1.45; }
-.mxch-fc-card-hint.is-muted { color: var(--mxch-text-muted, #94a3b8); font-style: italic; }
-.mxch-fc-card-actions { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.knet-fc-card-hint { font-size: 13px; color: var(--knet-text-secondary, #64748b); line-height: 1.45; }
+.knet-fc-card-hint.is-muted { color: var(--knet-text-muted, #94a3b8); font-style: italic; }
+.knet-fc-card-actions { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
 
 /* Empty state */
-.mxch-fc-empty { text-align: center; padding: 32px 20px; }
-.mxch-fc-empty-icon {
+.knet-fc-empty { text-align: center; padding: 32px 20px; }
+.knet-fc-empty-icon {
     width: 56px;
     height: 56px;
     margin: 0 auto 14px;
     border-radius: 14px;
     background: rgba(120, 115, 245, 0.1);
-    color: var(--mxch-primary, #7873f5);
+    color: var(--knet-primary, #7873f5);
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.mxch-fc-empty h4 { margin: 0 0 6px; font-size: 15px; font-weight: 600; color: var(--mxch-text-primary, #1a1a2e); }
-.mxch-fc-empty p { margin: 0 auto 16px; max-width: 420px; font-size: 13px; color: var(--mxch-text-secondary, #64748b); line-height: 1.5; }
+.knet-fc-empty h4 { margin: 0 0 6px; font-size: 15px; font-weight: 600; color: var(--knet-text-primary, #1a1a2e); }
+.knet-fc-empty p { margin: 0 auto 16px; max-width: 420px; font-size: 13px; color: var(--knet-text-secondary, #64748b); line-height: 1.5; }
 
 /* Add-Tool modal */
-.mxch-modal-lg { max-width: 640px; }
-.mxch-fc-modal-step .mxch-modal-body { max-height: 70vh; overflow-y: auto; }
-.mxch-fc-modal-grid {
+.knet-modal-lg { max-width: 640px; }
+.knet-fc-modal-step .knet-modal-body { max-height: 70vh; overflow-y: auto; }
+.knet-fc-modal-grid {
     grid-template-columns: 1fr;
     padding: 0;
     gap: 10px;
     flex: none;
     overflow: visible;
 }
-.mxch-fc-modal-allset {
+.knet-fc-modal-allset {
     margin: 8px 0 0;
     font-size: 13px;
-    color: var(--mxch-text-secondary, #64748b);
+    color: var(--knet-text-secondary, #64748b);
 }
-.mxch-fc-modal-sensitive-note {
+.knet-fc-modal-sensitive-note {
     display: flex;
     gap: 8px;
     align-items: flex-start;
@@ -2295,14 +2295,14 @@ body.mxch-mobile-panel-open {
     padding: 10px 12px;
     background: #fef3c7;
     color: #92400e;
-    border-radius: var(--mxch-radius-md, 8px);
+    border-radius: var(--knet-radius-md, 8px);
     font-size: 12.5px;
     line-height: 1.45;
 }
-.mxch-fc-modal-sensitive-note svg { flex-shrink: 0; margin-top: 1px; }
+.knet-fc-modal-sensitive-note svg { flex-shrink: 0; margin-top: 1px; }
 
 @media screen and (max-width: 782px) {
-    .mxch-fc-card { padding: 12px; }
-    .mxch-fc-card-actions { gap: 2px; }
-    .mxch-modal-lg { width: 94%; }
+    .knet-fc-card { padding: 12px; }
+    .knet-fc-card-actions { gap: 2px; }
+    .knet-modal-lg { width: 94%; }
 }

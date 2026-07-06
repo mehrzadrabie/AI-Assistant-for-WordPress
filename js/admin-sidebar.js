@@ -2,7 +2,7 @@
  * Shared admin shell JS for the KnittNet admin design system.
  *
  * Wires tab switching, mobile menu open/close, and copy-to-clipboard
- * inside every .mxch-admin-wrapper on the page. Scoped to each wrapper
+ * inside every .knet-admin-wrapper on the page. Scoped to each wrapper
  * so multiple admin shells could in theory coexist (today we have one
  * per page, but no global side effects).
  *
@@ -14,14 +14,14 @@
  */
 (function () {
     function wire(wrapper) {
-        if (!wrapper || wrapper.dataset.mxchAdminWired === '1') {
+        if (!wrapper || wrapper.dataset.knetAdminWired === '1') {
             return;
         }
-        wrapper.dataset.mxchAdminWired = '1';
+        wrapper.dataset.knetAdminWired = '1';
 
         var copiedLabel = (window.KnittNetAdminSidebarI18n && window.KnittNetAdminSidebarI18n.copied) || 'Copied';
 
-        // Tab switcher: clicking any [data-target] button toggles .mxch-section.active.
+        // Tab switcher: clicking any [data-target] button toggles .knet-section.active.
         var navButtons = wrapper.querySelectorAll('[data-target]');
         navButtons.forEach(function (btn) {
             btn.addEventListener('click', function (e) {
@@ -31,7 +31,7 @@
                     return;
                 }
 
-                wrapper.querySelectorAll('.mxch-section').forEach(function (s) {
+                wrapper.querySelectorAll('.knet-section').forEach(function (s) {
                     s.classList.remove('active');
                 });
                 var target = wrapper.querySelector('#' + targetId);
@@ -39,25 +39,25 @@
                     target.classList.add('active');
                 }
 
-                wrapper.querySelectorAll('.mxch-nav-link, .mxch-mobile-nav-link').forEach(function (l) {
+                wrapper.querySelectorAll('.knet-nav-link, .knet-mobile-nav-link').forEach(function (l) {
                     l.classList.remove('active');
                 });
                 wrapper.querySelectorAll('[data-target="' + targetId + '"]').forEach(function (l) {
                     l.classList.add('active');
                 });
 
-                var mobileMenu = wrapper.querySelector('.mxch-mobile-menu');
+                var mobileMenu = wrapper.querySelector('.knet-mobile-menu');
                 if (mobileMenu) { mobileMenu.classList.remove('open'); }
-                var mobileOverlay = wrapper.querySelector('.mxch-mobile-overlay');
+                var mobileOverlay = wrapper.querySelector('.knet-mobile-overlay');
                 if (mobileOverlay) { mobileOverlay.classList.remove('open'); }
             });
         });
 
         // Mobile menu open/close.
-        var mobileBtn = wrapper.querySelector('.mxch-mobile-menu-btn');
-        var mobileMenu = wrapper.querySelector('.mxch-mobile-menu');
-        var mobileOverlay = wrapper.querySelector('.mxch-mobile-overlay');
-        var mobileClose = wrapper.querySelector('.mxch-mobile-menu-close');
+        var mobileBtn = wrapper.querySelector('.knet-mobile-menu-btn');
+        var mobileMenu = wrapper.querySelector('.knet-mobile-menu');
+        var mobileOverlay = wrapper.querySelector('.knet-mobile-overlay');
+        var mobileClose = wrapper.querySelector('.knet-mobile-menu-close');
 
         function openMenu() {
             if (mobileMenu) { mobileMenu.classList.add('open'); }
@@ -72,9 +72,9 @@
         if (mobileOverlay) { mobileOverlay.addEventListener('click', closeMenu); }
 
         // Copy-to-clipboard.
-        wrapper.querySelectorAll('[data-mxch-copy]').forEach(function (btn) {
+        wrapper.querySelectorAll('[data-knet-copy]').forEach(function (btn) {
             btn.addEventListener('click', function () {
-                var val = btn.getAttribute('data-mxch-copy');
+                var val = btn.getAttribute('data-knet-copy');
                 if (!val) {
                     return;
                 }
@@ -102,7 +102,7 @@
     }
 
     function init() {
-        document.querySelectorAll('.mxch-admin-wrapper').forEach(wire);
+        document.querySelectorAll('.knet-admin-wrapper').forEach(wire);
     }
 
     if (document.readyState === 'loading') {

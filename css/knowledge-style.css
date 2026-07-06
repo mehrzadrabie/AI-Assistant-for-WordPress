@@ -3366,9 +3366,9 @@ input:checked + .knittnet-toggle-slider:before {
     height: 36px;
     padding: 0 12px;
     background: #fff;
-    border: 1px solid var(--mxch-card-border, #e5e7eb);
+    border: 1px solid var(--knet-card-border, #e5e7eb);
     border-radius: 6px;
-    color: var(--mxch-text-primary, #1f2937);
+    color: var(--knet-text-primary, #1f2937);
     text-decoration: none;
     font-size: 13px;
     font-weight: 500;
@@ -3377,8 +3377,8 @@ input:checked + .knittnet-toggle-slider:before {
 }
 
 .knittnet-page-link:hover {
-    background: var(--mxch-primary, #7873f5);
-    border-color: var(--mxch-primary, #7873f5);
+    background: var(--knet-primary, #7873f5);
+    border-color: var(--knet-primary, #7873f5);
     color: #fff;
     text-decoration: none;
 }
@@ -3395,8 +3395,8 @@ input:checked + .knittnet-toggle-slider:before {
     min-width: 36px;
     height: 36px;
     padding: 0 12px;
-    background: var(--mxch-primary, #7873f5);
-    border: 1px solid var(--mxch-primary, #7873f5);
+    background: var(--knet-primary, #7873f5);
+    border: 1px solid var(--knet-primary, #7873f5);
     border-radius: 6px;
     color: #fff;
     font-size: 13px;
@@ -3409,7 +3409,7 @@ input:checked + .knittnet-toggle-slider:before {
     justify-content: center;
     min-width: 24px;
     height: 36px;
-    color: var(--mxch-text-muted, #9ca3af);
+    color: var(--knet-text-muted, #9ca3af);
     font-size: 14px;
 }
 
@@ -3418,7 +3418,7 @@ input:checked + .knittnet-toggle-slider:before {
 }
 
 .knittnet-pagination-loading .dashicons {
-    color: var(--mxch-primary, #7873f5);
+    color: var(--knet-primary, #7873f5);
 }
 
 /* Spin animation for loading indicator */
@@ -3462,9 +3462,9 @@ input:checked + .knittnet-toggle-slider:before {
     gap: 12px;
     padding: 12px 16px;
     background: #f8fafc;
-    border: 1px solid var(--mxch-card-border);
+    border: 1px solid var(--knet-card-border);
     border-bottom: none;
-    border-radius: var(--mxch-radius-md) var(--mxch-radius-md) 0 0;
+    border-radius: var(--knet-radius-md) var(--knet-radius-md) 0 0;
 }
 
 .knittnet-bulk-select-label {
@@ -3472,12 +3472,12 @@ input:checked + .knittnet-toggle-slider:before {
     align-items: center;
     gap: 6px;
     font-size: 13px;
-    color: var(--mxch-text-secondary);
+    color: var(--knet-text-secondary);
     cursor: pointer;
 }
 
 .knittnet-bulk-select-label:hover {
-    color: var(--mxch-text-primary);
+    color: var(--knet-text-primary);
 }
 
 .knittnet-entry-checkbox,
@@ -3485,7 +3485,7 @@ input:checked + .knittnet-toggle-slider:before {
     width: 16px;
     height: 16px;
     cursor: pointer;
-    accent-color: var(--mxch-primary, #7873f5);
+    accent-color: var(--knet-primary, #7873f5);
 }
 
 .knittnet-bulk-actions {
@@ -3499,7 +3499,7 @@ input:checked + .knittnet-toggle-slider:before {
     display: flex;
     align-items: center;
     gap: 6px;
-    color: var(--mxch-error, #dc2626) !important;
+    color: var(--knet-error, #dc2626) !important;
     border-color: #fecaca !important;
     background: transparent !important;
 }
@@ -3516,7 +3516,7 @@ input:checked + .knittnet-toggle-slider:before {
 
 .knittnet-selected-count {
     font-size: 12px;
-    color: var(--mxch-primary, #7873f5);
+    color: var(--knet-primary, #7873f5);
     font-weight: 600;
     margin-left: 4px;
 }
@@ -3543,7 +3543,7 @@ input:checked + .knittnet-toggle-slider:before {
     top: 0;
     bottom: 0;
     width: 3px;
-    background: var(--mxch-primary, #7873f5);
+    background: var(--knet-primary, #7873f5);
 }
 
 /* Deleting state */
@@ -3568,7 +3568,7 @@ tr.knittnet-row-error td:first-child::before {
     top: 0;
     bottom: 0;
     width: 3px;
-    background: var(--mxch-error, #dc2626);
+    background: var(--knet-error, #dc2626);
 }
 
 /* Spin animation for loading states */
@@ -3597,29 +3597,29 @@ tr.knittnet-row-error td:first-child::before {
    ========================================================================== */
 
 /* Desktop defaults for KB header controls */
-.mxch-kb-header-controls {
+.knet-kb-header-controls {
     display: flex;
     gap: 10px;
     align-items: center;
 }
 
-.mxch-kb-search-form {
+.knet-kb-search-form {
     display: flex;
     gap: 10px;
 }
 
-.mxch-kb-search-input {
+.knet-kb-search-input {
     width: 200px;
 }
 
-.mxch-kb-type-filter {
+.knet-kb-type-filter {
     width: auto;
 }
 
 /* Mobile: Knowledge Base card header stacks vertically */
 @media screen and (max-width: 960px) {
     /* Stack card header vertically */
-    #knowledge-base .mxch-card-header {
+    #knowledge-base .knet-card-header {
         flex-direction: column;
         align-items: stretch;
         gap: 12px;
@@ -3627,13 +3627,13 @@ tr.knittnet-row-error td:first-child::before {
     }
 
     /* Title row wraps badges */
-    #knowledge-base .mxch-card-title {
+    #knowledge-base .knet-card-title {
         flex-wrap: wrap;
         font-size: 14px;
     }
 
     /* Controls stack vertically */
-    .mxch-kb-header-controls {
+    .knet-kb-header-controls {
         flex-direction: column;
         align-items: stretch;
         gap: 8px;
@@ -3641,21 +3641,21 @@ tr.knittnet-row-error td:first-child::before {
     }
 
     /* Search form wraps */
-    .mxch-kb-search-form {
+    .knet-kb-search-form {
         flex-wrap: wrap;
         gap: 8px;
         width: 100%;
     }
 
     /* Search input takes full width */
-    .mxch-kb-search-input {
+    .knet-kb-search-input {
         width: 100% !important;
         flex: 1;
         min-width: 0;
     }
 
     /* Filter dropdown takes full width */
-    .mxch-kb-type-filter {
+    .knet-kb-type-filter {
         width: 100% !important;
         flex: 1;
         min-width: 0;
@@ -3671,7 +3671,7 @@ tr.knittnet-row-error td:first-child::before {
         width: 100%;
     }
 
-    .knittnet-delete-container .mxch-btn {
+    .knittnet-delete-container .knet-btn {
         width: 100%;
         justify-content: center;
     }
@@ -3707,16 +3707,16 @@ tr.knittnet-row-error td:first-child::before {
 
 /* Small mobile: further adjustments */
 @media screen and (max-width: 480px) {
-    #knowledge-base .mxch-card-header {
+    #knowledge-base .knet-card-header {
         padding: 10px 12px;
     }
 
-    #knowledge-base .mxch-card-title {
+    #knowledge-base .knet-card-title {
         font-size: 13px;
     }
 
     /* Search form items fully stacked */
-    .mxch-kb-search-form {
+    .knet-kb-search-form {
         flex-direction: column;
     }
 
@@ -3741,10 +3741,10 @@ tr.knittnet-row-error td:first-child::before {
 /* ─── Edit Entry Modal ─── */
 
 .knittnet-edit-entry-btn {
-    color: var(--mxch-primary, #7873f5);
+    color: var(--knet-primary, #7873f5);
 }
 .knittnet-edit-entry-btn:hover {
-    color: var(--mxch-primary-dark, #5b56d6);
+    color: var(--knet-primary-dark, #5b56d6);
     background: rgba(120, 115, 245, 0.08);
 }
 
@@ -3764,11 +3764,11 @@ tr.knittnet-row-error td:first-child::before {
 
 .knittnet-kb-edit-source {
     font-size: 12px;
-    color: var(--mxch-text-muted, #6b7280);
+    color: var(--knet-text-muted, #6b7280);
     word-break: break-all;
 }
 .knittnet-kb-edit-source a {
-    color: var(--mxch-primary, #7873f5);
+    color: var(--knet-primary, #7873f5);
     text-decoration: none;
 }
 
@@ -3778,20 +3778,20 @@ tr.knittnet-row-error td:first-child::before {
     max-height: 55vh;
     width: 100%;
     padding: 14px;
-    border: 1px solid var(--mxch-input-border, #d1d5db);
+    border: 1px solid var(--knet-input-border, #d1d5db);
     border-radius: 8px;
     font-size: 14px;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     line-height: 1.6;
     resize: vertical;
-    color: var(--mxch-text-primary, #1a1a2e);
-    background: var(--mxch-input-bg, #fff);
+    color: var(--knet-text-primary, #1a1a2e);
+    background: var(--knet-input-bg, #fff);
     box-sizing: border-box;
     transition: border-color 0.2s;
 }
 .knittnet-kb-edit-textarea:focus {
     outline: none;
-    border-color: var(--mxch-primary, #7873f5);
+    border-color: var(--knet-primary, #7873f5);
     box-shadow: 0 0 0 3px rgba(120, 115, 245, 0.1);
 }
 
@@ -3799,7 +3799,7 @@ tr.knittnet-row-error td:first-child::before {
     display: flex;
     justify-content: space-between;
     font-size: 12px;
-    color: var(--mxch-text-muted, #6b7280);
+    color: var(--knet-text-muted, #6b7280);
 }
 
 .knittnet-kb-edit-footer {
@@ -3827,7 +3827,7 @@ tr.knittnet-row-error td:first-child::before {
 /* ── Knowledge Inspector modal (plan-d8cb4b) ──────────────────────────
    Read-only "View indexed content" viewer. Reuses the Testing tab's
    match-card / chunk-detail components (admin-testing-tab.css, scoped under
-   .mxch-testing-results) so it looks native; this block only adds the modal
+   .knet-testing-results) so it looks native; this block only adds the modal
    body scroll + the chunk-text container the Testing tab doesn't have. */
 .knittnet-kb-inspect-body {
     flex: 1;
@@ -3839,11 +3839,11 @@ tr.knittnet-row-error td:first-child::before {
 }
 /* The modal body is the scroll container — let the inner results grow naturally
    instead of the Testing tab's own 400px inner scroll (avoids a double scrollbar). */
-.knittnet-kb-inspect-body .mxch-testing-results {
+.knittnet-kb-inspect-body .knet-testing-results {
     max-height: none;
     overflow: visible;
 }
-.mxch-kb-inspect-chunk-text {
+.knet-kb-inspect-chunk-text {
     margin: 8px 0 0;
     padding: 12px 14px;
     background: #f8fafc;
@@ -3856,7 +3856,7 @@ tr.knittnet-row-error td:first-child::before {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     font-size: 13px;
     line-height: 1.6;
-    color: var(--mxch-text-primary, #334155);
+    color: var(--knet-text-primary, #334155);
 }
 
 .knittnet-kb-edit-save-spinner {
@@ -3886,7 +3886,7 @@ tr.knittnet-row-error td:first-child::before {
     .knittnet-kb-edit-actions {
         justify-content: stretch;
     }
-    .knittnet-kb-edit-actions .mxch-btn {
+    .knittnet-kb-edit-actions .knet-btn {
         flex: 1;
         text-align: center;
     }

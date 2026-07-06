@@ -8,24 +8,24 @@ jQuery(document).ready(function($) {
     // ==========================================================================
 
     // Desktop sidebar navigation
-    $('.mxch-nav-link').on('click', function(e) {
+    $('.knet-nav-link').on('click', function(e) {
         e.preventDefault();
         const target = $(this).data('target');
 
         // Update active states
-        $('.mxch-nav-link').removeClass('active');
+        $('.knet-nav-link').removeClass('active');
         $(this).addClass('active');
 
         // Show target section
-        $('.mxch-section').removeClass('active');
+        $('.knet-section').removeClass('active');
         $('#' + target).addClass('active');
 
         // Reset scroll position of content area
-        $('.mxch-content').scrollTop(0);
+        $('.knet-content').scrollTop(0);
 
         // Also update mobile nav if open
-        $('.mxch-mobile-nav-link').removeClass('active');
-        $('.mxch-mobile-nav-link[data-target="' + target + '"]').addClass('active');
+        $('.knet-mobile-nav-link').removeClass('active');
+        $('.knet-mobile-nav-link[data-target="' + target + '"]').addClass('active');
 
         // Load transcripts when switching to all-chats
         if (target === 'all-chats' && !transcriptsLoaded) {
@@ -34,45 +34,45 @@ jQuery(document).ready(function($) {
     });
 
     // Mobile menu toggle
-    $('.mxch-mobile-menu-btn').on('click', function() {
-        $('.mxch-mobile-menu').addClass('open');
-        $('.mxch-mobile-overlay').addClass('open');
+    $('.knet-mobile-menu-btn').on('click', function() {
+        $('.knet-mobile-menu').addClass('open');
+        $('.knet-mobile-overlay').addClass('open');
     });
 
     // Close mobile menu
-    $('.mxch-mobile-menu-close, .mxch-mobile-overlay').on('click', function() {
-        $('.mxch-mobile-menu').removeClass('open');
-        $('.mxch-mobile-overlay').removeClass('open');
+    $('.knet-mobile-menu-close, .knet-mobile-overlay').on('click', function() {
+        $('.knet-mobile-menu').removeClass('open');
+        $('.knet-mobile-overlay').removeClass('open');
     });
 
     // Mobile navigation
-    $('.mxch-mobile-nav-link').on('click', function(e) {
+    $('.knet-mobile-nav-link').on('click', function(e) {
         e.preventDefault();
         const target = $(this).data('target');
 
-        $('.mxch-mobile-nav-link').removeClass('active');
+        $('.knet-mobile-nav-link').removeClass('active');
         $(this).addClass('active');
 
-        $('.mxch-section').removeClass('active');
+        $('.knet-section').removeClass('active');
         $('#' + target).addClass('active');
 
         // Reset scroll position of content area
-        $('.mxch-content').scrollTop(0);
+        $('.knet-content').scrollTop(0);
 
-        $('.mxch-nav-link').removeClass('active');
-        $('.mxch-nav-link[data-target="' + target + '"]').addClass('active');
+        $('.knet-nav-link').removeClass('active');
+        $('.knet-nav-link[data-target="' + target + '"]').addClass('active');
 
-        $('.mxch-mobile-menu').removeClass('open');
-        $('.mxch-mobile-overlay').removeClass('open');
+        $('.knet-mobile-menu').removeClass('open');
+        $('.knet-mobile-overlay').removeClass('open');
     });
 
     // Quick action buttons
-    $('.mxch-quick-action-btn[data-action="view-chats"]').on('click', function() {
-        $('.mxch-nav-link[data-target="all-chats"]').trigger('click');
+    $('.knet-quick-action-btn[data-action="view-chats"]').on('click', function() {
+        $('.knet-nav-link[data-target="all-chats"]').trigger('click');
     });
 
-    $('.mxch-quick-action-btn[data-action="settings"]').on('click', function() {
-        $('.mxch-nav-link[data-target="notifications"]').trigger('click');
+    $('.knet-quick-action-btn[data-action="settings"]').on('click', function() {
+        $('.knet-nav-link[data-target="notifications"]').trigger('click');
     });
 
     // ==========================================================================
@@ -85,25 +85,25 @@ jQuery(document).ready(function($) {
 
     function showMobileConversationPanel() {
         if (isMobile()) {
-            $('.mxch-chat-list-panel').addClass('panel-hidden');
-            $('#mxch-conversation-panel').addClass('panel-active');
-            $('#mxch-transcript-back-btn').show();
+            $('.knet-chat-list-panel').addClass('panel-hidden');
+            $('#knet-conversation-panel').addClass('panel-active');
+            $('#knet-transcript-back-btn').show();
         }
     }
 
     function hideMobileConversationPanel() {
         if (isMobile()) {
-            $('#mxch-conversation-panel').removeClass('panel-active');
-            $('.mxch-chat-list-panel').removeClass('panel-hidden');
-            $('#mxch-transcript-back-btn').hide();
+            $('#knet-conversation-panel').removeClass('panel-active');
+            $('.knet-chat-list-panel').removeClass('panel-hidden');
+            $('#knet-transcript-back-btn').hide();
         }
     }
 
     // Mobile back button handler
-    $('#mxch-transcript-back-btn').on('click', function(e) {
+    $('#knet-transcript-back-btn').on('click', function(e) {
         e.preventDefault();
         hideMobileConversationPanel();
-        $('.mxch-chat-item').removeClass('active');
+        $('.knet-chat-item').removeClass('active');
         currentSessionId = null;
     });
 
@@ -111,9 +111,9 @@ jQuery(document).ready(function($) {
     $(window).on('resize', function() {
         if (!isMobile()) {
             // Reset panel states when switching to desktop
-            $('.mxch-chat-list-panel').removeClass('panel-hidden');
-            $('#mxch-conversation-panel').removeClass('panel-active');
-            $('#mxch-transcript-back-btn').hide();
+            $('.knet-chat-list-panel').removeClass('panel-hidden');
+            $('#knet-conversation-panel').removeClass('panel-active');
+            $('#knet-transcript-back-btn').hide();
         }
         updateMobileViewportHeight();
     });
@@ -123,7 +123,7 @@ jQuery(document).ready(function($) {
         if (isMobile()) {
             // Use visualViewport if available (most reliable for mobile)
             const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
-            document.documentElement.style.setProperty('--mxch-mobile-vh', vh + 'px');
+            document.documentElement.style.setProperty('--knet-mobile-vh', vh + 'px');
         }
     }
 
@@ -150,7 +150,7 @@ jQuery(document).ready(function($) {
 
     // Search functionality with debounce
     let searchTimeout;
-    $('#mxch-search-transcripts').on('input', function() {
+    $('#knet-search-transcripts').on('input', function() {
         clearTimeout(searchTimeout);
         const searchTerm = $(this).val().toLowerCase();
 
@@ -161,10 +161,10 @@ jQuery(document).ready(function($) {
     });
 
     // Refresh button
-    $('#mxch-refresh-list').on('click', function() {
+    $('#knet-refresh-list').on('click', function() {
         const $btn = $(this);
         $btn.addClass('spinning');
-        loadChatList(currentPage, $('#mxch-search-transcripts').val());
+        loadChatList(currentPage, $('#knet-search-transcripts').val());
         setTimeout(() => $btn.removeClass('spinning'), 500);
     });
 
@@ -173,22 +173,22 @@ jQuery(document).ready(function($) {
     // ==========================================================================
 
     // Select all checkbox
-    $('#mxch-select-all').on('change', function() {
+    $('#knet-select-all').on('change', function() {
         const isChecked = $(this).is(':checked');
-        $('.mxch-chat-checkbox').prop('checked', isChecked);
+        $('.knet-chat-checkbox').prop('checked', isChecked);
 
         if (isChecked) {
-            $('.mxch-chat-item').each(function() {
+            $('.knet-chat-item').each(function() {
                 // Use .attr() — jQuery's .data() coerces "null"/"true"/numeric strings to JS types,
                 // which causes fetch/delete of those sessions to silently fail.
                 selectedSessions.add($(this).attr('data-session-id'));
                 $(this).addClass('selected');
             });
-            $('#mxch-chat-list').addClass('selection-mode');
+            $('#knet-chat-list').addClass('selection-mode');
         } else {
             selectedSessions.clear();
-            $('.mxch-chat-item').removeClass('selected');
-            $('#mxch-chat-list').removeClass('selection-mode');
+            $('.knet-chat-item').removeClass('selected');
+            $('#knet-chat-list').removeClass('selection-mode');
         }
 
         updateSelectionUI();
@@ -197,55 +197,55 @@ jQuery(document).ready(function($) {
     // Update selection UI
     function updateSelectionUI() {
         const count = selectedSessions.size;
-        const $countEl = $('#mxch-selected-count');
-        const $deleteBtn = $('#mxch-delete-selected');
+        const $countEl = $('#knet-selected-count');
+        const $deleteBtn = $('#knet-delete-selected');
 
         if (count > 0) {
             $countEl.text(count + ' selected').addClass('has-selection');
             $deleteBtn.prop('disabled', false);
-            $('#mxch-chat-list').addClass('selection-mode');
+            $('#knet-chat-list').addClass('selection-mode');
         } else {
             $countEl.removeClass('has-selection');
             $deleteBtn.prop('disabled', true);
-            $('#mxch-chat-list').removeClass('selection-mode');
+            $('#knet-chat-list').removeClass('selection-mode');
         }
 
         // Update select all checkbox state
-        const totalItems = $('.mxch-chat-checkbox').length;
-        const checkedItems = $('.mxch-chat-checkbox:checked').length;
-        $('#mxch-select-all').prop('checked', totalItems > 0 && checkedItems === totalItems);
-        $('#mxch-select-all').prop('indeterminate', checkedItems > 0 && checkedItems < totalItems);
+        const totalItems = $('.knet-chat-checkbox').length;
+        const checkedItems = $('.knet-chat-checkbox:checked').length;
+        $('#knet-select-all').prop('checked', totalItems > 0 && checkedItems === totalItems);
+        $('#knet-select-all').prop('indeterminate', checkedItems > 0 && checkedItems < totalItems);
     }
 
     // Sort button — opens a small menu with 4 sort modes (plan-a5b006 adds rating sorts).
-    $('#mxch-sort-btn').on('click', function(e) {
+    $('#knet-sort-btn').on('click', function(e) {
         e.stopPropagation();
         const $btn = $(this);
-        let $menu = $('#mxch-sort-menu');
+        let $menu = $('#knet-sort-menu');
         if (!$menu.length) {
             $menu = $(
-                '<div id="mxch-sort-menu" class="mxch-sort-menu" role="menu">' +
-                '  <button type="button" class="mxch-sort-option" data-sort="desc" role="menuitem">Newest first</button>' +
-                '  <button type="button" class="mxch-sort-option" data-sort="asc" role="menuitem">Oldest first</button>' +
-                '  <button type="button" class="mxch-sort-option" data-sort="rating_positive" role="menuitem"><span class="mxch-sort-option-icon mxch-rating-thumb-up"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H7"/><path d="M3 10h4"/></svg></span>Positive ratings first</button>' +
-                '  <button type="button" class="mxch-sort-option" data-sort="rating_negative" role="menuitem"><span class="mxch-sort-option-icon mxch-rating-thumb-down"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H17"/><path d="M21 14h-4"/></svg></span>Negative ratings first</button>' +
+                '<div id="knet-sort-menu" class="knet-sort-menu" role="menu">' +
+                '  <button type="button" class="knet-sort-option" data-sort="desc" role="menuitem">Newest first</button>' +
+                '  <button type="button" class="knet-sort-option" data-sort="asc" role="menuitem">Oldest first</button>' +
+                '  <button type="button" class="knet-sort-option" data-sort="rating_positive" role="menuitem"><span class="knet-sort-option-icon knet-rating-thumb-up"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H7"/><path d="M3 10h4"/></svg></span>Positive ratings first</button>' +
+                '  <button type="button" class="knet-sort-option" data-sort="rating_negative" role="menuitem"><span class="knet-sort-option-icon knet-rating-thumb-down"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H17"/><path d="M21 14h-4"/></svg></span>Negative ratings first</button>' +
                 '</div>'
             );
             $('body').append($menu);
-            $menu.on('click', '.mxch-sort-option', function() {
+            $menu.on('click', '.knet-sort-option', function() {
                 currentSortOrder = $(this).data('sort');
-                $menu.find('.mxch-sort-option').removeClass('active');
+                $menu.find('.knet-sort-option').removeClass('active');
                 $(this).addClass('active');
                 $menu.hide();
-                loadChatList(1, $('#mxch-search-transcripts').val());
+                loadChatList(1, $('#knet-search-transcripts').val());
             });
-            $(document).on('click.mxchSortMenu', function(ev) {
-                if (!$(ev.target).closest('#mxch-sort-menu, #mxch-sort-btn').length) {
+            $(document).on('click.knetSortMenu', function(ev) {
+                if (!$(ev.target).closest('#knet-sort-menu, #knet-sort-btn').length) {
                     $menu.hide();
                 }
             });
         }
-        $menu.find('.mxch-sort-option').removeClass('active');
+        $menu.find('.knet-sort-option').removeClass('active');
         $menu.find('[data-sort="' + currentSortOrder + '"]').addClass('active');
         const offset = $btn.offset();
         const btnHeight = $btn.outerHeight();
@@ -264,17 +264,17 @@ jQuery(document).ready(function($) {
         const feedback = (session && session.rating_feedback) ? session.rating_feedback : '';
         if (value === 1) {
             const title = feedback ? ('Visitor: ' + feedback) : 'Visitor rated this chat positively';
-            return '<span class="mxch-chat-rating mxch-chat-rating-up" title="' + escapeHtml(title) + '" aria-label="' + escapeHtml(title) + '"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H7"/><path d="M3 10h4"/></svg></span>';
+            return '<span class="knet-chat-rating knet-chat-rating-up" title="' + escapeHtml(title) + '" aria-label="' + escapeHtml(title) + '"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H7"/><path d="M3 10h4"/></svg></span>';
         }
         if (value === -1) {
             const title = feedback ? ('Visitor: ' + feedback) : 'Visitor rated this chat negatively';
-            return '<span class="mxch-chat-rating mxch-chat-rating-down" title="' + escapeHtml(title) + '" aria-label="' + escapeHtml(title) + '"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H17"/><path d="M21 14h-4"/></svg></span>';
+            return '<span class="knet-chat-rating knet-chat-rating-down" title="' + escapeHtml(title) + '" aria-label="' + escapeHtml(title) + '"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H17"/><path d="M21 14h-4"/></svg></span>';
         }
-        return '<span class="mxch-chat-rating mxch-chat-rating-empty" title="No rating yet" aria-label="No rating yet">—</span>';
+        return '<span class="knet-chat-rating knet-chat-rating-empty" title="No rating yet" aria-label="No rating yet">—</span>';
     }
 
     // Delete selected button — opens the shared confirm modal with the "also delete lead" checkbox.
-    $('#mxch-delete-selected').on('click', function() {
+    $('#knet-delete-selected').on('click', function() {
         const count = selectedSessions.size;
         if (count === 0) return;
         openTranscriptConfirm(Array.from(selectedSessions), count);
@@ -286,27 +286,27 @@ jQuery(document).ready(function($) {
     function openTranscriptConfirm(sessionIds, count) {
         transcriptConfirmSessionIds = sessionIds.slice();
         const n = count || sessionIds.length;
-        $('#mxch-transcript-confirm-title').text(n === 1 ? 'Delete conversation?' : 'Delete ' + n + ' conversations?');
-        $('#mxch-transcript-confirm-body').text(
+        $('#knet-transcript-confirm-title').text(n === 1 ? 'Delete conversation?' : 'Delete ' + n + ' conversations?');
+        $('#knet-transcript-confirm-body').text(
             n === 1
                 ? 'This removes the conversation and its messages.'
                 : 'This removes ' + n + ' conversations and their messages.'
         );
-        $('#mxch-transcript-also-delete-lead').prop('checked', false);
-        $('#mxch-transcript-confirm').fadeIn(120);
+        $('#knet-transcript-also-delete-lead').prop('checked', false);
+        $('#knet-transcript-confirm').fadeIn(120);
     }
 
     function closeTranscriptConfirm() {
-        $('#mxch-transcript-confirm').fadeOut(120);
+        $('#knet-transcript-confirm').fadeOut(120);
         transcriptConfirmSessionIds = [];
     }
 
-    $(document).on('click', '[data-mxch-transcript-close]', closeTranscriptConfirm);
+    $(document).on('click', '[data-knet-transcript-close]', closeTranscriptConfirm);
 
-    $('#mxch-transcript-confirm-go').on('click', function() {
+    $('#knet-transcript-confirm-go').on('click', function() {
         const ids = transcriptConfirmSessionIds.slice();
         if (!ids.length) { closeTranscriptConfirm(); return; }
-        const alsoDeleteLead = $('#mxch-transcript-also-delete-lead').is(':checked');
+        const alsoDeleteLead = $('#knet-transcript-also-delete-lead').is(':checked');
         closeTranscriptConfirm();
         deleteMultipleSessions(ids, alsoDeleteLead);
     });
@@ -329,19 +329,19 @@ jQuery(document).ready(function($) {
                     if (jsonResponse.success) {
                         // Clear selection
                         selectedSessions.clear();
-                        $('#mxch-select-all').prop('checked', false);
+                        $('#knet-select-all').prop('checked', false);
                         updateSelectionUI();
 
                         // If current conversation was deleted, reset panel
                         if (sessionIds.includes(currentSessionId)) {
                             currentSessionId = null;
-                            $('#mxch-conversation-content').hide();
-                            $('#mxch-conversation-empty').show();
-                            $('#mxch-details-drawer').hide();
+                            $('#knet-conversation-content').hide();
+                            $('#knet-conversation-empty').show();
+                            $('#knet-details-drawer').hide();
                         }
 
                         // Reload list
-                        loadChatList(currentPage, $('#mxch-search-transcripts').val());
+                        loadChatList(currentPage, $('#knet-search-transcripts').val());
 
                         // The Leads tab shares this data (Chat deleted pill, nav badge,
                         // stats) — invalidate it so switching tabs re-fetches instead of
@@ -362,8 +362,8 @@ jQuery(document).ready(function($) {
 
     // Load chat list function
     function loadChatList(page, searchTerm) {
-        const $container = $('#mxch-chat-list');
-        $container.html('<div class="mxch-list-loading"><span class="spinner is-active"></span></div>');
+        const $container = $('#knet-chat-list');
+        $container.html('<div class="knet-list-loading"><span class="spinner is-active"></span></div>');
 
         $.ajax({
             url: ajaxurl,
@@ -385,20 +385,20 @@ jQuery(document).ready(function($) {
                     updateChatCount(response.showing_start, response.showing_end, response.total_sessions);
                     renderPagination(response.page, response.total_pages, searchTerm);
                 } else {
-                    $container.html('<div class="mxch-list-empty"><p>No chats found</p></div>');
+                    $container.html('<div class="knet-list-empty"><p>No chats found</p></div>');
                     updateChatCount(0, 0, 0);
-                    $('#mxch-pagination').html('');
+                    $('#knet-pagination').html('');
                 }
             },
             error: function() {
-                $container.html('<div class="mxch-list-empty"><p>Error loading chats</p></div>');
+                $container.html('<div class="knet-list-empty"><p>Error loading chats</p></div>');
             }
         });
     }
 
     // Render chat list items
     function renderChatList(sessions) {
-        const $container = $('#mxch-chat-list');
+        const $container = $('#knet-chat-list');
         let html = '';
 
         sessions.forEach(function(session) {
@@ -406,19 +406,19 @@ jQuery(document).ready(function($) {
             const isSelected = selectedSessions.has(session.session_id) ? ' selected' : '';
             const isChecked = selectedSessions.has(session.session_id) ? ' checked' : '';
             html += `
-                <div class="mxch-chat-item${isActive}${isSelected}" data-session-id="${escapeHtml(session.session_id)}">
-                    <input type="checkbox" class="mxch-chat-checkbox"${isChecked}>
-                    <div class="mxch-chat-avatar">
+                <div class="knet-chat-item${isActive}${isSelected}" data-session-id="${escapeHtml(session.session_id)}">
+                    <input type="checkbox" class="knet-chat-checkbox"${isChecked}>
+                    <div class="knet-chat-avatar">
                         <span>${escapeHtml(session.initials)}</span>
                     </div>
-                    <div class="mxch-chat-info">
-                        <div class="mxch-chat-name">${escapeHtml(session.display_name)}</div>
-                        <div class="mxch-chat-preview">${escapeHtml(session.preview)}</div>
+                    <div class="knet-chat-info">
+                        <div class="knet-chat-name">${escapeHtml(session.display_name)}</div>
+                        <div class="knet-chat-preview">${escapeHtml(session.preview)}</div>
                     </div>
-                    <div class="mxch-chat-meta">
+                    <div class="knet-chat-meta">
                         ${renderRatingBadge(session)}
-                        <span class="mxch-chat-time">${escapeHtml(session.time_display)}</span>
-                        <span class="mxch-chat-count">${session.message_count}</span>
+                        <span class="knet-chat-time">${escapeHtml(session.time_display)}</span>
+                        <span class="knet-chat-count">${session.message_count}</span>
                     </div>
                 </div>
             `;
@@ -427,9 +427,9 @@ jQuery(document).ready(function($) {
         $container.html(html);
 
         // Attach checkbox handlers
-        $('.mxch-chat-checkbox').on('click', function(e) {
+        $('.knet-chat-checkbox').on('click', function(e) {
             e.stopPropagation(); // Prevent triggering chat item click
-            const $item = $(this).closest('.mxch-chat-item');
+            const $item = $(this).closest('.knet-chat-item');
             const sessionId = $item.attr('data-session-id');
 
             if ($(this).is(':checked')) {
@@ -444,15 +444,15 @@ jQuery(document).ready(function($) {
         });
 
         // Attach click handlers for selecting chat
-        $('.mxch-chat-item').on('click', function(e) {
+        $('.knet-chat-item').on('click', function(e) {
             // Don't trigger if clicking on checkbox
-            if ($(e.target).is('.mxch-chat-checkbox')) return;
+            if ($(e.target).is('.knet-chat-checkbox')) return;
 
             const sessionId = $(this).attr('data-session-id');
             selectChat(sessionId);
 
             // Update active state
-            $('.mxch-chat-item').removeClass('active');
+            $('.knet-chat-item').removeClass('active');
             $(this).addClass('active');
 
             // Show conversation panel on mobile
@@ -466,38 +466,38 @@ jQuery(document).ready(function($) {
     // Update chat count display
     function updateChatCount(start, end, total) {
         if (total === 0) {
-            $('#mxch-chat-count').text('0 chats');
+            $('#knet-chat-count').text('0 chats');
         } else {
-            $('#mxch-chat-count').text(`${start}-${end} / ${total} chats`);
+            $('#knet-chat-count').text(`${start}-${end} / ${total} chats`);
         }
     }
 
     // Render pagination
     function renderPagination(currentPage, totalPages, searchTerm) {
-        const $container = $('#mxch-pagination');
+        const $container = $('#knet-pagination');
 
         if (totalPages <= 1) {
             $container.html('');
             return;
         }
 
-        let html = '<div class="mxch-pagination-btns">';
+        let html = '<div class="knet-pagination-btns">';
 
         if (currentPage > 1) {
-            html += `<button class="mxch-page-btn" data-page="${currentPage - 1}">&laquo;</button>`;
+            html += `<button class="knet-page-btn" data-page="${currentPage - 1}">&laquo;</button>`;
         }
 
-        html += `<span class="mxch-page-info">${currentPage} / ${totalPages}</span>`;
+        html += `<span class="knet-page-info">${currentPage} / ${totalPages}</span>`;
 
         if (currentPage < totalPages) {
-            html += `<button class="mxch-page-btn" data-page="${currentPage + 1}">&raquo;</button>`;
+            html += `<button class="knet-page-btn" data-page="${currentPage + 1}">&raquo;</button>`;
         }
 
         html += '</div>';
         $container.html(html);
 
         // Pagination click handlers
-        $('.mxch-page-btn').on('click', function() {
+        $('.knet-page-btn').on('click', function() {
             const pageNum = $(this).data('page');
             loadChatList(pageNum, searchTerm);
         });
@@ -517,9 +517,9 @@ jQuery(document).ready(function($) {
         }
 
         // Show loading in conversation panel
-        $('#mxch-conversation-empty').hide();
-        $('#mxch-conversation-content').show();
-        $('#mxch-messages-area').html('<div class="mxch-messages-loading"><span class="spinner is-active"></span> Loading conversation...</div>');
+        $('#knet-conversation-empty').hide();
+        $('#knet-conversation-content').show();
+        $('#knet-messages-area').html('<div class="knet-messages-loading"><span class="spinner is-active"></span> Loading conversation...</div>');
 
         $.ajax({
             url: ajaxurl,
@@ -538,11 +538,11 @@ jQuery(document).ready(function($) {
                         }, 100);
                     }
                 } else {
-                    $('#mxch-messages-area').html('<div class="mxch-messages-error">Failed to load conversation</div>');
+                    $('#knet-messages-area').html('<div class="knet-messages-error">Failed to load conversation</div>');
                 }
             },
             error: function() {
-                $('#mxch-messages-area').html('<div class="mxch-messages-error">Error loading conversation</div>');
+                $('#knet-messages-area').html('<div class="knet-messages-error">Error loading conversation</div>');
             }
         });
     }
@@ -550,47 +550,47 @@ jQuery(document).ready(function($) {
     // Render conversation content
     function renderConversation(data) {
         // Update header
-        $('#mxch-user-avatar span').text(data.user.initials);
-        $('#mxch-user-name').text(data.user.name);
-        $('#mxch-user-meta').text(data.user.sub);
+        $('#knet-user-avatar span').text(data.user.initials);
+        $('#knet-user-name').text(data.user.name);
+        $('#knet-user-meta').text(data.user.sub);
 
         // Update details drawer
-        $('#mxch-detail-messages').text(data.message_count);
-        $('#mxch-detail-started').text(data.started);
+        $('#knet-detail-messages').text(data.message_count);
+        $('#knet-detail-started').text(data.started);
 
         if (data.page.url) {
-            $('#mxch-detail-page').html(`<a href="${escapeHtml(data.page.url)}" target="_blank">${escapeHtml(data.page.title || data.page.url)}</a>`);
+            $('#knet-detail-page').html(`<a href="${escapeHtml(data.page.url)}" target="_blank">${escapeHtml(data.page.title || data.page.url)}</a>`);
         } else {
-            $('#mxch-detail-page').text('-');
+            $('#knet-detail-page').text('-');
         }
 
         if (data.user.email) {
-            $('#mxch-detail-email').text(data.user.email);
-            $('#mxch-detail-email-row').show();
+            $('#knet-detail-email').text(data.user.email);
+            $('#knet-detail-email-row').show();
         } else {
-            $('#mxch-detail-email-row').hide();
+            $('#knet-detail-email-row').hide();
         }
 
         // Feedback row — .text() (not .html()) for XSS-safe display of user-submitted text.
         // rating_feedback is already sanitize_text_field()'d + mb_substr(200) on save.
         var feedback = (data && data.rating_feedback) ? String(data.rating_feedback).trim() : '';
         if (feedback) {
-            $('#mxch-detail-feedback').text(feedback);
-            $('#mxch-detail-feedback-row').show();
+            $('#knet-detail-feedback').text(feedback);
+            $('#knet-detail-feedback-row').show();
         } else {
-            $('#mxch-detail-feedback-row').hide();
+            $('#knet-detail-feedback-row').hide();
         }
 
         // Clicked links
         if (data.clicked_urls && data.clicked_urls.length > 0) {
             let linksHtml = '';
             data.clicked_urls.forEach(function(url) {
-                linksHtml += `<a href="${escapeHtml(url)}" target="_blank" class="mxch-clicked-link">${escapeHtml(url)}</a>`;
+                linksHtml += `<a href="${escapeHtml(url)}" target="_blank" class="knet-clicked-link">${escapeHtml(url)}</a>`;
             });
-            $('#mxch-clicked-links').html(linksHtml);
-            $('#mxch-clicked-section').show();
+            $('#knet-clicked-links').html(linksHtml);
+            $('#knet-clicked-section').show();
         } else {
-            $('#mxch-clicked-section').hide();
+            $('#knet-clicked-section').hide();
         }
 
         // Render messages
@@ -598,42 +598,42 @@ jQuery(document).ready(function($) {
         data.messages.forEach(function(msg) {
             if (msg.is_user) {
                 messagesHtml += `
-                    <div class="mxch-message mxch-message-user" data-message-id="${msg.id}">
-                        <div class="mxch-message-row">
-                            <div class="mxch-message-bubble">
+                    <div class="knet-message knet-message-user" data-message-id="${msg.id}">
+                        <div class="knet-message-row">
+                            <div class="knet-message-bubble">
                                 ${msg.content}
                             </div>
                         </div>
-                        <div class="mxch-message-time">${escapeHtml(msg.timestamp)}</div>
+                        <div class="knet-message-time">${escapeHtml(msg.timestamp)}</div>
                     </div>
                 `;
             } else {
-                const ragLink = msg.has_rag ? `<a href="#" class="mxch-rag-link" data-message-id="${msg.id}">Sources</a>` : '';
+                const ragLink = msg.has_rag ? `<a href="#" class="knet-rag-link" data-message-id="${msg.id}">Sources</a>` : '';
                 messagesHtml += `
-                    <div class="mxch-message mxch-message-bot" data-message-id="${msg.id}">
-                        <div class="mxch-message-header">
-                            <span class="mxch-bot-label">AI Assistant</span>
+                    <div class="knet-message knet-message-bot" data-message-id="${msg.id}">
+                        <div class="knet-message-header">
+                            <span class="knet-bot-label">AI Assistant</span>
                             ${ragLink}
                         </div>
-                        <div class="mxch-message-row">
-                            <div class="mxch-message-bubble">
+                        <div class="knet-message-row">
+                            <div class="knet-message-bubble">
                                 ${msg.content}
                             </div>
                         </div>
-                        <div class="mxch-message-time">${escapeHtml(msg.timestamp)}</div>
+                        <div class="knet-message-time">${escapeHtml(msg.timestamp)}</div>
                     </div>
                 `;
             }
         });
 
-        $('#mxch-messages-area').html(messagesHtml);
+        $('#knet-messages-area').html(messagesHtml);
 
         // Scroll to bottom
-        const $area = $('#mxch-messages-area');
+        const $area = $('#knet-messages-area');
         $area.scrollTop($area[0].scrollHeight);
 
         // Attach RAG link handlers
-        $('.mxch-rag-link').on('click', function(e) {
+        $('.knet-rag-link').on('click', function(e) {
             e.preventDefault();
             const messageId = $(this).data('message-id');
             if (messageId) {
@@ -643,8 +643,8 @@ jQuery(document).ready(function($) {
     }
 
     // Toggle details drawer
-    $('#mxch-toggle-details').on('click', function() {
-        const $drawer = $('#mxch-details-drawer');
+    $('#knet-toggle-details').on('click', function() {
+        const $drawer = $('#knet-details-drawer');
         const $btn = $(this);
 
         if ($drawer.is(':visible')) {
@@ -657,7 +657,7 @@ jQuery(document).ready(function($) {
     });
 
     // Delete current chat — opens the shared confirm modal.
-    $('#mxch-delete-current').on('click', function() {
+    $('#knet-delete-current').on('click', function() {
         if (!currentSessionId) return;
         openTranscriptConfirm([currentSessionId], 1);
     });
@@ -680,12 +680,12 @@ jQuery(document).ready(function($) {
                     if (jsonResponse.success) {
                         // Reset conversation panel
                         currentSessionId = null;
-                        $('#mxch-conversation-content').hide();
-                        $('#mxch-conversation-empty').show();
-                        $('#mxch-details-drawer').hide();
+                        $('#knet-conversation-content').hide();
+                        $('#knet-conversation-empty').show();
+                        $('#knet-details-drawer').hide();
 
                         // Reload list
-                        loadChatList(currentPage, $('#mxch-search-transcripts').val());
+                        loadChatList(currentPage, $('#knet-search-transcripts').val());
                     } else if (jsonResponse.error) {
                         alert('Error: ' + jsonResponse.error);
                     }
@@ -703,7 +703,7 @@ jQuery(document).ready(function($) {
     // Export Functionality
     // ==========================================================================
 
-    $('#mxch-export-btn, #mxch-export-current').on('click', function() {
+    $('#knet-export-btn, #knet-export-current').on('click', function() {
         const $button = $(this);
         $button.prop('disabled', true).addClass('loading');
 
@@ -741,14 +741,14 @@ jQuery(document).ready(function($) {
     let currentTranslationLang = null;
 
     // Load saved language preference from localStorage
-    const savedLang = localStorage.getItem('mxch_translate_lang');
+    const savedLang = localStorage.getItem('knet_translate_lang');
     if (savedLang) {
-        $('#mxch-translate-lang').val(savedLang);
+        $('#knet-translate-lang').val(savedLang);
     }
 
     // Save language preference when changed
-    $('#mxch-translate-lang').on('change', function() {
-        localStorage.setItem('mxch_translate_lang', $(this).val());
+    $('#knet-translate-lang').on('change', function() {
+        localStorage.setItem('knet_translate_lang', $(this).val());
     });
 
     // Apply translations to messages
@@ -756,14 +756,14 @@ jQuery(document).ready(function($) {
         // Store original messages if not already stored
         if (!originalMessages) {
             originalMessages = [];
-            $('#mxch-messages-area .mxch-message-bubble').each(function() {
+            $('#knet-messages-area .knet-message-bubble').each(function() {
                 originalMessages.push($(this).html());
             });
         }
 
         // Apply translations
         translations.forEach(function(item) {
-            const $bubble = $('#mxch-messages-area .mxch-message-bubble').eq(item.index);
+            const $bubble = $('#knet-messages-area .knet-message-bubble').eq(item.index);
             if ($bubble.length) {
                 $bubble.html(item.translated);
                 $bubble.addClass('translated');
@@ -771,7 +771,7 @@ jQuery(document).ready(function($) {
         });
 
         isTranslated = true;
-        $('#mxch-show-original-btn').show();
+        $('#knet-show-original-btn').show();
     }
 
     // Load saved translation for current session
@@ -788,35 +788,35 @@ jQuery(document).ready(function($) {
                     currentTranslationLang = response.language;
                     applyTranslations(response.translations);
                     // Update language selector to show saved language
-                    $('#mxch-translate-lang').val(response.language);
+                    $('#knet-translate-lang').val(response.language);
                 }
             }
         });
     }
 
     // Translate button click handler
-    $('#mxch-translate-btn').on('click', function() {
+    $('#knet-translate-btn').on('click', function() {
         if (!currentSessionId) return;
 
         const $btn = $(this);
-        const targetLang = $('#mxch-translate-lang').val();
+        const targetLang = $('#knet-translate-lang').val();
 
         // Disable button and show loading state
         $btn.prop('disabled', true);
-        $btn.find('.mxch-translate-text').text('Translating...');
-        $btn.find('svg').addClass('mxch-translate-spinner');
+        $btn.find('.knet-translate-text').text('Translating...');
+        $btn.find('svg').addClass('knet-translate-spinner');
 
         // Store original messages before translation
         if (!originalMessages) {
             originalMessages = [];
-            $('#mxch-messages-area .mxch-message-bubble').each(function() {
+            $('#knet-messages-area .knet-message-bubble').each(function() {
                 originalMessages.push($(this).html());
             });
         }
 
         // If already translated, restore originals first before re-translating
         if (isTranslated) {
-            $('#mxch-messages-area .mxch-message-bubble').each(function(index) {
+            $('#knet-messages-area .knet-message-bubble').each(function(index) {
                 if (originalMessages[index]) {
                     $(this).html(originalMessages[index]);
                     $(this).removeClass('translated');
@@ -850,29 +850,29 @@ jQuery(document).ready(function($) {
                 if (response.success && response.translations) {
                     currentTranslationLang = response.language;
                     applyTranslations(response.translations);
-                    $btn.find('.mxch-translate-text').text('Translate');
+                    $btn.find('.knet-translate-text').text('Translate');
                 } else {
                     alert(response.error || 'Translation failed. Please try again.');
-                    $btn.find('.mxch-translate-text').text('Translate');
+                    $btn.find('.knet-translate-text').text('Translate');
                 }
             },
             error: function() {
                 alert('Translation request failed. Please try again.');
-                $btn.find('.mxch-translate-text').text('Translate');
+                $btn.find('.knet-translate-text').text('Translate');
             },
             complete: function() {
                 $btn.prop('disabled', false);
-                $btn.find('svg').removeClass('mxch-translate-spinner');
+                $btn.find('svg').removeClass('knet-translate-spinner');
             }
         });
     });
 
     // Show original button click handler
-    $('#mxch-show-original-btn').on('click', function() {
+    $('#knet-show-original-btn').on('click', function() {
         if (!originalMessages) return;
 
         // Restore original messages
-        $('#mxch-messages-area .mxch-message-bubble').each(function(index) {
+        $('#knet-messages-area .knet-message-bubble').each(function(index) {
             if (originalMessages[index]) {
                 $(this).html(originalMessages[index]);
                 $(this).removeClass('translated');
@@ -888,7 +888,7 @@ jQuery(document).ready(function($) {
         originalMessages = null;
         isTranslated = false;
         currentTranslationLang = null;
-        $('#mxch-show-original-btn').hide();
+        $('#knet-show-original-btn').hide();
     }
 
     // Make functions available to selectChat
@@ -900,19 +900,19 @@ jQuery(document).ready(function($) {
     // ==========================================================================
 
     function openRagContextModal(messageId) {
-        const $modal = $('#mxch-rag-modal');
-        const $loading = $modal.find('.mxch-rag-loading');
-        const $sourcesContent = $modal.find('.mxch-rag-content');
-        const $actionsContent = $modal.find('.mxch-actions-content');
+        const $modal = $('#knet-rag-modal');
+        const $loading = $modal.find('.knet-rag-loading');
+        const $sourcesContent = $modal.find('.knet-rag-content');
+        const $actionsContent = $modal.find('.knet-actions-content');
 
         // Reset to Sources tab
-        $modal.find('.mxch-context-tab').removeClass('active');
-        $modal.find('.mxch-context-tab[data-tab="sources"]').addClass('active');
-        $('#mxch-tab-sources').show();
-        $('#mxch-tab-actions').hide();
+        $modal.find('.knet-context-tab').removeClass('active');
+        $modal.find('.knet-context-tab[data-tab="sources"]').addClass('active');
+        $('#knet-tab-sources').show();
+        $('#knet-tab-actions').hide();
 
         // Reset badge counts
-        $('#mxch-sources-count, #mxch-actions-count').hide().text('0');
+        $('#knet-sources-count, #knet-actions-count').hide().text('0');
 
         $modal.fadeIn(200);
         $loading.show();
@@ -941,36 +941,36 @@ jQuery(document).ready(function($) {
                     const actionsCount = response.data.action_analysis ? response.data.action_analysis.length : 0;
 
                     if (sourcesCount > 0) {
-                        $('#mxch-sources-count').text(sourcesCount).show();
+                        $('#knet-sources-count').text(sourcesCount).show();
                     }
                     if (actionsCount > 0) {
-                        $('#mxch-actions-count').text(actionsCount).show();
+                        $('#knet-actions-count').text(actionsCount).show();
                     }
                 } else {
-                    $sourcesContent.html('<div class="mxch-rag-error">Unable to load document context.</div>');
-                    $actionsContent.html('<div class="mxch-rag-error">No action data available.</div>');
+                    $sourcesContent.html('<div class="knet-rag-error">Unable to load document context.</div>');
+                    $actionsContent.html('<div class="knet-rag-error">No action data available.</div>');
                 }
             },
             error: function() {
                 $loading.hide();
-                $sourcesContent.html('<div class="mxch-rag-error">Error loading context. Please try again.</div>');
-                $actionsContent.html('<div class="mxch-rag-error">Error loading context. Please try again.</div>');
+                $sourcesContent.html('<div class="knet-rag-error">Error loading context. Please try again.</div>');
+                $actionsContent.html('<div class="knet-rag-error">Error loading context. Please try again.</div>');
             }
         });
     }
 
     // Tab switching
-    $(document).on('click', '.mxch-context-tab', function() {
+    $(document).on('click', '.knet-context-tab', function() {
         const $tab = $(this);
         const tabName = $tab.data('tab');
 
         // Update active tab
-        $('.mxch-context-tab').removeClass('active');
+        $('.knet-context-tab').removeClass('active');
         $tab.addClass('active');
 
         // Show/hide content
-        $('.mxch-tab-content').hide();
-        $('#mxch-tab-' + tabName).show();
+        $('.knet-tab-content').hide();
+        $('#knet-tab-' + tabName).show();
     });
 
     function renderRagContext(data, $container) {
@@ -978,15 +978,15 @@ jQuery(document).ready(function($) {
 
         // Check if we have any source data
         if (!data.top_matches || data.top_matches.length === 0) {
-            html += '<div class="mxch-no-results"><p>No document matches found for this response.</p></div>';
+            html += '<div class="knet-no-results"><p>No document matches found for this response.</p></div>';
             $container.html(html);
             return;
         }
 
-        html += '<div class="mxch-rag-summary">';
-        html += '<div class="mxch-rag-summary-item"><span class="mxch-rag-label">Knowledge Base:</span> <span class="mxch-rag-value">' + escapeHtml(data.knowledge_base_type || 'WordPress Database') + '</span></div>';
-        html += '<div class="mxch-rag-summary-item"><span class="mxch-rag-label">Similarity Threshold:</span> <span class="mxch-rag-value">' + Math.round((data.similarity_threshold || 0.35) * 100) + '%</span></div>';
-        html += '<div class="mxch-rag-summary-item"><span class="mxch-rag-label">Documents Checked:</span> <span class="mxch-rag-value">' + (data.total_documents_checked || 0) + '</span></div>';
+        html += '<div class="knet-rag-summary">';
+        html += '<div class="knet-rag-summary-item"><span class="knet-rag-label">Knowledge Base:</span> <span class="knet-rag-value">' + escapeHtml(data.knowledge_base_type || 'WordPress Database') + '</span></div>';
+        html += '<div class="knet-rag-summary-item"><span class="knet-rag-label">Similarity Threshold:</span> <span class="knet-rag-value">' + Math.round((data.similarity_threshold || 0.35) * 100) + '%</span></div>';
+        html += '<div class="knet-rag-summary-item"><span class="knet-rag-label">Documents Checked:</span> <span class="knet-rag-value">' + (data.total_documents_checked || 0) + '</span></div>';
         html += '</div>';
 
         const groupedByUrl = {};
@@ -1022,27 +1022,27 @@ jQuery(document).ready(function($) {
         const usedUrlCount = data.sources_used > 0 ? data.sources_used : urlGroups.filter(g => g.usedForContext).length;
         const chunksInfo = data.total_chunks_used > 0 ? data.total_chunks_used + ' chunks sent to AI' : '';
 
-        html += '<div class="mxch-rag-matches">';
+        html += '<div class="knet-rag-matches">';
         html += '<h3>Retrieved Documents</h3>';
-        html += '<p style="color: var(--mxch-text-secondary); font-size: 13px; margin-bottom: 16px;">' + usedUrlCount + ' source' + (usedUrlCount === 1 ? '' : 's') + ' used for response' + (chunksInfo ? ' &middot; ' + chunksInfo : '') + '</p>';
+        html += '<p style="color: var(--knet-text-secondary); font-size: 13px; margin-bottom: 16px;">' + usedUrlCount + ' source' + (usedUrlCount === 1 ? '' : 's') + ' used for response' + (chunksInfo ? ' &middot; ' + chunksInfo : '') + '</p>';
 
         urlGroups.forEach(function(group) {
-            const cardClass = group.usedForContext ? 'mxch-rag-match-used' : 'mxch-rag-match-below';
+            const cardClass = group.usedForContext ? 'knet-rag-match-used' : 'knet-rag-match-below';
             const statusIcon = group.usedForContext ? '&#10003;' : '&#10007;';
             const statusLabel = group.usedForContext ? 'Used' : 'Not Used';
 
-            html += '<div class="mxch-rag-match-card ' + cardClass + '">';
-            html += '<div class="mxch-rag-match-header">';
-            html += '<span class="mxch-rag-match-score">' + group.bestScore + '%</span>';
+            html += '<div class="knet-rag-match-card ' + cardClass + '">';
+            html += '<div class="knet-rag-match-header">';
+            html += '<span class="knet-rag-match-score">' + group.bestScore + '%</span>';
 
             if (group.matchedChunks.length > 1) {
-                html += '<span class="mxch-rag-chunk-badge">' + group.matchedChunks.length + ' chunks</span>';
+                html += '<span class="knet-rag-chunk-badge">' + group.matchedChunks.length + ' chunks</span>';
             }
 
-            html += '<span class="mxch-rag-match-status ' + (group.usedForContext ? 'status-used' : 'status-below') + '">' + statusIcon + ' ' + statusLabel + '</span>';
+            html += '<span class="knet-rag-match-status ' + (group.usedForContext ? 'status-used' : 'status-below') + '">' + statusIcon + ' ' + statusLabel + '</span>';
             html += '</div>';
 
-            html += '<div class="mxch-rag-match-source">';
+            html += '<div class="knet-rag-match-source">';
             if (group.isUrl) {
                 html += '<a href="' + escapeHtml(group.url) + '" target="_blank">' + escapeHtml(group.url) + '</a>';
             } else {
@@ -1061,7 +1061,7 @@ jQuery(document).ready(function($) {
 
         // Check if we have action analysis data
         if (!data.action_analysis || data.action_analysis.length === 0) {
-            html += '<div class="mxch-no-results"><p>No action analysis available for this message.</p><p style="color: var(--mxch-text-secondary); font-size: 13px; margin-top: 8px;">Actions are only evaluated when enabled in your bot configuration.</p></div>';
+            html += '<div class="knet-no-results"><p>No action analysis available for this message.</p><p style="color: var(--knet-text-secondary); font-size: 13px; margin-top: 8px;">Actions are only evaluated when enabled in your bot configuration.</p></div>';
             $container.html(html);
             return;
         }
@@ -1071,52 +1071,52 @@ jQuery(document).ready(function($) {
         const actionsAboveThreshold = actions.filter(a => a.above_threshold).length;
 
         // Summary section
-        html += '<div class="mxch-rag-summary">';
-        html += '<div class="mxch-rag-summary-item"><span class="mxch-rag-label">Actions Evaluated:</span> <span class="mxch-rag-value">' + actions.length + '</span></div>';
-        html += '<div class="mxch-rag-summary-item"><span class="mxch-rag-label">Above Threshold:</span> <span class="mxch-rag-value">' + actionsAboveThreshold + '</span></div>';
+        html += '<div class="knet-rag-summary">';
+        html += '<div class="knet-rag-summary-item"><span class="knet-rag-label">Actions Evaluated:</span> <span class="knet-rag-value">' + actions.length + '</span></div>';
+        html += '<div class="knet-rag-summary-item"><span class="knet-rag-label">Above Threshold:</span> <span class="knet-rag-value">' + actionsAboveThreshold + '</span></div>';
         if (triggeredAction) {
-            html += '<div class="mxch-rag-summary-item"><span class="mxch-rag-label">Triggered:</span> <span class="mxch-rag-value" style="color: #10b981; font-weight: 600;">' + escapeHtml(triggeredAction.intent_label) + '</span></div>';
+            html += '<div class="knet-rag-summary-item"><span class="knet-rag-label">Triggered:</span> <span class="knet-rag-value" style="color: #10b981; font-weight: 600;">' + escapeHtml(triggeredAction.intent_label) + '</span></div>';
         }
         html += '</div>';
 
         // Actions list
-        html += '<div class="mxch-rag-matches">';
+        html += '<div class="knet-rag-matches">';
         html += '<h3>Action Scores</h3>';
-        html += '<p style="color: var(--mxch-text-secondary); font-size: 13px; margin-bottom: 16px;">Showing all evaluated actions sorted by similarity score</p>';
+        html += '<p style="color: var(--knet-text-secondary); font-size: 13px; margin-bottom: 16px;">Showing all evaluated actions sorted by similarity score</p>';
 
         actions.forEach(function(action) {
-            let cardClass = 'mxch-rag-match-below';
+            let cardClass = 'knet-rag-match-below';
             let statusIcon = '&#10007;';
             let statusLabel = 'Below Threshold';
 
             if (action.triggered) {
-                cardClass = 'mxch-action-triggered';
+                cardClass = 'knet-action-triggered';
                 statusIcon = '&#9889;';
                 statusLabel = 'Triggered';
             } else if (action.above_threshold) {
-                cardClass = 'mxch-rag-match-used';
+                cardClass = 'knet-rag-match-used';
                 statusIcon = '&#10003;';
                 statusLabel = 'Above Threshold';
             }
 
-            html += '<div class="mxch-rag-match-card ' + cardClass + '">';
-            html += '<div class="mxch-rag-match-header">';
-            html += '<span class="mxch-rag-match-score">' + action.similarity_percentage + '%</span>';
-            html += '<span class="mxch-action-threshold-badge">Threshold: ' + action.threshold_percentage + '%</span>';
-            html += '<span class="mxch-rag-match-status ' + (action.triggered ? 'status-triggered' : (action.above_threshold ? 'status-used' : 'status-below')) + '">' + statusIcon + ' ' + statusLabel + '</span>';
+            html += '<div class="knet-rag-match-card ' + cardClass + '">';
+            html += '<div class="knet-rag-match-header">';
+            html += '<span class="knet-rag-match-score">' + action.similarity_percentage + '%</span>';
+            html += '<span class="knet-action-threshold-badge">Threshold: ' + action.threshold_percentage + '%</span>';
+            html += '<span class="knet-rag-match-status ' + (action.triggered ? 'status-triggered' : (action.above_threshold ? 'status-used' : 'status-below')) + '">' + statusIcon + ' ' + statusLabel + '</span>';
             html += '</div>';
 
-            html += '<div class="mxch-action-details">';
-            html += '<div class="mxch-action-label">' + escapeHtml(action.intent_label) + '</div>';
-            html += '<div class="mxch-action-callback"><span class="mxch-action-callback-label">Callback:</span> ' + escapeHtml(action.callback_function) + '</div>';
+            html += '<div class="knet-action-details">';
+            html += '<div class="knet-action-label">' + escapeHtml(action.intent_label) + '</div>';
+            html += '<div class="knet-action-callback"><span class="knet-action-callback-label">Callback:</span> ' + escapeHtml(action.callback_function) + '</div>';
             html += '</div>';
 
             // Score bar visualization
             const scoreBarWidth = Math.min(action.similarity_percentage, 100);
             const thresholdPos = Math.min(action.threshold_percentage, 100);
-            html += '<div class="mxch-action-score-bar">';
-            html += '<div class="mxch-action-score-fill" style="width: ' + scoreBarWidth + '%;"></div>';
-            html += '<div class="mxch-action-threshold-marker" style="left: ' + thresholdPos + '%;"></div>';
+            html += '<div class="knet-action-score-bar">';
+            html += '<div class="knet-action-score-fill" style="width: ' + scoreBarWidth + '%;"></div>';
+            html += '<div class="knet-action-threshold-marker" style="left: ' + thresholdPos + '%;"></div>';
             html += '</div>';
 
             html += '</div>';
@@ -1134,19 +1134,19 @@ jQuery(document).ready(function($) {
     }
 
     // Close RAG modal
-    $('.mxch-modal-close').on('click', function() {
-        $(this).closest('.mxch-modal-overlay').fadeOut(200);
+    $('.knet-modal-close').on('click', function() {
+        $(this).closest('.knet-modal-overlay').fadeOut(200);
     });
 
-    $('.mxch-modal-overlay').on('click', function(e) {
-        if ($(e.target).is('.mxch-modal-overlay')) {
+    $('.knet-modal-overlay').on('click', function(e) {
+        if ($(e.target).is('.knet-modal-overlay')) {
             $(this).fadeOut(200);
         }
     });
 
     $(document).on('keydown', function(e) {
         if (e.key === 'Escape') {
-            $('.mxch-modal-overlay').fadeOut(200);
+            $('.knet-modal-overlay').fadeOut(200);
         }
     });
 
@@ -1418,18 +1418,18 @@ jQuery(document).ready(function($) {
 
     function updateClearFiltersButton() {
         if (leadsFiltersActive()) {
-            $('#mxch-leads-clear-filters').show();
+            $('#knet-leads-clear-filters').show();
         } else {
-            $('#mxch-leads-clear-filters').hide();
+            $('#knet-leads-clear-filters').hide();
         }
     }
 
     function setPageFilterChip(url, title) {
         leadsState.filters.pageUrl = url || '';
         leadsState.filters.pageTitle = title || url || '';
-        const $chip = $('#mxch-leads-active-page-filter');
+        const $chip = $('#knet-leads-active-page-filter');
         if (url) {
-            $chip.find('.mxch-leads-page-chip-label').text('Page: ' + (title || url));
+            $chip.find('.knet-leads-page-chip-label').text('Page: ' + (title || url));
             $chip.show();
         } else {
             $chip.hide();
@@ -1440,8 +1440,8 @@ jQuery(document).ready(function($) {
     function loadLeads(page) {
         if (typeof page === 'number') leadsState.page = page;
 
-        const $tbody = $('#mxch-leads-tbody');
-        $tbody.html('<tr><td colspan="6" class="mxch-leads-loading"><span class="spinner is-active"></span></td></tr>');
+        const $tbody = $('#knet-leads-tbody');
+        $tbody.html('<tr><td colspan="6" class="knet-leads-loading"><span class="spinner is-active"></span></td></tr>');
 
         $.ajax({
             url: ajaxurl,
@@ -1458,7 +1458,7 @@ jQuery(document).ready(function($) {
             success: function(response) {
                 leadsState.loaded = true;
                 if (!response || !response.success) {
-                    $tbody.html('<tr><td colspan="7" class="mxch-leads-empty">Error loading leads</td></tr>');
+                    $tbody.html('<tr><td colspan="7" class="knet-leads-empty">Error loading leads</td></tr>');
                     return;
                 }
                 leadsState.totalPages = response.total_pages || 1;
@@ -1473,7 +1473,7 @@ jQuery(document).ready(function($) {
 
                 // Nav badge
                 if (response.stats && typeof response.stats.total_leads === 'number') {
-                    const $badge = $('#mxch-leads-nav-badge');
+                    const $badge = $('#knet-leads-nav-badge');
                     if (response.stats.total_leads > 0) {
                         $badge.text(response.stats.total_leads).show();
                     } else {
@@ -1482,34 +1482,34 @@ jQuery(document).ready(function($) {
                 }
             },
             error: function() {
-                $tbody.html('<tr><td colspan="7" class="mxch-leads-empty">Error loading leads</td></tr>');
+                $tbody.html('<tr><td colspan="7" class="knet-leads-empty">Error loading leads</td></tr>');
             }
         });
     }
 
     function renderLeadsStats(stats) {
-        $('#mxch-leads-stat-total').text(stats.total_leads || 0);
-        $('#mxch-leads-stat-new').text(stats.new_this_week || 0);
-        $('#mxch-leads-stat-avg').text(stats.avg_convos || 0);
+        $('#knet-leads-stat-total').text(stats.total_leads || 0);
+        $('#knet-leads-stat-new').text(stats.new_this_week || 0);
+        $('#knet-leads-stat-avg').text(stats.avg_convos || 0);
         const pct = stats.orphan_pct || 0;
-        $('#mxch-leads-stat-orphan').text(pct + '%');
+        $('#knet-leads-stat-orphan').text(pct + '%');
         const orphanCount = stats.orphan_count || 0;
-        $('#mxch-leads-stat-orphan-sub').text(orphanCount + (orphanCount === 1 ? ' lead captured but never chatted' : ' leads captured but never chatted'));
+        $('#knet-leads-stat-orphan-sub').text(orphanCount + (orphanCount === 1 ? ' lead captured but never chatted' : ' leads captured but never chatted'));
     }
 
     function renderLeadsTopPages(pages) {
-        const $wrap = $('#mxch-leads-toppages-list');
+        const $wrap = $('#knet-leads-toppages-list');
         if (!pages || pages.length === 0) {
-            $wrap.html('<div class="mxch-leads-empty-mini">No page data yet.</div>');
+            $wrap.html('<div class="knet-leads-empty-mini">No page data yet.</div>');
             return;
         }
         let html = '';
         pages.forEach(function(p) {
             const isActive = leadsState.filters.pageUrl === p.url ? ' is-active' : '';
             html += `
-                <button type="button" class="mxch-leads-toppage-row${isActive}" data-url="${escapeHtmlLeads(p.url)}" data-title="${escapeHtmlLeads(p.title)}">
-                    <span class="mxch-leads-toppage-title">${escapeHtmlLeads(p.title || p.url)}</span>
-                    <span class="mxch-leads-toppage-count">${p.lead_count}</span>
+                <button type="button" class="knet-leads-toppage-row${isActive}" data-url="${escapeHtmlLeads(p.url)}" data-title="${escapeHtmlLeads(p.title)}">
+                    <span class="knet-leads-toppage-title">${escapeHtmlLeads(p.title || p.url)}</span>
+                    <span class="knet-leads-toppage-count">${p.lead_count}</span>
                 </button>
             `;
         });
@@ -1517,11 +1517,11 @@ jQuery(document).ready(function($) {
     }
 
     function renderLeadsTable(rows) {
-        const $tbody = $('#mxch-leads-tbody');
+        const $tbody = $('#knet-leads-tbody');
         if (!rows || rows.length === 0) {
             $tbody.html(`
-                <tr><td colspan="6" class="mxch-leads-empty">
-                    <div class="mxch-leads-empty-wrap">
+                <tr><td colspan="6" class="knet-leads-empty">
+                    <div class="knet-leads-empty-wrap">
                         <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
                         <p>No leads match the current filters.</p>
                     </div>
@@ -1539,45 +1539,45 @@ jQuery(document).ready(function($) {
             const isOrphan = (status === 'orphan');
             const isChatDeleted = (status === 'chat_deleted');
             const nameLine = r.name
-                ? `<span class="mxch-leads-lead-name">${escapeHtmlLeads(r.name)}</span>`
+                ? `<span class="knet-leads-lead-name">${escapeHtmlLeads(r.name)}</span>`
                 : '';
             const leadCell = `
-                <div class="mxch-leads-lead-cell">
-                    <span class="mxch-leads-lead-email" title="${escapeHtmlLeads(r.email)}">${escapeHtmlLeads(r.email)}</span>
+                <div class="knet-leads-lead-cell">
+                    <span class="knet-leads-lead-email" title="${escapeHtmlLeads(r.email)}">${escapeHtmlLeads(r.email)}</span>
                     ${nameLine}
                 </div>`;
             let countCell;
             if (isOrphan) {
-                countCell = `<span class="mxch-leads-pill mxch-leads-pill-orphan">Orphan</span>`;
+                countCell = `<span class="knet-leads-pill knet-leads-pill-orphan">Orphan</span>`;
             } else if (isChatDeleted) {
-                countCell = `<span class="mxch-leads-pill mxch-leads-pill-deleted" title="Chat was deleted by an admin">Chat deleted</span>`;
+                countCell = `<span class="knet-leads-pill knet-leads-pill-deleted" title="Chat was deleted by an admin">Chat deleted</span>`;
             } else {
-                countCell = `<span class="mxch-leads-pill">${r.conversation_count}</span>`;
+                countCell = `<span class="knet-leads-pill">${r.conversation_count}</span>`;
             }
             const lastCell = escapeHtmlLeads(r.last_seen_display || (isOrphan ? 'No conversation yet' : ''));
             const pageCell = r.top_page_url
-                ? `<a href="${escapeHtmlLeads(r.top_page_url)}" target="_blank" rel="noopener" class="mxch-leads-page-link" title="${escapeHtmlLeads(r.top_page_url)}">${escapeHtmlLeads(r.top_page_title || r.top_page_url)}</a>`
-                : '<span class="mxch-leads-muted">—</span>';
+                ? `<a href="${escapeHtmlLeads(r.top_page_url)}" target="_blank" rel="noopener" class="knet-leads-page-link" title="${escapeHtmlLeads(r.top_page_url)}">${escapeHtmlLeads(r.top_page_title || r.top_page_url)}</a>`
+                : '<span class="knet-leads-muted">—</span>';
             // View Convo only for active leads (orphans and chat_deleted have no viewable session).
             const viewBtn = (status === 'active' && r.latest_session_id)
-                ? `<button type="button" class="mxch-btn mxch-btn-ghost mxch-btn-sm mxch-leads-view" data-session-id="${escapeHtmlLeads(r.latest_session_id)}" title="View latest conversation">
+                ? `<button type="button" class="knet-btn knet-btn-ghost knet-btn-sm knet-leads-view" data-session-id="${escapeHtmlLeads(r.latest_session_id)}" title="View latest conversation">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                         <span>View convo</span>
                     </button>`
                 : '';
-            const deleteBtn = `<button type="button" class="mxch-btn mxch-btn-ghost mxch-btn-sm mxch-btn-danger-ghost mxch-leads-delete-row" data-email="${escapeHtmlLeads(r.email)}" title="Delete lead">
+            const deleteBtn = `<button type="button" class="knet-btn knet-btn-ghost knet-btn-sm knet-btn-danger-ghost knet-leads-delete-row" data-email="${escapeHtmlLeads(r.email)}" title="Delete lead">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
                 </button>`;
 
             const rowStateClass = isOrphan ? ' is-orphan' : (isChatDeleted ? ' is-chat-deleted' : '');
             html += `
-                <tr class="mxch-leads-row${rowStateClass}" data-email="${escapeHtmlLeads(r.email)}">
-                    <td class="mxch-leads-col-check"><input type="checkbox" class="mxch-leads-rowcheck"${isChecked}></td>
-                    <td class="mxch-leads-col-lead">${leadCell}</td>
-                    <td class="mxch-leads-col-count">${countCell}</td>
-                    <td class="mxch-leads-col-last">${lastCell}</td>
-                    <td class="mxch-leads-col-page">${pageCell}</td>
-                    <td class="mxch-leads-col-actions">${viewBtn}${deleteBtn}</td>
+                <tr class="knet-leads-row${rowStateClass}" data-email="${escapeHtmlLeads(r.email)}">
+                    <td class="knet-leads-col-check"><input type="checkbox" class="knet-leads-rowcheck"${isChecked}></td>
+                    <td class="knet-leads-col-lead">${leadCell}</td>
+                    <td class="knet-leads-col-count">${countCell}</td>
+                    <td class="knet-leads-col-last">${lastCell}</td>
+                    <td class="knet-leads-col-page">${pageCell}</td>
+                    <td class="knet-leads-col-actions">${viewBtn}${deleteBtn}</td>
                 </tr>
             `;
         });
@@ -1588,22 +1588,22 @@ jQuery(document).ready(function($) {
 
     function renderLeadsCount(start, end, total) {
         if (!total) {
-            $('#mxch-leads-count').text('0 leads');
+            $('#knet-leads-count').text('0 leads');
         } else {
-            $('#mxch-leads-count').text(start + '-' + end + ' / ' + total + ' leads');
+            $('#knet-leads-count').text(start + '-' + end + ' / ' + total + ' leads');
         }
     }
 
     function renderLeadsPagination(currentPage, totalPages) {
-        const $c = $('#mxch-leads-pagination');
+        const $c = $('#knet-leads-pagination');
         if (!totalPages || totalPages <= 1) { $c.html(''); return; }
-        let html = '<div class="mxch-pagination-btns">';
+        let html = '<div class="knet-pagination-btns">';
         if (currentPage > 1) {
-            html += `<button class="mxch-page-btn" data-page="${currentPage - 1}">&laquo;</button>`;
+            html += `<button class="knet-page-btn" data-page="${currentPage - 1}">&laquo;</button>`;
         }
-        html += `<span class="mxch-page-info">${currentPage} / ${totalPages}</span>`;
+        html += `<span class="knet-page-info">${currentPage} / ${totalPages}</span>`;
         if (currentPage < totalPages) {
-            html += `<button class="mxch-page-btn" data-page="${currentPage + 1}">&raquo;</button>`;
+            html += `<button class="knet-page-btn" data-page="${currentPage + 1}">&raquo;</button>`;
         }
         html += '</div>';
         $c.html(html);
@@ -1611,8 +1611,8 @@ jQuery(document).ready(function($) {
 
     function updateLeadsSelectionUI() {
         const count = leadsState.selected.size;
-        const $countEl = $('#mxch-leads-selected-count');
-        const $del = $('#mxch-leads-delete-selected');
+        const $countEl = $('#knet-leads-selected-count');
+        const $del = $('#knet-leads-delete-selected');
         if (count > 0) {
             $countEl.text(count + ' selected').addClass('has-selection');
             $del.prop('disabled', false);
@@ -1621,18 +1621,18 @@ jQuery(document).ready(function($) {
             $del.prop('disabled', true);
         }
         // Selected-scope export menu items
-        $('#mxch-leads-export-menu button[data-scope="selected"]').prop('disabled', count === 0);
+        $('#knet-leads-export-menu button[data-scope="selected"]').prop('disabled', count === 0);
 
         // Select-all checkbox state
-        const $checks = $('.mxch-leads-rowcheck');
+        const $checks = $('.knet-leads-rowcheck');
         const checked = $checks.filter(':checked').length;
         const total = $checks.length;
-        $('#mxch-leads-select-all').prop('checked', total > 0 && checked === total);
-        $('#mxch-leads-select-all').prop('indeterminate', checked > 0 && checked < total);
+        $('#knet-leads-select-all').prop('checked', total > 0 && checked === total);
+        $('#knet-leads-select-all').prop('indeterminate', checked > 0 && checked < total);
     }
 
     // Trigger leads load when switching to the tab (works alongside the main nav handler above).
-    $('.mxch-nav-link[data-target="leads"], .mxch-mobile-nav-link[data-target="leads"]').on('click', function() {
+    $('.knet-nav-link[data-target="leads"], .knet-mobile-nav-link[data-target="leads"]').on('click', function() {
         if (!leadsState.loaded) {
             loadLeads(1);
         }
@@ -1640,7 +1640,7 @@ jQuery(document).ready(function($) {
 
     // Filter: search (debounced)
     let leadsSearchTimer;
-    $('#mxch-leads-search').on('input', function() {
+    $('#knet-leads-search').on('input', function() {
         clearTimeout(leadsSearchTimer);
         const val = $(this).val();
         leadsSearchTimer = setTimeout(function() {
@@ -1651,37 +1651,37 @@ jQuery(document).ready(function($) {
     });
 
     // Filter: date range
-    $('#mxch-leads-date-range').on('change', function() {
+    $('#knet-leads-date-range').on('change', function() {
         leadsState.filters.dateRange = $(this).val();
         updateClearFiltersButton();
         loadLeads(1);
     });
 
     // Filter: status
-    $('#mxch-leads-status').on('change', function() {
+    $('#knet-leads-status').on('change', function() {
         leadsState.filters.status = $(this).val();
         updateClearFiltersButton();
         loadLeads(1);
     });
 
     // Clear filters
-    $('#mxch-leads-clear-filters').on('click', function() {
+    $('#knet-leads-clear-filters').on('click', function() {
         leadsState.filters = { search: '', dateRange: 'all', status: 'all', pageUrl: '', pageTitle: '' };
-        $('#mxch-leads-search').val('');
-        $('#mxch-leads-date-range').val('all');
-        $('#mxch-leads-status').val('all');
+        $('#knet-leads-search').val('');
+        $('#knet-leads-date-range').val('all');
+        $('#knet-leads-status').val('all');
         setPageFilterChip('', '');
         loadLeads(1);
     });
 
     // Remove page chip
-    $leads().on('click', '.mxch-leads-page-chip-remove', function() {
+    $leads().on('click', '.knet-leads-page-chip-remove', function() {
         setPageFilterChip('', '');
         loadLeads(1);
     });
 
     // Top Pages click -> set filter
-    $leads().on('click', '.mxch-leads-toppage-row', function() {
+    $leads().on('click', '.knet-leads-toppage-row', function() {
         const url = $(this).data('url') || '';
         const title = $(this).data('title') || '';
         setPageFilterChip(url, title);
@@ -1689,16 +1689,16 @@ jQuery(document).ready(function($) {
     });
 
     // Pagination click
-    $leads().on('click', '#mxch-leads-pagination .mxch-page-btn', function() {
+    $leads().on('click', '#knet-leads-pagination .knet-page-btn', function() {
         const p = parseInt($(this).data('page'), 10);
         if (p > 0) loadLeads(p);
     });
 
     // Select-all
-    $('#mxch-leads-select-all').on('change', function() {
+    $('#knet-leads-select-all').on('change', function() {
         const on = $(this).is(':checked');
-        $('.mxch-leads-rowcheck').prop('checked', on);
-        $('.mxch-leads-row').each(function() {
+        $('.knet-leads-rowcheck').prop('checked', on);
+        $('.knet-leads-row').each(function() {
             const email = ($(this).data('email') || '').toString().toLowerCase();
             if (on) {
                 leadsState.selected.add(email);
@@ -1710,8 +1710,8 @@ jQuery(document).ready(function($) {
     });
 
     // Row checkbox
-    $leads().on('change', '.mxch-leads-rowcheck', function() {
-        const email = ($(this).closest('.mxch-leads-row').data('email') || '').toString().toLowerCase();
+    $leads().on('change', '.knet-leads-rowcheck', function() {
+        const email = ($(this).closest('.knet-leads-row').data('email') || '').toString().toLowerCase();
         if ($(this).is(':checked')) {
             leadsState.selected.add(email);
         } else {
@@ -1721,10 +1721,10 @@ jQuery(document).ready(function($) {
     });
 
     // View convo -> jump to All Chats tab and open the session
-    $leads().on('click', '.mxch-leads-view', function() {
+    $leads().on('click', '.knet-leads-view', function() {
         const sid = $(this).attr('data-session-id');
         if (!sid) return;
-        $('.mxch-nav-link[data-target="all-chats"]').trigger('click');
+        $('.knet-nav-link[data-target="all-chats"]').trigger('click');
         // selectChat is defined earlier in this closure
         if (typeof selectChat === 'function') {
             setTimeout(function() { selectChat(sid); }, 30);
@@ -1732,14 +1732,14 @@ jQuery(document).ready(function($) {
     });
 
     // Row delete -> confirm for one
-    $leads().on('click', '.mxch-leads-delete-row', function() {
+    $leads().on('click', '.knet-leads-delete-row', function() {
         const email = $(this).data('email');
         if (!email) return;
         openLeadsConfirm([String(email)]);
     });
 
     // Bulk delete -> confirm for N
-    $('#mxch-leads-delete-selected').on('click', function() {
+    $('#knet-leads-delete-selected').on('click', function() {
         if (leadsState.selected.size === 0) return;
         openLeadsConfirm(Array.from(leadsState.selected));
     });
@@ -1750,18 +1750,18 @@ jQuery(document).ready(function($) {
         const msg = count === 1
             ? 'Delete lead "' + emails[0] + '" and all of their conversations?'
             : 'Delete ' + count + ' leads and all of their conversations?';
-        $('#mxch-leads-confirm-body').text(msg);
-        $('#mxch-leads-confirm').fadeIn(120);
+        $('#knet-leads-confirm-body').text(msg);
+        $('#knet-leads-confirm').fadeIn(120);
     }
 
     function closeLeadsConfirm() {
-        $('#mxch-leads-confirm').fadeOut(120);
+        $('#knet-leads-confirm').fadeOut(120);
         leadsState.pendingDelete = [];
     }
 
-    $leads().on('click', '[data-mxch-leads-close]', closeLeadsConfirm);
+    $leads().on('click', '[data-knet-leads-close]', closeLeadsConfirm);
 
-    $('#mxch-leads-confirm-go').on('click', function() {
+    $('#knet-leads-confirm-go').on('click', function() {
         const emails = leadsState.pendingDelete.slice();
         if (!emails.length) { closeLeadsConfirm(); return; }
 
@@ -1793,23 +1793,23 @@ jQuery(document).ready(function($) {
     });
 
     // Export dropdown
-    $('#mxch-leads-export-btn').on('click', function(e) {
+    $('#knet-leads-export-btn').on('click', function(e) {
         e.stopPropagation();
-        $('#mxch-leads-export-menu').toggleClass('is-open');
+        $('#knet-leads-export-menu').toggleClass('is-open');
     });
 
     $(document).on('click', function() {
-        $('#mxch-leads-export-menu').removeClass('is-open');
+        $('#knet-leads-export-menu').removeClass('is-open');
     });
 
-    $('#mxch-leads-export-menu').on('click', function(e) { e.stopPropagation(); });
+    $('#knet-leads-export-menu').on('click', function(e) { e.stopPropagation(); });
 
-    $('#mxch-leads-export-menu button').on('click', function() {
+    $('#knet-leads-export-menu button').on('click', function() {
         if ($(this).prop('disabled')) return;
         const scope = $(this).data('scope') || 'all';
         const fields = $(this).data('fields') || 'email_and_name';
         submitLeadsExport(scope, fields);
-        $('#mxch-leads-export-menu').removeClass('is-open');
+        $('#knet-leads-export-menu').removeClass('is-open');
     });
 
     function submitLeadsExport(scope, fields) {
@@ -1835,7 +1835,7 @@ jQuery(document).ready(function($) {
         success: function(response) {
             if (response && response.success && response.stats) {
                 const total = response.stats.total_leads || 0;
-                const $badge = $('#mxch-leads-nav-badge');
+                const $badge = $('#knet-leads-nav-badge');
                 if (total > 0) $badge.text(total).show();
             }
         }

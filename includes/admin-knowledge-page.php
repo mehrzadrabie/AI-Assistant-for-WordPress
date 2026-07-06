@@ -27,89 +27,89 @@ function knittnet_render_knowledge_page($admin_instance, $knowledge_manager, $pa
     // Extract page data
     extract($page_data);
     ?>
-    <div class="mxch-admin-wrapper">
+    <div class="knet-admin-wrapper">
         <!-- Mobile Header -->
-        <header class="mxch-mobile-header">
-            <a href="#" class="mxch-mobile-logo">
-                <div class="mxch-mobile-logo-icon">
+        <header class="knet-mobile-header">
+            <a href="#" class="knet-mobile-logo">
+                <div class="knet-mobile-logo-icon">
                     <img src="<?php echo esc_url($plugin_url . 'images/icon-128x128.png'); ?>" alt="KnittNet">
                 </div>
-                <span class="mxch-mobile-logo-text">KnittNet</span>
+                <span class="knet-mobile-logo-text">KnittNet</span>
             </a>
-            <button type="button" class="mxch-mobile-menu-btn" aria-label="<?php esc_attr_e('Open menu', 'knittnet'); ?>">
+            <button type="button" class="knet-mobile-menu-btn" aria-label="<?php esc_attr_e('Open menu', 'knittnet'); ?>">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
             </button>
         </header>
 
         <!-- Mobile Menu Overlay -->
-        <div class="mxch-mobile-overlay"></div>
+        <div class="knet-mobile-overlay"></div>
 
         <!-- Mobile Menu Modal -->
-        <div class="mxch-mobile-menu">
-            <div class="mxch-mobile-menu-header">
-                <span class="mxch-mobile-menu-title"><?php esc_html_e('Knowledge Base', 'knittnet'); ?></span>
-                <button type="button" class="mxch-mobile-menu-close" aria-label="<?php esc_attr_e('Close menu', 'knittnet'); ?>">
+        <div class="knet-mobile-menu">
+            <div class="knet-mobile-menu-header">
+                <span class="knet-mobile-menu-title"><?php esc_html_e('Knowledge Base', 'knittnet'); ?></span>
+                <button type="button" class="knet-mobile-menu-close" aria-label="<?php esc_attr_e('Close menu', 'knittnet'); ?>">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </button>
             </div>
-            <nav class="mxch-mobile-menu-nav">
+            <nav class="knet-mobile-menu-nav">
                 <!-- Import Section -->
-                <div class="mxch-mobile-nav-section">
-                    <div class="mxch-mobile-nav-section-title"><?php esc_html_e('Import', 'knittnet'); ?></div>
-                    <button class="mxch-mobile-nav-link active" data-target="import-options">
+                <div class="knet-mobile-nav-section">
+                    <div class="knet-mobile-nav-section-title"><?php esc_html_e('Import', 'knittnet'); ?></div>
+                    <button class="knet-mobile-nav-link active" data-target="import-options">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                         <span><?php esc_html_e('Import Options', 'knittnet'); ?></span>
                     </button>
-                    <button class="mxch-mobile-nav-link" data-target="knowledge-base">
+                    <button class="knet-mobile-nav-link" data-target="knowledge-base">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
                         <span><?php esc_html_e('Knowledge Base', 'knittnet'); ?></span>
                     </button>
                 </div>
                 <!-- Settings Section -->
-                <div class="mxch-mobile-nav-section">
-                    <div class="mxch-mobile-nav-section-title"><?php esc_html_e('Settings', 'knittnet'); ?></div>
-                    <button class="mxch-mobile-nav-link" data-target="auto-sync">
+                <div class="knet-mobile-nav-section">
+                    <div class="knet-mobile-nav-section-title"><?php esc_html_e('Settings', 'knittnet'); ?></div>
+                    <button class="knet-mobile-nav-link" data-target="auto-sync">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
                         <span><?php esc_html_e('Auto-Sync', 'knittnet'); ?></span>
                     </button>
-                    <button class="mxch-mobile-nav-link" data-target="chunking">
+                    <button class="knet-mobile-nav-link" data-target="chunking">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
                         <span><?php esc_html_e('Content Chunking', 'knittnet'); ?></span>
                     </button>
-                    <button class="mxch-mobile-nav-link" data-target="role-restrictions">
+                    <button class="knet-mobile-nav-link" data-target="role-restrictions">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                         <span><?php esc_html_e('Role Restrictions', 'knittnet'); ?></span>
                     </button>
-                    <button class="mxch-mobile-nav-link" data-target="acf-fields">
+                    <button class="knet-mobile-nav-link" data-target="acf-fields">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
                         <span><?php esc_html_e('ACF Fields', 'knittnet'); ?></span>
                     </button>
-                    <button class="mxch-mobile-nav-link" data-target="custom-meta">
+                    <button class="knet-mobile-nav-link" data-target="custom-meta">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg>
                         <span><?php esc_html_e('Custom Meta', 'knittnet'); ?></span>
                     </button>
                 </div>
                 <!-- Integrations Section -->
-                <div class="mxch-mobile-nav-section">
-                    <div class="mxch-mobile-nav-section-title"><?php esc_html_e('Integrations', 'knittnet'); ?></div>
-                    <button class="mxch-mobile-nav-link" data-target="pinecone">
+                <div class="knet-mobile-nav-section">
+                    <div class="knet-mobile-nav-section-title"><?php esc_html_e('Integrations', 'knittnet'); ?></div>
+                    <button class="knet-mobile-nav-link" data-target="pinecone">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
                         <span><?php esc_html_e('Pinecone', 'knittnet'); ?></span>
                         <?php if ($is_pinecone_active): ?>
-                        <span class="mxch-nav-link-badge mxch-active-badge"><?php esc_html_e('Active', 'knittnet'); ?></span>
+                        <span class="knet-nav-link-badge knet-active-badge"><?php esc_html_e('Active', 'knittnet'); ?></span>
                         <?php endif; ?>
                     </button>
-                    <button class="mxch-mobile-nav-link" data-target="openai-vectorstore">
+                    <button class="knet-mobile-nav-link" data-target="openai-vectorstore">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
                         <span><?php esc_html_e('OpenAI Vector Store', 'knittnet'); ?></span>
                         <?php if ($is_vectorstore_active): ?>
-                        <span class="mxch-nav-link-badge mxch-active-badge"><?php esc_html_e('Active', 'knittnet'); ?></span>
+                        <span class="knet-nav-link-badge knet-active-badge"><?php esc_html_e('Active', 'knittnet'); ?></span>
                         <?php endif; ?>
                     </button>
                 </div>
                 <?php if (!$is_activated): ?>
-                <div class="mxch-mobile-menu-footer">
-                    <a href="https://knittnet.ai/" target="_blank" class="mxch-mobile-upgrade-btn">
+                <div class="knet-mobile-menu-footer">
+                    <a href="https://knittnet.ai/" target="_blank" class="knet-mobile-upgrade-btn">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
                         <?php esc_html_e('Upgrade to Pro', 'knittnet'); ?>
                     </a>
@@ -119,116 +119,116 @@ function knittnet_render_knowledge_page($admin_instance, $knowledge_manager, $pa
         </div>
 
         <!-- Sidebar Navigation -->
-        <aside class="mxch-sidebar">
-            <div class="mxch-sidebar-header">
-                <a href="#" class="mxch-sidebar-logo">
-                    <div class="mxch-sidebar-logo-icon">
+        <aside class="knet-sidebar">
+            <div class="knet-sidebar-header">
+                <a href="#" class="knet-sidebar-logo">
+                    <div class="knet-sidebar-logo-icon">
                         <img src="<?php echo esc_url($plugin_url . 'images/icon-128x128.png'); ?>" alt="KnittNet">
                     </div>
-                    <span class="mxch-sidebar-logo-text">KnittNet</span>
-                    <span class="mxch-sidebar-version">v<?php echo esc_html(KNITTNET_VERSION ?? '2.7.0'); ?></span>
+                    <span class="knet-sidebar-logo-text">KnittNet</span>
+                    <span class="knet-sidebar-version">v<?php echo esc_html(KNITTNET_VERSION ?? '2.7.0'); ?></span>
                 </a>
             </div>
 
-            <nav class="mxch-sidebar-nav">
+            <nav class="knet-sidebar-nav">
                 <!-- Import Section -->
-                <div class="mxch-nav-section">
-                    <div class="mxch-nav-section-title"><?php esc_html_e('Import', 'knittnet'); ?></div>
+                <div class="knet-nav-section">
+                    <div class="knet-nav-section-title"><?php esc_html_e('Import', 'knittnet'); ?></div>
 
-                    <div class="mxch-nav-item" data-section="import-options">
-                        <button class="mxch-nav-link active" data-target="import-options">
-                            <span class="mxch-nav-link-icon">
+                    <div class="knet-nav-item" data-section="import-options">
+                        <button class="knet-nav-link active" data-target="import-options">
+                            <span class="knet-nav-link-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                             </span>
-                            <span class="mxch-nav-link-text"><?php esc_html_e('Import Options', 'knittnet'); ?></span>
+                            <span class="knet-nav-link-text"><?php esc_html_e('Import Options', 'knittnet'); ?></span>
                         </button>
                     </div>
 
-                    <div class="mxch-nav-item" data-section="knowledge-base">
-                        <button class="mxch-nav-link" data-target="knowledge-base">
-                            <span class="mxch-nav-link-icon">
+                    <div class="knet-nav-item" data-section="knowledge-base">
+                        <button class="knet-nav-link" data-target="knowledge-base">
+                            <span class="knet-nav-link-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
                             </span>
-                            <span class="mxch-nav-link-text"><?php esc_html_e('Knowledge Base', 'knittnet'); ?></span>
-                            <span id="knittnet-sidebar-count" class="mxch-nav-link-badge"><?php echo esc_html($total_records); ?></span>
+                            <span class="knet-nav-link-text"><?php esc_html_e('Knowledge Base', 'knittnet'); ?></span>
+                            <span id="knittnet-sidebar-count" class="knet-nav-link-badge"><?php echo esc_html($total_records); ?></span>
                         </button>
                     </div>
                 </div>
 
                 <!-- Settings Section -->
-                <div class="mxch-nav-section">
-                    <div class="mxch-nav-section-title"><?php esc_html_e('Settings', 'knittnet'); ?></div>
+                <div class="knet-nav-section">
+                    <div class="knet-nav-section-title"><?php esc_html_e('Settings', 'knittnet'); ?></div>
 
-                    <div class="mxch-nav-item" data-section="auto-sync">
-                        <button class="mxch-nav-link" data-target="auto-sync">
-                            <span class="mxch-nav-link-icon">
+                    <div class="knet-nav-item" data-section="auto-sync">
+                        <button class="knet-nav-link" data-target="auto-sync">
+                            <span class="knet-nav-link-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
                             </span>
-                            <span class="mxch-nav-link-text"><?php esc_html_e('Auto-Sync', 'knittnet'); ?></span>
+                            <span class="knet-nav-link-text"><?php esc_html_e('Auto-Sync', 'knittnet'); ?></span>
                         </button>
                     </div>
 
-                    <div class="mxch-nav-item" data-section="chunking">
-                        <button class="mxch-nav-link" data-target="chunking">
-                            <span class="mxch-nav-link-icon">
+                    <div class="knet-nav-item" data-section="chunking">
+                        <button class="knet-nav-link" data-target="chunking">
+                            <span class="knet-nav-link-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
                             </span>
-                            <span class="mxch-nav-link-text"><?php esc_html_e('Content Chunking', 'knittnet'); ?></span>
+                            <span class="knet-nav-link-text"><?php esc_html_e('Content Chunking', 'knittnet'); ?></span>
                         </button>
                     </div>
 
-                    <div class="mxch-nav-item" data-section="role-restrictions">
-                        <button class="mxch-nav-link" data-target="role-restrictions">
-                            <span class="mxch-nav-link-icon">
+                    <div class="knet-nav-item" data-section="role-restrictions">
+                        <button class="knet-nav-link" data-target="role-restrictions">
+                            <span class="knet-nav-link-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                             </span>
-                            <span class="mxch-nav-link-text"><?php esc_html_e('Role Restrictions', 'knittnet'); ?></span>
+                            <span class="knet-nav-link-text"><?php esc_html_e('Role Restrictions', 'knittnet'); ?></span>
                         </button>
                     </div>
 
-                    <div class="mxch-nav-item" data-section="acf-fields">
-                        <button class="mxch-nav-link" data-target="acf-fields">
-                            <span class="mxch-nav-link-icon">
+                    <div class="knet-nav-item" data-section="acf-fields">
+                        <button class="knet-nav-link" data-target="acf-fields">
+                            <span class="knet-nav-link-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
                             </span>
-                            <span class="mxch-nav-link-text"><?php esc_html_e('ACF Fields', 'knittnet'); ?></span>
+                            <span class="knet-nav-link-text"><?php esc_html_e('ACF Fields', 'knittnet'); ?></span>
                         </button>
                     </div>
 
-                    <div class="mxch-nav-item" data-section="custom-meta">
-                        <button class="mxch-nav-link" data-target="custom-meta">
-                            <span class="mxch-nav-link-icon">
+                    <div class="knet-nav-item" data-section="custom-meta">
+                        <button class="knet-nav-link" data-target="custom-meta">
+                            <span class="knet-nav-link-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg>
                             </span>
-                            <span class="mxch-nav-link-text"><?php esc_html_e('Custom Meta', 'knittnet'); ?></span>
+                            <span class="knet-nav-link-text"><?php esc_html_e('Custom Meta', 'knittnet'); ?></span>
                         </button>
                     </div>
                 </div>
 
                 <!-- Integrations Section -->
-                <div class="mxch-nav-section">
-                    <div class="mxch-nav-section-title"><?php esc_html_e('Integrations', 'knittnet'); ?></div>
+                <div class="knet-nav-section">
+                    <div class="knet-nav-section-title"><?php esc_html_e('Integrations', 'knittnet'); ?></div>
 
-                    <div class="mxch-nav-item" data-section="pinecone">
-                        <button class="mxch-nav-link" data-target="pinecone">
-                            <span class="mxch-nav-link-icon">
+                    <div class="knet-nav-item" data-section="pinecone">
+                        <button class="knet-nav-link" data-target="pinecone">
+                            <span class="knet-nav-link-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
                             </span>
-                            <span class="mxch-nav-link-text"><?php esc_html_e('Pinecone', 'knittnet'); ?></span>
+                            <span class="knet-nav-link-text"><?php esc_html_e('Pinecone', 'knittnet'); ?></span>
                             <?php if ($is_pinecone_active): ?>
-                            <span class="mxch-nav-link-badge mxch-active-badge"><?php esc_html_e('Active', 'knittnet'); ?></span>
+                            <span class="knet-nav-link-badge knet-active-badge"><?php esc_html_e('Active', 'knittnet'); ?></span>
                             <?php endif; ?>
                         </button>
                     </div>
 
-                    <div class="mxch-nav-item" data-section="openai-vectorstore">
-                        <button class="mxch-nav-link" data-target="openai-vectorstore">
-                            <span class="mxch-nav-link-icon">
+                    <div class="knet-nav-item" data-section="openai-vectorstore">
+                        <button class="knet-nav-link" data-target="openai-vectorstore">
+                            <span class="knet-nav-link-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
                             </span>
-                            <span class="mxch-nav-link-text"><?php esc_html_e('OpenAI Vector Store', 'knittnet'); ?></span>
+                            <span class="knet-nav-link-text"><?php esc_html_e('OpenAI Vector Store', 'knittnet'); ?></span>
                             <?php if ($is_vectorstore_active): ?>
-                            <span class="mxch-nav-link-badge mxch-active-badge"><?php esc_html_e('Active', 'knittnet'); ?></span>
+                            <span class="knet-nav-link-badge knet-active-badge"><?php esc_html_e('Active', 'knittnet'); ?></span>
                             <?php endif; ?>
                         </button>
                     </div>
@@ -236,8 +236,8 @@ function knittnet_render_knowledge_page($admin_instance, $knowledge_manager, $pa
             </nav>
 
             <?php if (!$is_activated): ?>
-            <div class="mxch-sidebar-footer">
-                <a href="https://knittnet.ai/" target="_blank" class="mxch-sidebar-upgrade-v2">
+            <div class="knet-sidebar-footer">
+                <a href="https://knittnet.ai/" target="_blank" class="knet-sidebar-upgrade-v2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                     <?php esc_html_e('Pro Upgrade', 'knittnet'); ?>
                 </a>
@@ -246,7 +246,7 @@ function knittnet_render_knowledge_page($admin_instance, $knowledge_manager, $pa
         </aside>
 
         <!-- Main Content Area -->
-        <main class="mxch-content">
+        <main class="knet-content">
             <?php
             // Multi-Bot Selector
             knittnet_render_knowledge_bot_selector($multibot_active, $current_bot_id);
@@ -294,23 +294,23 @@ function knittnet_render_knowledge_bot_selector($multibot_active, $current_bot_i
     $multi_bot_manager = KnittNet_Multi_Bot_Core_Manager::get_instance();
     $available_bots = $multi_bot_manager->get_available_bots();
     ?>
-    <div class="mxch-card" style="margin-bottom: 24px;">
-        <div class="mxch-card-body">
+    <div class="knet-card" style="margin-bottom: 24px;">
+        <div class="knet-card-body">
             <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
                 <label for="knittnet-bot-selector" style="font-weight: 600; white-space: nowrap;">
                     <?php esc_html_e('Select Bot Database:', 'knittnet'); ?>
                 </label>
-                <select id="knittnet-bot-selector" class="mxch-select" style="min-width: 200px; max-width: 300px;">
+                <select id="knittnet-bot-selector" class="knet-select" style="min-width: 200px; max-width: 300px;">
                     <?php foreach ($available_bots as $bot_id => $bot_name) : ?>
                         <option value="<?php echo esc_attr($bot_id); ?>" <?php selected($current_bot_id, $bot_id); ?>>
                             <?php echo esc_html($bot_name); ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
-                <span style="color: var(--mxch-text-secondary); font-size: 13px;">
+                <span style="color: var(--knet-text-secondary); font-size: 13px;">
                     <?php esc_html_e('Content will be added to the selected bot\'s knowledge base', 'knittnet'); ?>
                 </span>
-                <span id="knittnet-bot-save-status" style="display: none; color: var(--mxch-success); font-size: 13px;">
+                <span id="knittnet-bot-save-status" style="display: none; color: var(--knet-success); font-size: 13px;">
                     ✓ <?php esc_html_e('Saved', 'knittnet'); ?>
                 </span>
             </div>
@@ -330,12 +330,12 @@ function knittnet_render_global_processing_status($page_data, $knowledge_manager
         return;
     }
     ?>
-    <div class="mxch-processing-status-global knittnet-import-section" style="margin-bottom: 24px;">
+    <div class="knet-processing-status-global knittnet-import-section" style="margin-bottom: 24px;">
         <?php
         // PDF Processing Status - Using knittnet-status-card class for JavaScript compatibility
         if ($pdf_status && $pdf_status['status'] === 'processing') : ?>
-            <div class="knittnet-status-card mxch-card" data-card-type="pdf" data-queue-id="<?php echo esc_attr(get_transient('knittnet_active_queue_pdf')); ?>" style="border-left: 4px solid var(--mxch-primary); margin-bottom: 16px;">
-                <div class="knittnet-status-header mxch-card-header" style="background: var(--mxch-primary-light);">
+            <div class="knittnet-status-card knet-card" data-card-type="pdf" data-queue-id="<?php echo esc_attr(get_transient('knittnet_active_queue_pdf')); ?>" style="border-left: 4px solid var(--knet-primary); margin-bottom: 16px;">
+                <div class="knittnet-status-header knet-card-header" style="background: var(--knet-primary-light);">
                     <h4 style="margin: 0; display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
                         <?php esc_html_e('PDF Processing Status', 'knittnet'); ?>
@@ -345,18 +345,18 @@ function knittnet_render_global_processing_status($page_data, $knowledge_manager
                     </div>
                     <form method="post" class="knittnet-stop-form" action="<?php echo esc_url(admin_url('admin-post.php?action=knittnet_stop_processing')); ?>">
                         <?php wp_nonce_field('knittnet_stop_processing_action', 'knittnet_stop_processing_nonce'); ?>
-                        <button type="submit" name="stop_processing" class="knittnet-button-secondary mxch-btn mxch-btn-secondary mxch-btn-sm">
+                        <button type="submit" name="stop_processing" class="knittnet-button-secondary knet-btn knet-btn-secondary knet-btn-sm">
                             <?php esc_html_e('Stop Processing', 'knittnet'); ?>
                         </button>
                     </form>
                 </div>
                 <div class="knittnet-progress-bar" style="height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; margin: 0;">
-                    <div class="knittnet-progress-fill" style="height: 100%; background: var(--mxch-primary); width: <?php echo esc_attr($pdf_status['percentage']); ?>%; transition: width 0.3s;"></div>
+                    <div class="knittnet-progress-fill" style="height: 100%; background: var(--knet-primary); width: <?php echo esc_attr($pdf_status['percentage']); ?>%; transition: width 0.3s;"></div>
                 </div>
-                <div class="knittnet-status-details mxch-card-body">
+                <div class="knittnet-status-details knet-card-body">
                     <p><?php printf(esc_html__('Progress: %1$d of %2$d pages (%3$d%%)', 'knittnet'), absint($pdf_status['processed_pages']), absint($pdf_status['total_pages']), absint($pdf_status['percentage'])); ?></p>
                     <?php if (!empty($pdf_status['failed_pages']) && $pdf_status['failed_pages'] > 0) : ?>
-                        <p class="error-count" style="color: var(--mxch-error);"><strong><?php esc_html_e('Failed pages:', 'knittnet'); ?></strong> <?php echo esc_html($pdf_status['failed_pages']); ?></p>
+                        <p class="error-count" style="color: var(--knet-error);"><strong><?php esc_html_e('Failed pages:', 'knittnet'); ?></strong> <?php echo esc_html($pdf_status['failed_pages']); ?></p>
                     <?php endif; ?>
                     <p><strong><?php esc_html_e('Status:', 'knittnet'); ?></strong> <?php esc_html_e('Processing', 'knittnet'); ?></p>
                 </div>
@@ -365,8 +365,8 @@ function knittnet_render_global_processing_status($page_data, $knowledge_manager
 
         // Sitemap Processing Status - Using knittnet-status-card class for JavaScript compatibility
         if ($sitemap_status && $sitemap_status['status'] === 'processing') : ?>
-            <div class="knittnet-status-card mxch-card" data-card-type="sitemap" data-queue-id="<?php echo esc_attr(get_transient('knittnet_active_queue_sitemap')); ?>" style="border-left: 4px solid var(--mxch-primary); margin-bottom: 16px;">
-                <div class="knittnet-status-header mxch-card-header" style="background: var(--mxch-primary-light);">
+            <div class="knittnet-status-card knet-card" data-card-type="sitemap" data-queue-id="<?php echo esc_attr(get_transient('knittnet_active_queue_sitemap')); ?>" style="border-left: 4px solid var(--knet-primary); margin-bottom: 16px;">
+                <div class="knittnet-status-header knet-card-header" style="background: var(--knet-primary-light);">
                     <h4 style="margin: 0; display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
                         <?php esc_html_e('Sitemap Processing Status', 'knittnet'); ?>
@@ -376,18 +376,18 @@ function knittnet_render_global_processing_status($page_data, $knowledge_manager
                     </div>
                     <form method="post" class="knittnet-stop-form" action="<?php echo esc_url(admin_url('admin-post.php?action=knittnet_stop_processing')); ?>">
                         <?php wp_nonce_field('knittnet_stop_processing_action', 'knittnet_stop_processing_nonce'); ?>
-                        <button type="submit" name="stop_processing" class="knittnet-button-secondary mxch-btn mxch-btn-secondary mxch-btn-sm">
+                        <button type="submit" name="stop_processing" class="knittnet-button-secondary knet-btn knet-btn-secondary knet-btn-sm">
                             <?php esc_html_e('Stop Processing', 'knittnet'); ?>
                         </button>
                     </form>
                 </div>
                 <div class="knittnet-progress-bar" style="height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; margin: 0;">
-                    <div class="knittnet-progress-fill" style="height: 100%; background: var(--mxch-primary); width: <?php echo esc_attr($sitemap_status['percentage']); ?>%; transition: width 0.3s;"></div>
+                    <div class="knittnet-progress-fill" style="height: 100%; background: var(--knet-primary); width: <?php echo esc_attr($sitemap_status['percentage']); ?>%; transition: width 0.3s;"></div>
                 </div>
-                <div class="knittnet-status-details mxch-card-body">
+                <div class="knittnet-status-details knet-card-body">
                     <p><?php printf(esc_html__('Progress: %1$d of %2$d URLs (%3$d%%)', 'knittnet'), absint($sitemap_status['processed_urls']), absint($sitemap_status['total_urls']), absint($sitemap_status['percentage'])); ?></p>
                     <?php if (!empty($sitemap_status['failed_urls']) && $sitemap_status['failed_urls'] > 0) : ?>
-                        <p class="error-count" style="color: var(--mxch-error);"><strong><?php esc_html_e('Failed URLs:', 'knittnet'); ?></strong> <?php echo esc_html($sitemap_status['failed_urls']); ?></p>
+                        <p class="error-count" style="color: var(--knet-error);"><strong><?php esc_html_e('Failed URLs:', 'knittnet'); ?></strong> <?php echo esc_html($sitemap_status['failed_urls']); ?></p>
                     <?php endif; ?>
                     <p><strong><?php esc_html_e('Status:', 'knittnet'); ?></strong> <?php esc_html_e('Processing', 'knittnet'); ?></p>
                 </div>
@@ -441,15 +441,15 @@ function knittnet_render_import_options_section($admin_instance, $knowledge_mana
         $required_key_type = 'Google Gemini';
     }
     ?>
-    <div id="import-options" class="mxch-section active">
-        <div class="mxch-content-header">
-            <h1 class="mxch-content-title"><?php esc_html_e('Import Options', 'knittnet'); ?></h1>
-            <p class="mxch-content-subtitle"><?php esc_html_e('Import content to your knowledge base from various sources.', 'knittnet'); ?></p>
+    <div id="import-options" class="knet-section active">
+        <div class="knet-content-header">
+            <h1 class="knet-content-title"><?php esc_html_e('Import Options', 'knittnet'); ?></h1>
+            <p class="knet-content-subtitle"><?php esc_html_e('Import content to your knowledge base from various sources.', 'knittnet'); ?></p>
         </div>
 
         <!-- API Key Status -->
-        <div class="mxch-notice <?php echo $has_required_key ? 'mxch-notice-success' : 'mxch-notice-warning'; ?>" style="margin-bottom: 24px;">
-            <svg class="mxch-notice-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <div class="knet-notice <?php echo $has_required_key ? 'knet-notice-success' : 'knet-notice-warning'; ?>" style="margin-bottom: 24px;">
+            <svg class="knet-notice-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <?php if ($has_required_key): ?>
                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
                 <?php else: ?>
@@ -469,8 +469,8 @@ function knittnet_render_import_options_section($admin_instance, $knowledge_mana
 
         <?php if ($is_using_wordpress_db): ?>
         <!-- WordPress Database Caution Notice -->
-        <div class="mxch-notice mxch-notice-warning" style="margin-bottom: 24px;">
-            <svg class="mxch-notice-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <div class="knet-notice knet-notice-warning" style="margin-bottom: 24px;">
+            <svg class="knet-notice-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
             </svg>
             <div>
@@ -480,14 +480,14 @@ function knittnet_render_import_options_section($admin_instance, $knowledge_mana
         </div>
         <?php endif; ?>
 
-        <div class="mxch-card">
-            <div class="mxch-card-header">
-                <h3 class="mxch-card-title">
-                    <svg class="mxch-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <div class="knet-card">
+            <div class="knet-card-header">
+                <h3 class="knet-card-title">
+                    <svg class="knet-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                     <?php esc_html_e('Choose Import Method', 'knittnet'); ?>
                 </h3>
             </div>
-            <div class="mxch-card-body">
+            <div class="knet-card-body">
                 <!-- Import Options Grid -->
                 <div class="knittnet-import-options">
                     <!-- WordPress Import Option -->
@@ -565,7 +565,7 @@ function knittnet_render_import_options_section($admin_instance, $knowledge_mana
                             <span class="dashicons dashicons-admin-site-alt"></span>
                             <?php esc_html_e('Detected Sitemaps', 'knittnet'); ?>
                         </h4>
-                        <button type="button" id="knittnet-refresh-sitemaps" class="mxch-btn mxch-btn-ghost mxch-btn-sm" title="<?php esc_attr_e('Refresh', 'knittnet'); ?>">
+                        <button type="button" id="knittnet-refresh-sitemaps" class="knet-btn knet-btn-ghost knet-btn-sm" title="<?php esc_attr_e('Refresh', 'knittnet'); ?>">
                             <span class="dashicons dashicons-update"></span>
                         </button>
                     </div>
@@ -602,12 +602,12 @@ function knittnet_render_import_options_section($admin_instance, $knowledge_mana
                             <input type="hidden" name="bot_id" value="<?php echo esc_attr($current_bot_id); ?>">
                         <?php endif; ?>
                         <div style="display: flex; gap: 10px;">
-                            <input type="url" name="sitemap_url" id="sitemap_url" class="mxch-input" placeholder="<?php esc_attr_e('Enter URL here', 'knittnet'); ?>" required style="flex: 1;" />
-                            <button type="submit" name="submit_sitemap" class="mxch-btn mxch-btn-primary">
+                            <input type="url" name="sitemap_url" id="sitemap_url" class="knet-input" placeholder="<?php esc_attr_e('Enter URL here', 'knittnet'); ?>" required style="flex: 1;" />
+                            <button type="submit" name="submit_sitemap" class="knet-btn knet-btn-primary">
                                 <?php esc_html_e('Import', 'knittnet'); ?>
                             </button>
                         </div>
-                        <p class="mxch-field-description" id="url-description-text"></p>
+                        <p class="knet-field-description" id="url-description-text"></p>
                     </form>
                 </div>
 
@@ -617,26 +617,26 @@ function knittnet_render_import_options_section($admin_instance, $knowledge_mana
                         <?php if ($multibot_active && $current_bot_id !== 'default') : ?>
                             <input type="hidden" name="bot_id" value="<?php echo esc_attr($current_bot_id); ?>">
                         <?php endif; ?>
-                        <div class="mxch-field">
-                            <textarea name="article_content" id="article_content" class="mxch-textarea" placeholder="<?php esc_attr_e('Enter your content here...', 'knittnet'); ?>" required rows="6"></textarea>
+                        <div class="knet-field">
+                            <textarea name="article_content" id="article_content" class="knet-textarea" placeholder="<?php esc_attr_e('Enter your content here...', 'knittnet'); ?>" required rows="6"></textarea>
                         </div>
-                        <div class="mxch-field">
-                            <input type="url" name="article_url" id="article_url" class="mxch-input" placeholder="<?php esc_attr_e('Enter source URL (Optional)', 'knittnet'); ?>">
+                        <div class="knet-field">
+                            <input type="url" name="article_url" id="article_url" class="knet-input" placeholder="<?php esc_attr_e('Enter source URL (Optional)', 'knittnet'); ?>">
                             <div style="margin-top: 8px; display: flex; align-items: center; gap: 8px;">
-                                <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--mxch-text-secondary); cursor: pointer;">
+                                <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--knet-text-secondary); cursor: pointer;">
                                     <input type="checkbox" id="knittnet-unique-url-toggle" style="margin: 0;">
                                     <?php esc_html_e('Generate unique URL for duplicate content', 'knittnet'); ?>
                                 </label>
-                                <button type="button" id="knittnet-generate-unique-url" class="mxch-btn mxch-btn-secondary mxch-btn-sm" style="display: none;">
+                                <button type="button" id="knittnet-generate-unique-url" class="knet-btn knet-btn-secondary knet-btn-sm" style="display: none;">
                                     <span class="dashicons dashicons-randomize" style="font-size: 14px; margin-top: 2px;"></span>
                                     <?php esc_html_e('Generate Unique', 'knittnet'); ?>
                                 </button>
                             </div>
-                            <p class="mxch-field-description">
+                            <p class="knet-field-description">
                                 <?php esc_html_e('Enable this option to submit multiple entries with the same base URL. A unique reference will be appended.', 'knittnet'); ?>
                             </p>
                         </div>
-                        <button type="submit" name="submit_content" class="mxch-btn mxch-btn-primary">
+                        <button type="submit" name="submit_content" class="knet-btn knet-btn-primary">
                             <?php esc_html_e('Import Content', 'knittnet'); ?>
                         </button>
                     </form>
@@ -648,13 +648,13 @@ function knittnet_render_import_options_section($admin_instance, $knowledge_mana
                         <?php if ($multibot_active && $current_bot_id !== 'default') : ?>
                             <input type="hidden" name="bot_id" value="<?php echo esc_attr($current_bot_id); ?>">
                         <?php endif; ?>
-                        <div class="mxch-field">
+                        <div class="knet-field">
                             <input type="file" name="pdf_file" id="knittnet-pdf-file-input" accept=".pdf" required>
                         </div>
-                        <p class="mxch-field-description">
+                        <p class="knet-field-description">
                             <?php esc_html_e('Select a PDF file from your computer to import into the knowledge base. Maximum file size depends on your server settings.', 'knittnet'); ?>
                         </p>
-                        <button type="submit" name="submit_pdf_file" class="mxch-btn mxch-btn-primary">
+                        <button type="submit" name="submit_pdf_file" class="knet-btn knet-btn-primary">
                             <?php esc_html_e('Import PDF', 'knittnet'); ?>
                         </button>
                     </form>
@@ -675,24 +675,24 @@ function knittnet_render_processing_status($page_data, $knowledge_manager) {
 
     // PDF Processing Status
     if ($pdf_status && $pdf_status['status'] === 'processing') : ?>
-        <div class="mxch-card" style="margin-top: 20px;">
-            <div class="mxch-card-header" style="background: var(--mxch-primary-light);">
-                <h3 class="mxch-card-title"><?php esc_html_e('PDF Processing Status', 'knittnet'); ?></h3>
+        <div class="knet-card" style="margin-top: 20px;">
+            <div class="knet-card-header" style="background: var(--knet-primary-light);">
+                <h3 class="knet-card-title"><?php esc_html_e('PDF Processing Status', 'knittnet'); ?></h3>
                 <div style="display: flex; gap: 10px;">
                     <form method="post" action="<?php echo esc_url(admin_url('admin-post.php?action=knittnet_stop_processing')); ?>">
                         <?php wp_nonce_field('knittnet_stop_processing_action', 'knittnet_stop_processing_nonce'); ?>
-                        <button type="submit" name="stop_processing" class="mxch-btn mxch-btn-secondary mxch-btn-sm">
+                        <button type="submit" name="stop_processing" class="knet-btn knet-btn-secondary knet-btn-sm">
                             <?php esc_html_e('Stop Processing', 'knittnet'); ?>
                         </button>
                     </form>
-                    <button type="button" class="mxch-btn mxch-btn-primary mxch-btn-sm knittnet-manual-batch-btn" data-process-type="pdf" data-url="<?php echo esc_attr(get_transient('knittnet_last_pdf_url')); ?>">
+                    <button type="button" class="knet-btn knet-btn-primary knet-btn-sm knittnet-manual-batch-btn" data-process-type="pdf" data-url="<?php echo esc_attr(get_transient('knittnet_last_pdf_url')); ?>">
                         <?php esc_html_e('Process Batch', 'knittnet'); ?>
                     </button>
                 </div>
             </div>
-            <div class="mxch-card-body">
+            <div class="knet-card-body">
                 <div class="knittnet-progress-bar" style="height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; margin-bottom: 15px;">
-                    <div class="knittnet-progress-fill" style="height: 100%; background: var(--mxch-primary); width: <?php echo esc_attr($pdf_status['percentage']); ?>%; transition: width 0.3s;"></div>
+                    <div class="knittnet-progress-fill" style="height: 100%; background: var(--knet-primary); width: <?php echo esc_attr($pdf_status['percentage']); ?>%; transition: width 0.3s;"></div>
                 </div>
                 <p><?php printf(esc_html__('Progress: %1$d of %2$d pages (%3$d%%)', 'knittnet'), absint($pdf_status['processed_pages']), absint($pdf_status['total_pages']), absint($pdf_status['percentage'])); ?></p>
                 <?php if (!empty($pdf_status['failed_pages']) && $pdf_status['failed_pages'] > 0) : ?>
@@ -705,24 +705,24 @@ function knittnet_render_processing_status($page_data, $knowledge_manager) {
 
     // Sitemap Processing Status
     if ($sitemap_status && $sitemap_status['status'] === 'processing') : ?>
-        <div class="mxch-card" style="margin-top: 20px;">
-            <div class="mxch-card-header" style="background: var(--mxch-primary-light);">
-                <h3 class="mxch-card-title"><?php esc_html_e('Sitemap Processing Status', 'knittnet'); ?></h3>
+        <div class="knet-card" style="margin-top: 20px;">
+            <div class="knet-card-header" style="background: var(--knet-primary-light);">
+                <h3 class="knet-card-title"><?php esc_html_e('Sitemap Processing Status', 'knittnet'); ?></h3>
                 <div style="display: flex; gap: 10px;">
                     <form method="post" action="<?php echo esc_url(admin_url('admin-post.php?action=knittnet_stop_processing')); ?>">
                         <?php wp_nonce_field('knittnet_stop_processing_action', 'knittnet_stop_processing_nonce'); ?>
-                        <button type="submit" name="stop_processing" class="mxch-btn mxch-btn-secondary mxch-btn-sm">
+                        <button type="submit" name="stop_processing" class="knet-btn knet-btn-secondary knet-btn-sm">
                             <?php esc_html_e('Stop Processing', 'knittnet'); ?>
                         </button>
                     </form>
-                    <button type="button" class="mxch-btn mxch-btn-primary mxch-btn-sm knittnet-manual-batch-btn" data-process-type="sitemap" data-url="<?php echo esc_attr(get_transient('knittnet_last_sitemap_url')); ?>">
+                    <button type="button" class="knet-btn knet-btn-primary knet-btn-sm knittnet-manual-batch-btn" data-process-type="sitemap" data-url="<?php echo esc_attr(get_transient('knittnet_last_sitemap_url')); ?>">
                         <?php esc_html_e('Process Batch', 'knittnet'); ?>
                     </button>
                 </div>
             </div>
-            <div class="mxch-card-body">
+            <div class="knet-card-body">
                 <div class="knittnet-progress-bar" style="height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; margin-bottom: 15px;">
-                    <div class="knittnet-progress-fill" style="height: 100%; background: var(--mxch-primary); width: <?php echo esc_attr($sitemap_status['percentage']); ?>%; transition: width 0.3s;"></div>
+                    <div class="knittnet-progress-fill" style="height: 100%; background: var(--knet-primary); width: <?php echo esc_attr($sitemap_status['percentage']); ?>%; transition: width 0.3s;"></div>
                 </div>
                 <p><?php printf(esc_html__('Progress: %1$d of %2$d URLs (%3$d%%)', 'knittnet'), absint($sitemap_status['processed_urls']), absint($sitemap_status['total_urls']), absint($sitemap_status['percentage'])); ?></p>
                 <?php if (!empty($sitemap_status['failed_urls']) && $sitemap_status['failed_urls'] > 0) : ?>
@@ -794,24 +794,24 @@ function knittnet_render_knowledge_base_section($admin_instance, $knowledge_mana
     }
     $display_index = 0;
     ?>
-    <div id="knowledge-base" class="mxch-section">
-        <div class="mxch-content-header">
-            <h1 class="mxch-content-title"><?php esc_html_e('Knowledge Base', 'knittnet'); ?></h1>
-            <p class="mxch-content-subtitle"><?php esc_html_e('View and manage your imported knowledge entries.', 'knittnet'); ?></p>
+    <div id="knowledge-base" class="knet-section">
+        <div class="knet-content-header">
+            <h1 class="knet-content-title"><?php esc_html_e('Knowledge Base', 'knittnet'); ?></h1>
+            <p class="knet-content-subtitle"><?php esc_html_e('View and manage your imported knowledge entries.', 'knittnet'); ?></p>
         </div>
 
         <?php if (!empty($use_vectorstore)) : ?>
-        <div class="mxch-notice mxch-notice-info" style="margin-bottom: 20px;">
-            <svg class="mxch-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        <div class="knet-notice knet-notice-info" style="margin-bottom: 20px;">
+            <svg class="knet-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
             <span><strong><?php esc_html_e('OpenAI Vector Store is Active', 'knittnet'); ?></strong> - <?php esc_html_e('Your chatbot is using OpenAI\'s hosted Vector Store for knowledge retrieval. The entries below are stored locally and are not being searched. To use this local database, disable Vector Store in the Integrations settings.', 'knittnet'); ?></span>
         </div>
         <?php endif; ?>
 
-        <div class="mxch-card">
-            <div class="mxch-card-header">
-                <h3 class="mxch-card-title">
+        <div class="knet-card">
+            <div class="knet-card-header">
+                <h3 class="knet-card-title">
                     <?php esc_html_e('Knowledge Entries', 'knittnet'); ?>
-                    <span id="knittnet-entry-count" style="font-weight: normal; color: var(--mxch-text-secondary);">(<?php echo esc_html($total_records); ?>)</span>
+                    <span id="knittnet-entry-count" style="font-weight: normal; color: var(--knet-text-secondary);">(<?php echo esc_html($total_records); ?>)</span>
                     <?php if (!empty($use_vectorstore)) : ?>
                         <span style="display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 12px; font-size: 12px; font-weight: 500; margin-left: 8px; background: #fff3e0; color: #e65100;">
                             <span class="dashicons dashicons-database" style="font-size: 14px;"></span>
@@ -829,15 +829,15 @@ function knittnet_render_knowledge_base_section($admin_instance, $knowledge_mana
                         </span>
                     <?php endif; ?>
                 </h3>
-                <div class="mxch-kb-header-controls">
-                    <form method="get" id="knowledge-search" class="mxch-kb-search-form">
+                <div class="knet-kb-header-controls">
+                    <form method="get" id="knowledge-search" class="knet-kb-search-form">
                         <?php wp_nonce_field('knittnet_prompts_search_nonce'); ?>
                         <input type="hidden" name="page" value="knittnet-prompts" />
                         <?php if ($multibot_active && !empty($current_bot_id) && $current_bot_id !== 'default') : ?>
                             <input type="hidden" name="bot_id" value="<?php echo esc_attr($current_bot_id); ?>" />
                         <?php endif; ?>
-                        <input type="text" name="search" class="mxch-input mxch-input-sm mxch-kb-search-input" placeholder="<?php esc_attr_e('Search...', 'knittnet'); ?>" value="<?php echo esc_attr($search_query); ?>" />
-                        <select name="content_type" class="mxch-select mxch-kb-type-filter" onchange="this.form.submit()">
+                        <input type="text" name="search" class="knet-input knet-input-sm knet-kb-search-input" placeholder="<?php esc_attr_e('Search...', 'knittnet'); ?>" value="<?php echo esc_attr($search_query); ?>" />
+                        <select name="content_type" class="knet-select knet-kb-type-filter" onchange="this.form.submit()">
                             <option value=""><?php esc_html_e('All Types', 'knittnet'); ?></option>
                             <?php
                             $post_types = get_post_types(array('public' => true), 'objects');
@@ -880,16 +880,16 @@ function knittnet_render_knowledge_base_section($admin_instance, $knowledge_mana
                             <?php if (!empty($content_type_filter)) : ?>
                                 <input type="hidden" name="content_type_filter" value="<?php echo esc_attr($content_type_filter); ?>" />
                             <?php endif; ?>
-                            <button type="submit" class="mxch-btn mxch-btn-secondary mxch-btn-sm" style="color: var(--mxch-error);">
+                            <button type="submit" class="knet-btn knet-btn-secondary knet-btn-sm" style="color: var(--knet-error);">
                                 <span class="dashicons dashicons-trash" style="font-size: 14px;"></span>
                                 <?php echo esc_html($delete_all_label); ?>
                             </button>
                         </form>
                         <!-- Delete Selected Button (shown when items selected) -->
                         <button type="button"
-                                class="mxch-btn mxch-btn-secondary mxch-btn-sm knittnet-bulk-delete"
+                                class="knet-btn knet-btn-secondary knet-btn-sm knittnet-bulk-delete"
                                 id="knittnet-delete-selected-entries"
-                                style="display: none; color: var(--mxch-error);"
+                                style="display: none; color: var(--knet-error);"
                                 data-nonce="<?php echo wp_create_nonce('knittnet_bulk_delete_knowledge_nonce'); ?>"
                                 data-bot-id="<?php echo esc_attr($current_bot_id); ?>"
                                 data-data-source="<?php echo esc_attr($data_source); ?>">
@@ -900,14 +900,14 @@ function knittnet_render_knowledge_base_section($admin_instance, $knowledge_mana
                     </div>
                 </div>
             </div>
-            <div class="mxch-card-body" style="padding: 0;">
+            <div class="knet-card-body" style="padding: 0;">
                 <?php if ($use_pinecone) : ?>
-                    <div class="mxch-notice mxch-notice-info mxch-pinecone-notice" style="margin: 16px; border-radius: var(--mxch-radius-md); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+                    <div class="knet-notice knet-notice-info knet-pinecone-notice" style="margin: 16px; border-radius: var(--knet-radius-md); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
                         <div style="display: flex; align-items: center; gap: 8px;">
-                            <svg class="mxch-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                            <svg class="knet-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                             <span><?php esc_html_e('Changes may take up to 60 seconds to process in Pinecone. Click "Refresh Entries" to see updates.', 'knittnet'); ?></span>
                         </div>
-                        <button type="button" id="knittnet-refresh-pinecone-entries" class="mxch-btn mxch-btn-secondary mxch-btn-sm">
+                        <button type="button" id="knittnet-refresh-pinecone-entries" class="knet-btn knet-btn-secondary knet-btn-sm">
                             <span class="dashicons dashicons-update"></span>
                             <?php esc_html_e('Refresh Entries', 'knittnet'); ?>
                         </button>
@@ -917,20 +917,20 @@ function knittnet_render_knowledge_base_section($admin_instance, $knowledge_mana
                 <div class="knittnet-table-wrapper" style="overflow-x: auto;">
                     <table class="knittnet-records-table" id="knittnet-records-table" style="width: 100%; border-collapse: collapse;">
                         <thead>
-                            <tr style="background: #f8fafc; border-bottom: 1px solid var(--mxch-card-border);">
+                            <tr style="background: #f8fafc; border-bottom: 1px solid var(--knet-card-border);">
                                 <th style="padding: 12px 16px; width: 40px; text-align: center;">
                                     <input type="checkbox" id="knittnet-select-all-entries" class="knittnet-entry-checkbox-all" title="<?php esc_attr_e('Select All', 'knittnet'); ?>">
                                 </th>
-                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: var(--mxch-text-secondary); font-size: 12px; text-transform: uppercase;"><?php esc_html_e('ID', 'knittnet'); ?></th>
-                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: var(--mxch-text-secondary); font-size: 12px; text-transform: uppercase;"><?php esc_html_e('Content', 'knittnet'); ?></th>
-                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: var(--mxch-text-secondary); font-size: 12px; text-transform: uppercase;"><?php esc_html_e('Source', 'knittnet'); ?></th>
-                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: var(--mxch-text-secondary); font-size: 12px; text-transform: uppercase;"><?php esc_html_e('Actions', 'knittnet'); ?></th>
+                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: var(--knet-text-secondary); font-size: 12px; text-transform: uppercase;"><?php esc_html_e('ID', 'knittnet'); ?></th>
+                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: var(--knet-text-secondary); font-size: 12px; text-transform: uppercase;"><?php esc_html_e('Content', 'knittnet'); ?></th>
+                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: var(--knet-text-secondary); font-size: 12px; text-transform: uppercase;"><?php esc_html_e('Source', 'knittnet'); ?></th>
+                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: var(--knet-text-secondary); font-size: 12px; text-transform: uppercase;"><?php esc_html_e('Actions', 'knittnet'); ?></th>
                             </tr>
                         </thead>
                         <tbody id="knittnet-entries-tbody">
                             <?php if (empty($grouped_prompts)) : ?>
                                 <tr>
-                                    <td colspan="5" style="padding: 40px; text-align: center; color: var(--mxch-text-muted);">
+                                    <td colspan="5" style="padding: 40px; text-align: center; color: var(--knet-text-muted);">
                                         <?php esc_html_e('No knowledge entries found. Use the Import Options to add content.', 'knittnet'); ?>
                                     </td>
                                 </tr>
@@ -950,7 +950,7 @@ function knittnet_render_knowledge_base_section($admin_instance, $knowledge_mana
                                             class="knittnet-chunk-group-header"
                                             data-source="<?php echo esc_attr($data_source); ?>"
                                             data-group-id="<?php echo esc_attr($group_id); ?>"
-                                            style="border-bottom: 1px solid var(--mxch-card-border); <?php if ($data_source === 'pinecone') echo 'background: rgba(33, 150, 243, 0.02);'; ?>">
+                                            style="border-bottom: 1px solid var(--knet-card-border); <?php if ($data_source === 'pinecone') echo 'background: rgba(33, 150, 243, 0.02);'; ?>">
                                             <td style="padding: 12px 16px; text-align: center;">
                                                 <input type="checkbox"
                                                        class="knittnet-entry-checkbox"
@@ -984,17 +984,17 @@ function knittnet_render_knowledge_base_section($admin_instance, $knowledge_mana
                                             </td>
                                             <td class="knittnet-url-cell" style="padding: 12px 16px; font-size: 13px;">
                                                 <?php if (!empty($source_url) && strpos($source_url, 'knittnet://') !== 0 && strpos($source_url, '_ungrouped_') !== 0) : ?>
-                                                    <a href="<?php echo esc_url($source_url); ?>" target="_blank" style="color: var(--mxch-primary); text-decoration: none;">
+                                                    <a href="<?php echo esc_url($source_url); ?>" target="_blank" style="color: var(--knet-primary); text-decoration: none;">
                                                         <span class="dashicons dashicons-external" style="font-size: 14px;"></span>
                                                         <?php esc_html_e('View Source', 'knittnet'); ?>
                                                     </a>
                                                 <?php else : ?>
-                                                    <span style="color: var(--mxch-text-muted);"><?php esc_html_e('Manual Content', 'knittnet'); ?></span>
+                                                    <span style="color: var(--knet-text-muted);"><?php esc_html_e('Manual Content', 'knittnet'); ?></span>
                                                 <?php endif; ?>
                                             </td>
                                             <td class="knittnet-actions-cell" style="padding: 12px 16px; white-space: nowrap;">
                                                 <button type="button"
-                                                        class="mxch-btn mxch-btn-ghost mxch-btn-sm knittnet-inspect-entry-btn"
+                                                        class="knet-btn knet-btn-ghost knet-btn-sm knittnet-inspect-entry-btn"
                                                         data-source-url="<?php echo esc_attr($source_url); ?>"
                                                         data-entry-id="<?php echo esc_attr($first_prompt->id); ?>"
                                                         data-data-source="<?php echo esc_attr($data_source); ?>"
@@ -1005,7 +1005,7 @@ function knittnet_render_knowledge_base_section($admin_instance, $knowledge_mana
                                                 </button>
                                                 <?php if ($data_source !== 'pinecone') : ?>
                                                 <button type="button"
-                                                        class="mxch-btn mxch-btn-ghost mxch-btn-sm knittnet-edit-entry-btn"
+                                                        class="knet-btn knet-btn-ghost knet-btn-sm knittnet-edit-entry-btn"
                                                         data-source-url="<?php echo esc_attr($source_url); ?>"
                                                         data-entry-id="<?php echo esc_attr($first_prompt->id); ?>"
                                                         data-data-source="<?php echo esc_attr($data_source); ?>"
@@ -1016,13 +1016,13 @@ function knittnet_render_knowledge_base_section($admin_instance, $knowledge_mana
                                                 </button>
                                                 <?php endif; ?>
                                                 <button type="button"
-                                                        class="mxch-btn mxch-btn-ghost mxch-btn-sm delete-button-group"
+                                                        class="knet-btn knet-btn-ghost knet-btn-sm delete-button-group"
                                                         data-source-url="<?php echo esc_attr($source_url); ?>"
                                                         data-chunk-count="<?php echo esc_attr($chunk_count); ?>"
                                                         data-data-source="<?php echo esc_attr($data_source); ?>"
                                                         data-bot-id="<?php echo esc_attr($current_bot_id); ?>"
                                                         data-nonce="<?php echo wp_create_nonce('knittnet_delete_chunks_nonce'); ?>"
-                                                        style="color: var(--mxch-error);"
+                                                        style="color: var(--knet-error);"
                                                         title="<?php esc_attr_e('Delete all chunks', 'knittnet'); ?>">
                                                     <span class="dashicons dashicons-trash" style="font-size: 14px;"></span>
                                                 </button>
@@ -1042,7 +1042,7 @@ function knittnet_render_knowledge_base_section($admin_instance, $knowledge_mana
                                         <tr id="prompt-<?php echo esc_attr($prompt->id); ?>"
                                             class="knittnet-chunk-row <?php echo esc_attr($group_id); ?>"
                                             data-source="<?php echo esc_attr($data_source); ?>"
-                                            style="display: none; background: #f8f9fa; border-bottom: 1px solid var(--mxch-card-border);">
+                                            style="display: none; background: #f8f9fa; border-bottom: 1px solid var(--knet-card-border);">
                                             <td style="padding: 12px 16px; text-align: center;">
                                                 <!-- Checkbox placeholder for chunk rows -->
                                             </td>
@@ -1052,7 +1052,7 @@ function knittnet_render_knowledge_base_section($admin_instance, $knowledge_mana
                                             <td class="knittnet-content-cell" style="padding: 12px 16px; font-size: 13px;">
                                                 <div class="knittnet-accordion-wrapper">
                                                     <div class="knittnet-content-preview">
-                                                        <span class="knittnet-chunk-indicator" style="margin-right: 10px; color: var(--mxch-text-secondary); font-size: 12px;">
+                                                        <span class="knittnet-chunk-indicator" style="margin-right: 10px; color: var(--knet-text-secondary); font-size: 12px;">
                                                             <?php printf(esc_html__('Chunk %d of %d', 'knittnet'), $meta_chunk_index + 1, $meta_total_chunks); ?>
                                                         </span>
                                                         <span class="preview-text"><?php echo esc_html($content_preview); ?></span>
@@ -1078,10 +1078,10 @@ function knittnet_render_knowledge_base_section($admin_instance, $knowledge_mana
                                                 </div>
                                             </td>
                                             <td class="knittnet-url-cell" style="padding: 12px 16px; font-size: 13px;">
-                                                <span class="knittnet-chunk-label" style="color: var(--mxch-text-muted);"><?php esc_html_e('Same as parent', 'knittnet'); ?></span>
+                                                <span class="knittnet-chunk-label" style="color: var(--knet-text-muted);"><?php esc_html_e('Same as parent', 'knittnet'); ?></span>
                                             </td>
                                             <td class="knittnet-actions-cell" style="padding: 12px 16px;">
-                                                <span class="knittnet-chunk-label" style="color: var(--mxch-text-muted);"><?php esc_html_e('Managed by group', 'knittnet'); ?></span>
+                                                <span class="knittnet-chunk-label" style="color: var(--knet-text-muted);"><?php esc_html_e('Managed by group', 'knittnet'); ?></span>
                                             </td>
                                         </tr>
                                         <?php endforeach; ?>
@@ -1096,7 +1096,7 @@ function knittnet_render_knowledge_base_section($admin_instance, $knowledge_mana
                                     ?>
                                     <tr id="prompt-<?php echo esc_attr($prompt->id); ?>"
                                         data-source="<?php echo esc_attr($data_source); ?>"
-                                        style="border-bottom: 1px solid var(--mxch-card-border); <?php if ($data_source === 'pinecone') echo 'background: rgba(33, 150, 243, 0.02);'; ?>">
+                                        style="border-bottom: 1px solid var(--knet-card-border); <?php if ($data_source === 'pinecone') echo 'background: rgba(33, 150, 243, 0.02);'; ?>">
                                         <td style="padding: 12px 16px; text-align: center;">
                                             <input type="checkbox"
                                                    class="knittnet-entry-checkbox"
@@ -1144,17 +1144,17 @@ function knittnet_render_knowledge_base_section($admin_instance, $knowledge_mana
                                                 $actual_source = $prompt->source_url ?? '';
                                             }
                                             if (!empty($actual_source) && strpos($actual_source, 'knittnet://') !== 0) : ?>
-                                                <a href="<?php echo esc_url($actual_source); ?>" target="_blank" style="color: var(--mxch-primary); text-decoration: none;">
+                                                <a href="<?php echo esc_url($actual_source); ?>" target="_blank" style="color: var(--knet-primary); text-decoration: none;">
                                                     <span class="dashicons dashicons-external" style="font-size: 14px;"></span>
                                                     <?php esc_html_e('View', 'knittnet'); ?>
                                                 </a>
                                             <?php else : ?>
-                                                <span style="color: var(--mxch-text-muted);"><?php esc_html_e('Manual', 'knittnet'); ?></span>
+                                                <span style="color: var(--knet-text-muted);"><?php esc_html_e('Manual', 'knittnet'); ?></span>
                                             <?php endif; ?>
                                         </td>
                                         <td style="padding: 12px 16px; white-space: nowrap;">
                                             <button type="button"
-                                                    class="mxch-btn mxch-btn-ghost mxch-btn-sm knittnet-inspect-entry-btn"
+                                                    class="knet-btn knet-btn-ghost knet-btn-sm knittnet-inspect-entry-btn"
                                                     data-source-url="<?php echo esc_attr($prompt->source_url ?? ''); ?>"
                                                     data-entry-id="<?php echo esc_attr($prompt->id); ?>"
                                                     data-data-source="<?php echo esc_attr($data_source); ?>"
@@ -1165,7 +1165,7 @@ function knittnet_render_knowledge_base_section($admin_instance, $knowledge_mana
                                             </button>
                                             <?php if ($data_source !== 'pinecone') : ?>
                                             <button type="button"
-                                                    class="mxch-btn mxch-btn-ghost mxch-btn-sm knittnet-edit-entry-btn"
+                                                    class="knet-btn knet-btn-ghost knet-btn-sm knittnet-edit-entry-btn"
                                                     data-source-url="<?php echo esc_attr($prompt->source_url ?? ''); ?>"
                                                     data-entry-id="<?php echo esc_attr($prompt->id); ?>"
                                                     data-data-source="<?php echo esc_attr($data_source); ?>"
@@ -1176,11 +1176,11 @@ function knittnet_render_knowledge_base_section($admin_instance, $knowledge_mana
                                             </button>
                                             <?php endif; ?>
                                             <?php if ($data_source === 'pinecone') : ?>
-                                                <button type="button" class="mxch-btn mxch-btn-ghost mxch-btn-sm delete-button-ajax" data-vector-id="<?php echo esc_attr($prompt->id); ?>" data-bot-id="<?php echo esc_attr($current_bot_id); ?>" data-nonce="<?php echo wp_create_nonce('knittnet_delete_pinecone_prompt_nonce'); ?>" style="color: var(--mxch-error);">
+                                                <button type="button" class="knet-btn knet-btn-ghost knet-btn-sm delete-button-ajax" data-vector-id="<?php echo esc_attr($prompt->id); ?>" data-bot-id="<?php echo esc_attr($current_bot_id); ?>" data-nonce="<?php echo wp_create_nonce('knittnet_delete_pinecone_prompt_nonce'); ?>" style="color: var(--knet-error);">
                                                     <span class="dashicons dashicons-trash" style="font-size: 14px;"></span>
                                                 </button>
                                             <?php else : ?>
-                                                <button type="button" class="mxch-btn mxch-btn-ghost mxch-btn-sm delete-button-wordpress" data-entry-id="<?php echo esc_attr($prompt->id); ?>" data-bot-id="<?php echo esc_attr($current_bot_id); ?>" data-nonce="<?php echo wp_create_nonce('knittnet_delete_wordpress_prompt_nonce'); ?>" style="color: var(--mxch-error);">
+                                                <button type="button" class="knet-btn knet-btn-ghost knet-btn-sm delete-button-wordpress" data-entry-id="<?php echo esc_attr($prompt->id); ?>" data-bot-id="<?php echo esc_attr($current_bot_id); ?>" data-nonce="<?php echo wp_create_nonce('knittnet_delete_wordpress_prompt_nonce'); ?>" style="color: var(--knet-error);">
                                                     <span class="dashicons dashicons-trash" style="font-size: 14px;"></span>
                                                 </button>
                                             <?php endif; ?>
@@ -1194,7 +1194,7 @@ function knittnet_render_knowledge_base_section($admin_instance, $knowledge_mana
                 </div>
 
                 <!-- Pagination wrapper - always present so JS can populate it after processing -->
-                <div id="knittnet-kb-pagination" class="knittnet-kb-pagination-wrapper" style="<?php echo $total_pages > 1 ? 'padding: 16px; border-top: 1px solid var(--mxch-card-border); text-align: center;' : ''; ?>" data-current-page="<?php echo esc_attr($current_page); ?>" data-total-pages="<?php echo esc_attr($total_pages); ?>" data-search="<?php echo esc_attr($search_query); ?>" data-content-type="<?php echo esc_attr($content_type_filter); ?>">
+                <div id="knittnet-kb-pagination" class="knittnet-kb-pagination-wrapper" style="<?php echo $total_pages > 1 ? 'padding: 16px; border-top: 1px solid var(--knet-card-border); text-align: center;' : ''; ?>" data-current-page="<?php echo esc_attr($current_page); ?>" data-total-pages="<?php echo esc_attr($total_pages); ?>" data-search="<?php echo esc_attr($search_query); ?>" data-content-type="<?php echo esc_attr($content_type_filter); ?>">
                     <?php if ($total_pages > 1) : ?>
                     <div class="knittnet-ajax-pagination" data-current-page="<?php echo esc_attr($current_page); ?>" data-total-pages="<?php echo esc_attr($total_pages); ?>">
                         <?php if ($current_page > 1) : ?>
@@ -1245,15 +1245,15 @@ function knittnet_render_knowledge_base_section($admin_instance, $knowledge_mana
  */
 function knittnet_render_auto_sync_section($knowledge_manager) {
     ?>
-    <div id="auto-sync" class="mxch-section">
-        <div class="mxch-content-header">
-            <h1 class="mxch-content-title"><?php esc_html_e('Auto-Sync Settings', 'knittnet'); ?></h1>
-            <p class="mxch-content-subtitle"><?php esc_html_e('Automatically sync WordPress content to your knowledge base when published or updated.', 'knittnet'); ?></p>
+    <div id="auto-sync" class="knet-section">
+        <div class="knet-content-header">
+            <h1 class="knet-content-title"><?php esc_html_e('Auto-Sync Settings', 'knittnet'); ?></h1>
+            <p class="knet-content-subtitle"><?php esc_html_e('Automatically sync WordPress content to your knowledge base when published or updated.', 'knittnet'); ?></p>
         </div>
 
-        <div class="mxch-card">
-            <div class="mxch-card-body knittnet-autosave-section">
-                <div class="mxch-field">
+        <div class="knet-card">
+            <div class="knet-card-body knittnet-autosave-section">
+                <div class="knet-field">
                     <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
                         <label class="knittnet-toggle-switch">
                             <input type="checkbox" name="knittnet_auto_sync_posts" class="knittnet-autosave-field" value="1" data-nonce="<?php echo wp_create_nonce('knittnet_prompts_setting_nonce'); ?>" <?php checked(get_option('knittnet_auto_sync_posts', '0'), '1'); ?>>
@@ -1270,7 +1270,7 @@ function knittnet_render_auto_sync_section($knowledge_manager) {
                     </div>
                 </div>
 
-                <div class="mxch-field" style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--mxch-card-border);">
+                <div class="knet-field" style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--knet-card-border);">
                     <div style="display: flex; align-items: center; gap: 12px;">
                         <label class="knittnet-toggle-switch">
                             <input type="checkbox" name="knittnet_auto_sync_acf_pdfs" class="knittnet-autosave-field" value="1" data-nonce="<?php echo wp_create_nonce('knittnet_prompts_setting_nonce'); ?>" <?php checked(get_option('knittnet_auto_sync_acf_pdfs', '0'), '1'); ?>>
@@ -1278,15 +1278,15 @@ function knittnet_render_auto_sync_section($knowledge_manager) {
                         </label>
                         <span style="font-weight: 500;"><?php esc_html_e('Extract text from PDFs in ACF fields on save', 'knittnet'); ?></span>
                     </div>
-                    <p class="mxch-field-description" style="margin-top: 8px;"><?php esc_html_e('When ON, editor saves re-extract every PDF referenced in ACF fields. Default OFF — saves stay fast and don\'t re-parse the same PDFs on every edit. The manual content selector has its own per-batch checkbox; this setting only controls the auto-sync path.', 'knittnet'); ?></p>
+                    <p class="knet-field-description" style="margin-top: 8px;"><?php esc_html_e('When ON, editor saves re-extract every PDF referenced in ACF fields. Default OFF — saves stay fast and don\'t re-parse the same PDFs on every edit. The manual content selector has its own per-batch checkbox; this setting only controls the auto-sync path.', 'knittnet'); ?></p>
                 </div>
 
                 <div style="margin-top: 24px;">
-                    <button id="knittnet-custom-post-types-toggle" class="mxch-btn mxch-btn-secondary">
+                    <button id="knittnet-custom-post-types-toggle" class="knet-btn knet-btn-secondary">
                         <?php esc_html_e('Advanced Custom Post Sync Settings', 'knittnet'); ?>
                         <span style="margin-left: 5px;">▼</span>
                     </button>
-                    <div id="knittnet-custom-post-types-container" style="display: none; margin-top: 16px; padding: 16px; background: #f8fafc; border-radius: var(--mxch-radius-md);">
+                    <div id="knittnet-custom-post-types-container" style="display: none; margin-top: 16px; padding: 16px; background: #f8fafc; border-radius: var(--knet-radius-md);">
                         <h4 style="margin: 0 0 12px 0;"><?php esc_html_e('Sync Custom Post Types', 'knittnet'); ?></h4>
                         <?php
                         $post_types = $knowledge_manager->knittnet_get_public_post_types();
@@ -1307,7 +1307,7 @@ function knittnet_render_auto_sync_section($knowledge_manager) {
                                 <?php
                             }
                         } else {
-                            echo '<p style="color: var(--mxch-text-muted);">' . esc_html__('No custom post types found.', 'knittnet') . '</p>';
+                            echo '<p style="color: var(--knet-text-muted);">' . esc_html__('No custom post types found.', 'knittnet') . '</p>';
                         }
                         ?>
                     </div>
@@ -1326,20 +1326,20 @@ function knittnet_render_chunking_section() {
     $chunking_enabled = $chunking_settings['chunking_enabled'];
     $chunk_size = $chunking_settings['chunk_size'];
     ?>
-    <div id="chunking" class="mxch-section">
-        <div class="mxch-content-header">
-            <h1 class="mxch-content-title"><?php esc_html_e('Content Chunking', 'knittnet'); ?></h1>
-            <p class="mxch-content-subtitle"><?php esc_html_e('Split large content into smaller segments for more accurate semantic search.', 'knittnet'); ?></p>
+    <div id="chunking" class="knet-section">
+        <div class="knet-content-header">
+            <h1 class="knet-content-title"><?php esc_html_e('Content Chunking', 'knittnet'); ?></h1>
+            <p class="knet-content-subtitle"><?php esc_html_e('Split large content into smaller segments for more accurate semantic search.', 'knittnet'); ?></p>
         </div>
 
-        <div class="mxch-card">
-            <div class="mxch-card-body knittnet-autosave-section">
-                <div class="mxch-notice mxch-notice-info" style="margin-bottom: 20px;">
-                    <svg class="mxch-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        <div class="knet-card">
+            <div class="knet-card-body knittnet-autosave-section">
+                <div class="knet-notice knet-notice-info" style="margin-bottom: 20px;">
+                    <svg class="knet-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                     <span><?php esc_html_e('Chunking improves retrieval quality for long documents. All chunks are reassembled before sending to the AI. Only applies to new submissions.', 'knittnet'); ?></span>
                 </div>
 
-                <div class="mxch-field">
+                <div class="knet-field">
                     <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
                         <label class="knittnet-toggle-switch">
                             <input type="checkbox" name="knittnet_chunking_enabled" id="knittnet_chunking_enabled" class="knittnet-autosave-field" value="1" data-option-name="knittnet_chunking_enabled" data-nonce="<?php echo wp_create_nonce('knittnet_prompts_setting_nonce'); ?>" <?php checked($chunking_enabled, true); ?>>
@@ -1349,10 +1349,10 @@ function knittnet_render_chunking_section() {
                     </div>
                 </div>
 
-                <div class="mxch-field">
-                    <label class="mxch-field-label" for="knittnet_chunk_size"><?php esc_html_e('Chunk Size (characters)', 'knittnet'); ?></label>
-                    <input type="number" name="knittnet_chunk_size" id="knittnet_chunk_size" class="mxch-input knittnet-autosave-field" value="<?php echo esc_attr($chunk_size); ?>" min="1000" max="10000" step="500" data-option-name="knittnet_chunk_size" data-nonce="<?php echo wp_create_nonce('knittnet_prompts_setting_nonce'); ?>" style="max-width: 200px;">
-                    <p class="mxch-field-description"><?php esc_html_e('Recommended: 4000 characters (~1000 tokens). Range: 1000-10000. Larger chunks preserve more context.', 'knittnet'); ?></p>
+                <div class="knet-field">
+                    <label class="knet-field-label" for="knittnet_chunk_size"><?php esc_html_e('Chunk Size (characters)', 'knittnet'); ?></label>
+                    <input type="number" name="knittnet_chunk_size" id="knittnet_chunk_size" class="knet-input knittnet-autosave-field" value="<?php echo esc_attr($chunk_size); ?>" min="1000" max="10000" step="500" data-option-name="knittnet_chunk_size" data-nonce="<?php echo wp_create_nonce('knittnet_prompts_setting_nonce'); ?>" style="max-width: 200px;">
+                    <p class="knet-field-description"><?php esc_html_e('Recommended: 4000 characters (~1000 tokens). Range: 1000-10000. Larger chunks preserve more context.', 'knittnet'); ?></p>
                 </div>
             </div>
         </div>
@@ -1374,35 +1374,35 @@ function knittnet_render_role_restrictions_section($knowledge_manager) {
         'administrator' => __('Administrators Only', 'knittnet')
     );
     ?>
-    <div id="role-restrictions" class="mxch-section">
-        <div class="mxch-content-header">
-            <h1 class="mxch-content-title"><?php esc_html_e('Role-Based Content Restrictions', 'knittnet'); ?></h1>
-            <p class="mxch-content-subtitle"><?php esc_html_e('Automatically restrict content access based on WordPress tags.', 'knittnet'); ?></p>
+    <div id="role-restrictions" class="knet-section">
+        <div class="knet-content-header">
+            <h1 class="knet-content-title"><?php esc_html_e('Role-Based Content Restrictions', 'knittnet'); ?></h1>
+            <p class="knet-content-subtitle"><?php esc_html_e('Automatically restrict content access based on WordPress tags.', 'knittnet'); ?></p>
         </div>
 
-        <div class="mxch-card">
-            <div class="mxch-card-body">
-                <div class="mxch-notice mxch-notice-info" style="margin-bottom: 20px;">
-                    <svg class="mxch-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        <div class="knet-card">
+            <div class="knet-card-body">
+                <div class="knet-notice knet-notice-info" style="margin-bottom: 20px;">
+                    <svg class="knet-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                     <span><strong><?php esc_html_e('How it works:', 'knittnet'); ?></strong> <?php esc_html_e('Add a tag below and select which role should have access. Content with that tag will be restricted to that role level.', 'knittnet'); ?></span>
                 </div>
 
                 <h4 style="margin: 0 0 16px 0;"><?php esc_html_e('Add Tag-Role Mapping', 'knittnet'); ?></h4>
                 <div style="display: flex; gap: 15px; align-items: flex-end; flex-wrap: wrap; margin-bottom: 24px;">
-                    <div class="mxch-field" style="flex: 1; min-width: 200px; margin-bottom: 0;">
-                        <label class="mxch-field-label" for="knittnet-tag-input"><?php esc_html_e('Tag (name or slug)', 'knittnet'); ?></label>
-                        <input type="text" id="knittnet-tag-input" class="mxch-input" placeholder="<?php esc_attr_e('e.g., Premium Content or premium-content', 'knittnet'); ?>">
-                        <span class="mxch-field-hint"><?php esc_html_e('Enter an existing post tag by its display name or its slug.', 'knittnet'); ?></span>
+                    <div class="knet-field" style="flex: 1; min-width: 200px; margin-bottom: 0;">
+                        <label class="knet-field-label" for="knittnet-tag-input"><?php esc_html_e('Tag (name or slug)', 'knittnet'); ?></label>
+                        <input type="text" id="knittnet-tag-input" class="knet-input" placeholder="<?php esc_attr_e('e.g., Premium Content or premium-content', 'knittnet'); ?>">
+                        <span class="knet-field-hint"><?php esc_html_e('Enter an existing post tag by its display name or its slug.', 'knittnet'); ?></span>
                     </div>
-                    <div class="mxch-field" style="flex: 1; min-width: 200px; margin-bottom: 0;">
-                        <label class="mxch-field-label" for="knittnet-role-select"><?php esc_html_e('Required Role', 'knittnet'); ?></label>
-                        <select id="knittnet-role-select" class="mxch-select">
+                    <div class="knet-field" style="flex: 1; min-width: 200px; margin-bottom: 0;">
+                        <label class="knet-field-label" for="knittnet-role-select"><?php esc_html_e('Required Role', 'knittnet'); ?></label>
+                        <select id="knittnet-role-select" class="knet-select">
                             <?php foreach ($role_options as $role_key => $role_label) : ?>
                                 <option value="<?php echo esc_attr($role_key); ?>"><?php echo esc_html($role_label); ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
-                    <button type="button" id="knittnet-add-tag-role" class="mxch-btn mxch-btn-primary">
+                    <button type="button" id="knittnet-add-tag-role" class="knet-btn knet-btn-primary">
                         <span class="dashicons dashicons-plus-alt" style="font-size: 16px;"></span>
                         <?php esc_html_e('Add Mapping', 'knittnet'); ?>
                     </button>
@@ -1410,27 +1410,27 @@ function knittnet_render_role_restrictions_section($knowledge_manager) {
 
                 <h4 style="margin: 24px 0 16px 0;"><?php esc_html_e('Current Tag-Role Mappings', 'knittnet'); ?></h4>
                 <div id="knittnet-mappings-container">
-                    <div class="knittnet-loading-mappings" style="text-align: center; padding: 20px; color: var(--mxch-text-muted);">
+                    <div class="knittnet-loading-mappings" style="text-align: center; padding: 20px; color: var(--knet-text-muted);">
                         <?php esc_html_e('Loading mappings...', 'knittnet'); ?>
                     </div>
                 </div>
-                <div id="knittnet-no-mappings" style="display: none; text-align: center; padding: 40px; color: var(--mxch-text-muted);">
+                <div id="knittnet-no-mappings" style="display: none; text-align: center; padding: 40px; color: var(--knet-text-muted);">
                     <span class="dashicons dashicons-tag" style="font-size: 48px; opacity: 0.3;"></span>
                     <p><?php esc_html_e('No tag-role mappings yet. Add your first mapping above.', 'knittnet'); ?></p>
                 </div>
 
-                <div style="margin-top: 30px; padding-top: 24px; border-top: 1px solid var(--mxch-card-border);">
+                <div style="margin-top: 30px; padding-top: 24px; border-top: 1px solid var(--knet-card-border);">
                     <h4 style="margin: 0 0 12px 0;"><?php esc_html_e('Bulk Update Existing Content', 'knittnet'); ?></h4>
-                    <p class="mxch-field-description" style="margin-bottom: 16px;"><?php esc_html_e('Apply role restrictions to all existing content that has the mapped tags.', 'knittnet'); ?></p>
-                    <button type="button" id="knittnet-bulk-update-roles" class="mxch-btn mxch-btn-secondary">
+                    <p class="knet-field-description" style="margin-bottom: 16px;"><?php esc_html_e('Apply role restrictions to all existing content that has the mapped tags.', 'knittnet'); ?></p>
+                    <button type="button" id="knittnet-bulk-update-roles" class="knet-btn knet-btn-secondary">
                         <span class="dashicons dashicons-update" style="font-size: 16px;"></span>
                         <?php esc_html_e('Update All Existing Content', 'knittnet'); ?>
                     </button>
                     <div id="knittnet-bulk-update-progress" style="display: none; margin-top: 15px;">
                         <div style="height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden;">
-                            <div class="knittnet-progress-fill" style="height: 100%; background: var(--mxch-primary); width: 0%; transition: width 0.3s;"></div>
+                            <div class="knittnet-progress-fill" style="height: 100%; background: var(--knet-primary); width: 0%; transition: width 0.3s;"></div>
                         </div>
-                        <p class="knittnet-progress-text" style="margin-top: 10px; color: var(--mxch-text-secondary);"><?php esc_html_e('Processing...', 'knittnet'); ?></p>
+                        <p class="knittnet-progress-text" style="margin-top: 10px; color: var(--knet-text-secondary);"><?php esc_html_e('Processing...', 'knittnet'); ?></p>
                     </div>
                     <div id="knittnet-bulk-update-result" style="display: none; margin-top: 15px;"></div>
                 </div>
@@ -1449,39 +1449,39 @@ function knittnet_render_acf_fields_section($knowledge_manager) {
         $excluded_fields = array();
     }
     ?>
-    <div id="acf-fields" class="mxch-section">
-        <div class="mxch-content-header">
-            <h1 class="mxch-content-title"><?php esc_html_e('ACF Field Settings', 'knittnet'); ?></h1>
-            <p class="mxch-content-subtitle"><?php esc_html_e('Control which Advanced Custom Fields are included in knowledge base embeddings.', 'knittnet'); ?></p>
+    <div id="acf-fields" class="knet-section">
+        <div class="knet-content-header">
+            <h1 class="knet-content-title"><?php esc_html_e('ACF Field Settings', 'knittnet'); ?></h1>
+            <p class="knet-content-subtitle"><?php esc_html_e('Control which Advanced Custom Fields are included in knowledge base embeddings.', 'knittnet'); ?></p>
         </div>
 
-        <div class="mxch-card">
-            <div class="mxch-card-body knittnet-autosave-section">
+        <div class="knet-card">
+            <div class="knet-card-body knittnet-autosave-section">
                 <?php if (!function_exists('acf_get_field_groups')): ?>
-                    <div class="mxch-notice mxch-notice-info">
-                        <svg class="mxch-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                    <div class="knet-notice knet-notice-info">
+                        <svg class="knet-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                         <span><?php esc_html_e('Advanced Custom Fields (ACF) plugin is not detected. Install and activate ACF to use this feature.', 'knittnet'); ?></span>
                     </div>
                 <?php else:
                     $all_acf_fields = $knowledge_manager->knittnet_get_all_acf_fields();
 
                     if (empty($all_acf_fields)): ?>
-                        <div class="mxch-notice mxch-notice-info">
-                            <svg class="mxch-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                        <div class="knet-notice knet-notice-info">
+                            <svg class="knet-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                             <span><?php esc_html_e('No ACF field groups found. Create field groups in ACF to control which fields are included in embeddings.', 'knittnet'); ?></span>
                         </div>
                     <?php else: ?>
-                        <div class="mxch-notice mxch-notice-info" style="margin-bottom: 20px;">
-                            <svg class="mxch-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                        <div class="knet-notice knet-notice-info" style="margin-bottom: 20px;">
+                            <svg class="knet-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                             <span><?php esc_html_e('Toggle fields ON to include them in knowledge base embeddings. Toggle OFF to exclude sensitive or irrelevant fields.', 'knittnet'); ?></span>
                         </div>
 
                         <?php foreach ($all_acf_fields as $group_title => $fields): ?>
                             <div class="knittnet-acf-field-group" style="margin-bottom: 24px;">
-                                <h4 style="margin: 0 0 12px 0; color: var(--mxch-text-primary); font-weight: 600;">
+                                <h4 style="margin: 0 0 12px 0; color: var(--knet-text-primary); font-weight: 600;">
                                     <?php echo esc_html($group_title); ?>
                                 </h4>
-                                <div style="background: #f8fafc; border-radius: var(--mxch-radius-md); padding: 16px;">
+                                <div style="background: #f8fafc; border-radius: var(--knet-radius-md); padding: 16px;">
                                     <?php foreach ($fields as $field):
                                         $field_name = $field['name'];
                                         $is_enabled = !in_array($field_name, $excluded_fields);
@@ -1489,8 +1489,8 @@ function knittnet_render_acf_fields_section($knowledge_manager) {
                                         <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e2e8f0;">
                                             <div>
                                                 <span style="font-weight: 500;"><?php echo esc_html($field['label']); ?></span>
-                                                <span style="color: var(--mxch-text-muted); font-size: 12px; margin-left: 8px;">(<?php echo esc_html($field_name); ?>)</span>
-                                                <span style="color: var(--mxch-text-muted); font-size: 11px; margin-left: 8px; background: #e2e8f0; padding: 2px 6px; border-radius: 4px;"><?php echo esc_html($field['type']); ?></span>
+                                                <span style="color: var(--knet-text-muted); font-size: 12px; margin-left: 8px;">(<?php echo esc_html($field_name); ?>)</span>
+                                                <span style="color: var(--knet-text-muted); font-size: 11px; margin-left: 8px; background: #e2e8f0; padding: 2px 6px; border-radius: 4px;"><?php echo esc_html($field['type']); ?></span>
                                             </div>
                                             <label class="knittnet-toggle-switch">
                                                 <input type="checkbox"
@@ -1520,40 +1520,40 @@ function knittnet_render_acf_fields_section($knowledge_manager) {
 function knittnet_render_custom_meta_section() {
     $whitelist = get_option('knittnet_custom_meta_whitelist', '');
     ?>
-    <div id="custom-meta" class="mxch-section">
-        <div class="mxch-content-header">
-            <h1 class="mxch-content-title"><?php esc_html_e('Custom Post Meta', 'knittnet'); ?></h1>
-            <p class="mxch-content-subtitle"><?php esc_html_e('Include custom post meta fields (non-ACF) in knowledge base embeddings.', 'knittnet'); ?></p>
+    <div id="custom-meta" class="knet-section">
+        <div class="knet-content-header">
+            <h1 class="knet-content-title"><?php esc_html_e('Custom Post Meta', 'knittnet'); ?></h1>
+            <p class="knet-content-subtitle"><?php esc_html_e('Include custom post meta fields (non-ACF) in knowledge base embeddings.', 'knittnet'); ?></p>
         </div>
 
-        <div class="mxch-card">
-            <div class="mxch-card-body knittnet-autosave-section">
-                <div class="mxch-notice mxch-notice-info" style="margin-bottom: 20px;">
-                    <svg class="mxch-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        <div class="knet-card">
+            <div class="knet-card-body knittnet-autosave-section">
+                <div class="knet-notice knet-notice-info" style="margin-bottom: 20px;">
+                    <svg class="knet-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                     <span><?php esc_html_e('Enter post meta keys to include in embeddings. This is useful for OptionTree fields, theme meta boxes, or any custom post meta that is not managed by ACF.', 'knittnet'); ?></span>
                 </div>
 
-                <div class="mxch-field">
-                    <label class="mxch-field-label" for="knittnet_custom_meta_whitelist">
+                <div class="knet-field">
+                    <label class="knet-field-label" for="knittnet_custom_meta_whitelist">
                         <?php esc_html_e('Meta Key Whitelist', 'knittnet'); ?>
                     </label>
                     <textarea
                         name="knittnet_custom_meta_whitelist"
                         id="knittnet_custom_meta_whitelist"
-                        class="mxch-textarea knittnet-autosave-field"
+                        class="knet-textarea knittnet-autosave-field"
                         rows="6"
                         placeholder="speaker_profession&#10;speaker_company&#10;event_location&#10;_custom_field_key"
                         data-nonce="<?php echo wp_create_nonce('knittnet_prompts_setting_nonce'); ?>"
                         style="font-family: monospace;"
                     ><?php echo esc_textarea($whitelist); ?></textarea>
-                    <p class="mxch-field-description">
+                    <p class="knet-field-description">
                         <?php esc_html_e('Enter one meta key per line. These fields will be appended to the content during embedding. Only string values are included.', 'knittnet'); ?>
                     </p>
                 </div>
 
-                <div style="margin-top: 20px; padding: 16px; background: #f8fafc; border-radius: var(--mxch-radius-md);">
+                <div style="margin-top: 20px; padding: 16px; background: #f8fafc; border-radius: var(--knet-radius-md);">
                     <h4 style="margin: 0 0 12px 0; font-size: 14px;"><?php esc_html_e('How to find meta keys:', 'knittnet'); ?></h4>
-                    <ul style="margin: 0; padding-left: 20px; color: var(--mxch-text-secondary); font-size: 13px;">
+                    <ul style="margin: 0; padding-left: 20px; color: var(--knet-text-secondary); font-size: 13px;">
                         <li><?php esc_html_e('Check your theme documentation for meta key names', 'knittnet'); ?></li>
                         <li><?php esc_html_e('Look in the wp_postmeta database table', 'knittnet'); ?></li>
                         <li><?php esc_html_e('Use a plugin like "Show Post Meta" to view meta keys on any post', 'knittnet'); ?></li>
@@ -1573,23 +1573,23 @@ function knittnet_render_pinecone_section() {
     $pinecone_options = get_option('knittnet_pinecone_addon_options', array());
     $use_pinecone = $pinecone_options['knittnet_use_pinecone'] ?? '0';
     ?>
-    <div id="pinecone" class="mxch-section">
-        <div class="mxch-content-header">
-            <h1 class="mxch-content-title"><?php esc_html_e('Pinecone Vector Database', 'knittnet'); ?></h1>
-            <p class="mxch-content-subtitle"><?php esc_html_e('Configure Pinecone for enhanced search performance with larger knowledge bases.', 'knittnet'); ?></p>
+    <div id="pinecone" class="knet-section">
+        <div class="knet-content-header">
+            <h1 class="knet-content-title"><?php esc_html_e('Pinecone Vector Database', 'knittnet'); ?></h1>
+            <p class="knet-content-subtitle"><?php esc_html_e('Configure Pinecone for enhanced search performance with larger knowledge bases.', 'knittnet'); ?></p>
         </div>
 
-        <div class="mxch-card">
-            <div class="mxch-card-body">
-                <div class="mxch-notice mxch-notice-info" style="margin-bottom: 20px;">
-                    <svg class="mxch-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        <div class="knet-card">
+            <div class="knet-card-body">
+                <div class="knet-notice knet-notice-info" style="margin-bottom: 20px;">
+                    <svg class="knet-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                     <span><strong><?php esc_html_e('Pinecone is optional.', 'knittnet'); ?></strong> <?php esc_html_e('KnittNet works without it. When enabled, content is stored in Pinecone for faster similarity searches.', 'knittnet'); ?></span>
                 </div>
 
                 <form method="post" action="options.php">
                     <?php settings_fields('knittnet_pinecone_addon_options'); ?>
 
-                    <div class="mxch-field">
+                    <div class="knet-field">
                         <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
                             <label class="knittnet-toggle-switch">
                                 <input type="checkbox" name="knittnet_pinecone_addon_options[knittnet_use_pinecone]" value="1" <?php checked($use_pinecone, '1'); ?>>
@@ -1601,47 +1601,47 @@ function knittnet_render_pinecone_section() {
 
                     <div class="knittnet-pinecone-settings" <?php echo $use_pinecone ? '' : 'style="display: none;"'; ?>>
                         <?php if ($use_pinecone) : ?>
-                            <div class="mxch-notice mxch-notice-success" style="margin-bottom: 20px;">
-                                <svg class="mxch-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            <div class="knet-notice knet-notice-success" style="margin-bottom: 20px;">
+                                <svg class="knet-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                                 <span><?php esc_html_e('Pinecone is enabled. All new knowledge base content will be stored in Pinecone.', 'knittnet'); ?></span>
                             </div>
                         <?php endif; ?>
 
-                        <div class="mxch-field">
-                            <label class="mxch-field-label" for="knittnet_pinecone_api_key">
-                                <?php esc_html_e('Pinecone API Key', 'knittnet'); ?> <span class="mxch-field-label-required">*</span>
+                        <div class="knet-field">
+                            <label class="knet-field-label" for="knittnet_pinecone_api_key">
+                                <?php esc_html_e('Pinecone API Key', 'knittnet'); ?> <span class="knet-field-label-required">*</span>
                             </label>
-                            <input type="password" id="knittnet_pinecone_api_key" name="knittnet_pinecone_addon_options[knittnet_pinecone_api_key]" value="<?php echo esc_attr($pinecone_options['knittnet_pinecone_api_key'] ?? ''); ?>" class="mxch-input" placeholder="pcsk_...">
-                            <p class="mxch-field-description">
+                            <input type="password" id="knittnet_pinecone_api_key" name="knittnet_pinecone_addon_options[knittnet_pinecone_api_key]" value="<?php echo esc_attr($pinecone_options['knittnet_pinecone_api_key'] ?? ''); ?>" class="knet-input" placeholder="pcsk_...">
+                            <p class="knet-field-description">
                                 <?php esc_html_e('Found in your Pinecone dashboard under API Keys.', 'knittnet'); ?>
                                 <a href="https://app.pinecone.io/" target="_blank"><?php esc_html_e('Open Pinecone Dashboard', 'knittnet'); ?></a>
                             </p>
                         </div>
 
-                        <div class="mxch-field">
-                            <label class="mxch-field-label" for="knittnet_pinecone_environment"><?php esc_html_e('Region', 'knittnet'); ?></label>
-                            <input type="text" id="knittnet_pinecone_environment" name="knittnet_pinecone_addon_options[knittnet_pinecone_environment]" value="<?php echo esc_attr($pinecone_options['knittnet_pinecone_environment'] ?? ''); ?>" class="mxch-input" placeholder="e.g., gcp-starter">
-                            <p class="mxch-field-description"><?php esc_html_e('Your Pinecone environment/region (e.g., gcp-starter, us-west1-gcp)', 'knittnet'); ?></p>
+                        <div class="knet-field">
+                            <label class="knet-field-label" for="knittnet_pinecone_environment"><?php esc_html_e('Region', 'knittnet'); ?></label>
+                            <input type="text" id="knittnet_pinecone_environment" name="knittnet_pinecone_addon_options[knittnet_pinecone_environment]" value="<?php echo esc_attr($pinecone_options['knittnet_pinecone_environment'] ?? ''); ?>" class="knet-input" placeholder="e.g., gcp-starter">
+                            <p class="knet-field-description"><?php esc_html_e('Your Pinecone environment/region (e.g., gcp-starter, us-west1-gcp)', 'knittnet'); ?></p>
                         </div>
 
-                        <div class="mxch-field">
-                            <label class="mxch-field-label" for="knittnet_pinecone_index">
-                                <?php esc_html_e('Index Name', 'knittnet'); ?> <span class="mxch-field-label-required">*</span>
+                        <div class="knet-field">
+                            <label class="knet-field-label" for="knittnet_pinecone_index">
+                                <?php esc_html_e('Index Name', 'knittnet'); ?> <span class="knet-field-label-required">*</span>
                             </label>
-                            <input type="text" id="knittnet_pinecone_index" name="knittnet_pinecone_addon_options[knittnet_pinecone_index]" value="<?php echo esc_attr($pinecone_options['knittnet_pinecone_index'] ?? ''); ?>" class="mxch-input" placeholder="e.g., my-wordpress-vectors">
-                            <p class="mxch-field-description"><?php esc_html_e('The name of your Pinecone index. Must be created in your Pinecone dashboard first.', 'knittnet'); ?></p>
+                            <input type="text" id="knittnet_pinecone_index" name="knittnet_pinecone_addon_options[knittnet_pinecone_index]" value="<?php echo esc_attr($pinecone_options['knittnet_pinecone_index'] ?? ''); ?>" class="knet-input" placeholder="e.g., my-wordpress-vectors">
+                            <p class="knet-field-description"><?php esc_html_e('The name of your Pinecone index. Must be created in your Pinecone dashboard first.', 'knittnet'); ?></p>
                         </div>
 
-                        <div class="mxch-field">
-                            <label class="mxch-field-label" for="knittnet_pinecone_host">
-                                <?php esc_html_e('Pinecone Host', 'knittnet'); ?> <span class="mxch-field-label-required">*</span>
+                        <div class="knet-field">
+                            <label class="knet-field-label" for="knittnet_pinecone_host">
+                                <?php esc_html_e('Pinecone Host', 'knittnet'); ?> <span class="knet-field-label-required">*</span>
                             </label>
-                            <input type="text" id="knittnet_pinecone_host" name="knittnet_pinecone_addon_options[knittnet_pinecone_host]" value="<?php echo esc_attr($pinecone_options['knittnet_pinecone_host'] ?? ''); ?>" class="mxch-input" placeholder="e.g., my-index-xyz123.svc.pinecone.io">
-                            <p class="mxch-field-description"><?php esc_html_e('The hostname from your Pinecone index URL (exclude https://). Found in index details.', 'knittnet'); ?></p>
+                            <input type="text" id="knittnet_pinecone_host" name="knittnet_pinecone_addon_options[knittnet_pinecone_host]" value="<?php echo esc_attr($pinecone_options['knittnet_pinecone_host'] ?? ''); ?>" class="knet-input" placeholder="e.g., my-index-xyz123.svc.pinecone.io">
+                            <p class="knet-field-description"><?php esc_html_e('The hostname from your Pinecone index URL (exclude https://). Found in index details.', 'knittnet'); ?></p>
                         </div>
                     </div>
 
-                    <?php submit_button(__('Save Pinecone Settings', 'knittnet'), 'primary', 'submit', true, array('class' => 'mxch-btn mxch-btn-primary')); ?>
+                    <?php submit_button(__('Save Pinecone Settings', 'knittnet'), 'primary', 'submit', true, array('class' => 'knet-btn knet-btn-primary')); ?>
                 </form>
             </div>
         </div>
@@ -1663,22 +1663,22 @@ function knittnet_render_openai_vectorstore_section() {
     $current_model = $knittnet_options['model'] ?? 'gpt-5.1-chat-latest';
     $is_openai_model = preg_match('/^(gpt-|o1-|o3-)/', $current_model);
     ?>
-    <div id="openai-vectorstore" class="mxch-section">
-        <div class="mxch-content-header">
-            <h1 class="mxch-content-title"><?php esc_html_e('OpenAI Vector Store', 'knittnet'); ?></h1>
-            <p class="mxch-content-subtitle"><?php esc_html_e('Use OpenAI\'s hosted vector database for knowledge retrieval. Your documents are stored and searched directly on OpenAI\'s platform.', 'knittnet'); ?></p>
+    <div id="openai-vectorstore" class="knet-section">
+        <div class="knet-content-header">
+            <h1 class="knet-content-title"><?php esc_html_e('OpenAI Vector Store', 'knittnet'); ?></h1>
+            <p class="knet-content-subtitle"><?php esc_html_e('Use OpenAI\'s hosted vector database for knowledge retrieval. Your documents are stored and searched directly on OpenAI\'s platform.', 'knittnet'); ?></p>
         </div>
 
-        <div class="mxch-card">
-            <div class="mxch-card-body">
-                <div class="mxch-notice mxch-notice-info" style="margin-bottom: 20px;">
-                    <svg class="mxch-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        <div class="knet-card">
+            <div class="knet-card-body">
+                <div class="knet-notice knet-notice-info" style="margin-bottom: 20px;">
+                    <svg class="knet-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                     <span><strong><?php esc_html_e('Requires OpenAI Chat Model.', 'knittnet'); ?></strong> <?php esc_html_e('Vector Store search only works with OpenAI models (gpt-5.1-chat-latest, gpt-5-mini, etc.). Create Vector Stores in your OpenAI Dashboard.', 'knittnet'); ?></span>
                 </div>
 
                 <?php if (!$is_openai_model && $use_vectorstore === '1'): ?>
-                <div class="mxch-notice mxch-notice-warning" style="margin-bottom: 20px;">
-                    <svg class="mxch-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <div class="knet-notice knet-notice-warning" style="margin-bottom: 20px;">
+                    <svg class="knet-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
                     <span><strong><?php esc_html_e('Model Incompatible:', 'knittnet'); ?></strong> <?php printf(esc_html__('Your current chat model (%s) is not an OpenAI model. Vector Store search will not work until you switch to an OpenAI model.', 'knittnet'), esc_html($current_model)); ?></span>
                 </div>
                 <?php endif; ?>
@@ -1686,7 +1686,7 @@ function knittnet_render_openai_vectorstore_section() {
                 <form method="post" action="options.php" id="knittnet-vectorstore-form">
                     <?php settings_fields('knittnet_openai_vectorstore_options'); ?>
 
-                    <div class="mxch-field">
+                    <div class="knet-field">
                         <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
                             <label class="knittnet-toggle-switch">
                                 <input type="checkbox" name="knittnet_openai_vectorstore_options[knittnet_use_openai_vectorstore]" value="1" <?php checked($use_vectorstore, '1'); ?> id="knittnet_use_openai_vectorstore">
@@ -1698,37 +1698,37 @@ function knittnet_render_openai_vectorstore_section() {
 
                     <div class="knittnet-vectorstore-settings" <?php echo $use_vectorstore === '1' ? '' : 'style="display: none;"'; ?>>
                         <?php if ($use_vectorstore === '1'): ?>
-                            <div class="mxch-notice mxch-notice-success" style="margin-bottom: 20px;">
-                                <svg class="mxch-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            <div class="knet-notice knet-notice-success" style="margin-bottom: 20px;">
+                                <svg class="knet-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                                 <span><?php esc_html_e('OpenAI Vector Store is enabled. Queries will search your Vector Store for relevant content.', 'knittnet'); ?></span>
                             </div>
                         <?php endif; ?>
 
-                        <div class="mxch-field">
-                            <label class="mxch-field-label" for="knittnet_vectorstore_ids">
-                                <?php esc_html_e('Vector Store ID(s)', 'knittnet'); ?> <span class="mxch-field-label-required">*</span>
+                        <div class="knet-field">
+                            <label class="knet-field-label" for="knittnet_vectorstore_ids">
+                                <?php esc_html_e('Vector Store ID(s)', 'knittnet'); ?> <span class="knet-field-label-required">*</span>
                             </label>
-                            <input type="text" id="knittnet_vectorstore_ids" name="knittnet_openai_vectorstore_options[knittnet_vectorstore_ids]" value="<?php echo esc_attr($vectorstore_ids); ?>" class="mxch-input" placeholder="vs_abc123xyz">
-                            <p class="mxch-field-description">
+                            <input type="text" id="knittnet_vectorstore_ids" name="knittnet_openai_vectorstore_options[knittnet_vectorstore_ids]" value="<?php echo esc_attr($vectorstore_ids); ?>" class="knet-input" placeholder="vs_abc123xyz">
+                            <p class="knet-field-description">
                                 <?php esc_html_e('Enter your Vector Store ID from the OpenAI Dashboard. For multiple stores, separate with commas.', 'knittnet'); ?>
                                 <a href="https://platform.openai.com/storage/vector_stores" target="_blank"><?php esc_html_e('Open OpenAI Vector Store Dashboard', 'knittnet'); ?></a>
                             </p>
                         </div>
 
-                        <div class="mxch-field">
-                            <label class="mxch-field-label" for="knittnet_vectorstore_max_results">
+                        <div class="knet-field">
+                            <label class="knet-field-label" for="knittnet_vectorstore_max_results">
                                 <?php esc_html_e('Max Results', 'knittnet'); ?>
                             </label>
-                            <select id="knittnet_vectorstore_max_results" name="knittnet_openai_vectorstore_options[knittnet_vectorstore_max_results]" class="mxch-input" style="width: auto;">
+                            <select id="knittnet_vectorstore_max_results" name="knittnet_openai_vectorstore_options[knittnet_vectorstore_max_results]" class="knet-input" style="width: auto;">
                                 <?php for ($i = 1; $i <= 10; $i++): ?>
                                     <option value="<?php echo $i; ?>" <?php selected($max_results, $i); ?>><?php echo $i; ?></option>
                                 <?php endfor; ?>
                             </select>
-                            <p class="mxch-field-description"><?php esc_html_e('Maximum number of content chunks to retrieve from the Vector Store.', 'knittnet'); ?></p>
+                            <p class="knet-field-description"><?php esc_html_e('Maximum number of content chunks to retrieve from the Vector Store.', 'knittnet'); ?></p>
                         </div>
                     </div>
 
-                    <?php submit_button(__('Save Vector Store Settings', 'knittnet'), 'primary', 'submit', true, array('class' => 'mxch-btn mxch-btn-primary')); ?>
+                    <?php submit_button(__('Save Vector Store Settings', 'knittnet'), 'primary', 'submit', true, array('class' => 'knet-btn knet-btn-primary')); ?>
                 </form>
             </div>
         </div>
@@ -1787,7 +1787,7 @@ function knittnet_render_content_selector_modal() {
                         <?php esc_html_e('Select All on Page', 'knittnet'); ?>
                     </label>
                     <span class="knittnet-kb-selection-count">0 <?php esc_html_e('selected', 'knittnet'); ?></span>
-                    <span class="knittnet-kb-selection-hint" style="margin-left: auto; font-size: 12px; color: var(--mxch-text-muted);">
+                    <span class="knittnet-kb-selection-hint" style="margin-left: auto; font-size: 12px; color: var(--knet-text-muted);">
                         <span class="dashicons dashicons-info-outline" style="font-size: 14px; vertical-align: middle;"></span>
                         <?php esc_html_e('Selections persist across pages', 'knittnet'); ?>
                     </span>
@@ -1801,10 +1801,10 @@ function knittnet_render_content_selector_modal() {
             </div>
             <div class="knittnet-kb-modal-footer">
                 <div class="knittnet-kb-pagination"></div>
-                <div class="knittnet-kb-acf-pdf-option" style="display:flex; align-items:flex-start; gap:8px; padding:8px 0; font-size:12px; color: var(--mxch-text-secondary, #64748b);">
+                <div class="knittnet-kb-acf-pdf-option" style="display:flex; align-items:flex-start; gap:8px; padding:8px 0; font-size:12px; color: var(--knet-text-secondary, #64748b);">
                     <input type="checkbox" id="knittnet-kb-acf-pdf-extract" style="margin-top:2px;">
                     <label for="knittnet-kb-acf-pdf-extract" style="cursor:pointer; line-height:1.4;">
-                        <strong style="color: var(--mxch-text-primary, #1a1a2e);"><?php esc_html_e('Also extract text from PDFs linked in ACF File/Image fields', 'knittnet'); ?></strong><br>
+                        <strong style="color: var(--knet-text-primary, #1a1a2e);"><?php esc_html_e('Also extract text from PDFs linked in ACF File/Image fields', 'knittnet'); ?></strong><br>
                         <span><?php esc_html_e('Adds 200-500ms per post and ~30 KB to each KB entry. Recommended only if your ACF setup uses PDF attachments for primary content.', 'knittnet'); ?></span>
                     </label>
                 </div>
@@ -1845,10 +1845,10 @@ function knittnet_render_edit_entry_modal() {
             <div class="knittnet-kb-edit-footer">
                 <div class="knittnet-kb-edit-notice" id="knittnet-kb-edit-notice"></div>
                 <div class="knittnet-kb-edit-actions">
-                    <button type="button" id="knittnet-kb-edit-cancel" class="mxch-btn mxch-btn-ghost">
+                    <button type="button" id="knittnet-kb-edit-cancel" class="knet-btn knet-btn-ghost">
                         <?php esc_html_e('Cancel', 'knittnet'); ?>
                     </button>
-                    <button type="button" id="knittnet-kb-edit-save" class="mxch-btn mxch-btn-primary">
+                    <button type="button" id="knittnet-kb-edit-save" class="knet-btn knet-btn-primary">
                         <span class="knittnet-kb-edit-save-text"><?php esc_html_e('Save & Re-embed', 'knittnet'); ?></span>
                         <span class="knittnet-kb-edit-save-spinner" style="display:none;">
                             <span class="knittnet-kb-spinner is-active" style="margin: 0;"></span>
@@ -1879,14 +1879,14 @@ function knittnet_render_inspect_entry_modal() {
             </div>
             <div class="knittnet-kb-inspect-body">
                 <div class="knittnet-kb-edit-source" id="knittnet-kb-inspect-source"></div>
-                <div class="mxch-testing-results" id="knittnet-kb-inspect-results">
-                    <div class="mxch-testing-no-data"><?php esc_html_e('Loading indexed content…', 'knittnet'); ?></div>
+                <div class="knet-testing-results" id="knittnet-kb-inspect-results">
+                    <div class="knet-testing-no-data"><?php esc_html_e('Loading indexed content…', 'knittnet'); ?></div>
                 </div>
             </div>
             <div class="knittnet-kb-edit-footer">
                 <div class="knittnet-kb-edit-notice" id="knittnet-kb-inspect-notice"></div>
                 <div class="knittnet-kb-edit-actions">
-                    <button type="button" id="knittnet-kb-inspect-close-btn" class="mxch-btn mxch-btn-primary">
+                    <button type="button" id="knittnet-kb-inspect-close-btn" class="knet-btn knet-btn-primary">
                         <?php esc_html_e('Close', 'knittnet'); ?>
                     </button>
                 </div>
@@ -1959,7 +1959,7 @@ function knittnet_render_inspect_entry_modal() {
                 titleEl.textContent = I18N.title;
                 noticeEl.textContent = '';
                 noticeEl.className = 'knittnet-kb-edit-notice';
-                resultsEl.innerHTML = '<div class="mxch-testing-no-data">' + esc(I18N.loading) + '</div>';
+                resultsEl.innerHTML = '<div class="knet-testing-no-data">' + esc(I18N.loading) + '</div>';
 
                 if (entry.sourceUrl && entry.sourceUrl.indexOf('knittnet://') !== 0 && entry.sourceUrl.indexOf('_ungrouped_') !== 0) {
                     sourceEl.innerHTML = esc(I18N.source) + ': <a href="' + esc(entry.sourceUrl) + '" target="_blank" rel="noopener">' + esc(entry.sourceUrl) + '</a>';
@@ -2004,7 +2004,7 @@ function knittnet_render_inspect_entry_modal() {
                         '<div class="match-title"><span class="status-icon">&#128230;</span> ' + esc(data.chunk_count) + ' ' + esc(I18N.chunksLbl.toLowerCase()) + '</div>' +
                         '<span class="context-label">' + esc(storeLabel) + '</span>' +
                     '</div>' +
-                    '<div class="mxch-testing-field"><label>' + esc(I18N.type) + '</label><code>' + esc(data.content_type || '—') + '</code> ' +
+                    '<div class="knet-testing-field"><label>' + esc(I18N.type) + '</label><code>' + esc(data.content_type || '—') + '</code> ' +
                         '&nbsp; <label style="display:inline; text-transform:none; letter-spacing:0; font-weight:600;">' + esc(I18N.totalLen) + ':</label> ' + esc(fmt(data.assembled_length)) + ' ' + esc(I18N.chars) + '</div>';
                 if (data.metadata_note) {
                     html += '<div class="match-source"><span class="source-icon">&#8505;&#65039;</span> ' + esc(data.metadata_note) + '</div>';
@@ -2034,7 +2034,7 @@ function knittnet_render_inspect_entry_modal() {
                         '</div>' +
                         '<span class="chunk-expand-toggle" data-chunk="' + i + '">&#9654; ' + esc(I18N.showText) + '</span>' +
                         '<div class="chunk-details" data-chunk="' + i + '">' +
-                            '<pre class="mxch-kb-inspect-chunk-text">' + esc(chunk.text) + '</pre>' +
+                            '<pre class="knet-kb-inspect-chunk-text">' + esc(chunk.text) + '</pre>' +
                             metaRows +
                         '</div>' +
                     '</div>';
@@ -2082,8 +2082,8 @@ function knittnet_render_knowledge_page_scripts() {
         });
 
         function initKnowledgeNavigation() {
-            const navLinks = document.querySelectorAll('.mxch-nav-link[data-target], .mxch-mobile-nav-link[data-target]');
-            const sections = document.querySelectorAll('.mxch-section');
+            const navLinks = document.querySelectorAll('.knet-nav-link[data-target], .knet-mobile-nav-link[data-target]');
+            const sections = document.querySelectorAll('.knet-section');
 
             function showSection(targetId) {
                 // Hide all sections
@@ -2107,8 +2107,8 @@ function knittnet_render_knowledge_page_scripts() {
                     const targetId = this.dataset.target;
                     showSection(targetId);
                     // Close mobile menu if open
-                    const mobileMenu = document.querySelector('.mxch-mobile-menu');
-                    const overlay = document.querySelector('.mxch-mobile-overlay');
+                    const mobileMenu = document.querySelector('.knet-mobile-menu');
+                    const overlay = document.querySelector('.knet-mobile-overlay');
                     if (mobileMenu) mobileMenu.classList.remove('open');
                     if (overlay) overlay.classList.remove('open');
                 });
@@ -2122,10 +2122,10 @@ function knittnet_render_knowledge_page_scripts() {
         }
 
         function initMobileMenu() {
-            const menuBtn = document.querySelector('.mxch-mobile-menu-btn');
-            const closeBtn = document.querySelector('.mxch-mobile-menu-close');
-            const overlay = document.querySelector('.mxch-mobile-overlay');
-            const menu = document.querySelector('.mxch-mobile-menu');
+            const menuBtn = document.querySelector('.knet-mobile-menu-btn');
+            const closeBtn = document.querySelector('.knet-mobile-menu-close');
+            const overlay = document.querySelector('.knet-mobile-overlay');
+            const menu = document.querySelector('.knet-mobile-menu');
 
             if (menuBtn && menu) {
                 menuBtn.addEventListener('click', function() {

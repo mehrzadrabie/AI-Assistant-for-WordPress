@@ -18,88 +18,88 @@ function knittnet_render_settings_page($admin_instance) {
     $options = get_option('knittnet_options', array());
     $plugin_url = plugin_dir_url(dirname(__FILE__));
     ?>
-    <div class="mxch-admin-wrapper">
+    <div class="knet-admin-wrapper">
         <!-- Mobile Header -->
-        <header class="mxch-mobile-header">
-            <a href="#" class="mxch-mobile-logo">
-                <div class="mxch-mobile-logo-icon">
+        <header class="knet-mobile-header">
+            <a href="#" class="knet-mobile-logo">
+                <div class="knet-mobile-logo-icon">
                     <img src="<?php echo esc_url($plugin_url . 'images/icon-128x128.png'); ?>" alt="KnittNet">
                 </div>
-                <span class="mxch-mobile-logo-text">KnittNet</span>
+                <span class="knet-mobile-logo-text">KnittNet</span>
             </a>
-            <button type="button" class="mxch-mobile-menu-btn" aria-label="<?php esc_attr_e('Open menu', 'knittnet'); ?>">
+            <button type="button" class="knet-mobile-menu-btn" aria-label="<?php esc_attr_e('Open menu', 'knittnet'); ?>">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
             </button>
         </header>
 
         <!-- Mobile Menu Overlay -->
-        <div class="mxch-mobile-overlay"></div>
+        <div class="knet-mobile-overlay"></div>
 
         <!-- Mobile Menu Modal -->
-        <div class="mxch-mobile-menu">
-            <div class="mxch-mobile-menu-header">
-                <span class="mxch-mobile-menu-title"><?php esc_html_e('Settings', 'knittnet'); ?></span>
-                <button type="button" class="mxch-mobile-menu-close" aria-label="<?php esc_attr_e('Close menu', 'knittnet'); ?>">
+        <div class="knet-mobile-menu">
+            <div class="knet-mobile-menu-header">
+                <span class="knet-mobile-menu-title"><?php esc_html_e('Settings', 'knittnet'); ?></span>
+                <button type="button" class="knet-mobile-menu-close" aria-label="<?php esc_attr_e('Close menu', 'knittnet'); ?>">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </button>
             </div>
-            <nav class="mxch-mobile-menu-nav">
+            <nav class="knet-mobile-menu-nav">
                 <!-- Configuration Section -->
-                <div class="mxch-mobile-nav-section">
-                    <div class="mxch-mobile-nav-section-title"><?php esc_html_e('Configuration', 'knittnet'); ?></div>
-                    <button class="mxch-mobile-nav-link" data-parent="chatbot">
+                <div class="knet-mobile-nav-section">
+                    <div class="knet-mobile-nav-section-title"><?php esc_html_e('Configuration', 'knittnet'); ?></div>
+                    <button class="knet-mobile-nav-link" data-parent="chatbot">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
                         <span><?php esc_html_e('Chatbot', 'knittnet'); ?></span>
-                        <svg class="mxch-mobile-nav-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        <svg class="knet-mobile-nav-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                     </button>
-                    <div class="mxch-mobile-nav-sub" data-parent="chatbot">
-                        <button class="mxch-mobile-nav-sub-link active" data-target="chatbot-ai-models"><?php esc_html_e('AI Models', 'knittnet'); ?></button>
-                        <button class="mxch-mobile-nav-sub-link" data-target="chatbot-behavior"><?php esc_html_e('Behavior', 'knittnet'); ?></button>
-                        <button class="mxch-mobile-nav-sub-link" data-target="chatbot-display"><?php esc_html_e('Display', 'knittnet'); ?></button>
-                        <button class="mxch-mobile-nav-sub-link" data-target="chatbot-lead-capture"><?php esc_html_e('Lead Capture', 'knittnet'); ?></button>
-                        <button class="mxch-mobile-nav-sub-link" data-target="chatbot-quick-questions"><?php esc_html_e('Quick Questions', 'knittnet'); ?></button>
-                        <button class="mxch-mobile-nav-sub-link" data-target="chatbot-rate-limits"><?php esc_html_e('Rate Limits', 'knittnet'); ?></button>
+                    <div class="knet-mobile-nav-sub" data-parent="chatbot">
+                        <button class="knet-mobile-nav-sub-link active" data-target="chatbot-ai-models"><?php esc_html_e('AI Models', 'knittnet'); ?></button>
+                        <button class="knet-mobile-nav-sub-link" data-target="chatbot-behavior"><?php esc_html_e('Behavior', 'knittnet'); ?></button>
+                        <button class="knet-mobile-nav-sub-link" data-target="chatbot-display"><?php esc_html_e('Display', 'knittnet'); ?></button>
+                        <button class="knet-mobile-nav-sub-link" data-target="chatbot-lead-capture"><?php esc_html_e('Lead Capture', 'knittnet'); ?></button>
+                        <button class="knet-mobile-nav-sub-link" data-target="chatbot-quick-questions"><?php esc_html_e('Quick Questions', 'knittnet'); ?></button>
+                        <button class="knet-mobile-nav-sub-link" data-target="chatbot-rate-limits"><?php esc_html_e('Rate Limits', 'knittnet'); ?></button>
                     </div>
-                    <button class="mxch-mobile-nav-link" data-target="api-keys">
+                    <button class="knet-mobile-nav-link" data-target="api-keys">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 2-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
                         <span><?php esc_html_e('API Keys', 'knittnet'); ?></span>
                     </button>
-                    <button class="mxch-mobile-nav-link" data-target="optimization">
+                    <button class="knet-mobile-nav-link" data-target="optimization">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
                         <span><?php esc_html_e('Optimization', 'knittnet'); ?></span>
                     </button>
-                    <button class="mxch-mobile-nav-link" data-target="testing">
+                    <button class="knet-mobile-nav-link" data-target="testing">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2v6"/><path d="M15 2v6"/><path d="M12 17v5"/><path d="M5 8h14"/><path d="M6 11v-1a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1"/><path d="m9 14 3 3 3-3"/></svg>
                         <span><?php esc_html_e('Testing', 'knittnet'); ?></span>
                     </button>
                 </div>
                 <!-- Integrations Section -->
-                <div class="mxch-mobile-nav-section">
-                    <div class="mxch-mobile-nav-section-title"><?php esc_html_e('Integrations', 'knittnet'); ?></div>
-                    <button class="mxch-mobile-nav-link" data-parent="integrations">
+                <div class="knet-mobile-nav-section">
+                    <div class="knet-mobile-nav-section-title"><?php esc_html_e('Integrations', 'knittnet'); ?></div>
+                    <button class="knet-mobile-nav-link" data-parent="integrations">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
                         <span><?php esc_html_e('Integrations', 'knittnet'); ?></span>
-                        <svg class="mxch-mobile-nav-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        <svg class="knet-mobile-nav-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                     </button>
-                    <div class="mxch-mobile-nav-sub" data-parent="integrations">
-                        <button class="mxch-mobile-nav-sub-link" data-target="integrations-toolbar"><?php esc_html_e('Toolbar', 'knittnet'); ?></button>
-                        <button class="mxch-mobile-nav-sub-link" data-target="integrations-loops"><?php esc_html_e('Loops', 'knittnet'); ?></button>
-                        <button class="mxch-mobile-nav-sub-link" data-target="integrations-brave"><?php esc_html_e('Brave Search', 'knittnet'); ?></button>
-                        <button class="mxch-mobile-nav-sub-link" data-target="integrations-slack"><?php esc_html_e('Slack', 'knittnet'); ?></button>
-                        <button class="mxch-mobile-nav-sub-link" data-target="integrations-telegram"><?php esc_html_e('Telegram', 'knittnet'); ?></button>
+                    <div class="knet-mobile-nav-sub" data-parent="integrations">
+                        <button class="knet-mobile-nav-sub-link" data-target="integrations-toolbar"><?php esc_html_e('Toolbar', 'knittnet'); ?></button>
+                        <button class="knet-mobile-nav-sub-link" data-target="integrations-loops"><?php esc_html_e('Loops', 'knittnet'); ?></button>
+                        <button class="knet-mobile-nav-sub-link" data-target="integrations-brave"><?php esc_html_e('Brave Search', 'knittnet'); ?></button>
+                        <button class="knet-mobile-nav-sub-link" data-target="integrations-slack"><?php esc_html_e('Slack', 'knittnet'); ?></button>
+                        <button class="knet-mobile-nav-sub-link" data-target="integrations-telegram"><?php esc_html_e('Telegram', 'knittnet'); ?></button>
                     </div>
                 </div>
                 <!-- Resources Section -->
-                <div class="mxch-mobile-nav-section">
-                    <div class="mxch-mobile-nav-section-title"><?php esc_html_e('Resources', 'knittnet'); ?></div>
-                    <button class="mxch-mobile-nav-link" data-target="tutorials">
+                <div class="knet-mobile-nav-section">
+                    <div class="knet-mobile-nav-section-title"><?php esc_html_e('Resources', 'knittnet'); ?></div>
+                    <button class="knet-mobile-nav-link" data-target="tutorials">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
                         <span><?php esc_html_e('Tutorials', 'knittnet'); ?></span>
                     </button>
                 </div>
                 <?php if (!$is_activated): ?>
-                <div class="mxch-mobile-menu-footer">
-                    <a href="https://knittnet.ai/" target="_blank" class="mxch-mobile-upgrade-btn">
+                <div class="knet-mobile-menu-footer">
+                    <a href="https://knittnet.ai/" target="_blank" class="knet-mobile-upgrade-btn">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
                         <?php esc_html_e('Upgrade to Pro', 'knittnet'); ?>
                     </a>
@@ -109,100 +109,100 @@ function knittnet_render_settings_page($admin_instance) {
         </div>
 
         <!-- Sidebar Navigation -->
-        <aside class="mxch-sidebar">
-            <div class="mxch-sidebar-header">
-                <a href="#" class="mxch-sidebar-logo">
-                    <div class="mxch-sidebar-logo-icon">
+        <aside class="knet-sidebar">
+            <div class="knet-sidebar-header">
+                <a href="#" class="knet-sidebar-logo">
+                    <div class="knet-sidebar-logo-icon">
                         <img src="<?php echo esc_url($plugin_url . 'images/icon-128x128.png'); ?>" alt="KnittNet">
                     </div>
-                    <span class="mxch-sidebar-logo-text">KnittNet</span>
-                    <span class="mxch-sidebar-version">v<?php echo esc_html(KNITTNET_VERSION ?? '2.7.0'); ?></span>
+                    <span class="knet-sidebar-logo-text">KnittNet</span>
+                    <span class="knet-sidebar-version">v<?php echo esc_html(KNITTNET_VERSION ?? '2.7.0'); ?></span>
                 </a>
             </div>
 
-            <nav class="mxch-sidebar-nav">
+            <nav class="knet-sidebar-nav">
                 <!-- Chatbot Section -->
-                <div class="mxch-nav-section">
-                    <div class="mxch-nav-section-title"><?php esc_html_e('Configuration', 'knittnet'); ?></div>
+                <div class="knet-nav-section">
+                    <div class="knet-nav-section-title"><?php esc_html_e('Configuration', 'knittnet'); ?></div>
 
-                    <div class="mxch-nav-item expanded" data-section="chatbot">
-                        <button class="mxch-nav-link active">
-                            <span class="mxch-nav-link-icon">
+                    <div class="knet-nav-item expanded" data-section="chatbot">
+                        <button class="knet-nav-link active">
+                            <span class="knet-nav-link-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
                             </span>
-                            <span class="mxch-nav-link-text"><?php esc_html_e('Chatbot', 'knittnet'); ?></span>
-                            <svg class="mxch-nav-link-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            <span class="knet-nav-link-text"><?php esc_html_e('Chatbot', 'knittnet'); ?></span>
+                            <svg class="knet-nav-link-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                         </button>
-                        <div class="mxch-nav-sub">
-                            <button class="mxch-nav-sub-link active" data-target="chatbot-ai-models"><?php esc_html_e('AI Models', 'knittnet'); ?></button>
-                            <button class="mxch-nav-sub-link" data-target="chatbot-behavior"><?php esc_html_e('Behavior', 'knittnet'); ?></button>
-                            <button class="mxch-nav-sub-link" data-target="chatbot-display"><?php esc_html_e('Display', 'knittnet'); ?></button>
-                            <button class="mxch-nav-sub-link" data-target="chatbot-lead-capture"><?php esc_html_e('Lead Capture', 'knittnet'); ?></button>
-                            <button class="mxch-nav-sub-link" data-target="chatbot-quick-questions"><?php esc_html_e('Quick Questions', 'knittnet'); ?></button>
-                            <button class="mxch-nav-sub-link" data-target="chatbot-rate-limits"><?php esc_html_e('Rate Limits', 'knittnet'); ?></button>
+                        <div class="knet-nav-sub">
+                            <button class="knet-nav-sub-link active" data-target="chatbot-ai-models"><?php esc_html_e('AI Models', 'knittnet'); ?></button>
+                            <button class="knet-nav-sub-link" data-target="chatbot-behavior"><?php esc_html_e('Behavior', 'knittnet'); ?></button>
+                            <button class="knet-nav-sub-link" data-target="chatbot-display"><?php esc_html_e('Display', 'knittnet'); ?></button>
+                            <button class="knet-nav-sub-link" data-target="chatbot-lead-capture"><?php esc_html_e('Lead Capture', 'knittnet'); ?></button>
+                            <button class="knet-nav-sub-link" data-target="chatbot-quick-questions"><?php esc_html_e('Quick Questions', 'knittnet'); ?></button>
+                            <button class="knet-nav-sub-link" data-target="chatbot-rate-limits"><?php esc_html_e('Rate Limits', 'knittnet'); ?></button>
                         </div>
                     </div>
 
-                    <div class="mxch-nav-item" data-section="api-keys">
-                        <button class="mxch-nav-link" data-target="api-keys">
-                            <span class="mxch-nav-link-icon">
+                    <div class="knet-nav-item" data-section="api-keys">
+                        <button class="knet-nav-link" data-target="api-keys">
+                            <span class="knet-nav-link-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 2-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
                             </span>
-                            <span class="mxch-nav-link-text"><?php esc_html_e('API Keys', 'knittnet'); ?></span>
+                            <span class="knet-nav-link-text"><?php esc_html_e('API Keys', 'knittnet'); ?></span>
                         </button>
                     </div>
 
-                    <div class="mxch-nav-item" data-section="optimization">
-                        <button class="mxch-nav-link" data-target="optimization">
-                            <span class="mxch-nav-link-icon">
+                    <div class="knet-nav-item" data-section="optimization">
+                        <button class="knet-nav-link" data-target="optimization">
+                            <span class="knet-nav-link-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
                             </span>
-                            <span class="mxch-nav-link-text"><?php esc_html_e('Optimization', 'knittnet'); ?></span>
+                            <span class="knet-nav-link-text"><?php esc_html_e('Optimization', 'knittnet'); ?></span>
                         </button>
                     </div>
 
-                    <div class="mxch-nav-item" data-section="testing">
-                        <button class="mxch-nav-link" data-target="testing">
-                            <span class="mxch-nav-link-icon">
+                    <div class="knet-nav-item" data-section="testing">
+                        <button class="knet-nav-link" data-target="testing">
+                            <span class="knet-nav-link-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2v6"/><path d="M15 2v6"/><path d="M12 17v5"/><path d="M5 8h14"/><path d="M6 11v-1a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1"/><path d="m9 14 3 3 3-3"/></svg>
                             </span>
-                            <span class="mxch-nav-link-text"><?php esc_html_e('Testing', 'knittnet'); ?></span>
+                            <span class="knet-nav-link-text"><?php esc_html_e('Testing', 'knittnet'); ?></span>
                         </button>
                     </div>
                 </div>
 
                 <!-- Integrations Section -->
-                <div class="mxch-nav-section">
-                    <div class="mxch-nav-section-title"><?php esc_html_e('Integrations', 'knittnet'); ?></div>
+                <div class="knet-nav-section">
+                    <div class="knet-nav-section-title"><?php esc_html_e('Integrations', 'knittnet'); ?></div>
 
-                    <div class="mxch-nav-item" data-section="integrations">
-                        <button class="mxch-nav-link">
-                            <span class="mxch-nav-link-icon">
+                    <div class="knet-nav-item" data-section="integrations">
+                        <button class="knet-nav-link">
+                            <span class="knet-nav-link-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
                             </span>
-                            <span class="mxch-nav-link-text"><?php esc_html_e('Integrations', 'knittnet'); ?></span>
-                            <svg class="mxch-nav-link-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            <span class="knet-nav-link-text"><?php esc_html_e('Integrations', 'knittnet'); ?></span>
+                            <svg class="knet-nav-link-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                         </button>
-                        <div class="mxch-nav-sub">
-                            <button class="mxch-nav-sub-link" data-target="integrations-toolbar"><?php esc_html_e('Toolbar', 'knittnet'); ?></button>
-                            <button class="mxch-nav-sub-link" data-target="integrations-loops"><?php esc_html_e('Loops', 'knittnet'); ?></button>
-                            <button class="mxch-nav-sub-link" data-target="integrations-brave"><?php esc_html_e('Brave Search', 'knittnet'); ?></button>
-                            <button class="mxch-nav-sub-link" data-target="integrations-slack"><?php esc_html_e('Slack', 'knittnet'); ?></button>
-                            <button class="mxch-nav-sub-link" data-target="integrations-telegram"><?php esc_html_e('Telegram', 'knittnet'); ?></button>
+                        <div class="knet-nav-sub">
+                            <button class="knet-nav-sub-link" data-target="integrations-toolbar"><?php esc_html_e('Toolbar', 'knittnet'); ?></button>
+                            <button class="knet-nav-sub-link" data-target="integrations-loops"><?php esc_html_e('Loops', 'knittnet'); ?></button>
+                            <button class="knet-nav-sub-link" data-target="integrations-brave"><?php esc_html_e('Brave Search', 'knittnet'); ?></button>
+                            <button class="knet-nav-sub-link" data-target="integrations-slack"><?php esc_html_e('Slack', 'knittnet'); ?></button>
+                            <button class="knet-nav-sub-link" data-target="integrations-telegram"><?php esc_html_e('Telegram', 'knittnet'); ?></button>
                         </div>
                     </div>
                 </div>
 
                 <!-- Resources Section -->
-                <div class="mxch-nav-section">
-                    <div class="mxch-nav-section-title"><?php esc_html_e('Resources', 'knittnet'); ?></div>
+                <div class="knet-nav-section">
+                    <div class="knet-nav-section-title"><?php esc_html_e('Resources', 'knittnet'); ?></div>
 
-                    <div class="mxch-nav-item" data-section="tutorials">
-                        <button class="mxch-nav-link" data-target="tutorials">
-                            <span class="mxch-nav-link-icon">
+                    <div class="knet-nav-item" data-section="tutorials">
+                        <button class="knet-nav-link" data-target="tutorials">
+                            <span class="knet-nav-link-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
                             </span>
-                            <span class="mxch-nav-link-text"><?php esc_html_e('Tutorials', 'knittnet'); ?></span>
+                            <span class="knet-nav-link-text"><?php esc_html_e('Tutorials', 'knittnet'); ?></span>
                         </button>
                     </div>
                 </div>
@@ -210,8 +210,8 @@ function knittnet_render_settings_page($admin_instance) {
             </nav>
 
             <?php if (!$is_activated): ?>
-            <div class="mxch-sidebar-footer">
-                <a href="https://knittnet.ai/" target="_blank" class="mxch-sidebar-upgrade-v2">
+            <div class="knet-sidebar-footer">
+                <a href="https://knittnet.ai/" target="_blank" class="knet-sidebar-upgrade-v2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                     <?php esc_html_e('Pro Upgrade', 'knittnet'); ?>
                 </a>
@@ -220,14 +220,14 @@ function knittnet_render_settings_page($admin_instance) {
         </aside>
 
         <!-- Main Content Area -->
-        <main class="mxch-content">
+        <main class="knet-content">
             <?php if (!$is_activated): ?>
-            <div class="mxch-pro-banner">
-                <div class="mxch-pro-banner-content">
-                    <h3 class="mxch-pro-banner-title"><?php esc_html_e('Stop paying $50–200/month for AI chatbot tools.', 'knittnet'); ?></h3>
-                    <p class="mxch-pro-banner-text"><?php esc_html_e('One payment unlocks every KnittNet Pro add-on for life — MCP server access for Claude / ChatGPT / Claude Code, WooCommerce sales, Google Search Console insights, AI-generated chatbot themes, lead-capture forms, unlimited bots, image analysis, and more. No renewals. No surprise bills.', 'knittnet'); ?></p>
+            <div class="knet-pro-banner">
+                <div class="knet-pro-banner-content">
+                    <h3 class="knet-pro-banner-title"><?php esc_html_e('Stop paying $50–200/month for AI chatbot tools.', 'knittnet'); ?></h3>
+                    <p class="knet-pro-banner-text"><?php esc_html_e('One payment unlocks every KnittNet Pro add-on for life — MCP server access for Claude / ChatGPT / Claude Code, WooCommerce sales, Google Search Console insights, AI-generated chatbot themes, lead-capture forms, unlimited bots, image analysis, and more. No renewals. No surprise bills.', 'knittnet'); ?></p>
                 </div>
-                <a href="https://knittnet.ai/" target="_blank" class="mxch-pro-banner-btn"><span><?php esc_html_e('Get Lifetime Access →', 'knittnet'); ?></span></a>
+                <a href="https://knittnet.ai/" target="_blank" class="knet-pro-banner-btn"><span><?php esc_html_e('Get Lifetime Access →', 'knittnet'); ?></span></a>
             </div>
             <?php endif; ?>
 
@@ -239,14 +239,14 @@ function knittnet_render_settings_page($admin_instance) {
             <!-- ========================================
                  CHATBOT - AI MODELS
                  ======================================== -->
-            <div id="chatbot-ai-models" class="mxch-section active">
-                <div class="mxch-content-header">
-                    <h1 class="mxch-content-title"><?php esc_html_e('AI Models', 'knittnet'); ?></h1>
-                    <p class="mxch-content-subtitle"><?php esc_html_e('Configure the AI models your chatbot will use for conversations and embeddings.', 'knittnet'); ?></p>
+            <div id="chatbot-ai-models" class="knet-section active">
+                <div class="knet-content-header">
+                    <h1 class="knet-content-title"><?php esc_html_e('AI Models', 'knittnet'); ?></h1>
+                    <p class="knet-content-subtitle"><?php esc_html_e('Configure the AI models your chatbot will use for conversations and embeddings.', 'knittnet'); ?></p>
                 </div>
 
-                <div class="mxch-card">
-                    <div class="mxch-card-body knittnet-autosave-section">
+                <div class="knet-card">
+                    <div class="knet-card-body knittnet-autosave-section">
                         <?php
                         // Chat Model
                         knittnet_render_field_wrapper('model', __('Chat Model', 'knittnet'), function() use ($admin_instance) {
@@ -275,14 +275,14 @@ function knittnet_render_settings_page($admin_instance) {
             <!-- ========================================
                  CHATBOT - BEHAVIOR
                  ======================================== -->
-            <div id="chatbot-behavior" class="mxch-section">
-                <div class="mxch-content-header">
-                    <h1 class="mxch-content-title"><?php esc_html_e('Behavior', 'knittnet'); ?></h1>
-                    <p class="mxch-content-subtitle"><?php esc_html_e('Control how your AI chatbot responds and processes queries.', 'knittnet'); ?></p>
+            <div id="chatbot-behavior" class="knet-section">
+                <div class="knet-content-header">
+                    <h1 class="knet-content-title"><?php esc_html_e('Behavior', 'knittnet'); ?></h1>
+                    <p class="knet-content-subtitle"><?php esc_html_e('Control how your AI chatbot responds and processes queries.', 'knittnet'); ?></p>
                 </div>
 
-                <div class="mxch-card">
-                    <div class="mxch-card-body knittnet-autosave-section">
+                <div class="knet-card">
+                    <div class="knet-card-body knittnet-autosave-section">
                         <?php
                         // AI Instructions
                         knittnet_render_field_wrapper('system_prompt_instructions', __('AI Instructions (Behavior)', 'knittnet'), function() use ($admin_instance) {
@@ -330,20 +330,20 @@ function knittnet_render_settings_page($admin_instance) {
             <!-- ========================================
                  CHATBOT - DISPLAY
                  ======================================== -->
-            <div id="chatbot-display" class="mxch-section">
-                <div class="mxch-content-header">
-                    <h1 class="mxch-content-title"><?php esc_html_e('Display Settings', 'knittnet'); ?></h1>
-                    <p class="mxch-content-subtitle"><?php esc_html_e('Customize how and where your chatbot appears on your website.', 'knittnet'); ?></p>
+            <div id="chatbot-display" class="knet-section">
+                <div class="knet-content-header">
+                    <h1 class="knet-content-title"><?php esc_html_e('Display Settings', 'knittnet'); ?></h1>
+                    <p class="knet-content-subtitle"><?php esc_html_e('Customize how and where your chatbot appears on your website.', 'knittnet'); ?></p>
                 </div>
 
-                <div class="mxch-card">
-                    <div class="mxch-card-header">
-                        <h3 class="mxch-card-title">
-                            <svg class="mxch-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                <div class="knet-card">
+                    <div class="knet-card-header">
+                        <h3 class="knet-card-title">
+                            <svg class="knet-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
                             <?php esc_html_e('Visibility', 'knittnet'); ?>
                         </h3>
                     </div>
-                    <div class="mxch-card-body knittnet-autosave-section">
+                    <div class="knet-card-body knittnet-autosave-section">
                         <?php
                         // Auto-Display
                         knittnet_render_field_wrapper('auto_display', __('Auto-Display Chatbot', 'knittnet'), function() use ($admin_instance) {
@@ -378,14 +378,14 @@ function knittnet_render_settings_page($admin_instance) {
                     </div>
                 </div>
 
-                <div class="mxch-card">
-                    <div class="mxch-card-header">
-                        <h3 class="mxch-card-title">
-                            <svg class="mxch-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <div class="knet-card">
+                    <div class="knet-card-header">
+                        <h3 class="knet-card-title">
+                            <svg class="knet-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                             <?php esc_html_e('Text & Labels', 'knittnet'); ?>
                         </h3>
                     </div>
-                    <div class="mxch-card-body knittnet-autosave-section">
+                    <div class="knet-card-body knittnet-autosave-section">
                         <?php
                         // Top Bar Title
                         knittnet_render_field_wrapper('top_bar_title', __('Top Bar Title', 'knittnet'), function() use ($admin_instance) {
@@ -424,20 +424,20 @@ function knittnet_render_settings_page($admin_instance) {
             <!-- ========================================
                  CHATBOT - LEAD CAPTURE
                  ======================================== -->
-            <div id="chatbot-lead-capture" class="mxch-section">
-                <div class="mxch-content-header">
-                    <h1 class="mxch-content-title"><?php esc_html_e('Lead Capture', 'knittnet'); ?></h1>
-                    <p class="mxch-content-subtitle"><?php esc_html_e('Collect user information and manage privacy settings.', 'knittnet'); ?></p>
+            <div id="chatbot-lead-capture" class="knet-section">
+                <div class="knet-content-header">
+                    <h1 class="knet-content-title"><?php esc_html_e('Lead Capture', 'knittnet'); ?></h1>
+                    <p class="knet-content-subtitle"><?php esc_html_e('Collect user information and manage privacy settings.', 'knittnet'); ?></p>
                 </div>
 
-                <div class="mxch-card">
-                    <div class="mxch-card-header">
-                        <h3 class="mxch-card-title">
-                            <svg class="mxch-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                <div class="knet-card">
+                    <div class="knet-card-header">
+                        <h3 class="knet-card-title">
+                            <svg class="knet-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
                             <?php esc_html_e('Email Capture', 'knittnet'); ?>
                         </h3>
                     </div>
-                    <div class="mxch-card-body knittnet-autosave-section">
+                    <div class="knet-card-body knittnet-autosave-section">
                         <?php
                         // Require Email
                         knittnet_render_field_wrapper('enable_email_block', __('Require Email to Chat', 'knittnet'), function() use ($admin_instance) {
@@ -467,14 +467,14 @@ function knittnet_render_settings_page($admin_instance) {
                     </div>
                 </div>
 
-                <div class="mxch-card">
-                    <div class="mxch-card-header">
-                        <h3 class="mxch-card-title">
-                            <svg class="mxch-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <div class="knet-card">
+                    <div class="knet-card-header">
+                        <h3 class="knet-card-title">
+                            <svg class="knet-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                             <?php esc_html_e('Privacy & Compliance', 'knittnet'); ?>
                         </h3>
                     </div>
-                    <div class="mxch-card-body knittnet-autosave-section">
+                    <div class="knet-card-body knittnet-autosave-section">
                         <?php
                         // Privacy Notice
                         knittnet_render_field_wrapper('privacy_toggle', __('Privacy Notice', 'knittnet'), function() use ($admin_instance) {
@@ -493,14 +493,14 @@ function knittnet_render_settings_page($admin_instance) {
             <!-- ========================================
                  CHATBOT - QUICK QUESTIONS
                  ======================================== -->
-            <div id="chatbot-quick-questions" class="mxch-section">
-                <div class="mxch-content-header">
-                    <h1 class="mxch-content-title"><?php esc_html_e('Quick Questions', 'knittnet'); ?></h1>
-                    <p class="mxch-content-subtitle"><?php esc_html_e('Pre-defined questions displayed above the chat input to help users get started.', 'knittnet'); ?></p>
+            <div id="chatbot-quick-questions" class="knet-section">
+                <div class="knet-content-header">
+                    <h1 class="knet-content-title"><?php esc_html_e('Quick Questions', 'knittnet'); ?></h1>
+                    <p class="knet-content-subtitle"><?php esc_html_e('Pre-defined questions displayed above the chat input to help users get started.', 'knittnet'); ?></p>
                 </div>
 
-                <div class="mxch-card">
-                    <div class="mxch-card-body knittnet-autosave-section">
+                <div class="knet-card">
+                    <div class="knet-card-body knittnet-autosave-section">
                         <?php
                         // Quick Question 1
                         knittnet_render_field_wrapper('popular_question_1', __('Quick Question 1', 'knittnet'), function() use ($admin_instance) {
@@ -529,14 +529,14 @@ function knittnet_render_settings_page($admin_instance) {
             <!-- ========================================
                  CHATBOT - RATE LIMITS
                  ======================================== -->
-            <div id="chatbot-rate-limits" class="mxch-section">
-                <div class="mxch-content-header">
-                    <h1 class="mxch-content-title"><?php esc_html_e('Rate Limits', 'knittnet'); ?></h1>
-                    <p class="mxch-content-subtitle"><?php esc_html_e('Set message limits for each user role to manage API usage.', 'knittnet'); ?></p>
+            <div id="chatbot-rate-limits" class="knet-section">
+                <div class="knet-content-header">
+                    <h1 class="knet-content-title"><?php esc_html_e('Rate Limits', 'knittnet'); ?></h1>
+                    <p class="knet-content-subtitle"><?php esc_html_e('Set message limits for each user role to manage API usage.', 'knittnet'); ?></p>
                 </div>
 
-                <div class="mxch-notice mxch-notice-info" style="margin-bottom: 24px;">
-                    <svg class="mxch-notice-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                <div class="knet-notice knet-notice-info" style="margin-bottom: 24px;">
+                    <svg class="knet-notice-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                     <div>
                         <strong><?php esc_html_e('Placeholders available:', 'knittnet'); ?></strong>
                         <code>{limit}</code>, <code>{timeframe}</code>, <code>{count}</code>, <code>{remaining}</code>
@@ -546,8 +546,8 @@ function knittnet_render_settings_page($admin_instance) {
                     </div>
                 </div>
 
-                <div class="mxch-card">
-                    <div class="mxch-card-body knittnet-autosave-section">
+                <div class="knet-card">
+                    <div class="knet-card-body knittnet-autosave-section">
                         <?php
                         // Render rate limits with accordion
                         knittnet_render_rate_limits_accordion($admin_instance);
@@ -559,20 +559,20 @@ function knittnet_render_settings_page($admin_instance) {
             <!-- ========================================
                  API KEYS
                  ======================================== -->
-            <div id="api-keys" class="mxch-section">
-                <div class="mxch-content-header">
-                    <h1 class="mxch-content-title"><?php esc_html_e('API Keys', 'knittnet'); ?></h1>
-                    <p class="mxch-content-subtitle"><?php esc_html_e('Manage API keys for AI providers and integrations.', 'knittnet'); ?></p>
+            <div id="api-keys" class="knet-section">
+                <div class="knet-content-header">
+                    <h1 class="knet-content-title"><?php esc_html_e('API Keys', 'knittnet'); ?></h1>
+                    <p class="knet-content-subtitle"><?php esc_html_e('Manage API keys for AI providers and integrations.', 'knittnet'); ?></p>
                 </div>
 
-                <div class="mxch-card">
-                    <div class="mxch-card-header">
-                        <h3 class="mxch-card-title">
-                            <svg class="mxch-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+                <div class="knet-card">
+                    <div class="knet-card-header">
+                        <h3 class="knet-card-title">
+                            <svg class="knet-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
                             <?php esc_html_e('AI Providers', 'knittnet'); ?>
                         </h3>
                     </div>
-                    <div class="mxch-card-body knittnet-autosave-section">
+                    <div class="knet-card-body knittnet-autosave-section">
                         <table class="form-table">
                             <?php do_settings_fields('knittnet-api-keys', 'knittnet_api_keys_section'); ?>
                         </table>
@@ -583,28 +583,28 @@ function knittnet_render_settings_page($admin_instance) {
             <!-- ========================================
                  OPTIMIZATION
                  ======================================== -->
-            <div id="optimization" class="mxch-section">
-                <div class="mxch-content-header">
-                    <h1 class="mxch-content-title"><?php esc_html_e('Optimization & Diagnostics', 'knittnet'); ?></h1>
-                    <p class="mxch-content-subtitle"><?php esc_html_e('Optimize performance, debug issues, and manage plugin settings.', 'knittnet'); ?></p>
+            <div id="optimization" class="knet-section">
+                <div class="knet-content-header">
+                    <h1 class="knet-content-title"><?php esc_html_e('Optimization & Diagnostics', 'knittnet'); ?></h1>
+                    <p class="knet-content-subtitle"><?php esc_html_e('Optimize performance, debug issues, and manage plugin settings.', 'knittnet'); ?></p>
                 </div>
 
                 <!-- Script Loading Card -->
-                <div class="mxch-card">
-                    <div class="mxch-card-header">
-                        <h3 class="mxch-card-title">
-                            <svg class="mxch-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                <div class="knet-card">
+                    <div class="knet-card-header">
+                        <h3 class="knet-card-title">
+                            <svg class="knet-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
                             <?php esc_html_e('Script Loading', 'knittnet'); ?>
                         </h3>
                     </div>
-                    <div class="mxch-card-body knittnet-autosave-section">
+                    <div class="knet-card-body knittnet-autosave-section">
                         <?php
                         $script_loading_strategy = isset($options['script_loading_strategy']) ? $options['script_loading_strategy'] : 'default';
                         ?>
-                        <div class="mxch-field">
-                            <label class="mxch-field-label"><?php esc_html_e('Script Loading Strategy', 'knittnet'); ?></label>
-                            <div class="mxch-field-control">
-                                <select name="knittnet_options[script_loading_strategy]" id="script_loading_strategy" class="mxch-select knittnet-autosave-field">
+                        <div class="knet-field">
+                            <label class="knet-field-label"><?php esc_html_e('Script Loading Strategy', 'knittnet'); ?></label>
+                            <div class="knet-field-control">
+                                <select name="knittnet_options[script_loading_strategy]" id="script_loading_strategy" class="knet-select knittnet-autosave-field">
                                     <option value="default" <?php selected($script_loading_strategy, 'default'); ?>><?php esc_html_e('Default (Immediate)', 'knittnet'); ?></option>
                                     <option value="defer" <?php selected($script_loading_strategy, 'defer'); ?>><?php esc_html_e('Deferred', 'knittnet'); ?></option>
                                     <option value="delay_1s" <?php selected($script_loading_strategy, 'delay_1s'); ?>><?php esc_html_e('Delay 1 Second', 'knittnet'); ?></option>
@@ -613,11 +613,11 @@ function knittnet_render_settings_page($admin_instance) {
                                     <option value="on_interaction" <?php selected($script_loading_strategy, 'on_interaction'); ?>><?php esc_html_e('On User Interaction', 'knittnet'); ?></option>
                                 </select>
                             </div>
-                            <p class="mxch-field-description"><?php esc_html_e('Control when the chatbot script loads to improve page performance.', 'knittnet'); ?></p>
+                            <p class="knet-field-description"><?php esc_html_e('Control when the chatbot script loads to improve page performance.', 'knittnet'); ?></p>
                         </div>
 
-                        <div class="mxch-notice mxch-notice-info" style="margin-top: 16px;">
-                            <svg class="mxch-notice-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                        <div class="knet-notice knet-notice-info" style="margin-top: 16px;">
+                            <svg class="knet-notice-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                             <div>
                                 <strong><?php esc_html_e('Loading Strategies:', 'knittnet'); ?></strong>
                                 <ul style="margin: 8px 0 0 0; padding-left: 20px;">
@@ -632,18 +632,18 @@ function knittnet_render_settings_page($admin_instance) {
                 </div>
 
                 <!-- Page Cache Compatibility Card -->
-                <div class="mxch-card">
-                    <div class="mxch-card-header">
-                        <h3 class="mxch-card-title">
-                            <svg class="mxch-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                <div class="knet-card">
+                    <div class="knet-card-header">
+                        <h3 class="knet-card-title">
+                            <svg class="knet-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
                             <?php esc_html_e('Page Cache Compatibility', 'knittnet'); ?>
                         </h3>
                     </div>
-                    <div class="mxch-card-body">
-                        <p class="mxch-field-description" style="margin-top: 0;"><?php esc_html_e('KnittNet\'s chat send (and stream send, plus PDF / Word upload) all POST to /wp-admin/admin-ajax.php. Page-cache plugins occasionally cache those responses, which breaks the per-session nonce flow on the first message. KnittNet auto-tells the five most common cache plugins to never cache chat AJAX via their own filter APIs — no setup needed for those. For other cache plugins (or Cloudflare APO), copy the manual exclusion string into your cache plugin\'s exclusion list.', 'knittnet'); ?></p>
+                    <div class="knet-card-body">
+                        <p class="knet-field-description" style="margin-top: 0;"><?php esc_html_e('KnittNet\'s chat send (and stream send, plus PDF / Word upload) all POST to /wp-admin/admin-ajax.php. Page-cache plugins occasionally cache those responses, which breaks the per-session nonce flow on the first message. KnittNet auto-tells the five most common cache plugins to never cache chat AJAX via their own filter APIs — no setup needed for those. For other cache plugins (or Cloudflare APO), copy the manual exclusion string into your cache plugin\'s exclusion list.', 'knittnet'); ?></p>
 
                         <?php
-                        $mxch_cache_rows = array(
+                        $knet_cache_rows = array(
                             array('name' => 'WP Rocket',        'state' => 'auto', 'exclusion' => '/wp-admin/admin-ajax\\.php\\?action=knittnet_.*'),
                             array('name' => 'LiteSpeed Cache',  'state' => 'auto', 'exclusion' => '/wp-admin/admin-ajax.php?action=knittnet_*'),
                             array('name' => 'W3 Total Cache',   'state' => 'auto', 'exclusion' => '/wp-admin/admin-ajax.php?action=knittnet_*'),
@@ -653,23 +653,23 @@ function knittnet_render_settings_page($admin_instance) {
                         );
                         ?>
 
-                        <div class="mxch-cache-compat-grid" style="display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 16px;">
-                            <?php foreach ($mxch_cache_rows as $row) :
+                        <div class="knet-cache-compat-grid" style="display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 16px;">
+                            <?php foreach ($knet_cache_rows as $row) :
                                 $is_auto = ($row['state'] === 'auto');
-                                $pill_class = $is_auto ? 'mxch-status-pill-active' : 'mxch-status-pill-warning';
+                                $pill_class = $is_auto ? 'knet-status-pill-active' : 'knet-status-pill-warning';
                                 $pill_label = $is_auto ? __('Auto-handled', 'knittnet') : __('Manual', 'knittnet');
                                 ?>
-                                <div class="mxch-cache-compat-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; background: #f8fafc; border: 1px solid var(--mxch-card-border); border-radius: var(--mxch-radius-md);">
+                                <div class="knet-cache-compat-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; background: #f8fafc; border: 1px solid var(--knet-card-border); border-radius: var(--knet-radius-md);">
                                     <div style="display: flex; align-items: center; gap: 10px; min-width: 0; flex: 0 0 auto;">
                                         <span style="font-weight: 500;"><?php echo esc_html($row['name']); ?></span>
-                                        <span class="mxch-status-pill <?php echo esc_attr($pill_class); ?>">
-                                            <span class="mxch-status-dot"></span>
+                                        <span class="knet-status-pill <?php echo esc_attr($pill_class); ?>">
+                                            <span class="knet-status-dot"></span>
                                             <?php echo esc_html($pill_label); ?>
                                         </span>
                                     </div>
                                     <div style="display: flex; align-items: center; gap: 8px; flex: 1 1 auto; min-width: 0;">
-                                        <code style="background: #fff; border: 1px solid var(--mxch-card-border); padding: 4px 8px; border-radius: var(--mxch-radius-sm); font-size: 12px; color: var(--mxch-text-secondary); flex: 1 1 auto; overflow-x: auto; white-space: nowrap; min-width: 0;"><?php echo esc_html($row['exclusion']); ?></code>
-                                        <button type="button" class="mxch-btn mxch-btn-secondary mxch-btn-sm" data-mxch-copy="<?php echo esc_attr($row['exclusion']); ?>" style="flex: 0 0 auto;">
+                                        <code style="background: #fff; border: 1px solid var(--knet-card-border); padding: 4px 8px; border-radius: var(--knet-radius-sm); font-size: 12px; color: var(--knet-text-secondary); flex: 1 1 auto; overflow-x: auto; white-space: nowrap; min-width: 0;"><?php echo esc_html($row['exclusion']); ?></code>
+                                        <button type="button" class="knet-btn knet-btn-secondary knet-btn-sm" data-knet-copy="<?php echo esc_attr($row['exclusion']); ?>" style="flex: 0 0 auto;">
                                             <?php esc_html_e('Copy', 'knittnet'); ?>
                                         </button>
                                     </div>
@@ -677,8 +677,8 @@ function knittnet_render_settings_page($admin_instance) {
                             <?php endforeach; ?>
                         </div>
 
-                        <div class="mxch-notice mxch-notice-info" style="margin-top: 16px;">
-                            <svg class="mxch-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                        <div class="knet-notice knet-notice-info" style="margin-top: 16px;">
+                            <svg class="knet-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                             <span><?php esc_html_e('Auto-handled plugins receive a filter from KnittNet that excludes chat AJAX from their cache. Even so, having the exclusion in your own exclusion list is harmless and acts as a belt-and-suspenders guarantee.', 'knittnet'); ?></span>
                         </div>
                     </div>
@@ -689,35 +689,35 @@ function knittnet_render_settings_page($admin_instance) {
                 $auto_retry_enabled = !isset($options['auto_retry_on_transient_error']) ||
                                       (string) $options['auto_retry_on_transient_error'] !== '0';
                 ?>
-                <div class="mxch-card">
-                    <div class="mxch-card-header">
-                        <h3 class="mxch-card-title">
-                            <svg class="mxch-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/><polyline points="21 4 21 10 15 10"/></svg>
+                <div class="knet-card">
+                    <div class="knet-card-header">
+                        <h3 class="knet-card-title">
+                            <svg class="knet-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/><polyline points="21 4 21 10 15 10"/></svg>
                             <?php esc_html_e('Provider Reliability', 'knittnet'); ?>
                         </h3>
-                        <span class="mxch-status-pill <?php echo $auto_retry_enabled ? 'mxch-status-pill-active' : 'mxch-status-pill-disabled'; ?>">
-                            <span class="mxch-status-dot"></span>
+                        <span class="knet-status-pill <?php echo $auto_retry_enabled ? 'knet-status-pill-active' : 'knet-status-pill-disabled'; ?>">
+                            <span class="knet-status-dot"></span>
                             <?php echo $auto_retry_enabled ? esc_html__('Active', 'knittnet') : esc_html__('Disabled', 'knittnet'); ?>
                         </span>
                     </div>
-                    <div class="mxch-card-body knittnet-autosave-section">
-                        <div class="mxch-field">
-                            <label class="mxch-field-label" for="auto_retry_on_transient_error">
+                    <div class="knet-card-body knittnet-autosave-section">
+                        <div class="knet-field">
+                            <label class="knet-field-label" for="auto_retry_on_transient_error">
                                 <?php esc_html_e('Auto-retry on provider overload', 'knittnet'); ?>
                             </label>
-                            <div class="mxch-field-control">
-                                <label class="mxch-toggle">
+                            <div class="knet-field-control">
+                                <label class="knet-toggle">
                                     <input type="checkbox"
                                            id="auto_retry_on_transient_error"
                                            name="knittnet_options[auto_retry_on_transient_error]"
                                            class="knittnet-autosave-field"
                                            value="1"
                                            <?php checked($auto_retry_enabled); ?> />
-                                    <span class="mxch-toggle-slider"></span>
+                                    <span class="knet-toggle-slider"></span>
                                 </label>
                             </div>
-                            <p class="mxch-field-description"><?php esc_html_e('When the AI provider returns a transient error (rate-limit / overload / 429 / 503 / Gemini "model overloaded"), KnittNet retries the chat-send up to twice before surfacing the error. Visitors see a brief pause instead of a raw provider error in the bot bubble.', 'knittnet'); ?></p>
-                            <p class="mxch-field-hint"><?php esc_html_e('Configuration errors (invalid API key, 401/403/404/422) still surface immediately — never retried.', 'knittnet'); ?></p>
+                            <p class="knet-field-description"><?php esc_html_e('When the AI provider returns a transient error (rate-limit / overload / 429 / 503 / Gemini "model overloaded"), KnittNet retries the chat-send up to twice before surfacing the error. Visitors see a brief pause instead of a raw provider error in the bot bubble.', 'knittnet'); ?></p>
+                            <p class="knet-field-hint"><?php esc_html_e('Configuration errors (invalid API key, 401/403/404/422) still surface immediately — never retried.', 'knittnet'); ?></p>
                         </div>
                     </div>
                 </div>
@@ -727,45 +727,45 @@ function knittnet_render_settings_page($admin_instance) {
                 $debug_mode = isset($options['debug_mode']) ? $options['debug_mode'] : 'off';
                 $debug_active = ($debug_mode === 'on');
                 ?>
-                <div class="mxch-card">
-                    <div class="mxch-card-header">
-                        <h3 class="mxch-card-title">
-                            <svg class="mxch-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                <div class="knet-card">
+                    <div class="knet-card-header">
+                        <h3 class="knet-card-title">
+                            <svg class="knet-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
                             <?php esc_html_e('Debug Mode', 'knittnet'); ?>
                         </h3>
                     </div>
-                    <div class="mxch-card-body">
-                        <div class="mxch-field">
-                            <label class="mxch-toggle">
-                                <input type="checkbox" class="mxch-toggle-input" id="knittnet_debug_mode" name="knittnet_options[debug_mode]" value="on" <?php checked($debug_active); ?>>
-                                <span class="mxch-toggle-switch"></span>
-                                <span class="mxch-toggle-label"><?php esc_html_e('Enable Debug Logging', 'knittnet'); ?></span>
+                    <div class="knet-card-body">
+                        <div class="knet-field">
+                            <label class="knet-toggle">
+                                <input type="checkbox" class="knet-toggle-input" id="knittnet_debug_mode" name="knittnet_options[debug_mode]" value="on" <?php checked($debug_active); ?>>
+                                <span class="knet-toggle-switch"></span>
+                                <span class="knet-toggle-label"><?php esc_html_e('Enable Debug Logging', 'knittnet'); ?></span>
                             </label>
-                            <p class="mxch-field-description"><?php esc_html_e('Tracks settings changes, knowledge base errors, API issues, and embedding failures. Enable only when troubleshooting. Max 100 entries stored.', 'knittnet'); ?></p>
+                            <p class="knet-field-description"><?php esc_html_e('Tracks settings changes, knowledge base errors, API issues, and embedding failures. Enable only when troubleshooting. Max 100 entries stored.', 'knittnet'); ?></p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Debug Log Viewer Card -->
-                <div class="mxch-card">
-                    <div class="mxch-card-header" style="display: flex; justify-content: space-between; align-items: center;">
-                        <h3 class="mxch-card-title">
-                            <svg class="mxch-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                <div class="knet-card">
+                    <div class="knet-card-header" style="display: flex; justify-content: space-between; align-items: center;">
+                        <h3 class="knet-card-title">
+                            <svg class="knet-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
                             <?php esc_html_e('Debug Log', 'knittnet'); ?>
                         </h3>
                         <div style="display: flex; gap: 8px; align-items: center;">
-                            <span id="knittnet-log-count" class="mxch-badge" style="display: none;"></span>
-                            <button type="button" class="mxch-btn mxch-btn-secondary mxch-btn-sm" id="knittnet-refresh-log">
+                            <span id="knittnet-log-count" class="knet-badge" style="display: none;"></span>
+                            <button type="button" class="knet-btn knet-btn-secondary knet-btn-sm" id="knittnet-refresh-log">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
                                 <?php esc_html_e('Refresh', 'knittnet'); ?>
                             </button>
-                            <button type="button" class="mxch-btn mxch-btn-secondary mxch-btn-sm" id="knittnet-clear-log">
+                            <button type="button" class="knet-btn knet-btn-secondary knet-btn-sm" id="knittnet-clear-log">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
                                 <?php esc_html_e('Clear', 'knittnet'); ?>
                             </button>
                         </div>
                     </div>
-                    <div class="mxch-card-body">
+                    <div class="knet-card-body">
                         <div id="knittnet-debug-log" class="knittnet-debug-log-viewer">
                             <div class="knittnet-debug-log-empty">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.3;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
@@ -776,24 +776,24 @@ function knittnet_render_settings_page($admin_instance) {
                 </div>
 
                 <!-- Settings Tools Card -->
-                <div class="mxch-card">
-                    <div class="mxch-card-header">
-                        <h3 class="mxch-card-title">
-                            <svg class="mxch-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                <div class="knet-card">
+                    <div class="knet-card-header">
+                        <h3 class="knet-card-title">
+                            <svg class="knet-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
                             <?php esc_html_e('Settings Tools', 'knittnet'); ?>
                         </h3>
                     </div>
-                    <div class="mxch-card-body">
-                        <div class="mxch-tools-grid">
+                    <div class="knet-card-body">
+                        <div class="knet-tools-grid">
                             <!-- Export Settings -->
-                            <div class="mxch-tool-item">
-                                <div class="mxch-tool-icon">
+                            <div class="knet-tool-item">
+                                <div class="knet-tool-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                                 </div>
-                                <div class="mxch-tool-content">
+                                <div class="knet-tool-content">
                                     <h4><?php esc_html_e('Export Settings', 'knittnet'); ?></h4>
                                     <p><?php esc_html_e('Download a JSON file of your current settings for backup or support. API keys are masked for security.', 'knittnet'); ?></p>
-                                    <button type="button" class="mxch-btn mxch-btn-secondary" id="knittnet-export-settings">
+                                    <button type="button" class="knet-btn knet-btn-secondary" id="knittnet-export-settings">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                                         <?php esc_html_e('Export Settings', 'knittnet'); ?>
                                     </button>
@@ -801,14 +801,14 @@ function knittnet_render_settings_page($admin_instance) {
                             </div>
 
                             <!-- Reset All Settings -->
-                            <div class="mxch-tool-item mxch-tool-item-danger">
-                                <div class="mxch-tool-icon">
+                            <div class="knet-tool-item knet-tool-item-danger">
+                                <div class="knet-tool-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
                                 </div>
-                                <div class="mxch-tool-content">
+                                <div class="knet-tool-content">
                                     <h4><?php esc_html_e('Reset All Settings', 'knittnet'); ?></h4>
                                     <p><?php esc_html_e('Reset all KnittNet settings to their default values. This action cannot be undone.', 'knittnet'); ?></p>
-                                    <button type="button" class="mxch-btn mxch-btn-danger" id="knittnet-reset-settings">
+                                    <button type="button" class="knet-btn knet-btn-danger" id="knittnet-reset-settings">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/></svg>
                                         <?php esc_html_e('Reset All Settings', 'knittnet'); ?>
                                     </button>
@@ -819,29 +819,29 @@ function knittnet_render_settings_page($admin_instance) {
                 </div>
 
                 <!-- Reset Confirmation Modal -->
-                <div id="knittnet-reset-modal" class="mxch-modal" style="display: none;">
-                    <div class="mxch-modal-backdrop"></div>
-                    <div class="mxch-modal-content">
-                        <div class="mxch-modal-header">
+                <div id="knittnet-reset-modal" class="knet-modal" style="display: none;">
+                    <div class="knet-modal-backdrop"></div>
+                    <div class="knet-modal-content">
+                        <div class="knet-modal-header">
                             <h3><?php esc_html_e('Reset All Settings', 'knittnet'); ?></h3>
-                            <button type="button" class="mxch-modal-close" id="knittnet-reset-modal-close">&times;</button>
+                            <button type="button" class="knet-modal-close" id="knittnet-reset-modal-close">&times;</button>
                         </div>
-                        <div class="mxch-modal-body">
-                            <div class="mxch-notice mxch-notice-warning">
-                                <svg class="mxch-notice-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                        <div class="knet-modal-body">
+                            <div class="knet-notice knet-notice-warning">
+                                <svg class="knet-notice-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
                                 <div>
                                     <strong><?php esc_html_e('Warning: This action cannot be undone!', 'knittnet'); ?></strong>
                                     <p><?php esc_html_e('All your KnittNet settings including API keys, customizations, and configurations will be permanently deleted.', 'knittnet'); ?></p>
                                 </div>
                             </div>
-                            <div class="mxch-field" style="margin-top: 20px;">
-                                <label class="mxch-field-label"><?php esc_html_e('Type RESET to confirm:', 'knittnet'); ?></label>
-                                <input type="text" id="knittnet-reset-confirmation" class="mxch-input" placeholder="RESET" autocomplete="off">
+                            <div class="knet-field" style="margin-top: 20px;">
+                                <label class="knet-field-label"><?php esc_html_e('Type RESET to confirm:', 'knittnet'); ?></label>
+                                <input type="text" id="knittnet-reset-confirmation" class="knet-input" placeholder="RESET" autocomplete="off">
                             </div>
                         </div>
-                        <div class="mxch-modal-footer">
-                            <button type="button" class="mxch-btn mxch-btn-secondary" id="knittnet-reset-cancel"><?php esc_html_e('Cancel', 'knittnet'); ?></button>
-                            <button type="button" class="mxch-btn mxch-btn-danger" id="knittnet-reset-confirm" disabled><?php esc_html_e('Reset All Settings', 'knittnet'); ?></button>
+                        <div class="knet-modal-footer">
+                            <button type="button" class="knet-btn knet-btn-secondary" id="knittnet-reset-cancel"><?php esc_html_e('Cancel', 'knittnet'); ?></button>
+                            <button type="button" class="knet-btn knet-btn-danger" id="knittnet-reset-confirm" disabled><?php esc_html_e('Reset All Settings', 'knittnet'); ?></button>
                         </div>
                     </div>
                 </div>
@@ -850,14 +850,14 @@ function knittnet_render_settings_page($admin_instance) {
             <!-- ========================================
                  INTEGRATIONS - TOOLBAR
                  ======================================== -->
-            <div id="integrations-toolbar" class="mxch-section">
-                <div class="mxch-content-header">
-                    <h1 class="mxch-content-title"><?php esc_html_e('Toolbar Settings', 'knittnet'); ?></h1>
-                    <p class="mxch-content-subtitle"><?php esc_html_e('Configure the chat toolbar and document upload features.', 'knittnet'); ?></p>
+            <div id="integrations-toolbar" class="knet-section">
+                <div class="knet-content-header">
+                    <h1 class="knet-content-title"><?php esc_html_e('Toolbar Settings', 'knittnet'); ?></h1>
+                    <p class="knet-content-subtitle"><?php esc_html_e('Configure the chat toolbar and document upload features.', 'knittnet'); ?></p>
                 </div>
 
-                <div class="mxch-card">
-                    <div class="mxch-card-body knittnet-autosave-section">
+                <div class="knet-card">
+                    <div class="knet-card-body knittnet-autosave-section">
                         <table class="form-table">
                             <?php do_settings_fields('knittnet-embed', 'knittnet_pdf_intent_section'); ?>
                         </table>
@@ -868,14 +868,14 @@ function knittnet_render_settings_page($admin_instance) {
             <!-- ========================================
                  INTEGRATIONS - LOOPS
                  ======================================== -->
-            <div id="integrations-loops" class="mxch-section">
-                <div class="mxch-content-header">
-                    <h1 class="mxch-content-title"><?php esc_html_e('Loops Integration', 'knittnet'); ?></h1>
-                    <p class="mxch-content-subtitle"><?php esc_html_e('Configure email capture with Loops for mailing list growth.', 'knittnet'); ?></p>
+            <div id="integrations-loops" class="knet-section">
+                <div class="knet-content-header">
+                    <h1 class="knet-content-title"><?php esc_html_e('Loops Integration', 'knittnet'); ?></h1>
+                    <p class="knet-content-subtitle"><?php esc_html_e('Configure email capture with Loops for mailing list growth.', 'knittnet'); ?></p>
                 </div>
 
-                <div class="mxch-card">
-                    <div class="mxch-card-body knittnet-autosave-section">
+                <div class="knet-card">
+                    <div class="knet-card-body knittnet-autosave-section">
                         <table class="form-table">
                             <?php do_settings_fields('knittnet-embed', 'knittnet_loops_section'); ?>
                         </table>
@@ -886,14 +886,14 @@ function knittnet_render_settings_page($admin_instance) {
             <!-- ========================================
                  INTEGRATIONS - BRAVE SEARCH
                  ======================================== -->
-            <div id="integrations-brave" class="mxch-section">
-                <div class="mxch-content-header">
-                    <h1 class="mxch-content-title"><?php esc_html_e('Brave Search', 'knittnet'); ?></h1>
-                    <p class="mxch-content-subtitle"><?php esc_html_e('Configure Brave Search API for web search capabilities.', 'knittnet'); ?></p>
+            <div id="integrations-brave" class="knet-section">
+                <div class="knet-content-header">
+                    <h1 class="knet-content-title"><?php esc_html_e('Brave Search', 'knittnet'); ?></h1>
+                    <p class="knet-content-subtitle"><?php esc_html_e('Configure Brave Search API for web search capabilities.', 'knittnet'); ?></p>
                 </div>
 
-                <div class="mxch-card">
-                    <div class="mxch-card-body knittnet-autosave-section">
+                <div class="knet-card">
+                    <div class="knet-card-body knittnet-autosave-section">
                         <table class="form-table">
                             <?php do_settings_fields('knittnet-embed', 'knittnet_brave_section'); ?>
                         </table>
@@ -904,14 +904,14 @@ function knittnet_render_settings_page($admin_instance) {
             <!-- ========================================
                  INTEGRATIONS - SLACK
                  ======================================== -->
-            <div id="integrations-slack" class="mxch-section">
-                <div class="mxch-content-header">
-                    <h1 class="mxch-content-title"><?php esc_html_e('Slack', 'knittnet'); ?></h1>
-                    <p class="mxch-content-subtitle"><?php esc_html_e('Connect your chatbot to Slack for live human support.', 'knittnet'); ?></p>
+            <div id="integrations-slack" class="knet-section">
+                <div class="knet-content-header">
+                    <h1 class="knet-content-title"><?php esc_html_e('Slack', 'knittnet'); ?></h1>
+                    <p class="knet-content-subtitle"><?php esc_html_e('Connect your chatbot to Slack for live human support.', 'knittnet'); ?></p>
                 </div>
 
-                <div class="mxch-notice mxch-notice-info" style="margin-bottom: 24px;">
-                    <svg class="mxch-notice-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                <div class="knet-notice knet-notice-info" style="margin-bottom: 24px;">
+                    <svg class="knet-notice-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                     <div>
                         <?php printf(
                             esc_html__('Visit our %s for setup instructions.', 'knittnet'),
@@ -920,26 +920,26 @@ function knittnet_render_settings_page($admin_instance) {
                     </div>
                 </div>
 
-                <div class="mxch-card">
-                    <div class="mxch-card-body knittnet-autosave-section">
+                <div class="knet-card">
+                    <div class="knet-card-body knittnet-autosave-section">
                         <table class="form-table">
                             <?php do_settings_fields('knittnet-embed', 'knittnet_live_agent_section'); ?>
                         </table>
                     </div>
                 </div>
 
-                <div class="mxch-card" style="margin-top: 24px;">
-                    <div class="mxch-card-header">
-                        <h3 class="mxch-card-title">
-                            <svg class="mxch-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                <div class="knet-card" style="margin-top: 24px;">
+                    <div class="knet-card-header">
+                        <h3 class="knet-card-title">
+                            <svg class="knet-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                             <?php esc_html_e('Test Connection', 'knittnet'); ?>
                         </h3>
                     </div>
-                    <div class="mxch-card-body">
-                        <p class="mxch-field-description" style="margin-bottom: 16px;">
+                    <div class="knet-card-body">
+                        <p class="knet-field-description" style="margin-bottom: 16px;">
                             <?php esc_html_e('Test your Slack bot token to verify it has the required permissions. This will check if the bot can authenticate and create channels.', 'knittnet'); ?>
                         </p>
-                        <button type="button" id="knittnet-test-slack-connection" class="mxch-btn mxch-btn-secondary">
+                        <button type="button" id="knittnet-test-slack-connection" class="knet-btn knet-btn-secondary">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                             <?php esc_html_e('Test Slack Connection', 'knittnet'); ?>
                         </button>
@@ -947,15 +947,15 @@ function knittnet_render_settings_page($admin_instance) {
                     </div>
                 </div>
 
-                <div class="mxch-card" style="margin-top: 24px;">
-                    <div class="mxch-card-header">
-                        <h3 class="mxch-card-title">
-                            <svg class="mxch-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                <div class="knet-card" style="margin-top: 24px;">
+                    <div class="knet-card-header">
+                        <h3 class="knet-card-title">
+                            <svg class="knet-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                             <?php esc_html_e('Required OAuth Scopes', 'knittnet'); ?>
                         </h3>
                     </div>
-                    <div class="mxch-card-body">
-                        <p class="mxch-field-description" style="margin-bottom: 12px;">
+                    <div class="knet-card-body">
+                        <p class="knet-field-description" style="margin-bottom: 12px;">
                             <?php esc_html_e('Your Slack app needs these Bot Token Scopes (OAuth & Permissions > Scopes):', 'knittnet'); ?>
                         </p>
                         <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; background: #f8f9fa; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px;">
@@ -966,7 +966,7 @@ function knittnet_render_settings_page($admin_instance) {
                             <code style="background: #e9ecef; padding: 4px 8px; border-radius: 4px;">groups:write</code>
                             <code style="background: #e9ecef; padding: 4px 8px; border-radius: 4px;">users:read</code>
                         </div>
-                        <p class="mxch-field-description" style="margin-top: 12px;">
+                        <p class="knet-field-description" style="margin-top: 12px;">
                             <?php esc_html_e('After adding scopes, reinstall the app to your workspace.', 'knittnet'); ?>
                         </p>
                     </div>
@@ -976,54 +976,54 @@ function knittnet_render_settings_page($admin_instance) {
             <!-- ========================================
                  INTEGRATIONS - TELEGRAM
                  ======================================== -->
-            <div id="integrations-telegram" class="mxch-section">
-                <div class="mxch-content-header">
-                    <h1 class="mxch-content-title"><?php esc_html_e('Telegram', 'knittnet'); ?></h1>
-                    <p class="mxch-content-subtitle"><?php esc_html_e('Connect your chatbot to Telegram for live human support.', 'knittnet'); ?></p>
+            <div id="integrations-telegram" class="knet-section">
+                <div class="knet-content-header">
+                    <h1 class="knet-content-title"><?php esc_html_e('Telegram', 'knittnet'); ?></h1>
+                    <p class="knet-content-subtitle"><?php esc_html_e('Connect your chatbot to Telegram for live human support.', 'knittnet'); ?></p>
                 </div>
 
-                <div class="mxch-notice mxch-notice-info" style="margin-bottom: 24px;">
-                    <svg class="mxch-notice-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                <div class="knet-notice knet-notice-info" style="margin-bottom: 24px;">
+                    <svg class="knet-notice-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                     <div>
                         <?php esc_html_e('Telegram Live Agent requires a Telegram bot and a supergroup with forum topics enabled.', 'knittnet'); ?>
                         <a href="https://knittnet.ai/documentation-bot/" target="_blank" style="margin-left: 5px;"><?php esc_html_e('Chat with our advanced doc bot for assistance setting up.', 'knittnet'); ?></a>
                     </div>
                 </div>
 
-                <div class="mxch-card">
-                    <div class="mxch-card-body knittnet-autosave-section">
+                <div class="knet-card">
+                    <div class="knet-card-body knittnet-autosave-section">
                         <table class="form-table">
                             <?php do_settings_fields('knittnet-embed', 'knittnet_telegram_section'); ?>
                         </table>
                     </div>
                 </div>
 
-                <div class="mxch-card" style="margin-top: 24px;">
-                    <div class="mxch-card-header">
-                        <h3 class="mxch-card-title">
-                            <svg class="mxch-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                <div class="knet-card" style="margin-top: 24px;">
+                    <div class="knet-card-header">
+                        <h3 class="knet-card-title">
+                            <svg class="knet-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
                             <?php esc_html_e('Webhook Setup', 'knittnet'); ?>
                         </h3>
                     </div>
-                    <div class="mxch-card-body">
+                    <div class="knet-card-body">
                         <?php
                         $telegram_bot_token = $options['telegram_bot_token'] ?? '';
                         $telegram_webhook_secret = $options['telegram_webhook_secret'] ?? '';
                         $webhook_url = rest_url('knittnet/v1/telegram-webhook');
                         ?>
 
-                        <p class="mxch-field-description" style="margin-bottom: 8px;">
+                        <p class="knet-field-description" style="margin-bottom: 8px;">
                             <strong><?php esc_html_e('Your Webhook URL:', 'knittnet'); ?></strong>
                         </p>
-                        <div class="mxch-webhook-url-display" style="margin-bottom: 20px;">
-                            <code id="mxch-telegram-webhook-url"><?php echo esc_url($webhook_url); ?></code>
-                            <button type="button" class="mxch-btn mxch-btn-secondary mxch-btn-sm" onclick="navigator.clipboard.writeText(document.getElementById('mxch-telegram-webhook-url').textContent); this.textContent='Copied!'; setTimeout(() => this.textContent='Copy', 2000);">
+                        <div class="knet-webhook-url-display" style="margin-bottom: 20px;">
+                            <code id="knet-telegram-webhook-url"><?php echo esc_url($webhook_url); ?></code>
+                            <button type="button" class="knet-btn knet-btn-secondary knet-btn-sm" onclick="navigator.clipboard.writeText(document.getElementById('knet-telegram-webhook-url').textContent); this.textContent='Copied!'; setTimeout(() => this.textContent='Copy', 2000);">
                                 <?php esc_html_e('Copy', 'knittnet'); ?>
                             </button>
                         </div>
 
                         <?php if (!empty($telegram_bot_token)) : ?>
-                            <p class="mxch-field-description" style="margin-bottom: 8px;">
+                            <p class="knet-field-description" style="margin-bottom: 8px;">
                                 <strong><?php esc_html_e('Register Webhook URL:', 'knittnet'); ?></strong><br>
                                 <?php esc_html_e('Copy and paste this URL into your browser to register the webhook with Telegram:', 'knittnet'); ?>
                             </p>
@@ -1033,18 +1033,18 @@ function knittnet_render_settings_page($admin_instance) {
                                 $registration_url .= '&secret_token=' . urlencode($telegram_webhook_secret);
                             }
                             ?>
-                            <div class="mxch-webhook-url-display" style="margin-bottom: 12px;">
-                                <code id="mxch-telegram-registration-url" style="word-break: break-all; font-size: 12px;"><?php echo esc_url($registration_url); ?></code>
-                                <button type="button" class="mxch-btn mxch-btn-secondary mxch-btn-sm" onclick="navigator.clipboard.writeText(document.getElementById('mxch-telegram-registration-url').textContent); this.textContent='Copied!'; setTimeout(() => this.textContent='Copy', 2000);">
+                            <div class="knet-webhook-url-display" style="margin-bottom: 12px;">
+                                <code id="knet-telegram-registration-url" style="word-break: break-all; font-size: 12px;"><?php echo esc_url($registration_url); ?></code>
+                                <button type="button" class="knet-btn knet-btn-secondary knet-btn-sm" onclick="navigator.clipboard.writeText(document.getElementById('knet-telegram-registration-url').textContent); this.textContent='Copied!'; setTimeout(() => this.textContent='Copy', 2000);">
                                     <?php esc_html_e('Copy', 'knittnet'); ?>
                                 </button>
                             </div>
-                            <p class="mxch-field-description" style="color: #22c55e;">
+                            <p class="knet-field-description" style="color: #22c55e;">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                                 <?php esc_html_e('You should see {"ok":true,"result":true,"description":"Webhook was set"} after visiting the URL.', 'knittnet'); ?>
                             </p>
                         <?php else : ?>
-                            <p class="mxch-field-description" style="color: #f59e0b;">
+                            <p class="knet-field-description" style="color: #f59e0b;">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
                                 <?php esc_html_e('Enter your Bot Token above and save to generate the registration URL.', 'knittnet'); ?>
                             </p>
@@ -1056,10 +1056,10 @@ function knittnet_render_settings_page($admin_instance) {
             <!-- ========================================
                  TUTORIALS
                  ======================================== -->
-            <div id="tutorials" class="mxch-section">
-                <div class="mxch-content-header">
-                    <h1 class="mxch-content-title"><?php esc_html_e('Video Tutorials', 'knittnet'); ?></h1>
-                    <p class="mxch-content-subtitle"><?php esc_html_e('Learn how to get the most out of KnittNet with our video guides.', 'knittnet'); ?></p>
+            <div id="tutorials" class="knet-section">
+                <div class="knet-content-header">
+                    <h1 class="knet-content-title"><?php esc_html_e('Video Tutorials', 'knittnet'); ?></h1>
+                    <p class="knet-content-subtitle"><?php esc_html_e('Learn how to get the most out of KnittNet with our video guides.', 'knittnet'); ?></p>
                 </div>
 
                 <?php
@@ -1068,15 +1068,15 @@ function knittnet_render_settings_page($admin_instance) {
                 if (function_exists('knittnet_onboarding_is_dismissed') && knittnet_onboarding_is_dismissed()):
                     $auto_grad = function_exists('knittnet_onboarding_is_auto_graduated') && knittnet_onboarding_is_auto_graduated();
                 ?>
-                <div class="mxch-card mxch-onboarding-unhide-card" style="margin-bottom: 24px;">
-                    <div class="mxch-card-header">
-                        <h3 class="mxch-card-title">
-                            <svg class="mxch-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 3 3 6 3s6-1 6-3v-5"/></svg>
+                <div class="knet-card knet-onboarding-unhide-card" style="margin-bottom: 24px;">
+                    <div class="knet-card-header">
+                        <h3 class="knet-card-title">
+                            <svg class="knet-card-title-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 3 3 6 3s6-1 6-3v-5"/></svg>
                             <?php esc_html_e('Setup Guide', 'knittnet'); ?>
                         </h3>
                     </div>
-                    <div class="mxch-card-body">
-                        <p style="margin:0 0 12px;color:var(--mxch-text-secondary);font-size:13px;line-height:1.5;">
+                    <div class="knet-card-body">
+                        <p style="margin:0 0 12px;color:var(--knet-text-secondary);font-size:13px;line-height:1.5;">
                             <?php if ($auto_grad): ?>
                                 <?php esc_html_e('You finished the setup guide. Reopen it any time to revisit the steps or change a setup choice.', 'knittnet'); ?>
                             <?php else: ?>
@@ -1086,7 +1086,7 @@ function knittnet_render_settings_page($admin_instance) {
                         <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="margin:0;">
                             <?php wp_nonce_field('knittnet_unhide_onboarding'); ?>
                             <input type="hidden" name="action" value="knittnet_unhide_onboarding" />
-                            <button type="submit" class="mxch-btn mxch-btn-secondary mxch-btn-sm">
+                            <button type="submit" class="knet-btn knet-btn-secondary knet-btn-sm">
                                 <?php esc_html_e('Reopen setup guide', 'knittnet'); ?>
                             </button>
                         </form>
@@ -1094,14 +1094,14 @@ function knittnet_render_settings_page($admin_instance) {
                 </div>
                 <?php endif; ?>
 
-                <div class="mxch-card" style="margin-bottom: 24px;">
-                    <div class="mxch-card-body">
+                <div class="knet-card" style="margin-bottom: 24px;">
+                    <div class="knet-card-body">
                         <div style="display: flex; align-items: flex-start; gap: 16px;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--mxch-warning); flex-shrink: 0;"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--knet-warning); flex-shrink: 0;"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
                             <div>
                                 <h3 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 600;"><?php esc_html_e('Need Help?', 'knittnet'); ?></h3>
-                                <p style="margin: 0 0 12px 0; color: var(--mxch-text-secondary);"><?php esc_html_e('If you\'re having trouble or believe something is not working as expected, please submit a support ticket.', 'knittnet'); ?></p>
-                                <a href="https://wordpress.org/support/plugin/knittnet-basic/" target="_blank" class="mxch-btn mxch-btn-secondary mxch-btn-sm">
+                                <p style="margin: 0 0 12px 0; color: var(--knet-text-secondary);"><?php esc_html_e('If you\'re having trouble or believe something is not working as expected, please submit a support ticket.', 'knittnet'); ?></p>
+                                <a href="https://wordpress.org/support/plugin/knittnet-basic/" target="_blank" class="knet-btn knet-btn-secondary knet-btn-sm">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2v5Z"/><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/></svg>
                                     <?php esc_html_e('Submit Support Ticket', 'knittnet'); ?>
                                 </a>
@@ -1110,7 +1110,7 @@ function knittnet_render_settings_page($admin_instance) {
                     </div>
                 </div>
 
-                <div class="mxch-tutorials-grid">
+                <div class="knet-tutorials-grid">
                     <?php
                     $tutorials = array(
                         array(
@@ -1186,11 +1186,11 @@ function knittnet_render_settings_page($admin_instance) {
                     );
 
                     foreach ($tutorials as $tutorial): ?>
-                    <div class="mxch-tutorial-card">
-                        <div class="mxch-tutorial-content">
-                            <h3 class="mxch-tutorial-title"><?php echo esc_html($tutorial['title']); ?></h3>
-                            <p class="mxch-tutorial-description"><?php echo esc_html($tutorial['description']); ?></p>
-                            <a href="<?php echo esc_url($tutorial['url']); ?>" target="_blank" rel="noopener" class="mxch-tutorial-link">
+                    <div class="knet-tutorial-card">
+                        <div class="knet-tutorial-content">
+                            <h3 class="knet-tutorial-title"><?php echo esc_html($tutorial['title']); ?></h3>
+                            <p class="knet-tutorial-description"><?php echo esc_html($tutorial['description']); ?></p>
+                            <a href="<?php echo esc_url($tutorial['url']); ?>" target="_blank" rel="noopener" class="knet-tutorial-link">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                                 <?php esc_html_e('Watch Tutorial', 'knittnet'); ?>
                             </a>
@@ -1203,25 +1203,25 @@ function knittnet_render_settings_page($admin_instance) {
             <!-- =====================================================
                  TESTING SECTION
                  ===================================================== -->
-            <div id="testing" class="mxch-section">
-                <div class="mxch-content-header">
-                    <h1 class="mxch-content-title"><?php esc_html_e('Testing', 'knittnet'); ?></h1>
-                    <p class="mxch-content-subtitle"><?php esc_html_e('Test your chatbot and inspect debug data in real time.', 'knittnet'); ?></p>
+            <div id="testing" class="knet-section">
+                <div class="knet-content-header">
+                    <h1 class="knet-content-title"><?php esc_html_e('Testing', 'knittnet'); ?></h1>
+                    <p class="knet-content-subtitle"><?php esc_html_e('Test your chatbot and inspect debug data in real time.', 'knittnet'); ?></p>
                 </div>
 
-                <div class="mxch-testing-layout">
+                <div class="knet-testing-layout">
                     <!-- Left Column: Debug Panel -->
-                    <div class="mxch-testing-debug-panel">
+                    <div class="knet-testing-debug-panel">
                         <!-- Quick Actions -->
-                        <div class="mxch-card">
-                            <div class="mxch-card-body">
-                                <h3 class="mxch-testing-section-title"><?php esc_html_e('Quick Actions', 'knittnet'); ?></h3>
-                                <div class="mxch-testing-actions-row">
-                                    <button type="button" class="mxch-testing-btn mxch-testing-btn-danger" id="mxch-testing-clear-session">
+                        <div class="knet-card">
+                            <div class="knet-card-body">
+                                <h3 class="knet-testing-section-title"><?php esc_html_e('Quick Actions', 'knittnet'); ?></h3>
+                                <div class="knet-testing-actions-row">
+                                    <button type="button" class="knet-testing-btn knet-testing-btn-danger" id="knet-testing-clear-session">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
                                         <?php esc_html_e('Clear Chat Session', 'knittnet'); ?>
                                     </button>
-                                    <button type="button" class="mxch-testing-btn mxch-testing-btn-secondary" id="mxch-testing-clear-debug">
+                                    <button type="button" class="knet-testing-btn knet-testing-btn-secondary" id="knet-testing-clear-debug">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"/></svg>
                                         <?php esc_html_e('Clear Debug Log', 'knittnet'); ?>
                                     </button>
@@ -1230,74 +1230,74 @@ function knittnet_render_settings_page($admin_instance) {
                         </div>
 
                         <!-- Last Query Analysis -->
-                        <div class="mxch-card">
-                            <div class="mxch-card-body">
-                                <h3 class="mxch-testing-section-title"><?php esc_html_e('Last Query Analysis', 'knittnet'); ?></h3>
+                        <div class="knet-card">
+                            <div class="knet-card-body">
+                                <h3 class="knet-testing-section-title"><?php esc_html_e('Last Query Analysis', 'knittnet'); ?></h3>
 
-                                <div class="mxch-testing-field">
+                                <div class="knet-testing-field">
                                     <label><?php esc_html_e('Similarity Threshold', 'knittnet'); ?></label>
-                                    <span id="mxch-testing-threshold"><?php esc_html_e('Loading...', 'knittnet'); ?></span>
+                                    <span id="knet-testing-threshold"><?php esc_html_e('Loading...', 'knittnet'); ?></span>
                                 </div>
 
-                                <div class="mxch-testing-field">
+                                <div class="knet-testing-field">
                                     <label><?php esc_html_e('User Query', 'knittnet'); ?></label>
-                                    <div id="mxch-testing-last-query" class="mxch-testing-query-display"><?php esc_html_e('Waiting for next query...', 'knittnet'); ?></div>
+                                    <div id="knet-testing-last-query" class="knet-testing-query-display"><?php esc_html_e('Waiting for next query...', 'knittnet'); ?></div>
                                 </div>
 
-                                <div class="mxch-testing-field">
+                                <div class="knet-testing-field">
                                     <label><?php esc_html_e('Approved URLs for Citations', 'knittnet'); ?></label>
-                                    <div id="mxch-testing-approved-urls" class="mxch-testing-results">
-                                        <div class="mxch-testing-no-data"><?php esc_html_e('No URL data yet', 'knittnet'); ?></div>
+                                    <div id="knet-testing-approved-urls" class="knet-testing-results">
+                                        <div class="knet-testing-no-data"><?php esc_html_e('No URL data yet', 'knittnet'); ?></div>
                                     </div>
                                 </div>
 
-                                <div class="mxch-testing-field">
+                                <div class="knet-testing-field">
                                     <label><?php esc_html_e('Document Matches', 'knittnet'); ?></label>
-                                    <div id="mxch-testing-similarity-scores" class="mxch-testing-results">
-                                        <div class="mxch-testing-no-data"><?php esc_html_e('No query data yet', 'knittnet'); ?></div>
+                                    <div id="knet-testing-similarity-scores" class="knet-testing-results">
+                                        <div class="knet-testing-no-data"><?php esc_html_e('No query data yet', 'knittnet'); ?></div>
                                     </div>
                                 </div>
 
-                                <div class="mxch-testing-field">
+                                <div class="knet-testing-field">
                                     <label><?php esc_html_e('Actions Triggered', 'knittnet'); ?></label>
-                                    <div id="mxch-testing-action-scores" class="mxch-testing-results">
-                                        <div class="mxch-testing-no-data"><?php esc_html_e('No action data yet', 'knittnet'); ?></div>
+                                    <div id="knet-testing-action-scores" class="knet-testing-results">
+                                        <div class="knet-testing-no-data"><?php esc_html_e('No action data yet', 'knittnet'); ?></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- System Information -->
-                        <div class="mxch-card">
-                            <div class="mxch-card-body">
-                                <h3 class="mxch-testing-section-title"><?php esc_html_e('System Information', 'knittnet'); ?></h3>
+                        <div class="knet-card">
+                            <div class="knet-card-body">
+                                <h3 class="knet-testing-section-title"><?php esc_html_e('System Information', 'knittnet'); ?></h3>
 
-                                <div class="mxch-testing-field">
+                                <div class="knet-testing-field">
                                     <label><?php esc_html_e('System Prompt', 'knittnet'); ?></label>
-                                    <div id="mxch-testing-system-prompt" class="mxch-testing-system-prompt"><?php esc_html_e('Loading...', 'knittnet'); ?></div>
+                                    <div id="knet-testing-system-prompt" class="knet-testing-system-prompt"><?php esc_html_e('Loading...', 'knittnet'); ?></div>
                                 </div>
 
-                                <div class="mxch-testing-field">
+                                <div class="knet-testing-field">
                                     <label><?php esc_html_e('Knowledge Base', 'knittnet'); ?></label>
-                                    <span id="mxch-testing-kb-status"><?php esc_html_e('Checking...', 'knittnet'); ?></span>
+                                    <span id="knet-testing-kb-status"><?php esc_html_e('Checking...', 'knittnet'); ?></span>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Debug Log -->
-                        <div class="mxch-card">
-                            <div class="mxch-card-body">
-                                <h3 class="mxch-testing-section-title"><?php esc_html_e('Debug Log', 'knittnet'); ?></h3>
-                                <div id="mxch-testing-debug-console" class="mxch-testing-debug-console">
-                                    <div class="mxch-testing-debug-entry"><?php esc_html_e('Debug panel ready - send a message to begin...', 'knittnet'); ?></div>
+                        <div class="knet-card">
+                            <div class="knet-card-body">
+                                <h3 class="knet-testing-section-title"><?php esc_html_e('Debug Log', 'knittnet'); ?></h3>
+                                <div id="knet-testing-debug-console" class="knet-testing-debug-console">
+                                    <div class="knet-testing-debug-entry"><?php esc_html_e('Debug panel ready - send a message to begin...', 'knittnet'); ?></div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Right Column: Chatbot Replica -->
-                    <div class="mxch-testing-chatbot-column">
-                        <div class="mxch-testing-chatbot-scope">
+                    <div class="knet-testing-chatbot-column">
+                        <div class="knet-testing-chatbot-scope">
                             <?php
                             // Render the chatbot inline for testing
                             echo do_shortcode('[knittnet_chatbot floating="no" bot_id="testing"]');
@@ -1313,9 +1313,9 @@ function knittnet_render_settings_page($admin_instance) {
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Sidebar navigation
-        const navLinks = document.querySelectorAll('.mxch-nav-link, .mxch-nav-sub-link');
-        const sections = document.querySelectorAll('.mxch-section');
-        const navItems = document.querySelectorAll('.mxch-nav-item');
+        const navLinks = document.querySelectorAll('.knet-nav-link, .knet-nav-sub-link');
+        const sections = document.querySelectorAll('.knet-section');
+        const navItems = document.querySelectorAll('.knet-nav-item');
 
         function showSection(target) {
             // Show target section
@@ -1327,7 +1327,7 @@ function knittnet_render_settings_page($admin_instance) {
             });
 
             // Scroll content area to top
-            const contentArea = document.querySelector('.mxch-content');
+            const contentArea = document.querySelector('.knet-content');
             if (contentArea) {
                 contentArea.scrollTop = 0;
             }
@@ -1341,10 +1341,10 @@ function knittnet_render_settings_page($admin_instance) {
             clickedLink.classList.add('active');
 
             // If clicking a sub-link, also highlight parent
-            if (clickedLink.classList.contains('mxch-nav-sub-link')) {
-                const parent = clickedLink.closest('.mxch-nav-item');
+            if (clickedLink.classList.contains('knet-nav-sub-link')) {
+                const parent = clickedLink.closest('.knet-nav-item');
                 if (parent) {
-                    parent.querySelector('.mxch-nav-link').classList.add('active');
+                    parent.querySelector('.knet-nav-link').classList.add('active');
                 }
             }
         }
@@ -1354,16 +1354,16 @@ function knittnet_render_settings_page($admin_instance) {
                 e.preventDefault();
                 e.stopPropagation();
                 const target = this.dataset.target;
-                const parentItem = this.closest('.mxch-nav-item');
-                const hasSubmenu = parentItem && parentItem.querySelector('.mxch-nav-sub');
+                const parentItem = this.closest('.knet-nav-item');
+                const hasSubmenu = parentItem && parentItem.querySelector('.knet-nav-sub');
 
                 // If this is a parent nav link WITH children (expandable menu)
-                if (this.classList.contains('mxch-nav-link') && hasSubmenu) {
+                if (this.classList.contains('knet-nav-link') && hasSubmenu) {
                     const wasExpanded = parentItem.classList.contains('expanded');
 
                     // Collapse all other expandable items
                     navItems.forEach(item => {
-                        if (item !== parentItem && item.querySelector('.mxch-nav-sub')) {
+                        if (item !== parentItem && item.querySelector('.knet-nav-sub')) {
                             item.classList.remove('expanded');
                         }
                     });
@@ -1373,7 +1373,7 @@ function knittnet_render_settings_page($admin_instance) {
 
                     // If expanding, show the first sub-item's content and mark it active
                     if (!wasExpanded) {
-                        const firstSubLink = parentItem.querySelector('.mxch-nav-sub-link');
+                        const firstSubLink = parentItem.querySelector('.knet-nav-sub-link');
                         if (firstSubLink) {
                             const firstTarget = firstSubLink.dataset.target;
                             showSection(firstTarget);
@@ -1385,10 +1385,10 @@ function knittnet_render_settings_page($admin_instance) {
                     }
                 }
                 // If this is a nav link WITHOUT children (like API Keys, Tutorials)
-                else if (this.classList.contains('mxch-nav-link') && !hasSubmenu && target) {
+                else if (this.classList.contains('knet-nav-link') && !hasSubmenu && target) {
                     // Collapse all expandable items
                     navItems.forEach(item => {
-                        if (item.querySelector('.mxch-nav-sub')) {
+                        if (item.querySelector('.knet-nav-sub')) {
                             item.classList.remove('expanded');
                         }
                     });
@@ -1399,7 +1399,7 @@ function knittnet_render_settings_page($admin_instance) {
                     history.replaceState(null, null, '#' + target);
                 }
                 // If this is a sub-link
-                else if (this.classList.contains('mxch-nav-sub-link') && target) {
+                else if (this.classList.contains('knet-nav-sub-link') && target) {
                     // Ensure parent stays expanded
                     if (parentItem) {
                         parentItem.classList.add('expanded');
@@ -1413,7 +1413,7 @@ function knittnet_render_settings_page($admin_instance) {
 
         // Handle initial deep-link (?tab=<slug> takes precedence over #hash so the
         // Onboarding setup-step CTAs land on the right sub-tab). Whitelist of valid
-        // section ids must stay in sync with the .mxch-section[id] values above.
+        // section ids must stay in sync with the .knet-section[id] values above.
         const validTabs = [
             'chatbot-ai-models', 'chatbot-behavior', 'chatbot-display',
             'chatbot-lead-capture', 'chatbot-quick-questions', 'chatbot-rate-limits',
@@ -1427,8 +1427,8 @@ function knittnet_render_settings_page($admin_instance) {
             if (validTabs.indexOf(target) === -1) return false;
             const targetLink = document.querySelector('[data-target="' + target + '"]');
             if (!targetLink) return false;
-            const parentItem = targetLink.closest('.mxch-nav-item');
-            if (parentItem && targetLink.classList.contains('mxch-nav-sub-link')) {
+            const parentItem = targetLink.closest('.knet-nav-item');
+            if (parentItem && targetLink.classList.contains('knet-nav-sub-link')) {
                 parentItem.classList.add('expanded');
             }
             showSection(target);
@@ -1450,22 +1450,22 @@ function knittnet_render_settings_page($admin_instance) {
         }
 
         // Rate limit accordion
-        const rateLimitHeaders = document.querySelectorAll('.mxch-rate-limit-header');
+        const rateLimitHeaders = document.querySelectorAll('.knet-rate-limit-header');
         rateLimitHeaders.forEach(header => {
             header.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                const item = this.closest('.mxch-rate-limit-item');
+                const item = this.closest('.knet-rate-limit-item');
                 item.classList.toggle('expanded');
             });
         });
 
         // Rate-limit "Custom…" toggle: show/hide the integer input below each
         // limit <select> based on whether __custom__ is the active option.
-        document.querySelectorAll('.mxch-rate-limit-limit-select').forEach(sel => {
-            const targetId = sel.getAttribute('data-mxch-custom-target');
+        document.querySelectorAll('.knet-rate-limit-limit-select').forEach(sel => {
+            const targetId = sel.getAttribute('data-knet-custom-target');
             if (!targetId) return;
-            const field = document.querySelector('[data-mxch-custom-for="' + targetId + '"]');
+            const field = document.querySelector('[data-knet-custom-for="' + targetId + '"]');
             if (!field) return;
             const sync = () => {
                 if (sel.value === '__custom__') {
@@ -1481,11 +1481,11 @@ function knittnet_render_settings_page($admin_instance) {
         // =====================================================
         // Mobile Menu Functionality
         // =====================================================
-        const mobileMenuBtn = document.querySelector('.mxch-mobile-menu-btn');
-        const mobileMenuClose = document.querySelector('.mxch-mobile-menu-close');
-        const mobileMenu = document.querySelector('.mxch-mobile-menu');
-        const mobileOverlay = document.querySelector('.mxch-mobile-overlay');
-        const mobileNavLinks = document.querySelectorAll('.mxch-mobile-nav-link, .mxch-mobile-nav-sub-link');
+        const mobileMenuBtn = document.querySelector('.knet-mobile-menu-btn');
+        const mobileMenuClose = document.querySelector('.knet-mobile-menu-close');
+        const mobileMenu = document.querySelector('.knet-mobile-menu');
+        const mobileOverlay = document.querySelector('.knet-mobile-overlay');
+        const mobileNavLinks = document.querySelectorAll('.knet-mobile-nav-link, .knet-mobile-nav-sub-link');
 
         function openMobileMenu() {
             mobileMenu.classList.add('open');
@@ -1522,14 +1522,14 @@ function knittnet_render_settings_page($admin_instance) {
 
                 // If this is an expandable parent link
                 if (parentId && !target) {
-                    const subNav = document.querySelector('.mxch-mobile-nav-sub[data-parent="' + parentId + '"]');
+                    const subNav = document.querySelector('.knet-mobile-nav-sub[data-parent="' + parentId + '"]');
                     if (subNav) {
                         const isExpanded = subNav.classList.contains('expanded');
                         // Collapse all sub navs
-                        document.querySelectorAll('.mxch-mobile-nav-sub').forEach(nav => {
+                        document.querySelectorAll('.knet-mobile-nav-sub').forEach(nav => {
                             nav.classList.remove('expanded');
                         });
-                        document.querySelectorAll('.mxch-mobile-nav-link').forEach(l => {
+                        document.querySelectorAll('.knet-mobile-nav-link').forEach(l => {
                             l.classList.remove('expanded');
                         });
                         // Toggle this one
@@ -1542,17 +1542,17 @@ function knittnet_render_settings_page($admin_instance) {
                 // If this is a direct link or sub-link with a target
                 else if (target) {
                     // Update mobile nav active state
-                    document.querySelectorAll('.mxch-mobile-nav-link, .mxch-mobile-nav-sub-link').forEach(l => {
+                    document.querySelectorAll('.knet-mobile-nav-link, .knet-mobile-nav-sub-link').forEach(l => {
                         l.classList.remove('active');
                     });
                     this.classList.add('active');
 
                     // Also update desktop sidebar nav
-                    const desktopLink = document.querySelector('.mxch-sidebar [data-target="' + target + '"]');
+                    const desktopLink = document.querySelector('.knet-sidebar [data-target="' + target + '"]');
                     if (desktopLink) {
                         setActiveNav(desktopLink);
-                        const parentItem = desktopLink.closest('.mxch-nav-item');
-                        if (parentItem && desktopLink.classList.contains('mxch-nav-sub-link')) {
+                        const parentItem = desktopLink.closest('.knet-nav-item');
+                        if (parentItem && desktopLink.classList.contains('knet-nav-sub-link')) {
                             parentItem.classList.add('expanded');
                         }
                     }
@@ -1581,13 +1581,13 @@ function knittnet_render_settings_page($admin_instance) {
  */
 function knittnet_render_field_wrapper($id, $label, $callback, $description = '') {
     ?>
-    <div class="mxch-field">
-        <label class="mxch-field-label"><?php echo esc_html($label); ?></label>
-        <div class="mxch-field-control">
+    <div class="knet-field">
+        <label class="knet-field-label"><?php echo esc_html($label); ?></label>
+        <div class="knet-field-control">
             <?php $callback(); ?>
         </div>
         <?php if ($description): ?>
-        <p class="mxch-field-description"><?php echo esc_html($description); ?></p>
+        <p class="knet-field-description"><?php echo esc_html($description); ?></p>
         <?php endif; ?>
     </div>
     <?php
@@ -1623,15 +1623,15 @@ function knittnet_render_rate_limits_accordion($admin_instance) {
         ? $global_limit_raw
         : '';
 
-    echo '<div class="mxch-rate-limits">';
+    echo '<div class="knet-rate-limits">';
 
     // --- Global cap card -------------------------------------------------
     ?>
-    <div class="mxch-rate-limit-item mxch-rate-limit-global knittnet-autosave-section">
-        <div class="mxch-rate-limit-header">
-            <span class="mxch-rate-limit-role"><?php esc_html_e('Total chatbot message limit', 'knittnet'); ?></span>
-            <div class="mxch-rate-limit-summary">
-                <span class="mxch-rate-limit-badge mxch-rate-limit-global-badge">
+    <div class="knet-rate-limit-item knet-rate-limit-global knittnet-autosave-section">
+        <div class="knet-rate-limit-header">
+            <span class="knet-rate-limit-role"><?php esc_html_e('Total chatbot message limit', 'knittnet'); ?></span>
+            <div class="knet-rate-limit-summary">
+                <span class="knet-rate-limit-badge knet-rate-limit-global-badge">
                     <?php
                     if ($global_is_unlimited) {
                         esc_html_e('Unlimited', 'knittnet');
@@ -1641,20 +1641,20 @@ function knittnet_render_rate_limits_accordion($admin_instance) {
                     }
                     ?>
                 </span>
-                <svg class="mxch-rate-limit-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                <svg class="knet-rate-limit-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </div>
         </div>
-        <div class="mxch-rate-limit-body">
-            <p class="mxch-field-description" style="margin: 0 0 12px;">
+        <div class="knet-rate-limit-body">
+            <p class="knet-field-description" style="margin: 0 0 12px;">
                 <?php esc_html_e('A single ceiling across all users and all roles, per timeframe. Independent of the per-role limits below. When both a per-role limit and this global cap are configured, whichever is hit first stops the conversation. Default is Unlimited — existing installs are unchanged.', 'knittnet'); ?>
             </p>
-            <div class="mxch-rate-limit-controls">
-                <div class="mxch-field">
-                    <label class="mxch-field-label" for="rate_limits_global_limit"><?php esc_html_e('Limit', 'knittnet'); ?></label>
+            <div class="knet-rate-limit-controls">
+                <div class="knet-field">
+                    <label class="knet-field-label" for="rate_limits_global_limit"><?php esc_html_e('Limit', 'knittnet'); ?></label>
                     <select id="rate_limits_global_limit"
                             name="knittnet_options[rate_limits_global][limit]"
-                            class="mxch-select knittnet-autosave-field mxch-rate-limit-limit-select"
-                            data-mxch-custom-target="rate_limits_global_limit_custom">
+                            class="knet-select knittnet-autosave-field knet-rate-limit-limit-select"
+                            data-knet-custom-target="rate_limits_global_limit_custom">
                         <?php foreach ($rate_limits as $limit): ?>
                             <option value="<?php echo esc_attr($limit); ?>" <?php selected($global_select_value, $limit); ?>>
                                 <?php echo esc_html($limit === 'unlimited' ? __('Unlimited', 'knittnet') : $limit); ?>
@@ -1663,22 +1663,22 @@ function knittnet_render_rate_limits_accordion($admin_instance) {
                         <option value="__custom__" <?php selected($global_select_value, '__custom__'); ?>><?php esc_html_e('Custom…', 'knittnet'); ?></option>
                     </select>
                 </div>
-                <div class="mxch-field mxch-rate-limit-custom-field" data-mxch-custom-for="rate_limits_global_limit_custom" <?php echo $global_select_value === '__custom__' ? '' : 'hidden'; ?>>
-                    <label class="mxch-field-label" for="rate_limits_global_limit_custom"><?php esc_html_e('Custom limit', 'knittnet'); ?></label>
+                <div class="knet-field knet-rate-limit-custom-field" data-knet-custom-for="rate_limits_global_limit_custom" <?php echo $global_select_value === '__custom__' ? '' : 'hidden'; ?>>
+                    <label class="knet-field-label" for="rate_limits_global_limit_custom"><?php esc_html_e('Custom limit', 'knittnet'); ?></label>
                     <input type="number"
                            min="1"
                            step="1"
                            id="rate_limits_global_limit_custom"
                            name="knittnet_options[rate_limits_global][limit_custom]"
-                           class="mxch-input knittnet-autosave-field mxch-rate-limit-custom-input"
+                           class="knet-input knittnet-autosave-field knet-rate-limit-custom-input"
                            placeholder="e.g. 250"
                            value="<?php echo esc_attr($global_custom_value); ?>" />
                 </div>
-                <div class="mxch-field">
-                    <label class="mxch-field-label" for="rate_limits_global_timeframe"><?php esc_html_e('Timeframe', 'knittnet'); ?></label>
+                <div class="knet-field">
+                    <label class="knet-field-label" for="rate_limits_global_timeframe"><?php esc_html_e('Timeframe', 'knittnet'); ?></label>
                     <select id="rate_limits_global_timeframe"
                             name="knittnet_options[rate_limits_global][timeframe]"
-                            class="mxch-select knittnet-autosave-field">
+                            class="knet-select knittnet-autosave-field">
                         <?php foreach ($timeframes as $value => $label): ?>
                             <option value="<?php echo esc_attr($value); ?>" <?php selected($global_timeframe, $value); ?>><?php echo esc_html($label); ?></option>
                         <?php endforeach; ?>
@@ -1711,19 +1711,19 @@ function knittnet_render_rate_limits_accordion($admin_instance) {
                 : 0;
             $usage_reset_nonce = wp_create_nonce('knittnet_reset_global_usage');
             ?>
-            <div class="mxch-rate-limit-usage"
-                 id="mxch-global-usage"
+            <div class="knet-rate-limit-usage"
+                 id="knet-global-usage"
                  data-bot-id="default"
                  data-reset-nonce="<?php echo esc_attr($usage_reset_nonce); ?>"
                  <?php echo $global_is_unlimited ? 'hidden' : ''; ?>>
-                <div class="mxch-rate-limit-usage-head">
-                    <span class="mxch-field-label" style="margin:0;"><?php esc_html_e('Current usage', 'knittnet'); ?></span>
-                    <button type="button" class="mxch-btn mxch-btn-secondary mxch-btn-sm" id="mxch-global-usage-reset"><?php esc_html_e('Reset counter', 'knittnet'); ?></button>
+                <div class="knet-rate-limit-usage-head">
+                    <span class="knet-field-label" style="margin:0;"><?php esc_html_e('Current usage', 'knittnet'); ?></span>
+                    <button type="button" class="knet-btn knet-btn-secondary knet-btn-sm" id="knet-global-usage-reset"><?php esc_html_e('Reset counter', 'knittnet'); ?></button>
                 </div>
-                <div class="mxch-progress-bar">
-                    <div class="mxch-progress-bar-fill" id="mxch-global-usage-fill" style="width: <?php echo esc_attr($usage_pct); ?>%;"></div>
+                <div class="knet-progress-bar">
+                    <div class="knet-progress-bar-fill" id="knet-global-usage-fill" style="width: <?php echo esc_attr($usage_pct); ?>%;"></div>
                 </div>
-                <p class="mxch-progress-label" id="mxch-global-usage-text" style="margin:0;">
+                <p class="knet-progress-label" id="knet-global-usage-text" style="margin:0;">
                     <?php
                     printf(
                         /* translators: 1: used count, 2: limit, 3: remaining, 4: human-readable time until reset */
@@ -1736,8 +1736,8 @@ function knittnet_render_rate_limits_accordion($admin_instance) {
                     ?>
                 </p>
             </div>
-            <p class="mxch-field-description mxch-rate-limit-usage-unlimited"
-               id="mxch-global-usage-unlimited"
+            <p class="knet-field-description knet-rate-limit-usage-unlimited"
+               id="knet-global-usage-unlimited"
                style="margin: 12px 0 0;"
                <?php echo $global_is_unlimited ? '' : 'hidden'; ?>>
                 <?php esc_html_e('Unlimited — no cap. Usage tracking applies only when a numeric limit is set.', 'knittnet'); ?>
@@ -1774,22 +1774,22 @@ function knittnet_render_rate_limits_accordion($admin_instance) {
         $role_custom_value = (!$is_preset_limit && ctype_digit($selected_limit)) ? $selected_limit : '';
         $custom_field_id   = 'rate_limits_' . $role_id . '_limit_custom';
         ?>
-        <div class="mxch-rate-limit-item">
-            <div class="mxch-rate-limit-header">
-                <span class="mxch-rate-limit-role"><?php echo esc_html($role_name); ?></span>
-                <div class="mxch-rate-limit-summary">
-                    <span class="mxch-rate-limit-badge"><?php echo esc_html($selected_limit . ' / ' . $timeframe_label); ?></span>
-                    <svg class="mxch-rate-limit-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        <div class="knet-rate-limit-item">
+            <div class="knet-rate-limit-header">
+                <span class="knet-rate-limit-role"><?php echo esc_html($role_name); ?></span>
+                <div class="knet-rate-limit-summary">
+                    <span class="knet-rate-limit-badge"><?php echo esc_html($selected_limit . ' / ' . $timeframe_label); ?></span>
+                    <svg class="knet-rate-limit-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </div>
             </div>
-            <div class="mxch-rate-limit-body knittnet-autosave-section">
-                <div class="mxch-rate-limit-controls">
-                    <div class="mxch-field">
-                        <label class="mxch-field-label" for="rate_limits_<?php echo esc_attr($role_id); ?>_limit"><?php esc_html_e('Limit', 'knittnet'); ?></label>
+            <div class="knet-rate-limit-body knittnet-autosave-section">
+                <div class="knet-rate-limit-controls">
+                    <div class="knet-field">
+                        <label class="knet-field-label" for="rate_limits_<?php echo esc_attr($role_id); ?>_limit"><?php esc_html_e('Limit', 'knittnet'); ?></label>
                         <select id="rate_limits_<?php echo esc_attr($role_id); ?>_limit"
                                 name="knittnet_options[rate_limits][<?php echo esc_attr($role_id); ?>][limit]"
-                                class="mxch-select knittnet-autosave-field mxch-rate-limit-limit-select"
-                                data-mxch-custom-target="<?php echo esc_attr($custom_field_id); ?>">
+                                class="knet-select knittnet-autosave-field knet-rate-limit-limit-select"
+                                data-knet-custom-target="<?php echo esc_attr($custom_field_id); ?>">
                             <?php foreach ($rate_limits as $limit): ?>
                             <option value="<?php echo esc_attr($limit); ?>" <?php selected($role_select_value, $limit); ?>>
                                 <?php echo esc_html($limit === 'unlimited' ? __('Unlimited', 'knittnet') : $limit); ?>
@@ -1798,33 +1798,33 @@ function knittnet_render_rate_limits_accordion($admin_instance) {
                             <option value="__custom__" <?php selected($role_select_value, '__custom__'); ?>><?php esc_html_e('Custom…', 'knittnet'); ?></option>
                         </select>
                     </div>
-                    <div class="mxch-field mxch-rate-limit-custom-field" data-mxch-custom-for="<?php echo esc_attr($custom_field_id); ?>" <?php echo $role_select_value === '__custom__' ? '' : 'hidden'; ?>>
-                        <label class="mxch-field-label" for="<?php echo esc_attr($custom_field_id); ?>"><?php esc_html_e('Custom limit', 'knittnet'); ?></label>
+                    <div class="knet-field knet-rate-limit-custom-field" data-knet-custom-for="<?php echo esc_attr($custom_field_id); ?>" <?php echo $role_select_value === '__custom__' ? '' : 'hidden'; ?>>
+                        <label class="knet-field-label" for="<?php echo esc_attr($custom_field_id); ?>"><?php esc_html_e('Custom limit', 'knittnet'); ?></label>
                         <input type="number"
                                min="1"
                                step="1"
                                id="<?php echo esc_attr($custom_field_id); ?>"
                                name="knittnet_options[rate_limits][<?php echo esc_attr($role_id); ?>][limit_custom]"
-                               class="mxch-input knittnet-autosave-field mxch-rate-limit-custom-input"
+                               class="knet-input knittnet-autosave-field knet-rate-limit-custom-input"
                                placeholder="e.g. 250"
                                value="<?php echo esc_attr($role_custom_value); ?>" />
                     </div>
-                    <div class="mxch-field">
-                        <label class="mxch-field-label" for="rate_limits_<?php echo esc_attr($role_id); ?>_timeframe"><?php esc_html_e('Timeframe', 'knittnet'); ?></label>
+                    <div class="knet-field">
+                        <label class="knet-field-label" for="rate_limits_<?php echo esc_attr($role_id); ?>_timeframe"><?php esc_html_e('Timeframe', 'knittnet'); ?></label>
                         <select id="rate_limits_<?php echo esc_attr($role_id); ?>_timeframe"
                                 name="knittnet_options[rate_limits][<?php echo esc_attr($role_id); ?>][timeframe]"
-                                class="mxch-select knittnet-autosave-field">
+                                class="knet-select knittnet-autosave-field">
                             <?php foreach ($timeframes as $value => $label): ?>
                             <option value="<?php echo esc_attr($value); ?>" <?php selected($selected_timeframe, $value); ?>><?php echo esc_html($label); ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                 </div>
-                <div class="mxch-field">
-                    <label class="mxch-field-label" for="rate_limits_<?php echo esc_attr($role_id); ?>_message"><?php esc_html_e('Custom Message', 'knittnet'); ?></label>
+                <div class="knet-field">
+                    <label class="knet-field-label" for="rate_limits_<?php echo esc_attr($role_id); ?>_message"><?php esc_html_e('Custom Message', 'knittnet'); ?></label>
                     <textarea id="rate_limits_<?php echo esc_attr($role_id); ?>_message"
                               name="knittnet_options[rate_limits][<?php echo esc_attr($role_id); ?>][message]"
-                              class="mxch-textarea knittnet-autosave-field"
+                              class="knet-textarea knittnet-autosave-field"
                               rows="2"
                               placeholder="<?php esc_attr_e('Message shown when rate limit is reached', 'knittnet'); ?>"><?php echo esc_textarea($custom_message); ?></textarea>
                 </div>

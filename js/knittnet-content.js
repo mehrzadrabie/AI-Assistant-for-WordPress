@@ -61,83 +61,83 @@
     // ─── Sidebar Navigation ────────────────────────────────────────────
 
     function initNavigation() {
-        $(document).on('click', '.mxch-nav-link[data-target], .mxch-nav-sub-link[data-target]', function(e) {
+        $(document).on('click', '.knet-nav-link[data-target], .knet-nav-sub-link[data-target]', function(e) {
             e.preventDefault();
             var target = $(this).data('target');
             switchSection(target);
-            $('.mxch-nav-link, .mxch-nav-sub-link').removeClass('active');
+            $('.knet-nav-link, .knet-nav-sub-link').removeClass('active');
             $(this).addClass('active');
         });
 
-        $(document).on('click', '.mxch-mobile-nav-link[data-target]', function(e) {
+        $(document).on('click', '.knet-mobile-nav-link[data-target]', function(e) {
             e.preventDefault();
             var target = $(this).data('target');
             switchSection(target);
-            $('.mxch-mobile-nav-link').removeClass('active');
+            $('.knet-mobile-nav-link').removeClass('active');
             $(this).addClass('active');
             closeMobileMenu();
         });
 
-        $(document).on('click', '.mxch-mobile-menu-btn', function() {
-            $('.mxch-mobile-menu, .mxch-mobile-overlay').addClass('open');
+        $(document).on('click', '.knet-mobile-menu-btn', function() {
+            $('.knet-mobile-menu, .knet-mobile-overlay').addClass('open');
         });
-        $(document).on('click', '.mxch-mobile-menu-close, .mxch-mobile-overlay', function() {
+        $(document).on('click', '.knet-mobile-menu-close, .knet-mobile-overlay', function() {
             closeMobileMenu();
         });
     }
 
     function switchSection(target) {
-        $('.mxch-section').removeClass('active');
+        $('.knet-section').removeClass('active');
         $('#' + target).addClass('active');
     }
 
     function closeMobileMenu() {
-        $('.mxch-mobile-menu, .mxch-mobile-overlay').removeClass('open');
+        $('.knet-mobile-menu, .knet-mobile-overlay').removeClass('open');
     }
 
     // ─── Inline Form ────────────────────────────────────────────────────
 
     function initInlineForm() {
         // "Create New" button in toolbar — resets to inline form
-        $('#mxch-cg-new-btn').on('click', function() {
+        $('#knet-cg-new-btn').on('click', function() {
             resetToForm();
         });
 
         // On initial load: form is already visible, hide toolbar and preview-wrap chrome
-        $('#mxch-cg-new-btn').hide();
-        $('.mxch-cg-toolbar').addClass('mxch-cg-toolbar-minimal');
-        $('.mxch-cg-preview-wrap').addClass('mxch-cg-preview-wrap-form');
+        $('#knet-cg-new-btn').hide();
+        $('.knet-cg-toolbar').addClass('knet-cg-toolbar-minimal');
+        $('.knet-cg-preview-wrap').addClass('knet-cg-preview-wrap-form');
     }
 
     function showInlineForm() {
-        var $form = $('#mxch-cg-inline-form');
-        $form.removeClass('mxch-cg-form-collapsing').show();
+        var $form = $('#knet-cg-inline-form');
+        $form.removeClass('knet-cg-form-collapsing').show();
 
         // Hide preview and loading
-        $('#mxch-cg-preview-iframe').hide();
-        $('#mxch-cg-loading-indicator').hide();
-        $('.mxch-cg-preview-wrap').css('height', '');
+        $('#knet-cg-preview-iframe').hide();
+        $('#knet-cg-loading-indicator').hide();
+        $('.knet-cg-preview-wrap').css('height', '');
 
         // Toolbar: hidden; preview-wrap: transparent
-        $('.mxch-cg-toolbar').addClass('mxch-cg-toolbar-minimal');
-        $('.mxch-cg-preview-wrap').addClass('mxch-cg-preview-wrap-form');
-        $('#mxch-cg-new-btn').hide();
-        $('.mxch-cg-toolbar-right').hide();
-        $('#mxch-cg-status-dropdown').hide();
-        $('#mxch-cg-preview-title').text('Content Generator');
+        $('.knet-cg-toolbar').addClass('knet-cg-toolbar-minimal');
+        $('.knet-cg-preview-wrap').addClass('knet-cg-preview-wrap-form');
+        $('#knet-cg-new-btn').hide();
+        $('.knet-cg-toolbar-right').hide();
+        $('#knet-cg-status-dropdown').hide();
+        $('#knet-cg-preview-title').text('Content Generator');
 
-        setTimeout(function() { $('#mxch-cg-prompt').focus(); }, 100);
+        setTimeout(function() { $('#knet-cg-prompt').focus(); }, 100);
     }
 
     function hideInlineForm() {
-        var $form = $('#mxch-cg-inline-form');
-        $form.addClass('mxch-cg-form-collapsing');
+        var $form = $('#knet-cg-inline-form');
+        $form.addClass('knet-cg-form-collapsing');
         setTimeout(function() {
-            $form.hide().removeClass('mxch-cg-form-collapsing');
+            $form.hide().removeClass('knet-cg-form-collapsing');
         }, 300);
 
-        $('.mxch-cg-toolbar').removeClass('mxch-cg-toolbar-minimal');
-        $('.mxch-cg-preview-wrap').removeClass('mxch-cg-preview-wrap-form');
+        $('.knet-cg-toolbar').removeClass('knet-cg-toolbar-minimal');
+        $('.knet-cg-preview-wrap').removeClass('knet-cg-preview-wrap-form');
     }
 
     function resetToForm() {
@@ -152,7 +152,7 @@
         closeChatPanel();
         closeStatusDropdown();
         resetSeoPanel();
-        $('#mxch-cg-prompt').val('');
+        $('#knet-cg-prompt').val('');
         showInlineForm();
     }
 
@@ -160,22 +160,22 @@
 
     function initGeneration() {
         // Show/hide schedule date picker
-        $('#mxch-cg-status').on('change', function() {
+        $('#knet-cg-status').on('change', function() {
             if ($(this).val() === 'future') {
-                $('.mxch-cg-schedule-wrap').show();
-                if (!$('#mxch-cg-schedule').val()) {
+                $('.knet-cg-schedule-wrap').show();
+                if (!$('#knet-cg-schedule').val()) {
                     var tomorrow = new Date();
                     tomorrow.setDate(tomorrow.getDate() + 1);
                     tomorrow.setHours(9, 0, 0, 0);
-                    $('#mxch-cg-schedule').val(tomorrow.toISOString().slice(0, 16));
+                    $('#knet-cg-schedule').val(tomorrow.toISOString().slice(0, 16));
                 }
             } else {
-                $('.mxch-cg-schedule-wrap').hide();
+                $('.knet-cg-schedule-wrap').hide();
             }
         });
 
         // Generate button
-        $('#mxch-cg-generate-btn').on('click', function() {
+        $('#knet-cg-generate-btn').on('click', function() {
             if (state.isGenerating) return;
             startGeneration();
         });
@@ -183,13 +183,13 @@
 
     // ── Edit Default Prompt Modal ──────────────────────────────
     function initPromptModal() {
-        var $modal = $('#mxch-cg-prompt-modal');
-        var $editor = $('#mxch-cg-system-prompt-editor');
-        var $btn = $('#mxch-cg-edit-prompt-btn');
+        var $modal = $('#knet-cg-prompt-modal');
+        var $editor = $('#knet-cg-system-prompt-editor');
+        var $btn = $('#knet-cg-edit-prompt-btn');
         var currentDefault = '';
 
         function fetchPromptData(callback) {
-            var contentType = $('#mxch-cg-type').val() || 'post';
+            var contentType = $('#knet-cg-type').val() || 'post';
             $.post(knittnetContent.ajaxUrl, {
                 action: 'knittnet_get_default_prompt',
                 nonce: knittnetContent.nonce,
@@ -207,9 +207,9 @@
 
         function updateButtonState() {
             if (state.customSystemPrompt) {
-                $btn.addClass('mxch-cg-prompt-modified');
+                $btn.addClass('knet-cg-prompt-modified');
             } else {
-                $btn.removeClass('mxch-cg-prompt-modified');
+                $btn.removeClass('knet-cg-prompt-modified');
             }
         }
 
@@ -225,7 +225,7 @@
         }
 
         function saveToServer(promptText, callback) {
-            var contentType = $('#mxch-cg-type').val() || 'post';
+            var contentType = $('#knet-cg-type').val() || 'post';
             $.post(knittnetContent.ajaxUrl, {
                 action: 'knittnet_save_custom_prompt',
                 nonce: knittnetContent.nonce,
@@ -237,9 +237,9 @@
         }
 
         $btn.on('click', openModal);
-        $('#mxch-cg-prompt-modal-close, #mxch-cg-prompt-cancel, .mxch-cg-prompt-modal-overlay').on('click', closeModal);
+        $('#knet-cg-prompt-modal-close, #knet-cg-prompt-cancel, .knet-cg-prompt-modal-overlay').on('click', closeModal);
 
-        $('#mxch-cg-prompt-save').on('click', function() {
+        $('#knet-cg-prompt-save').on('click', function() {
             var edited = $editor.val().trim();
             var customValue = (edited && edited !== currentDefault) ? edited : '';
             state.customSystemPrompt = customValue;
@@ -248,7 +248,7 @@
             closeModal();
         });
 
-        $('#mxch-cg-prompt-reset').on('click', function() {
+        $('#knet-cg-prompt-reset').on('click', function() {
             $editor.val(currentDefault);
             state.customSystemPrompt = '';
             saveToServer('');
@@ -259,13 +259,13 @@
         fetchPromptData();
 
         // When content type changes, load the saved prompt for that type
-        $('#mxch-cg-type').on('change', function() {
+        $('#knet-cg-type').on('change', function() {
             fetchPromptData();
         });
     }
 
     function startGeneration() {
-        var prompt = $('#mxch-cg-prompt').val().trim();
+        var prompt = $('#knet-cg-prompt').val().trim();
         if (!prompt) {
             showNotice('Please enter a prompt describing the content you want to generate.', 'error');
             return;
@@ -274,13 +274,13 @@
         state.isGenerating = true;
 
         // Immediately hide form and show loading indicator
-        $('#mxch-cg-inline-form').hide().removeClass('mxch-cg-form-collapsing');
-        $('.mxch-cg-toolbar').removeClass('mxch-cg-toolbar-minimal');
-        $('.mxch-cg-preview-wrap').removeClass('mxch-cg-preview-wrap-form');
-        $('#mxch-cg-preview-title').text('Generating...');
-        $('#mxch-cg-new-btn').hide();
-        $('.mxch-cg-toolbar-right').hide();
-        $('#mxch-cg-status-dropdown').hide();
+        $('#knet-cg-inline-form').hide().removeClass('knet-cg-form-collapsing');
+        $('.knet-cg-toolbar').removeClass('knet-cg-toolbar-minimal');
+        $('.knet-cg-preview-wrap').removeClass('knet-cg-preview-wrap-form');
+        $('#knet-cg-preview-title').text('Generating...');
+        $('#knet-cg-new-btn').hide();
+        $('.knet-cg-toolbar-right').hide();
+        $('#knet-cg-status-dropdown').hide();
         closeStatusDropdown();
         closeChatPanel();
         showLoadingIndicator();
@@ -289,12 +289,12 @@
             action: 'knittnet_generate_content',
             nonce: knittnetContent.nonce,
             prompt: prompt,
-            content_type: $('#mxch-cg-type').val(),
-            post_status: $('#mxch-cg-status').val(),
-            schedule_date: $('#mxch-cg-schedule').val() || '',
-            layout: $('#mxch-cg-layout').val() || 'fullwidth',
-            title_display: $('#mxch-cg-title-display').val() || 'hide',
-            template_mode: $('#mxch-cg-template-mode').val() || 'off',
+            content_type: $('#knet-cg-type').val(),
+            post_status: $('#knet-cg-status').val(),
+            schedule_date: $('#knet-cg-schedule').val() || '',
+            layout: $('#knet-cg-layout').val() || 'fullwidth',
+            title_display: $('#knet-cg-title-display').val() || 'hide',
+            template_mode: $('#knet-cg-template-mode').val() || 'off',
             custom_system_prompt: state.customSystemPrompt || ''
         };
 
@@ -335,12 +335,12 @@
         hideInlineForm();
 
         // Show success state on loading indicator briefly before showing preview
-        var $loadingIndicator = $('#mxch-cg-loading-indicator');
+        var $loadingIndicator = $('#knet-cg-loading-indicator');
         if ($loadingIndicator.is(':visible')) {
             stopPhraseRotation();
-            $('#mxch-cg-loading-phrase').text('Your content is ready!');
+            $('#knet-cg-loading-phrase').text('Your content is ready!');
             updateLoadingProgress(100, 'Complete!');
-            $loadingIndicator.addClass('mxch-cg-loading-success');
+            $loadingIndicator.addClass('knet-cg-loading-success');
 
             setTimeout(function() {
                 hideLoadingIndicator();
@@ -354,27 +354,27 @@
 
     function finishPreviewLoad(data) {
         // Update toolbar title
-        $('#mxch-cg-preview-title').text(data.title || 'Preview');
+        $('#knet-cg-preview-title').text(data.title || 'Preview');
 
         // Show status dropdown
         var statusLabels = { draft: 'Draft', publish: 'Published', future: 'Scheduled' };
-        var $dropdown = $('#mxch-cg-status-dropdown');
-        var $badge = $('#mxch-cg-status-badge');
-        $badge.find('.mxch-cg-status-badge-text').text(statusLabels[data.status] || data.status);
-        $badge.removeClass('mxch-cg-badge-draft mxch-cg-badge-publish mxch-cg-badge-future')
-              .addClass('mxch-cg-badge-' + data.status);
+        var $dropdown = $('#knet-cg-status-dropdown');
+        var $badge = $('#knet-cg-status-badge');
+        $badge.find('.knet-cg-status-badge-text').text(statusLabels[data.status] || data.status);
+        $badge.removeClass('knet-cg-badge-draft knet-cg-badge-publish knet-cg-badge-future')
+              .addClass('knet-cg-badge-' + data.status);
         $dropdown.show();
         closeStatusDropdown();
-        $('.mxch-cg-status-option').removeClass('mxch-cg-status-active');
-        $('.mxch-cg-status-option[data-status="' + data.status + '"]').addClass('mxch-cg-status-active');
+        $('.knet-cg-status-option').removeClass('knet-cg-status-active');
+        $('.knet-cg-status-option[data-status="' + data.status + '"]').addClass('knet-cg-status-active');
         state.postStatus = data.status;
 
         // Show toolbar actions
-        $('.mxch-cg-toolbar-right').show();
-        $('#mxch-cg-view-post').attr('href', data.permalink);
+        $('.knet-cg-toolbar-right').show();
+        $('#knet-cg-view-post').attr('href', data.permalink);
 
         // Show "Create New" button in toolbar
-        var $newBtn = $('#mxch-cg-new-btn');
+        var $newBtn = $('#knet-cg-new-btn');
         $newBtn.find('span').text('Create New');
         $newBtn.show();
 
@@ -382,7 +382,7 @@
         loadPreview(data.preview_url);
 
         // Store post ID on the chat panel for add-on access
-        $('#mxch-cg-chat').attr('data-post-id', data.post_id);
+        $('#knet-cg-chat').attr('data-post-id', data.post_id);
 
         // Populate image panel with generated images
         populateImagePanel(data.images || []);
@@ -395,44 +395,44 @@
         setTimeout(function() { runSeoAnalysis(); }, 500);
 
         // Pre-populate chat
-        $('#mxch-cg-chat-messages').empty();
+        $('#knet-cg-chat-messages').empty();
         addChatMessage('assistant', 'Content generated! Request edits like "change the heading to..." or "make the background blue".');
     }
 
     function onGenerationError(message) {
         state.isGenerating = false;
 
-        var $btn = $('#mxch-cg-generate-btn');
-        $btn.prop('disabled', false).removeClass('mxch-cg-loading');
+        var $btn = $('#knet-cg-generate-btn');
+        $btn.prop('disabled', false).removeClass('knet-cg-loading');
 
-        var $loadingIndicator = $('#mxch-cg-loading-indicator');
+        var $loadingIndicator = $('#knet-cg-loading-indicator');
 
         if ($loadingIndicator.is(':visible')) {
             // Error while loading indicator is showing (async flow)
             stopPhraseRotation();
-            $loadingIndicator.addClass('mxch-cg-loading-error');
-            $('#mxch-cg-loading-phrase').text('Oops! Something went wrong.');
+            $loadingIndicator.addClass('knet-cg-loading-error');
+            $('#knet-cg-loading-phrase').text('Oops! Something went wrong.');
             updateLoadingProgress(0, message);
-            $('#mxch-cg-loading-progress-fill').css('background', '#ef4444');
+            $('#knet-cg-loading-progress-fill').css('background', '#ef4444');
 
             // Add retry and dismiss buttons
-            if (!$loadingIndicator.find('.mxch-cg-loading-error-actions').length) {
+            if (!$loadingIndicator.find('.knet-cg-loading-error-actions').length) {
                 var $actions = $(
-                    '<div class="mxch-cg-loading-error-actions">' +
-                        '<button type="button" class="mxch-cg-generate-btn" id="mxch-cg-loading-retry">' +
+                    '<div class="knet-cg-loading-error-actions">' +
+                        '<button type="button" class="knet-cg-generate-btn" id="knet-cg-loading-retry">' +
                             '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>' +
                             ' Try Again' +
                         '</button>' +
-                        '<button type="button" class="mxch-cg-action-btn" id="mxch-cg-loading-dismiss">Dismiss</button>' +
+                        '<button type="button" class="knet-cg-action-btn" id="knet-cg-loading-dismiss">Dismiss</button>' +
                     '</div>'
                 );
                 $loadingIndicator.append($actions);
 
-                $actions.find('#mxch-cg-loading-retry').on('click', function() {
+                $actions.find('#knet-cg-loading-retry').on('click', function() {
                     hideLoadingIndicator();
                     showInlineForm();
                 });
-                $actions.find('#mxch-cg-loading-dismiss').on('click', function() {
+                $actions.find('#knet-cg-loading-dismiss').on('click', function() {
                     hideLoadingIndicator();
                     showInlineForm();
                 });
@@ -440,18 +440,18 @@
         } else {
             // Error while modal is still open (pre-async or sync flow)
             updateProgress(0, 'Error: ' + message);
-            $('#mxch-cg-progress .mxch-cg-progress-fill').css('background', '#ef4444');
+            $('#knet-cg-progress .knet-cg-progress-fill').css('background', '#ef4444');
 
             setTimeout(function() {
-                $('#mxch-cg-progress').fadeOut(300);
-                $('#mxch-cg-progress .mxch-cg-progress-fill').css('background', '');
+                $('#knet-cg-progress').fadeOut(300);
+                $('#knet-cg-progress .knet-cg-progress-fill').css('background', '');
             }, 4000);
         }
     }
 
     function updateProgress(percent, message) {
-        $('#mxch-cg-progress .mxch-cg-progress-fill').css('width', percent + '%');
-        $('#mxch-cg-progress .mxch-cg-progress-text').text(message);
+        $('#knet-cg-progress .knet-cg-progress-fill').css('width', percent + '%');
+        $('#knet-cg-progress .knet-cg-progress-text').text(message);
     }
 
     function startProgressPoll() {
@@ -527,28 +527,28 @@
     // ─── Loading Indicator ────────────────────────────────────────────
 
     function showLoadingIndicator() {
-        $('#mxch-cg-inline-form').hide().removeClass('mxch-cg-form-collapsing');
-        $('#mxch-cg-preview-iframe').hide();
-        $('.mxch-cg-preview-wrap').css('height', '');
+        $('#knet-cg-inline-form').hide().removeClass('knet-cg-form-collapsing');
+        $('#knet-cg-preview-iframe').hide();
+        $('.knet-cg-preview-wrap').css('height', '');
 
-        var $loading = $('#mxch-cg-loading-indicator');
+        var $loading = $('#knet-cg-loading-indicator');
         $loading
-            .removeClass('mxch-cg-loading-error mxch-cg-loading-success')
+            .removeClass('knet-cg-loading-error knet-cg-loading-success')
             .show();
 
         // Reset mini progress
-        $('#mxch-cg-loading-progress-fill').css({ 'width': '0%', 'background': '' });
-        $('#mxch-cg-loading-progress-text').text('Starting...');
+        $('#knet-cg-loading-progress-fill').css({ 'width': '0%', 'background': '' });
+        $('#knet-cg-loading-progress-text').text('Starting...');
 
         // Remove any leftover error actions
-        $loading.find('.mxch-cg-loading-error-actions').remove();
+        $loading.find('.knet-cg-loading-error-actions').remove();
 
         startPhraseRotation();
     }
 
     function hideLoadingIndicator() {
         stopPhraseRotation();
-        $('#mxch-cg-loading-indicator').hide();
+        $('#knet-cg-loading-indicator').hide();
     }
 
     function startPhraseRotation() {
@@ -564,28 +564,28 @@
         }
 
         state.phraseIndex = 0;
-        var $phrase = $('#mxch-cg-loading-phrase');
+        var $phrase = $('#knet-cg-loading-phrase');
 
         // Show first phrase immediately
-        $phrase.text(shuffled[0]).removeClass('mxch-cg-phrase-exit mxch-cg-phrase-enter');
+        $phrase.text(shuffled[0]).removeClass('knet-cg-phrase-exit knet-cg-phrase-enter');
 
         state.phraseTimer = setInterval(function() {
             state.phraseIndex = (state.phraseIndex + 1) % shuffled.length;
             var nextText = shuffled[state.phraseIndex];
 
             // Fade out (slide up)
-            $phrase.addClass('mxch-cg-phrase-exit');
+            $phrase.addClass('knet-cg-phrase-exit');
 
             setTimeout(function() {
                 // Swap text and prepare enter state (below)
                 $phrase
                     .text(nextText)
-                    .removeClass('mxch-cg-phrase-exit')
-                    .addClass('mxch-cg-phrase-enter');
+                    .removeClass('knet-cg-phrase-exit')
+                    .addClass('knet-cg-phrase-enter');
 
                 // Force reflow then remove enter class to trigger transition
                 $phrase[0].offsetHeight;
-                $phrase.removeClass('mxch-cg-phrase-enter');
+                $phrase.removeClass('knet-cg-phrase-enter');
             }, 400); // matches CSS transition duration
 
         }, 4500);
@@ -599,9 +599,9 @@
     }
 
     function updateLoadingProgress(percent, message) {
-        $('#mxch-cg-loading-progress-fill').css('width', percent + '%');
+        $('#knet-cg-loading-progress-fill').css('width', percent + '%');
         if (message) {
-            $('#mxch-cg-loading-progress-text').text(message);
+            $('#knet-cg-loading-progress-text').text(message);
         }
     }
 
@@ -609,38 +609,38 @@
 
     function initPreview() {
         // Viewport toggle
-        $(document).on('click', '.mxch-cg-viewport-btn', function() {
+        $(document).on('click', '.knet-cg-viewport-btn', function() {
             var viewport = $(this).data('viewport');
-            $('.mxch-cg-viewport-btn').removeClass('active');
+            $('.knet-cg-viewport-btn').removeClass('active');
             $(this).addClass('active');
 
-            var $container = $('#mxch-cg-preview-container');
+            var $container = $('#knet-cg-preview-container');
             if (viewport === 'mobile') {
-                $container.addClass('mxch-cg-viewport-mobile');
+                $container.addClass('knet-cg-viewport-mobile');
                 // Reset iframe to natural size for mobile
-                $('#mxch-cg-preview-iframe').css({
+                $('#knet-cg-preview-iframe').css({
                     width: '375px',
                     transform: 'none'
                 });
             } else {
-                $container.removeClass('mxch-cg-viewport-mobile');
+                $container.removeClass('knet-cg-viewport-mobile');
                 scaleIframe();
             }
         });
 
         // Recalculate scale on window resize
         $(window).on('resize', function() {
-            if (!$('#mxch-cg-preview-container').hasClass('mxch-cg-viewport-mobile')) {
+            if (!$('#knet-cg-preview-container').hasClass('knet-cg-viewport-mobile')) {
                 scaleIframe();
             }
         });
     }
 
     function scaleIframe() {
-        var $iframe = $('#mxch-cg-preview-iframe');
+        var $iframe = $('#knet-cg-preview-iframe');
         if (!$iframe.is(':visible')) return;
 
-        var $wrap = $('.mxch-cg-preview-wrap');
+        var $wrap = $('.knet-cg-preview-wrap');
         var containerWidth = $wrap.innerWidth();
         var iframeNativeWidth = 1400;
 
@@ -666,8 +666,8 @@
     }
 
     function loadPreview(url) {
-        var $iframe = $('#mxch-cg-preview-iframe');
-        var $empty = $('.mxch-cg-preview-empty');
+        var $iframe = $('#knet-cg-preview-iframe');
+        var $empty = $('.knet-cg-preview-empty');
 
         $empty.hide();
         $iframe.show();
@@ -699,7 +699,7 @@
 
     function initChat() {
         // Toggle chat panel
-        $('#mxch-cg-chat-toggle').on('click', function() {
+        $('#knet-cg-chat-toggle').on('click', function() {
             if (state.chatOpen) {
                 closeChatPanel();
             } else {
@@ -708,21 +708,21 @@
         });
 
         // Close chat panel
-        $('#mxch-cg-chat-close').on('click', function() {
+        $('#knet-cg-chat-close').on('click', function() {
             closeChatPanel();
         });
 
         // Enable/disable send button + auto-resize textarea
-        $('#mxch-cg-chat-input').on('input', function() {
+        $('#knet-cg-chat-input').on('input', function() {
             var hasText = $(this).val().trim().length > 0;
-            $('#mxch-cg-chat-send').prop('disabled', !hasText || state.isEditing);
+            $('#knet-cg-chat-send').prop('disabled', !hasText || state.isEditing);
             // Auto-resize
             this.style.height = 'auto';
             this.style.height = this.scrollHeight + 'px';
         });
 
         // Send on Enter, Shift+Enter for newline
-        $('#mxch-cg-chat-input').on('keydown', function(e) {
+        $('#knet-cg-chat-input').on('keydown', function(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 if (!$(this).val().trim() || state.isEditing) return;
@@ -731,7 +731,7 @@
         });
 
         // Send button click
-        $('#mxch-cg-chat-send').on('click', function() {
+        $('#knet-cg-chat-send').on('click', function() {
             if (state.isEditing) return;
             sendEdit();
         });
@@ -740,28 +740,28 @@
     function openChatPanel() {
         state.chatOpen = true;
         // Use flex display for two-column layout
-        $('#mxch-cg-chat').css('display', 'flex');
-        $('#mxch-cg-chat-input').focus();
+        $('#knet-cg-chat').css('display', 'flex');
+        $('#knet-cg-chat-input').focus();
         scrollChatToBottom();
     }
 
     function closeChatPanel() {
         state.chatOpen = false;
-        $('#mxch-cg-chat').hide();
+        $('#knet-cg-chat').hide();
     }
 
     function sendEdit() {
-        var input = $('#mxch-cg-chat-input').val().trim();
+        var input = $('#knet-cg-chat-input').val().trim();
         if (!input || !state.postId) return;
 
         state.isEditing = true;
-        $('#mxch-cg-chat-input').val('').css('height', 'auto');
-        $('#mxch-cg-chat-send').prop('disabled', true);
+        $('#knet-cg-chat-input').val('').css('height', 'auto');
+        $('#knet-cg-chat-send').prop('disabled', true);
 
         addChatMessage('user', input);
 
-        var $loading = $('<div class="mxch-cg-chat-msg mxch-cg-chat-assistant"><div class="mxch-cg-chat-bubble mxch-cg-chat-loading"><span></span><span></span><span></span></div></div>');
-        $('#mxch-cg-chat-messages').append($loading);
+        var $loading = $('<div class="knet-cg-chat-msg knet-cg-chat-assistant"><div class="knet-cg-chat-bubble knet-cg-chat-loading"><span></span><span></span><span></span></div></div>');
+        $('#knet-cg-chat-messages').append($loading);
         scrollChatToBottom();
 
         $.ajax({
@@ -785,7 +785,7 @@
                     }
                     refreshPreview();
                     if (response.data.title) {
-                        $('#mxch-cg-preview-title').text(response.data.title);
+                        $('#knet-cg-preview-title').text(response.data.title);
                     }
                     if (response.data.meta) {
                         populateMetaPanel(response.data);
@@ -807,16 +807,16 @@
 
     function addChatMessage(role, content) {
         state.chatMessages.push({ role: role, content: content });
-        var roleClass = role === 'user' ? 'mxch-cg-chat-user' : 'mxch-cg-chat-assistant';
-        var $msg = $('<div class="mxch-cg-chat-msg ' + roleClass + '">' +
-                     '<div class="mxch-cg-chat-bubble">' + escapeHtml(content) + '</div>' +
+        var roleClass = role === 'user' ? 'knet-cg-chat-user' : 'knet-cg-chat-assistant';
+        var $msg = $('<div class="knet-cg-chat-msg ' + roleClass + '">' +
+                     '<div class="knet-cg-chat-bubble">' + escapeHtml(content) + '</div>' +
                      '</div>');
-        $('#mxch-cg-chat-messages').append($msg);
+        $('#knet-cg-chat-messages').append($msg);
         scrollChatToBottom();
     }
 
     function scrollChatToBottom() {
-        var el = document.getElementById('mxch-cg-chat-messages');
+        var el = document.getElementById('knet-cg-chat-messages');
         if (el) el.scrollTop = el.scrollHeight;
     }
 
@@ -855,14 +855,14 @@
     }
 
     function saveContentSetting(field, value, $field) {
-        var $label = $field.closest('.mxch-field').find('.mxch-field-label');
+        var $label = $field.closest('.knet-field').find('.knet-field-label');
         if (!$label.length) {
-            $label = $field.closest('.mxch-field').find('.mxch-toggle-label');
+            $label = $field.closest('.knet-field').find('.knet-toggle-label');
         }
 
         // Show saving spinner
         if ($label.length) {
-            $label.removeClass('mxch-saved').addClass('mxch-saving');
+            $label.removeClass('knet-saved').addClass('knet-saving');
         }
 
         $.ajax({
@@ -876,18 +876,18 @@
             },
             success: function(response) {
                 if ($label.length) {
-                    $label.removeClass('mxch-saving');
+                    $label.removeClass('knet-saving');
                     if (response.success) {
-                        $label.addClass('mxch-saved');
+                        $label.addClass('knet-saved');
                         setTimeout(function() {
-                            $label.removeClass('mxch-saved');
+                            $label.removeClass('knet-saved');
                         }, 1500);
                     }
                 }
             },
             error: function(xhr, status, error) {
                 if ($label.length) {
-                    $label.removeClass('mxch-saving');
+                    $label.removeClass('knet-saving');
                 }
                 if (window.console) {
                     console.warn('KnittNet content setting save failed:', field, status, error);
@@ -899,12 +899,12 @@
     // ─── Image Panel ────────────────────────────────────────────────────
 
     function populateImagePanel(images) {
-        var $grid = $('#mxch-cg-images-grid');
-        var $empty = $('#mxch-cg-images-empty');
-        var isLocked = $('.mxch-cg-images-col').hasClass('mxch-cg-pro-locked');
+        var $grid = $('#knet-cg-images-grid');
+        var $empty = $('#knet-cg-images-empty');
+        var isLocked = $('.knet-cg-images-col').hasClass('knet-cg-pro-locked');
 
         // Clear any previous images (keep the empty state element)
-        $grid.find('.mxch-cg-image-thumb').remove();
+        $grid.find('.knet-cg-image-thumb').remove();
 
         if (!images || images.length === 0) {
             $empty.show();
@@ -915,19 +915,19 @@
 
         $.each(images, function(i, img) {
             var $thumb = $(
-                '<div class="mxch-cg-image-thumb">' +
+                '<div class="knet-cg-image-thumb">' +
                     '<img src="' + escapeAttr(img.thumbnail) + '" alt="Image ' + (i + 1) + '">' +
-                    '<div class="mxch-cg-image-actions' + (isLocked ? ' mxch-cg-image-actions-locked' : '') + '">' +
-                        '<button type="button" class="mxch-cg-image-action-btn mxch-cg-image-upload-btn"' + (isLocked ? ' disabled' : '') + ' data-attachment-id="' + (img.attachment_id || '') + '">' +
+                    '<div class="knet-cg-image-actions' + (isLocked ? ' knet-cg-image-actions-locked' : '') + '">' +
+                        '<button type="button" class="knet-cg-image-action-btn knet-cg-image-upload-btn"' + (isLocked ? ' disabled' : '') + ' data-attachment-id="' + (img.attachment_id || '') + '">' +
                             '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>' +
                             ' Upload' +
                         '</button>' +
-                        '<button type="button" class="mxch-cg-image-action-btn mxch-cg-image-regen-btn"' + (isLocked ? ' disabled' : '') + ' data-attachment-id="' + (img.attachment_id || '') + '">' +
+                        '<button type="button" class="knet-cg-image-action-btn knet-cg-image-regen-btn"' + (isLocked ? ' disabled' : '') + ' data-attachment-id="' + (img.attachment_id || '') + '">' +
                             '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>' +
                             ' Regenerate' +
                         '</button>' +
                     '</div>' +
-                    (isLocked ? '<div class="mxch-cg-image-lock-badge"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> PRO</div>' : '') +
+                    (isLocked ? '<div class="knet-cg-image-lock-badge"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> PRO</div>' : '') +
                 '</div>'
             );
             $grid.append($thumb);
@@ -943,21 +943,21 @@
     var seoState = { analyzed: false, analyzing: false, fixing: false, score: null, checks: null };
 
     function initSeo() {
-        $('#mxch-seo-analyze').on('click', function() {
+        $('#knet-seo-analyze').on('click', function() {
             if (state.postId && !seoState.analyzing) runSeoAnalysis();
         });
-        $('#mxch-seo-ai-optimize').on('click', function() {
+        $('#knet-seo-ai-optimize').on('click', function() {
             if (state.postId && !seoState.fixing) runAiOptimize();
         });
         // Per-check AI fix buttons (content editor panel only, not dashboard modal)
-        $(document).on('click', '.mxch-seo-check-fix:not(.mxch-seod-check-fix-btn)', function(e) {
+        $(document).on('click', '.knet-seo-check-fix:not(.knet-seod-check-fix-btn)', function(e) {
             e.stopPropagation();
             var $btn = $(this);
-            if ($btn.hasClass('mxch-seo-check-fixing') || !state.postId) return;
+            if ($btn.hasClass('knet-seo-check-fixing') || !state.postId) return;
             runSeoFixSingle($btn.data('field'), $btn);
         });
         // Auto-analyze when switching to SEO tab if content exists
-        $(document).on('click', '.mxch-cg-left-tab[data-tab="seo"]', function() {
+        $(document).on('click', '.knet-cg-left-tab[data-tab="seo"]', function() {
             if (state.postId && !seoState.analyzed && !seoState.analyzing) runSeoAnalysis();
         });
     }
@@ -965,7 +965,7 @@
     function runSeoAnalysis() {
         if (!state.postId) return;
         seoState.analyzing = true;
-        $('#mxch-seo-analyze').addClass('mxch-spinning');
+        $('#knet-seo-analyze').addClass('knet-spinning');
         $.post(ajaxurl, {
             action: 'knittnet_seo_analyze',
             nonce: knittnetContent.nonce,
@@ -983,7 +983,7 @@
             renderSeoError('Connection error');
         }).always(function() {
             seoState.analyzing = false;
-            $('#mxch-seo-analyze').removeClass('mxch-spinning');
+            $('#knet-seo-analyze').removeClass('knet-spinning');
         });
     }
 
@@ -991,20 +991,20 @@
         var score = data.score, checks = data.checks, summary = data.summary;
         // Score ring
         var offset = 163.36 - (score / 100) * 163.36;
-        var $ring = $('#mxch-seo-ring');
-        $ring.css('stroke-dashoffset', offset).removeClass('mxch-seo-good mxch-seo-ok mxch-seo-bad');
-        if (score >= 80) $ring.addClass('mxch-seo-good');
-        else if (score >= 50) $ring.addClass('mxch-seo-ok');
-        else $ring.addClass('mxch-seo-bad');
-        $('#mxch-seo-score').text(score);
-        $('#mxch-seo-score-label').text(score >= 80 ? 'Great' : score >= 60 ? 'Good' : score >= 40 ? 'Needs Work' : 'Poor');
+        var $ring = $('#knet-seo-ring');
+        $ring.css('stroke-dashoffset', offset).removeClass('knet-seo-good knet-seo-ok knet-seo-bad');
+        if (score >= 80) $ring.addClass('knet-seo-good');
+        else if (score >= 50) $ring.addClass('knet-seo-ok');
+        else $ring.addClass('knet-seo-bad');
+        $('#knet-seo-score').text(score);
+        $('#knet-seo-score-label').text(score >= 80 ? 'Great' : score >= 60 ? 'Good' : score >= 40 ? 'Needs Work' : 'Poor');
         var parts = [];
         if (summary.pass) parts.push(summary.pass + ' passed');
         if (summary.warn) parts.push(summary.warn + ' warnings');
         if (summary.fail) parts.push(summary.fail + ' issues');
-        $('#mxch-seo-score-summary').text(parts.join(' \u00b7 '));
+        $('#knet-seo-score-summary').text(parts.join(' \u00b7 '));
         // Checklist
-        var $list = $('#mxch-seo-checklist').empty();
+        var $list = $('#knet-seo-checklist').empty();
         var icons = {
             pass: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
             warn: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
@@ -1023,7 +1023,7 @@
         sorted.forEach(function(key) {
             var c = checks[key];
             if (last && last !== 'pass' && c.status === 'pass') {
-                $list.append('<div class="mxch-seo-separator"></div>');
+                $list.append('<div class="knet-seo-separator"></div>');
             }
             last = c.status;
 
@@ -1031,9 +1031,9 @@
             var badge = '';
             if (addonChecks[key] && c.status !== 'pass' && !knittnetContent.hasAdvancedContent) {
                 if (knittnetContent.isActivated) {
-                    badge = ' <a href="https://knittnet.ai/advanced-content-editor/" target="_blank" class="mxch-seod-addon-badge">ADD-ON</a>';
+                    badge = ' <a href="https://knittnet.ai/advanced-content-editor/" target="_blank" class="knet-seod-addon-badge">ADD-ON</a>';
                 } else {
-                    badge = ' <a href="https://knittnet.ai/" target="_blank" class="mxch-seod-addon-badge mxch-seod-pro-badge">PRO</a>';
+                    badge = ' <a href="https://knittnet.ai/" target="_blank" class="knet-seod-addon-badge knet-seod-pro-badge">PRO</a>';
                 }
             }
 
@@ -1042,30 +1042,30 @@
             if (c.status !== 'pass' && fixableMap[key]) {
                 var canFix = !addonChecks[key] || knittnetContent.hasAdvancedContent;
                 if (canFix) {
-                    fixBtn = '<button type="button" class="mxch-seo-check-fix" data-field="' + fixableMap[key] + '" title="AI Fix">' + sparkleIcon + '</button>';
+                    fixBtn = '<button type="button" class="knet-seo-check-fix" data-field="' + fixableMap[key] + '" title="AI Fix">' + sparkleIcon + '</button>';
                 }
             }
 
             $list.append(
-                '<div class="mxch-seo-check" data-check="' + key + '">' +
-                    '<div class="mxch-seo-check-icon mxch-seo-' + c.status + '">' + icons[c.status] + '</div>' +
-                    '<div class="mxch-seo-check-content">' +
-                        '<span class="mxch-seo-check-label">' + escapeHtml(c.label) + badge + '</span>' +
-                        '<span class="mxch-seo-check-detail">' + escapeHtml(c.detail) + '</span>' +
+                '<div class="knet-seo-check" data-check="' + key + '">' +
+                    '<div class="knet-seo-check-icon knet-seo-' + c.status + '">' + icons[c.status] + '</div>' +
+                    '<div class="knet-seo-check-content">' +
+                        '<span class="knet-seo-check-label">' + escapeHtml(c.label) + badge + '</span>' +
+                        '<span class="knet-seo-check-detail">' + escapeHtml(c.detail) + '</span>' +
                     '</div>' +
                     fixBtn +
                 '</div>'
             );
         });
-        $('#mxch-seo-actions').toggle(summary.fail > 0 || summary.warn > 0);
+        $('#knet-seo-actions').toggle(summary.fail > 0 || summary.warn > 0);
     }
 
     function renderSeoError(msg) {
-        $('#mxch-seo-checklist').html('<div class="mxch-seo-empty"><span style="color:#ef4444;">' + escapeHtml(msg) + '</span></div>');
+        $('#knet-seo-checklist').html('<div class="knet-seo-empty"><span style="color:#ef4444;">' + escapeHtml(msg) + '</span></div>');
     }
 
     function runSeoFixSingle(field, $btn) {
-        $btn.addClass('mxch-seo-check-fixing').prop('disabled', true);
+        $btn.addClass('knet-seo-check-fixing').prop('disabled', true);
         $.post(ajaxurl, {
             action: 'knittnet_seo_suggest',
             nonce: knittnetContent.nonce,
@@ -1073,13 +1073,13 @@
             field: field,
         }).done(function(res) {
             if (res.success) {
-                if (field === 'meta_description') $('#mxch-cg-meta-description').val(res.data.suggestion).trigger('input');
-                else if (field === 'seo_title') $('#mxch-cg-meta-title').val(res.data.suggestion);
-                $('.mxch-cg-left-tab[data-tab="meta"]').addClass('mxch-cg-tab-flash');
-                setTimeout(function() { $('.mxch-cg-left-tab[data-tab="meta"]').removeClass('mxch-cg-tab-flash'); }, 2000);
+                if (field === 'meta_description') $('#knet-cg-meta-description').val(res.data.suggestion).trigger('input');
+                else if (field === 'seo_title') $('#knet-cg-meta-title').val(res.data.suggestion);
+                $('.knet-cg-left-tab[data-tab="meta"]').addClass('knet-cg-tab-flash');
+                setTimeout(function() { $('.knet-cg-left-tab[data-tab="meta"]').removeClass('knet-cg-tab-flash'); }, 2000);
             }
         }).always(function() {
-            $btn.removeClass('mxch-seo-check-fixing').prop('disabled', false);
+            $btn.removeClass('knet-seo-check-fixing').prop('disabled', false);
             runSeoAnalysis();
         });
     }
@@ -1087,8 +1087,8 @@
     function runAiOptimize() {
         if (!state.postId || seoState.fixing) return;
         seoState.fixing = true;
-        var $btn = $('#mxch-seo-ai-optimize'), origHtml = $btn.html();
-        $btn.addClass('mxch-seo-fixing').prop('disabled', true)
+        var $btn = $('#knet-seo-ai-optimize'), origHtml = $btn.html();
+        $btn.addClass('knet-seo-fixing').prop('disabled', true)
             .html('<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.287 1.288L3 12l5.8 1.9a2 2 0 0 1 1.288 1.287L12 21l1.9-5.8a2 2 0 0 1 1.287-1.288L21 12l-5.8-1.9a2 2 0 0 1-1.288-1.287Z"/></svg> Optimizing\u2026');
         var prefs = knittnetContent.seoOptimize || {};
         var fields = [];
@@ -1111,7 +1111,7 @@
         function runNext() {
             if (idx >= fields.length) {
                 seoState.fixing = false;
-                $btn.removeClass('mxch-seo-fixing').prop('disabled', false).html(origHtml);
+                $btn.removeClass('knet-seo-fixing').prop('disabled', false).html(origHtml);
                 runSeoAnalysis();
                 return;
             }
@@ -1123,11 +1123,11 @@
                 field: field,
             }).done(function(res) {
                 if (res.success) {
-                    if (field === 'meta_description') $('#mxch-cg-meta-description').val(res.data.suggestion).trigger('input');
-                    else if (field === 'seo_title') $('#mxch-cg-meta-title').val(res.data.suggestion);
-                    else if (field === 'excerpt') $('#mxch-cg-meta-excerpt').val(res.data.suggestion);
-                    $('.mxch-cg-left-tab[data-tab="meta"]').addClass('mxch-cg-tab-flash');
-                    setTimeout(function() { $('.mxch-cg-left-tab[data-tab="meta"]').removeClass('mxch-cg-tab-flash'); }, 2000);
+                    if (field === 'meta_description') $('#knet-cg-meta-description').val(res.data.suggestion).trigger('input');
+                    else if (field === 'seo_title') $('#knet-cg-meta-title').val(res.data.suggestion);
+                    else if (field === 'excerpt') $('#knet-cg-meta-excerpt').val(res.data.suggestion);
+                    $('.knet-cg-left-tab[data-tab="meta"]').addClass('knet-cg-tab-flash');
+                    setTimeout(function() { $('.knet-cg-left-tab[data-tab="meta"]').removeClass('knet-cg-tab-flash'); }, 2000);
                 }
             }).always(function() {
                 idx++;
@@ -1139,16 +1139,16 @@
 
     function resetSeoPanel() {
         seoState = { analyzed: false, analyzing: false, fixing: false, score: null, checks: null };
-        $('#mxch-seo-score').text('\u2014');
-        $('#mxch-seo-score-label').text('SEO Score');
-        $('#mxch-seo-score-summary').text('Generate content to analyze');
-        $('#mxch-seo-ring').css('stroke-dashoffset', '163.36').removeClass('mxch-seo-good mxch-seo-ok mxch-seo-bad');
-        $('#mxch-seo-checklist').html(
-            '<div class="mxch-seo-empty" id="mxch-seo-empty">' +
+        $('#knet-seo-score').text('\u2014');
+        $('#knet-seo-score-label').text('SEO Score');
+        $('#knet-seo-score-summary').text('Generate content to analyze');
+        $('#knet-seo-ring').css('stroke-dashoffset', '163.36').removeClass('knet-seo-good knet-seo-ok knet-seo-bad');
+        $('#knet-seo-checklist').html(
+            '<div class="knet-seo-empty" id="knet-seo-empty">' +
             '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>' +
             '<span>SEO analysis will appear here after content is generated</span></div>'
         );
-        $('#mxch-seo-actions').hide();
+        $('#knet-seo-actions').hide();
     }
 
     function escapeHtml(s) {
@@ -1160,36 +1160,36 @@
     // ─── Left Column Tabs ──────────────────────────────────────────────
 
     function initLeftTabs() {
-        $(document).on('click', '.mxch-cg-left-tab', function() {
+        $(document).on('click', '.knet-cg-left-tab', function() {
             var tab = $(this).data('tab');
-            $('.mxch-cg-left-tab').removeClass('active');
+            $('.knet-cg-left-tab').removeClass('active');
             $(this).addClass('active');
-            $('.mxch-cg-left-panel').removeClass('active');
-            $('#mxch-cg-panel-' + tab).addClass('active');
+            $('.knet-cg-left-panel').removeClass('active');
+            $('#knet-cg-panel-' + tab).addClass('active');
         });
 
         // Character counter for meta description
-        $(document).on('input', '#mxch-cg-meta-description', updateCharCount);
+        $(document).on('input', '#knet-cg-meta-description', updateCharCount);
     }
 
     function populateMetaPanel(data) {
-        $('#mxch-cg-meta-title').val(data.title || '');
+        $('#knet-cg-meta-title').val(data.title || '');
         if (data.meta) {
-            $('#mxch-cg-meta-description').val(data.meta.description || '');
-            $('#mxch-cg-meta-keyword').val(data.meta.keyword || '');
-            $('#mxch-cg-meta-excerpt').val(data.meta.excerpt || '');
+            $('#knet-cg-meta-description').val(data.meta.description || '');
+            $('#knet-cg-meta-keyword').val(data.meta.keyword || '');
+            $('#knet-cg-meta-excerpt').val(data.meta.excerpt || '');
         }
         updateCharCount();
     }
 
     function updateCharCount() {
-        var len = ($('#mxch-cg-meta-description').val() || '').length;
-        var $counter = $('.mxch-cg-meta-charcount');
+        var len = ($('#knet-cg-meta-description').val() || '').length;
+        var $counter = $('.knet-cg-meta-charcount');
         $counter.text(len + ' / 160');
         if (len > 160) {
-            $counter.addClass('mxch-cg-meta-charcount-over');
+            $counter.addClass('knet-cg-meta-charcount-over');
         } else {
-            $counter.removeClass('mxch-cg-meta-charcount-over');
+            $counter.removeClass('knet-cg-meta-charcount-over');
         }
     }
 
@@ -1202,25 +1202,25 @@
             }
         });
 
-        $(document).on('click', '.mxch-cg-history-page-btn[data-page]', function() {
+        $(document).on('click', '.knet-cg-history-page-btn[data-page]', function() {
             var page = $(this).data('page');
             if (page && !state.historyLoading) {
                 loadHistory(page);
             }
         });
 
-        $(document).on('click', '.mxch-cg-history-edit-btn', function() {
+        $(document).on('click', '.knet-cg-history-edit-btn', function() {
             var postId = $(this).data('post-id');
             if (postId) {
                 loadPostForEdit(postId, $(this));
             }
         });
 
-        $(document).on('click', '.mxch-cg-history-delete-btn', function() {
+        $(document).on('click', '.knet-cg-history-delete-btn', function() {
             var $btn = $(this);
             var postId = $btn.data('post-id');
-            var $item = $btn.closest('.mxch-cg-history-item');
-            var title = $item.find('.mxch-cg-history-title').text();
+            var $item = $btn.closest('.knet-cg-history-item');
+            var title = $item.find('.knet-cg-history-title').text();
 
             if (!confirm('Move "' + title + '" to trash?')) return;
 
@@ -1253,10 +1253,10 @@
         state.historyLoading = true;
         state.historyPage = page;
 
-        var $loading = $('#mxch-cg-history-loading');
-        var $empty   = $('#mxch-cg-history-empty');
-        var $list    = $('#mxch-cg-history-list');
-        var $pag     = $('#mxch-cg-history-pagination');
+        var $loading = $('#knet-cg-history-loading');
+        var $empty   = $('#knet-cg-history-empty');
+        var $list    = $('#knet-cg-history-list');
+        var $pag     = $('#knet-cg-history-pagination');
 
         $loading.show();
         $empty.hide();
@@ -1298,7 +1298,7 @@
     }
 
     function renderHistoryList(items) {
-        var $list = $('#mxch-cg-history-list');
+        var $list = $('#knet-cg-history-list');
         $list.empty();
 
         var statusLabels = {
@@ -1311,34 +1311,34 @@
 
         $.each(items, function(i, item) {
             var thumbHtml = item.thumbnail
-                ? '<img src="' + escapeAttr(item.thumbnail) + '" alt="" class="mxch-cg-history-thumb-img">'
-                : '<div class="mxch-cg-history-thumb-placeholder">' +
+                ? '<img src="' + escapeAttr(item.thumbnail) + '" alt="" class="knet-cg-history-thumb-img">'
+                : '<div class="knet-cg-history-thumb-placeholder">' +
                     '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>' +
                   '</div>';
 
-            var statusClass = 'mxch-cg-badge-' + item.status;
+            var statusClass = 'knet-cg-badge-' + item.status;
             var statusText = statusLabels[item.status] || item.status;
             var typeLabel = item.post_type === 'page' ? 'Page' : 'Post';
 
             var $row = $(
-                '<div class="mxch-cg-history-item">' +
-                    '<div class="mxch-cg-history-thumb">' + thumbHtml + '</div>' +
-                    '<div class="mxch-cg-history-info">' +
-                        '<div class="mxch-cg-history-title">' + escapeHtml(item.title) + '</div>' +
-                        '<div class="mxch-cg-history-meta">' +
-                            '<span class="mxch-cg-status-badge ' + statusClass + '">' + escapeHtml(statusText) + '</span>' +
-                            '<span class="mxch-cg-history-type">' + escapeHtml(typeLabel) + '</span>' +
-                            '<span class="mxch-cg-history-date">' + escapeHtml(item.date) + '</span>' +
+                '<div class="knet-cg-history-item">' +
+                    '<div class="knet-cg-history-thumb">' + thumbHtml + '</div>' +
+                    '<div class="knet-cg-history-info">' +
+                        '<div class="knet-cg-history-title">' + escapeHtml(item.title) + '</div>' +
+                        '<div class="knet-cg-history-meta">' +
+                            '<span class="knet-cg-status-badge ' + statusClass + '">' + escapeHtml(statusText) + '</span>' +
+                            '<span class="knet-cg-history-type">' + escapeHtml(typeLabel) + '</span>' +
+                            '<span class="knet-cg-history-date">' + escapeHtml(item.date) + '</span>' +
                         '</div>' +
                     '</div>' +
-                    '<div class="mxch-cg-history-actions">' +
-                        '<a href="' + escapeAttr(item.permalink) + '" target="_blank" class="mxch-cg-history-action-btn mxch-cg-history-view-btn" title="View">' +
+                    '<div class="knet-cg-history-actions">' +
+                        '<a href="' + escapeAttr(item.permalink) + '" target="_blank" class="knet-cg-history-action-btn knet-cg-history-view-btn" title="View">' +
                             '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>' +
                         '</a>' +
-                        '<button type="button" class="mxch-cg-history-action-btn mxch-cg-history-edit-btn" data-post-id="' + item.post_id + '" title="Edit">' +
+                        '<button type="button" class="knet-cg-history-action-btn knet-cg-history-edit-btn" data-post-id="' + item.post_id + '" title="Edit">' +
                             '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg>' +
                         '</button>' +
-                        '<button type="button" class="mxch-cg-history-action-btn mxch-cg-history-delete-btn" data-post-id="' + item.post_id + '" title="Delete">' +
+                        '<button type="button" class="knet-cg-history-action-btn knet-cg-history-delete-btn" data-post-id="' + item.post_id + '" title="Delete">' +
                             '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>' +
                         '</button>' +
                     '</div>' +
@@ -1350,7 +1350,7 @@
     }
 
     function renderHistoryPagination(current, total) {
-        var $pag = $('#mxch-cg-history-pagination');
+        var $pag = $('#knet-cg-history-pagination');
         $pag.empty();
 
         if (total <= 1) return;
@@ -1358,21 +1358,21 @@
         var html = '';
 
         if (current > 1) {
-            html += '<button type="button" class="mxch-cg-history-page-btn mxch-cg-history-page-prev" data-page="' + (current - 1) + '">&laquo; Prev</button>';
+            html += '<button type="button" class="knet-cg-history-page-btn knet-cg-history-page-prev" data-page="' + (current - 1) + '">&laquo; Prev</button>';
         }
 
         for (var p = 1; p <= total; p++) {
             if (p === current) {
-                html += '<span class="mxch-cg-history-page-btn mxch-cg-history-page-current">' + p + '</span>';
+                html += '<span class="knet-cg-history-page-btn knet-cg-history-page-current">' + p + '</span>';
             } else if (p === 1 || p === total || (p >= current - 1 && p <= current + 1)) {
-                html += '<button type="button" class="mxch-cg-history-page-btn" data-page="' + p + '">' + p + '</button>';
+                html += '<button type="button" class="knet-cg-history-page-btn" data-page="' + p + '">' + p + '</button>';
             } else if (p === current - 2 || p === current + 2) {
-                html += '<span class="mxch-cg-history-page-ellipsis">&hellip;</span>';
+                html += '<span class="knet-cg-history-page-ellipsis">&hellip;</span>';
             }
         }
 
         if (current < total) {
-            html += '<button type="button" class="mxch-cg-history-page-btn mxch-cg-history-page-next" data-page="' + (current + 1) + '">Next &raquo;</button>';
+            html += '<button type="button" class="knet-cg-history-page-btn knet-cg-history-page-next" data-page="' + (current + 1) + '">Next &raquo;</button>';
         }
 
         $pag.html(html);
@@ -1397,10 +1397,10 @@
                 if (response.success) {
                     // Switch to Generate tab
                     switchSection('content-generate');
-                    $('.mxch-nav-link, .mxch-nav-sub-link').removeClass('active');
+                    $('.knet-nav-link, .knet-nav-sub-link').removeClass('active');
                     $('[data-target="content-generate"]').addClass('active');
-                    $('.mxch-mobile-nav-link').removeClass('active');
-                    $('.mxch-mobile-nav-link[data-target="content-generate"]').addClass('active');
+                    $('.knet-mobile-nav-link').removeClass('active');
+                    $('.knet-mobile-nav-link[data-target="content-generate"]').addClass('active');
 
                     // Load post into the same editor state as fresh generation
                     onGenerationSuccess(response.data);
@@ -1419,10 +1419,10 @@
 
     function initStatusDropdown() {
         // Toggle dropdown on badge click
-        $(document).on('click', '#mxch-cg-status-badge', function(e) {
+        $(document).on('click', '#knet-cg-status-badge', function(e) {
             e.stopPropagation();
-            var $dropdown = $('#mxch-cg-status-dropdown');
-            if ($dropdown.hasClass('mxch-cg-dropdown-open')) {
+            var $dropdown = $('#knet-cg-status-dropdown');
+            if ($dropdown.hasClass('knet-cg-dropdown-open')) {
                 closeStatusDropdown();
             } else {
                 openStatusDropdown();
@@ -1431,7 +1431,7 @@
 
         // Close on outside click
         $(document).on('click', function(e) {
-            if (!$(e.target).closest('#mxch-cg-status-dropdown').length) {
+            if (!$(e.target).closest('#knet-cg-status-dropdown').length) {
                 closeStatusDropdown();
             }
         });
@@ -1444,7 +1444,7 @@
         });
 
         // Draft / Publish — immediate status change
-        $(document).on('click', '.mxch-cg-status-option[data-status="draft"], .mxch-cg-status-option[data-status="publish"]', function() {
+        $(document).on('click', '.knet-cg-status-option[data-status="draft"], .knet-cg-status-option[data-status="publish"]', function() {
             var newStatus = $(this).data('status');
             if (newStatus === state.postStatus) {
                 closeStatusDropdown();
@@ -1454,14 +1454,14 @@
         });
 
         // Scheduled — show datetime picker
-        $(document).on('click', '.mxch-cg-status-option[data-status="future"]', function() {
-            var $scheduleRow = $('.mxch-cg-status-schedule-row');
+        $(document).on('click', '.knet-cg-status-option[data-status="future"]', function() {
+            var $scheduleRow = $('.knet-cg-status-schedule-row');
             if ($scheduleRow.is(':visible')) {
                 $scheduleRow.hide();
                 return;
             }
             // Pre-fill with tomorrow at 9am if empty
-            var $input = $('#mxch-cg-status-schedule-input');
+            var $input = $('#knet-cg-status-schedule-input');
             if (!$input.val()) {
                 var tomorrow = new Date();
                 tomorrow.setDate(tomorrow.getDate() + 1);
@@ -1471,15 +1471,15 @@
             $scheduleRow.show();
             $input.focus();
             // Highlight scheduled option
-            $('.mxch-cg-status-option').removeClass('mxch-cg-status-active');
-            $(this).addClass('mxch-cg-status-active');
+            $('.knet-cg-status-option').removeClass('knet-cg-status-active');
+            $(this).addClass('knet-cg-status-active');
         });
 
         // Confirm schedule
-        $(document).on('click', '#mxch-cg-status-schedule-confirm', function() {
-            var scheduleDate = $('#mxch-cg-status-schedule-input').val();
+        $(document).on('click', '#knet-cg-status-schedule-confirm', function() {
+            var scheduleDate = $('#knet-cg-status-schedule-input').val();
             if (!scheduleDate) {
-                $('#mxch-cg-status-schedule-input').focus();
+                $('#knet-cg-status-schedule-input').focus();
                 return;
             }
             // Convert datetime-local value to WordPress format (Y-m-d H:i:s)
@@ -1488,36 +1488,36 @@
         });
 
         // Enter key on datetime input confirms
-        $(document).on('keydown', '#mxch-cg-status-schedule-input', function(e) {
+        $(document).on('keydown', '#knet-cg-status-schedule-input', function(e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
-                $('#mxch-cg-status-schedule-confirm').trigger('click');
+                $('#knet-cg-status-schedule-confirm').trigger('click');
             }
         });
     }
 
     function openStatusDropdown() {
-        var $dropdown = $('#mxch-cg-status-dropdown');
-        $dropdown.addClass('mxch-cg-dropdown-open');
-        $('.mxch-cg-status-menu').show();
+        var $dropdown = $('#knet-cg-status-dropdown');
+        $dropdown.addClass('knet-cg-dropdown-open');
+        $('.knet-cg-status-menu').show();
         // Highlight current status
-        $('.mxch-cg-status-option').removeClass('mxch-cg-status-active');
-        $('.mxch-cg-status-option[data-status="' + state.postStatus + '"]').addClass('mxch-cg-status-active');
+        $('.knet-cg-status-option').removeClass('knet-cg-status-active');
+        $('.knet-cg-status-option[data-status="' + state.postStatus + '"]').addClass('knet-cg-status-active');
         // Hide schedule row unless current status is future
         if (state.postStatus !== 'future') {
-            $('.mxch-cg-status-schedule-row').hide();
+            $('.knet-cg-status-schedule-row').hide();
         }
     }
 
     function closeStatusDropdown() {
-        $('#mxch-cg-status-dropdown').removeClass('mxch-cg-dropdown-open');
-        $('.mxch-cg-status-menu').hide();
-        $('.mxch-cg-status-schedule-row').hide();
+        $('#knet-cg-status-dropdown').removeClass('knet-cg-dropdown-open');
+        $('.knet-cg-status-menu').hide();
+        $('.knet-cg-status-schedule-row').hide();
     }
 
     function updatePostStatus(newStatus, scheduleDate) {
-        var $badge = $('#mxch-cg-status-badge');
-        $badge.addClass('mxch-cg-status-updating');
+        var $badge = $('#knet-cg-status-badge');
+        $badge.addClass('knet-cg-status-updating');
         closeStatusDropdown();
 
         $.ajax({
@@ -1531,7 +1531,7 @@
                 schedule_date: scheduleDate || ''
             },
             success: function(response) {
-                $badge.removeClass('mxch-cg-status-updating');
+                $badge.removeClass('knet-cg-status-updating');
 
                 if (response.success) {
                     var confirmedStatus = response.data.status;
@@ -1539,9 +1539,9 @@
 
                     // Update badge appearance
                     var statusLabels = { draft: 'Draft', publish: 'Published', future: 'Scheduled' };
-                    $badge.find('.mxch-cg-status-badge-text').text(statusLabels[confirmedStatus] || confirmedStatus);
-                    $badge.removeClass('mxch-cg-badge-draft mxch-cg-badge-publish mxch-cg-badge-future')
-                          .addClass('mxch-cg-badge-' + confirmedStatus);
+                    $badge.find('.knet-cg-status-badge-text').text(statusLabels[confirmedStatus] || confirmedStatus);
+                    $badge.removeClass('knet-cg-badge-draft knet-cg-badge-publish knet-cg-badge-future')
+                          .addClass('knet-cg-badge-' + confirmedStatus);
 
                     // Mark history as stale so it reloads on next visit
                     state.historyLoaded = false;
@@ -1553,7 +1553,7 @@
                 }
             },
             error: function() {
-                $badge.removeClass('mxch-cg-status-updating');
+                $badge.removeClass('knet-cg-status-updating');
                 alert('Request failed. Please try again.');
             }
         });
@@ -1588,15 +1588,15 @@
 
     function initSeoSection() {
         // Lazy-load: fetch posts when user first visits SEO section
-        $(document).on('click', '.mxch-nav-link[data-target="content-seo"], .mxch-nav-sub-link[data-target="content-seo"], .mxch-mobile-nav-link[data-target="content-seo"]', function() {
+        $(document).on('click', '.knet-nav-link[data-target="content-seo"], .knet-nav-sub-link[data-target="content-seo"], .knet-mobile-nav-link[data-target="content-seo"]', function() {
             if (!seodState.loaded && !seodState.loading) {
                 loadSeoPosts();
             }
         });
 
         // Filter pills
-        $(document).on('click', '.mxch-seod-pill', function() {
-            $('.mxch-seod-pill').removeClass('active');
+        $(document).on('click', '.knet-seod-pill', function() {
+            $('.knet-seod-pill').removeClass('active');
             $(this).addClass('active');
             seodState.filter = $(this).data('filter');
             seodState.page = 1;
@@ -1604,14 +1604,14 @@
         });
 
         // Post type dropdown
-        $(document).on('change', '#mxch-seod-post-type', function() {
+        $(document).on('change', '#knet-seod-post-type', function() {
             seodState.postType = $(this).val();
             seodState.page = 1;
             loadSeoPosts();
         });
 
         // Search with debounce
-        $(document).on('input', '#mxch-seod-search', function() {
+        $(document).on('input', '#knet-seod-search', function() {
             var val = $(this).val();
             clearTimeout(seodState.searchTimer);
             seodState.searchTimer = setTimeout(function() {
@@ -1622,7 +1622,7 @@
         });
 
         // Pagination
-        $(document).on('click', '.mxch-seod-page-btn', function() {
+        $(document).on('click', '.knet-seod-page-btn', function() {
             var p = $(this).data('page');
             if (p && p !== seodState.page) {
                 seodState.page = p;
@@ -1631,16 +1631,16 @@
         });
 
         // Open detail modal on row click
-        $(document).on('click', '.mxch-seod-row', function() {
+        $(document).on('click', '.knet-seod-row', function() {
             var postId = $(this).data('post-id');
             openSeoModal(postId);
         });
 
         // Close modal
-        $(document).on('click', '.mxch-seod-modal-overlay', function(e) {
-            if ($(e.target).hasClass('mxch-seod-modal-overlay')) closeSeoModal();
+        $(document).on('click', '.knet-seod-modal-overlay', function(e) {
+            if ($(e.target).hasClass('knet-seod-modal-overlay')) closeSeoModal();
         });
-        $(document).on('click', '.mxch-seod-modal-close', function() {
+        $(document).on('click', '.knet-seod-modal-close', function() {
             closeSeoModal();
         });
         $(document).on('keydown', function(e) {
@@ -1648,17 +1648,17 @@
         });
 
         // Scan Unscored button
-        $(document).on('click', '#mxch-seod-scan-all', function() {
+        $(document).on('click', '#knet-seod-scan-all', function() {
             if (!seodState.scanning) bulkSeoScan();
         });
         // Stop scan button
-        $(document).on('click', '#mxch-seod-scan-stop', function() {
+        $(document).on('click', '#knet-seod-scan-stop', function() {
             seodState.scanAborted = true;
             $(this).prop('disabled', true).find('span').text('Stopping...');
         });
 
         // Sortable column headers (all columns sort server-side)
-        $(document).on('click', '.mxch-seod-header-cell[data-sort]', function() {
+        $(document).on('click', '.knet-seod-header-cell[data-sort]', function() {
             var col = $(this).data('sort');
             if (seodState.sortBy === col) {
                 seodState.sortOrder = seodState.sortOrder === 'DESC' ? 'ASC' : 'DESC';
@@ -1671,27 +1671,27 @@
         });
 
         // AI Optimize within detail modal
-        $(document).on('click', '.mxch-seod-optimize-btn', function(e) {
+        $(document).on('click', '.knet-seod-optimize-btn', function(e) {
             e.stopPropagation();
-            var postId = $(this).closest('.mxch-seod-detail').data('post-id');
+            var postId = $(this).closest('.knet-seod-detail').data('post-id');
             runSeodOptimize(postId, $(this));
         });
 
         // Per-check AI fix buttons in detail modal
-        $(document).on('click', '.mxch-seod-check-fix-btn', function(e) {
+        $(document).on('click', '.knet-seod-check-fix-btn', function(e) {
             e.stopPropagation();
             var $btn = $(this);
-            if ($btn.hasClass('mxch-seo-check-fixing')) return;
+            if ($btn.hasClass('knet-seo-check-fixing')) return;
             var field = $btn.data('field');
             var postId = $btn.data('post-id');
-            $btn.addClass('mxch-seo-check-fixing').prop('disabled', true);
+            $btn.addClass('knet-seo-check-fixing').prop('disabled', true);
             $.post(ajaxurl, {
                 action: 'knittnet_seo_suggest',
                 nonce: knittnetContent.nonce,
                 post_id: postId,
                 field: field,
             }).always(function() {
-                $btn.removeClass('mxch-seo-check-fixing').prop('disabled', false);
+                $btn.removeClass('knet-seo-check-fixing').prop('disabled', false);
                 if (seodState.expandedId === postId) {
                     openSeoModal(postId);
                 }
@@ -1699,30 +1699,30 @@
         });
 
         // Checkbox: prevent row click when clicking checkbox
-        $(document).on('click', '.mxch-seod-cell-check, .mxch-seod-header-check', function(e) {
+        $(document).on('click', '.knet-seod-cell-check, .knet-seod-header-check', function(e) {
             e.stopPropagation();
         });
 
         // Select all checkbox
-        $(document).on('change', '.mxch-seod-check-all', function() {
+        $(document).on('change', '.knet-seod-check-all', function() {
             var checked = $(this).prop('checked');
-            $('.mxch-seod-row-check').prop('checked', checked);
+            $('.knet-seod-row-check').prop('checked', checked);
             updateOptimizeSelectedBtn();
         });
 
         // Individual row checkbox
-        $(document).on('change', '.mxch-seod-row-check', function() {
-            var allChecked = $('.mxch-seod-row-check').length === $('.mxch-seod-row-check:checked').length;
-            $('.mxch-seod-check-all').prop('checked', allChecked);
+        $(document).on('change', '.knet-seod-row-check', function() {
+            var allChecked = $('.knet-seod-row-check').length === $('.knet-seod-row-check:checked').length;
+            $('.knet-seod-check-all').prop('checked', allChecked);
             updateOptimizeSelectedBtn();
         });
     }
 
     function updateOptimizeSelectedBtn() {
-        var count = $('.mxch-seod-row-check:checked').length;
-        var $btn = $('#mxch-seod-optimize-selected');
-        var $note = $('#mxch-seod-bulk-note');
-        var isLocked = $btn.hasClass('mxch-seod-bulk-locked');
+        var count = $('.knet-seod-row-check:checked').length;
+        var $btn = $('#knet-seod-optimize-selected');
+        var $note = $('#knet-seod-bulk-note');
+        var isLocked = $btn.hasClass('knet-seod-bulk-locked');
         if (count > 0) {
             $btn.find('span').first().text(isLocked ? 'Bulk Optimize' : 'Optimize Selected (' + count + ')');
             $btn.show();
@@ -1735,9 +1735,9 @@
 
     function loadSeoPosts() {
         seodState.loading = true;
-        $('#mxch-seod-loading').show();
-        $('#mxch-seod-empty').hide();
-        $('#mxch-seod-table').empty();
+        $('#knet-seod-loading').show();
+        $('#knet-seod-empty').hide();
+        $('#knet-seod-table').empty();
 
         $.post(ajaxurl, {
             action: 'knittnet_seo_list_posts',
@@ -1757,16 +1757,16 @@
                 renderSeodTable(res.data.posts);
                 renderSeodPagination();
                 updateSeodScanBtn(res.data.unscored_count);
-                $('#mxch-seod-footer').show();
+                $('#knet-seod-footer').show();
                 if (!res.data.posts.length) {
-                    $('#mxch-seod-empty').show();
+                    $('#knet-seod-empty').show();
                 }
             }
         }).fail(function() {
-            $('#mxch-seod-table').html('<div class="mxch-seod-error">Failed to load posts. Please try again.</div>');
+            $('#knet-seod-table').html('<div class="knet-seod-error">Failed to load posts. Please try again.</div>');
         }).always(function() {
             seodState.loading = false;
-            $('#mxch-seod-loading').hide();
+            $('#knet-seod-loading').hide();
         });
     }
 
@@ -1778,52 +1778,52 @@
 
     function seodSortArrow(col) {
         if (seodState.sortBy !== col) return '';
-        return ' <span class="mxch-seod-sort-arrow">' + (seodState.sortOrder === 'ASC' ? '&#9650;' : '&#9660;') + '</span>';
+        return ' <span class="knet-seod-sort-arrow">' + (seodState.sortOrder === 'ASC' ? '&#9650;' : '&#9660;') + '</span>';
     }
 
     function renderSeodTable(posts) {
-        var $table = $('#mxch-seod-table');
+        var $table = $('#knet-seod-table');
         $table.empty();
         seodState.expandedId = null;
 
         // Column headers
-        var activeClass = function(col) { return seodState.sortBy === col ? ' mxch-seod-header-active' : ''; };
+        var activeClass = function(col) { return seodState.sortBy === col ? ' knet-seod-header-active' : ''; };
         $table.append(
-            '<div class="mxch-seod-header">' +
-                '<div class="mxch-seod-header-cell mxch-seod-header-check"><input type="checkbox" class="mxch-seod-check-all" title="Select all"></div>' +
-                '<div class="mxch-seod-header-cell mxch-seod-header-title' + activeClass('title') + '" data-sort="title">Title' + seodSortArrow('title') + '</div>' +
-                '<div class="mxch-seod-header-cell mxch-seod-header-date' + activeClass('date') + '" data-sort="date">Date' + seodSortArrow('date') + '</div>' +
-                '<div class="mxch-seod-header-cell mxch-seod-header-score' + activeClass('score') + '" data-sort="score">Score' + seodSortArrow('score') + '</div>' +
-                '<div class="mxch-seod-header-cell mxch-seod-header-clicks' + (!knittnetContent.hasGSC ? ' mxch-seod-header-locked' : '') + '"' + (knittnetContent.hasGSC ? ' data-sort="clicks"' : '') + '>Clicks' + (knittnetContent.hasGSC ? seodSortArrow('clicks') : ' <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>') + '</div>' +
-                '<div class="mxch-seod-header-cell mxch-seod-header-impressions' + (!knittnetContent.hasGSC ? ' mxch-seod-header-locked' : '') + '"' + (knittnetContent.hasGSC ? ' data-sort="impressions"' : '') + '>Impr.' + (knittnetContent.hasGSC ? seodSortArrow('impressions') : ' <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>') + '</div>' +
+            '<div class="knet-seod-header">' +
+                '<div class="knet-seod-header-cell knet-seod-header-check"><input type="checkbox" class="knet-seod-check-all" title="Select all"></div>' +
+                '<div class="knet-seod-header-cell knet-seod-header-title' + activeClass('title') + '" data-sort="title">Title' + seodSortArrow('title') + '</div>' +
+                '<div class="knet-seod-header-cell knet-seod-header-date' + activeClass('date') + '" data-sort="date">Date' + seodSortArrow('date') + '</div>' +
+                '<div class="knet-seod-header-cell knet-seod-header-score' + activeClass('score') + '" data-sort="score">Score' + seodSortArrow('score') + '</div>' +
+                '<div class="knet-seod-header-cell knet-seod-header-clicks' + (!knittnetContent.hasGSC ? ' knet-seod-header-locked' : '') + '"' + (knittnetContent.hasGSC ? ' data-sort="clicks"' : '') + '>Clicks' + (knittnetContent.hasGSC ? seodSortArrow('clicks') : ' <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>') + '</div>' +
+                '<div class="knet-seod-header-cell knet-seod-header-impressions' + (!knittnetContent.hasGSC ? ' knet-seod-header-locked' : '') + '"' + (knittnetContent.hasGSC ? ' data-sort="impressions"' : '') + '>Impr.' + (knittnetContent.hasGSC ? seodSortArrow('impressions') : ' <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>') + '</div>' +
             '</div>'
         );
 
         posts.forEach(function(p) {
             var scoreHtml;
             if (p.score !== null) {
-                var cls = p.score >= 80 ? 'mxch-seod-good' : p.score >= 50 ? 'mxch-seod-ok' : 'mxch-seod-bad';
-                scoreHtml = '<div class="mxch-seod-score-badge ' + cls + '">' + p.score + '</div>';
+                var cls = p.score >= 80 ? 'knet-seod-good' : p.score >= 50 ? 'knet-seod-ok' : 'knet-seod-bad';
+                scoreHtml = '<div class="knet-seod-score-badge ' + cls + '">' + p.score + '</div>';
             } else {
-                scoreHtml = '<div class="mxch-seod-score-badge mxch-seod-unscored">&mdash;</div>';
+                scoreHtml = '<div class="knet-seod-score-badge knet-seod-unscored">&mdash;</div>';
             }
 
             var typeLabel = p.type.charAt(0).toUpperCase() + p.type.slice(1);
 
             $table.append(
-                '<div class="mxch-seod-row" data-post-id="' + p.id + '" data-score="' + (p.score !== null ? p.score : -1) + '" data-permalink="' + escapeAttr(p.permalink) + '">' +
-                    '<div class="mxch-seod-row-main">' +
-                        '<div class="mxch-seod-cell mxch-seod-cell-check"><input type="checkbox" class="mxch-seod-row-check" data-post-id="' + p.id + '"></div>' +
-                        '<div class="mxch-seod-cell mxch-seod-cell-title">' +
-                            '<span class="mxch-seod-title">' + escapeHtml(p.title) + '</span>' +
-                            '<span class="mxch-seod-meta">' + typeLabel + '</span>' +
+                '<div class="knet-seod-row" data-post-id="' + p.id + '" data-score="' + (p.score !== null ? p.score : -1) + '" data-permalink="' + escapeAttr(p.permalink) + '">' +
+                    '<div class="knet-seod-row-main">' +
+                        '<div class="knet-seod-cell knet-seod-cell-check"><input type="checkbox" class="knet-seod-row-check" data-post-id="' + p.id + '"></div>' +
+                        '<div class="knet-seod-cell knet-seod-cell-title">' +
+                            '<span class="knet-seod-title">' + escapeHtml(p.title) + '</span>' +
+                            '<span class="knet-seod-meta">' + typeLabel + '</span>' +
                         '</div>' +
-                        '<div class="mxch-seod-cell mxch-seod-cell-date">' +
-                            '<span class="mxch-seod-date">' + escapeHtml(p.date) + '</span>' +
+                        '<div class="knet-seod-cell knet-seod-cell-date">' +
+                            '<span class="knet-seod-date">' + escapeHtml(p.date) + '</span>' +
                         '</div>' +
-                        '<div class="mxch-seod-cell mxch-seod-cell-score">' + scoreHtml + '</div>' +
-                        '<div class="mxch-seod-cell mxch-seod-cell-clicks' + (!knittnetContent.hasGSC ? ' mxch-seod-cell-locked' : '') + '" data-clicks="' + (p.clicks !== null ? p.clicks : 0) + '">' + (!knittnetContent.hasGSC ? '—' : (p.clicks !== null ? p.clicks : '—')) + '</div>' +
-                        '<div class="mxch-seod-cell mxch-seod-cell-impressions' + (!knittnetContent.hasGSC ? ' mxch-seod-cell-locked' : '') + '" data-impressions="' + (p.impressions !== null ? p.impressions : 0) + '">' + (!knittnetContent.hasGSC ? '—' : (p.impressions !== null ? seodFormatNum(p.impressions) : '—')) + '</div>' +
+                        '<div class="knet-seod-cell knet-seod-cell-score">' + scoreHtml + '</div>' +
+                        '<div class="knet-seod-cell knet-seod-cell-clicks' + (!knittnetContent.hasGSC ? ' knet-seod-cell-locked' : '') + '" data-clicks="' + (p.clicks !== null ? p.clicks : 0) + '">' + (!knittnetContent.hasGSC ? '—' : (p.clicks !== null ? p.clicks : '—')) + '</div>' +
+                        '<div class="knet-seod-cell knet-seod-cell-impressions' + (!knittnetContent.hasGSC ? ' knet-seod-cell-locked' : '') + '" data-impressions="' + (p.impressions !== null ? p.impressions : 0) + '">' + (!knittnetContent.hasGSC ? '—' : (p.impressions !== null ? seodFormatNum(p.impressions) : '—')) + '</div>' +
                     '</div>' +
                 '</div>'
             );
@@ -1831,7 +1831,7 @@
     }
 
     function renderSeodPagination() {
-        var $pag = $('#mxch-seod-pagination');
+        var $pag = $('#knet-seod-pagination');
         $pag.empty();
 
         if (seodState.pages <= 1) return;
@@ -1839,48 +1839,48 @@
         var p = seodState.page, total = seodState.pages;
 
         if (p > 1) {
-            $pag.append('<button type="button" class="mxch-seod-page-btn" data-page="' + (p - 1) + '">&larr; Prev</button>');
+            $pag.append('<button type="button" class="knet-seod-page-btn" data-page="' + (p - 1) + '">&larr; Prev</button>');
         }
-        $pag.append('<span class="mxch-seod-page-info">Page ' + p + ' of ' + total + '</span>');
+        $pag.append('<span class="knet-seod-page-info">Page ' + p + ' of ' + total + '</span>');
         if (p < total) {
-            $pag.append('<button type="button" class="mxch-seod-page-btn" data-page="' + (p + 1) + '">Next &rarr;</button>');
+            $pag.append('<button type="button" class="knet-seod-page-btn" data-page="' + (p + 1) + '">Next &rarr;</button>');
         }
     }
 
     function updateSeodScanBtn(unscoredCount) {
-        var $btn = $('#mxch-seod-scan-all');
+        var $btn = $('#knet-seod-scan-all');
         if (unscoredCount > 0) {
             $btn.show().text('Scan Unscored (' + unscoredCount + ')');
         } else {
             $btn.hide();
         }
-        $('#mxch-seod-scan-status').text('');
+        $('#knet-seod-scan-status').text('');
     }
 
     function openSeoModal(postId) {
         closeSeoModal(); // close any existing modal
         seodState.expandedId = postId;
 
-        var $row = $('.mxch-seod-row[data-post-id="' + postId + '"]');
-        var title = $row.find('.mxch-seod-title').text() || 'Post #' + postId;
+        var $row = $('.knet-seod-row[data-post-id="' + postId + '"]');
+        var title = $row.find('.knet-seod-title').text() || 'Post #' + postId;
         var permalink = $row.attr('data-permalink') || '';
 
         var $overlay = $(
-            '<div class="mxch-seod-modal-overlay">' +
-                '<div class="mxch-seod-modal">' +
-                    '<div class="mxch-seod-modal-header">' +
-                        '<h3 class="mxch-seod-modal-title">' + escapeHtml(title) + '</h3>' +
-                        (permalink ? '<a href="' + escapeAttr(permalink) + '" target="_blank" class="mxch-seod-modal-view-page" title="View Page">' +
+            '<div class="knet-seod-modal-overlay">' +
+                '<div class="knet-seod-modal">' +
+                    '<div class="knet-seod-modal-header">' +
+                        '<h3 class="knet-seod-modal-title">' + escapeHtml(title) + '</h3>' +
+                        (permalink ? '<a href="' + escapeAttr(permalink) + '" target="_blank" class="knet-seod-modal-view-page" title="View Page">' +
                             '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>' +
                             ' View Page</a>' : '') +
-                        '<button type="button" class="mxch-seod-modal-close" title="Close">' +
+                        '<button type="button" class="knet-seod-modal-close" title="Close">' +
                             '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
                         '</button>' +
                     '</div>' +
-                    '<div class="mxch-seod-modal-body">' +
-                        '<div class="mxch-seod-detail" data-post-id="' + postId + '">' +
-                            '<div class="mxch-seod-detail-loading">' +
-                                '<div class="mxch-seod-spinner"></div>' +
+                    '<div class="knet-seod-modal-body">' +
+                        '<div class="knet-seod-detail" data-post-id="' + postId + '">' +
+                            '<div class="knet-seod-detail-loading">' +
+                                '<div class="knet-seod-spinner"></div>' +
                                 '<span>Analyzing&hellip;</span>' +
                             '</div>' +
                         '</div>' +
@@ -1892,9 +1892,9 @@
         $('body').append($overlay);
         // Trigger reflow then add visible class for animation
         $overlay[0].offsetHeight;
-        $overlay.addClass('mxch-seod-modal-visible');
+        $overlay.addClass('knet-seod-modal-visible');
 
-        var $detail = $overlay.find('.mxch-seod-detail');
+        var $detail = $overlay.find('.knet-seod-detail');
 
         // Run analysis
         seodState.expandAnalyzing = true;
@@ -1907,15 +1907,15 @@
                 renderSeodDetail($detail, res.data, postId);
                 // Update the row's score badge in the table too
                 var score = res.data.score;
-                var cls = score >= 80 ? 'mxch-seod-good' : score >= 50 ? 'mxch-seod-ok' : 'mxch-seod-bad';
-                $row.find('.mxch-seod-score-badge')
-                    .removeClass('mxch-seod-good mxch-seod-ok mxch-seod-bad mxch-seod-unscored')
+                var cls = score >= 80 ? 'knet-seod-good' : score >= 50 ? 'knet-seod-ok' : 'knet-seod-bad';
+                $row.find('.knet-seod-score-badge')
+                    .removeClass('knet-seod-good knet-seod-ok knet-seod-bad knet-seod-unscored')
                     .addClass(cls).text(score);
             } else {
-                $detail.html('<div class="mxch-seod-detail-error">Analysis failed. Please try again.</div>');
+                $detail.html('<div class="knet-seod-detail-error">Analysis failed. Please try again.</div>');
             }
         }).fail(function() {
-            $detail.html('<div class="mxch-seod-detail-error">Connection error. Please try again.</div>');
+            $detail.html('<div class="knet-seod-detail-error">Connection error. Please try again.</div>');
         }).always(function() {
             seodState.expandAnalyzing = false;
         });
@@ -1939,12 +1939,12 @@
             return (o[checks[a].status] || 2) - (o[checks[b].status] || 2);
         });
 
-        var html = '<div class="mxch-seod-checks">';
+        var html = '<div class="knet-seod-checks">';
         var last = null;
         sorted.forEach(function(key) {
             var c = checks[key];
             if (last && last !== 'pass' && c.status === 'pass') {
-                html += '<div class="mxch-seod-check-sep"></div>';
+                html += '<div class="knet-seod-check-sep"></div>';
             }
             last = c.status;
 
@@ -1952,9 +1952,9 @@
             var badge = '';
             if (addonChecks[key] && c.status !== 'pass' && !knittnetContent.hasAdvancedContent) {
                 if (knittnetContent.isActivated) {
-                    badge = ' <a href="https://knittnet.ai/advanced-content-editor/" target="_blank" class="mxch-seod-addon-badge">ADD-ON</a>';
+                    badge = ' <a href="https://knittnet.ai/advanced-content-editor/" target="_blank" class="knet-seod-addon-badge">ADD-ON</a>';
                 } else {
-                    badge = ' <a href="https://knittnet.ai/" target="_blank" class="mxch-seod-addon-badge mxch-seod-pro-badge">PRO</a>';
+                    badge = ' <a href="https://knittnet.ai/" target="_blank" class="knet-seod-addon-badge knet-seod-pro-badge">PRO</a>';
                 }
             }
 
@@ -1963,15 +1963,15 @@
             if (c.status !== 'pass' && fixableMap[key]) {
                 var canFix = !addonChecks[key] || knittnetContent.hasAdvancedContent;
                 if (canFix) {
-                    fixBtn = '<button type="button" class="mxch-seo-check-fix mxch-seod-check-fix-btn" data-field="' + fixableMap[key] + '" data-post-id="' + postId + '" title="AI Fix">' + sparkleIcon + '</button>';
+                    fixBtn = '<button type="button" class="knet-seo-check-fix knet-seod-check-fix-btn" data-field="' + fixableMap[key] + '" data-post-id="' + postId + '" title="AI Fix">' + sparkleIcon + '</button>';
                 }
             }
 
-            html += '<div class="mxch-seod-check mxch-seod-check-' + c.status + '">' +
-                '<div class="mxch-seod-check-icon">' + icons[c.status] + '</div>' +
-                '<div class="mxch-seod-check-text">' +
-                    '<span class="mxch-seod-check-label">' + escapeHtml(c.label) + badge + '</span>' +
-                    '<span class="mxch-seod-check-detail">' + escapeHtml(c.detail) + '</span>' +
+            html += '<div class="knet-seod-check knet-seod-check-' + c.status + '">' +
+                '<div class="knet-seod-check-icon">' + icons[c.status] + '</div>' +
+                '<div class="knet-seod-check-text">' +
+                    '<span class="knet-seod-check-label">' + escapeHtml(c.label) + badge + '</span>' +
+                    '<span class="knet-seod-check-detail">' + escapeHtml(c.detail) + '</span>' +
                 '</div>' +
                 fixBtn +
             '</div>';
@@ -1980,8 +1980,8 @@
 
         // Optimize All button (only if there are issues)
         if (summary.fail > 0 || summary.warn > 0) {
-            html += '<div class="mxch-seod-detail-actions">' +
-                '<button type="button" class="mxch-seod-optimize-btn">' +
+            html += '<div class="knet-seod-detail-actions">' +
+                '<button type="button" class="knet-seod-optimize-btn">' +
                     '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.287 1.288L3 12l5.8 1.9a2 2 0 0 1 1.288 1.287L12 21l1.9-5.8a2 2 0 0 1 1.287-1.288L21 12l-5.8-1.9a2 2 0 0 1-1.288-1.287Z"/></svg>' +
                     ' Optimize All' +
                 '</button>' +
@@ -1993,22 +1993,22 @@
         // GSC placeholder for free/non-addon users
         if (!knittnetContent.hasGSC) {
             var badgeLabel = knittnetContent.isActivated ? 'ADD-ON' : 'PRO';
-            var badgeClass = knittnetContent.isActivated ? '' : ' mxch-seod-pro-badge';
+            var badgeClass = knittnetContent.isActivated ? '' : ' knet-seod-pro-badge';
             var upgradeText = knittnetContent.isActivated ? 'Install Add-on' : 'Upgrade to Pro';
             var gscHtml =
-                '<div class="mxch-gsc-placeholder">' +
-                    '<h4 class="mxch-gsc-placeholder-title">' +
+                '<div class="knet-gsc-placeholder">' +
+                    '<h4 class="knet-gsc-placeholder-title">' +
                         '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>' +
                         ' Search Performance' +
                     '</h4>' +
-                    '<div class="mxch-gsc-placeholder-content">' +
-                        '<div class="mxch-gsc-stats">' +
-                            '<div class="mxch-gsc-stat"><span class="mxch-gsc-stat-value">42</span><span class="mxch-gsc-stat-label">Clicks</span></div>' +
-                            '<div class="mxch-gsc-stat"><span class="mxch-gsc-stat-value">1.2K</span><span class="mxch-gsc-stat-label">Impressions</span></div>' +
-                            '<div class="mxch-gsc-stat"><span class="mxch-gsc-stat-value">3.5%</span><span class="mxch-gsc-stat-label">CTR</span></div>' +
-                            '<div class="mxch-gsc-stat"><span class="mxch-gsc-stat-value">8.2</span><span class="mxch-gsc-stat-label">Avg Position</span></div>' +
+                    '<div class="knet-gsc-placeholder-content">' +
+                        '<div class="knet-gsc-stats">' +
+                            '<div class="knet-gsc-stat"><span class="knet-gsc-stat-value">42</span><span class="knet-gsc-stat-label">Clicks</span></div>' +
+                            '<div class="knet-gsc-stat"><span class="knet-gsc-stat-value">1.2K</span><span class="knet-gsc-stat-label">Impressions</span></div>' +
+                            '<div class="knet-gsc-stat"><span class="knet-gsc-stat-value">3.5%</span><span class="knet-gsc-stat-label">CTR</span></div>' +
+                            '<div class="knet-gsc-stat"><span class="knet-gsc-stat-value">8.2</span><span class="knet-gsc-stat-label">Avg Position</span></div>' +
                         '</div>' +
-                        '<table class="mxch-gsc-table">' +
+                        '<table class="knet-gsc-table">' +
                             '<thead><tr><th>Keyword</th><th>Clicks</th><th>Impr.</th><th>Position</th></tr></thead>' +
                             '<tbody>' +
                                 '<tr><td>example keyword one</td><td>18</td><td>420</td><td>5.3</td></tr>' +
@@ -2017,10 +2017,10 @@
                             '</tbody>' +
                         '</table>' +
                     '</div>' +
-                    '<div class="mxch-gsc-placeholder-overlay">' +
+                    '<div class="knet-gsc-placeholder-overlay">' +
                         '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>' +
-                        '<a href="https://knittnet.ai/" target="_blank" class="mxch-seod-addon-badge' + badgeClass + '">' + badgeLabel + '</a>' +
-                        '<a href="https://knittnet.ai/" target="_blank" class="mxch-cg-pro-upgrade-link">' + upgradeText + '</a>' +
+                        '<a href="https://knittnet.ai/" target="_blank" class="knet-seod-addon-badge' + badgeClass + '">' + badgeLabel + '</a>' +
+                        '<a href="https://knittnet.ai/" target="_blank" class="knet-cg-pro-upgrade-link">' + upgradeText + '</a>' +
                     '</div>' +
                 '</div>';
             $detail.append(gscHtml);
@@ -2029,9 +2029,9 @@
 
     function closeSeoModal() {
         seodState.expandedId = null;
-        var $overlay = $('.mxch-seod-modal-overlay');
+        var $overlay = $('.knet-seod-modal-overlay');
         if ($overlay.length) {
-            $overlay.removeClass('mxch-seod-modal-visible');
+            $overlay.removeClass('knet-seod-modal-visible');
             setTimeout(function() { $overlay.remove(); }, 200);
         }
     }
@@ -2039,15 +2039,15 @@
     function bulkSeoScan() {
         seodState.scanning = true;
         seodState.scanAborted = false;
-        var $btn = $('#mxch-seod-scan-all');
-        var $status = $('#mxch-seod-scan-status');
+        var $btn = $('#knet-seod-scan-all');
+        var $status = $('#knet-seod-scan-status');
         $btn.hide();
 
         // Show stop button
-        if (!$('#mxch-seod-scan-stop').length) {
-            $btn.after('<button type="button" class="mxch-seod-scan-btn mxch-seod-scan-stop-btn" id="mxch-seod-scan-stop"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/></svg> <span>Stop</span></button>');
+        if (!$('#knet-seod-scan-stop').length) {
+            $btn.after('<button type="button" class="knet-seod-scan-btn knet-seod-scan-stop-btn" id="knet-seod-scan-stop"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/></svg> <span>Stop</span></button>');
         }
-        $('#mxch-seod-scan-stop').show();
+        $('#knet-seod-scan-stop').show();
         $status.text('Loading unscored posts...');
 
         // Fetch ALL unscored post IDs across all pages
@@ -2085,16 +2085,16 @@
             var total = ids.length;
             var scanned = 0;
             var batchSize = 10;
-            $status.html('<span class="mxch-seod-scan-progress">0 / ' + total + '</span>');
+            $status.html('<span class="knet-seod-scan-progress">0 / ' + total + '</span>');
 
             function updateRows(results) {
                 $.each(results, function(pid, data) {
-                    var $row = $('.mxch-seod-row[data-post-id="' + pid + '"]');
+                    var $row = $('.knet-seod-row[data-post-id="' + pid + '"]');
                     if ($row.length) {
                         var score = data.score;
-                        var cls = score >= 80 ? 'mxch-seod-good' : score >= 50 ? 'mxch-seod-ok' : 'mxch-seod-bad';
-                        $row.find('.mxch-seod-score-badge')
-                            .removeClass('mxch-seod-unscored').addClass(cls).text(score);
+                        var cls = score >= 80 ? 'knet-seod-good' : score >= 50 ? 'knet-seod-ok' : 'knet-seod-bad';
+                        $row.find('.knet-seod-score-badge')
+                            .removeClass('knet-seod-unscored').addClass(cls).text(score);
                     }
                 });
             }
@@ -2111,7 +2111,7 @@
                     return;
                 }
                 var batch = ids.slice(scanned, scanned + batchSize);
-                $status.html('<span class="mxch-seod-scan-progress">' + (scanned + 1) + ' / ' + total + '</span>');
+                $status.html('<span class="knet-seod-scan-progress">' + (scanned + 1) + ' / ' + total + '</span>');
                 $.post(ajaxurl, {
                     action: 'knittnet_seo_analyze_batch',
                     nonce: knittnetContent.nonce,
@@ -2122,7 +2122,7 @@
                     }
                 }).always(function() {
                     scanned += batch.length;
-                    $status.html('<span class="mxch-seod-scan-progress">' + scanned + ' / ' + total + '</span>');
+                    $status.html('<span class="knet-seod-scan-progress">' + scanned + ' / ' + total + '</span>');
                     scanNextBatch();
                 });
             }
@@ -2132,7 +2132,7 @@
         function finishScan(msg) {
             seodState.scanning = false;
             seodState.scanAborted = false;
-            $('#mxch-seod-scan-stop').hide();
+            $('#knet-seod-scan-stop').hide();
             $btn.show().prop('disabled', false);
             $status.text(msg);
         }
@@ -2200,10 +2200,10 @@
     }
 
     function showNotice(message, type) {
-        $('.mxch-cg-notice').remove();
-        var typeClass = type === 'error' ? 'mxch-cg-notice-error' : 'mxch-cg-notice-success';
-        var $notice = $('<div class="mxch-cg-notice ' + typeClass + '">' + escapeHtml(message) + '</div>');
-        $('#mxch-cg-inline-form .mxch-cg-form').prepend($notice);
+        $('.knet-cg-notice').remove();
+        var typeClass = type === 'error' ? 'knet-cg-notice-error' : 'knet-cg-notice-success';
+        var $notice = $('<div class="knet-cg-notice ' + typeClass + '">' + escapeHtml(message) + '</div>');
+        $('#knet-cg-inline-form .knet-cg-form').prepend($notice);
         setTimeout(function() { $notice.fadeOut(300, function() { $(this).remove(); }); }, 4000);
     }
 
@@ -2224,7 +2224,7 @@
         initStatusDropdown();
 
         // Prevent interaction with locked pro feature toggles
-        $('.mxch-cg-pro-locked .mxch-toggle-input').on('click', function(e) {
+        $('.knet-cg-pro-locked .knet-toggle-input').on('click', function(e) {
             e.preventDefault();
             return false;
         });

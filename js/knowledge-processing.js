@@ -1521,7 +1521,7 @@ function checkForActiveQueues() {
                     if ($paginationWrapper.length) {
                         if (response.data.pagination_html) {
                             $paginationWrapper.html(response.data.pagination_html);
-                            $paginationWrapper.attr('style', 'padding: 16px; border-top: 1px solid var(--mxch-card-border); text-align: center;');
+                            $paginationWrapper.attr('style', 'padding: 16px; border-top: 1px solid var(--knet-card-border); text-align: center;');
                         } else {
                             $paginationWrapper.html('');
                             $paginationWrapper.attr('style', '');
@@ -1763,7 +1763,7 @@ function checkForActiveQueues() {
 
                             if ($refreshNotice.length === 0 && newCount > 0) {
                                 var noticeHtml = '<tr class="knittnet-pinecone-refresh-notice">' +
-                                    '<td colspan="4" style="padding: 20px; text-align: center; background: #f0f7ff; border-bottom: 1px solid var(--mxch-card-border);">' +
+                                    '<td colspan="4" style="padding: 20px; text-align: center; background: #f0f7ff; border-bottom: 1px solid var(--knet-card-border);">' +
                                     '<span class="dashicons dashicons-update" style="color: #7873f5; margin-right: 8px;"></span>' +
                                     '<strong>' + newCount + ' entries in Pinecone.</strong> ' +
                                     '<a href="#" class="knittnet-refresh-table-link" style="color: #7873f5; text-decoration: underline;">Refresh to see new entries</a>' +
@@ -1796,9 +1796,9 @@ function checkForActiveQueues() {
 
                             if ($refreshNotice.length === 0 && newCount > 0) {
                                 var noticeHtml = '<tr class="knittnet-wordpress-refresh-notice knittnet-new-entry">' +
-                                    '<td colspan="4" style="padding: 16px 20px; text-align: center; background: linear-gradient(135deg, rgba(120, 115, 245, 0.08) 0%, rgba(167, 139, 250, 0.05) 100%); border-bottom: 1px solid var(--mxch-card-border);">' +
+                                    '<td colspan="4" style="padding: 16px 20px; text-align: center; background: linear-gradient(135deg, rgba(120, 115, 245, 0.08) 0%, rgba(167, 139, 250, 0.05) 100%); border-bottom: 1px solid var(--knet-card-border);">' +
                                     '<span class="dashicons dashicons-update spin" style="color: #7873f5; margin-right: 8px;"></span>' +
-                                    '<strong style="color: var(--mxch-text-primary);">Processing... <span class="knittnet-processing-count">' + newCount + '</span> entries</strong>' +
+                                    '<strong style="color: var(--knet-text-primary);">Processing... <span class="knittnet-processing-count">' + newCount + '</span> entries</strong>' +
                                     '</td></tr>';
                                 $tbody.prepend(noticeHtml);
                             } else if ($refreshNotice.length > 0) {
@@ -1884,7 +1884,7 @@ function checkForActiveQueues() {
                         if (response.data.pagination_html) {
                             // Add pagination content and styling
                             $paginationWrapper.html(response.data.pagination_html);
-                            $paginationWrapper.attr('style', 'padding: 16px; border-top: 1px solid var(--mxch-card-border); text-align: center;');
+                            $paginationWrapper.attr('style', 'padding: 16px; border-top: 1px solid var(--knet-card-border); text-align: center;');
                         } else {
                             // No pagination needed - clear and hide
                             $paginationWrapper.html('');
@@ -1927,8 +1927,8 @@ function checkForActiveQueues() {
             }
 
             const sourceHtml = entry.has_link
-                ? '<a href="' + entry.source_url + '" target="_blank" style="color: var(--mxch-primary); text-decoration: none;"><span class="dashicons dashicons-external" style="font-size: 14px;"></span> View</a>'
-                : '<span style="color: var(--mxch-text-muted);">Manual</span>';
+                ? '<a href="' + entry.source_url + '" target="_blank" style="color: var(--knet-primary); text-decoration: none;"><span class="dashicons dashicons-external" style="font-size: 14px;"></span> View</a>'
+                : '<span style="color: var(--knet-text-muted);">Manual</span>';
 
             const deleteUrl = knittnetAdmin.admin_url + 'admin-post.php?action=knittnet_delete_prompt&id=' + entry.id + '&_wpnonce=' + entry.delete_nonce;
 
@@ -1952,12 +1952,12 @@ function checkForActiveQueues() {
                 '</div>' +
             '</div>';
 
-            const $row = $('<tr id="prompt-' + entry.id + '" data-entry-id="' + entry.id + '" data-source="wordpress" style="border-bottom: 1px solid var(--mxch-card-border); display: none;">' +
+            const $row = $('<tr id="prompt-' + entry.id + '" data-entry-id="' + entry.id + '" data-source="wordpress" style="border-bottom: 1px solid var(--knet-card-border); display: none;">' +
                 '<td style="padding: 12px 16px; font-size: 13px;">' + entry.id + '</td>' +
                 '<td class="knittnet-content-cell" style="padding: 12px 16px; font-size: 13px;">' + contentHtml + '</td>' +
                 '<td class="knittnet-url-cell" style="padding: 12px 16px; font-size: 13px;">' + sourceHtml + '</td>' +
                 '<td style="padding: 12px 16px; white-space: nowrap;">' +
-                    '<button type="button" class="mxch-btn mxch-btn-ghost mxch-btn-sm knittnet-edit-entry-btn"' +
+                    '<button type="button" class="knet-btn knet-btn-ghost knet-btn-sm knittnet-edit-entry-btn"' +
                         ' data-source-url="' + (entry.source_url || '') + '"' +
                         ' data-entry-id="' + entry.id + '"' +
                         ' data-data-source="wordpress"' +
@@ -1966,7 +1966,7 @@ function checkForActiveQueues() {
                         ' title="Edit content">' +
                         '<span class="dashicons dashicons-edit" style="font-size: 14px;"></span>' +
                     '</button>' +
-                    '<a href="' + deleteUrl + '" class="mxch-btn mxch-btn-ghost mxch-btn-sm" style="color: var(--mxch-error);" onclick="return confirm(\'Delete this entry?\');">' +
+                    '<a href="' + deleteUrl + '" class="knet-btn knet-btn-ghost knet-btn-sm" style="color: var(--knet-error);" onclick="return confirm(\'Delete this entry?\');">' +
                         '<span class="dashicons dashicons-trash" style="font-size: 14px;"></span>' +
                     '</a>' +
                 '</td>' +
@@ -2180,7 +2180,7 @@ function checkForActiveQueues() {
             html += '</div>';
             html += '</div>';
             html += '</div>';
-            html += '<button type="button" class="knittnet-process-sitemap-btn mxch-btn mxch-btn-primary mxch-btn-sm" data-url="' + sitemap.url + '" data-sitemap-type="' + sitemap.type + '">';
+            html += '<button type="button" class="knittnet-process-sitemap-btn knet-btn knet-btn-primary knet-btn-sm" data-url="' + sitemap.url + '" data-sitemap-type="' + sitemap.type + '">';
             html += '<span class="dashicons dashicons-download" style="font-size: 14px; margin-top: 3px;"></span> Process';
             html += '</button>';
             html += '</div>';

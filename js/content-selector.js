@@ -329,7 +329,7 @@ function displayNoResults(processedStatus) {
         let $clearAllLink = $('.knittnet-kb-clear-all-selections');
         if (selectedCount > 0) {
             if ($clearAllLink.length === 0) {
-                $clearAllLink = $('<a href="#" class="knittnet-kb-clear-all-selections" style="margin-left: 10px; font-size: 12px; color: var(--mxch-error, #dc2626);">Clear all</a>');
+                $clearAllLink = $('<a href="#" class="knittnet-kb-clear-all-selections" style="margin-left: 10px; font-size: 12px; color: var(--knet-error, #dc2626);">Clear all</a>');
                 $selectionCount.after($clearAllLink);
                 $clearAllLink.on('click', function(e) {
                     e.preventDefault();
@@ -466,7 +466,7 @@ $processButton.on('click', function() {
         '<p class="knittnet-kb-processing-status">Processing 1 of ' + totalToProcess + '...</p>' +
         '<div class="knittnet-kb-progress-bar"><div class="knittnet-kb-progress-fill" style="width: 0%"></div></div>' +
         '<p class="knittnet-kb-current-item"></p>' +
-        '<button type="button" class="knittnet-kb-stop-processing mxch-btn mxch-btn-secondary" style="margin-top: 15px;">' +
+        '<button type="button" class="knittnet-kb-stop-processing knet-btn knet-btn-secondary" style="margin-top: 15px;">' +
         '<span class="dashicons dashicons-controls-pause" style="margin-right: 5px;"></span>Stop Processing</button>' +
         '</div>' +
         '</div>');
@@ -676,8 +676,8 @@ $processButton.on('click', function() {
 // Navigation functionality for Knowledge Base page
 jQuery(document).ready(function($) {
 
-    // Hook into the new navigation system using .mxch-nav-link
-    $(document).on('click', '.mxch-nav-link[data-target], .mxch-mobile-nav-link[data-target]', function() {
+    // Hook into the new navigation system using .knet-nav-link
+    $(document).on('click', '.knet-nav-link[data-target], .knet-mobile-nav-link[data-target]', function() {
         var target = $(this).data('target');
 
         // Initialize Pinecone functionality when Pinecone section is activated
@@ -703,7 +703,7 @@ jQuery(document).ready(function($) {
             sessionStorage.removeItem('knittnet_pinecone_changed');
 
             // Show refresh notice
-            var $knowledgeCard = $('#import .mxch-card').eq(1);
+            var $knowledgeCard = $('#import .knet-card').eq(1);
             if ($knowledgeCard.length > 0 && $knowledgeCard.find('.notice-warning').length === 0) {
                 var refreshNotice = $('<div class="notice notice-warning" style="margin: 15px 0; padding: 10px 15px;">' +
                     '<p style="margin: 0;">' +
@@ -741,16 +741,16 @@ var initPineconeFeatures, initVectorStoreFeatures;
     // Helper function to update sidebar badge when integration is toggled
     function updateSidebarBadge(section, isActive) {
         // Find the nav item for this section (both desktop and mobile)
-        var $desktopNavItem = $('.mxch-nav-item[data-section="' + section + '"] .mxch-nav-link');
-        var $mobileNavItem = $('.mxch-mobile-nav-link[data-target="' + section + '"]');
+        var $desktopNavItem = $('.knet-nav-item[data-section="' + section + '"] .knet-nav-link');
+        var $mobileNavItem = $('.knet-mobile-nav-link[data-target="' + section + '"]');
 
         // Remove existing badge if any
-        $desktopNavItem.find('.mxch-active-badge').remove();
-        $mobileNavItem.find('.mxch-active-badge').remove();
+        $desktopNavItem.find('.knet-active-badge').remove();
+        $mobileNavItem.find('.knet-active-badge').remove();
 
         // Add badge if active
         if (isActive) {
-            var badgeHtml = '<span class="mxch-nav-link-badge mxch-active-badge">Active</span>';
+            var badgeHtml = '<span class="knet-nav-link-badge knet-active-badge">Active</span>';
             $desktopNavItem.append(badgeHtml);
             $mobileNavItem.append(badgeHtml);
         }
@@ -776,9 +776,9 @@ var initPineconeFeatures, initVectorStoreFeatures;
         // Ensure the success notice exists in the settings div (add if not present)
         // Check for both the JS-added class and any existing PHP-rendered success notice
         var settingsDiv = $('.knittnet-pinecone-settings');
-        if (settingsDiv.length > 0 && settingsDiv.find('.mxch-notice-success').length === 0) {
-            var successNotice = $('<div class="mxch-notice mxch-notice-success knittnet-pinecone-enabled-notice" style="margin-bottom: 20px; display: none;">' +
-                '<svg class="mxch-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' +
+        if (settingsDiv.length > 0 && settingsDiv.find('.knet-notice-success').length === 0) {
+            var successNotice = $('<div class="knet-notice knet-notice-success knittnet-pinecone-enabled-notice" style="margin-bottom: 20px; display: none;">' +
+                '<svg class="knet-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' +
                 '<span>Pinecone is enabled. All new knowledge base content will be stored in Pinecone.</span>' +
                 '</div>');
             settingsDiv.prepend(successNotice);
@@ -789,7 +789,7 @@ var initPineconeFeatures, initVectorStoreFeatures;
             var $checkbox = $(this);
             var isChecked = $checkbox.is(':checked');
             var settingsDiv = $('.knittnet-pinecone-settings');
-            var enabledNotice = settingsDiv.find('.knittnet-pinecone-enabled-notice, .mxch-notice-success');
+            var enabledNotice = settingsDiv.find('.knittnet-pinecone-enabled-notice, .knet-notice-success');
 
             // Update the UI immediately
             if (isChecked) {
@@ -808,7 +808,7 @@ var initPineconeFeatures, initVectorStoreFeatures;
         var currentToggle = $('input[name="knittnet_pinecone_addon_options[knittnet_use_pinecone]"]');
         if (currentToggle.length > 0) {
             var settingsDiv = $('.knittnet-pinecone-settings');
-            var enabledNotice = settingsDiv.find('.knittnet-pinecone-enabled-notice, .mxch-notice-success');
+            var enabledNotice = settingsDiv.find('.knittnet-pinecone-enabled-notice, .knet-notice-success');
             if (currentToggle.is(':checked')) {
                 settingsDiv.show();
                 enabledNotice.show();
@@ -933,9 +933,9 @@ var initPineconeFeatures, initVectorStoreFeatures;
         // Ensure the success notice exists in the settings div (add if not present)
         // Check for both the JS-added class and any existing PHP-rendered success notice
         var settingsDiv = $('.knittnet-vectorstore-settings');
-        if (settingsDiv.length > 0 && settingsDiv.find('.mxch-notice-success').length === 0) {
-            var successNotice = $('<div class="mxch-notice mxch-notice-success knittnet-vectorstore-enabled-notice" style="margin-bottom: 20px; display: none;">' +
-                '<svg class="mxch-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' +
+        if (settingsDiv.length > 0 && settingsDiv.find('.knet-notice-success').length === 0) {
+            var successNotice = $('<div class="knet-notice knet-notice-success knittnet-vectorstore-enabled-notice" style="margin-bottom: 20px; display: none;">' +
+                '<svg class="knet-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' +
                 '<span>OpenAI Vector Store is enabled. Queries will search your Vector Store for relevant content.</span>' +
                 '</div>');
             settingsDiv.prepend(successNotice);
@@ -946,7 +946,7 @@ var initPineconeFeatures, initVectorStoreFeatures;
             var $checkbox = $(this);
             var isChecked = $checkbox.is(':checked');
             var settingsDiv = $('.knittnet-vectorstore-settings');
-            var enabledNotice = settingsDiv.find('.knittnet-vectorstore-enabled-notice, .mxch-notice-success');
+            var enabledNotice = settingsDiv.find('.knittnet-vectorstore-enabled-notice, .knet-notice-success');
 
             // Update the UI immediately
             if (isChecked) {
@@ -965,7 +965,7 @@ var initPineconeFeatures, initVectorStoreFeatures;
         var currentToggle = $('input[name="knittnet_openai_vectorstore_options[knittnet_use_openai_vectorstore]"]');
         if (currentToggle.length > 0) {
             var settingsDiv = $('.knittnet-vectorstore-settings');
-            var enabledNotice = settingsDiv.find('.knittnet-vectorstore-enabled-notice, .mxch-notice-success');
+            var enabledNotice = settingsDiv.find('.knittnet-vectorstore-enabled-notice, .knet-notice-success');
             if (currentToggle.is(':checked')) {
                 settingsDiv.show();
                 enabledNotice.show();

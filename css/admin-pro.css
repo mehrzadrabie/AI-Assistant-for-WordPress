@@ -6,17 +6,17 @@
 /* ==========================================================================
    License Section in Sidebar (Simplified)
    ========================================================================== */
-.mxch-license-section {
-    margin-bottom: var(--mxch-spacing-xs);
+.knet-license-section {
+    margin-bottom: var(--knet-spacing-xs);
 }
 
-.mxch-sidebar-license-status {
-    padding: 0 var(--mxch-spacing-lg) var(--mxch-spacing-sm);
+.knet-sidebar-license-status {
+    padding: 0 var(--knet-spacing-lg) var(--knet-spacing-sm);
     position: relative;
     z-index: 1;
 }
 
-.mxch-license-badge {
+.knet-license-badge {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -28,12 +28,12 @@
     letter-spacing: 0.5px;
 }
 
-.mxch-license-badge.active {
+.knet-license-badge.active {
     background: rgba(16, 185, 129, 0.2);
     color: #10b981;
 }
 
-.mxch-license-badge.active::before {
+.knet-license-badge.active::before {
     content: '';
     width: 6px;
     height: 6px;
@@ -41,12 +41,12 @@
     background: #10b981;
 }
 
-.mxch-license-badge.inactive {
+.knet-license-badge.inactive {
     background: rgba(148, 163, 184, 0.2);
     color: #94a3b8;
 }
 
-.mxch-license-badge.inactive::before {
+.knet-license-badge.inactive::before {
     content: '';
     width: 6px;
     height: 6px;
@@ -57,14 +57,14 @@
 /* ==========================================================================
    Extensions Section in Sidebar
    ========================================================================== */
-.mxch-extensions-section {
+.knet-extensions-section {
     flex: 1;
     overflow-y: auto;
 }
 
-.mxch-nav-section-count {
+.knet-nav-section-count {
     margin-left: auto;
-    background: var(--mxch-primary);
+    background: var(--knet-primary);
     color: white;
     padding: 2px 8px;
     border-radius: 10px;
@@ -72,7 +72,7 @@
     font-weight: 600;
 }
 
-.mxch-addon-status-dot {
+.knet-addon-status-dot {
     width: 8px;
     height: 8px;
     border-radius: 50%;
@@ -81,30 +81,30 @@
     flex-basis: 8px;  /* Fixed size basis */
 }
 
-.mxch-addon-status-dot.active {
-    background: var(--mxch-success);
+.knet-addon-status-dot.active {
+    background: var(--knet-success);
     box-shadow: 0 0 6px rgba(16, 185, 129, 0.5);
 }
 
-.mxch-addon-status-dot.inactive {
-    background: var(--mxch-warning);
+.knet-addon-status-dot.inactive {
+    background: var(--knet-warning);
 }
 
-.mxch-addon-status-dot.not-installed {
-    background: var(--mxch-sidebar-text);
+.knet-addon-status-dot.not-installed {
+    background: var(--knet-sidebar-text);
     opacity: 0.4;
 }
 
 /* ==========================================================================
    Main Content - License Management Card
    ========================================================================== */
-.mxch-license-mgmt-card .mxch-card-header {
+.knet-license-mgmt-card .knet-card-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-.mxch-license-main-badge {
+.knet-license-main-badge {
     padding: 6px 14px;
     border-radius: 20px;
     font-size: 12px;
@@ -113,123 +113,123 @@
     letter-spacing: 0.5px;
 }
 
-.mxch-license-main-badge.active {
+.knet-license-main-badge.active {
     background: #ecfdf5;
     color: #059669;
 }
 
-.mxch-license-main-badge.inactive {
+.knet-license-main-badge.inactive {
     background: #f1f5f9;
     color: #64748b;
 }
 
-.mxch-license-info-grid {
+.knet-license-info-grid {
     display: grid;
-    gap: var(--mxch-spacing-md);
-    margin-bottom: var(--mxch-spacing-lg);
+    gap: var(--knet-spacing-md);
+    margin-bottom: var(--knet-spacing-lg);
 }
 
-.mxch-license-info-item {
+.knet-license-info-item {
     display: flex;
     flex-direction: column;
     gap: 4px;
 }
 
-.mxch-license-info-label {
+.knet-license-info-label {
     font-size: 12px;
     font-weight: 600;
-    color: var(--mxch-text-secondary);
+    color: var(--knet-text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-.mxch-license-info-value {
+.knet-license-info-value {
     font-size: 14px;
-    color: var(--mxch-text-primary);
+    color: var(--knet-text-primary);
     display: flex;
     align-items: center;
-    gap: var(--mxch-spacing-sm);
+    gap: var(--knet-spacing-sm);
     flex-wrap: wrap;
 }
 
-.mxch-domain-linked {
+.knet-domain-linked {
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    color: var(--mxch-success);
+    color: var(--knet-success);
     font-size: 12px;
     font-weight: 500;
 }
 
-.mxch-link-domain-btn {
+.knet-link-domain-btn {
     padding: 4px 10px;
     background: #f0f9ff;
     border: 1px solid #bae6fd;
-    border-radius: var(--mxch-radius-sm);
+    border-radius: var(--knet-radius-sm);
     color: #0369a1;
     font-size: 12px;
     font-weight: 500;
     cursor: pointer;
-    transition: all var(--mxch-transition-fast);
+    transition: all var(--knet-transition-fast);
 }
 
-.mxch-link-domain-btn:hover {
+.knet-link-domain-btn:hover {
     background: #e0f2fe;
 }
 
-.mxch-license-key-code {
+.knet-license-key-code {
     background: #f1f5f9;
     padding: 6px 12px;
-    border-radius: var(--mxch-radius-sm);
+    border-radius: var(--knet-radius-sm);
     font-family: monospace;
     font-size: 13px;
     word-break: break-all;
 }
 
-.mxch-license-footer-actions {
+.knet-license-footer-actions {
     display: flex;
     align-items: center;
-    gap: var(--mxch-spacing-md);
+    gap: var(--knet-spacing-md);
     flex-wrap: wrap;
-    padding-top: var(--mxch-spacing-md);
-    border-top: 1px solid var(--mxch-card-border);
+    padding-top: var(--knet-spacing-md);
+    border-top: 1px solid var(--knet-card-border);
 }
 
-.mxch-btn-danger {
+.knet-btn-danger {
     background: #fef2f2;
     color: #dc2626;
     border: 1px solid #fecaca;
 }
 
-.mxch-btn-danger:hover {
+.knet-btn-danger:hover {
     background: #fee2e2;
     border-color: #fca5a5;
 }
 
 /* Activation Form */
-.mxch-activation-form {
+.knet-activation-form {
     max-width: 600px;
 }
 
-.mxch-form-row {
+.knet-form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: var(--mxch-spacing-md);
-    margin-bottom: var(--mxch-spacing-lg);
+    gap: var(--knet-spacing-md);
+    margin-bottom: var(--knet-spacing-lg);
 }
 
-.mxch-form-actions {
+.knet-form-actions {
     display: flex;
     align-items: center;
-    gap: var(--mxch-spacing-md);
-    margin-bottom: var(--mxch-spacing-sm);
+    gap: var(--knet-spacing-md);
+    margin-bottom: var(--knet-spacing-sm);
 }
 
-.mxch-spinner {
+.knet-spinner {
     width: 20px;
     height: 20px;
     border: 2px solid #e2e8f0;
-    border-top-color: var(--mxch-primary);
+    border-top-color: var(--knet-primary);
     border-radius: 50%;
     animation: mxcSpin 0.6s linear infinite;
 }
@@ -241,32 +241,32 @@
 /* ==========================================================================
    Extensions Overview Grid
    ========================================================================== */
-.mxch-mt-xl {
-    margin-top: var(--mxch-spacing-xl);
+.knet-mt-xl {
+    margin-top: var(--knet-spacing-xl);
 }
 
-.mxch-h2 {
+.knet-h2 {
     font-size: 20px;
 }
 
-.mxch-extensions-grid {
+.knet-extensions-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: var(--mxch-spacing-lg);
+    gap: var(--knet-spacing-lg);
 }
 
-.mxch-extension-card {
-    background: var(--mxch-card-bg);
-    border: 1px solid var(--mxch-card-border);
-    border-radius: var(--mxch-radius-lg);
-    padding: var(--mxch-spacing-lg);
-    transition: all var(--mxch-transition);
+.knet-extension-card {
+    background: var(--knet-card-bg);
+    border: 1px solid var(--knet-card-border);
+    border-radius: var(--knet-radius-lg);
+    padding: var(--knet-spacing-lg);
+    transition: all var(--knet-transition);
     cursor: pointer;
     position: relative;
     overflow: hidden;
 }
 
-.mxch-extension-card::after {
+.knet-extension-card::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -275,34 +275,34 @@
     height: 3px;
     background: linear-gradient(135deg, var(--card-accent, #fa73e6), #7873f5);
     opacity: 0;
-    transition: opacity var(--mxch-transition-fast);
+    transition: opacity var(--knet-transition-fast);
 }
 
-.mxch-extension-card:hover {
-    box-shadow: var(--mxch-card-shadow-hover);
+.knet-extension-card:hover {
+    box-shadow: var(--knet-card-shadow-hover);
     transform: translateY(-2px);
 }
 
-.mxch-extension-card:hover::after {
+.knet-extension-card:hover::after {
     opacity: 1;
 }
 
-.mxch-extension-card-header {
+.knet-extension-card-header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: var(--mxch-spacing-sm);
-    margin-bottom: var(--mxch-spacing-sm);
+    gap: var(--knet-spacing-sm);
+    margin-bottom: var(--knet-spacing-sm);
 }
 
-.mxch-extension-title {
+.knet-extension-title {
     font-size: 16px;
     font-weight: 600;
-    color: var(--mxch-text-primary);
+    color: var(--knet-text-primary);
     margin: 0;
 }
 
-.mxch-extension-status {
+.knet-extension-status {
     padding: 3px 8px;
     border-radius: 12px;
     font-size: 10px;
@@ -312,149 +312,149 @@
     flex-shrink: 0;
 }
 
-.mxch-extension-status.active {
+.knet-extension-status.active {
     background: #ecfdf5;
     color: #059669;
 }
 
-.mxch-extension-status.inactive {
+.knet-extension-status.inactive {
     background: #fffbeb;
     color: #d97706;
 }
 
-.mxch-extension-status.not-installed {
+.knet-extension-status.not-installed {
     background: #f1f5f9;
     color: #64748b;
 }
 
-.mxch-extension-desc {
+.knet-extension-desc {
     font-size: 13px;
-    color: var(--mxch-text-secondary);
+    color: var(--knet-text-secondary);
     line-height: 1.6;
-    margin: 0 0 var(--mxch-spacing-md) 0;
+    margin: 0 0 var(--knet-spacing-md) 0;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
-.mxch-extension-card-footer {
+.knet-extension-card-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: var(--mxch-spacing-sm);
+    gap: var(--knet-spacing-sm);
 }
 
 /* ==========================================================================
    Addon Detail View - Hero Style Layout
    ========================================================================== */
-.mxch-addon-detail {
+.knet-addon-detail {
     animation: mxcFadeIn 0.2s ease;
 }
 
 /* Page Header with Back Link */
-.mxch-addon-page-header {
-    margin-bottom: var(--mxch-spacing-lg);
+.knet-addon-page-header {
+    margin-bottom: var(--knet-spacing-lg);
 }
 
-.mxch-back-link {
+.knet-back-link {
     display: inline-flex;
     align-items: center;
     gap: 6px;
     padding: 0;
     background: none;
     border: none;
-    color: var(--mxch-text-secondary);
+    color: var(--knet-text-secondary);
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
-    transition: color var(--mxch-transition-fast);
+    transition: color var(--knet-transition-fast);
 }
 
-.mxch-back-link:hover {
-    color: var(--mxch-primary);
+.knet-back-link:hover {
+    color: var(--knet-primary);
 }
 
-.mxch-back-link svg {
-    transition: transform var(--mxch-transition-fast);
+.knet-back-link svg {
+    transition: transform var(--knet-transition-fast);
 }
 
-.mxch-back-link:hover svg {
+.knet-back-link:hover svg {
     transform: translateX(-3px);
 }
 
 /* Hero Section - Two Column Layout */
-.mxch-addon-hero-section {
+.knet-addon-hero-section {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: var(--mxch-spacing-xl);
+    gap: var(--knet-spacing-xl);
     align-items: center;
     min-height: 400px;
 }
 
 /* Left Column - Content */
-.mxch-addon-hero-content {
+.knet-addon-hero-content {
     max-width: 520px;
 }
 
-.mxch-addon-hero-title {
+.knet-addon-hero-title {
     font-size: 36px;
     font-weight: 700;
-    color: var(--mxch-text-primary);
-    margin: 0 0 var(--mxch-spacing-md) 0;
+    color: var(--knet-text-primary);
+    margin: 0 0 var(--knet-spacing-md) 0;
     line-height: 1.2;
 }
 
-.mxch-addon-hero-desc {
+.knet-addon-hero-desc {
     font-size: 16px;
     line-height: 1.7;
-    color: var(--mxch-text-secondary);
-    margin: 0 0 var(--mxch-spacing-lg) 0;
+    color: var(--knet-text-secondary);
+    margin: 0 0 var(--knet-spacing-lg) 0;
 }
 
 /* Feature Highlights */
-.mxch-addon-hero-features {
+.knet-addon-hero-features {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--mxch-spacing-md) var(--mxch-spacing-xl);
-    margin-bottom: var(--mxch-spacing-xl);
+    gap: var(--knet-spacing-md) var(--knet-spacing-xl);
+    margin-bottom: var(--knet-spacing-xl);
 }
 
-.mxch-addon-hero-feature {
+.knet-addon-hero-feature {
     display: flex;
     align-items: center;
     gap: 8px;
     font-size: 14px;
-    color: var(--mxch-text-primary);
+    color: var(--knet-text-primary);
 }
 
-.mxch-addon-hero-feature svg {
+.knet-addon-hero-feature svg {
     color: #10b981;
     flex-shrink: 0;
 }
 
 /* Action Buttons */
-.mxch-addon-hero-actions {
+.knet-addon-hero-actions {
     display: flex;
-    gap: var(--mxch-spacing-md);
+    gap: var(--knet-spacing-md);
     flex-wrap: wrap;
 }
 
 /* Outline Button Style */
-.mxch-btn-outline {
+.knet-btn-outline {
     background: transparent;
-    color: var(--mxch-text-primary);
-    border: 1px solid var(--mxch-card-border);
+    color: var(--knet-text-primary);
+    border: 1px solid var(--knet-card-border);
 }
 
-.mxch-btn-outline:hover {
-    border-color: var(--mxch-primary);
-    color: var(--mxch-primary);
+.knet-btn-outline:hover {
+    border-color: var(--knet-primary);
+    color: var(--knet-primary);
     background: rgba(120, 115, 245, 0.05);
 }
 
 /* Right Column - Feature Showcase */
-.mxch-addon-hero-image {
+.knet-addon-hero-image {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -465,24 +465,24 @@
    ========================================================================== */
 
 /* Mobile license status badge */
-.mxch-mobile-license-status {
+.knet-mobile-license-status {
     padding: 0 20px 12px;
 }
 
 @media screen and (max-width: 1100px) {
     /* Stack hero layout on medium screens */
-    .mxch-addon-hero-section {
+    .knet-addon-hero-section {
         grid-template-columns: 1fr;
-        gap: var(--mxch-spacing-xl);
+        gap: var(--knet-spacing-xl);
         min-height: auto;
     }
 
-    .mxch-addon-hero-content {
+    .knet-addon-hero-content {
         max-width: none;
         order: 1;
     }
 
-    .mxch-addon-hero-image {
+    .knet-addon-hero-image {
         order: 2;
         max-width: 500px;
         margin: 0 auto;
@@ -490,66 +490,66 @@
 }
 
 @media screen and (max-width: 960px) {
-    .mxch-form-row {
+    .knet-form-row {
         grid-template-columns: 1fr;
     }
 
-    .mxch-extensions-grid {
+    .knet-extensions-grid {
         grid-template-columns: 1fr;
     }
 
-    .mxch-license-footer-actions {
+    .knet-license-footer-actions {
         flex-direction: column;
         align-items: stretch;
     }
 
-    .mxch-license-footer-actions .mxch-btn {
+    .knet-license-footer-actions .knet-btn {
         justify-content: center;
     }
 
     /* Hero title adjustments */
-    .mxch-addon-hero-title {
+    .knet-addon-hero-title {
         font-size: 28px;
     }
 
-    .mxch-addon-hero-desc {
+    .knet-addon-hero-desc {
         font-size: 15px;
     }
 
-    .mxch-addon-hero-features {
-        gap: var(--mxch-spacing-sm) var(--mxch-spacing-lg);
+    .knet-addon-hero-features {
+        gap: var(--knet-spacing-sm) var(--knet-spacing-lg);
     }
 }
 
 @media screen and (max-width: 600px) {
-    .mxch-addon-hero-title {
+    .knet-addon-hero-title {
         font-size: 24px;
     }
 
-    .mxch-addon-hero-desc {
+    .knet-addon-hero-desc {
         font-size: 14px;
     }
 
-    .mxch-addon-hero-features {
+    .knet-addon-hero-features {
         flex-direction: column;
-        gap: var(--mxch-spacing-sm);
+        gap: var(--knet-spacing-sm);
     }
 
-    .mxch-addon-hero-actions {
+    .knet-addon-hero-actions {
         flex-direction: column;
     }
 
-    .mxch-addon-hero-actions .mxch-btn {
+    .knet-addon-hero-actions .knet-btn {
         width: 100%;
         justify-content: center;
     }
 
-    .mxch-extension-card-header {
+    .knet-extension-card-header {
         flex-direction: column;
-        gap: var(--mxch-spacing-xs);
+        gap: var(--knet-spacing-xs);
     }
 
-    .mxch-addon-hero-image {
+    .knet-addon-hero-image {
         max-width: 100%;
     }
 }
@@ -558,20 +558,20 @@
    Mobile Detail Panel (Slide Up)
    ========================================================================== */
 @media screen and (max-width: 782px) {
-    .mxch-addon-detail.mobile-active {
+    .knet-addon-detail.mobile-active {
         position: fixed;
         top: 46px;
         left: 0;
         right: 0;
         bottom: 0;
-        background: var(--mxch-content-bg);
+        background: var(--knet-content-bg);
         z-index: 1000;
         overflow-y: auto;
-        padding: var(--mxch-spacing-md);
+        padding: var(--knet-spacing-md);
         max-width: none;
     }
 
-    body.mxch-mobile-panel-open {
+    body.knet-mobile-panel-open {
         overflow: hidden;
     }
 }
@@ -579,18 +579,18 @@
 /* ==========================================================================
    Feature Showcase (no-image addon detail visual)
    ========================================================================== */
-.mxch-addon-feature-showcase {
+.knet-addon-feature-showcase {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
     width: 100%;
     padding: 32px;
     background: linear-gradient(145deg, #f8fafc 0%, #eef2ff 50%, #f5f3ff 100%);
-    border-radius: var(--mxch-radius-lg);
+    border-radius: var(--knet-radius-lg);
     border: 1px solid rgba(99, 102, 241, 0.12);
 }
 
-.mxch-addon-showcase-item {
+.knet-addon-showcase-item {
     display: flex;
     align-items: flex-start;
     gap: 12px;
@@ -602,13 +602,13 @@
     transition: all 0.2s ease;
 }
 
-.mxch-addon-showcase-item:hover {
+.knet-addon-showcase-item:hover {
     box-shadow: 0 4px 16px rgba(99, 102, 241, 0.12);
     border-color: rgba(99, 102, 241, 0.2);
     transform: translateY(-2px);
 }
 
-.mxch-addon-showcase-icon {
+.knet-addon-showcase-icon {
     flex-shrink: 0;
     width: 40px;
     height: 40px;
@@ -621,39 +621,39 @@
     color: #fff;
 }
 
-.mxch-addon-showcase-icon svg {
+.knet-addon-showcase-icon svg {
     stroke: #fff;
 }
 
-.mxch-addon-showcase-text {
+.knet-addon-showcase-text {
     display: flex;
     flex-direction: column;
     gap: 2px;
     min-width: 0;
 }
 
-.mxch-addon-showcase-text strong {
+.knet-addon-showcase-text strong {
     font-size: 13.5px;
     font-weight: 600;
-    color: var(--mxch-text-primary, #1a1a2e);
+    color: var(--knet-text-primary, #1a1a2e);
     line-height: 1.3;
 }
 
-.mxch-addon-showcase-text span {
+.knet-addon-showcase-text span {
     font-size: 12.5px;
-    color: var(--mxch-text-secondary, #64748b);
+    color: var(--knet-text-secondary, #64748b);
     line-height: 1.4;
 }
 
 @media screen and (max-width: 1100px) {
-    .mxch-addon-feature-showcase {
+    .knet-addon-feature-showcase {
         max-width: 500px;
         margin: 0 auto;
     }
 }
 
 @media screen and (max-width: 600px) {
-    .mxch-addon-feature-showcase {
+    .knet-addon-feature-showcase {
         grid-template-columns: 1fr;
         padding: 20px;
     }

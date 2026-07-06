@@ -532,66 +532,66 @@ function knittnet_render_onboarding_page() {
         ),
     );
     ?>
-    <div class="mxch-onboarding-wrapper mxch-onboarding-wizard-wrapper">
+    <div class="knet-onboarding-wrapper knet-onboarding-wizard-wrapper">
 
-        <main class="mxch-content">
+        <main class="knet-content">
 
-            <div class="mxch-section active">
-                <div class="mxch-content-header">
-                    <h1 class="mxch-content-title"><?php esc_html_e('Onboarding', 'knittnet'); ?></h1>
-                    <p class="mxch-content-subtitle">
+            <div class="knet-section active">
+                <div class="knet-content-header">
+                    <h1 class="knet-content-title"><?php esc_html_e('Onboarding', 'knittnet'); ?></h1>
+                    <p class="knet-content-subtitle">
                         <?php esc_html_e('Six quick steps to get your KnittNet chatbot live.', 'knittnet'); ?>
                     </p>
                 </div>
 
-                <div class="mxch-card mxch-wizard-card" id="mxch-onboarding-wizard">
-                    <div class="mxch-wizard-progress" aria-hidden="false">
+                <div class="knet-card knet-wizard-card" id="knet-onboarding-wizard">
+                    <div class="knet-wizard-progress" aria-hidden="false">
                         <!-- Clickable pill step indicator (plan-a2e4d6). The JS attaches
                              click handlers + sets aria-current="step" on the active pill +
                              toggles .is-complete / .is-current / .is-future as the user
                              advances. Future steps are non-clickable. -->
-                        <nav class="mxch-wizard-pillnav" role="tablist" aria-label="<?php esc_attr_e('Onboarding steps', 'knittnet'); ?>">
+                        <nav class="knet-wizard-pillnav" role="tablist" aria-label="<?php esc_attr_e('Onboarding steps', 'knittnet'); ?>">
                             <?php foreach ($steps_meta as $sm):
                                 $is_complete = ($sm['flag'] !== null && !empty($progress[$sm['flag']]))
                                               || ($sm['flag'] === null && (int) $initial_step >= 6);
                                 $is_current  = ((int) $initial_step === (int) $sm['num']);
-                                $cls = 'mxch-wizard-pill';
+                                $cls = 'knet-wizard-pill';
                                 if ($is_complete && !$is_current) $cls .= ' is-complete';
                                 if ($is_current) $cls .= ' is-current';
                                 if (!$is_complete && !$is_current) $cls .= ' is-future';
                                 ?>
                                 <button type="button"
                                         class="<?php echo esc_attr($cls); ?>"
-                                        data-mxch-pill-step="<?php echo (int) $sm['num']; ?>"
+                                        data-knet-pill-step="<?php echo (int) $sm['num']; ?>"
                                         <?php if ($is_current) echo 'aria-current="step"'; ?>
                                         <?php if (!$is_complete && !$is_current) echo 'disabled aria-disabled="true"'; ?>>
-                                    <span class="mxch-wizard-pill-num" aria-hidden="true">
-                                        <svg class="mxch-wizard-pill-check" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                                        <span class="mxch-wizard-pill-num-text"><?php echo (int) $sm['num']; ?></span>
+                                    <span class="knet-wizard-pill-num" aria-hidden="true">
+                                        <svg class="knet-wizard-pill-check" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                        <span class="knet-wizard-pill-num-text"><?php echo (int) $sm['num']; ?></span>
                                     </span>
-                                    <span class="mxch-wizard-pill-label"><?php echo esc_html($sm['label']); ?></span>
+                                    <span class="knet-wizard-pill-label"><?php echo esc_html($sm['label']); ?></span>
                                 </button>
                             <?php endforeach; ?>
                         </nav>
-                        <div class="mxch-wizard-progress-label">
-                            <span class="mxch-wizard-step-label"><?php esc_html_e('Step', 'knittnet'); ?> <span data-mxch-current-step>1</span> <?php esc_html_e('of', 'knittnet'); ?> 6</span>
-                            <span class="mxch-wizard-step-name" data-mxch-step-name></span>
+                        <div class="knet-wizard-progress-label">
+                            <span class="knet-wizard-step-label"><?php esc_html_e('Step', 'knittnet'); ?> <span data-knet-current-step>1</span> <?php esc_html_e('of', 'knittnet'); ?> 6</span>
+                            <span class="knet-wizard-step-name" data-knet-step-name></span>
                         </div>
-                        <div class="mxch-wizard-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-                            <div class="mxch-wizard-progress-fill" data-mxch-progress-fill></div>
+                        <div class="knet-wizard-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                            <div class="knet-wizard-progress-fill" data-knet-progress-fill></div>
                         </div>
                     </div>
 
                     <!-- STEP 1 — chat provider + model + key -->
-                    <section class="mxch-wizard-step" data-step="1" hidden>
-                        <h2 class="mxch-wizard-step-title"><?php esc_html_e('Choose your chat model', 'knittnet'); ?></h2>
-                        <p class="mxch-wizard-step-explainer">
+                    <section class="knet-wizard-step" data-step="1" hidden>
+                        <h2 class="knet-wizard-step-title"><?php esc_html_e('Choose your chat model', 'knittnet'); ?></h2>
+                        <p class="knet-wizard-step-explainer">
                             <?php esc_html_e('This is the AI that will write replies in your chatbot. Different providers have different strengths and pricing. You can change this any time.', 'knittnet'); ?>
                         </p>
 
-                        <div class="mxch-field">
-                            <label class="mxch-field-label" for="mxch-wiz-chat-provider"><?php esc_html_e('Provider', 'knittnet'); ?></label>
-                            <select class="mxch-wiz-select" id="mxch-wiz-chat-provider" data-mxch-which="chat" data-mxch-role="provider">
+                        <div class="knet-field">
+                            <label class="knet-field-label" for="knet-wiz-chat-provider"><?php esc_html_e('Provider', 'knittnet'); ?></label>
+                            <select class="knet-wiz-select" id="knet-wiz-chat-provider" data-knet-which="chat" data-knet-role="provider">
                                 <option value=""><?php echo esc_html($wizard_config['strings']['selectProvider']); ?></option>
                                 <?php foreach ($catalog as $slug => $entry):
                                     if (empty($entry['chat_models'])) continue;
@@ -606,43 +606,43 @@ function knittnet_render_onboarding_page() {
                                         $opt_label = sprintf(__('%s — configure in Settings', 'knittnet'), $entry['label']);
                                     }
                                     ?>
-                                    <option value="<?php echo esc_attr($slug); ?>" data-mxch-disabled-onboarding="<?php echo $opt_disabled ? '1' : '0'; ?>" <?php selected($current_chat_provider, $slug); ?><?php echo $opt_disabled ? ' disabled' : ''; ?>><?php echo esc_html($opt_label); ?></option>
+                                    <option value="<?php echo esc_attr($slug); ?>" data-knet-disabled-onboarding="<?php echo $opt_disabled ? '1' : '0'; ?>" <?php selected($current_chat_provider, $slug); ?><?php echo $opt_disabled ? ' disabled' : ''; ?>><?php echo esc_html($opt_label); ?></option>
                                 <?php endforeach; ?>
                             </select>
-                            <p class="mxch-field-hint mxch-wiz-disabled-provider-hint">
+                            <p class="knet-field-hint knet-wiz-disabled-provider-hint">
                                 <?php esc_html_e('OpenRouter and Custom (OpenAI-compatible) providers need extra configuration — finish onboarding, then set them up in Settings → API Keys.', 'knittnet'); ?>
                             </p>
                         </div>
 
-                        <div class="mxch-field mxch-wiz-model-field" data-mxch-which="chat" hidden>
-                            <label class="mxch-field-label" for="mxch-wiz-chat-model"><?php esc_html_e('Model', 'knittnet'); ?></label>
-                            <select class="mxch-wiz-select" id="mxch-wiz-chat-model" data-mxch-which="chat" data-mxch-role="model"></select>
+                        <div class="knet-field knet-wiz-model-field" data-knet-which="chat" hidden>
+                            <label class="knet-field-label" for="knet-wiz-chat-model"><?php esc_html_e('Model', 'knittnet'); ?></label>
+                            <select class="knet-wiz-select" id="knet-wiz-chat-model" data-knet-which="chat" data-knet-role="model"></select>
                         </div>
 
-                        <div class="mxch-field mxch-wiz-key-field" data-mxch-which="chat" hidden>
-                            <label class="mxch-field-label" data-mxch-key-label></label>
-                            <p class="mxch-field-description"><?php esc_html_e('An API key is a password from your AI provider that lets KnittNet talk to them.', 'knittnet'); ?></p>
-                            <div class="mxch-wiz-key-row">
-                                <input type="password" class="mxch-wiz-key-input" data-mxch-which="chat" autocomplete="new-password" data-lpignore="true" />
-                                <button type="button" class="mxch-btn mxch-btn-primary mxch-btn-sm mxch-wiz-key-save" data-mxch-which="chat"><?php echo esc_html($wizard_config['strings']['saveKey']); ?></button>
+                        <div class="knet-field knet-wiz-key-field" data-knet-which="chat" hidden>
+                            <label class="knet-field-label" data-knet-key-label></label>
+                            <p class="knet-field-description"><?php esc_html_e('An API key is a password from your AI provider that lets KnittNet talk to them.', 'knittnet'); ?></p>
+                            <div class="knet-wiz-key-row">
+                                <input type="password" class="knet-wiz-key-input" data-knet-which="chat" autocomplete="new-password" data-lpignore="true" />
+                                <button type="button" class="knet-btn knet-btn-primary knet-btn-sm knet-wiz-key-save" data-knet-which="chat"><?php echo esc_html($wizard_config['strings']['saveKey']); ?></button>
                             </div>
-                            <p class="mxch-field-hint"><?php echo wp_kses_post(sprintf(
+                            <p class="knet-field-hint"><?php echo wp_kses_post(sprintf(
                                 /* translators: %s = link to API Keys settings */
                                 __('You can also manage all your keys later in %s.', 'knittnet'),
                                 '<a href="' . esc_url($wizard_config['urls']['apiKeys']) . '">' . esc_html__('API Keys settings', 'knittnet') . '</a>'
                             )); ?></p>
                         </div>
 
-                        <div class="mxch-wiz-key-saved" data-mxch-which="chat" hidden>
+                        <div class="knet-wiz-key-saved" data-knet-which="chat" hidden>
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                            <span data-mxch-key-saved-text></span>
-                            <button type="button" class="mxch-wiz-replace-key-link" data-mxch-which="chat"><?php echo esc_html($wizard_config['strings']['replaceKey']); ?></button>
+                            <span data-knet-key-saved-text></span>
+                            <button type="button" class="knet-wiz-replace-key-link" data-knet-which="chat"><?php echo esc_html($wizard_config['strings']['replaceKey']); ?></button>
                         </div>
 
-                        <div class="mxch-wiz-error" data-mxch-which="chat" hidden></div>
+                        <div class="knet-wiz-error" data-knet-which="chat" hidden></div>
 
-                        <div class="mxch-wizard-actions">
-                            <button type="button" class="mxch-btn mxch-btn-primary mxch-wiz-continue" data-mxch-from-step="1" disabled><?php esc_html_e('Continue', 'knittnet'); ?></button>
+                        <div class="knet-wizard-actions">
+                            <button type="button" class="knet-btn knet-btn-primary knet-wiz-continue" data-knet-from-step="1" disabled><?php esc_html_e('Continue', 'knittnet'); ?></button>
                         </div>
                     </section>
 
@@ -653,21 +653,21 @@ function knittnet_render_onboarding_page() {
                          this page (after the wizard card) and shares the same DOM
                          ids (knittnetViewSampleBtn / knittnetSampleModal) so the existing
                          modal CSS in admin-style.css just works. -->
-                    <section class="mxch-wizard-step" data-step="2" hidden>
-                        <h2 class="mxch-wizard-step-title"><?php esc_html_e('Tell your chatbot how to behave', 'knittnet'); ?></h2>
-                        <p class="mxch-wizard-step-explainer">
+                    <section class="knet-wizard-step" data-step="2" hidden>
+                        <h2 class="knet-wizard-step-title"><?php esc_html_e('Tell your chatbot how to behave', 'knittnet'); ?></h2>
+                        <p class="knet-wizard-step-explainer">
                             <?php esc_html_e('These are the instructions your AI follows for every reply. Think of it as the chatbot\'s job description — what role it plays, what tone it uses, what topics it stays on or avoids. You can edit this any time from Settings → Behavior.', 'knittnet'); ?>
                         </p>
 
-                        <div class="mxch-field">
-                            <label class="mxch-field-label" for="mxch-wiz-behavior-textarea"><?php esc_html_e('AI Instructions', 'knittnet'); ?></label>
-                            <textarea id="mxch-wiz-behavior-textarea" class="mxch-wiz-behavior-textarea" rows="6" placeholder="<?php esc_attr_e('Describe how your chatbot should respond — its role, tone, and topics to focus on or avoid.', 'knittnet'); ?>"><?php echo esc_textarea($current_instructions); ?></textarea>
-                            <p class="mxch-field-hint">
+                        <div class="knet-field">
+                            <label class="knet-field-label" for="knet-wiz-behavior-textarea"><?php esc_html_e('AI Instructions', 'knittnet'); ?></label>
+                            <textarea id="knet-wiz-behavior-textarea" class="knet-wiz-behavior-textarea" rows="6" placeholder="<?php esc_attr_e('Describe how your chatbot should respond — its role, tone, and topics to focus on or avoid.', 'knittnet'); ?>"><?php echo esc_textarea($current_instructions); ?></textarea>
+                            <p class="knet-field-hint">
                                 <?php esc_html_e('Optional — leave blank to use sensible defaults. You can refine this later.', 'knittnet'); ?>
                             </p>
                         </div>
 
-                        <div class="mxch-wiz-behavior-actions-row">
+                        <div class="knet-wiz-behavior-actions-row">
                             <button type="button" class="knittnet-instructions-btn" id="knittnetViewSampleBtn">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
@@ -677,42 +677,42 @@ function knittnet_render_onboarding_page() {
                             </button>
                         </div>
 
-                        <p class="mxch-wiz-behavior-examples-label">
+                        <p class="knet-wiz-behavior-examples-label">
                             <?php esc_html_e('Or start from one of these:', 'knittnet'); ?>
                         </p>
-                        <div class="mxch-wiz-behavior-examples">
-                            <button type="button" class="mxch-wiz-behavior-example" data-mxch-example="helpful">
-                                <span class="mxch-wiz-behavior-example-title"><?php esc_html_e('Helpful website assistant', 'knittnet'); ?></span>
-                                <span class="mxch-wiz-behavior-example-desc"><?php esc_html_e('General-purpose, concise, sticks to your site\'s content.', 'knittnet'); ?></span>
+                        <div class="knet-wiz-behavior-examples">
+                            <button type="button" class="knet-wiz-behavior-example" data-knet-example="helpful">
+                                <span class="knet-wiz-behavior-example-title"><?php esc_html_e('Helpful website assistant', 'knittnet'); ?></span>
+                                <span class="knet-wiz-behavior-example-desc"><?php esc_html_e('General-purpose, concise, sticks to your site\'s content.', 'knittnet'); ?></span>
                             </button>
-                            <button type="button" class="mxch-wiz-behavior-example" data-mxch-example="sales">
-                                <span class="mxch-wiz-behavior-example-title"><?php esc_html_e('Sales-focused product expert', 'knittnet'); ?></span>
-                                <span class="mxch-wiz-behavior-example-desc"><?php esc_html_e('Highlights features, suggests products, drives toward CTAs.', 'knittnet'); ?></span>
+                            <button type="button" class="knet-wiz-behavior-example" data-knet-example="sales">
+                                <span class="knet-wiz-behavior-example-title"><?php esc_html_e('Sales-focused product expert', 'knittnet'); ?></span>
+                                <span class="knet-wiz-behavior-example-desc"><?php esc_html_e('Highlights features, suggests products, drives toward CTAs.', 'knittnet'); ?></span>
                             </button>
-                            <button type="button" class="mxch-wiz-behavior-example" data-mxch-example="support">
-                                <span class="mxch-wiz-behavior-example-title"><?php esc_html_e('Friendly customer support agent', 'knittnet'); ?></span>
-                                <span class="mxch-wiz-behavior-example-desc"><?php esc_html_e('Patient, empathetic, troubleshoots, escalates when stuck.', 'knittnet'); ?></span>
+                            <button type="button" class="knet-wiz-behavior-example" data-knet-example="support">
+                                <span class="knet-wiz-behavior-example-title"><?php esc_html_e('Friendly customer support agent', 'knittnet'); ?></span>
+                                <span class="knet-wiz-behavior-example-desc"><?php esc_html_e('Patient, empathetic, troubleshoots, escalates when stuck.', 'knittnet'); ?></span>
                             </button>
                         </div>
 
-                        <div class="mxch-wiz-error" data-mxch-which="behavior" hidden></div>
+                        <div class="knet-wiz-error" data-knet-which="behavior" hidden></div>
 
-                        <div class="mxch-wizard-actions">
-                            <button type="button" class="mxch-btn mxch-btn-secondary mxch-wiz-back" data-mxch-from-step="2"><?php esc_html_e('Back', 'knittnet'); ?></button>
-                            <button type="button" class="mxch-btn mxch-btn-primary mxch-wiz-continue" data-mxch-from-step="2"><?php esc_html_e('Continue', 'knittnet'); ?></button>
+                        <div class="knet-wizard-actions">
+                            <button type="button" class="knet-btn knet-btn-secondary knet-wiz-back" data-knet-from-step="2"><?php esc_html_e('Back', 'knittnet'); ?></button>
+                            <button type="button" class="knet-btn knet-btn-primary knet-wiz-continue" data-knet-from-step="2"><?php esc_html_e('Continue', 'knittnet'); ?></button>
                         </div>
                     </section>
 
                     <!-- STEP 3 — embedding provider + model + (maybe) key -->
-                    <section class="mxch-wizard-step" data-step="3" hidden>
-                        <h2 class="mxch-wizard-step-title"><?php esc_html_e('Choose your embedding model', 'knittnet'); ?></h2>
-                        <p class="mxch-wizard-step-explainer">
+                    <section class="knet-wizard-step" data-step="3" hidden>
+                        <h2 class="knet-wizard-step-title"><?php esc_html_e('Choose your embedding model', 'knittnet'); ?></h2>
+                        <p class="knet-wizard-step-explainer">
                             <?php esc_html_e('Embeddings turn your website content and knowledge base into a format KnittNet can search through — this is what makes your chatbot "know" your stuff. You only need this if you\'ll use a knowledge base, but most users do.', 'knittnet'); ?>
                         </p>
 
-                        <div class="mxch-field">
-                            <label class="mxch-field-label" for="mxch-wiz-embed-provider"><?php esc_html_e('Provider', 'knittnet'); ?></label>
-                            <select class="mxch-wiz-select" id="mxch-wiz-embed-provider" data-mxch-which="embedding" data-mxch-role="provider">
+                        <div class="knet-field">
+                            <label class="knet-field-label" for="knet-wiz-embed-provider"><?php esc_html_e('Provider', 'knittnet'); ?></label>
+                            <select class="knet-wiz-select" id="knet-wiz-embed-provider" data-knet-which="embedding" data-knet-role="provider">
                                 <option value=""><?php echo esc_html($wizard_config['strings']['selectProvider']); ?></option>
                                 <?php foreach ($catalog as $slug => $entry):
                                     if (empty($entry['embedding_models'])) continue; ?>
@@ -721,42 +721,42 @@ function knittnet_render_onboarding_page() {
                             </select>
                         </div>
 
-                        <div class="mxch-field mxch-wiz-model-field" data-mxch-which="embedding" hidden>
-                            <label class="mxch-field-label" for="mxch-wiz-embed-model"><?php esc_html_e('Model', 'knittnet'); ?></label>
-                            <select class="mxch-wiz-select" id="mxch-wiz-embed-model" data-mxch-which="embedding" data-mxch-role="model"></select>
+                        <div class="knet-field knet-wiz-model-field" data-knet-which="embedding" hidden>
+                            <label class="knet-field-label" for="knet-wiz-embed-model"><?php esc_html_e('Model', 'knittnet'); ?></label>
+                            <select class="knet-wiz-select" id="knet-wiz-embed-model" data-knet-which="embedding" data-knet-role="model"></select>
                         </div>
 
                         <!-- Dedup case: same provider as Step 1 + key already saved -->
-                        <div class="mxch-wiz-key-dedup" data-mxch-which="embedding" hidden>
+                        <div class="knet-wiz-key-dedup" data-knet-which="embedding" hidden>
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                            <span data-mxch-dedup-text></span>
+                            <span data-knet-dedup-text></span>
                         </div>
 
-                        <div class="mxch-field mxch-wiz-key-field" data-mxch-which="embedding" hidden>
-                            <label class="mxch-field-label" data-mxch-key-label></label>
-                            <p class="mxch-field-description"><?php esc_html_e('An API key is a password from your AI provider that lets KnittNet talk to them.', 'knittnet'); ?></p>
-                            <div class="mxch-wiz-key-row">
-                                <input type="password" class="mxch-wiz-key-input" data-mxch-which="embedding" autocomplete="new-password" data-lpignore="true" />
-                                <button type="button" class="mxch-btn mxch-btn-primary mxch-btn-sm mxch-wiz-key-save" data-mxch-which="embedding"><?php echo esc_html($wizard_config['strings']['saveKey']); ?></button>
+                        <div class="knet-field knet-wiz-key-field" data-knet-which="embedding" hidden>
+                            <label class="knet-field-label" data-knet-key-label></label>
+                            <p class="knet-field-description"><?php esc_html_e('An API key is a password from your AI provider that lets KnittNet talk to them.', 'knittnet'); ?></p>
+                            <div class="knet-wiz-key-row">
+                                <input type="password" class="knet-wiz-key-input" data-knet-which="embedding" autocomplete="new-password" data-lpignore="true" />
+                                <button type="button" class="knet-btn knet-btn-primary knet-btn-sm knet-wiz-key-save" data-knet-which="embedding"><?php echo esc_html($wizard_config['strings']['saveKey']); ?></button>
                             </div>
-                            <p class="mxch-field-hint"><?php echo wp_kses_post(sprintf(
+                            <p class="knet-field-hint"><?php echo wp_kses_post(sprintf(
                                 __('You can also manage all your keys later in %s.', 'knittnet'),
                                 '<a href="' . esc_url($wizard_config['urls']['apiKeys']) . '">' . esc_html__('API Keys settings', 'knittnet') . '</a>'
                             )); ?></p>
                         </div>
 
-                        <div class="mxch-wiz-key-saved" data-mxch-which="embedding" hidden>
+                        <div class="knet-wiz-key-saved" data-knet-which="embedding" hidden>
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                            <span data-mxch-key-saved-text></span>
-                            <button type="button" class="mxch-wiz-replace-key-link" data-mxch-which="embedding"><?php echo esc_html($wizard_config['strings']['replaceKey']); ?></button>
+                            <span data-knet-key-saved-text></span>
+                            <button type="button" class="knet-wiz-replace-key-link" data-knet-which="embedding"><?php echo esc_html($wizard_config['strings']['replaceKey']); ?></button>
                         </div>
 
-                        <div class="mxch-wiz-error" data-mxch-which="embedding" hidden></div>
+                        <div class="knet-wiz-error" data-knet-which="embedding" hidden></div>
 
                         <!-- Vector-store informational note (plan-23987f). Pinecone and
                              OpenAI Vector Store are alternative *databases* (not embedding
                              models) — configured under Knowledge after onboarding. -->
-                        <div class="mxch-wiz-vector-store-note">
+                        <div class="knet-wiz-vector-store-note">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                             <span><?php echo wp_kses_post(sprintf(
                                 /* translators: %s = link to Knowledge page */
@@ -765,165 +765,165 @@ function knittnet_render_onboarding_page() {
                             )); ?></span>
                         </div>
 
-                        <div class="mxch-wizard-actions">
-                            <button type="button" class="mxch-btn mxch-btn-secondary mxch-wiz-back" data-mxch-from-step="3"><?php esc_html_e('Back', 'knittnet'); ?></button>
-                            <button type="button" class="mxch-btn mxch-btn-primary mxch-wiz-continue" data-mxch-from-step="3" disabled><?php esc_html_e('Continue', 'knittnet'); ?></button>
+                        <div class="knet-wizard-actions">
+                            <button type="button" class="knet-btn knet-btn-secondary knet-wiz-back" data-knet-from-step="3"><?php esc_html_e('Back', 'knittnet'); ?></button>
+                            <button type="button" class="knet-btn knet-btn-primary knet-wiz-continue" data-knet-from-step="3" disabled><?php esc_html_e('Continue', 'knittnet'); ?></button>
                         </div>
                     </section>
 
                     <!-- STEP 4 — KB seed (optional, mirrors Actions) -->
-                    <section class="mxch-wizard-step" data-step="4" hidden>
-                        <h2 class="mxch-wizard-step-title"><?php esc_html_e('Add something to your knowledge base', 'knittnet'); ?></h2>
-                        <p class="mxch-wizard-step-explainer">
+                    <section class="knet-wizard-step" data-step="4" hidden>
+                        <h2 class="knet-wizard-step-title"><?php esc_html_e('Add something to your knowledge base', 'knittnet'); ?></h2>
+                        <p class="knet-wizard-step-explainer">
                             <?php esc_html_e('Your knowledge base is the content KnittNet uses to answer questions about your site — pages, posts, PDFs, or custom text. Add some now if you\'d like, or skip this and build it later from the Knowledge page.', 'knittnet'); ?>
                         </p>
 
-                        <div class="mxch-wiz-cta-row">
-                            <a class="mxch-btn mxch-btn-primary" href="<?php echo esc_url($wizard_config['urls']['kb']); ?>" target="_blank" rel="noopener noreferrer">
+                        <div class="knet-wiz-cta-row">
+                            <a class="knet-btn knet-btn-primary" href="<?php echo esc_url($wizard_config['urls']['kb']); ?>" target="_blank" rel="noopener noreferrer">
                                 <?php esc_html_e('Open Knowledge Base', 'knittnet'); ?>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left:6px;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                             </a>
                         </div>
 
-                        <div class="mxch-wizard-actions">
-                            <button type="button" class="mxch-btn mxch-btn-secondary mxch-wiz-back" data-mxch-from-step="4"><?php esc_html_e('Back', 'knittnet'); ?></button>
-                            <button type="button" class="mxch-btn mxch-btn-secondary mxch-wiz-continue" data-mxch-from-step="4"><?php esc_html_e('I\'ll skip this for now — Continue', 'knittnet'); ?></button>
+                        <div class="knet-wizard-actions">
+                            <button type="button" class="knet-btn knet-btn-secondary knet-wiz-back" data-knet-from-step="4"><?php esc_html_e('Back', 'knittnet'); ?></button>
+                            <button type="button" class="knet-btn knet-btn-secondary knet-wiz-continue" data-knet-from-step="4"><?php esc_html_e('I\'ll skip this for now — Continue', 'knittnet'); ?></button>
                         </div>
                     </section>
 
                     <!-- STEP 5 — Actions (optional) -->
-                    <section class="mxch-wizard-step" data-step="5" hidden>
-                        <h2 class="mxch-wizard-step-title"><?php esc_html_e('Try KnittNet Actions', 'knittnet'); ?></h2>
-                        <p class="mxch-wizard-step-explainer">
+                    <section class="knet-wizard-step" data-step="5" hidden>
+                        <h2 class="knet-wizard-step-title"><?php esc_html_e('Try KnittNet Actions', 'knittnet'); ?></h2>
+                        <p class="knet-wizard-step-explainer">
                             <?php esc_html_e('Actions let your chatbot do things, not just answer. When a visitor\'s message matches phrases you choose, KnittNet can capture their email to a Loops list, search the web and images with Brave, generate an image with OpenAI or Gemini, answer questions about a PDF you\'ve uploaded, or hand the conversation off to a human agent on Slack or Telegram. This step is optional — skip it now and set up Actions any time.', 'knittnet'); ?>
                         </p>
 
-                        <div class="mxch-wiz-cta-row">
-                            <a class="mxch-btn mxch-btn-primary" href="<?php echo esc_url($wizard_config['urls']['actions']); ?>" target="_blank" rel="noopener noreferrer">
+                        <div class="knet-wiz-cta-row">
+                            <a class="knet-btn knet-btn-primary" href="<?php echo esc_url($wizard_config['urls']['actions']); ?>" target="_blank" rel="noopener noreferrer">
                                 <?php esc_html_e('Open Actions', 'knittnet'); ?>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left:6px;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                             </a>
                         </div>
 
-                        <div class="mxch-wizard-actions">
-                            <button type="button" class="mxch-btn mxch-btn-secondary mxch-wiz-back" data-mxch-from-step="5"><?php esc_html_e('Back', 'knittnet'); ?></button>
-                            <button type="button" class="mxch-btn mxch-btn-secondary mxch-wiz-continue" data-mxch-from-step="5"><?php esc_html_e('I\'ll skip this for now — Continue', 'knittnet'); ?></button>
+                        <div class="knet-wizard-actions">
+                            <button type="button" class="knet-btn knet-btn-secondary knet-wiz-back" data-knet-from-step="5"><?php esc_html_e('Back', 'knittnet'); ?></button>
+                            <button type="button" class="knet-btn knet-btn-secondary knet-wiz-continue" data-knet-from-step="5"><?php esc_html_e('I\'ll skip this for now — Continue', 'knittnet'); ?></button>
                         </div>
                     </section>
 
                     <!-- STEP 6 — Congrats (plan-23987f rebuild: 3 next-step cards) -->
-                    <section class="mxch-wizard-step mxch-wizard-step-congrats" data-step="6" hidden>
-                        <div class="mxch-wiz-congrats-icon">
+                    <section class="knet-wizard-step knet-wizard-step-congrats" data-step="6" hidden>
+                        <div class="knet-wiz-congrats-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                         </div>
-                        <h2 class="mxch-wizard-step-title mxch-wizard-step-title-congrats">🎉 <?php esc_html_e('You\'re set up.', 'knittnet'); ?></h2>
+                        <h2 class="knet-wizard-step-title knet-wizard-step-title-congrats">🎉 <?php esc_html_e('You\'re set up.', 'knittnet'); ?></h2>
 
-                        <div class="mxch-wiz-nextsteps-grid">
+                        <div class="knet-wiz-nextsteps-grid">
 
                             <!-- Card 1 — Test on Settings → Testing tab -->
-                            <a class="mxch-wiz-nextstep-card" href="<?php echo esc_url($wizard_config['urls']['settingsTesting']); ?>">
-                                <div class="mxch-wiz-nextstep-icon">
+                            <a class="knet-wiz-nextstep-card" href="<?php echo esc_url($wizard_config['urls']['settingsTesting']); ?>">
+                                <div class="knet-wiz-nextstep-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                                 </div>
-                                <h3 class="mxch-wiz-nextstep-title"><?php esc_html_e('Test your chatbot', 'knittnet'); ?></h3>
-                                <p class="mxch-wiz-nextstep-desc"><?php esc_html_e('Try it right inside your dashboard — no need to visit your site.', 'knittnet'); ?></p>
-                                <span class="mxch-wiz-nextstep-cta"><?php esc_html_e('Open Testing tab', 'knittnet'); ?>
+                                <h3 class="knet-wiz-nextstep-title"><?php esc_html_e('Test your chatbot', 'knittnet'); ?></h3>
+                                <p class="knet-wiz-nextstep-desc"><?php esc_html_e('Try it right inside your dashboard — no need to visit your site.', 'knittnet'); ?></p>
+                                <span class="knet-wiz-nextstep-cta"><?php esc_html_e('Open Testing tab', 'knittnet'); ?>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                                 </span>
                             </a>
 
                             <!-- Card 2 — Show it on the site -->
-                            <a class="mxch-wiz-nextstep-card" href="<?php echo esc_url($wizard_config['urls']['settingsDisplay']); ?>">
-                                <div class="mxch-wiz-nextstep-icon">
+                            <a class="knet-wiz-nextstep-card" href="<?php echo esc_url($wizard_config['urls']['settingsDisplay']); ?>">
+                                <div class="knet-wiz-nextstep-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
                                 </div>
-                                <h3 class="mxch-wiz-nextstep-title"><?php esc_html_e('Show it on your site', 'knittnet'); ?></h3>
-                                <p class="mxch-wiz-nextstep-desc"><?php esc_html_e('Turn the chatbot on for all pages, or hide it — your choice.', 'knittnet'); ?></p>
-                                <span class="mxch-wiz-nextstep-cta"><?php esc_html_e('Open Display settings', 'knittnet'); ?>
+                                <h3 class="knet-wiz-nextstep-title"><?php esc_html_e('Show it on your site', 'knittnet'); ?></h3>
+                                <p class="knet-wiz-nextstep-desc"><?php esc_html_e('Turn the chatbot on for all pages, or hide it — your choice.', 'knittnet'); ?></p>
+                                <span class="knet-wiz-nextstep-cta"><?php esc_html_e('Open Display settings', 'knittnet'); ?>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                                 </span>
                             </a>
 
                             <!-- Card 3 — Embed code shortcodes -->
-                            <div class="mxch-wiz-nextstep-card mxch-wiz-nextstep-card-embed">
-                                <div class="mxch-wiz-nextstep-icon">
+                            <div class="knet-wiz-nextstep-card knet-wiz-nextstep-card-embed">
+                                <div class="knet-wiz-nextstep-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
                                 </div>
-                                <h3 class="mxch-wiz-nextstep-title"><?php esc_html_e('Or embed it manually', 'knittnet'); ?></h3>
-                                <p class="mxch-wiz-nextstep-desc"><?php esc_html_e('Prefer to place it yourself? Paste a shortcode anywhere.', 'knittnet'); ?></p>
+                                <h3 class="knet-wiz-nextstep-title"><?php esc_html_e('Or embed it manually', 'knittnet'); ?></h3>
+                                <p class="knet-wiz-nextstep-desc"><?php esc_html_e('Prefer to place it yourself? Paste a shortcode anywhere.', 'knittnet'); ?></p>
 
-                                <div class="mxch-wiz-shortcode-row">
-                                    <code class="mxch-wiz-shortcode" data-mxch-shortcode='[knittnet_chatbot floating="yes"]'>[knittnet_chatbot floating="yes"]</code>
-                                    <button type="button" class="mxch-wiz-shortcode-copy" data-mxch-copy-shortcode='[knittnet_chatbot floating="yes"]' aria-label="<?php esc_attr_e('Copy floating widget shortcode', 'knittnet'); ?>">
+                                <div class="knet-wiz-shortcode-row">
+                                    <code class="knet-wiz-shortcode" data-knet-shortcode='[knittnet_chatbot floating="yes"]'>[knittnet_chatbot floating="yes"]</code>
+                                    <button type="button" class="knet-wiz-shortcode-copy" data-knet-copy-shortcode='[knittnet_chatbot floating="yes"]' aria-label="<?php esc_attr_e('Copy floating widget shortcode', 'knittnet'); ?>">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                                        <span class="mxch-wiz-shortcode-copy-text"><?php esc_html_e('Copy', 'knittnet'); ?></span>
+                                        <span class="knet-wiz-shortcode-copy-text"><?php esc_html_e('Copy', 'knittnet'); ?></span>
                                     </button>
                                 </div>
-                                <p class="mxch-wiz-shortcode-caption"><?php esc_html_e('Floating widget (bottom corner)', 'knittnet'); ?></p>
+                                <p class="knet-wiz-shortcode-caption"><?php esc_html_e('Floating widget (bottom corner)', 'knittnet'); ?></p>
 
-                                <div class="mxch-wiz-shortcode-row">
-                                    <code class="mxch-wiz-shortcode" data-mxch-shortcode='[knittnet_chatbot floating="no"]'>[knittnet_chatbot floating="no"]</code>
-                                    <button type="button" class="mxch-wiz-shortcode-copy" data-mxch-copy-shortcode='[knittnet_chatbot floating="no"]' aria-label="<?php esc_attr_e('Copy inline widget shortcode', 'knittnet'); ?>">
+                                <div class="knet-wiz-shortcode-row">
+                                    <code class="knet-wiz-shortcode" data-knet-shortcode='[knittnet_chatbot floating="no"]'>[knittnet_chatbot floating="no"]</code>
+                                    <button type="button" class="knet-wiz-shortcode-copy" data-knet-copy-shortcode='[knittnet_chatbot floating="no"]' aria-label="<?php esc_attr_e('Copy inline widget shortcode', 'knittnet'); ?>">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                                        <span class="mxch-wiz-shortcode-copy-text"><?php esc_html_e('Copy', 'knittnet'); ?></span>
+                                        <span class="knet-wiz-shortcode-copy-text"><?php esc_html_e('Copy', 'knittnet'); ?></span>
                                     </button>
                                 </div>
-                                <p class="mxch-wiz-shortcode-caption"><?php esc_html_e('Inline embedded chat', 'knittnet'); ?></p>
+                                <p class="knet-wiz-shortcode-caption"><?php esc_html_e('Inline embedded chat', 'knittnet'); ?></p>
                             </div>
 
                         </div>
 
                         <!-- PRO add-ons conversion block (plan-9451be) -->
-                        <a class="mxch-wiz-pro-promo" href="<?php echo esc_url($wizard_config['urls']['proAddons']); ?>" target="_blank" rel="noopener noreferrer">
-                            <span class="mxch-wiz-pro-promo-badge"><?php esc_html_e('PRO add-ons', 'knittnet'); ?></span>
-                            <div class="mxch-wiz-pro-promo-body">
-                                <h3 class="mxch-wiz-pro-promo-title"><?php esc_html_e('Do more with PRO add-ons', 'knittnet'); ?></h3>
-                                <p class="mxch-wiz-pro-promo-desc">
+                        <a class="knet-wiz-pro-promo" href="<?php echo esc_url($wizard_config['urls']['proAddons']); ?>" target="_blank" rel="noopener noreferrer">
+                            <span class="knet-wiz-pro-promo-badge"><?php esc_html_e('PRO add-ons', 'knittnet'); ?></span>
+                            <div class="knet-wiz-pro-promo-body">
+                                <h3 class="knet-wiz-pro-promo-title"><?php esc_html_e('Do more with PRO add-ons', 'knittnet'); ?></h3>
+                                <p class="knet-wiz-pro-promo-desc">
                                     <?php esc_html_e('Sell directly in chat with WooCommerce, run multiple specialized bots on one site, generate full SEO-ready posts with Advanced Content, and more.', 'knittnet'); ?>
                                 </p>
                             </div>
-                            <span class="mxch-wiz-pro-promo-cta">
+                            <span class="knet-wiz-pro-promo-cta">
                                 <?php esc_html_e('Explore PRO add-ons', 'knittnet'); ?>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                             </span>
                         </a>
 
-                        <p class="mxch-wiz-congrats-graduated" id="mxch-wiz-graduated-line">
+                        <p class="knet-wiz-congrats-graduated" id="knet-wiz-graduated-line">
                             <?php
-                            $mxch_wiz_tutorials_url = esc_url(admin_url('admin.php?page=knittnet-settings#tutorials'));
+                            $knet_wiz_tutorials_url = esc_url(admin_url('admin.php?page=knittnet-settings#tutorials'));
                             printf(
                                 /* translators: %s: bold link to "Settings → Tutorials" */
                                 wp_kses(
                                     __('This setup guide moves out of the way once you\'re done — reopen it any time under %s.', 'knittnet'),
                                     array('strong' => array(), 'a' => array('href' => array()))
                                 ),
-                                '<strong><a href="' . $mxch_wiz_tutorials_url . '">' . esc_html__('Settings → Tutorials', 'knittnet') . '</a></strong>'
+                                '<strong><a href="' . $knet_wiz_tutorials_url . '">' . esc_html__('Settings → Tutorials', 'knittnet') . '</a></strong>'
                             );
                             ?>
                         </p>
 
-                        <div class="mxch-wiz-congrats-footer">
-                            <button type="button" class="mxch-wiz-congrats-footer-link mxch-wiz-back" data-mxch-from-step="6"><?php esc_html_e('Review earlier steps', 'knittnet'); ?></button>
-                            <a class="mxch-wiz-congrats-footer-link" href="<?php echo esc_url($wizard_config['urls']['homepage']); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Open my live site', 'knittnet'); ?></a>
+                        <div class="knet-wiz-congrats-footer">
+                            <button type="button" class="knet-wiz-congrats-footer-link knet-wiz-back" data-knet-from-step="6"><?php esc_html_e('Review earlier steps', 'knittnet'); ?></button>
+                            <a class="knet-wiz-congrats-footer-link" href="<?php echo esc_url($wizard_config['urls']['homepage']); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Open my live site', 'knittnet'); ?></a>
                         </div>
                     </section>
 
                 </div>
 
                 <!-- Need help? — escape hatch (preserved from f7c7d4) -->
-                <div class="mxch-card mxch-onboarding-help" id="mxch-onboarding-help">
-                    <div class="mxch-card-body">
-                        <div class="mxch-help-row">
+                <div class="knet-card knet-onboarding-help" id="knet-onboarding-help">
+                    <div class="knet-card-body">
+                        <div class="knet-help-row">
                             <div>
-                                <h3 class="mxch-help-title"><?php esc_html_e('Stuck? Get help.', 'knittnet'); ?></h3>
-                                <p class="mxch-help-subtitle"><?php esc_html_e('Ask the docs bot for an answer, or open a ticket if something\'s broken.', 'knittnet'); ?></p>
+                                <h3 class="knet-help-title"><?php esc_html_e('Stuck? Get help.', 'knittnet'); ?></h3>
+                                <p class="knet-help-subtitle"><?php esc_html_e('Ask the docs bot for an answer, or open a ticket if something\'s broken.', 'knittnet'); ?></p>
                             </div>
-                            <div class="mxch-help-buttons">
-                                <a class="mxch-btn mxch-btn-secondary mxch-btn-sm" href="https://knittnet.ai/documentation-bot/" target="_blank" rel="noopener noreferrer">
+                            <div class="knet-help-buttons">
+                                <a class="knet-btn knet-btn-secondary knet-btn-sm" href="https://knittnet.ai/documentation-bot/" target="_blank" rel="noopener noreferrer">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
                                     <?php esc_html_e('Ask the docs bot', 'knittnet'); ?>
                                 </a>
-                                <a class="mxch-btn mxch-btn-secondary mxch-btn-sm" href="https://wordpress.org/support/plugin/knittnet-basic/" target="_blank" rel="noopener noreferrer">
+                                <a class="knet-btn knet-btn-secondary knet-btn-sm" href="https://wordpress.org/support/plugin/knittnet-basic/" target="_blank" rel="noopener noreferrer">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2v5Z"/><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/></svg>
                                     <?php esc_html_e('Open a support ticket', 'knittnet'); ?>
                                 </a>
@@ -934,14 +934,14 @@ function knittnet_render_onboarding_page() {
 
                 <!-- Dismiss onboarding — bottom of page, ghost-styled, low visual weight
                      so users don't tap it by accident. Plan-d14e89 Issue 7. -->
-                <p class="mxch-onboarding-dismiss-row">
+                <p class="knet-onboarding-dismiss-row">
                     <button type="button"
-                            class="mxch-onboarding-dismiss-link mxch-onboarding-dismiss"
-                            data-mxch-dismiss-nonce="<?php echo esc_attr($dismiss_nonce); ?>"
-                            aria-describedby="mxch-onboarding-dismiss-hint">
+                            class="knet-onboarding-dismiss-link knet-onboarding-dismiss"
+                            data-knet-dismiss-nonce="<?php echo esc_attr($dismiss_nonce); ?>"
+                            aria-describedby="knet-onboarding-dismiss-hint">
                         <?php esc_html_e('Dismiss onboarding', 'knittnet'); ?>
                     </button>
-                    <span class="mxch-onboarding-dismiss-hint" id="mxch-onboarding-dismiss-hint">
+                    <span class="knet-onboarding-dismiss-hint" id="knet-onboarding-dismiss-hint">
                         <?php esc_html_e('Hide the setup guide from the menu — reopen it any time under Settings → Tutorials.', 'knittnet'); ?>
                     </span>
                 </p>

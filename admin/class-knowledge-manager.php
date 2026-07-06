@@ -2286,7 +2286,7 @@ public function ajax_knittnet_refresh_pinecone_entries() {
     $preview_length = 150;
 
     if (empty($grouped_prompts)) {
-        echo '<tr><td colspan="4" style="padding: 40px; text-align: center; color: var(--mxch-text-muted);">';
+        echo '<tr><td colspan="4" style="padding: 40px; text-align: center; color: var(--knet-text-muted);">';
         esc_html_e('No knowledge entries found in Pinecone.', 'knittnet');
         echo '</td></tr>';
     } else {
@@ -2303,7 +2303,7 @@ public function ajax_knittnet_refresh_pinecone_entries() {
                     class="knittnet-chunk-group-header"
                     data-source="<?php echo esc_attr($data_source); ?>"
                     data-group-id="<?php echo esc_attr($group_id); ?>"
-                    style="border-bottom: 1px solid var(--mxch-card-border); background: rgba(33, 150, 243, 0.02);">
+                    style="border-bottom: 1px solid var(--knet-card-border); background: rgba(33, 150, 243, 0.02);">
                     <td style="padding: 12px 16px; text-align: center;">
                         <input type="checkbox"
                                class="knittnet-entry-checkbox"
@@ -2333,18 +2333,18 @@ public function ajax_knittnet_refresh_pinecone_entries() {
                     </td>
                     <td class="knittnet-url-cell" style="padding: 12px 16px; font-size: 13px;">
                         <?php if (!empty($source_url) && strpos($source_url, 'knittnet://') !== 0 && strpos($source_url, '_ungrouped_') !== 0) : ?>
-                            <a href="<?php echo esc_url($source_url); ?>" target="_blank" style="color: var(--mxch-primary); text-decoration: none;">
+                            <a href="<?php echo esc_url($source_url); ?>" target="_blank" style="color: var(--knet-primary); text-decoration: none;">
                                 <span class="dashicons dashicons-external" style="font-size: 14px;"></span>
                                 <?php esc_html_e('View Source', 'knittnet'); ?>
                             </a>
                         <?php else : ?>
-                            <span style="color: var(--mxch-text-muted);"><?php esc_html_e('Manual Content', 'knittnet'); ?></span>
+                            <span style="color: var(--knet-text-muted);"><?php esc_html_e('Manual Content', 'knittnet'); ?></span>
                         <?php endif; ?>
                     </td>
                     <td class="knittnet-actions-cell" style="padding: 12px 16px; white-space: nowrap;">
                         <?php if ($data_source !== 'pinecone') : ?>
                         <button type="button"
-                                class="mxch-btn mxch-btn-ghost mxch-btn-sm knittnet-edit-entry-btn"
+                                class="knet-btn knet-btn-ghost knet-btn-sm knittnet-edit-entry-btn"
                                 data-source-url="<?php echo esc_attr($source_url); ?>"
                                 data-entry-id="<?php echo esc_attr($first_prompt->id); ?>"
                                 data-data-source="<?php echo esc_attr($data_source); ?>"
@@ -2355,13 +2355,13 @@ public function ajax_knittnet_refresh_pinecone_entries() {
                         </button>
                         <?php endif; ?>
                         <button type="button"
-                                class="mxch-btn mxch-btn-ghost mxch-btn-sm delete-button-group"
+                                class="knet-btn knet-btn-ghost knet-btn-sm delete-button-group"
                                 data-source-url="<?php echo esc_attr($source_url); ?>"
                                 data-chunk-count="<?php echo esc_attr($chunk_count); ?>"
                                 data-data-source="<?php echo esc_attr($data_source); ?>"
                                 data-bot-id="<?php echo esc_attr($current_bot_id); ?>"
                                 data-nonce="<?php echo wp_create_nonce('knittnet_delete_chunks_nonce'); ?>"
-                                style="color: var(--mxch-error);"
+                                style="color: var(--knet-error);"
                                 title="<?php esc_attr_e('Delete all chunks', 'knittnet'); ?>">
                             <span class="dashicons dashicons-trash" style="font-size: 14px;"></span>
                         </button>
@@ -2380,7 +2380,7 @@ public function ajax_knittnet_refresh_pinecone_entries() {
                     <tr id="prompt-<?php echo esc_attr($chunk->id); ?>"
                         class="knittnet-chunk-row <?php echo esc_attr($group_id); ?>"
                         data-source="<?php echo esc_attr($data_source); ?>"
-                        style="display: none; background: #f8f9fa; border-bottom: 1px solid var(--mxch-card-border);">
+                        style="display: none; background: #f8f9fa; border-bottom: 1px solid var(--knet-card-border);">
                         <td style="padding: 12px 16px; text-align: center;">
                             <!-- Checkbox column placeholder for chunks (managed by group) -->
                         </td>
@@ -2390,7 +2390,7 @@ public function ajax_knittnet_refresh_pinecone_entries() {
                         <td class="knittnet-content-cell" style="padding: 12px 16px; font-size: 13px;">
                             <div class="knittnet-accordion-wrapper">
                                 <div class="knittnet-content-preview">
-                                    <span class="knittnet-chunk-indicator" style="margin-right: 10px; color: var(--mxch-text-secondary); font-size: 12px;">
+                                    <span class="knittnet-chunk-indicator" style="margin-right: 10px; color: var(--knet-text-secondary); font-size: 12px;">
                                         <?php printf(esc_html__('Chunk %d of %d', 'knittnet'), $meta_chunk_index + 1, $meta_total_chunks); ?>
                                     </span>
                                     <span class="preview-text"><?php echo esc_html($content_preview); ?></span>
@@ -2416,10 +2416,10 @@ public function ajax_knittnet_refresh_pinecone_entries() {
                             </div>
                         </td>
                         <td class="knittnet-url-cell" style="padding: 12px 16px; font-size: 13px;">
-                            <span class="knittnet-chunk-label" style="color: var(--mxch-text-muted);"><?php esc_html_e('Same as parent', 'knittnet'); ?></span>
+                            <span class="knittnet-chunk-label" style="color: var(--knet-text-muted);"><?php esc_html_e('Same as parent', 'knittnet'); ?></span>
                         </td>
                         <td class="knittnet-actions-cell" style="padding: 12px 16px;">
-                            <span class="knittnet-chunk-label" style="color: var(--mxch-text-muted);"><?php esc_html_e('Managed by group', 'knittnet'); ?></span>
+                            <span class="knittnet-chunk-label" style="color: var(--knet-text-muted);"><?php esc_html_e('Managed by group', 'knittnet'); ?></span>
                         </td>
                     </tr>
                     <?php
@@ -2434,7 +2434,7 @@ public function ajax_knittnet_refresh_pinecone_entries() {
                 ?>
                 <tr id="prompt-<?php echo esc_attr($prompt->id); ?>"
                     data-source="<?php echo esc_attr($data_source); ?>"
-                    style="border-bottom: 1px solid var(--mxch-card-border); background: rgba(33, 150, 243, 0.02);">
+                    style="border-bottom: 1px solid var(--knet-card-border); background: rgba(33, 150, 243, 0.02);">
                     <td style="padding: 12px 16px; text-align: center;">
                         <input type="checkbox"
                                class="knittnet-entry-checkbox"
@@ -2479,16 +2479,16 @@ public function ajax_knittnet_refresh_pinecone_entries() {
                             $actual_source = $prompt->source_url ?? '';
                         }
                         if (!empty($actual_source) && strpos($actual_source, 'knittnet://') !== 0) : ?>
-                            <a href="<?php echo esc_url($actual_source); ?>" target="_blank" style="color: var(--mxch-primary); text-decoration: none;">
+                            <a href="<?php echo esc_url($actual_source); ?>" target="_blank" style="color: var(--knet-primary); text-decoration: none;">
                                 <span class="dashicons dashicons-external" style="font-size: 14px;"></span>
                                 <?php esc_html_e('View', 'knittnet'); ?>
                             </a>
                         <?php else : ?>
-                            <span style="color: var(--mxch-text-muted);"><?php esc_html_e('Manual', 'knittnet'); ?></span>
+                            <span style="color: var(--knet-text-muted);"><?php esc_html_e('Manual', 'knittnet'); ?></span>
                         <?php endif; ?>
                     </td>
                     <td style="padding: 12px 16px;">
-                        <button type="button" class="mxch-btn mxch-btn-ghost mxch-btn-sm delete-button-ajax" data-vector-id="<?php echo esc_attr($prompt->id); ?>" data-bot-id="<?php echo esc_attr($current_bot_id); ?>" data-nonce="<?php echo wp_create_nonce('knittnet_delete_pinecone_prompt_nonce'); ?>" style="color: var(--mxch-error);">
+                        <button type="button" class="knet-btn knet-btn-ghost knet-btn-sm delete-button-ajax" data-vector-id="<?php echo esc_attr($prompt->id); ?>" data-bot-id="<?php echo esc_attr($current_bot_id); ?>" data-nonce="<?php echo wp_create_nonce('knittnet_delete_pinecone_prompt_nonce'); ?>" style="color: var(--knet-error);">
                             <span class="dashicons dashicons-trash" style="font-size: 14px;"></span>
                         </button>
                     </td>
@@ -2754,7 +2754,7 @@ public function ajax_knittnet_paginate_entries() {
     $preview_length = 150;
 
     if (empty($grouped_prompts)) {
-        echo '<tr><td colspan="5" style="padding: 40px; text-align: center; color: var(--mxch-text-muted);">';
+        echo '<tr><td colspan="5" style="padding: 40px; text-align: center; color: var(--knet-text-muted);">';
         esc_html_e('No knowledge entries found. Use the Import Options to add content.', 'knittnet');
         echo '</td></tr>';
     } else {
@@ -2771,7 +2771,7 @@ public function ajax_knittnet_paginate_entries() {
                     class="knittnet-chunk-group-header"
                     data-source="<?php echo esc_attr($data_source); ?>"
                     data-group-id="<?php echo esc_attr($group_id); ?>"
-                    style="border-bottom: 1px solid var(--mxch-card-border);">
+                    style="border-bottom: 1px solid var(--knet-card-border);">
                     <td style="padding: 12px 16px; text-align: center;">
                         <input type="checkbox"
                                class="knittnet-entry-checkbox"
@@ -2801,18 +2801,18 @@ public function ajax_knittnet_paginate_entries() {
                     </td>
                     <td class="knittnet-url-cell" style="padding: 12px 16px; font-size: 13px;">
                         <?php if (!empty($source_url) && strpos($source_url, 'knittnet://') !== 0 && strpos($source_url, '_ungrouped_') !== 0) : ?>
-                            <a href="<?php echo esc_url($source_url); ?>" target="_blank" style="color: var(--mxch-primary); text-decoration: none;">
+                            <a href="<?php echo esc_url($source_url); ?>" target="_blank" style="color: var(--knet-primary); text-decoration: none;">
                                 <span class="dashicons dashicons-external" style="font-size: 14px;"></span>
                                 <?php esc_html_e('View Source', 'knittnet'); ?>
                             </a>
                         <?php else : ?>
-                            <span style="color: var(--mxch-text-muted);"><?php esc_html_e('Manual Content', 'knittnet'); ?></span>
+                            <span style="color: var(--knet-text-muted);"><?php esc_html_e('Manual Content', 'knittnet'); ?></span>
                         <?php endif; ?>
                     </td>
                     <td class="knittnet-actions-cell" style="padding: 12px 16px; white-space: nowrap;">
                         <?php if ($data_source !== 'pinecone') : ?>
                         <button type="button"
-                                class="mxch-btn mxch-btn-ghost mxch-btn-sm knittnet-edit-entry-btn"
+                                class="knet-btn knet-btn-ghost knet-btn-sm knittnet-edit-entry-btn"
                                 data-source-url="<?php echo esc_attr($source_url); ?>"
                                 data-entry-id="<?php echo esc_attr($first_prompt->id); ?>"
                                 data-data-source="<?php echo esc_attr($data_source); ?>"
@@ -2823,13 +2823,13 @@ public function ajax_knittnet_paginate_entries() {
                         </button>
                         <?php endif; ?>
                         <button type="button"
-                                class="mxch-btn mxch-btn-ghost mxch-btn-sm delete-button-group"
+                                class="knet-btn knet-btn-ghost knet-btn-sm delete-button-group"
                                 data-source-url="<?php echo esc_attr($source_url); ?>"
                                 data-chunk-count="<?php echo esc_attr($chunk_count); ?>"
                                 data-data-source="<?php echo esc_attr($data_source); ?>"
                                 data-bot-id="<?php echo esc_attr($current_bot_id); ?>"
                                 data-nonce="<?php echo wp_create_nonce('knittnet_delete_chunks_nonce'); ?>"
-                                style="color: var(--mxch-error);"
+                                style="color: var(--knet-error);"
                                 title="<?php esc_attr_e('Delete all chunks', 'knittnet'); ?>">
                             <span class="dashicons dashicons-trash" style="font-size: 14px;"></span>
                         </button>
@@ -2848,7 +2848,7 @@ public function ajax_knittnet_paginate_entries() {
                     <tr id="prompt-<?php echo esc_attr($chunk->id); ?>"
                         class="knittnet-chunk-row <?php echo esc_attr($group_id); ?>"
                         data-source="<?php echo esc_attr($data_source); ?>"
-                        style="display: none; background: #f8f9fa; border-bottom: 1px solid var(--mxch-card-border);">
+                        style="display: none; background: #f8f9fa; border-bottom: 1px solid var(--knet-card-border);">
                         <td style="padding: 12px 16px; text-align: center;">
                             <!-- Checkbox column placeholder for chunks (managed by group) -->
                         </td>
@@ -2858,7 +2858,7 @@ public function ajax_knittnet_paginate_entries() {
                         <td class="knittnet-content-cell" style="padding: 12px 16px; font-size: 13px;">
                             <div class="knittnet-accordion-wrapper">
                                 <div class="knittnet-content-preview">
-                                    <span class="knittnet-chunk-indicator" style="margin-right: 10px; color: var(--mxch-text-secondary); font-size: 12px;">
+                                    <span class="knittnet-chunk-indicator" style="margin-right: 10px; color: var(--knet-text-secondary); font-size: 12px;">
                                         <?php printf(esc_html__('Chunk %d of %d', 'knittnet'), $meta_chunk_index + 1, $meta_total_chunks); ?>
                                     </span>
                                     <span class="preview-text"><?php echo esc_html($content_preview); ?></span>
@@ -2884,10 +2884,10 @@ public function ajax_knittnet_paginate_entries() {
                             </div>
                         </td>
                         <td class="knittnet-url-cell" style="padding: 12px 16px; font-size: 13px;">
-                            <span class="knittnet-chunk-label" style="color: var(--mxch-text-muted);"><?php esc_html_e('Same as parent', 'knittnet'); ?></span>
+                            <span class="knittnet-chunk-label" style="color: var(--knet-text-muted);"><?php esc_html_e('Same as parent', 'knittnet'); ?></span>
                         </td>
                         <td class="knittnet-actions-cell" style="padding: 12px 16px;">
-                            <span class="knittnet-chunk-label" style="color: var(--mxch-text-muted);"><?php esc_html_e('Managed by group', 'knittnet'); ?></span>
+                            <span class="knittnet-chunk-label" style="color: var(--knet-text-muted);"><?php esc_html_e('Managed by group', 'knittnet'); ?></span>
                         </td>
                     </tr>
                     <?php
@@ -2902,7 +2902,7 @@ public function ajax_knittnet_paginate_entries() {
                 ?>
                 <tr id="prompt-<?php echo esc_attr($prompt->id); ?>"
                     data-source="<?php echo esc_attr($data_source); ?>"
-                    style="border-bottom: 1px solid var(--mxch-card-border);">
+                    style="border-bottom: 1px solid var(--knet-card-border);">
                     <td style="padding: 12px 16px; text-align: center;">
                         <input type="checkbox"
                                class="knittnet-entry-checkbox"
@@ -2946,17 +2946,17 @@ public function ajax_knittnet_paginate_entries() {
                             $actual_source = $prompt->source_url ?? '';
                         }
                         if (!empty($actual_source) && strpos($actual_source, 'knittnet://') !== 0) : ?>
-                            <a href="<?php echo esc_url($actual_source); ?>" target="_blank" style="color: var(--mxch-primary); text-decoration: none;">
+                            <a href="<?php echo esc_url($actual_source); ?>" target="_blank" style="color: var(--knet-primary); text-decoration: none;">
                                 <span class="dashicons dashicons-external" style="font-size: 14px;"></span>
                                 <?php esc_html_e('View', 'knittnet'); ?>
                             </a>
                         <?php else : ?>
-                            <span style="color: var(--mxch-text-muted);"><?php esc_html_e('Manual', 'knittnet'); ?></span>
+                            <span style="color: var(--knet-text-muted);"><?php esc_html_e('Manual', 'knittnet'); ?></span>
                         <?php endif; ?>
                     </td>
                     <td style="padding: 12px 16px; white-space: nowrap;">
                         <button type="button"
-                                class="mxch-btn mxch-btn-ghost mxch-btn-sm knittnet-edit-entry-btn"
+                                class="knet-btn knet-btn-ghost knet-btn-sm knittnet-edit-entry-btn"
                                 data-source-url="<?php echo esc_attr($prompt->source_url ?? ''); ?>"
                                 data-entry-id="<?php echo esc_attr($prompt->id); ?>"
                                 data-data-source="<?php echo esc_attr($data_source); ?>"
@@ -2965,7 +2965,7 @@ public function ajax_knittnet_paginate_entries() {
                                 title="<?php esc_attr_e('Edit content', 'knittnet'); ?>">
                             <span class="dashicons dashicons-edit" style="font-size: 14px;"></span>
                         </button>
-                        <button type="button" class="mxch-btn mxch-btn-ghost mxch-btn-sm delete-button-wordpress" data-entry-id="<?php echo esc_attr($prompt->id); ?>" data-bot-id="<?php echo esc_attr($current_bot_id); ?>" data-nonce="<?php echo wp_create_nonce('knittnet_delete_wordpress_prompt_nonce'); ?>" style="color: var(--mxch-error);">
+                        <button type="button" class="knet-btn knet-btn-ghost knet-btn-sm delete-button-wordpress" data-entry-id="<?php echo esc_attr($prompt->id); ?>" data-bot-id="<?php echo esc_attr($current_bot_id); ?>" data-nonce="<?php echo wp_create_nonce('knittnet_delete_wordpress_prompt_nonce'); ?>" style="color: var(--knet-error);">
                             <span class="dashicons dashicons-trash" style="font-size: 14px;"></span>
                         </button>
                     </td>

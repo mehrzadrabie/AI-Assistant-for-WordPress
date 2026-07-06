@@ -8,21 +8,21 @@ jQuery(document).ready(function($) {
     // ==========================================================================
 
     // Desktop sidebar navigation
-    $('.mxch-nav-link').on('click', function(e) {
+    $('.knet-nav-link').on('click', function(e) {
         e.preventDefault();
         const target = $(this).data('target');
 
         // Update active states
-        $('.mxch-nav-link').removeClass('active');
+        $('.knet-nav-link').removeClass('active');
         $(this).addClass('active');
 
         // Show target section
-        $('.mxch-section').removeClass('active');
+        $('.knet-section').removeClass('active');
         $('#' + target).addClass('active');
 
         // Also update mobile nav if open
-        $('.mxch-mobile-nav-link').removeClass('active');
-        $('.mxch-mobile-nav-link[data-target="' + target + '"]').addClass('active');
+        $('.knet-mobile-nav-link').removeClass('active');
+        $('.knet-mobile-nav-link[data-target="' + target + '"]').addClass('active');
 
         // Load actions when switching to all-actions
         if (target === 'all-actions' && !actionsLoaded) {
@@ -31,43 +31,43 @@ jQuery(document).ready(function($) {
     });
 
     // Mobile menu toggle
-    $('.mxch-mobile-menu-btn').on('click', function() {
-        $('.mxch-mobile-menu').addClass('open');
-        $('.mxch-mobile-overlay').addClass('open');
+    $('.knet-mobile-menu-btn').on('click', function() {
+        $('.knet-mobile-menu').addClass('open');
+        $('.knet-mobile-overlay').addClass('open');
     });
 
     // Close mobile menu
-    $('.mxch-mobile-menu-close, .mxch-mobile-overlay').on('click', function() {
-        $('.mxch-mobile-menu').removeClass('open');
-        $('.mxch-mobile-overlay').removeClass('open');
+    $('.knet-mobile-menu-close, .knet-mobile-overlay').on('click', function() {
+        $('.knet-mobile-menu').removeClass('open');
+        $('.knet-mobile-overlay').removeClass('open');
     });
 
     // Mobile navigation
-    $('.mxch-mobile-nav-link').on('click', function(e) {
+    $('.knet-mobile-nav-link').on('click', function(e) {
         e.preventDefault();
         const target = $(this).data('target');
 
-        $('.mxch-mobile-nav-link').removeClass('active');
+        $('.knet-mobile-nav-link').removeClass('active');
         $(this).addClass('active');
 
-        $('.mxch-section').removeClass('active');
+        $('.knet-section').removeClass('active');
         $('#' + target).addClass('active');
 
-        $('.mxch-nav-link').removeClass('active');
-        $('.mxch-nav-link[data-target="' + target + '"]').addClass('active');
+        $('.knet-nav-link').removeClass('active');
+        $('.knet-nav-link[data-target="' + target + '"]').addClass('active');
 
-        $('.mxch-mobile-menu').removeClass('open');
-        $('.mxch-mobile-overlay').removeClass('open');
+        $('.knet-mobile-menu').removeClass('open');
+        $('.knet-mobile-overlay').removeClass('open');
     });
 
     // ==========================================================================
     // AI Tools: autosave the function-calling toggle + per-tool checklist
     // (matches KnittNet's autosave UX — no Save button). plan a41dee.
     // ==========================================================================
-    var $fc = $('#mxch-fc-settings');
+    var $fc = $('#knet-fc-settings');
     if ($fc.length) {
         var fcNonce = $fc.data('fc-nonce');
-        var $fcStatus = $('#mxch-fc-save-status');
+        var $fcStatus = $('#knet-fc-save-status');
         var fcTimer = null;
 
         function fcCollectAndSave() {
@@ -79,14 +79,14 @@ jQuery(document).ready(function($) {
             var checked = $fc.find('input[name="knittnet_fc_tools[]"]:checked').map(function () { return $(this).val(); }).get();
             // Per-tool "when to use" hints, keyed by callback.
             var hints = {};
-            $fc.find('.mxch-fc-hint-input').each(function () {
+            $fc.find('.knet-fc-hint-input').each(function () {
                 var cb = $(this).data('fc-callback');
                 if (cb) { hints[cb] = $(this).val(); }
             });
 
             if ($fcStatus.length) { $fcStatus.text('Saving…').removeClass('is-saved is-error'); }
 
-            $.post(mxchActionsData.ajaxUrl, {
+            $.post(knetActionsData.ajaxUrl, {
                 action: 'knittnet_fc_autosave',
                 nonce: fcNonce,
                 enabled: enabled,
@@ -117,21 +117,21 @@ jQuery(document).ready(function($) {
         // ACTIVE tools (a tool in the list = active — no global toggle, no
         // per-tool enable checkbox); selecting one shows its detail on the right
         // with Edit (usage note) + Remove. "Add" opens the same two-step
-        // capability picker. Pure view layer over the hidden #mxch-fc-tool-store
+        // capability picker. Pure view layer over the hidden #knet-fc-tool-store
         // inputs — the unchanged knittnet_fc_autosave contract (knittnet_fc_tools[] /
         // knittnet_fc_all_tools[] + hints) stays the source of truth. FC-specific
         // IDs/classes keep the Trigger Phrases JS off these elements.
         // ======================================================================
-        var $fcStore = $('#mxch-fc-tool-store');
+        var $fcStore = $('#knet-fc-tool-store');
         if ($fcStore.length) {
-            var $fcPanel  = $('#mxch-fc-panel');
-            var $fcList   = $('#mxch-fc-list');
-            var $fcCount  = $('#mxch-fc-count');
-            var $fcEmpty  = $('#mxch-fc-empty');
-            var $fcView   = $('#mxch-fc-view');
-            var $fcDetail = $('#mxch-fc-detail-panel');
-            var $fcSearch = $('#mxch-fc-search');
-            var $fcModal  = $('#mxch-fc-tool-modal');
+            var $fcPanel  = $('#knet-fc-panel');
+            var $fcList   = $('#knet-fc-list');
+            var $fcCount  = $('#knet-fc-count');
+            var $fcEmpty  = $('#knet-fc-empty');
+            var $fcView   = $('#knet-fc-view');
+            var $fcDetail = $('#knet-fc-detail-panel');
+            var $fcSearch = $('#knet-fc-search');
+            var $fcModal  = $('#knet-fc-tool-modal');
             var fcCurrentCb = null; // tool being added/edited in the modal
             var fcViewCb    = null; // tool currently shown in the detail panel
             var fcSelected  = new Set(); // callbacks ticked for bulk remove (plan 5f7409)
@@ -145,8 +145,8 @@ jQuery(document).ready(function($) {
                 noHint:    $fcPanel.data('i18n-nohint') || 'No usage note — the AI decides on its own when to use this.'
             };
             // Localized Add/Edit titles + button labels read from the modal DOM.
-            var $fcStep2Title = $('#mxch-fc-modal-step2-title');
-            var $fcSaveBtn = $('#mxch-fc-modal-save');
+            var $fcStep2Title = $('#knet-fc-modal-step2-title');
+            var $fcSaveBtn = $('#knet-fc-modal-save');
             var FC_TITLE_ADD  = $fcStep2Title.data('add-title') || 'Add Tool';
             var FC_TITLE_EDIT = $fcStep2Title.data('edit-title') || 'Edit Tool';
             var FC_BTN_ADD    = $fcSaveBtn.data('add-label') || 'Add Tool';
@@ -154,7 +154,7 @@ jQuery(document).ready(function($) {
 
             function fcEsc(s) { return $('<div>').text(s == null ? '' : String(s)).html(); }
             function fcEntry(cb) {
-                return $fcStore.find('.mxch-fc-tool').filter(function () {
+                return $fcStore.find('.knet-fc-tool').filter(function () {
                     return String($(this).data('fc-callback')) === String(cb);
                 });
             }
@@ -166,8 +166,8 @@ jQuery(document).ready(function($) {
                 fcViewCb = null;
                 if ($fcView.length) $fcView.hide();
                 if ($fcEmpty.length) $fcEmpty.show();
-                $fcList.find('.mxch-fc-list-item').removeClass('active');
-                if (fcIsMobile()) { $fcDetail.removeClass('mobile-active'); $('body').removeClass('mxch-mobile-panel-open'); }
+                $fcList.find('.knet-fc-list-item').removeClass('active');
+                if (fcIsMobile()) { $fcDetail.removeClass('mobile-active'); $('body').removeClass('knet-mobile-panel-open'); }
             }
 
             // Build the left list from the store (active tools only), applying the
@@ -178,7 +178,7 @@ jQuery(document).ready(function($) {
                 var q = $.trim(($fcSearch.val() || '')).toLowerCase();
                 $fcList.empty();
                 var total = 0;
-                $fcStore.find('.mxch-fc-tool').each(function () {
+                $fcStore.find('.knet-fc-tool').each(function () {
                     var $t = $(this);
                     if (!fcIsOn($t)) return;
                     total++;
@@ -197,15 +197,15 @@ jQuery(document).ready(function($) {
                     var isSel = fcSelected.has(String(cb));
                     var selCls = isSel ? ' selected' : '';
                     $fcList.append(
-                        '<div class="mxch-fc-list-item' + activeCls + selCls + '" data-fc-callback="' + fcEsc(cb) + '">' +
-                            '<input type="checkbox" class="mxch-fc-checkbox"' + (isSel ? ' checked' : '') + '>' +
-                            '<div class="mxch-action-icon"><span class="dashicons dashicons-' + fcEsc(icon) + '"></span></div>' +
-                            '<div class="mxch-action-info">' +
-                                '<div class="mxch-action-name">' + fcEsc(label) + '</div>' +
-                                '<div class="mxch-action-type-label">' + fcEsc(typeLabel) + '</div>' +
+                        '<div class="knet-fc-list-item' + activeCls + selCls + '" data-fc-callback="' + fcEsc(cb) + '">' +
+                            '<input type="checkbox" class="knet-fc-checkbox"' + (isSel ? ' checked' : '') + '>' +
+                            '<div class="knet-action-icon"><span class="dashicons dashicons-' + fcEsc(icon) + '"></span></div>' +
+                            '<div class="knet-action-info">' +
+                                '<div class="knet-action-name">' + fcEsc(label) + '</div>' +
+                                '<div class="knet-action-type-label">' + fcEsc(typeLabel) + '</div>' +
                             '</div>' +
-                            '<div class="mxch-action-meta">' +
-                                '<span class="mxch-action-status enabled">' + fcEsc(fcI18n.active) + '</span>' +
+                            '<div class="knet-action-meta">' +
+                                '<span class="knet-action-status enabled">' + fcEsc(fcI18n.active) + '</span>' +
                             '</div>' +
                         '</div>'
                     );
@@ -216,7 +216,7 @@ jQuery(document).ready(function($) {
                 // Drop any selected callbacks that are no longer in the list (e.g.
                 // filtered out or removed) so the bulk count stays truthful.
                 var fcPresent = {};
-                $fcList.find('.mxch-fc-list-item').each(function () {
+                $fcList.find('.knet-fc-list-item').each(function () {
                     fcPresent[String($(this).data('fc-callback'))] = true;
                 });
                 fcSelected.forEach(function (selCb) {
@@ -237,42 +237,42 @@ jQuery(document).ready(function($) {
                 var icon = $t.data('fc-icon') || 'admin-generic';
                 var isAddon = String($t.data('fc-addon')) === '1';
                 var isCautious = String($t.data('fc-cautious')) === '1';
-                var hint = $.trim($t.find('.mxch-fc-hint-input').val() || '');
+                var hint = $.trim($t.find('.knet-fc-hint-input').val() || '');
                 var typeBits = [];
                 if (isAddon) typeBits.push(fcI18n.addon);
                 if (isCautious) typeBits.push(fcI18n.sensitive);
-                $('#mxch-fc-view-icon').html('<span class="dashicons dashicons-' + fcEsc(icon) + '"></span>');
-                $('#mxch-fc-view-label').text(label);
-                $('#mxch-fc-view-type').text(typeBits.join(' · '));
-                $('#mxch-fc-view-desc').text(desc);
-                var $hint = $('#mxch-fc-view-hint');
+                $('#knet-fc-view-icon').html('<span class="dashicons dashicons-' + fcEsc(icon) + '"></span>');
+                $('#knet-fc-view-label').text(label);
+                $('#knet-fc-view-type').text(typeBits.join(' · '));
+                $('#knet-fc-view-desc').text(desc);
+                var $hint = $('#knet-fc-view-hint');
                 if (hint) { $hint.text(hint).removeClass('is-muted'); }
                 else { $hint.text(fcI18n.noHint).addClass('is-muted'); }
                 // Setup requirement (plan 183856): show the tool's setup note (e.g. the
                 // Brave-key requirement on Web/Image Search) when present, else hide it.
                 var setup = $.trim(String($t.data('fc-setup') || ''));
-                var $setupWrap = $('#mxch-fc-view-setup-wrap');
-                if (setup) { $('#mxch-fc-view-setup').text(setup); $setupWrap.show(); }
+                var $setupWrap = $('#knet-fc-view-setup-wrap');
+                if (setup) { $('#knet-fc-view-setup').text(setup); $setupWrap.show(); }
                 else { $setupWrap.hide(); }
                 $fcEmpty.hide();
                 $fcView.show();
-                $fcList.find('.mxch-fc-list-item').removeClass('active')
+                $fcList.find('.knet-fc-list-item').removeClass('active')
                     .filter(function () { return String($(this).data('fc-callback')) === String(cb); }).addClass('active');
-                if (fcIsMobile()) { $fcDetail.addClass('mobile-active'); $('body').addClass('mxch-mobile-panel-open'); }
+                if (fcIsMobile()) { $fcDetail.addClass('mobile-active'); $('body').addClass('knet-mobile-panel-open'); }
             }
 
             // ---- Add/Edit modal (two-step capability picker) ----
             function fcShowStep(n) {
-                $fcModal.find('.mxch-fc-modal-step').hide();
-                $fcModal.find('.mxch-fc-modal-step[data-step="' + n + '"]').show();
+                $fcModal.find('.knet-fc-modal-step').hide();
+                $fcModal.find('.knet-fc-modal-step[data-step="' + n + '"]').show();
             }
             function fcCloseModal() { $fcModal.hide(); fcCurrentCb = null; }
 
             // Step 1: grid of tools not yet added.
             function fcOpenAddModal() {
-                var $grid = $('#mxch-fc-modal-grid').empty();
+                var $grid = $('#knet-fc-modal-grid').empty();
                 var addable = 0;
-                $fcStore.find('.mxch-fc-tool').each(function () {
+                $fcStore.find('.knet-fc-tool').each(function () {
                     var $t = $(this);
                     if (fcIsOn($t)) return; // already active
                     addable++;
@@ -283,19 +283,19 @@ jQuery(document).ready(function($) {
                     var isAddon = String($t.data('fc-addon')) === '1';
                     var isCautious = String($t.data('fc-cautious')) === '1';
                     var badges = '';
-                    if (isAddon) { badges += ' <span class="mxch-fc-badge mxch-fc-badge-addon">' + fcEsc(fcI18n.addon) + '</span>'; }
-                    if (isCautious) { badges += ' <span class="mxch-fc-badge mxch-fc-badge-sensitive">' + fcEsc(fcI18n.sensitive) + '</span>'; }
+                    if (isAddon) { badges += ' <span class="knet-fc-badge knet-fc-badge-addon">' + fcEsc(fcI18n.addon) + '</span>'; }
+                    if (isCautious) { badges += ' <span class="knet-fc-badge knet-fc-badge-sensitive">' + fcEsc(fcI18n.sensitive) + '</span>'; }
                     $grid.append(
-                        '<div class="mxch-type-card mxch-fc-type-card" data-fc-callback="' + fcEsc(cb) + '">' +
-                            '<div class="mxch-type-icon"><span class="dashicons dashicons-' + fcEsc(icon) + '"></span></div>' +
-                            '<div class="mxch-type-info">' +
+                        '<div class="knet-type-card knet-fc-type-card" data-fc-callback="' + fcEsc(cb) + '">' +
+                            '<div class="knet-type-icon"><span class="dashicons dashicons-' + fcEsc(icon) + '"></span></div>' +
+                            '<div class="knet-type-info">' +
                                 '<h4>' + fcEsc(label) + badges + '</h4>' +
                                 '<p>' + fcEsc(desc) + '</p>' +
                             '</div>' +
                         '</div>'
                     );
                 });
-                $('#mxch-fc-modal-allset').toggle(addable === 0);
+                $('#knet-fc-modal-allset').toggle(addable === 0);
                 $grid.toggle(addable > 0);
                 fcShowStep(1);
                 $fcModal.css('display', 'flex');
@@ -307,11 +307,11 @@ jQuery(document).ready(function($) {
                 if (!$t.length) return;
                 fcCurrentCb = cb;
                 var editing = fcIsOn($t);
-                $('#mxch-fc-modal-selected-icon').html('<span class="dashicons dashicons-' + fcEsc($t.data('fc-icon') || 'admin-generic') + '"></span>');
-                $('#mxch-fc-modal-selected-label').text($t.data('fc-label') || cb);
-                $('#mxch-fc-modal-selected-desc').text($t.data('fc-desc') || '');
-                $('#mxch-fc-modal-hint').val($t.find('.mxch-fc-hint-input').val() || '');
-                $('#mxch-fc-modal-sensitive').toggle(String($t.data('fc-cautious')) === '1');
+                $('#knet-fc-modal-selected-icon').html('<span class="dashicons dashicons-' + fcEsc($t.data('fc-icon') || 'admin-generic') + '"></span>');
+                $('#knet-fc-modal-selected-label').text($t.data('fc-label') || cb);
+                $('#knet-fc-modal-selected-desc').text($t.data('fc-desc') || '');
+                $('#knet-fc-modal-hint').val($t.find('.knet-fc-hint-input').val() || '');
+                $('#knet-fc-modal-sensitive').toggle(String($t.data('fc-cautious')) === '1');
                 $fcStep2Title.text(editing ? FC_TITLE_EDIT : FC_TITLE_ADD);
                 $fcSaveBtn.text(editing ? FC_BTN_SAVE : FC_BTN_ADD);
                 fcShowStep(2);
@@ -320,9 +320,9 @@ jQuery(document).ready(function($) {
 
             // ---- wiring ----
             // "Add" buttons (panel header + empty state) — delegated on $fc.
-            $fc.on('click', '.js-mxch-fc-add', fcOpenAddModal);
-            $fcModal.on('click', '.mxch-fc-type-card', function () { fcOpenConfigStep($(this).data('fc-callback')); });
-            $('#mxch-fc-modal-back').on('click', fcOpenAddModal);
+            $fc.on('click', '.js-knet-fc-add', fcOpenAddModal);
+            $fcModal.on('click', '.knet-fc-type-card', function () { fcOpenConfigStep($(this).data('fc-callback')); });
+            $('#knet-fc-modal-back').on('click', fcOpenAddModal);
             $fcModal.on('click', '[data-fc-modal-close]', fcCloseModal);
             $fcModal.on('click', function (e) { if (e.target === this) fcCloseModal(); }); // backdrop
             $(document).on('keydown', function (e) { if (e.key === 'Escape' && $fcModal.is(':visible')) fcCloseModal(); });
@@ -334,7 +334,7 @@ jQuery(document).ready(function($) {
                 var $t = fcEntry(fcCurrentCb);
                 if (!$t.length) return;
                 var cb = fcCurrentCb;
-                $t.find('.mxch-fc-hint-input').val($('#mxch-fc-modal-hint').val() || '');
+                $t.find('.knet-fc-hint-input').val($('#knet-fc-modal-hint').val() || '');
                 $t.find('input[name="knittnet_fc_tools[]"]').prop('checked', true);
                 fcCloseModal();
                 fcRenderList();
@@ -343,17 +343,17 @@ jQuery(document).ready(function($) {
             });
 
             // List item click → show that tool's detail.
-            $fcList.on('click', '.mxch-fc-list-item', function () {
+            $fcList.on('click', '.knet-fc-list-item', function () {
                 fcSelectTool($(this).data('fc-callback'));
             });
 
             // Detail Edit → reopen the config step for the viewed tool.
-            $('#mxch-fc-edit-btn').on('click', function () {
+            $('#knet-fc-edit-btn').on('click', function () {
                 if (fcViewCb) fcOpenConfigStep(fcViewCb);
             });
             // Detail Remove → disable the tool (keep its hint for a later re-add),
             // refresh the list, and return to the empty state.
-            $('#mxch-fc-remove-btn').on('click', function () {
+            $('#knet-fc-remove-btn').on('click', function () {
                 if (!fcViewCb) return;
                 var $t = fcEntry(fcViewCb);
                 if (!$t.length) return;
@@ -368,9 +368,9 @@ jQuery(document).ready(function($) {
             // wires removal to the SAME path the single Remove button uses (uncheck
             // each tool's store checkbox, then one autosave). FC-specific IDs keep
             // this isolated from the Trigger Phrases bulk JS (plan 5f7409).
-            var $fcSelectAll  = $('#mxch-fc-select-all');
-            var $fcBulkDelete = $('#mxch-fc-delete-selected');
-            var $fcSelCount   = $('#mxch-fc-selected-count');
+            var $fcSelectAll  = $('#knet-fc-select-all');
+            var $fcBulkDelete = $('#knet-fc-delete-selected');
+            var $fcSelCount   = $('#knet-fc-selected-count');
 
             function fcUpdateSelectionUI() {
                 var count = fcSelected.size;
@@ -383,8 +383,8 @@ jQuery(document).ready(function($) {
                     $fcBulkDelete.prop('disabled', true);
                     $fcList.removeClass('selection-mode');
                 }
-                var totalItems = $fcList.find('.mxch-fc-checkbox').length;
-                var checkedItems = $fcList.find('.mxch-fc-checkbox:checked').length;
+                var totalItems = $fcList.find('.knet-fc-checkbox').length;
+                var checkedItems = $fcList.find('.knet-fc-checkbox:checked').length;
                 $fcSelectAll.prop('checked', totalItems > 0 && checkedItems === totalItems);
                 $fcSelectAll.prop('indeterminate', checkedItems > 0 && checkedItems < totalItems);
             }
@@ -393,10 +393,10 @@ jQuery(document).ready(function($) {
             $fcSelectAll.on('change', function () {
                 var on = $(this).is(':checked');
                 fcSelected.clear();
-                $fcList.find('.mxch-fc-list-item').each(function () {
+                $fcList.find('.knet-fc-list-item').each(function () {
                     var $row = $(this);
                     var cb = String($row.data('fc-callback'));
-                    $row.find('.mxch-fc-checkbox').prop('checked', on);
+                    $row.find('.knet-fc-checkbox').prop('checked', on);
                     if (on) { fcSelected.add(cb); $row.addClass('selected'); }
                     else { $row.removeClass('selected'); }
                 });
@@ -404,9 +404,9 @@ jQuery(document).ready(function($) {
             });
 
             // Per-row checkbox: toggle selection without opening the detail view.
-            $fcList.on('click', '.mxch-fc-checkbox', function (e) {
+            $fcList.on('click', '.knet-fc-checkbox', function (e) {
                 e.stopPropagation();
-                var $row = $(this).closest('.mxch-fc-list-item');
+                var $row = $(this).closest('.knet-fc-list-item');
                 var cb = String($row.data('fc-callback'));
                 if ($(this).is(':checked')) { fcSelected.add(cb); $row.addClass('selected'); }
                 else { fcSelected.delete(cb); $row.removeClass('selected'); }
@@ -417,7 +417,7 @@ jQuery(document).ready(function($) {
             // store checkbox (presence = active), then refresh + autosave once.
             $fcBulkDelete.on('click', function () {
                 if (!fcSelected.size) return;
-                var msg = (window.mxchActionsData && mxchActionsData.i18n && mxchActionsData.i18n.confirmBulkDelete)
+                var msg = (window.knetActionsData && knetActionsData.i18n && knetActionsData.i18n.confirmBulkDelete)
                     || 'Remove the selected tools? They stay available to add back later.';
                 if (!window.confirm(msg)) return;
                 var removingViewed = false;
@@ -438,7 +438,7 @@ jQuery(document).ready(function($) {
             // Refresh — re-render the list from the store (parity with the Trigger
             // Phrases refresh affordance; the list is client-built so this re-syncs
             // the view rather than re-fetching).
-            $('#mxch-fc-refresh').on('click', function () {
+            $('#knet-fc-refresh').on('click', function () {
                 var $btn = $(this);
                 $btn.addClass('spinning');
                 fcRenderList();
@@ -450,19 +450,19 @@ jQuery(document).ready(function($) {
     }
 
     // Quick action buttons
-    $('.mxch-quick-action-btn[data-action="view-actions"]').on('click', function() {
-        $('.mxch-nav-link[data-target="all-actions"]').trigger('click');
+    $('.knet-quick-action-btn[data-action="view-actions"]').on('click', function() {
+        $('.knet-nav-link[data-target="all-actions"]').trigger('click');
     });
 
     // Dashboard explainer cards — generic "jump to this section" (e.g. Set up AI Tools).
-    $('.mxch-approach-btn[data-approach-target]').on('click', function() {
+    $('.knet-approach-btn[data-approach-target]').on('click', function() {
         var target = $(this).data('approach-target');
-        $('.mxch-nav-link[data-target="' + target + '"]').trigger('click');
+        $('.knet-nav-link[data-target="' + target + '"]').trigger('click');
     });
 
     // "Add Trigger Phrase" on the dashboard → jump to Trigger Phrases + open the editor.
-    $('#mxch-add-action-dashboard-btn').on('click', function() {
-        $('.mxch-nav-link[data-target="all-actions"]').trigger('click');
+    $('#knet-add-action-dashboard-btn').on('click', function() {
+        $('.knet-nav-link[data-target="all-actions"]').trigger('click');
         setTimeout(function() {
             openActionEditor();
         }, 100);
@@ -478,22 +478,22 @@ jQuery(document).ready(function($) {
 
     function showMobileDetailPanel() {
         if (isMobile()) {
-            $('.mxch-action-detail-panel').addClass('mobile-active');
-            $('body').addClass('mxch-mobile-panel-open');
+            $('.knet-action-detail-panel').addClass('mobile-active');
+            $('body').addClass('knet-mobile-panel-open');
         }
     }
 
     function hideMobileDetailPanel() {
-        $('.mxch-action-detail-panel').removeClass('mobile-active');
-        $('body').removeClass('mxch-mobile-panel-open');
+        $('.knet-action-detail-panel').removeClass('mobile-active');
+        $('body').removeClass('knet-mobile-panel-open');
     }
 
     // Mobile back button handler
-    $(document).on('click', '.mxch-mobile-back-btn', function(e) {
+    $(document).on('click', '.knet-mobile-back-btn', function(e) {
         e.preventDefault();
         hideMobileDetailPanel();
         resetEditorPanel();
-        $('.mxch-action-item').removeClass('active');
+        $('.knet-action-item').removeClass('active');
         currentActionId = null;
     });
 
@@ -517,40 +517,40 @@ jQuery(document).ready(function($) {
     let currentPhrases = []; // Array of {id, text, isLegacy}
 
     function renderPhraseTags() {
-        const $container = $('#mxch-phrase-tags');
+        const $container = $('#knet-phrase-tags');
         let html = '';
         currentPhrases.forEach(function(phrase, index) {
-            const legacyClass = phrase.isLegacy ? ' mxch-phrase-legacy' : '';
-            const badge = phrase.isLegacy ? ' <span class="mxch-legacy-badge">legacy</span>' : '';
-            html += '<span class="mxch-phrase-pill' + legacyClass + '" data-index="' + index + '" data-phrase-id="' + (phrase.id || '') + '">'
+            const legacyClass = phrase.isLegacy ? ' knet-phrase-legacy' : '';
+            const badge = phrase.isLegacy ? ' <span class="knet-legacy-badge">legacy</span>' : '';
+            html += '<span class="knet-phrase-pill' + legacyClass + '" data-index="' + index + '" data-phrase-id="' + (phrase.id || '') + '">'
                 + escapeHtml(phrase.text) + badge
-                + ' <button type="button" class="mxch-phrase-remove" title="Remove">&times;</button>'
+                + ' <button type="button" class="knet-phrase-remove" title="Remove">&times;</button>'
                 + '</span>';
         });
         $container.html(html);
     }
 
     function addPhraseFromInput() {
-        const $input = $('#mxch-phrase-input');
+        const $input = $('#knet-phrase-input');
         const text = $input.val().trim();
         if (!text) return;
 
-        const formMode = $('#mxch-form-mode').val();
-        const intentId = $('#mxch-action-id').val();
+        const formMode = $('#knet-form-mode').val();
+        const intentId = $('#knet-action-id').val();
 
         if (formMode === 'edit' && intentId) {
             // Edit mode: AJAX add immediately
-            const $btn = $('#mxch-add-phrase-btn');
+            const $btn = $('#knet-add-phrase-btn');
             $btn.prop('disabled', true).text('Adding...');
 
             $.ajax({
-                url: mxchActionsData.ajaxUrl,
+                url: knetActionsData.ajaxUrl,
                 type: 'POST',
                 data: {
                     action: 'knittnet_add_phrase',
                     intent_id: intentId,
                     phrase: text,
-                    security: mxchActionsData.addPhraseNonce
+                    security: knetActionsData.addPhraseNonce
                 },
                 success: function(response) {
                     $btn.prop('disabled', false).text('Add');
@@ -576,7 +576,7 @@ jQuery(document).ready(function($) {
     }
 
     // Add phrase on Enter key
-    $(document).on('keydown', '#mxch-phrase-input', function(e) {
+    $(document).on('keydown', '#knet-phrase-input', function(e) {
         if (e.key === 'Enter') {
             e.preventDefault();
             addPhraseFromInput();
@@ -584,14 +584,14 @@ jQuery(document).ready(function($) {
     });
 
     // Add phrase on button click
-    $(document).on('click', '#mxch-add-phrase-btn', function() {
+    $(document).on('click', '#knet-add-phrase-btn', function() {
         addPhraseFromInput();
     });
 
     // Remove phrase on X click
-    $(document).on('click', '.mxch-phrase-remove', function(e) {
+    $(document).on('click', '.knet-phrase-remove', function(e) {
         e.stopPropagation();
-        const $pill = $(this).closest('.mxch-phrase-pill');
+        const $pill = $(this).closest('.knet-phrase-pill');
         const index = parseInt($pill.data('index'));
         const phrase = currentPhrases[index];
 
@@ -599,7 +599,7 @@ jQuery(document).ready(function($) {
 
         if (phrase.isLegacy) {
             // Delete legacy phrases from main table
-            const intentId = $('#mxch-action-id').val();
+            const intentId = $('#knet-action-id').val();
             if (!intentId) {
                 currentPhrases.splice(index, 1);
                 renderPhraseTags();
@@ -609,12 +609,12 @@ jQuery(document).ready(function($) {
             if (!confirm('Remove all legacy grouped phrases? You can re-add them individually for better matching.')) return;
 
             $.ajax({
-                url: mxchActionsData.ajaxUrl,
+                url: knetActionsData.ajaxUrl,
                 type: 'POST',
                 data: {
                     action: 'knittnet_delete_legacy_phrases',
                     intent_id: intentId,
-                    security: mxchActionsData.deleteLegacyNonce
+                    security: knetActionsData.deleteLegacyNonce
                 },
                 success: function(response) {
                     if (response.success) {
@@ -628,12 +628,12 @@ jQuery(document).ready(function($) {
         } else if (phrase.id) {
             // Delete individual phrase via AJAX
             $.ajax({
-                url: mxchActionsData.ajaxUrl,
+                url: knetActionsData.ajaxUrl,
                 type: 'POST',
                 data: {
                     action: 'knittnet_delete_phrase',
                     phrase_id: phrase.id,
-                    security: mxchActionsData.deletePhraseNonce
+                    security: knetActionsData.deletePhraseNonce
                 },
                 success: function(response) {
                     if (response.success) {
@@ -653,12 +653,12 @@ jQuery(document).ready(function($) {
 
     function fetchIndividualPhrases(intentId, callback) {
         $.ajax({
-            url: mxchActionsData.ajaxUrl,
+            url: knetActionsData.ajaxUrl,
             type: 'POST',
             data: {
                 action: 'knittnet_get_phrases',
                 intent_id: intentId,
-                security: mxchActionsData.getPhrasesNonce
+                security: knetActionsData.getPhrasesNonce
             },
             success: function(response) {
                 if (response.success) {
@@ -678,7 +678,7 @@ jQuery(document).ready(function($) {
 
     // Search functionality with debounce
     let searchTimeout;
-    $('#mxch-search-actions').on('input', function() {
+    $('#knet-search-actions').on('input', function() {
         clearTimeout(searchTimeout);
         const searchTerm = $(this).val().toLowerCase();
 
@@ -689,17 +689,17 @@ jQuery(document).ready(function($) {
     });
 
     // Filter by type
-    $('#mxch-filter-actions').on('change', function() {
+    $('#knet-filter-actions').on('change', function() {
         currentFilter = $(this).val();
         currentPage = 1;
-        loadActionList(currentPage, $('#mxch-search-actions').val(), currentFilter);
+        loadActionList(currentPage, $('#knet-search-actions').val(), currentFilter);
     });
 
     // Refresh button
-    $('#mxch-refresh-actions').on('click', function() {
+    $('#knet-refresh-actions').on('click', function() {
         const $btn = $(this);
         $btn.addClass('spinning');
-        loadActionList(currentPage, $('#mxch-search-actions').val(), currentFilter);
+        loadActionList(currentPage, $('#knet-search-actions').val(), currentFilter);
         setTimeout(() => $btn.removeClass('spinning'), 500);
     });
 
@@ -708,20 +708,20 @@ jQuery(document).ready(function($) {
     // ==========================================================================
 
     // Select all checkbox
-    $('#mxch-select-all-actions').on('change', function() {
+    $('#knet-select-all-actions').on('change', function() {
         const isChecked = $(this).is(':checked');
-        $('.mxch-action-checkbox').prop('checked', isChecked);
+        $('.knet-action-checkbox').prop('checked', isChecked);
 
         if (isChecked) {
-            $('.mxch-action-item').each(function() {
+            $('.knet-action-item').each(function() {
                 selectedActions.add($(this).data('action-id'));
                 $(this).addClass('selected');
             });
-            $('#mxch-action-list').addClass('selection-mode');
+            $('#knet-action-list').addClass('selection-mode');
         } else {
             selectedActions.clear();
-            $('.mxch-action-item').removeClass('selected');
-            $('#mxch-action-list').removeClass('selection-mode');
+            $('.knet-action-item').removeClass('selected');
+            $('#knet-action-list').removeClass('selection-mode');
         }
 
         updateSelectionUI();
@@ -730,32 +730,32 @@ jQuery(document).ready(function($) {
     // Update selection UI
     function updateSelectionUI() {
         const count = selectedActions.size;
-        const $countEl = $('#mxch-selected-action-count');
-        const $deleteBtn = $('#mxch-delete-selected-actions');
+        const $countEl = $('#knet-selected-action-count');
+        const $deleteBtn = $('#knet-delete-selected-actions');
 
         if (count > 0) {
             $countEl.text(count + ' selected').addClass('has-selection');
             $deleteBtn.prop('disabled', false);
-            $('#mxch-action-list').addClass('selection-mode');
+            $('#knet-action-list').addClass('selection-mode');
         } else {
             $countEl.removeClass('has-selection');
             $deleteBtn.prop('disabled', true);
-            $('#mxch-action-list').removeClass('selection-mode');
+            $('#knet-action-list').removeClass('selection-mode');
         }
 
         // Update select all checkbox state
-        const totalItems = $('.mxch-action-checkbox').length;
-        const checkedItems = $('.mxch-action-checkbox:checked').length;
-        $('#mxch-select-all-actions').prop('checked', totalItems > 0 && checkedItems === totalItems);
-        $('#mxch-select-all-actions').prop('indeterminate', checkedItems > 0 && checkedItems < totalItems);
+        const totalItems = $('.knet-action-checkbox').length;
+        const checkedItems = $('.knet-action-checkbox:checked').length;
+        $('#knet-select-all-actions').prop('checked', totalItems > 0 && checkedItems === totalItems);
+        $('#knet-select-all-actions').prop('indeterminate', checkedItems > 0 && checkedItems < totalItems);
     }
 
     // Delete selected button
-    $('#mxch-delete-selected-actions').on('click', function() {
+    $('#knet-delete-selected-actions').on('click', function() {
         const count = selectedActions.size;
         if (count === 0) return;
 
-        if (!confirm(mxchActionsData.i18n.confirmBulkDelete)) {
+        if (!confirm(knetActionsData.i18n.confirmBulkDelete)) {
             return;
         }
 
@@ -767,12 +767,12 @@ jQuery(document).ready(function($) {
         showLoading();
 
         $.ajax({
-            url: mxchActionsData.ajaxUrl,
+            url: knetActionsData.ajaxUrl,
             type: 'POST',
             data: {
                 action: 'knittnet_bulk_delete_actions',
                 action_ids: actionIds,
-                security: mxchActionsData.deleteNonce
+                security: knetActionsData.deleteNonce
             },
             success: function(response) {
                 hideLoading();
@@ -780,7 +780,7 @@ jQuery(document).ready(function($) {
                 if (response.success) {
                     // Clear selection
                     selectedActions.clear();
-                    $('#mxch-select-all-actions').prop('checked', false);
+                    $('#knet-select-all-actions').prop('checked', false);
                     updateSelectionUI();
 
                     // If current action was deleted, reset panel
@@ -790,25 +790,25 @@ jQuery(document).ready(function($) {
                     }
 
                     // Reload list
-                    loadActionList(currentPage, $('#mxch-search-actions').val(), currentFilter);
+                    loadActionList(currentPage, $('#knet-search-actions').val(), currentFilter);
                 } else {
-                    alert(response.data || mxchActionsData.i18n.error);
+                    alert(response.data || knetActionsData.i18n.error);
                 }
             },
             error: function() {
                 hideLoading();
-                alert(mxchActionsData.i18n.error);
+                alert(knetActionsData.i18n.error);
             }
         });
     }
 
     // Load action list function
     function loadActionList(page, searchTerm, filter) {
-        const $container = $('#mxch-action-list');
-        $container.html('<div class="mxch-list-loading"><span class="spinner is-active"></span></div>');
+        const $container = $('#knet-action-list');
+        $container.html('<div class="knet-list-loading"><span class="spinner is-active"></span></div>');
 
         $.ajax({
-            url: mxchActionsData.ajaxUrl,
+            url: knetActionsData.ajaxUrl,
             type: 'POST',
             data: {
                 action: 'knittnet_fetch_actions_list',
@@ -817,7 +817,7 @@ jQuery(document).ready(function($) {
                 search: searchTerm,
                 callback_filter: filter,
                 sort_order: currentSortOrder,
-                security: mxchActionsData.nonce
+                security: knetActionsData.nonce
             },
             success: function(response) {
                 actionsLoaded = true;
@@ -829,20 +829,20 @@ jQuery(document).ready(function($) {
                     updateActionCount(response.data.showing_start, response.data.showing_end, response.data.total_actions);
                     renderPagination(response.data.page, response.data.total_pages, searchTerm, filter);
                 } else {
-                    $container.html('<div class="mxch-list-empty"><p>No trigger phrases found</p></div>');
+                    $container.html('<div class="knet-list-empty"><p>No trigger phrases found</p></div>');
                     updateActionCount(0, 0, 0);
-                    $('#mxch-actions-pagination').html('');
+                    $('#knet-actions-pagination').html('');
                 }
             },
             error: function() {
-                $container.html('<div class="mxch-list-empty"><p>Error loading trigger phrases</p></div>');
+                $container.html('<div class="knet-list-empty"><p>Error loading trigger phrases</p></div>');
             }
         });
     }
 
     // Render action list items
     function renderActionList(actions) {
-        const $container = $('#mxch-action-list');
+        const $container = $('#knet-action-list');
         let html = '';
 
         actions.forEach(function(action) {
@@ -854,7 +854,7 @@ jQuery(document).ready(function($) {
             const statusText = action.enabled ? 'Enabled' : 'Disabled';
 
             html += `
-                <div class="mxch-action-item${isActive}${isSelected}${isDisabled}"
+                <div class="knet-action-item${isActive}${isSelected}${isDisabled}"
                      data-action-id="${action.id}"
                      data-label="${escapeHtml(action.label)}"
                      data-phrases="${escapeHtml(action.phrases)}"
@@ -864,16 +864,16 @@ jQuery(document).ready(function($) {
                      data-enabled-bots='${escapeHtml(JSON.stringify(action.enabled_bots))}'
                      data-has-legacy="${action.has_legacy_vector ? '1' : '0'}"
                      data-individual-count="${action.individual_phrase_count || 0}">
-                    <input type="checkbox" class="mxch-action-checkbox"${isChecked}>
-                    <div class="mxch-action-icon">
+                    <input type="checkbox" class="knet-action-checkbox"${isChecked}>
+                    <div class="knet-action-icon">
                         <span class="dashicons dashicons-${escapeHtml(action.icon || 'admin-generic')}"></span>
                     </div>
-                    <div class="mxch-action-info">
-                        <div class="mxch-action-name">${escapeHtml(action.label)}</div>
-                        <div class="mxch-action-type-label">${escapeHtml(action.callback_label)}</div>
+                    <div class="knet-action-info">
+                        <div class="knet-action-name">${escapeHtml(action.label)}</div>
+                        <div class="knet-action-type-label">${escapeHtml(action.callback_label)}</div>
                     </div>
-                    <div class="mxch-action-meta">
-                        <span class="mxch-action-status ${statusClass}">${statusText}</span>
+                    <div class="knet-action-meta">
+                        <span class="knet-action-status ${statusClass}">${statusText}</span>
                     </div>
                 </div>
             `;
@@ -882,9 +882,9 @@ jQuery(document).ready(function($) {
         $container.html(html);
 
         // Attach checkbox handlers
-        $('.mxch-action-checkbox').on('click', function(e) {
+        $('.knet-action-checkbox').on('click', function(e) {
             e.stopPropagation();
-            const $item = $(this).closest('.mxch-action-item');
+            const $item = $(this).closest('.knet-action-item');
             const actionId = $item.data('action-id');
 
             if ($(this).is(':checked')) {
@@ -899,14 +899,14 @@ jQuery(document).ready(function($) {
         });
 
         // Attach click handlers for selecting action
-        $('.mxch-action-item').on('click', function(e) {
-            if ($(e.target).is('.mxch-action-checkbox')) return;
+        $('.knet-action-item').on('click', function(e) {
+            if ($(e.target).is('.knet-action-checkbox')) return;
 
             const actionId = $(this).data('action-id');
             selectAction(actionId, $(this));
 
             // Update active state
-            $('.mxch-action-item').removeClass('active');
+            $('.knet-action-item').removeClass('active');
             $(this).addClass('active');
         });
 
@@ -917,38 +917,38 @@ jQuery(document).ready(function($) {
     // Update action count display
     function updateActionCount(start, end, total) {
         if (total === 0) {
-            $('#mxch-action-count').text('0 trigger phrases');
+            $('#knet-action-count').text('0 trigger phrases');
         } else {
-            $('#mxch-action-count').text(`${start}-${end} / ${total} trigger phrases`);
+            $('#knet-action-count').text(`${start}-${end} / ${total} trigger phrases`);
         }
     }
 
     // Render pagination
     function renderPagination(currentPage, totalPages, searchTerm, filter) {
-        const $container = $('#mxch-actions-pagination');
+        const $container = $('#knet-actions-pagination');
 
         if (totalPages <= 1) {
             $container.html('');
             return;
         }
 
-        let html = '<div class="mxch-pagination-btns">';
+        let html = '<div class="knet-pagination-btns">';
 
         if (currentPage > 1) {
-            html += `<button class="mxch-page-btn" data-page="${currentPage - 1}">&laquo;</button>`;
+            html += `<button class="knet-page-btn" data-page="${currentPage - 1}">&laquo;</button>`;
         }
 
-        html += `<span class="mxch-page-info">${currentPage} / ${totalPages}</span>`;
+        html += `<span class="knet-page-info">${currentPage} / ${totalPages}</span>`;
 
         if (currentPage < totalPages) {
-            html += `<button class="mxch-page-btn" data-page="${currentPage + 1}">&raquo;</button>`;
+            html += `<button class="knet-page-btn" data-page="${currentPage + 1}">&raquo;</button>`;
         }
 
         html += '</div>';
         $container.html(html);
 
         // Pagination click handlers
-        $('.mxch-page-btn').on('click', function() {
+        $('.knet-page-btn').on('click', function() {
             const pageNum = $(this).data('page');
             loadActionList(pageNum, searchTerm, filter);
         });
@@ -984,79 +984,79 @@ jQuery(document).ready(function($) {
 
     // Show action view (details)
     function showActionView(action) {
-        $('#mxch-action-empty').hide();
-        $('#mxch-action-editor').show();
+        $('#knet-action-empty').hide();
+        $('#knet-action-editor').show();
 
         // Hide editor steps, show view
-        $('.mxch-editor-step').removeClass('active');
-        $('#mxch-action-view').addClass('active');
+        $('.knet-editor-step').removeClass('active');
+        $('#knet-action-view').addClass('active');
 
         // Show detail panel on mobile
         showMobileDetailPanel();
 
         // Populate view
-        $('#mxch-view-title').text(action.label);
-        $('#mxch-view-label').text(action.label);
+        $('#knet-view-title').text(action.label);
+        $('#knet-view-label').text(action.label);
 
         // Get callback label from filter dropdown
-        const callbackLabel = $('#mxch-filter-actions option[value="' + action.callback_function + '"]').text() || action.callback_function;
-        $('#mxch-view-type').text(callbackLabel);
+        const callbackLabel = $('#knet-filter-actions option[value="' + action.callback_function + '"]').text() || action.callback_function;
+        $('#knet-view-type').text(callbackLabel);
 
         // Get icon from type grid
-        const $typeCard = $('.mxch-type-card[data-value="' + action.callback_function + '"]');
+        const $typeCard = $('.knet-type-card[data-value="' + action.callback_function + '"]');
         const iconClass = $typeCard.find('.dashicons').attr('class') || 'dashicons dashicons-admin-generic';
-        $('#mxch-view-icon').html('<span class="' + iconClass + '"></span>');
-        $('#mxch-detail-icon').html('<span class="' + iconClass + '"></span>');
+        $('#knet-view-icon').html('<span class="' + iconClass + '"></span>');
+        $('#knet-detail-icon').html('<span class="' + iconClass + '"></span>');
 
         // Phrases - show legacy grouped phrases and individual phrases
         let phrasesHtml = '';
         const legacyPhrases = action.phrases ? String(action.phrases).trim() : '';
         if (legacyPhrases) {
-            phrasesHtml += '<span class="mxch-phrase-tag mxch-phrase-legacy">' + escapeHtml(legacyPhrases) + ' <span class="mxch-legacy-badge">legacy</span></span>';
+            phrasesHtml += '<span class="knet-phrase-tag knet-phrase-legacy">' + escapeHtml(legacyPhrases) + ' <span class="knet-legacy-badge">legacy</span></span>';
         }
         if (action.individualPhrases && action.individualPhrases.length) {
             action.individualPhrases.forEach(function(p) {
-                phrasesHtml += '<span class="mxch-phrase-tag">' + escapeHtml(p.phrase) + '</span>';
+                phrasesHtml += '<span class="knet-phrase-tag">' + escapeHtml(p.phrase) + '</span>';
             });
         }
         if (!phrasesHtml) {
-            phrasesHtml = '<span class="mxch-no-phrases">No trigger phrases configured</span>';
+            phrasesHtml = '<span class="knet-no-phrases">No trigger phrases configured</span>';
         }
-        $('#mxch-view-phrases').html(phrasesHtml);
+        $('#knet-view-phrases').html(phrasesHtml);
 
         // Settings
-        $('#mxch-view-threshold').text(action.threshold + '%');
+        $('#knet-view-threshold').text(action.threshold + '%');
 
         const statusText = action.enabled ? 'Enabled' : 'Disabled';
-        const statusClass = action.enabled ? 'mxch-status-enabled' : 'mxch-status-disabled';
-        $('#mxch-view-status').text(statusText).removeClass('mxch-status-enabled mxch-status-disabled').addClass(statusClass);
+        const statusClass = action.enabled ? 'knet-status-enabled' : 'knet-status-disabled';
+        $('#knet-view-status').text(statusText).removeClass('knet-status-enabled knet-status-disabled').addClass(statusClass);
 
         // Toggle switch
-        $('#mxch-action-enabled-toggle').prop('checked', action.enabled);
+        $('#knet-action-enabled-toggle').prop('checked', action.enabled);
 
         // Bots
         let botsHtml = '';
         const enabledBots = Array.isArray(action.enabled_bots) ? action.enabled_bots : ['default'];
         enabledBots.forEach(function(bot) {
             const botName = bot === 'default' ? 'Default Bot' : bot;
-            botsHtml += '<span class="mxch-bot-tag">' + escapeHtml(botName) + '</span>';
+            botsHtml += '<span class="knet-bot-tag">' + escapeHtml(botName) + '</span>';
         });
-        $('#mxch-view-bots').html(botsHtml);
+        $('#knet-view-bots').html(botsHtml);
 
         // Store current action data for editing
-        $('#mxch-action-view').data('current-action', action);
+        $('#knet-action-view').data('current-action', action);
     }
 
     // Open action editor (for creating new)
     function openActionEditor() {
         currentActionId = null;
 
-        $('#mxch-action-empty').hide();
-        $('#mxch-action-editor').show();
+        $('#knet-action-empty').hide();
+        $('#knet-action-editor').show();
 
         // Show step 1
-        $('.mxch-editor-step').removeClass('active');
-        $('#mxch-editor-step-1').addClass('active');
+        $('.knet-editor-step').removeClass('active');
+        $('#knet-editor-step-1').addClass('active');
 
         // Reset form
         resetForm();
@@ -1069,20 +1069,20 @@ jQuery(document).ready(function($) {
     function openActionEditorForEdit(action) {
         currentActionId = action.id;
 
-        $('#mxch-action-empty').hide();
-        $('#mxch-action-editor').show();
+        $('#knet-action-empty').hide();
+        $('#knet-action-editor').show();
 
         // Go directly to step 2
-        $('.mxch-editor-step').removeClass('active');
-        $('#mxch-editor-step-2').addClass('active');
+        $('.knet-editor-step').removeClass('active');
+        $('#knet-editor-step-2').addClass('active');
 
         // Populate form
-        $('#mxch-action-id').val(action.id);
-        $('#mxch-callback-function').val(action.callback_function);
-        $('#mxch-form-mode').val('edit');
-        $('#mxch-action-label').val(action.label);
-        $('#mxch-action-threshold').val(action.threshold);
-        $('#mxch-threshold-value').text(action.threshold + '%');
+        $('#knet-action-id').val(action.id);
+        $('#knet-callback-function').val(action.callback_function);
+        $('#knet-form-mode').val('edit');
+        $('#knet-action-label').val(action.label);
+        $('#knet-action-threshold').val(action.threshold);
+        $('#knet-threshold-value').text(action.threshold + '%');
 
         // Populate phrase tags
         currentPhrases = [];
@@ -1098,54 +1098,54 @@ jQuery(document).ready(function($) {
         renderPhraseTags();
 
         // Set selected type display
-        const $typeCard = $('.mxch-type-card[data-value="' + action.callback_function + '"]');
-        const iconHtml = $typeCard.find('.mxch-type-icon').html();
+        const $typeCard = $('.knet-type-card[data-value="' + action.callback_function + '"]');
+        const iconHtml = $typeCard.find('.knet-type-icon').html();
         const typeLabel = $typeCard.data('label');
         const typeDesc = $typeCard.find('p').text();
 
-        $('#mxch-selected-type-icon').html(iconHtml);
-        $('#mxch-selected-type-label').text(typeLabel);
-        $('#mxch-selected-type-desc').text(typeDesc);
-        $('#mxch-config-title').text('Edit Trigger Phrase');
+        $('#knet-selected-type-icon').html(iconHtml);
+        $('#knet-selected-type-label').text(typeLabel);
+        $('#knet-selected-type-desc').text(typeDesc);
+        $('#knet-config-title').text('Edit Trigger Phrase');
 
         // Set enabled bots
         const enabledBots = Array.isArray(action.enabled_bots) ? action.enabled_bots : ['default'];
-        $('#mxch-bot-selector input[type="checkbox"]').each(function() {
+        $('#knet-bot-selector input[type="checkbox"]').each(function() {
             $(this).prop('checked', enabledBots.includes($(this).val()));
         });
 
         // Update save button text
-        $('#mxch-save-action').text('Update Trigger Phrase');
+        $('#knet-save-action').text('Update Trigger Phrase');
     }
 
     // Reset form
     function resetForm() {
-        $('#mxch-action-id').val('');
-        $('#mxch-callback-function').val('');
-        $('#mxch-form-mode').val('add');
-        $('#mxch-action-label').val('');
-        $('#mxch-action-threshold').val(85);
+        $('#knet-action-id').val('');
+        $('#knet-callback-function').val('');
+        $('#knet-form-mode').val('add');
+        $('#knet-action-label').val('');
+        $('#knet-action-threshold').val(85);
 
         // Clear phrase tags
         currentPhrases = [];
         renderPhraseTags();
-        $('#mxch-threshold-value').text('85%');
-        $('#mxch-config-title').text('Configure Trigger Phrase');
-        $('#mxch-save-action').text('Save Trigger Phrase');
+        $('#knet-threshold-value').text('85%');
+        $('#knet-config-title').text('Configure Trigger Phrase');
+        $('#knet-save-action').text('Save Trigger Phrase');
 
         // Reset bot selection
-        $('#mxch-bot-selector input[type="checkbox"]').prop('checked', false);
-        $('#mxch-bot-selector input[value="default"]').prop('checked', true);
+        $('#knet-bot-selector input[type="checkbox"]').prop('checked', false);
+        $('#knet-bot-selector input[value="default"]').prop('checked', true);
 
         // Reset type selection
-        $('.mxch-type-card').removeClass('selected');
+        $('.knet-type-card').removeClass('selected');
     }
 
     // Reset editor panel to empty state
     function resetEditorPanel() {
-        $('#mxch-action-editor').hide();
-        $('#mxch-action-empty').show();
-        $('.mxch-editor-step').removeClass('active');
+        $('#knet-action-editor').hide();
+        $('#knet-action-empty').show();
+        $('.knet-editor-step').removeClass('active');
 
         // Hide mobile panel
         hideMobileDetailPanel();
@@ -1156,22 +1156,22 @@ jQuery(document).ready(function($) {
     // ==========================================================================
 
     // Add new action buttons
-    $('#mxch-add-action-btn, #mxch-create-first-action-btn').on('click', function() {
+    $('#knet-add-action-btn, #knet-create-first-action-btn').on('click', function() {
         openActionEditor();
     });
 
     // Close editor buttons
-    $('#mxch-close-editor, #mxch-close-editor-2').on('click', function() {
+    $('#knet-close-editor, #knet-close-editor-2').on('click', function() {
         resetEditorPanel();
-        $('.mxch-action-item').removeClass('active');
+        $('.knet-action-item').removeClass('active');
         currentActionId = null;
     });
 
     // Cancel button
-    $('#mxch-cancel-action').on('click', function() {
-        if (currentActionId && $('#mxch-form-mode').val() === 'edit') {
+    $('#knet-cancel-action').on('click', function() {
+        if (currentActionId && $('#knet-form-mode').val() === 'edit') {
             // Go back to view mode
-            const action = $('#mxch-action-view').data('current-action');
+            const action = $('#knet-action-view').data('current-action');
             if (action) {
                 showActionView(action);
             }
@@ -1181,30 +1181,30 @@ jQuery(document).ready(function($) {
     });
 
     // Back to step 1
-    $('#mxch-back-to-step-1').on('click', function() {
-        if ($('#mxch-form-mode').val() === 'edit') {
+    $('#knet-back-to-step-1').on('click', function() {
+        if ($('#knet-form-mode').val() === 'edit') {
             // If editing, go back to view
-            const action = $('#mxch-action-view').data('current-action');
+            const action = $('#knet-action-view').data('current-action');
             if (action) {
                 showActionView(action);
             }
         } else {
             // If creating, go back to step 1
-            $('.mxch-editor-step').removeClass('active');
-            $('#mxch-editor-step-1').addClass('active');
+            $('.knet-editor-step').removeClass('active');
+            $('#knet-editor-step-1').addClass('active');
         }
     });
 
     // Edit action button
-    $('#mxch-edit-action-btn').on('click', function() {
-        const action = $('#mxch-action-view').data('current-action');
+    $('#knet-edit-action-btn').on('click', function() {
+        const action = $('#knet-action-view').data('current-action');
         if (action) {
             openActionEditorForEdit(action);
         }
     });
 
     // Toggle enabled status
-    $('#mxch-action-enabled-toggle').on('change', function() {
+    $('#knet-action-enabled-toggle').on('change', function() {
         if (!currentActionId) return;
 
         const isEnabled = $(this).is(':checked');
@@ -1212,7 +1212,7 @@ jQuery(document).ready(function($) {
     });
 
     // Delete action button
-    $('#mxch-delete-action-btn').on('click', function() {
+    $('#knet-delete-action-btn').on('click', function() {
         if (!currentActionId) return;
         showDeleteModal(currentActionId);
     });
@@ -1222,24 +1222,24 @@ jQuery(document).ready(function($) {
     // ==========================================================================
 
     // Type search
-    $('#mxch-type-search-input').on('input', function() {
+    $('#knet-type-search-input').on('input', function() {
         const searchTerm = $(this).val().toLowerCase();
         filterTypeCards(searchTerm, 'all');
     });
 
     // Category buttons
-    $('.mxch-category-btn').on('click', function() {
-        $('.mxch-category-btn').removeClass('active');
+    $('.knet-category-btn').on('click', function() {
+        $('.knet-category-btn').removeClass('active');
         $(this).addClass('active');
 
         const category = $(this).data('category');
-        const searchTerm = $('#mxch-type-search-input').val().toLowerCase();
+        const searchTerm = $('#knet-type-search-input').val().toLowerCase();
         filterTypeCards(searchTerm, category);
     });
 
     // Filter type cards
     function filterTypeCards(searchTerm, category) {
-        $('.mxch-type-card').each(function() {
+        $('.knet-type-card').each(function() {
             const $card = $(this);
             const cardCategory = $card.data('category');
             const cardLabel = $card.data('label').toLowerCase();
@@ -1257,40 +1257,40 @@ jQuery(document).ready(function($) {
     }
 
     // Type card click
-    $('.mxch-type-card').on('click', function() {
+    $('.knet-type-card').on('click', function() {
         const $card = $(this);
 
         // Check if pro required
-        if ($card.hasClass('mxch-type-pro') && !mxchActionsData.isActivated) {
-            alert(mxchActionsData.i18n.proRequired);
+        if ($card.hasClass('knet-type-pro') && !knetActionsData.isActivated) {
+            alert(knetActionsData.i18n.proRequired);
             return;
         }
 
         // Check if addon required
-        if ($card.hasClass('mxch-type-addon') && $card.data('installed') !== true) {
-            alert(mxchActionsData.i18n.addonRequired);
+        if ($card.hasClass('knet-type-addon') && $card.data('installed') !== true) {
+            alert(knetActionsData.i18n.addonRequired);
             return;
         }
 
         // Select this card
-        $('.mxch-type-card').removeClass('selected');
+        $('.knet-type-card').removeClass('selected');
         $card.addClass('selected');
 
         // Get card data
         const callback = $card.data('value');
         const label = $card.data('label');
-        const iconHtml = $card.find('.mxch-type-icon').html();
+        const iconHtml = $card.find('.knet-type-icon').html();
         const desc = $card.find('p').text();
 
         // Populate step 2
-        $('#mxch-callback-function').val(callback);
-        $('#mxch-selected-type-icon').html(iconHtml);
-        $('#mxch-selected-type-label').text(label);
-        $('#mxch-selected-type-desc').text(desc);
+        $('#knet-callback-function').val(callback);
+        $('#knet-selected-type-icon').html(iconHtml);
+        $('#knet-selected-type-label').text(label);
+        $('#knet-selected-type-desc').text(desc);
 
         // Go to step 2
-        $('.mxch-editor-step').removeClass('active');
-        $('#mxch-editor-step-2').addClass('active');
+        $('.knet-editor-step').removeClass('active');
+        $('#knet-editor-step-2').addClass('active');
     });
 
     // ==========================================================================
@@ -1298,19 +1298,19 @@ jQuery(document).ready(function($) {
     // ==========================================================================
 
     // Threshold slider
-    $('#mxch-action-threshold').on('input', function() {
-        $('#mxch-threshold-value').text($(this).val() + '%');
+    $('#knet-action-threshold').on('input', function() {
+        $('#knet-threshold-value').text($(this).val() + '%');
     });
 
     // Form submission
-    $('#mxch-action-form').on('submit', function(e) {
+    $('#knet-action-form').on('submit', function(e) {
         e.preventDefault();
 
-        const formMode = $('#mxch-form-mode').val();
-        const actionId = $('#mxch-action-id').val();
-        const callbackFunction = $('#mxch-callback-function').val();
-        const label = $('#mxch-action-label').val().trim();
-        const threshold = $('#mxch-action-threshold').val();
+        const formMode = $('#knet-form-mode').val();
+        const actionId = $('#knet-action-id').val();
+        const callbackFunction = $('#knet-callback-function').val();
+        const label = $('#knet-action-label').val().trim();
+        const threshold = $('#knet-action-threshold').val();
 
         // Validation
         if (!callbackFunction) {
@@ -1320,20 +1320,20 @@ jQuery(document).ready(function($) {
 
         if (!label) {
             alert('Please enter an action label.');
-            $('#mxch-action-label').focus();
+            $('#knet-action-label').focus();
             return;
         }
 
         // Check phrases exist (from tag input)
         if (currentPhrases.length === 0) {
             alert('Please add at least one trigger phrase.');
-            $('#mxch-phrase-input').focus();
+            $('#knet-phrase-input').focus();
             return;
         }
 
         // Get enabled bots
         const enabledBots = [];
-        $('#mxch-bot-selector input[type="checkbox"]:checked').each(function() {
+        $('#knet-bot-selector input[type="checkbox"]:checked').each(function() {
             enabledBots.push($(this).val());
         });
 
@@ -1349,7 +1349,7 @@ jQuery(document).ready(function($) {
             similarity_threshold: threshold,
             callback_function: callbackFunction,
             enabled_bots: enabledBots,
-            security: formMode === 'edit' ? mxchActionsData.editNonce : mxchActionsData.addNonce
+            security: formMode === 'edit' ? knetActionsData.editNonce : knetActionsData.addNonce
         };
 
         if (formMode === 'edit') {
@@ -1369,7 +1369,7 @@ jQuery(document).ready(function($) {
         }
 
         $.ajax({
-            url: mxchActionsData.ajaxUrl,
+            url: knetActionsData.ajaxUrl,
             type: 'POST',
             data: data,
             success: function(response) {
@@ -1377,7 +1377,7 @@ jQuery(document).ready(function($) {
 
                 if (response.success) {
                     // Reload list
-                    loadActionList(currentPage, $('#mxch-search-actions').val(), currentFilter);
+                    loadActionList(currentPage, $('#knet-search-actions').val(), currentFilter);
 
                     // Reset and close editor
                     resetEditorPanel();
@@ -1386,12 +1386,12 @@ jQuery(document).ready(function($) {
                     // Show success message (could use a toast notification)
                     // For now, just reload
                 } else {
-                    alert(response.data || mxchActionsData.i18n.error);
+                    alert(response.data || knetActionsData.i18n.error);
                 }
             },
             error: function() {
                 hideLoading();
-                alert(mxchActionsData.i18n.error);
+                alert(knetActionsData.i18n.error);
             }
         });
     });
@@ -1402,9 +1402,9 @@ jQuery(document).ready(function($) {
 
     function toggleActionStatus(actionId, isEnabled) {
         // Optimistic UI update - update immediately before AJAX completes
-        const $item = $('.mxch-action-item[data-action-id="' + actionId + '"]');
-        const $status = $item.find('.mxch-action-status');
-        const $toggle = $('#mxch-action-enabled-toggle');
+        const $item = $('.knet-action-item[data-action-id="' + actionId + '"]');
+        const $status = $item.find('.knet-action-status');
+        const $toggle = $('#knet-action-enabled-toggle');
 
         // Immediately update UI
         $item.data('enabled', isEnabled ? '1' : '0');
@@ -1418,36 +1418,36 @@ jQuery(document).ready(function($) {
 
         // Update view status immediately
         const statusText = isEnabled ? 'Enabled' : 'Disabled';
-        const statusClass = isEnabled ? 'mxch-status-enabled' : 'mxch-status-disabled';
-        $('#mxch-view-status').text(statusText).removeClass('mxch-status-enabled mxch-status-disabled').addClass(statusClass);
+        const statusClass = isEnabled ? 'knet-status-enabled' : 'knet-status-disabled';
+        $('#knet-view-status').text(statusText).removeClass('knet-status-enabled knet-status-disabled').addClass(statusClass);
 
         // Update stored data immediately
-        const currentData = $('#mxch-action-view').data('current-action');
+        const currentData = $('#knet-action-view').data('current-action');
         if (currentData) {
             currentData.enabled = isEnabled;
-            $('#mxch-action-view').data('current-action', currentData);
+            $('#knet-action-view').data('current-action', currentData);
         }
 
         $.ajax({
-            url: mxchActionsData.ajaxUrl,
+            url: knetActionsData.ajaxUrl,
             type: 'POST',
             data: {
                 action: 'knittnet_toggle_action_status',
                 action_id: actionId,
                 enabled: isEnabled ? 1 : 0,
-                security: mxchActionsData.toggleNonce
+                security: knetActionsData.toggleNonce
             },
             success: function(response) {
                 if (!response.success) {
                     // Revert optimistic update on failure
                     revertToggleUI(!isEnabled, $item, $status, $toggle);
-                    alert(response.data || mxchActionsData.i18n.error);
+                    alert(response.data || knetActionsData.i18n.error);
                 }
             },
             error: function() {
                 // Revert optimistic update on error
                 revertToggleUI(!isEnabled, $item, $status, $toggle);
-                alert(mxchActionsData.i18n.error);
+                alert(knetActionsData.i18n.error);
             }
         });
     }
@@ -1464,8 +1464,8 @@ jQuery(document).ready(function($) {
             $item.addClass('disabled');
         }
         const statusText = revertEnabled ? 'Enabled' : 'Disabled';
-        const statusClass = revertEnabled ? 'mxch-status-enabled' : 'mxch-status-disabled';
-        $('#mxch-view-status').text(statusText).removeClass('mxch-status-enabled mxch-status-disabled').addClass(statusClass);
+        const statusClass = revertEnabled ? 'knet-status-enabled' : 'knet-status-disabled';
+        $('#knet-view-status').text(statusText).removeClass('knet-status-enabled knet-status-disabled').addClass(statusClass);
     }
 
     // ==========================================================================
@@ -1473,17 +1473,17 @@ jQuery(document).ready(function($) {
     // ==========================================================================
 
     function showDeleteModal(actionId) {
-        $('#mxch-delete-modal').show();
-        $('#mxch-confirm-delete').data('action-id', actionId);
+        $('#knet-delete-modal').show();
+        $('#knet-confirm-delete').data('action-id', actionId);
     }
 
-    $('#mxch-delete-modal .mxch-modal-close, #mxch-cancel-delete').on('click', function() {
-        $('#mxch-delete-modal').hide();
+    $('#knet-delete-modal .knet-modal-close, #knet-cancel-delete').on('click', function() {
+        $('#knet-delete-modal').hide();
     });
 
-    $('#mxch-confirm-delete').on('click', function() {
+    $('#knet-confirm-delete').on('click', function() {
         const actionId = $(this).data('action-id');
-        $('#mxch-delete-modal').hide();
+        $('#knet-delete-modal').hide();
         deleteAction(actionId);
     });
 
@@ -1491,12 +1491,12 @@ jQuery(document).ready(function($) {
         showLoading();
 
         $.ajax({
-            url: mxchActionsData.ajaxUrl,
+            url: knetActionsData.ajaxUrl,
             type: 'POST',
             data: {
                 action: 'knittnet_delete_intent_ajax',
                 intent_id: actionId,
-                security: mxchActionsData.deleteNonce
+                security: knetActionsData.deleteNonce
             },
             success: function(response) {
                 hideLoading();
@@ -1504,14 +1504,14 @@ jQuery(document).ready(function($) {
                 if (response.success) {
                     currentActionId = null;
                     resetEditorPanel();
-                    loadActionList(currentPage, $('#mxch-search-actions').val(), currentFilter);
+                    loadActionList(currentPage, $('#knet-search-actions').val(), currentFilter);
                 } else {
-                    alert(response.data || mxchActionsData.i18n.error);
+                    alert(response.data || knetActionsData.i18n.error);
                 }
             },
             error: function() {
                 hideLoading();
-                alert(mxchActionsData.i18n.error);
+                alert(knetActionsData.i18n.error);
             }
         });
     }
@@ -1521,11 +1521,11 @@ jQuery(document).ready(function($) {
     // ==========================================================================
 
     function showLoading() {
-        $('#mxch-action-loading').show();
+        $('#knet-action-loading').show();
     }
 
     function hideLoading() {
-        $('#mxch-action-loading').hide();
+        $('#knet-action-loading').hide();
     }
 
     function escapeHtml(text) {

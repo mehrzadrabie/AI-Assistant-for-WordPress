@@ -28,15 +28,15 @@
     var W = window.KnittNetOnboardingWizard;
     if (!W || typeof W !== 'object') return;
 
-    var root = document.getElementById('mxch-onboarding-wizard');
+    var root = document.getElementById('knet-onboarding-wizard');
     if (!root) return;
 
     // --- Shorthand selectors (scoped to the wizard card) ----------------
     function $(sel)    { return root.querySelector(sel); }
     function $$(sel)   { return Array.prototype.slice.call(root.querySelectorAll(sel)); }
-    function pickStep(n) { return root.querySelector('.mxch-wizard-step[data-step="' + n + '"]'); }
+    function pickStep(n) { return root.querySelector('.knet-wizard-step[data-step="' + n + '"]'); }
     function whichSel(which, sel) {
-        return root.querySelector(sel + '[data-mxch-which="' + which + '"]');
+        return root.querySelector(sel + '[data-knet-which="' + which + '"]');
     }
 
     var TOTAL_STEPS = 6;
@@ -111,9 +111,9 @@
     //   - is-current  : the wizard is on that step right now
     //   - is-future   : flag false AND not current → non-clickable, faded
     function renderPillNav() {
-        var pills = $$('.mxch-wizard-pill');
+        var pills = $$('.knet-wizard-pill');
         pills.forEach(function (pill) {
-            var n = parseInt(pill.getAttribute('data-mxch-pill-step'), 10);
+            var n = parseInt(pill.getAttribute('data-knet-pill-step'), 10);
             var flag = STEP_FLAG[n];
             var done = (flag === null)
                 ? Object.keys(STEP_FLAG).every(function (k) {
@@ -143,10 +143,10 @@
     }
 
     // Pill click → jump to that step IFF complete or current.
-    $$('.mxch-wizard-pill').forEach(function (pill) {
+    $$('.knet-wizard-pill').forEach(function (pill) {
         pill.addEventListener('click', function () {
             if (pill.hasAttribute('disabled')) return;
-            var n = parseInt(pill.getAttribute('data-mxch-pill-step'), 10);
+            var n = parseInt(pill.getAttribute('data-knet-pill-step'), 10);
             if (!isNaN(n) && n >= 1 && n <= TOTAL_STEPS) showStep(n);
         });
     });
@@ -158,16 +158,16 @@
             state.kbPollTimer = null;
         }
         state.current = n;
-        $$('.mxch-wizard-step').forEach(function (el) {
+        $$('.knet-wizard-step').forEach(function (el) {
             el.hidden = (parseInt(el.getAttribute('data-step'), 10) !== n);
         });
-        var lbl = $('[data-mxch-current-step]');
+        var lbl = $('[data-knet-current-step]');
         if (lbl) lbl.textContent = String(n);
-        var name = $('[data-mxch-step-name]');
+        var name = $('[data-knet-step-name]');
         if (name) name.textContent = STEP_NAMES[n] || '';
-        var fill = $('[data-mxch-progress-fill]');
+        var fill = $('[data-knet-progress-fill]');
         if (fill) fill.style.width = ((n - 1) / (TOTAL_STEPS - 1) * 100) + '%';
-        var bar = $('.mxch-wizard-progress-bar');
+        var bar = $('.knet-wizard-progress-bar');
         if (bar) bar.setAttribute('aria-valuenow', String((n - 1) / (TOTAL_STEPS - 1) * 100 | 0));
 
         renderPillNav();
@@ -184,7 +184,7 @@
     //                                STEP 1 (chat)
     // ====================================================================
     function hydrateStep1() {
-        var providerSel = whichSel('chat', '.mxch-wiz-select[data-mxch-role="provider"]');
+        var providerSel = whichSel('chat', '.knet-wiz-select[data-knet-role="provider"]');
         if (state.chat.provider && providerSel.value !== state.chat.provider) {
             providerSel.value = state.chat.provider;
         }
@@ -196,7 +196,7 @@
     //                                STEP 2 (behavior — NEW)
     // ====================================================================
     function hydrateStep2_behavior() {
-        var ta = document.getElementById('mxch-wiz-behavior-textarea');
+        var ta = document.getElementById('knet-wiz-behavior-textarea');
         if (ta && ta.value === '' && state.behavior.value !== '') {
             ta.value = state.behavior.value;
         }
@@ -204,7 +204,7 @@
     }
 
     // Wire the behavior textarea + example one-click-fill buttons.
-    var behaviorTa = document.getElementById('mxch-wiz-behavior-textarea');
+    var behaviorTa = document.getElementById('knet-wiz-behavior-textarea');
     if (behaviorTa) {
         behaviorTa.addEventListener('input', function () {
             state.behavior.value = behaviorTa.value;
@@ -217,16 +217,16 @@
         support: "You are a patient and empathetic customer support agent. Your job is to help visitors troubleshoot issues, answer how-to questions, and resolve concerns based on our documentation and knowledge base. Ask clarifying questions when needed. Acknowledge the visitor’s frustration when appropriate. If you can’t resolve an issue or the information isn’t in your knowledge base, recommend they open a support ticket. Keep replies clear and step-by-step when troubleshooting. Always be respectful, never dismissive."
     };
 
-    $$('.mxch-wiz-behavior-example').forEach(function (btn) {
+    $$('.knet-wiz-behavior-example').forEach(function (btn) {
         btn.addEventListener('click', function () {
-            var key = btn.getAttribute('data-mxch-example');
+            var key = btn.getAttribute('data-knet-example');
             var text = BEHAVIOR_EXAMPLES[key];
             if (!text || !behaviorTa) return;
             behaviorTa.value = text;
             state.behavior.value = text;
             behaviorTa.focus();
             // Visual feedback: brief highlight on the picked example.
-            $$('.mxch-wiz-behavior-example').forEach(function (b) { b.classList.remove('is-picked'); });
+            $$('.knet-wiz-behavior-example').forEach(function (b) { b.classList.remove('is-picked'); });
             btn.classList.add('is-picked');
         });
     });
@@ -288,7 +288,7 @@
     //                                STEP 3 (embedding)
     // ====================================================================
     function hydrateStep3_embedding() {
-        var providerSel = whichSel('embedding', '.mxch-wiz-select[data-mxch-role="provider"]');
+        var providerSel = whichSel('embedding', '.knet-wiz-select[data-knet-role="provider"]');
         if (state.embedding.provider && providerSel.value !== state.embedding.provider) {
             providerSel.value = state.embedding.provider;
         }
@@ -310,11 +310,11 @@
     function applyProviderUI(which) {
         var slot         = state[which];
         var providerSlug = slot.provider;
-        var modelField   = whichSel(which, '.mxch-wiz-model-field');
-        var keyField     = whichSel(which, '.mxch-wiz-key-field');
-        var keySavedRow  = whichSel(which, '.mxch-wiz-key-saved');
-        var dedupRow     = whichSel(which, '.mxch-wiz-key-dedup');
-        var errBox       = whichSel(which, '.mxch-wiz-error');
+        var modelField   = whichSel(which, '.knet-wiz-model-field');
+        var keyField     = whichSel(which, '.knet-wiz-key-field');
+        var keySavedRow  = whichSel(which, '.knet-wiz-key-saved');
+        var dedupRow     = whichSel(which, '.knet-wiz-key-dedup');
+        var errBox       = whichSel(which, '.knet-wiz-error');
 
         // DEFENSIVE: hide ALL conditional rows before deciding which to show.
         // This is the fix Maxwell explicitly approved for plan-a2e4d6 Issue 5.
@@ -332,7 +332,7 @@
         var modelList = which === 'chat' ? entry.chatModels : entry.embeddingModels;
 
         // Populate the model dropdown.
-        var modelSel = whichSel(which, '.mxch-wiz-select[data-mxch-role="model"]');
+        var modelSel = whichSel(which, '.knet-wiz-select[data-knet-role="model"]');
         modelSel.innerHTML = '';
         var placeholderOpt = document.createElement('option');
         placeholderOpt.value = '';
@@ -358,7 +358,7 @@
         if (isDedup) {
             if (dedupRow) {
                 var label = entry.label;
-                dedupRow.querySelector('[data-mxch-dedup-text]').textContent =
+                dedupRow.querySelector('[data-knet-dedup-text]').textContent =
                     W.strings.embedKeyReused.replace('%s', label);
                 dedupRow.hidden = false;
             }
@@ -373,25 +373,25 @@
         var hasSavedKey = !!entry.hasKey || (slot.keyFresh !== '' && slot.provider === providerSlug);
         if (hasSavedKey) {
             if (keySavedRow) {
-                keySavedRow.querySelector('[data-mxch-key-saved-text]').textContent =
+                keySavedRow.querySelector('[data-knet-key-saved-text]').textContent =
                     W.strings.keyAlreadySaved.replace('%s', entry.label);
                 keySavedRow.hidden = false;
             }
         } else {
             if (keyField) {
                 keyField.hidden = false;
-                var lbl = keyField.querySelector('[data-mxch-key-label]');
+                var lbl = keyField.querySelector('[data-knet-key-label]');
                 if (lbl) lbl.textContent = entry.label + ' ' + 'API key';
-                var input = keyField.querySelector('.mxch-wiz-key-input');
+                var input = keyField.querySelector('.knet-wiz-key-input');
                 if (input && slot.keyFresh === '') input.value = '';
             }
         }
     }
 
     // Provider/model dropdown change handlers.
-    $$('.mxch-wiz-select[data-mxch-role="provider"]').forEach(function (sel) {
+    $$('.knet-wiz-select[data-knet-role="provider"]').forEach(function (sel) {
         sel.addEventListener('change', function () {
-            var which = sel.getAttribute('data-mxch-which');
+            var which = sel.getAttribute('data-knet-which');
             state[which].provider = sel.value;
             state[which].model = '';
             state[which].keyFresh = '';
@@ -400,21 +400,21 @@
             refreshContinue(which === 'chat' ? 1 : 3);
         });
     });
-    $$('.mxch-wiz-select[data-mxch-role="model"]').forEach(function (sel) {
+    $$('.knet-wiz-select[data-knet-role="model"]').forEach(function (sel) {
         sel.addEventListener('change', function () {
-            var which = sel.getAttribute('data-mxch-which');
+            var which = sel.getAttribute('data-knet-which');
             state[which].model = sel.value;
             refreshContinue(which === 'chat' ? 1 : 3);
         });
     });
 
     // Save-key handlers (Step 1 & Step 3 non-dedup).
-    $$('.mxch-wiz-key-save').forEach(function (btn) {
+    $$('.knet-wiz-key-save').forEach(function (btn) {
         btn.addEventListener('click', function () {
-            var which = btn.getAttribute('data-mxch-which');
-            var input = whichSel(which, '.mxch-wiz-key-field').querySelector('.mxch-wiz-key-input');
+            var which = btn.getAttribute('data-knet-which');
+            var input = whichSel(which, '.knet-wiz-key-field').querySelector('.knet-wiz-key-input');
             var val = (input && input.value || '').trim();
-            var errBox = whichSel(which, '.mxch-wiz-error');
+            var errBox = whichSel(which, '.knet-wiz-error');
             if (!val) {
                 if (errBox) {
                     errBox.textContent = 'Enter a key, then click Save.';
@@ -432,20 +432,20 @@
     });
 
     // Replace-key links.
-    $$('.mxch-wiz-replace-key-link').forEach(function (link) {
+    $$('.knet-wiz-replace-key-link').forEach(function (link) {
         link.addEventListener('click', function () {
-            var which = link.getAttribute('data-mxch-which');
+            var which = link.getAttribute('data-knet-which');
             state[which].keyKnown = false;
             state[which].keyFresh = '';
-            var keyField    = whichSel(which, '.mxch-wiz-key-field');
-            var keySavedRow = whichSel(which, '.mxch-wiz-key-saved');
+            var keyField    = whichSel(which, '.knet-wiz-key-field');
+            var keySavedRow = whichSel(which, '.knet-wiz-key-saved');
             if (keySavedRow) keySavedRow.hidden = true;
             if (keyField) {
                 keyField.hidden = false;
-                var lbl = keyField.querySelector('[data-mxch-key-label]');
+                var lbl = keyField.querySelector('[data-knet-key-label]');
                 var entry = W.catalog[state[which].provider];
                 if (lbl && entry) lbl.textContent = entry.label + ' ' + 'API key';
-                var input = keyField.querySelector('.mxch-wiz-key-input');
+                var input = keyField.querySelector('.knet-wiz-key-input');
                 if (input) { input.value = ''; input.focus(); }
             }
             refreshContinue(which === 'chat' ? 1 : 3);
@@ -469,15 +469,15 @@
     }
 
     function refreshContinue(n) {
-        var btn = root.querySelector('.mxch-wiz-continue[data-mxch-from-step="' + n + '"]');
+        var btn = root.querySelector('.knet-wiz-continue[data-knet-from-step="' + n + '"]');
         if (!btn) return;
         btn.disabled = !isStepReady(n);
     }
 
     // --- Continue / Back handlers --------------------------------------
-    $$('.mxch-wiz-continue').forEach(function (btn) {
+    $$('.knet-wiz-continue').forEach(function (btn) {
         btn.addEventListener('click', function () {
-            var n = parseInt(btn.getAttribute('data-mxch-from-step'), 10);
+            var n = parseInt(btn.getAttribute('data-knet-from-step'), 10);
             if (!isStepReady(n)) return;
 
             // Steps 1 (chat) and 3 (embedding) — save provider/model/key.
@@ -494,7 +494,7 @@
                 }, function (err, j) {
                     btn.textContent = 'Continue';
                     if (err || !j || !j.success) {
-                        var errBox = whichSel(which, '.mxch-wiz-error');
+                        var errBox = whichSel(which, '.knet-wiz-error');
                         if (errBox) {
                             errBox.textContent = (j && j.data && j.data.message) ? j.data.message : W.strings.saveError;
                             errBox.hidden = false;
@@ -518,7 +518,7 @@
                     btn.textContent = 'Continue';
                     btn.disabled = false;
                     if (err || !j || !j.success) {
-                        var errBox = whichSel('behavior', '.mxch-wiz-error');
+                        var errBox = whichSel('behavior', '.knet-wiz-error');
                         if (errBox) {
                             errBox.textContent = (j && j.data && j.data.message) ? j.data.message : W.strings.saveError;
                             errBox.hidden = false;
@@ -542,9 +542,9 @@
         });
     });
 
-    $$('.mxch-wiz-back').forEach(function (btn) {
+    $$('.knet-wiz-back').forEach(function (btn) {
         btn.addEventListener('click', function () {
-            var n = parseInt(btn.getAttribute('data-mxch-from-step'), 10);
+            var n = parseInt(btn.getAttribute('data-knet-from-step'), 10);
             if (n > 1) showStep(n - 1);
         });
     });
@@ -566,20 +566,20 @@
     }
 
     function updateKbStatus(count) {
-        var dot  = $('[data-mxch-kb-dot]');
-        var text = $('[data-mxch-kb-text]');
-        var wrap = $('[data-mxch-kb-status]');
+        var dot  = $('[data-knet-kb-dot]');
+        var text = $('[data-knet-kb-text]');
+        var wrap = $('[data-knet-kb-status]');
         if (!dot || !text || !wrap) return;
         if (count > 0) {
-            wrap.classList.add('mxch-wiz-kb-ok');
-            wrap.classList.remove('mxch-wiz-kb-empty');
+            wrap.classList.add('knet-wiz-kb-ok');
+            wrap.classList.remove('knet-wiz-kb-empty');
             dot.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
             text.textContent = count === 1
                 ? W.strings.kbFoundOne
                 : W.strings.kbFoundMany.replace('%d', String(count));
         } else {
-            wrap.classList.remove('mxch-wiz-kb-ok');
-            wrap.classList.add('mxch-wiz-kb-empty');
+            wrap.classList.remove('knet-wiz-kb-ok');
+            wrap.classList.add('knet-wiz-kb-empty');
             dot.innerHTML = '';
             text.textContent = W.strings.kbNone;
         }
@@ -604,12 +604,12 @@
     }
 
     // --- Shortcode copy buttons (Step 6 — plan-23987f) ---
-    $$('.mxch-wiz-shortcode-copy').forEach(function (btn) {
+    $$('.knet-wiz-shortcode-copy').forEach(function (btn) {
         btn.addEventListener('click', function (e) {
             e.preventDefault();
-            var sc = btn.getAttribute('data-mxch-copy-shortcode') || '';
+            var sc = btn.getAttribute('data-knet-copy-shortcode') || '';
             if (!sc) return;
-            var label = btn.querySelector('.mxch-wiz-shortcode-copy-text');
+            var label = btn.querySelector('.knet-wiz-shortcode-copy-text');
             var origLabel = label ? label.textContent : '';
             function flashCopied() {
                 btn.classList.add('is-copied');
@@ -640,16 +640,16 @@
     });
 
     // --- Dismiss button (preserved from f7c7d4) ---
-    var dismissBtn = root.querySelector('.mxch-onboarding-dismiss');
+    var dismissBtn = root.querySelector('.knet-onboarding-dismiss');
     // Note: dismissBtn is rendered at PAGE level (outside the wizard card), so
     // `root.querySelector` (scoped to the wizard) will not find it. Fall back
     // to document-level so the existing behavior is preserved.
-    if (!dismissBtn) dismissBtn = document.querySelector('.mxch-onboarding-dismiss');
+    if (!dismissBtn) dismissBtn = document.querySelector('.knet-onboarding-dismiss');
     if (dismissBtn) {
         dismissBtn.addEventListener('click', function (e) {
             e.preventDefault();
             if (!window.confirm('Hide KnittNet Onboarding from the menu? You can bring it back from Settings → Display.')) return;
-            var nonce = dismissBtn.getAttribute('data-mxch-dismiss-nonce');
+            var nonce = dismissBtn.getAttribute('data-knet-dismiss-nonce');
             if (!nonce) return;
             var body = new URLSearchParams();
             body.append('action', 'knittnet_dismiss_onboarding');
