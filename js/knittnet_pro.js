@@ -73,25 +73,6 @@
     }
 
     // ==========================================================================
-    // License Activation - HANDLED BY activation-script.js
-    // ==========================================================================
-    // License activation is handled by activation-script.js which provides
-    // better status feedback and error recovery with domain linking.
-    // Do not add duplicate handlers here.
-
-    // ==========================================================================
-    // License Deactivation - HANDLED BY activation-script.js
-    // ==========================================================================
-    // License deactivation is handled by activation-script.js.
-    // Do not add duplicate handlers here.
-
-    // ==========================================================================
-    // Domain Linking - HANDLED BY activation-script.js
-    // ==========================================================================
-    // Domain linking is handled by activation-script.js.
-    // Do not add duplicate handlers here.
-
-    // ==========================================================================
     // Initialize
     // ==========================================================================
     $(document).ready(function() {
@@ -155,18 +136,6 @@
             }
         });
 
-        // License activation, deactivation, and domain linking are handled by
-        // activation-script.js - do not add duplicate handlers here.
-
-        // Activate license button in sidebar (when inactive)
-        $(document).on('click', '.knet-activate-license-btn', function(e) {
-            e.preventDefault();
-            showSection('overview');
-            // Focus on email field after section loads
-            setTimeout(function() {
-                $('#knittnet_pro_email').focus();
-            }, 300);
-        });
 
         // Handle window resize
         $(window).on('resize', function() {

@@ -1258,9 +1258,6 @@ function knittnet_check_for_update() {
             // Run live agent update BEFORE updating the stored version
             knittnet_handle_live_agent_update();
 
-            // Run theme migration notice for 3.0.1 (AI theme CSS structure changes)
-            knittnet_handle_theme_migration_notice();
-            
             // Run role restriction migration for 2.4.1
             if (version_compare($current_version, '2.4.1', '<')) {
                 knittnet_add_role_restriction_column();
@@ -1473,33 +1470,6 @@ function knittnet_handle_live_agent_update() {
     }
 }
 
-/**
- * Handle theme migration notice for version 3.0.1
- * Shows a dismissible notice to Pro users about migrating AI-generated themes
- */
-function knittnet_handle_theme_migration_notice() {
-    // Get the CURRENT stored version (before it gets updated)
-    $current_version = get_option('knittnet_plugin_version', '0.0.0');
-    $target_version = '3.0.1';
-
-    // Only run this once for the update to 3.0.1
-    $update_handled = get_option('knittnet_theme_migration_update_3_0_1_handled', false);
-
-    // Check if we're upgrading TO 3.0.1 and haven't handled this yet
-    if (version_compare($current_version, $target_version, '<') && !$update_handled) {
-        // Check if Pro is activated - only show to Pro users
-        $license_status = get_option('knittnet_license_status', 'inactive');
-        $is_pro = ($license_status === 'active');
-
-        if ($is_pro) {
-            // Set flag to show the theme migration notification banner
-            update_option('knittnet_show_theme_migration_notice', true);
-        }
-
-        // Mark this update as handled (whether Pro or not)
-        update_option('knittnet_theme_migration_update_3_0_1_handled', true);
-    }
-}
 
 // Initialize plugin safely
 function knittnet_init() {

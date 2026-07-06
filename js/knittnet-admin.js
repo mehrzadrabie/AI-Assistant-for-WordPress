@@ -83,29 +83,6 @@ function dismissLiveAgentNotice() {
     }
 }
 
-// Theme Migration Notice Dismissal Function
-function dismissThemeMigrationNotice() {
-    if (typeof jQuery !== 'undefined' && typeof knittnetThemeMigration !== 'undefined') {
-        jQuery.post(knittnetThemeMigration.ajaxurl, {
-            action: 'dismiss_theme_migration_notice',
-            nonce: knittnetThemeMigration.nonce
-        }, function(response) {
-            if (response.success) {
-                jQuery('#knittnet-theme-migration-notice').fadeOut(300);
-            }
-        }).fail(function() {
-            // Fallback: just hide the notice if AJAX fails
-            jQuery('#knittnet-theme-migration-notice').fadeOut(300);
-        });
-    } else {
-        // Fallback for cases where jQuery or localized data isn't available
-        var notice = document.getElementById('knittnet-theme-migration-notice');
-        if (notice) {
-            notice.style.display = 'none';
-        }
-    }
-}
-
 // Updated knittnetOpenActionModal function to integrate with the new selector
 function knittnetOpenActionModal(isEdit = false, actionId = '', label = '', phrases = '', threshold = 85, callbackFunction = '') {
     const modal = document.getElementById('knittnet-action-modal');

@@ -74,7 +74,6 @@ class KnittNet_Admin {
 
         add_action('admin_init', array($this, 'knittnet_transcripts_page_init'));
         add_action('wp_ajax_dismiss_live_agent_notice', array($this, 'dismiss_live_agent_notice'));
-        add_action('wp_ajax_dismiss_theme_migration_notice', array($this, 'dismiss_theme_migration_notice'));
         add_action('knittnet_cleanup_old_transcripts', array($this, 'cleanup_old_transcripts'));
 
          add_action('admin_init', array($this, 'register_pinecone_settings'));
@@ -246,9 +245,13 @@ class KnittNet_Admin {
         <?php
     }
 
+/**
+ * KnittNet AI Assistant ships fully unlocked: no license key, no activation
+ * step, no remote validation. This always returns true; it exists only so
+ * older admin-page templates that still check is_activated() keep working.
+ */
 private function is_license_active() {
-    $license_status = get_option('knittnet_license_status', 'inactive');
-    return ($license_status === 'active');
+    return true;
 }
 
 private function initialize_default_options() {
@@ -1118,7 +1121,6 @@ public function knittnet_apply_onboarding_visibility() {
 
 public function knittnet_create_admin_page() {
     $this->add_live_agent_nonce();
-    $this->add_theme_migration_nonce();
 
     // Include and render the new sidebar-based settings page
     require_once plugin_dir_path(__FILE__) . 'admin-settings-page.php';
@@ -1147,66 +1149,6 @@ public function add_live_agent_nonce() {
         // Make sure your admin script is enqueued and localize the data
         wp_localize_script('knittnet-admin-js', 'knittnetLiveAgent', array(
             'nonce' => wp_create_nonce('dismiss_live_agent_notice'),
-            'ajaxurl' => admin_url('admin-ajax.php')
-        ));
-    }
-}
-
-/**
- * Show theme migration notice for Pro users with AI-generated themes
- * Only shown once - dismissible and stored in options
- */
-public function show_theme_migration_banner() {
-    // Only show if Pro is activated
-    if (!$this->is_activated) {
-        return;
-    }
-
-    // Check if notice should be shown
-    $show_notice = get_option('knittnet_show_theme_migration_notice', false);
-
-    if ($show_notice) {
-        ?>
-        <div class="knittnet-theme-migration-notice" id="knittnet-theme-migration-notice">
-            <div class="knittnet-pro-notification">
-                <button type="button" class="knittnet-dismiss-btn" onclick="dismissThemeMigrationNotice()" aria-label="Dismiss notification">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                </button>
-                <div class="knittnet-theme-migration-content">
-                    <h3>🎨 AI Theme Migration Required</h3>
-                    <p>If you're using an AI-generated chatbot theme, you'll need to migrate it to match the new CSS structure. Go to <strong>Theme Settings</strong>, select your theme from the sidebar, and click the <strong>Migrate</strong> button.</p>
-                </div>
-            </div>
-        </div>
-        <?php
-    }
-}
-
-/**
- * Dismiss theme migration notice via AJAX
- */
-public function dismiss_theme_migration_notice() {
-    // Verify nonce
-    if (!wp_verify_nonce($_POST['nonce'], 'dismiss_theme_migration_notice')) {
-        wp_die('Security check failed');
-    }
-
-    // Remove the notice flag
-    delete_option('knittnet_show_theme_migration_notice');
-
-    wp_send_json_success();
-}
-
-/**
- * Add nonce for theme migration notice dismiss
- */
-public function add_theme_migration_nonce() {
-    if (get_option('knittnet_show_theme_migration_notice', false) && $this->is_activated) {
-        wp_localize_script('knittnet-admin-js', 'knittnetThemeMigration', array(
-            'nonce' => wp_create_nonce('dismiss_theme_migration_notice'),
             'ajaxurl' => admin_url('admin-ajax.php')
         ));
     }
@@ -4188,34 +4130,11 @@ public function knittnet_create_activation_page() {
 }
 
 /**
- * Check if current activation is linked to a domain
- * This checks YOUR website's database, not the user's local database
+ * No-op retained for template compatibility: this plugin no longer tracks
+ * domain activations against a remote server.
  */
 public function is_current_activation_linked($domain) {
-    $license_key = get_option('knittnet_activation_key');
-    $email = get_option('knittnet_pro_email');
-
-    if (empty($license_key) || empty($email)) {
-        return false;
-    }
-
-    // Check with YOUR website's API
-    $response = wp_remote_post('https://knittnet.ai/knittnet-api/check-domain', array(
-        'body' => array(
-            'license_key' => $license_key,
-            'email' => $email,
-            'domain' => $domain
-        ),
-        'timeout' => 10,
-        'sslverify' => false
-    ));
-
-    if (is_wp_error($response)) {
-        return false;
-    }
-
-    $body = json_decode(wp_remote_retrieve_body($response), true);
-    return isset($body['success']) && $body['success'] && isset($body['data']['linked']) && $body['data']['linked'];
+    return true;
 }
 
 
@@ -8907,8 +8826,8 @@ private function enqueue_page_specific_assets($current_page, $plugin_url, $versi
             wp_enqueue_style('knittnet-actions-css', $plugin_url . 'css/actions.css', array('knittnet-admin-sidebar-css'), $version);
             wp_enqueue_script('knittnet-actions-js', $plugin_url . 'js/knittnet_actions.js', array('jquery'), $version, true);
 
-            // Localize script data for actions page
-            $is_activated = get_option('knittnet_pro_license_status') === 'active';
+            // Localize script data for actions page. Every feature ships unlocked.
+            $is_activated = true;
             wp_localize_script('knittnet-actions-js', 'knetActionsData', array(
                 'ajaxUrl' => admin_url('admin-ajax.php'),
                 'nonce' => wp_create_nonce('knittnet_actions_nonce'),
@@ -8940,8 +8859,6 @@ private function enqueue_page_specific_assets($current_page, $plugin_url, $versi
             wp_enqueue_style('knittnet-pro-css', $plugin_url . 'css/admin-pro.css', array('knittnet-admin-sidebar-css'), $version);
             // Load pro page JavaScript
             wp_enqueue_script('knittnet-pro-js', $plugin_url . 'js/knittnet_pro.js', array('jquery'), $version, true);
-            // Load activation script for license activation/deactivation
-            wp_enqueue_script('knittnet-activation-js', $plugin_url . 'js/activation-script.js', array('jquery'), $version, true);
             break;
 
         case 'knittnet-content':
