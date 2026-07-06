@@ -3017,42 +3017,8 @@ jQuery(document).ready(function($) {
     // Run when model changes
     $('#model').on('change', function() {
         updateChatModelAPIStatus();
-        updateWebSearchToggleVisibility();
     });
     $('#embedding_model').on('change', function() { updateEmbeddingModelAPIStatus(); });
-
-    // Web Search toggle visibility based on model
-    function updateWebSearchToggleVisibility() {
-        var selectedModel = $('#model').val();
-        var $wrapper = $('#web-search-toggle-wrapper');
-        var $unavailableMessage = $('#web-search-unavailable-message');
-
-        if (!$wrapper.length) return; // Element doesn't exist
-
-        // Get the list of web-search-capable models from data attributes (OpenAI + Gemini)
-        var openaiModelsAttr = $wrapper.data('openai-models');
-        var geminiModelsAttr = $wrapper.data('gemini-models');
-        var unsupportedModelsAttr = $wrapper.data('unsupported-models');
-
-        var openaiModels = openaiModelsAttr ? String(openaiModelsAttr).split(',') : [];
-        var geminiModels = geminiModelsAttr ? String(geminiModelsAttr).split(',') : [];
-        var unsupportedModels = unsupportedModelsAttr ? String(unsupportedModelsAttr).split(',') : [];
-
-        // Check if selected model is an OpenAI or Gemini model that supports web search
-        var isCapable = openaiModels.includes(selectedModel) || geminiModels.includes(selectedModel);
-        var isSupported = isCapable && !unsupportedModels.includes(selectedModel);
-
-        if (isSupported) {
-            $wrapper.show();
-            $unavailableMessage.hide();
-        } else {
-            $wrapper.hide();
-            $unavailableMessage.show();
-        }
-    }
-
-    // Run on page load
-    updateWebSearchToggleVisibility();
 });
 
 // Transcripts Metrics Dashboard

@@ -7550,12 +7550,6 @@ public function enable_web_search_toggle_callback() {
     echo '</label>';
 
     echo '</div>';
-
-    // Message shown when a model that can't ground (Claude, Grok, DeepSeek, OpenRouter, etc.) is selected
-    echo '<p id="web-search-unavailable-message" class="description" style="color: #666;' . ($is_supported ? ' display:none;' : '') . '">';
-    echo '<span class="dashicons dashicons-info" style="font-size: 16px; vertical-align: middle; margin-right: 4px;"></span>';
-    echo esc_html__('Web search is only available for OpenAI and Gemini models.', 'knittnet');
-    echo '</p>';
 }
 
 // AJAX handler to fetch OpenRouter models

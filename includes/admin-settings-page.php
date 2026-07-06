@@ -97,14 +97,6 @@ function knittnet_render_settings_page($admin_instance) {
                         <span><?php esc_html_e('Tutorials', 'knittnet'); ?></span>
                     </button>
                 </div>
-                <?php if (!$is_activated): ?>
-                <div class="knet-mobile-menu-footer">
-                    <a href="https://knittnet.ai/" target="_blank" class="knet-mobile-upgrade-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
-                        <?php esc_html_e('Upgrade to Pro', 'knittnet'); ?>
-                    </a>
-                </div>
-                <?php endif; ?>
             </nav>
         </div>
 
@@ -209,33 +201,10 @@ function knittnet_render_settings_page($admin_instance) {
 
             </nav>
 
-            <?php if (!$is_activated): ?>
-            <div class="knet-sidebar-footer">
-                <a href="https://knittnet.ai/" target="_blank" class="knet-sidebar-upgrade-v2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                    <?php esc_html_e('Pro Upgrade', 'knittnet'); ?>
-                </a>
-            </div>
-            <?php endif; ?>
         </aside>
 
         <!-- Main Content Area -->
         <main class="knet-content">
-            <?php if (!$is_activated): ?>
-            <div class="knet-pro-banner">
-                <div class="knet-pro-banner-content">
-                    <h3 class="knet-pro-banner-title"><?php esc_html_e('Stop paying $50–200/month for AI chatbot tools.', 'knittnet'); ?></h3>
-                    <p class="knet-pro-banner-text"><?php esc_html_e('One payment unlocks every KnittNet Pro add-on for life — MCP server access for Claude / ChatGPT / Claude Code, WooCommerce sales, Google Search Console insights, AI-generated chatbot themes, lead-capture forms, unlimited bots, image analysis, and more. No renewals. No surprise bills.', 'knittnet'); ?></p>
-                </div>
-                <a href="https://knittnet.ai/" target="_blank" class="knet-pro-banner-btn"><span><?php esc_html_e('Get Lifetime Access →', 'knittnet'); ?></span></a>
-            </div>
-            <?php endif; ?>
-
-            <?php
-            // Show theme migration notice for Pro users
-            $admin_instance->show_theme_migration_banner();
-            ?>
-
             <!-- ========================================
                  CHATBOT - AI MODELS
                  ======================================== -->
