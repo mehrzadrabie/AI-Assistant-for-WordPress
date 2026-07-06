@@ -7518,99 +7518,25 @@ private function knittnet_stream_emit_fallback($provider_hint, $regular_response
 
 private function knittnet_generate_response_openrouter($selected_model, $openrouter_api_key, $conversation_history, $relevant_content, $session_id = '') {
     try {
-        if (!is_array($conversation_history)) {
-            $conversation_history = array();
-        }
-
         $bot_id = $this->get_current_bot_id($session_id);
         $system_prompt_instructions = $this->get_system_instructions($bot_id, $session_id);
-        
-        $formatted_conversation = array();
 
-        $formatted_conversation[] = array(
-            'role' => 'system',
-            'content' => $system_prompt_instructions . " " . $relevant_content
-        );
+        $manager = KnittNet_AI_Manager::from_options(array_merge($this->options, array(
+            'openrouter_api_key'        => $openrouter_api_key,
+            'openrouter_selected_model' => $selected_model,
+        )));
 
-        foreach ($conversation_history as $message) {
-            if (is_array($message) && isset($message['role']) && isset($message['content'])) {
-                $role = $message['role'];
+        $result = $manager->generate($system_prompt_instructions, $relevant_content, $conversation_history);
 
-                if ($role === 'bot' || $role === 'agent') {
-                    $role = 'assistant';
-                }
-                if (!in_array($role, ['system', 'assistant', 'user'])) {
-                    $role = 'user';
-                }
-
-                $formatted_conversation[] = array(
-                    'role' => $role,
-                    'content' => $message['content']
-                );
-            }
+        if (isset($result['content'])) {
+            return trim($result['content']);
         }
 
-        $body = json_encode([
-            'model' => $selected_model,
-            'messages' => $formatted_conversation,
-            'temperature' => 1,
-        ]);
-
-        $args = [
-            'body'        => $body,
-            'headers'     => [
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $openrouter_api_key,
-                'HTTP-Referer' => home_url(),
-                'X-Title' => get_bloginfo('name'),
-            ],
-            'timeout'     => 60,
-            'redirection' => 5,
-            'blocking'    => true,
-            'httpversion' => '1.0',
-            'sslverify'   => true,
+        return [
+            'error'      => $result['error'] ?? esc_html__('Unexpected response format from OpenRouter.', 'knittnet'),
+            'error_code' => $result['error_code'] ?? 'openrouter_response_format_error',
+            'provider'   => 'openrouter',
         ];
-
-        $response = $this->knittnet_provider_call_with_retry('https://openrouter.ai/api/v1/chat/completions', $args, 'openai');
-
-        if (is_wp_error($response)) {
-            $error_message = $response->get_error_message();
-            return [
-                'error' => $this->knittnet_friendly_chat_error(0, $error_message, 'OpenRouter'),
-                'error_code' => 'openrouter_connection_error',
-                'provider' => 'openrouter'
-            ];
-        }
-
-        $status_code = wp_remote_retrieve_response_code($response);
-        if ($status_code !== 200) {
-            $response_body = wp_remote_retrieve_body($response);
-            $decoded_response = json_decode($response_body, true);
-            
-            $error_message = isset($decoded_response['error']['message']) 
-                ? $decoded_response['error']['message'] 
-                : 'HTTP Error ' . $status_code;
-            
-            return [
-                'error' => esc_html__('OpenRouter API error: ', 'knittnet') . esc_html($error_message),
-                'error_code' => 'openrouter_api_error',
-                'provider' => 'openrouter',
-                'status_code' => $status_code
-            ];
-        }
-
-        $response_body = wp_remote_retrieve_body($response);
-        $decoded_response = json_decode($response_body, true);
-
-        if (isset($decoded_response['choices'][0]['message']['content'])) {
-            return trim($decoded_response['choices'][0]['message']['content']);
-        } else {
-            return [
-                'error' => esc_html__('Unexpected response format from OpenRouter.', 'knittnet'),
-                'error_code' => 'openrouter_response_format_error',
-                'provider' => 'openrouter'
-            ];
-        }
     } catch (Exception $e) {
         return [
             'error' => esc_html__('System error when processing OpenRouter request: ', 'knittnet') . esc_html($e->getMessage()),
@@ -7620,63 +7546,6 @@ private function knittnet_generate_response_openrouter($selected_model, $openrou
     }
 }
 
-/**
- * Build a chat-bubble-safe message for a non-200 provider (chat) error.
- *
- * Visitors must NEVER see raw API internals (model names, key/billing/quota
- * text). Admins (manage_options) get an actionable hint — and, for the common
- * "model not available on this key" case, a direct pointer to change the model
- * (the site owner can fix it in one click). Anthropic returns model-access as a
- * 4xx with a message like "Claude Fable 5 is not available. Please use Opus 4.8."
- *
- * Provider-agnostic by design (reusable for the xai/gemini/deepseek branches),
- * but Anthropic is the confirmed, reproduced case wired up here (plan 1d3b0f).
- *
- * @param int    $http_code      HTTP status from the provider.
- * @param string $error_message  Raw provider error.message (may be empty).
- * @param string $provider_label Human provider name, e.g. 'Anthropic'.
- * @return string Message safe to render as a chat bubble.
- */
-private function knittnet_friendly_chat_error($http_code, $error_message, $provider_label = '') {
-    $raw = trim((string) $error_message);
-
-    // Detect a model-access / availability problem the site owner can fix by
-    // choosing a different model. (Anthropic phrasing + the common API shapes.)
-    $low = strtolower($raw);
-    $is_model_access = (strpos($low, 'not available') !== false)
-        || (strpos($low, 'does not have access') !== false)
-        || (strpos($low, 'do not have access') !== false)
-        || (strpos($low, 'does not exist') !== false)          // OpenAI: "model `x` does not exist or you do not have access"
-        || (strpos($low, 'model_not_found') !== false)
-        || (strpos($low, 'not_found_error') !== false)
-        || (strpos($low, 'model not found') !== false)          // xAI
-        || (strpos($low, 'not found') !== false)                // Gemini: "models/x is not found for API version ..."
-        || (strpos($low, 'permission_denied') !== false)        // Gemini gated model
-        || (strpos($low, 'permission denied') !== false);
-
-    if (current_user_can('manage_options')) {
-        if ($is_model_access) {
-            return $raw !== ''
-                ? sprintf(
-                    /* translators: %s: raw provider error detail */
-                    esc_html__('The selected AI model isn\'t available on your API key. Choose another model in KnittNet → Settings. (Details: %s)', 'knittnet'),
-                    $raw
-                  )
-                : esc_html__('The selected AI model isn\'t available on your API key. Choose another model in KnittNet → Settings.', 'knittnet');
-        }
-        return $raw !== ''
-            ? sprintf(
-                /* translators: 1: provider label, 2: raw provider error detail */
-                esc_html__('The AI provider (%1$s) returned an error: %2$s. Check your model and API key in KnittNet → Settings.', 'knittnet'),
-                $provider_label !== '' ? $provider_label : esc_html__('AI', 'knittnet'),
-                $raw
-              )
-            : esc_html__('The AI provider returned an error. Check your model and API key in KnittNet → Settings.', 'knittnet');
-    }
-
-    // Visitors: friendly, generic, no internals leaked.
-    return esc_html__('Sorry, I\'m having trouble responding right now. Please try again in a moment.', 'knittnet');
-}
 
 
 
