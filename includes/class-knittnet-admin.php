@@ -5769,20 +5769,11 @@ private function knittnet_get_available_callbacks($grouped = false, $include_all
         ),
         // Pro core features - check is_activated property
         'knittnet_generate_image' => array(
-            'label'       => __('Generate Image (OpenAI)', 'knittnet'),
+            'label'       => __('Generate Image', 'knittnet'),
             'pro_only'    => false,
             'group'       => __('Other Features', 'knittnet'),
             'icon'        => 'art',
-            'description' => __('Create images with GPT Image from OpenAI (requires OpenAI API key)', 'knittnet'),
-            'addon'       => false,
-            'installed'   => true
-        ),
-        'knittnet_generate_gemini_image' => array(
-            'label'       => __('Generate Image (Gemini)', 'knittnet'),
-            'pro_only'    => false,
-            'group'       => __('Other Features', 'knittnet'),
-            'icon'        => 'art',
-            'description' => __('Create images with Imagen from Google (requires Gemini API key)', 'knittnet'),
+            'description' => __('Create images with an image-capable OpenRouter model (requires OpenRouter API key)', 'knittnet'),
             'addon'       => false,
             'installed'   => true
         ),
@@ -7626,38 +7617,10 @@ public function enable_web_search_toggle_callback() {
     $enabled = isset($this->options['enable_web_search']) ? $this->options['enable_web_search'] : 'off';
     $checked = ($enabled === 'on') ? 'checked' : '';
 
-    // Get current model to determine if we should show/enable the toggle
-    $current_model = isset($this->options['model']) ? $this->options['model'] : 'gpt-5.1-chat-latest';
-
-    // Models that DON'T support web search — OpenAI-docs-driven exception list.
-    // Keep hardcoded; the catalog can't infer "supports web search" per-model, so any
-    // future OpenAI model that lacks Responses-API web_search support is added here.
-    $unsupported_models = array('gpt-4.1-nano');
-
-    // Web-search-capable chat-model allowlists, derived from the central model catalog
-    // (class-knittnet-model-catalog.php). When a new OpenAI/Gemini chat model is added there,
-    // the Web Search toggle picks it up automatically — no edit here.
-    // OpenAI grounds via the Responses-API web_search tool; Gemini grounds natively via the
-    // Google Search tool (plan 46b9ea wired the Gemini dispatch — every shipped Gemini chat
-    // model is 2.x/3.x and grounds, matching that path's empty opt-out list, so all catalog
-    // Gemini models are supported here).
-    if (!class_exists('KnittNet_Model_Catalog')) {
-        require_once plugin_dir_path(__FILE__) . 'class-knittnet-model-catalog.php';
-    }
-    $chat_catalog = KnittNet_Model_Catalog::chat_models();
-    $openai_models = (isset($chat_catalog['openai']['models']) && is_array($chat_catalog['openai']['models']))
-        ? array_keys($chat_catalog['openai']['models'])
-        : array();
-    $gemini_models = (isset($chat_catalog['gemini']['models']) && is_array($chat_catalog['gemini']['models']))
-        ? array_keys($chat_catalog['gemini']['models'])
-        : array();
-
-    $is_capable   = in_array($current_model, $openai_models) || in_array($current_model, $gemini_models);
-    $is_supported = $is_capable && !in_array($current_model, $unsupported_models);
-
-    // Wrapper div with data attributes for JS to show/hide. data-openai-models is kept for
-    // back-compat; data-gemini-models is the added second provider the JS now also honors.
-    echo '<div id="web-search-toggle-wrapper" data-openai-models="' . esc_attr(implode(',', $openai_models)) . '" data-gemini-models="' . esc_attr(implode(',', $gemini_models)) . '" data-unsupported-models="' . esc_attr(implode(',', $unsupported_models)) . '"' . (!$is_supported ? ' style="display:none;"' : '') . '>';
+    // OpenRouter grounds any model in live web results via its ":online" model
+    // suffix (see knittnet_generate_response() in the integrator), so this
+    // toggle applies to every model — no per-model allowlist needed.
+    echo '<div id="web-search-toggle-wrapper">';
 
     echo '<label class="toggle-switch">';
     echo sprintf(

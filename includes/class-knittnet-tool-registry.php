@@ -200,16 +200,8 @@ class KnittNet_Tool_Registry {
                 'description' => __('Answer a question using the PDF document the visitor uploaded earlier in this conversation.', 'knittnet'),
             ),
             'knittnet_generate_image' => array(
-                'label'       => __('Generate Image (OpenAI)', 'knittnet'),
-                'description' => __('Create an image from a text description using OpenAI image generation. The query should describe the image to make.', 'knittnet'),
-                // Output is a rendered <img> (html) — surface it, don't strip it
-                // (plan 48a57a). Self-saves its own bot messages (text + html).
-                'emits_ui'      => true,
-                'ui_self_saves' => true,
-            ),
-            'knittnet_generate_gemini_image' => array(
-                'label'       => __('Generate Image (Gemini)', 'knittnet'),
-                'description' => __('Create an image from a text description using Google Imagen. The query should describe the image to make.', 'knittnet'),
+                'label'       => __('Generate Image', 'knittnet'),
+                'description' => __('Create an image from a text description using an image-capable OpenRouter model. The query should describe the image to make.', 'knittnet'),
                 // Output is a rendered <img> (html) — surface it, don't strip it
                 // (plan 48a57a). Self-saves its own bot messages (text + html).
                 'emits_ui'      => true,
