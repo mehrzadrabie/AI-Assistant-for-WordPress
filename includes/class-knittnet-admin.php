@@ -10099,10 +10099,6 @@ public function knittnet_handle_delete_all_prompts() {
              if ($result['success']) {
                  $success = true;
 
-                 // Remove from vector cache
-                    $pinecone_manager->knittnet_remove_from_pinecone_vector_cache($id);
-                    $pinecone_manager->knittnet_remove_from_processed_content_caches($id);
-
                  set_transient('knittnet_admin_notice_success',
                      esc_html__('Vector deleted successfully from Pinecone.', 'knittnet'), 30);
              } else {
